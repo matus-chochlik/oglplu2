@@ -12,6 +12,7 @@
 
 #include "branch_predict.hpp"
 #include "extract.hpp"
+#include "integer_range.hpp"
 #include "types.hpp"
 #include <condition_variable>
 #include <memory>
@@ -117,7 +118,8 @@ public:
 
     auto add_workers(span_size_t n) -> workshop& {
         _workers.reserve(_workers.size() + std_size(n));
-        for(span_size_t i = 0; i < n; ++i) {
+        for(auto i : integer_range(n)) {
+            EAGINE_MAYBE_UNUSED(i);
             add_worker();
         }
         return *this;

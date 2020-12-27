@@ -209,7 +209,10 @@ inline auto get_serialize_vector_for(const T& inst, Selector) noexcept
     return result;
 }
 //------------------------------------------------------------------------------
-template <identifier_t SerializerId, typename T, typename Selector = selector<0>>
+template <
+  identifier_t SerializerId,
+  typename T,
+  typename Selector = default_selector_t>
 constexpr inline auto serialize_buffer_for(const T& inst, Selector sel = {}) {
     if constexpr(get_serialize_buffer_size<SerializerId, T, Selector>::
                    is_constant) {

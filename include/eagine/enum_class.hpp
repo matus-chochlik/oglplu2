@@ -45,6 +45,23 @@ struct enum_value<T, mp_list<Classes...>, Tag> {
         return true;
     }
 };
+
+template <typename... Classes, typename Tag>
+struct enum_value<bool, mp_list<Classes...>, Tag> {
+    using type = enum_value;
+
+    using value_type = bool;
+    using tag_type = Tag;
+
+    const bool value{false};
+
+    constexpr enum_value(bool val) noexcept
+      : value{val} {}
+
+    explicit constexpr operator bool() const noexcept {
+        return value;
+    }
+};
 //------------------------------------------------------------------------------
 template <typename T, typename ClassList, typename Tag = nothing_t>
 struct opt_enum_value;
@@ -59,20 +76,43 @@ struct opt_enum_value<T, mp_list<Classes...>, Tag> {
     const T value{};
     const bool is_valid{false};
 
-    constexpr inline opt_enum_value(T val, bool valid) noexcept
+    constexpr opt_enum_value(T val, bool valid) noexcept
       : value(val)
       , is_valid{valid} {}
 
-    constexpr inline opt_enum_value(std::tuple<T, bool> init) noexcept
+    constexpr opt_enum_value(std::tuple<T, bool> init) noexcept
       : value(std::get<0>(init))
       , is_valid{std::get<1>(init)} {}
 
-    explicit constexpr inline operator T() const noexcept {
+    explicit constexpr operator T() const noexcept {
         return value;
     }
 
-    explicit constexpr inline operator bool() const noexcept {
+    explicit constexpr operator bool() const noexcept {
         return is_valid;
+    }
+};
+
+template <typename... Classes, typename Tag>
+struct opt_enum_value<bool, mp_list<Classes...>, Tag> {
+    using type = opt_enum_value;
+
+    using value_type = bool;
+    using tag_type = Tag;
+
+    const bool value{};
+    const bool is_valid{false};
+
+    constexpr opt_enum_value(bool val, bool valid) noexcept
+      : value(val)
+      , is_valid{valid} {}
+
+    constexpr opt_enum_value(std::tuple<bool, bool> init) noexcept
+      : value(std::get<0>(init))
+      , is_valid{std::get<1>(init)} {}
+
+    explicit constexpr operator bool() const noexcept {
+        return is_valid && value;
     }
 };
 //------------------------------------------------------------------------------
@@ -85,11 +125,23 @@ struct no_enum_value {
 
     const T value{};
 
-    explicit constexpr inline operator T() const noexcept {
+    explicit constexpr operator T() const noexcept {
         return value;
     }
 
-    explicit constexpr inline operator bool() const noexcept {
+    explicit constexpr operator bool() const noexcept {
+        return false;
+    }
+};
+
+template <typename Tag>
+struct no_enum_value<bool, Tag> {
+    using type = no_enum_value;
+
+    using value_type = bool;
+    using tag_type = Tag;
+
+    explicit constexpr operator bool() const noexcept {
         return false;
     }
 };
@@ -126,7 +178,7 @@ struct enum_class {
         EAGINE_ASSERT(ev.is_valid);
     }
 
-    constexpr inline enum_class(no_enum_value<T>) noexcept {
+    constexpr enum_class(no_enum_value<T>) noexcept {
         EAGINE_UNREACHABLE();
     }
 
@@ -261,7 +313,7 @@ struct any_enum_value {
         static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
     }
 
-    explicit constexpr inline operator bool() const noexcept {
+    explicit constexpr operator bool() const noexcept {
         return _type_id != ~identifier_t(0);
     }
 

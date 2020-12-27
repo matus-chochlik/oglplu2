@@ -14,6 +14,7 @@
 #include "../reflect/map_enumerators.hpp"
 #include "../string_path.hpp"
 #include "../string_span.hpp"
+#include "../tags.hpp"
 #include <chrono>
 #include <cstdint>
 #include <memory>

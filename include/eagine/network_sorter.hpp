@@ -6,6 +6,7 @@
 #define EAGINE_NETWORK_SORTER_HPP
 
 #include "assert.hpp"
+#include "integer_range.hpp"
 #include "memory/span_algo.hpp"
 #include "sorting_network.hpp"
 #include "span.hpp"
@@ -97,7 +98,7 @@ public:
 
     auto sort_round() -> auto& {
         EAGINE_ASSERT(!done());
-        for(span_size_t i = 0; i < span_size(N); ++i) {
+        for(auto i : integer_range(span_size(N))) {
             sort_single(i);
         }
         return *this;

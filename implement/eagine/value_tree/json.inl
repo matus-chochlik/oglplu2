@@ -10,6 +10,7 @@
 #include <eagine/base64.hpp>
 #include <eagine/from_string.hpp>
 #include <eagine/identifier.hpp>
+#include <eagine/integer_range.hpp>
 #include <eagine/is_within_limits.hpp>
 #include <eagine/main_ctx_object.hpp>
 #include <eagine/memory/span_algo.hpp>
@@ -113,7 +114,7 @@ public:
                 const auto n = span_size(val.Size());
                 if(n > 0) {
                     const auto common_type = get_type(val[0]);
-                    for(span_size_t i = 0; i < n; ++i) {
+                    for(auto i : integer_range(n)) {
                         if(get_type(val[rapidjson_size(i)]) != common_type) {
                             return value_type::composite;
                         }

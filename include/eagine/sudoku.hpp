@@ -11,6 +11,8 @@
 
 #include "assert.hpp"
 #include "flat_map.hpp"
+#include "integer_range.hpp"
+#include "serialize/fwd.hpp"
 #include <array>
 #include <cstdint>
 #include <functional>
@@ -66,12 +68,73 @@ private:
 };
 //------------------------------------------------------------------------------
 template <unsigned S>
+class default_sudoku_board_traits;
+
+template <>
+class default_sudoku_board_traits<2> : public basic_sudoku_board_traits<2> {
+public:
+    // clang-format off
+	default_sudoku_board_traits() noexcept
+      : basic_sudoku_board_traits<2>{
+          {"1","2","3","4"},
+          { "?", "?"}, " "} {}
+    // clang-format on
+};
+
+template <>
+class default_sudoku_board_traits<3> : public basic_sudoku_board_traits<3> {
+public:
+    // clang-format off
+	default_sudoku_board_traits() noexcept
+      : basic_sudoku_board_traits<3>{
+          {"1","2","3","4","5","6","7","8","9"},
+          {"?", "?", "?"}, " "} {}
+    // clang-format on
+};
+
+template <>
+class default_sudoku_board_traits<4> : public basic_sudoku_board_traits<4> {
+public:
+    // clang-format off
+	default_sudoku_board_traits() noexcept
+      : basic_sudoku_board_traits<4>{
+          {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"},
+          {"?", "?", "?", "?"}, " "} {}
+    // clang-format on
+};
+
+template <>
+class default_sudoku_board_traits<5> : public basic_sudoku_board_traits<5> {
+public:
+    // clang-format off
+	default_sudoku_board_traits() noexcept
+      : basic_sudoku_board_traits<5>{
+          {"A","B","C","D","E","F","G","H","I","J","K","L","M"
+		  ,"N","O","P","Q","R","S","T","U","V","W","X","Y"},
+          {"?", "?", "?", "?", "?"}, " "} {}
+    // clang-format on
+};
+
+template <>
+class default_sudoku_board_traits<6> : public basic_sudoku_board_traits<6> {
+public:
+    // clang-format off
+	default_sudoku_board_traits() noexcept
+      : basic_sudoku_board_traits<6>{
+          {"0","1","2","3","4","5","6","7","8","9","A","B"
+		  ,"C","D","E","F","G","H","I","J","K","L","M","N"
+		  ,"O","P","Q","R","S","T","U","V","W","X","Y","Z"},
+          {"?", "?", "?", "?", "?", "?"}, " "} {}
+    // clang-format on
+};
+//------------------------------------------------------------------------------
+template <unsigned S>
 class basic_sudoku_glyph {
 public:
     using board_traits = basic_sudoku_board_traits<S>;
     using cell_type = std::conditional_t<
       (board_traits::glyph_count > 32U),
-      std::int64_t,
+      std::uint64_t,
       std::conditional_t<
         (board_traits::glyph_count > 16),
         std::uint32_t,
@@ -83,6 +146,7 @@ public:
     static constexpr const unsigned glyph_count = board_traits::glyph_count;
 
     static constexpr auto to_cell_type(unsigned index) noexcept {
+        // NOLINTNEXTLINE(bugprone-misplaced-widening-cast)
         return cell_type(1U << index);
     }
 
@@ -133,7 +197,7 @@ public:
     template <typename Function>
     void for_each_alternative(Function func) const noexcept {
 
-        for(unsigned index = 0; index < glyph_count; ++index) {
+        for(auto index : integer_range(glyph_count)) {
             const auto mask = to_cell_type(index);
             if((_cel_val & mask) == mask) {
                 func(index);
@@ -178,10 +242,10 @@ public:
 
     template <typename Function>
     void for_each_coord(Function func) const noexcept {
-        for(unsigned by = 0; by < S; ++by) {
-            for(unsigned bx = 0; bx < S; ++bx) {
-                for(unsigned cy = 0; cy < S; ++cy) {
-                    for(unsigned cx = 0; cx < S; ++cx) {
+        for(auto by : integer_range(S)) {
+            for(auto bx : integer_range(S)) {
+                for(auto cy : integer_range(S)) {
+                    for(auto cx : integer_range(S)) {
                         if(!func(coord_type{{bx, by, cx, cy}})) {
                             return;
                         }
@@ -216,8 +280,8 @@ public:
         const auto [cbx, cby, ccx, ccy] = coord;
         const auto cel_val = value.cell_value();
 
-        for(unsigned cy = 0; cy < S; ++cy) {
-            for(unsigned cx = 0; cx < S; ++cx) {
+        for(auto cy : integer_range(S)) {
+            for(auto cx : integer_range(S)) {
                 if((cx != ccx) || (cy != ccy)) {
                     if(_cell_val({cbx, cby, cx, cy}) == cel_val) {
                         return false;
@@ -226,8 +290,8 @@ public:
             }
         }
 
-        for(unsigned bx = 0; bx < S; ++bx) {
-            for(unsigned cx = 0; cx < S; ++cx) {
+        for(auto bx : integer_range(S)) {
+            for(auto cx : integer_range(S)) {
                 if((bx != cbx) || (cx != ccx)) {
                     if(_cell_val({bx, cby, cx, ccy}) == cel_val) {
                         return false;
@@ -236,8 +300,8 @@ public:
             }
         }
 
-        for(unsigned by = 0; by < S; ++by) {
-            for(unsigned cy = 0; cy < S; ++cy) {
+        for(auto by : integer_range(S)) {
+            for(auto cy : integer_range(S)) {
                 if((by != cby) || (cy != ccy)) {
                     if(_cell_val({cbx, by, ccx, cy}) == cel_val) {
                         return false;
@@ -284,7 +348,7 @@ public:
 
     auto set_available_alternatives(const coord_type& coord) noexcept -> auto& {
         glyph_type alternatives;
-        for(unsigned value = 0; value < glyph_count; ++value) {
+        for(auto value : integer_range(glyph_count)) {
             if(is_possible(coord, value)) {
                 alternatives.add(value);
             }
@@ -332,6 +396,7 @@ public:
     }
 
     using block_type = std::array<cell_type, glyph_count>;
+    using blocks_type = std::array<block_type, glyph_count>;
 
     auto get_block(unsigned bx, unsigned by) const noexcept
       -> const block_type& {
@@ -370,9 +435,11 @@ private:
     }
 
     friend class basic_sudoku_board<S, !Tight>;
+    friend struct serializer<basic_sudoku_board<S, Tight>>;
+    friend struct deserializer<basic_sudoku_board<S, Tight>>;
 
     std::reference_wrapper<const board_traits> _type;
-    std::array<block_type, glyph_count> _blocks{};
+    blocks_type _blocks{};
 };
 //------------------------------------------------------------------------------
 template <unsigned S>
@@ -429,16 +496,16 @@ public:
 private:
     std::reference_wrapper<const board_traits> _traits;
     std::random_device _rd;
-    std::uniform_int_distribution<unsigned> _coord_dist{0, S - 1};
-    std::uniform_int_distribution<unsigned> _glyph_dist{0, S* S - 1};
+    std::uniform_int_distribution<unsigned> _coord_dist{0, S - 1U};
+    std::uniform_int_distribution<unsigned> _glyph_dist{0, S* S - 1U};
 };
 //------------------------------------------------------------------------------
 template <unsigned S>
 auto basic_sudoku_board_traits<S>::make_diagonal() const -> board_type {
     board_type result{*this};
     unsigned g = 0;
-    for(unsigned b = 0; b < S; ++b) {
-        for(unsigned c = 0; c < S; ++c) {
+    for(auto b : integer_range(S)) {
+        for(auto c : integer_range(S)) {
             result.set({{b, b, c, c}}, g++);
         }
     }
@@ -468,10 +535,10 @@ template <unsigned S>
 auto basic_sudoku_board_traits<S>::print(
   std::ostream& out,
   const basic_sudoku_board<S, false>& board) const -> std::ostream& {
-    for(unsigned by = 0; by < S; ++by) {
-        for(unsigned cy = 0; cy < S; ++cy) {
-            for(unsigned bx = 0; bx < S; ++bx) {
-                for(unsigned cx = 0; cx < S; ++cx) {
+    for(auto by : integer_range(S)) {
+        for(auto cy : integer_range(S)) {
+            for(auto bx : integer_range(S)) {
+                for(auto cx : integer_range(S)) {
                     print(out << ' ', board.get({{bx, by, cx, cy}}));
                 }
                 if(bx + 1 < S) {
@@ -481,8 +548,8 @@ auto basic_sudoku_board_traits<S>::print(
             out << '\n';
         }
         if(by + 1 < S) {
-            for(unsigned s1 = 0; s1 < S; ++s1) {
-                for(unsigned s2 = 0; s2 < S; ++s2) {
+            for(auto s1 : integer_range(S)) {
+                for(auto s2 : integer_range(S)) {
                     if(s1 == 0 && s2 == 0) {
                         out << " -";
                     } else {
@@ -503,10 +570,10 @@ template <unsigned S>
 auto basic_sudoku_board_traits<S>::print(
   std::ostream& out,
   const basic_sudoku_board<S, true>& board) const -> std::ostream& {
-    for(unsigned by = 0; by < S; ++by) {
-        for(unsigned cy = 0; cy < S; ++cy) {
-            for(unsigned bx = 0; bx < S; ++bx) {
-                for(unsigned cx = 0; cx < S; ++cx) {
+    for(auto by : integer_range(S)) {
+        for(auto cy : integer_range(S)) {
+            for(auto bx : integer_range(S)) {
+                for(auto cx : integer_range(S)) {
                     print(out, board.get({{bx, by, cx, cy}}));
                 }
             }
@@ -579,8 +646,10 @@ public:
     operator<<(std::ostream& out, const basic_sudoku_tile_patch& that)
       -> std::ostream& {
         std::size_t k = 0;
-        for(span_size_t y = 0; y < that._height; ++y) {
-            for(span_size_t x = 0; x < that._width; ++x) {
+        for(auto y : integer_range(that._height)) {
+            for(auto x : integer_range(that._width)) {
+                EAGINE_MAYBE_UNUSED(x);
+                EAGINE_MAYBE_UNUSED(y);
                 EAGINE_ASSERT(k < that._cells.size());
                 out << std::setw(3) << unsigned(that._cells[k++]);
             }
@@ -617,8 +686,8 @@ public:
     }
 
     auto generate(int xmin, int ymin, int xmax, int ymax) -> auto& {
-        for(int y = ymin; y <= ymax; ++y) {
-            for(int x = xmin; x <= xmax; ++x) {
+        for(auto y : integer_range(ymin, ymax + 1)) {
+            for(auto x : integer_range(xmin, xmax + 1)) {
                 _get(x, y);
             }
         }
@@ -627,16 +696,16 @@ public:
 
     auto fill(int xmin, int ymin, basic_sudoku_tile_patch<S>& patch)
       -> basic_sudoku_tile_patch<S>& {
-        const auto ymax = ymin + patch.height() / (S * (S - 2));
-        const auto xmax = xmin + patch.width() / (S * (S - 2));
+        const int ymax = ymin + patch.height() / (S * (S - 2));
+        const int xmax = xmin + patch.width() / (S * (S - 2));
         std::size_t k = 0;
         for(int y = ymax - 1; y >= ymin; --y) {
-            for(unsigned by = 1; by < S - 1; ++by) {
-                for(unsigned cy = 0; cy < S; ++cy) {
-                    for(int x = xmin; x < xmax; ++x) {
+            for(auto by : integer_range(1U, S - 1U)) {
+                for(auto cy : integer_range(S)) {
+                    for(auto x : integer_range(xmin, xmax)) {
                         auto& board = _get(x, y);
-                        for(unsigned bx = 1; bx < S - 1; ++bx) {
-                            for(unsigned cx = 0; cx < S; ++cx) {
+                        for(auto bx : integer_range(1U, S - 1U)) {
+                            for(auto cx : integer_range(S)) {
                                 EAGINE_ASSERT(k < patch._cells.size());
                                 patch._cells[k++] =
                                   board.get({bx, by, cx, cy}).get_index();
@@ -652,12 +721,12 @@ public:
     auto print(std::ostream& out, int xmin, int ymin, int xmax, int ymax)
       -> std::ostream& {
         for(int y = ymax; y >= ymin; --y) {
-            for(unsigned by = 1; by < S - 1; ++by) {
-                for(unsigned cy = 0; cy < S; ++cy) {
-                    for(int x = xmin; x <= xmax; ++x) {
+            for(auto by : integer_range(1U, S - 1U)) {
+                for(auto cy : integer_range(S)) {
+                    for(auto x : integer_range(xmin, xmax + 1)) {
                         auto& board = _get(x, y);
-                        for(unsigned bx = 1; bx < S - 1; ++bx) {
-                            for(unsigned cx = 0; cx < S; ++cx) {
+                        for(auto bx : integer_range(1U, S - 1U)) {
+                            for(auto cx : integer_range(S)) {
                                 _traits.get().print(
                                   out, board.get({bx, by, cx, cy}));
                             }
@@ -678,70 +747,70 @@ private:
             if(y > 0) {
                 if(x > 0) {
                     auto& left = _get(x - 1, y);
-                    for(unsigned by = 0; by < S - 1; ++by) {
-                        added.set_block(0U, by, left.get_block(S - 1, by));
+                    for(auto by : integer_range(S - 1U)) {
+                        added.set_block(0U, by, left.get_block(S - 1U, by));
                     }
                     auto& down = _get(x, y - 1);
-                    for(unsigned bx = 1; bx < S; ++bx) {
-                        added.set_block(bx, S - 1, down.get_block(bx, 0U));
+                    for(auto bx : integer_range(1U, S)) {
+                        added.set_block(bx, S - 1U, down.get_block(bx, 0U));
                     }
                     pos = _emplace(x, y, added);
                 } else if(x < 0) {
                     auto& right = _get(x + 1, y);
-                    for(unsigned by = 0; by < S - 1; ++by) {
-                        added.set_block(S - 1, by, right.get_block(0U, by));
+                    for(auto by : integer_range(S - 1U)) {
+                        added.set_block(S - 1U, by, right.get_block(0U, by));
                     }
                     auto& down = _get(x, y - 1);
-                    for(unsigned bx = 0; bx < S - 1; ++bx) {
-                        added.set_block(bx, S - 1, down.get_block(bx, 0U));
+                    for(auto bx : integer_range(S - 1U)) {
+                        added.set_block(bx, S - 1U, down.get_block(bx, 0U));
                     }
                     pos = _emplace(x, y, added);
                 } else {
                     auto& down = _get(x, y - 1);
-                    for(unsigned bx = 0; bx < S; ++bx) {
-                        added.set_block(bx, S - 1, down.get_block(bx, 0U));
+                    for(auto bx : integer_range(S)) {
+                        added.set_block(bx, S - 1U, down.get_block(bx, 0U));
                     }
                     pos = _emplace(x, y, added);
                 }
             } else if(y < 0) {
                 if(x > 0) {
                     auto& left = _get(x - 1, y);
-                    for(unsigned by = 1; by < S; ++by) {
-                        added.set_block(0U, by, left.get_block(S - 1, by));
+                    for(auto by : integer_range(1U, S)) {
+                        added.set_block(0U, by, left.get_block(S - 1U, by));
                     }
                     auto& up = _get(x, y + 1);
-                    for(unsigned bx = 1; bx < S; ++bx) {
-                        added.set_block(bx, 0U, up.get_block(bx, S - 1));
+                    for(auto bx : integer_range(1U, S)) {
+                        added.set_block(bx, 0U, up.get_block(bx, S - 1U));
                     }
                     pos = _emplace(x, y, added);
                 } else if(x < 0) {
                     auto& right = _get(x + 1, y);
-                    for(unsigned by = 1; by < S; ++by) {
-                        added.set_block(S - 1, by, right.get_block(0U, by));
+                    for(auto by : integer_range(1U, S)) {
+                        added.set_block(S - 1U, by, right.get_block(0U, by));
                     }
                     auto& up = _get(x, y + 1);
-                    for(unsigned bx = 0; bx < S - 1; ++bx) {
-                        added.set_block(bx, 0U, up.get_block(bx, S - 1));
+                    for(auto bx : integer_range(S - 1U)) {
+                        added.set_block(bx, 0U, up.get_block(bx, S - 1U));
                     }
                     pos = _emplace(x, y, added);
                 } else {
                     auto& up = _get(x, y + 1);
-                    for(unsigned bx = 0; bx < S; ++bx) {
-                        added.set_block(bx, 0U, up.get_block(bx, S - 1));
+                    for(auto bx : integer_range(S)) {
+                        added.set_block(bx, 0U, up.get_block(bx, S - 1U));
                     }
                     pos = _emplace(x, y, added);
                 }
             } else {
                 if(x > 0) {
                     auto& left = _get(x - 1, y);
-                    for(unsigned by = 0; by < S; ++by) {
-                        added.set_block(0U, by, left.get_block(S - 1, by));
+                    for(auto by : integer_range(S)) {
+                        added.set_block(0U, by, left.get_block(S - 1U, by));
                     }
                     pos = _emplace(x, y, added);
                 } else if(x < 0) {
                     auto& right = _get(x + 1, y);
-                    for(unsigned by = 0; by < S; ++by) {
-                        added.set_block(S - 1, by, right.get_block(0U, by));
+                    for(auto by : integer_range(S)) {
+                        added.set_block(S - 1U, by, right.get_block(0U, by));
                     }
                     pos = _emplace(x, y, added);
                 }

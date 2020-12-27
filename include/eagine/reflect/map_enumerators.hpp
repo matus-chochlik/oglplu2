@@ -44,11 +44,11 @@ public:
     using type = decltype(_test(static_cast<std::remove_cv_t<T>*>(nullptr)));
 };
 //------------------------------------------------------------------------------
-template <typename T, typename Selector = selector<0>>
+template <typename T, typename Selector = default_selector_t>
 using has_enumerator_mapping_t =
   typename does_have_enumerator_mapping<T, Selector>::type;
 
-template <typename T, typename Selector = selector<0>>
+template <typename T, typename Selector = default_selector_t>
 constexpr const bool has_enumerator_mapping_v =
   has_enumerator_mapping_t<T, Selector>::value;
 //------------------------------------------------------------------------------

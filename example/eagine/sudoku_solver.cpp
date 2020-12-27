@@ -12,10 +12,9 @@
 #include <stack>
 
 template <unsigned S>
-void solve_sudoku(
-  eagine::basic_sudoku_board_traits<S> traits,
-  const eagine::program_args& args) {
+void solve_sudoku(const eagine::program_args& args) {
     using namespace eagine;
+    default_sudoku_board_traits<S> traits;
 
     const bool tight = args.find("--tight");
     std::stack<typename decltype(traits)::board_type> solutions;
@@ -59,26 +58,11 @@ auto main(int argc, const char** argv) -> int {
     eagine::program_args args{argc, argv};
 
     if(args.find("--4")) {
-        // clang-format off
-		solve_sudoku<4>({
-			{"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"},
-			{"?","?","?","?"}, " "
-		}, args);
-        // clang-format on
+        solve_sudoku<4>(args);
     } else if(args.find("--2")) {
-        // clang-format off
-		solve_sudoku<2>({
-			{"▟","▙","▜","▛"},
-			{"▚","▞"}, " "
-		}, args);
-        // clang-format on
+        solve_sudoku<2>(args);
     } else {
-        // clang-format off
-		solve_sudoku<3>({
-			{"1","2","3","4","5","6","7","8","9"},
-			{"?","?","?"}, " "
-		}, args);
-        // clang-format on
+        solve_sudoku<3>(args);
     }
 
     return 0;

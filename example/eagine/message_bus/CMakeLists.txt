@@ -22,5 +22,7 @@ eagine_example_common(010_fib_async)
 eagine_example_common(010_fib_futures)
 eagine_example_common(011_fibonacci)
 eagine_example_common(012_fib_threads)
+eagine_example_common(012_sudoku_threads)
 eagine_example_common(013_conn_setup)
 eagine_example_common(014_tracker)
+

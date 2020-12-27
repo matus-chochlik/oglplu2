@@ -40,6 +40,12 @@ static constexpr inline auto extract(std::shared_ptr<T>& ptr) noexcept -> T& {
 }
 //------------------------------------------------------------------------------
 template <typename T>
+static constexpr inline auto extract(const std::shared_ptr<T>& ptr) noexcept
+  -> const T& {
+    return EAGINE_CONSTEXPR_ASSERT(bool(ptr), *ptr);
+}
+//------------------------------------------------------------------------------
+template <typename T>
 static constexpr inline auto
 extract_or(std::shared_ptr<T>& ptr, std::remove_const_t<T>& fallback) noexcept
   -> T& {
@@ -55,6 +61,12 @@ static constexpr inline auto extract_or(std::shared_ptr<T>& ptr, F&& fallback)
 template <typename T, typename D>
 static constexpr inline auto extract(std::unique_ptr<T, D>& ptr) noexcept
   -> T& {
+    return EAGINE_CONSTEXPR_ASSERT(bool(ptr), *ptr);
+}
+//------------------------------------------------------------------------------
+template <typename T, typename D>
+static constexpr inline auto extract(const std::unique_ptr<T, D>& ptr) noexcept
+  -> const T& {
     return EAGINE_CONSTEXPR_ASSERT(bool(ptr), *ptr);
 }
 //------------------------------------------------------------------------------

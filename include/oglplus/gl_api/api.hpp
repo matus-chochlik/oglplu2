@@ -3273,6 +3273,19 @@ public:
     func<OGLPAFP(DispatchCompute)> dispatch_compute;
     func<OGLPAFP(DispatchComputeIndirect)> dispatch_compute_indirect;
 
+    // pixel transfer
+    func<
+      OGLPAFP(ReadPixels),
+      void(
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        pixel_format,
+        pixel_data_type,
+        memory::block)>
+      read_pixels;
+
     // get_integer
     query_func<
       mp_list<>,
@@ -3994,6 +4007,7 @@ public:
           *this)
       , dispatch_compute("dispatch_compute", traits, *this)
       , dispatch_compute_indirect("dispatch_compute_indirect", traits, *this)
+      , read_pixels("read_pixels", traits, *this)
       , get_integer("get_integer", traits, *this)
       , get_integer64("get_integer64", traits, *this)
       , get_float("get_float", traits, *this)

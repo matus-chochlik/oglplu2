@@ -32,8 +32,8 @@ void reboxed_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
         const auto n = vertex_count();
         const auto m = values_per_vertex(vav);
 
-        for(span_size_t v = 0; v < n; ++v) {
-            for(span_size_t c = 0; c < m; ++c) {
+        for(auto v : integer_range(n)) {
+            for(auto c : integer_range(m)) {
                 const auto k = std_size(c);
 
                 min[k] = eagine::math::minimum(min[k], dest[v * m + c]);
@@ -42,13 +42,13 @@ void reboxed_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
         }
 
         std::array<float, 4> inorm{{}};
-        for(span_size_t c = 0; c < m; ++c) {
+        for(auto c : integer_range(m)) {
             const auto k = std_size(c);
             inorm[k] = 1.0F / (max[k] - min[k]);
         }
 
-        for(span_size_t v = 0; v < n; ++v) {
-            for(span_size_t c = 0; c < m; ++c) {
+        for(auto v : integer_range(n)) {
+            for(auto c : integer_range(m)) {
                 const auto l = v * m + c;
                 const auto k = std_size(c);
                 dest[l] = (dest[l] - min[k]) * inorm[k];

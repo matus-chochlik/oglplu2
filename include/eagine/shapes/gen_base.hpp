@@ -12,6 +12,7 @@
 
 #include "../assert.hpp"
 #include "../compare.hpp"
+#include "../integer_range.hpp"
 #include "../math/primitives.hpp"
 #include "../span.hpp"
 #include "../types.hpp"
@@ -73,7 +74,7 @@ struct generator_intf {
       -> vertex_attrib_variant {
         const span_size_t n = attribute_variants(attrib);
         span_size_t index{-1};
-        for(span_size_t i = 0; i < n; ++i) {
+        for(auto i : integer_range(n)) {
             if(are_equal(name, variant_name({attrib, i}))) {
                 index = i;
                 break;

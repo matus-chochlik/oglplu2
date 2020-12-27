@@ -11,6 +11,7 @@
 
 #include "base_output.hpp"
 #include "param_format.hpp"
+#include <eagine/integer_range.hpp>
 #include <array>
 #include <type_traits>
 
@@ -69,7 +70,7 @@ public:
         out << data_type_name(value_type());
         out << "(";
         out << _coords[0];
-        for(span_size_t i = 1; i < N; ++i) {
+        for(auto i : integer_range(1, N)) {
             out << ", " << _coords[std_size(i)];
         }
         return out << ")";

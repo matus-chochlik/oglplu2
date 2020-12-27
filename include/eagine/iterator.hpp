@@ -19,13 +19,13 @@ class basic_iterable_type {
 protected:
     T _value{};
 
-    auto self() noexcept -> Derived& {
+    constexpr auto self() noexcept -> Derived& {
         return *static_cast<Derived*>(this);
     }
 
 public:
     using value_type = T;
-    using difference_type = std::ptrdiff_t;
+    using difference_type = decltype(std::declval<T>() - std::declval<T>());
 
     constexpr basic_iterable_type() = default;
 
@@ -36,45 +36,47 @@ public:
         return _value;
     }
 
-    auto operator++() noexcept -> auto& {
+    constexpr auto operator++() noexcept -> auto& {
         ++_value;
         return self();
     }
 
-    auto operator+=(difference_type d) noexcept -> auto& {
+    constexpr auto operator+=(difference_type d) noexcept -> auto& {
         _value += d;
         return self();
     }
 
-    auto operator++(int) noexcept -> Derived {
+    constexpr auto operator++(int) noexcept -> Derived {
         Derived res(self());
         ++_value;
         return res;
     }
 
-    friend auto operator+(basic_iterable_type a, difference_type d) noexcept {
+    friend constexpr auto
+    operator+(basic_iterable_type a, difference_type d) noexcept {
         Derived res(a.self());
         res += d;
         return res;
     }
 
-    auto operator--() noexcept -> auto& {
+    auto constexpr operator--() noexcept -> auto& {
         --_value;
         return self();
     }
 
-    auto operator-=(difference_type d) noexcept -> auto& {
+    auto constexpr operator-=(difference_type d) noexcept -> auto& {
         _value -= d;
         return self();
     }
 
-    auto operator--(int) noexcept -> Derived {
+    auto constexpr operator--(int) noexcept -> Derived {
         Derived res(self());
         --_value;
         return res;
     }
 
-    friend auto operator-(basic_iterable_type a, difference_type d) noexcept {
+    friend constexpr auto
+    operator-(basic_iterable_type a, difference_type d) noexcept {
         Derived res(a.self());
         res -= d;
         return res;
@@ -126,7 +128,7 @@ public:
 
     using basic_iterable_type<T, Derived>::basic_iterable_type;
 
-    auto operator*() const noexcept -> const T& {
+    constexpr auto operator*() const noexcept -> const T& {
         return this->_value;
     }
 };
@@ -150,14 +152,14 @@ private:
 
     mutable S _tempval{};
 
-    auto _base_iter() const noexcept -> const _base& {
+    constexpr auto _base_iter() const noexcept -> const _base& {
         return *this;
     }
 
 public:
-    basic_transforming_iterator() = default;
+    constexpr basic_transforming_iterator() = default;
 
-    basic_transforming_iterator(Iterator iter, Transform transf)
+    constexpr basic_transforming_iterator(Iterator iter, Transform transf)
       : _base{iter}
       , _transf{std::move(transf)} {}
 
@@ -165,7 +167,7 @@ public:
     using reference = const T&;
     using pointer = const T*;
 
-    auto operator*() const -> const T& {
+    constexpr auto operator*() const -> const T& {
         _tempval = _transf(**_base_iter());
         return _tempval;
     }
@@ -183,9 +185,9 @@ private:
     }
 
 public:
-    basic_transforming_iterator() = default;
+    constexpr basic_transforming_iterator() = default;
 
-    basic_transforming_iterator(Iterator iter, Transform transf)
+    constexpr basic_transforming_iterator(Iterator iter, Transform transf)
       : _base{iter}
       , _transf{std::move(transf)} {}
 
@@ -193,11 +195,11 @@ public:
     using reference = const T&;
     using pointer = const T*;
 
-    auto operator*() -> T& {
+    constexpr auto operator*() -> T& {
         return _transf(**_base_iter());
     }
 
-    auto operator*() const -> const T& {
+    constexpr auto operator*() const -> const T& {
         return _transf(**_base_iter());
     }
 };
@@ -235,13 +237,13 @@ private:
       S (*)(typename std::iterator_traits<Iterator>::reference) noexcept,
       Derived>;
 
-    static auto
+    static constexpr auto
     _cast(typename std::iterator_traits<Iterator>::reference r) noexcept -> S {
         return static_cast<S>(r);
     }
 
 public:
-    basic_noexcept_casting_iterator(Iterator iter)
+    constexpr basic_noexcept_casting_iterator(Iterator iter)
       : _base{iter, &_cast} {}
 };
 //------------------------------------------------------------------------------

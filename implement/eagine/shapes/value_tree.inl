@@ -347,7 +347,7 @@ void value_tree_loader::instructions(drawing_variant, span<draw_operation> ops) 
     bool btemp{};
     if(auto instrs_a{_source.nested("instructions")}) {
         if(ops.size() == _source.nested_count(instrs_a)) {
-            for(span_size_t i = 0; i < ops.size(); ++i) {
+            for(auto i : integer_range(ops.size())) {
                 if(auto instr_a{_source.nested(instrs_a, i)}) {
                     auto& op = ops[i];
 

@@ -39,8 +39,16 @@ static inline auto list_to_stream(Output& out, memory::basic_span<T, P, S> s)
     return out << ']';
 }
 //------------------------------------------------------------------------------
-template <typename T, typename Output>
-static inline auto write_to_stream(Output& out, span<T> s) -> Output& {
+template <typename Input, typename T, typename P, typename S>
+static inline auto read_from_stream(Input& in, memory::basic_span<T, P, S> s)
+  -> auto& {
+    return in.read(
+      reinterpret_cast<char*>(s.data()), limit_cast<std::streamsize>(s.size()));
+}
+//------------------------------------------------------------------------------
+template <typename Output, typename T, typename P, typename S>
+static inline auto write_to_stream(Output& out, memory::basic_span<T, P, S> s)
+  -> auto& {
     return out.write(
       reinterpret_cast<const char*>(s.data()),
       limit_cast<std::streamsize>(s.size()));

@@ -30,9 +30,7 @@ public:
     using serializer_data_sink::write;
 
     auto write(memory::const_block blk) -> serialization_errors final {
-        current().write(
-          reinterpret_cast<const char*>(blk.data()),
-          static_cast<std::streamsize>(blk.size()));
+        write_to_stream(current(), blk);
         if(current().eof()) {
             return {serialization_error_code::too_much_data};
         }

@@ -69,9 +69,7 @@ inline void write_texture_image_data(
     write_and_pad_texture_image_data_header(
       output, header, span_size(pixels.size()));
 
-    output.write(
-      reinterpret_cast<const char*>(pixels.data()),
-      std::streamsize(pixels.size()));
+    write_to_stream(output, pixels);
 }
 
 } // namespace eagine::oglp

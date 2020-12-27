@@ -22,7 +22,8 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class direct_connection_state : public main_ctx_object {
 private:
-    std::mutex _mutex;
+    std::mutex _s2c_mutex;
+    std::mutex _c2s_mutex;
     message_storage _server_to_client;
     message_storage _client_to_server;
     value_change_div_tracker<span_size_t, 16> _s2c_count{0};
@@ -33,35 +34,41 @@ public:
       : main_ctx_object{EAGINE_ID(DrctConnSt), parent} {}
 
     void send_to_server(message_id msg_id, const message_view& message) {
-        std::unique_lock lock{_mutex};
+        std::unique_lock lock{_c2s_mutex};
         _client_to_server.push(msg_id, message);
     }
 
     void send_to_client(message_id msg_id, const message_view& message) {
-        std::unique_lock lock{_mutex};
+        std::unique_lock lock{_s2c_mutex};
         _server_to_client.push(msg_id, message);
     }
 
     auto fetch_from_client(connection::fetch_handler handler) noexcept -> bool {
-        std::unique_lock lock{_mutex};
+        std::unique_lock lock{_c2s_mutex};
         return _client_to_server.fetch_all(handler);
     }
 
     auto fetch_from_server(connection::fetch_handler handler) noexcept -> bool {
-        std::unique_lock lock{_mutex};
+        std::unique_lock lock{_s2c_mutex};
         return _server_to_client.fetch_all(handler);
     }
 
     void log_message_counts() noexcept {
         if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
-            if(_s2c_count.has_changed(_server_to_client.size())) {
-                this->log_chart_sample(
-                  EAGINE_ID(s2cMsgCnt), float(_s2c_count.get()));
+            {
+                std::unique_lock lock{_s2c_mutex};
+                if(_s2c_count.has_changed(_server_to_client.size())) {
+                    this->log_chart_sample(
+                      EAGINE_ID(s2cMsgCnt), float(_s2c_count.get()));
+                }
             }
 
-            if(_c2s_count.has_changed(_client_to_server.size())) {
-                this->log_chart_sample(
-                  EAGINE_ID(c2sMsgCnt), float(_c2s_count.get()));
+            {
+                std::unique_lock lock{_c2s_mutex};
+                if(_c2s_count.has_changed(_client_to_server.size())) {
+                    this->log_chart_sample(
+                      EAGINE_ID(c2sMsgCnt), float(_c2s_count.get()));
+                }
             }
         }
     }

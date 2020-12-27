@@ -23,6 +23,7 @@ namespace eagine::application {
 //------------------------------------------------------------------------------
 class execution_context;
 //------------------------------------------------------------------------------
+class video_context_state;
 class video_context {
 public:
     video_context(
@@ -31,20 +32,13 @@ public:
       : _parent{parent}
       , _provider{std::move(provider)} {}
 
-    void begin() {
-        EAGINE_ASSERT(_provider);
-        _provider->video_begin(_parent);
+    auto frame_number() const noexcept {
+        return _frame_no;
     }
 
-    void end() {
-        EAGINE_ASSERT(_provider);
-        _provider->video_end(_parent);
-    }
-
-    void commit() {
-        EAGINE_ASSERT(_provider);
-        _provider->video_commit(_parent);
-    }
+    void begin();
+    void end();
+    void commit();
 
     auto init_gl_api() noexcept -> bool;
 
@@ -57,10 +51,14 @@ public:
         return *_gl_api;
     }
 
+    void cleanup() noexcept;
+
 private:
     execution_context& _parent;
+    long _frame_no{0};
     std::shared_ptr<video_provider> _provider{};
     std::shared_ptr<oglp::gl_api> _gl_api{};
+    std::shared_ptr<video_context_state> _state{};
 };
 //------------------------------------------------------------------------------
 class audio_context {
@@ -74,9 +72,21 @@ public:
         EAGINE_MAYBE_UNUSED(_parent);
     }
 
+    auto init_al_api() noexcept -> bool;
+
+    auto has_al_api() const noexcept {
+        return bool(_al_api);
+    }
+
+    auto al_api() const noexcept -> auto& {
+        EAGINE_ASSERT(has_al_api());
+        return *_al_api;
+    }
+
 private:
     execution_context& _parent;
     std::shared_ptr<audio_provider> _provider{};
+    std::shared_ptr<oalp::al_api> _al_api{};
 };
 //------------------------------------------------------------------------------
 class context_state;

@@ -1,5 +1,5 @@
 /**
- *  .file lib/eagine/application.cpp
+ *  .file app/application/glfw3.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

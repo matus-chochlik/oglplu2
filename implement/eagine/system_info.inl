@@ -111,8 +111,11 @@ public:
               as_chars(machine_id.block()),
               span_size_of<host_id_t>() * 2,
               [this](auto hexstr) {
-                  if(const auto mi{
-                       from_string(hexstr, type_identity<host_id_t>(), 16)}) {
+                  if(const auto mi{from_string(
+                       hexstr,
+                       type_identity<host_id_t>(),
+                       default_selector,
+                       16)}) {
                       _host_id ^= extract(mi);
                   }
               });

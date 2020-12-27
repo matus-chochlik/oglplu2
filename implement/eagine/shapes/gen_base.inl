@@ -38,8 +38,8 @@ auto generator_intf::bounding_sphere() -> math::sphere<float, true> {
     auto pos = cover(temp);
     attrib_values(attrib, pos);
 
-    for(span_size_t v = 0; v < n; ++v) {
-        for(span_size_t c = 0; c < m; ++c) {
+    for(auto v : integer_range(n)) {
+        for(auto c : integer_range(m)) {
             const auto k = std_size(c);
 
             min[k] = eagine::math::minimum(min[k], pos[v * m + c]);
@@ -53,7 +53,7 @@ auto generator_intf::bounding_sphere() -> math::sphere<float, true> {
       (min[2] + max[2]) * 0.5F};
 
     float radius{0.F};
-    for(span_size_t c = 0; c < m; ++c) {
+    for(auto c : integer_range(m)) {
         const auto k = std_size(c);
         const auto q = (max[k] - min[k]) * 0.5F;
         radius += q * q;
@@ -87,7 +87,7 @@ void generator_intf::ray_intersections(
 
     const auto bs = bounding_sphere();
 
-    for(span_size_t i = 0; i < rays.size(); ++i) {
+    for(auto i : integer_range(rays.size())) {
         const auto nparam = math::nearest_ray_param(
           math::line_sphere_intersection_params(rays[i], bs));
         if(nparam >= 0.F) {
@@ -128,9 +128,9 @@ void generator_intf::ray_intersections(
         if(op.mode == primitive_type::triangles) {
             std::array<std::array<float, 4>, 3> tri{};
             span_size_t t = 0;
-            for(span_size_t v = 0; v < op.count; ++v) {
+            for(auto v : integer_range(op.count)) {
                 const auto w = v + op.first;
-                for(span_size_t c = 0; c < 3; ++c) {
+                for(auto c : integer_range(3)) {
                     tri[std_size(t)][std_size(c)] = coord(w, c, indexed);
                 }
                 if(++t >= 3) {
@@ -143,7 +143,7 @@ void generator_intf::ray_intersections(
                 }
             }
         } else if(op.mode == primitive_type::triangle_strip) {
-            for(span_size_t v = 2; v < op.count; ++v) {
+            for(auto v : integer_range(2, op.count)) {
                 span_size_t w = v + op.first;
                 span_size_t o0 = -2, o1 = -1, o2 = 0;
                 if(v % 2 != 0) {

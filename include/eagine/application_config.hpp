@@ -29,13 +29,14 @@ public:
     auto is_set(string_view key, string_view tag = {}) noexcept -> bool {
         if(const auto attr{_find_comp_attr(key, tag)}) {
             bool flag{false};
-            if(attr.fetch_value(flag)) {
+            if(attr.select_value(flag, application_config_tag())) {
                 return flag;
             }
         }
         if(const auto arg{_find_prog_arg(key)}) {
             bool result{true};
-            arg.parse_next(result, log_debug_stream());
+            arg.parse_next(
+              result, application_config_tag(), log_debug_stream());
             return result;
         }
         if(const auto opt_val{_eval_env_var(key)}) {
@@ -50,7 +51,8 @@ public:
     auto fetch(string_view key, T& dest, string_view tag = {}) noexcept
       -> bool {
         if(const auto arg{_find_prog_arg(key)}) {
-            if(arg.parse_next(dest, log_error_stream())) {
+            if(arg.parse_next(
+                 dest, application_config_tag(), log_error_stream())) {
                 return true;
             } else {
                 log_error("could not parse configuration value '${value}'")
@@ -69,7 +71,7 @@ public:
             }
         }
         if(const auto attr{_find_comp_attr(key, tag)}) {
-            if(attr.fetch_value(dest)) {
+            if(attr.select_value(dest, application_config_tag())) {
                 return true;
             } else {
                 log_error("could not fetch configuration value '${key}'")

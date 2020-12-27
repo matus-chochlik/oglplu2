@@ -5,6 +5,7 @@
 #ifndef EAGINE_SORTING_NETWORK_IO_HPP
 #define EAGINE_SORTING_NETWORK_IO_HPP
 
+#include "integer_range.hpp"
 #include "sorting_network.hpp"
 #include <iostream>
 
@@ -13,12 +14,12 @@ namespace eagine {
 template <typename SortingNetwork>
 static inline std::ostream&
 print_sorting_network(std::ostream& out, const SortingNetwork& sn) {
-    for(span_size_t r = 0; r < sn.rounds(); ++r) {
-        for(span_size_t i = 0; i < sn.size(); ++i) {
+    for(auto r : integer_range(sn.rounds())) {
+        for(auto j : integer_range(sn.size())) {
             span_size_t j = sn.index(r, i);
 
             if(i < j) {
-                for(span_size_t m = 0; m < sn.size(); ++m) {
+                for(auto m : integer_range(sn.size())) {
                     span_size_t k = sn.size() - m - 1;
                     if(i == k) {
                         if(sn.min(r, i, j)) {
@@ -50,7 +51,7 @@ print_sorting_network(std::ostream& out, const SortingNetwork& sn) {
             }
         }
         out << "=";
-        for(span_size_t k = 1; k < sn.size(); ++k) {
+        for(auto k : integer_range(1, sn.size())) {
             out << "==";
         }
         out << std::endl;

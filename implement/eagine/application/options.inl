@@ -32,15 +32,29 @@ video_options::video_options(
       "application.video.depth_bits", _depth_bits, instance);
     _stencil_bits = o.cfg_extr<valid_stencil_bits>(
       "application.video.0.stencil_bits", _stencil_bits, instance);
-    _offscreen = o.cfg_init("application.video.offscreen", false, instance);
-    _fullscreen = o.cfg_init("application.video.fullscreen", false, instance);
+
     _gl_debug_context = o.cfg_init(
       "application.video.opengl.debug_context", _gl_debug_context, instance);
     _gl_compat_context = o.cfg_init(
       "application.video.opengl.compatibility", _gl_compat_context, instance);
+
+    _fullscreen = o.cfg_init("application.video.fullscreen", false, instance);
+    _offscreen = o.cfg_init("application.video.offscreen", false, instance);
+
+    _offscreen_framebuffer =
+      o.cfg_init("application.video._offscreen_frambuffer", false, instance);
+
+    _framedump_prefix =
+      o.cfg_init("application.video.framedump.prefix", std::string(), instance);
+    _framedump_color = o.cfg_init(
+      "application.video.framedump.color", _framedump_color, instance);
+    _framedump_depth = o.cfg_init(
+      "application.video.framedump.depth", _framedump_depth, instance);
+    _framedump_stencil = o.cfg_init(
+      "application.video.framedump.stencil", _framedump_stencil, instance);
 }
 //------------------------------------------------------------------------------
-// video_options
+// audio_options
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 audio_options::audio_options(

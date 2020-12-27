@@ -132,7 +132,7 @@ template <typename T>
 struct common_serializer {
 
     template <typename Backend>
-    auto write(span<const T> values, Backend& backend) {
+    auto write(span<const T> values, Backend& backend) const {
         const auto tmd = serialization_error_code::too_much_data;
         const auto icw = serialization_error_code::incomplete_write;
         auto& sink = extract(backend.sink());
@@ -143,7 +143,7 @@ struct common_serializer {
             errors |= backend.begin_element(i);
             if(EAGINE_LIKELY(!errors)) {
                 errors |=
-                  static_cast<serializer<T>*>(this)->write(elem, backend);
+                  static_cast<const serializer<T>*>(this)->write(elem, backend);
                 errors |= backend.finish_element(i++);
                 if(EAGINE_LIKELY(!errors)) {
                     sink.commit(th);
@@ -362,7 +362,7 @@ struct serializer<std::array<T, N>> : common_serializer<std::array<T, N>> {
     using common_serializer<std::array<T, N>>::write;
 
     template <typename Backend>
-    auto write(const std::array<T, N>& values, Backend& backend) {
+    auto write(const std::array<T, N>& values, Backend& backend) const {
         serialization_errors errors{};
         errors |= backend.begin_list(span_size(N));
         if(EAGINE_LIKELY(!errors)) {

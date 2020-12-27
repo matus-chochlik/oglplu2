@@ -11,6 +11,7 @@
 #define EAGINE_STR_FORMAT_HPP
 
 #include "config/basic.hpp"
+#include "integer_range.hpp"
 #include "span.hpp"
 #include <array>
 #include <string>
@@ -67,7 +68,7 @@ public:
       format_string_and_list<N - 1>&& prev,
       std::string&& val) noexcept
       : format_string_and_list_base(prev) {
-        for(span_size_t i = 0; i < N - 1; ++i) {
+        for(auto i : integer_range(N - 1)) {
             _list[i] = std::move(prev._list[i]);
         }
         _list[N - 1] = std::move(val);

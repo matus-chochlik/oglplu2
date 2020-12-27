@@ -22,7 +22,7 @@
 
 namespace eagine::application {
 class execution_context;
-
+//------------------------------------------------------------------------------
 class video_options {
 public:
     video_options(
@@ -140,6 +140,10 @@ public:
         return _offscreen;
     }
 
+    auto needs_offscreen_framebuffer() const noexcept -> bool {
+        return _offscreen_framebuffer;
+    }
+
     auto fullscreen(bool value) noexcept -> auto& {
         if((_fullscreen = value)) {
             _surface_width = 0;
@@ -152,12 +156,35 @@ public:
         return _fullscreen;
     }
 
+    auto framedump_prefix() const noexcept -> string_view {
+        return {_framedump_prefix};
+    }
+
+    auto framedump_color() const noexcept -> framedump_data_type {
+        return _framedump_color;
+    }
+
+    auto framedump_depth() const noexcept -> framedump_data_type {
+        return _framedump_depth;
+    }
+
+    auto framedump_stencil() const noexcept -> framedump_data_type {
+        return _framedump_stencil;
+    }
+
+    auto doing_framedump() const noexcept -> bool {
+        return (_framedump_color != framedump_data_type::none) ||
+               (_framedump_depth != framedump_data_type::none) ||
+               (_framedump_stencil != framedump_data_type::none);
+    }
+
 private:
     friend class execution_context;
 
     video_context_kind _video_kind;
     std::string _provider_name;
     std::string _monitor_name;
+    std::string _framedump_prefix;
 
     int _surface_width{1280};
     int _surface_height{800};
@@ -168,12 +195,16 @@ private:
     int _depth_bits{24};
     int _stencil_bits{0};
 
-    bool _offscreen{false};
-    bool _fullscreen{false};
     bool _gl_debug_context{false};
     bool _gl_compat_context{false};
+    bool _fullscreen{false};
+    bool _offscreen{false};
+    bool _offscreen_framebuffer{false};
+    framedump_data_type _framedump_color{framedump_data_type::none};
+    framedump_data_type _framedump_depth{framedump_data_type::none};
+    framedump_data_type _framedump_stencil{framedump_data_type::none};
 };
-
+//------------------------------------------------------------------------------
 class audio_options {
 public:
     audio_options(
@@ -190,7 +221,7 @@ private:
 
     audio_context_kind _audio_kind;
 };
-
+//------------------------------------------------------------------------------
 class launch_options : public main_ctx_object {
 public:
     launch_options(main_ctx_parent parent) noexcept;
@@ -261,7 +292,7 @@ private:
 
     bool _requires_input{cfg_init("application.input.required", false)};
 };
-
+//------------------------------------------------------------------------------
 } // namespace eagine::application
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)

@@ -13,6 +13,7 @@
 #include "../assert.hpp"
 #include "../callable_ref.hpp"
 #include "../memory/span_algo.hpp"
+#include "../reflect/enumerators.hpp"
 #include "../type_identity.hpp"
 #include "../valid_if/decl.hpp"
 #include "interface.hpp"
@@ -109,7 +110,8 @@ struct not_converted_value {
         return _dest;
     }
 
-    constexpr auto apply() const noexcept {
+    template <identifier_t V>
+    constexpr auto apply(selector<V>) const noexcept {
         return true;
     }
 
@@ -118,8 +120,43 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename T>
-struct converted_value : not_converted_value<T> {
-    using base = not_converted_value<T>;
+struct converted_enum_value {
+    static_assert(has_enumerator_mapping_v<T>);
+
+public:
+    constexpr converted_enum_value(T& dest) noexcept
+      : _dest{dest} {}
+
+    constexpr auto dest() noexcept -> auto& {
+        return _temp;
+    }
+
+    template <identifier_t V>
+    auto apply(selector<V> sel) const {
+        if(auto converted{from_string(_temp, type_identity<T>(), sel)}) {
+            _dest = extract(converted);
+            return true;
+        }
+        return false;
+    }
+
+private:
+    std::string _temp;
+    T& _dest;
+};
+//------------------------------------------------------------------------------
+template <typename T>
+struct converted_value
+  : std::conditional_t<
+      has_enumerator_mapping_v<T>,
+      converted_enum_value<T>,
+      not_converted_value<T>> {
+
+    using base = std::conditional_t<
+      has_enumerator_mapping_v<T>,
+      converted_enum_value<T>,
+      not_converted_value<T>>;
+
     using base::base;
 };
 //------------------------------------------------------------------------------
@@ -142,7 +179,8 @@ public:
         return _temp;
     }
 
-    auto apply() const {
+    template <identifier_t V>
+    auto apply(selector<V>) const {
         _dest = std::chrono::duration_cast<T>(_temp);
         return true;
     }
@@ -329,41 +367,85 @@ public:
         return fetch_values(name, dest);
     }
 
-    template <typename T>
-    auto fetch_value(const attribute& attrib, span_size_t offset, T& dest) const
-      -> bool {
+    template <typename T, identifier_t V>
+    auto select_value(
+      const attribute& attrib,
+      span_size_t offset,
+      T& dest,
+      selector<V> sel) const -> bool {
         converted_value<T> conv{dest};
         if(!fetch_values(attrib, offset, cover_one(conv.dest())).empty()) {
-            return conv.apply();
+            return conv.apply(sel);
         }
         return false;
     }
 
     template <typename T>
+    auto fetch_value(const attribute& attrib, span_size_t offset, T& dest) const
+      -> bool {
+        return select_value(attrib, offset, dest, default_selector);
+    }
+
+    template <typename T, identifier_t V>
+    auto
+    select_value(string_view name, span_size_t offset, T& dest, selector<V> sel)
+      const -> bool {
+        return select_value(nested(name), offset, dest, sel);
+    }
+
+    template <typename T>
     auto fetch_value(string_view name, span_size_t offset, T& dest) const
       -> bool {
-        return fetch_value(nested(name), offset, dest);
+        return select_value(name, offset, dest, default_selector);
+    }
+
+    template <typename T, identifier_t V>
+    auto select_value(
+      const basic_string_path& path,
+      span_size_t offset,
+      T& dest,
+      selector<V> sel) const -> bool {
+        return select_value(find(path), offset, dest, sel);
     }
 
     template <typename T>
     auto fetch_value(const basic_string_path& path, span_size_t offset, T& dest)
       const -> bool {
-        return fetch_value(find(path), offset, dest);
+        return select_value(path, offset, dest, default_selector);
+    }
+
+    template <typename T, identifier_t V>
+    auto select_value(string_view name, T& dest, selector<V> sel) const
+      -> bool {
+        return select_value(name, 0, dest, sel);
     }
 
     template <typename T>
     auto fetch_value(string_view name, T& dest) const -> bool {
-        return fetch_value(name, 0, dest);
+        return selecto_value(name, 0, dest, default_selector);
+    }
+
+    template <typename T, identifier_t V>
+    auto select_value(const attribute& attrib, T& dest, selector<V> sel) const
+      -> bool {
+        return select_value(attrib, 0, dest, sel);
     }
 
     template <typename T>
     auto fetch_value(const attribute& attrib, T& dest) const -> bool {
-        return fetch_value(attrib, 0, dest);
+        return select_value(attrib, 0, dest, default_selector);
+    }
+
+    template <typename T, identifier_t V>
+    auto
+    select_value(const basic_string_path& path, T& dest, selector<V> sel) const
+      -> bool {
+        return select_value(path, 0, dest, sel);
     }
 
     template <typename T>
     auto fetch_value(const basic_string_path& path, T& dest) const -> bool {
-        return fetch_value(path, 0, dest);
+        return selector_value(path, 0, dest, default_selector);
     }
 
     template <std::size_t L>
@@ -376,11 +458,35 @@ public:
         return false;
     }
 
-    template <typename T>
-    auto get(const attribute& attrib, span_size_t offset, type_identity<T> = {})
-      const -> optionally_valid<T> {
+    template <typename T, identifier_t V>
+    auto get(
+      const attribute& attrib,
+      span_size_t offset,
+      type_identity<T>,
+      selector<V> sel) const -> optionally_valid<T> {
         T temp{};
-        if(fetch_value(attrib, offset, temp)) {
+        if(select_value(attrib, offset, temp, sel)) {
+            return {std::move(temp), true};
+        }
+        return {};
+    }
+
+    template <typename T>
+    auto get(
+      const attribute& attrib,
+      span_size_t offset,
+      type_identity<T> tid = {}) const -> optionally_valid<T> {
+        return get<T>(attrib, offset, tid, default_selector);
+    }
+
+    template <typename T, identifier_t V>
+    auto get(
+      const basic_string_path& path,
+      span_size_t offset,
+      type_identity<T>,
+      selector<V> sel) const -> optionally_valid<T> {
+        T temp{};
+        if(select_value(path, offset, temp, sel)) {
             return {std::move(temp), true};
         }
         return {};
@@ -390,40 +496,65 @@ public:
     auto get(
       const basic_string_path& path,
       span_size_t offset,
-      type_identity<T> = {}) const -> optionally_valid<T> {
+      type_identity<T> tid = {}) const -> optionally_valid<T> {
+        return get<T>(path, offset, tid, default_selector);
+    }
+
+    template <typename T, identifier_t V>
+    auto
+    get(string_view name, span_size_t offset, type_identity<T>, selector<V> sel)
+      const -> optionally_valid<T> {
         T temp{};
-        if(fetch_value(path, offset, temp)) {
+        if(select_value(name, offset, temp, sel)) {
             return {std::move(temp), true};
         }
         return {};
     }
 
     template <typename T>
-    auto get(string_view name, span_size_t offset, type_identity<T> = {}) const
+    auto
+    get(string_view name, span_size_t offset, type_identity<T> tid = {}) const
       -> optionally_valid<T> {
-        T temp{};
-        if(fetch_value(name, offset, temp)) {
-            return {std::move(temp), true};
-        }
-        return {};
+        return get<T>(name, offset, tid, default_selector);
+    }
+
+    template <typename T, identifier_t V>
+    auto
+    get(const attribute& attrib, type_identity<T> tid, selector<V> sel) const
+      -> optionally_valid<T> {
+        return get<T>(attrib, 0, tid, sel);
     }
 
     template <typename T>
     auto get(const attribute& attrib, type_identity<T> tid = {}) const
       -> optionally_valid<T> {
-        return get<T>(attrib, 0, tid);
+        return get<T>(attrib, tid, default_selector);
+    }
+
+    template <typename T, identifier_t V>
+    auto get(
+      const basic_string_path& path,
+      type_identity<T> tid,
+      selector<V> sel) const -> optionally_valid<T> {
+        return get<T>(path, 0, tid, sel);
     }
 
     template <typename T>
     auto get(const basic_string_path& path, type_identity<T> tid = {}) const
       -> optionally_valid<T> {
-        return get<T>(path, 0, tid);
+        return get<T>(path, tid, default_selector);
+    }
+
+    template <typename T, identifier_t V>
+    auto get(string_view name, type_identity<T> tid, selector<V> sel) const
+      -> optionally_valid<T> {
+        return get<T>(name, 0, tid, sel);
     }
 
     template <typename T>
     auto get(string_view name, type_identity<T> tid = {}) const
       -> optionally_valid<T> {
-        return get<T>(name, 0, tid);
+        return get<T>(name, tid, default_selector);
     }
 
     using visit_handler =
@@ -514,14 +645,22 @@ public:
         return _c.fetch_blob(_a, dest);
     }
 
-    template <typename T>
-    auto fetch_value(span_size_t offset, T& dest) const -> bool {
-        return _c.fetch_value(_a, offset, dest);
+    template <typename T, identifier_t V>
+    auto fetch_value(
+      span_size_t offset,
+      T& dest,
+      selector<V> sel = default_selector) const -> bool {
+        return _c.select_value(_a, offset, dest, sel);
+    }
+
+    template <typename T, identifier_t V>
+    auto select_value(T& dest, selector<V> sel) const -> bool {
+        return _c.select_value(_a, dest, sel);
     }
 
     template <typename T>
     auto fetch_value(T& dest) const -> bool {
-        return _c.fetch_value(_a, dest);
+        return _c.select_value(_a, dest, default_selector);
     }
 
     template <typename T>

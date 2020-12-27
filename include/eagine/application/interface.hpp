@@ -11,6 +11,8 @@
 #define EAGINE_APPLICATION_INTERFACE_HPP
 
 #include "../main_ctx_fwd.hpp"
+#include "../memory/block.hpp"
+#include "../tribool.hpp"
 #include "options.hpp"
 #include <memory>
 
@@ -35,6 +37,11 @@ struct video_provider {
     virtual ~video_provider() noexcept = default;
 
     virtual auto video_kind() const noexcept -> video_context_kind = 0;
+    virtual auto instance_name() const noexcept -> string_view = 0;
+
+    virtual auto is_offscreen() noexcept -> tribool = 0;
+    virtual auto has_framebuffer() noexcept -> tribool = 0;
+    virtual auto surface_size() noexcept -> std::tuple<int, int> = 0;
 
     virtual void video_begin(execution_context&) = 0;
     virtual void video_end(execution_context&) = 0;
@@ -72,6 +79,30 @@ struct hmi_provider {
     virtual auto input() -> std::shared_ptr<input_provider> = 0;
     virtual auto video(string_view = {}) -> std::shared_ptr<video_provider> = 0;
     virtual auto audio(string_view = {}) -> std::shared_ptr<audio_provider> = 0;
+};
+//------------------------------------------------------------------------------
+struct framedump {
+    framedump() noexcept = default;
+    framedump(framedump&&) = delete;
+    framedump(const framedump&) = delete;
+    auto operator=(framedump&&) = delete;
+    auto operator=(const framedump&) = delete;
+    virtual ~framedump() noexcept = default;
+
+    virtual auto initialize(execution_context&, const video_options&)
+      -> bool = 0;
+
+    virtual auto get_buffer(span_size_t size) -> memory::block = 0;
+
+    virtual void dump_frame(
+      long frame_number,
+      int width,
+      int height,
+      int elements,
+      span_size_t element_size,
+      framedump_pixel_format,
+      framedump_data_type,
+      memory::block data) = 0;
 };
 //------------------------------------------------------------------------------
 struct application {

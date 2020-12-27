@@ -23,10 +23,6 @@ using state_variable = variable_with_history<T, 3>;
 //------------------------------------------------------------------------------
 class context_state_view {
 public:
-    auto frame_number() const noexcept -> int {
-        return _frame_no;
-    }
-
     auto frame_time() const noexcept -> seconds_t<float> {
         return seconds_(_frame_time.value());
     }
@@ -49,7 +45,6 @@ public:
 
 protected:
     state_variable<float> _frame_time{0.0F};
-    int _frame_no{0};
 
     bool _old_user_idle{false};
     bool _new_user_idle{false};

@@ -20,6 +20,8 @@ endif()
 if((OPENAL_AL_H_DIR) AND (EXISTS ${OPENAL_AL_H_DIR}))
 	set(OPENAL_INCLUDE_DIRS ${OPENAL_INCLUDE_DIRS} ${OPENAL_AL_H_DIR})
 	set(OPENAL_AL_H_FOUND 1)
+else()
+	set(OPENAL_AL_H_FOUND 0)
 endif()
 #
 #
@@ -39,6 +41,8 @@ if((OPENAL_ALC_H_DIR) AND (EXISTS ${OPENAL_ALC_H_DIR}))
 		set(OPENAL_INCLUDE_DIRS ${OPENAL_INCLUDE_DIRS} ${OPENAL_ALC_H_DIR})
 	endif()
 	set(OPENAL_ALC_H_FOUND 1)
+else()
+	set(OPENAL_ALC_H_FOUND 0)
 endif()
 #
 #
@@ -58,6 +62,8 @@ if((OPENAL_ALUT_H_DIR) AND (EXISTS ${OPENAL_ALUT_H_DIR}))
 		set(OPENAL_INCLUDE_DIRS ${OPENAL_INCLUDE_DIRS} ${OPENAL_ALUT_H_DIR})
 	endif()
 	set(OPENAL_ALUT_H_FOUND 1)
+else()
+	set(OPENAL_ALUT_H_FOUND 0)
 endif()
 
 # try to find the AL library
