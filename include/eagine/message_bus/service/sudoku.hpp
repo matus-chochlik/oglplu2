@@ -28,8 +28,9 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <template <unsigned> class U>
 struct sudoku_rank_tuple
-  : std::tuple<nothing_t, nothing_t, U<2>, U<3>, U<4>, U<5>, U<6>> {
-    using base = std::tuple<nothing_t, nothing_t, U<2>, U<3>, U<4>, U<5>, U<6>>;
+  : std::tuple<nothing_t, nothing_t, nothing_t, U<3>, U<4>, U<5>, U<6>> {
+    using base =
+      std::tuple<nothing_t, nothing_t, nothing_t, U<3>, U<4>, U<5>, U<6>>;
 
     sudoku_rank_tuple() = default;
 
@@ -38,7 +39,7 @@ struct sudoku_rank_tuple
       : base{
           nothing,
           nothing,
-          {args...},
+          nothing,
           {args...},
           {args...},
           {args...},
@@ -52,7 +53,6 @@ struct sudoku_rank_tuple
 //------------------------------------------------------------------------------
 template <typename Function, typename... RankTuple>
 static inline void for_each_sudoku_rank_unit(Function func, RankTuple&... t) {
-    func(std::get<2>(t)...);
     func(std::get<3>(t)...);
     func(std::get<4>(t)...);
     func(std::get<5>(t)...);
@@ -61,9 +61,6 @@ static inline void for_each_sudoku_rank_unit(Function func, RankTuple&... t) {
 //------------------------------------------------------------------------------
 template <unsigned S>
 static inline auto sudoku_search_msg(unsigned_constant<S>) noexcept {
-    if constexpr(S == 2) {
-        return EAGINE_MSG_ID(eagiSudoku, search2);
-    }
     if constexpr(S == 3) {
         return EAGINE_MSG_ID(eagiSudoku, search3);
     }
@@ -80,9 +77,6 @@ static inline auto sudoku_search_msg(unsigned_constant<S>) noexcept {
 //------------------------------------------------------------------------------
 template <unsigned S>
 static inline auto sudoku_ready_msg(unsigned_constant<S>) noexcept {
-    if constexpr(S == 2) {
-        return EAGINE_MSG_ID(eagiSudoku, ready2);
-    }
     if constexpr(S == 3) {
         return EAGINE_MSG_ID(eagiSudoku, ready3);
     }
@@ -99,9 +93,6 @@ static inline auto sudoku_ready_msg(unsigned_constant<S>) noexcept {
 //------------------------------------------------------------------------------
 template <unsigned S>
 static inline auto sudoku_steal_msg(unsigned_constant<S>) noexcept {
-    if constexpr(S == 2) {
-        return EAGINE_MSG_ID(eagiSudoku, steal2);
-    }
     if constexpr(S == 3) {
         return EAGINE_MSG_ID(eagiSudoku, steal3);
     }
@@ -118,9 +109,6 @@ static inline auto sudoku_steal_msg(unsigned_constant<S>) noexcept {
 //------------------------------------------------------------------------------
 template <unsigned S>
 static inline auto sudoku_query_msg(unsigned_constant<S>) noexcept {
-    if constexpr(S == 2) {
-        return EAGINE_MSG_ID(eagiSudoku, query2);
-    }
     if constexpr(S == 3) {
         return EAGINE_MSG_ID(eagiSudoku, query3);
     }
@@ -138,9 +126,6 @@ static inline auto sudoku_query_msg(unsigned_constant<S>) noexcept {
 template <unsigned S>
 static inline auto sudoku_solved_msg(unsigned_constant<S>) noexcept
   -> message_id {
-    if constexpr(S == 2) {
-        return EAGINE_MSG_ID(eagiSudoku, solved2);
-    }
     if constexpr(S == 3) {
         return EAGINE_MSG_ID(eagiSudoku, solved3);
     }
@@ -158,9 +143,6 @@ static inline auto sudoku_solved_msg(unsigned_constant<S>) noexcept
 template <unsigned S>
 static inline auto sudoku_candidate_msg(unsigned_constant<S>) noexcept
   -> message_id {
-    if constexpr(S == 2) {
-        return EAGINE_MSG_ID(eagiSudoku, candidate2);
-    }
     if constexpr(S == 3) {
         return EAGINE_MSG_ID(eagiSudoku, candidate3);
     }
@@ -178,9 +160,6 @@ static inline auto sudoku_candidate_msg(unsigned_constant<S>) noexcept
 template <unsigned S>
 static inline auto sudoku_done_msg(unsigned_constant<S>) noexcept
   -> message_id {
-    if constexpr(S == 2) {
-        return EAGINE_MSG_ID(eagiSudoku, done2);
-    }
     if constexpr(S == 3) {
         return EAGINE_MSG_ID(eagiSudoku, done3);
     }
@@ -330,7 +309,11 @@ public:
         return something_done;
     }
 
-    virtual void on_solved(const Key&, basic_sudoku_board<2>&) {}
+    template <unsigned S>
+    auto has_pending(const Key& key, unsigned_constant<S> rank) -> bool {
+        return _infos.get(rank).has_pending(key);
+    }
+
     virtual void on_solved(const Key&, basic_sudoku_board<3>&) {}
     virtual void on_solved(const Key&, basic_sudoku_board<4>&) {}
     virtual void on_solved(const Key&, basic_sudoku_board<5>&) {}
@@ -492,6 +475,19 @@ private:
                 ready_helpers.insert(id);
             }
         }
+
+        auto has_pending(const Key& key) -> bool {
+            return std::find_if(
+                     boards.begin(),
+                     boards.end(),
+                     [&](const auto& entry) {
+                         return std::get<0>(entry) == key;
+                     }) != boards.end() ||
+                   std::find_if(
+                     pending.begin(), pending.end(), [&](const auto& entry) {
+                         return entry.key == key;
+                     }) != pending.end();
+        }
     };
 
     sudoku_rank_tuple<rank_info> _infos;
@@ -563,6 +559,201 @@ private:
         return message_handler_map<member_function_constant<
           bool (This::*)(const message_context&, stored_message&),
           &This::_handle_done<S>>>{sudoku_done_msg(rank)};
+    }
+};
+//------------------------------------------------------------------------------
+template <typename Base = subscriber>
+class sudoku_tiling : public sudoku_solver<Base, std::tuple<int, int>> {
+    using base = sudoku_solver<Base, std::tuple<int, int>>;
+    using This = sudoku_tiling;
+    using Coord = std::tuple<int, int>;
+
+protected:
+    using base::base;
+
+public:
+    template <unsigned S>
+    auto set_extent(Coord min, Coord max, unsigned_constant<S> rank = {})
+      -> auto& {
+        auto& info = _infos.get(rank);
+        info.minx = std::get<0>(min);
+        info.miny = std::get<1>(min);
+        info.maxx = std::get<0>(max);
+        info.maxy = std::get<1>(max);
+        return *this;
+    }
+
+    template <unsigned S>
+    auto intialize(basic_sudoku_board<S> board) -> auto& {
+        base::enqueue({0, 0}, std::move(board));
+        return *this;
+    }
+
+private:
+    template <unsigned S>
+    struct rank_info {
+        static constexpr const unsigned blocks_per_board = S - 2U;
+
+        default_sudoku_board_traits<S> traits;
+        flat_map<Coord, basic_sudoku_board<S>> boards;
+        int minx{0};
+        int miny{0};
+        int maxx{blocks_per_board};
+        int maxy{blocks_per_board};
+
+        auto get(int x, int y) noexcept -> basic_sudoku_board<S>* {
+            const auto pos = boards.find({x, y});
+            if(pos != boards.end()) {
+                return &pos->second;
+            }
+            return nullptr;
+        }
+
+        void do_enqueue(This& solver, int x, int y) {
+            basic_sudoku_board<S> added{traits};
+            if(y > 0) {
+                if(x > 0) {
+                    auto left = get(x - 1, y);
+                    auto down = get(x, y - 1);
+                    if(left && down) {
+                        for(auto by : integer_range(S - 1U)) {
+                            added.set_block(
+                              0U, by, extract(left).get_block(S - 1U, by));
+                        }
+                        for(auto bx : integer_range(1U, S)) {
+                            added.set_block(
+                              bx, S - 1U, extract(down).get_block(bx, 0U));
+                        }
+                        solver.enqueue({x, y}, added);
+                    }
+                } else if(x < 0) {
+                    auto right = get(x + 1, y);
+                    auto down = get(x, y - 1);
+                    if(right && down) {
+                        for(auto by : integer_range(S - 1U)) {
+                            added.set_block(
+                              S - 1U, by, right.get_block(0U, by));
+                        }
+                        for(auto bx : integer_range(S - 1U)) {
+                            added.set_block(bx, S - 1U, down.get_block(bx, 0U));
+                        }
+                        solver.enqueue({x, y}, added);
+                    }
+                } else {
+                    auto down = get(x, y - 1);
+                    if(down) {
+                        for(auto bx : integer_range(S)) {
+                            added.set_block(bx, S - 1U, down.get_block(bx, 0U));
+                        }
+                        solver.enqueue({x, y}, added);
+                    }
+                }
+            } else if(y < 0) {
+                if(x > 0) {
+                    auto left = get(x - 1, y);
+                    auto up = get(x, y + 1);
+                    if(left && up) {
+                        for(auto by : integer_range(1U, S)) {
+                            added.set_block(
+                              0U, by, extract(left).get_block(S - 1U, by));
+                        }
+                        for(auto bx : integer_range(1U, S)) {
+                            added.set_block(
+                              bx, 0U, extract(up).get_block(bx, S - 1U));
+                        }
+                        solver.enqueue({x, y}, added);
+                    }
+                } else if(x < 0) {
+                    auto right = get(x + 1, y);
+                    auto up = get(x, y + 1);
+                    if(right && up) {
+                        for(auto by : integer_range(1U, S)) {
+                            added.set_block(
+                              S - 1U, by, extract(right).get_block(0U, by));
+                        }
+                        for(auto bx : integer_range(S - 1U)) {
+                            added.set_block(
+                              bx, 0U, extract(up).get_block(bx, S - 1U));
+                        }
+                        solver.enqueue({x, y}, added);
+                    }
+                } else {
+                    auto up = get(x, y + 1);
+                    if(up) {
+                        for(auto bx : integer_range(S)) {
+                            added.set_block(
+                              bx, 0U, extract(up).get_block(bx, S - 1U));
+                        }
+                        solver.enqueue({x, y}, added);
+                    }
+                }
+            } else {
+                if(x > 0) {
+                    auto left = get(x - 1, y);
+                    if(left) {
+                        for(auto by : integer_range(S)) {
+                            added.set_block(
+                              0U, by, extract(left).get_block(S - 1U, by));
+                        }
+                        solver.enqueue({x, y}, added);
+                    }
+                } else if(x < 0) {
+                    auto right = get(x + 1, y);
+                    if(right) {
+                        for(auto by : integer_range(S)) {
+                            added.set_block(
+                              S - 1U, by, extract(right).get_block(0U, by));
+                        }
+                        solver.enqueue({x, y}, added);
+                    }
+                }
+            }
+        }
+
+        void try_enqueue(This& solver, int x, int y) {
+            if(
+              (x >= minx) && (x <= maxx) && (y >= miny) && (y <= maxy) &&
+              !get(x, y)) {
+                do_enqueue(solver, x, y);
+            }
+        }
+
+        void handle_solved(
+          This& solver,
+          const Coord& coord,
+          basic_sudoku_board<S> board) {
+            board.try_emplace(coord, std::move(board));
+            const auto [x, y] = coord;
+            try_enqueue(solver, x - 1, y - 1);
+            try_enqueue(solver, x + 0, y - 1);
+            try_enqueue(solver, x + 1, y - 1);
+            try_enqueue(solver, x - 1, y + 0);
+            try_enqueue(solver, x + 1, y + 0);
+            try_enqueue(solver, x - 1, y + 1);
+            try_enqueue(solver, x + 0, y + 1);
+            try_enqueue(solver, x + 1, y + 1);
+        }
+    };
+
+    sudoku_rank_tuple<rank_info> _infos;
+
+    void on_solved(const Coord& coord, basic_sudoku_board<3>& board) final {
+        _handle_solved(coord, board);
+    }
+    void on_solved(const Coord& coord, basic_sudoku_board<4>& board) final {
+        _handle_solved(coord, board);
+    }
+    void on_solved(const Coord& coord, basic_sudoku_board<5>& board) final {
+        _handle_solved(coord, board);
+    }
+    void on_solved(const Coord& coord, basic_sudoku_board<6>& board) final {
+        _handle_solved(coord, board);
+    }
+
+    template <unsigned S>
+    void _handle_solved(const Coord& coord, basic_sudoku_board<S>& board) {
+        auto& info = _infos.get(unsigned_constant<S>{});
+        info.boards.handle_solved(*this, coord, std::move(board));
     }
 };
 //------------------------------------------------------------------------------
