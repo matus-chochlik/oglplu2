@@ -562,6 +562,99 @@ private:
     }
 };
 //------------------------------------------------------------------------------
+template <unsigned S>
+class sudoku_tiles {
+public:
+    using Coord = std::tuple<int, int>;
+
+    auto get_board(Coord coord) const noexcept -> const basic_sudoku_board<S>* {
+        const auto pos = _boards.find(coord);
+        if(pos != _boards.end()) {
+            return &pos->second;
+        }
+        return nullptr;
+    }
+
+    auto get_board(int x, int y) const noexcept {
+        return get_board({x, y});
+    }
+
+    auto set_board(Coord coord, basic_sudoku_board<S> board) -> bool {
+        return _boards.try_emplace(std::move(coord), std::move(board)).second;
+    }
+
+    void set_extent(Coord min, Coord max) noexcept {
+        _minu = std::get<0>(min);
+        _minv = std::get<1>(min);
+        _maxu = std::get<0>(max);
+        _maxv = std::get<1>(max);
+    }
+
+    void set_extent(Coord max) noexcept {
+        set_extent({0, 0}, max);
+    }
+
+    auto is_in_extent(int x, int y) const noexcept -> bool {
+        const int u = x * S * (S - 2);
+        const int v = y * S * (S - 2);
+        return (u >= _minu) && (u <= _maxu) && (v >= _minv) && (v <= _maxv);
+    }
+
+    auto print(std::ostream& out, Coord min, Coord max) const -> std::ostream& {
+        const auto conv = [](int c) {
+            const auto mult = S * (S - 2);
+            if(c < 0) {
+                return c / mult - ((-c % mult) ? 1 : 0);
+            }
+            return c / mult + (c % mult ? 1 : 0);
+        };
+        const int xmin = conv(std::get<0>(min));
+        const int xmax = conv(std::get<0>(max));
+        const int ymin = conv(std::get<1>(min));
+        const int ymax = conv(std::get<1>(max));
+
+        for(auto y : integer_range(ymin, ymax + 1)) {
+            for(auto by : integer_range(1U, S - 1U)) {
+                for(auto cy : integer_range(S)) {
+                    for(auto x : integer_range(xmin, xmax + 1)) {
+                        auto board = get_board(x, y);
+                        for(auto bx : integer_range(1U, S - 1U)) {
+                            for(auto cx : integer_range(S)) {
+                                if(board) {
+                                    _traits.print(
+                                      out,
+                                      extract(board).get({bx, by, cx, cy}));
+                                } else {
+                                    _traits.print_empty(out);
+                                }
+                            }
+                        }
+                    }
+                    out << '\n';
+                }
+            }
+        }
+        return out;
+    }
+
+    auto print(std::ostream& out) const -> auto& {
+        return print(out, {_minu, _minv}, {_maxu, _maxv});
+    }
+
+protected:
+    auto new_board() noexcept -> basic_sudoku_board<S> {
+        return {_traits};
+    }
+
+private:
+    int _minu{0};
+    int _minv{0};
+    int _maxu{S * (S - 2)};
+    int _maxv{S * (S - 2)};
+    flat_map<Coord, basic_sudoku_board<S>> _boards;
+    default_sudoku_board_traits<S> _traits;
+};
+//------------------------------------------------------------------------------
 template <typename Base = subscriber>
 class sudoku_tiling : public sudoku_solver<Base, std::tuple<int, int>> {
     using base = sudoku_solver<Base, std::tuple<int, int>>;
@@ -588,32 +681,16 @@ public:
         return initialize({0, 0}, max, {0, 0}, std::move(board));
     }
 
+    virtual void on_tiles_generated(const sudoku_tiles<3>&) {}
+    virtual void on_tiles_generated(const sudoku_tiles<4>&) {}
+    virtual void on_tiles_generated(const sudoku_tiles<5>&) {}
+    virtual void on_tiles_generated(const sudoku_tiles<6>&) {}
+
 private:
     template <unsigned S>
-    struct rank_info {
+    struct rank_info : sudoku_tiles<S> {
 
-        default_sudoku_board_traits<S> traits;
-        flat_map<Coord, basic_sudoku_board<S>> boards;
-        int minu{0};
-        int minv{0};
-        int maxu{S * (S - 2)};
-        int maxv{S * (S - 2)};
         span_size_t pending_count{0};
-
-        void set_extent(Coord min, Coord max) {
-            minu = std::get<0>(min);
-            minv = std::get<1>(min);
-            maxu = std::get<0>(max);
-            maxv = std::get<1>(max);
-        }
-
-        auto get(int x, int y) noexcept -> basic_sudoku_board<S>* {
-            const auto pos = boards.find({x, y});
-            if(pos != boards.end()) {
-                return &pos->second;
-            }
-            return nullptr;
-        }
 
         void
         initialize(This& solver, int x, int y, basic_sudoku_board<S> board) {
@@ -622,12 +699,12 @@ private:
         }
 
         void do_enqueue(This& solver, int x, int y) {
-            basic_sudoku_board<S> board{traits};
+            auto board{this->new_board()};
             bool should_enqueue = false;
             if(y > 0) {
                 if(x > 0) {
-                    auto left = get(x - 1, y);
-                    auto down = get(x, y - 1);
+                    auto left = this->get_board(x - 1, y);
+                    auto down = this->get_board(x, y - 1);
                     if(left && down) {
                         for(auto by : integer_range(S - 1U)) {
                             board.set_block(
@@ -640,8 +717,8 @@ private:
                         should_enqueue = true;
                     }
                 } else if(x < 0) {
-                    auto right = get(x + 1, y);
-                    auto down = get(x, y - 1);
+                    auto right = this->get_board(x + 1, y);
+                    auto down = this->get_board(x, y - 1);
                     if(right && down) {
                         for(auto by : integer_range(S - 1U)) {
                             board.set_block(
@@ -654,7 +731,7 @@ private:
                         should_enqueue = true;
                     }
                 } else {
-                    auto down = get(x, y - 1);
+                    auto down = this->get_board(x, y - 1);
                     if(down) {
                         for(auto bx : integer_range(S)) {
                             board.set_block(
@@ -665,8 +742,8 @@ private:
                 }
             } else if(y < 0) {
                 if(x > 0) {
-                    auto left = get(x - 1, y);
-                    auto up = get(x, y + 1);
+                    auto left = this->get_board(x - 1, y);
+                    auto up = this->get_board(x, y + 1);
                     if(left && up) {
                         for(auto by : integer_range(1U, S)) {
                             board.set_block(
@@ -679,8 +756,8 @@ private:
                         should_enqueue = true;
                     }
                 } else if(x < 0) {
-                    auto right = get(x + 1, y);
-                    auto up = get(x, y + 1);
+                    auto right = this->get_board(x + 1, y);
+                    auto up = this->get_board(x, y + 1);
                     if(right && up) {
                         for(auto by : integer_range(1U, S)) {
                             board.set_block(
@@ -693,7 +770,7 @@ private:
                         should_enqueue = true;
                     }
                 } else {
-                    auto up = get(x, y + 1);
+                    auto up = this->get_board(x, y + 1);
                     if(up) {
                         for(auto bx : integer_range(S)) {
                             board.set_block(
@@ -704,7 +781,7 @@ private:
                 }
             } else {
                 if(x > 0) {
-                    auto left = get(x - 1, y);
+                    auto left = this->get_board(x - 1, y);
                     if(left) {
                         for(auto by : integer_range(S)) {
                             board.set_block(
@@ -713,7 +790,7 @@ private:
                         should_enqueue = true;
                     }
                 } else if(x < 0) {
-                    auto right = get(x + 1, y);
+                    auto right = this->get_board(x + 1, y);
                     if(right) {
                         for(auto by : integer_range(S)) {
                             board.set_block(
@@ -730,14 +807,8 @@ private:
             }
         }
 
-        auto is_in_extent(int x, int y) const noexcept -> bool {
-            const int u = x * S * (S - 2);
-            const int v = y * S * (S - 2);
-            return (u >= minu) && (u <= maxu) && (v >= minv) && (v <= maxv);
-        }
-
         void try_enqueue(This& solver, int x, int y) {
-            if(is_in_extent(x, y) && !get(x, y)) {
+            if(this->is_in_extent(x, y) && !this->get_board(x, y)) {
                 if(!solver.has_enqueued({x, y}, unsigned_constant<S>{})) {
                     do_enqueue(solver, x, y);
                 }
@@ -756,42 +827,18 @@ private:
 
             EAGINE_ASSERT(pending_count >= 0);
             if(pending_count == 0) {
-                // TODO: notify
+                solver.on_tiles_generated(*this);
             }
         }
 
-        void handle_solved(
-          This& solver,
-          const Coord& coord,
-          basic_sudoku_board<S> board) {
+        void
+        handle_solved(This& solver, Coord coord, basic_sudoku_board<S> board) {
             const auto [x, y] = coord;
-            if(boards.try_emplace(coord, std::move(board)).second) {
+            if(this->set_board(coord, std::move(board))) {
                 --pending_count;
             }
 
             enqueue_neighbors(solver, x, y);
-        }
-
-        template <typename Out>
-        auto print(Out& out, int xmin, int ymin, int xmax, int ymax) -> auto& {
-            for(auto y : integer_range(ymin, ymax + 1)) {
-                for(auto by : integer_range(1U, S - 1U)) {
-                    for(auto cy : integer_range(S)) {
-                        for(auto x : integer_range(xmin, xmax + 1)) {
-                            if(auto board = get(x, y)) {
-                                for(auto bx : integer_range(1U, S - 1U)) {
-                                    for(auto cx : integer_range(S)) {
-                                        traits.print(
-                                          out, board.get({bx, by, cx, cy}));
-                                    }
-                                }
-                            }
-                        }
-                        out << '\n';
-                    }
-                }
-            }
-            return out;
         }
     };
 
