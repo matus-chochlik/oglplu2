@@ -13,6 +13,7 @@
 #include "../../bool_aggregate.hpp"
 #include "../../flat_set.hpp"
 #include "../../int_constant.hpp"
+#include "../../math/functions.hpp"
 #include "../../maybe_unused.hpp"
 #include "../../serialize/type/sudoku.hpp"
 #include "../../sudoku.hpp"
@@ -20,6 +21,7 @@
 #include "../subscriber.hpp"
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <random>
 #include <tuple>
 #include <vector>
@@ -417,7 +419,9 @@ private:
 
         auto send_board_to(endpoint& bus, identifier_t helper_id) -> bool {
             if(!boards.empty()) {
-                std::binomial_distribution dist(boards.size() - 1U, 0.95);
+                std::binomial_distribution dist(
+                  boards.size() - 1U,
+                  math::blend(0.9, 1.0, 1.0 - std::exp(-boards.size())));
                 auto pos = std::next(boards.begin(), dist(randeng));
                 auto& [key, board] = *pos;
                 auto temp{default_serialize_buffer_for(board)};
@@ -613,10 +617,10 @@ public:
         const int ymin = conv(std::get<1>(min));
         const int ymax = conv(std::get<1>(max));
 
-        for(auto y : integer_range(ymin, ymax + 1)) {
+        for(auto y : integer_range(ymin, ymax)) {
             for(auto by : integer_range(1U, S - 1U)) {
                 for(auto cy : integer_range(S)) {
-                    for(auto x : integer_range(xmin, xmax + 1)) {
+                    for(auto x : integer_range(xmin, xmax)) {
                         auto board = get_board(x, y);
                         for(auto bx : integer_range(1U, S - 1U)) {
                             for(auto cx : integer_range(S)) {
@@ -824,21 +828,22 @@ private:
             try_enqueue(solver, x - 1, y + 1);
             try_enqueue(solver, x + 0, y + 1);
             try_enqueue(solver, x + 1, y + 1);
-
-            EAGINE_ASSERT(pending_count >= 0);
-            if(pending_count == 0) {
-                solver.on_tiles_generated(*this);
-            }
         }
 
         void
         handle_solved(This& solver, Coord coord, basic_sudoku_board<S> board) {
             const auto [x, y] = coord;
+            const bool had_pending = pending_count > 0;
             if(this->set_board(coord, std::move(board))) {
                 --pending_count;
             }
 
             enqueue_neighbors(solver, x, y);
+
+            EAGINE_ASSERT(pending_count >= 0);
+            if(had_pending && (pending_count == 0)) {
+                solver.on_tiles_generated(*this);
+            }
         }
     };
 
