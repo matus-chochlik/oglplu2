@@ -55,6 +55,10 @@ public:
     auto print(std::ostream&, const basic_sudoku_glyph<S>& glyph) const
       -> std::ostream&;
 
+    auto print_empty(std::ostream& out) const -> std::ostream& {
+        return out << _empty_glyph;
+    }
+
     auto print(std::ostream&, const basic_sudoku_board<S, false>& board) const
       -> std::ostream&;
 
@@ -720,7 +724,7 @@ public:
 
     auto print(std::ostream& out, int xmin, int ymin, int xmax, int ymax)
       -> std::ostream& {
-        for(int y = ymax; y >= ymin; --y) {
+        for(auto y : integer_range(ymin, ymax + 1)) {
             for(auto by : integer_range(1U, S - 1U)) {
                 for(auto cy : integer_range(S)) {
                     for(auto x : integer_range(xmin, xmax + 1)) {
