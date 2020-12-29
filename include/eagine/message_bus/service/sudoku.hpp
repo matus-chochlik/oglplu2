@@ -724,7 +724,8 @@ private:
                 }
             }
             if(should_enqueue) {
-                solver.enqueue({x, y}, std::move(board));
+                solver.enqueue(
+                  {x, y}, std::move(board.calculate_alternatives()));
                 ++pending_count;
             }
         }
