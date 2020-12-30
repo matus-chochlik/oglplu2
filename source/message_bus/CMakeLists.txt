@@ -35,6 +35,14 @@ target_link_libraries(
 	PUBLIC eagine
 )
 
+# sudoku tiling generator
+add_executable(eagine-message_bus-sudoku_tiling sudoku_tiling.cpp)
+eagine_add_exe_analysis(eagine-message_bus-sudoku_tiling)
+target_link_libraries(
+	eagine-message_bus-sudoku_tiling
+	PUBLIC eagine
+)
+
 # scripts
 install(
 	PROGRAMS eagine-local-bridge.sh

@@ -71,8 +71,14 @@ auto main(main_ctx& ctx) -> int {
 
     auto acceptor = std::make_unique<msgbus::direct_acceptor>(ctx);
 
-    // TODO: from config
-    auto helper_count = extract_or(ctx.system().cpu_concurrent_threads(), 4);
+    const bool shutdown_when_idle = extract_or(
+      ctx.config().get<span_size_t>("msg_bus.sudoku.helper.shutdown_when_idle"),
+      false);
+
+    auto helper_count = extract_or(
+      ctx.config().get<span_size_t>("msg_bus.sudoku.helper.count"),
+      extract_or(ctx.system().cpu_concurrent_threads(), 4));
+
     std::mutex helper_mutex;
     std::condition_variable helper_cond;
     std::vector<std::thread> helpers;
@@ -96,8 +102,13 @@ auto main(main_ctx& ctx) -> int {
             }
 
             int idle_streak = 0;
+            auto keep_running = [&]() {
+                return !(
+                  helper_node.is_shut_down() ||
+                  (shutdown_when_idle && idle_streak > 100));
+            };
 
-            while(!helper_node.is_shut_down()) {
+            while(keep_running()) {
                 helper_node.update();
                 if(helper_node.process_all()) {
                     idle_streak = 0;

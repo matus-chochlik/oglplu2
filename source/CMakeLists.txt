@@ -16,6 +16,7 @@ set(
 		eagine-message_bus-bridge
 		eagine-message_bus-pingable
 		eagine-message_bus-sudoku_helper
+		eagine-message_bus-sudoku_tiling
 		oglplus
 		oglplus-bake_program_source
 		oglplus-bake_png_image
