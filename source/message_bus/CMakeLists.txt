@@ -27,6 +27,14 @@ target_link_libraries(
 	PUBLIC eagine
 )
 
+# sudoku solver helper
+add_executable(eagine-message_bus-sudoku_helper sudoku_helper.cpp)
+eagine_add_exe_analysis(eagine-message_bus-sudoku_helper)
+target_link_libraries(
+	eagine-message_bus-sudoku_helper
+	PUBLIC eagine
+)
+
 # scripts
 install(
 	PROGRAMS eagine-local-bridge.sh
