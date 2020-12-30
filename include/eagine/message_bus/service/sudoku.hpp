@@ -199,9 +199,64 @@ protected:
               Base::add_method(this, _bind_handle_board(rank));
           },
           _ranks);
+        _activity_time = std::chrono::steady_clock::now();
     }
 
 public:
+    auto update() -> bool {
+        some_true something_done{};
+        something_done(Base::update());
+
+        for_each_sudoku_rank_unit(
+          [&](auto rank, auto& info) {
+              if(!info.boards.empty()) {
+                  auto target_id = std::get<0>(info.boards.back());
+                  auto sequence_no = std::get<1>(info.boards.back());
+                  auto board = std::get<2>(info.boards.back());
+                  info.boards.pop_back();
+
+                  board.for_each_alternative(
+                    board.find_unsolved(), [&](auto& intermediate) {
+                        intermediate.for_each_alternative(
+                          intermediate.find_unsolved(), [&](auto& candidate) {
+                              ++info.counter;
+                              const bool is_solved = candidate.is_solved();
+                              const bool should_keep =
+                                (info.boards.size() < 16) &&
+                                (info.counter % (info.boards.size() + 1) == 0);
+
+                              if(!is_solved && should_keep) {
+                                  info.boards.emplace_back(
+                                    target_id, sequence_no, candidate);
+                              } else {
+                                  auto temp{
+                                    default_serialize_buffer_for(candidate)};
+                                  auto serialized{
+                                    default_serialize(candidate, cover(temp))};
+                                  EAGINE_ASSERT(serialized);
+
+                                  message_view response{extract(serialized)};
+                                  response.set_target_id(target_id);
+                                  response.set_sequence_no(sequence_no);
+                                  this->bus().post(
+                                    sudoku_response_msg(rank, is_solved),
+                                    response);
+                              }
+                          });
+                    });
+                  message_view response{};
+                  response.set_target_id(target_id);
+                  response.set_sequence_no(sequence_no);
+                  this->bus().post(sudoku_done_msg(rank), response);
+                  something_done();
+              }
+          },
+          _ranks,
+          _infos);
+
+        return something_done;
+    }
+
     auto idle_time() const noexcept {
         return std::chrono::steady_clock::now() - _activity_time;
     }
@@ -212,6 +267,7 @@ private:
       -> bool {
         const unsigned_constant<S> rank{};
         msg_ctx.bus().respond_to(message, sudoku_ready_msg(rank));
+        _activity_time = std::chrono::steady_clock::now();
         return true;
     }
 
@@ -227,27 +283,14 @@ private:
     auto _handle_board(const message_context& msg_ctx, stored_message& message)
       -> bool {
         const unsigned_constant<S> rank{};
-        basic_sudoku_board<S> board{_traits.get(rank)};
+        auto& info = _infos.get(rank);
+        basic_sudoku_board<S> board{info.traits};
 
         msg_ctx.bus().respond_to(message, sudoku_steal_msg(rank));
 
         if(EAGINE_LIKELY(default_deserialize(board, message.content()))) {
-            board.for_each_alternative(
-              board.find_unsolved(), [&](auto& intermediate) {
-                  intermediate.for_each_alternative(
-                    intermediate.find_unsolved(), [&](auto& candidate) {
-                        auto temp{default_serialize_buffer_for(candidate)};
-                        auto serialized{
-                          default_serialize(candidate, cover(temp))};
-                        EAGINE_ASSERT(serialized);
-
-                        msg_ctx.bus().respond_to(
-                          message,
-                          sudoku_response_msg(rank, candidate.is_solved()),
-                          {extract(serialized)});
-                    });
-              });
-            msg_ctx.bus().respond_to(message, sudoku_done_msg(rank));
+            info.boards.emplace_back(
+              message.source_id, message.sequence_no, std::move(board));
             _activity_time = std::chrono::steady_clock::now();
         }
         return true;
@@ -262,7 +305,18 @@ private:
     }
 
     sudoku_rank_tuple<unsigned_constant> _ranks;
-    sudoku_rank_tuple<default_sudoku_board_traits> _traits;
+
+    template <unsigned S>
+    struct rank_info {
+        default_sudoku_board_traits<S> traits;
+
+        std::size_t counter{0U};
+        std::vector<
+          std::tuple<identifier_t, message_sequence_t, basic_sudoku_board<S>>>
+          boards;
+    };
+    sudoku_rank_tuple<rank_info> _infos;
+
     std::chrono::steady_clock::time_point _activity_time{
       std::chrono::steady_clock::now()};
 };
