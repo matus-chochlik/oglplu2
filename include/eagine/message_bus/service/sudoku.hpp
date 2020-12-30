@@ -201,6 +201,11 @@ protected:
           _ranks);
     }
 
+public:
+    auto idle_time() const noexcept {
+        return std::chrono::steady_clock::now() - _activity_time;
+    }
+
 private:
     template <unsigned S>
     auto _handle_search(const message_context& msg_ctx, stored_message& message)
@@ -243,6 +248,7 @@ private:
                     });
               });
             msg_ctx.bus().respond_to(message, sudoku_done_msg(rank));
+            _activity_time = std::chrono::steady_clock::now();
         }
         return true;
     }
@@ -257,6 +263,8 @@ private:
 
     sudoku_rank_tuple<unsigned_constant> _ranks;
     sudoku_rank_tuple<default_sudoku_board_traits> _traits;
+    std::chrono::steady_clock::time_point _activity_time{
+      std::chrono::steady_clock::now()};
 };
 //------------------------------------------------------------------------------
 template <typename Base = subscriber, typename Key = int>

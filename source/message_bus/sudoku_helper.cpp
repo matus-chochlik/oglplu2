@@ -71,9 +71,12 @@ auto main(main_ctx& ctx) -> int {
 
     auto acceptor = std::make_unique<msgbus::direct_acceptor>(ctx);
 
-    const bool shutdown_when_idle = extract_or(
-      ctx.config().get<span_size_t>("msg_bus.sudoku.helper.shutdown_when_idle"),
-      false);
+    auto shutdown_when_idle = false;
+    ctx.config().fetch(
+      "msg_bus.sudoku.helper.shutdown_when_idle", shutdown_when_idle);
+
+    auto max_idle_time = std::chrono::seconds(30);
+    ctx.config().fetch("msg_bus.sudoku.helper.max_idle_time", max_idle_time);
 
     auto helper_count = extract_or(
       ctx.config().get<span_size_t>("msg_bus.sudoku.helper.count"),
@@ -101,13 +104,14 @@ auto main(main_ctx& ctx) -> int {
                 }
             }
 
-            int idle_streak = 0;
             auto keep_running = [&]() {
                 return !(
                   helper_node.is_shut_down() ||
-                  (shutdown_when_idle && idle_streak > 100));
+                  (shutdown_when_idle &&
+                   (helper_node.idle_time() > max_idle_time)));
             };
 
+            int idle_streak = 0;
             while(keep_running()) {
                 helper_node.update();
                 if(helper_node.process_all()) {
@@ -141,7 +145,7 @@ auto main(main_ctx& ctx) -> int {
     helper_cond.notify_all();
     init_lock.unlock();
 
-    while(!interrupted) {
+    while(!(interrupted || router.is_done())) {
         if(!router.update(8)) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
