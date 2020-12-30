@@ -310,7 +310,7 @@ public:
 
         for_each_sudoku_rank_unit(
           [&](auto& info) {
-              something_done(info.handle_timeouted());
+              something_done(info.handle_timeouted(this->bus()));
               something_done(info.send_boards(this->bus()));
               something_done(info.search_helpers(this->bus()));
           },
@@ -371,8 +371,8 @@ private:
             return something_done;
         }
 
-        auto handle_timeouted() -> bool {
-            some_true something_done;
+        auto handle_timeouted(endpoint& bus) -> bool {
+            span_size_t count = 0;
             pending.erase(
               std::remove_if(
                 pending.begin(),
@@ -382,13 +382,20 @@ private:
                         used_helpers.erase(entry.used_helper);
                         boards.emplace_back(
                           std::move(entry.key), std::move(entry.board));
-                        something_done();
+                        ++count;
                         return true;
                     }
                     return false;
                 }),
               pending.end());
-            return something_done;
+            if(count > 0) {
+                bus.log_warning("removing ${count} timeouted boards")
+                  .arg(EAGINE_ID(count), count)
+                  .arg(EAGINE_ID(enqueued), boards.size())
+                  .arg(EAGINE_ID(pending), pending.size())
+                  .arg(EAGINE_ID(rank), S);
+            }
+            return count > 0;
         }
 
         void handle_response(
@@ -429,7 +436,7 @@ private:
             if(!boards.empty()) {
                 std::binomial_distribution dist(
                   boards.size() - 1U,
-                  math::blend(0.9, 1.0, 1.0 - std::exp(-boards.size())));
+                  math::blend(1.0, 0.9, std::exp(-boards.size())));
                 auto pos = std::next(boards.begin(), dist(randeng));
                 auto& [key, board] = *pos;
                 auto temp{default_serialize_buffer_for(board)};
@@ -446,7 +453,7 @@ private:
                 query.used_helper = helper_id;
                 query.sequence_no = sequence_no;
                 query.key = std::move(key);
-                query.too_late.reset(std::chrono::seconds(S * S));
+                query.too_late.reset(std::chrono::seconds(S * S * S));
                 boards.erase(pos);
 
                 used_helpers.insert(helper_id);
