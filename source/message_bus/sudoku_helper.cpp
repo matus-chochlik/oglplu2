@@ -18,6 +18,7 @@
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/sudoku.hpp>
 #include <eagine/signal_switch.hpp>
+#include <eagine/watchdog.hpp>
 #include <condition_variable>
 #include <mutex>
 #include <thread>
@@ -148,16 +149,23 @@ auto main(main_ctx& ctx) -> int {
     helper_cond.notify_all();
     init_lock.unlock();
 
+    auto& wd = ctx.watchdog();
+    wd.declare_initialized();
+
     while(!(interrupted || router.is_done())) {
         if(!router.update(8)) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
+
+        wd.notify_alive();
 
         std::unique_lock break_lock{helper_mutex};
         if(helper_count <= 0) {
             break;
         }
     }
+
+    wd.announce_shutdown();
 
     for(auto& helper : helpers) {
         helper.join();

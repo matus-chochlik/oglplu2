@@ -31,7 +31,7 @@ sleep 1
 ${install_prefix}/bin/eagine-message_bus-sudoku_tiling \
 	"${log_args[@]}" \
 	${conn_type} \
-	--4 --width 128 --height 32 \
+	--4 --width 32 --height 32 \
 	& pids+=($!)
 
 for pid in ${pids[@]}
