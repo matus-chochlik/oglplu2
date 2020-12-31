@@ -211,7 +211,11 @@ public:
 
     auto alternative_count() const noexcept -> unsigned {
         unsigned count = 0U;
-        for_each_alternative([&](auto) { ++count; });
+        cell_type bits = _cel_val;
+        while(bits) {
+            bits &= (bits - 1U);
+            ++count;
+        }
         return count;
     }
 
@@ -397,6 +401,18 @@ public:
                 }
             });
         }
+    }
+
+    auto alternative_count() const noexcept -> unsigned {
+        unsigned count = 0U;
+        for_each_coord([&](const auto& coord) {
+            const auto& cell = get(coord);
+            if(!cell.is_single()) {
+                count += cell.alternative_count();
+            }
+            return true;
+        });
+        return count;
     }
 
     using block_type = std::array<cell_type, glyph_count>;
