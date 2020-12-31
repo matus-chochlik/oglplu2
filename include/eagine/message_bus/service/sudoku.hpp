@@ -222,7 +222,7 @@ public:
                               ++info.counter;
                               const bool is_solved = candidate.is_solved();
                               const bool should_keep =
-                                (info.boards.size() < 16) &&
+                                (info.boards.size() < 8) &&
                                 (info.counter % (info.boards.size() + 1) == 0);
 
                               if(!is_solved && should_keep) {
@@ -346,7 +346,7 @@ public:
     template <unsigned S>
     auto enqueue(Key key, basic_sudoku_board<S> board) -> auto& {
         _infos.get(unsigned_constant<S>{})
-          .boards.emplace_back(std::move(key), std::move(board));
+          .add_board(std::move(key), std::move(board));
         return *this;
     }
 
@@ -415,6 +415,18 @@ private:
             return !boards.empty() || !pending.empty();
         }
 
+        void add_board(Key key, basic_sudoku_board<S> board) {
+            const auto alternative_count = board.alternative_count();
+            auto pos = std::lower_bound(
+              boards.begin(),
+              boards.end(),
+              alternative_count,
+              [=](const auto& entry, auto value) {
+                  return std::get<1>(entry).alternative_count() > value;
+              });
+            boards.emplace(pos, std::move(key), std::move(board));
+        }
+
         auto search_helpers(endpoint& bus) -> bool {
             some_true something_done;
             if(ready_helpers.empty() || search_timeout) {
@@ -434,8 +446,7 @@ private:
                 [&](auto& entry) {
                     if(entry.too_late) {
                         used_helpers.erase(entry.used_helper);
-                        boards.emplace_back(
-                          std::move(entry.key), std::move(entry.board));
+                        add_board(std::move(entry.key), std::move(entry.board));
                         ++count;
                         return true;
                     }
@@ -479,7 +490,7 @@ private:
                           boards.end());
                         parent.on_solved(pos->key, board);
                     } else {
-                        boards.emplace_back(pos->key, std::move(board));
+                        add_board(pos->key, std::move(board));
                     }
                     pos->too_late.reset();
                 }
@@ -670,7 +681,7 @@ public:
     auto is_in_extent(int x, int y) const noexcept -> bool {
         const int u = x * S * (S - 2);
         const int v = y * S * (S - 2);
-        return (u >= _minu) && (u <= _maxu) && (v >= _minv) && (v <= _maxv);
+        return (u >= _minu) && (u < _maxu) && (v >= _minv) && (v < _maxv);
     }
 
     auto print(std::ostream& out, Coord min, Coord max) const -> std::ostream& {
@@ -768,6 +779,11 @@ private:
         void
         initialize(This& solver, int x, int y, basic_sudoku_board<S> board) {
             solver.enqueue({x, y}, std::move(board));
+            solver.bus()
+              .log_info("enqueuing initial board")
+              .arg(EAGINE_ID(x), x)
+              .arg(EAGINE_ID(y), y)
+              .arg(EAGINE_ID(rank), S);
             ++pending_count;
         }
 
@@ -874,8 +890,12 @@ private:
                 }
             }
             if(should_enqueue) {
-                solver.enqueue(
-                  {x, y}, std::move(board.calculate_alternatives()));
+                solver.enqueue({x, y}, board.calculate_alternatives());
+                solver.bus()
+                  .log_info("enqueuing board")
+                  .arg(EAGINE_ID(x), x)
+                  .arg(EAGINE_ID(y), y)
+                  .arg(EAGINE_ID(rank), S);
                 ++pending_count;
             }
         }
@@ -904,6 +924,11 @@ private:
             const auto [x, y] = coord;
             const bool had_pending = pending_count > 0;
             if(this->set_board(coord, std::move(board))) {
+                solver.bus()
+                  .log_info("solved board")
+                  .arg(EAGINE_ID(x), std::get<0>(coord))
+                  .arg(EAGINE_ID(y), std::get<1>(coord))
+                  .arg(EAGINE_ID(rank), S);
                 --pending_count;
             }
 
