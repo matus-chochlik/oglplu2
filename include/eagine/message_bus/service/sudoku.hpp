@@ -197,49 +197,12 @@ public:
         something_done(Base::update());
 
         for_each_sudoku_rank_unit(
-          [&](auto rank, auto& info) {
-              if(!info.boards.empty()) {
-                  const auto target_id = std::get<0>(info.boards.back());
-                  const auto sequence_no = std::get<1>(info.boards.back());
-                  auto board = std::get<2>(info.boards.back());
-                  info.boards.pop_back();
-
-                  auto process_candidate = [&](auto& candidate) {
-                      ++info.counter;
-                      const bool is_solved = candidate.is_solved();
-
-                      if(!is_solved && info.keep_local()) {
-                          info.boards.emplace_back(
-                            target_id, sequence_no, candidate);
-                      } else {
-                          auto temp{default_serialize_buffer_for(candidate)};
-                          auto serialized{
-                            default_serialize(candidate, cover(temp))};
-                          EAGINE_ASSERT(serialized);
-
-                          message_view response{extract(serialized)};
-                          response.set_target_id(target_id);
-                          response.set_sequence_no(sequence_no);
-                          this->bus().post(
-                            sudoku_response_msg(rank, is_solved), response);
-                      }
-                  };
-
-                  board.for_each_alternative(
-                    board.find_unsolved(), [&](auto& intermediate) {
-                        intermediate.for_each_alternative(
-                          intermediate.find_unsolved(), process_candidate);
-                    });
-                  message_view response{};
-                  response.set_target_id(target_id);
-                  response.set_sequence_no(sequence_no);
-                  this->bus().post(sudoku_done_msg(rank), response);
-                  something_done();
-                  _activity_time = std::chrono::steady_clock::now();
-              }
-          },
-          _ranks,
+          [&](auto& info) { something_done(info.update(this->bus())); },
           _infos);
+
+        if(something_done) {
+            _activity_time = std::chrono::steady_clock::now();
+        }
 
         return something_done;
     }
@@ -250,10 +213,9 @@ public:
 
 private:
     template <unsigned S>
-    auto _handle_search(const message_context& msg_ctx, stored_message& message)
+    auto _handle_search(const message_context&, stored_message& message)
       -> bool {
-        const unsigned_constant<S> rank{};
-        msg_ctx.bus().respond_to(message, sudoku_alive_msg(rank));
+        _infos.get(unsigned_constant<S>{}).on_search(message.source_id);
         _activity_time = std::chrono::steady_clock::now();
         return true;
     }
@@ -301,9 +263,16 @@ private:
           std::tuple<identifier_t, message_sequence_t, basic_sudoku_board<S>>>
           boards;
 
+        flat_set<identifier_t> searches;
+
         auto keep_local() const noexcept -> bool {
             return (!query_timeout.is_expired()) && (boards.size() < 32 / S) &&
                    (counter % (boards.size() + 1) == 0);
+        }
+
+        void on_search(identifier_t source_id) {
+            query_timeout.reset();
+            searches.insert(source_id);
         }
 
         void add_board(
@@ -312,6 +281,59 @@ private:
           basic_sudoku_board<S> board) {
             query_timeout.reset();
             boards.emplace_back(source_id, sequence_no, std::move(board));
+        }
+
+        auto update(endpoint& bus) -> bool {
+            const unsigned_constant<S> rank{};
+            some_true something_done;
+
+            for(auto target_id : searches) {
+                message_view response{};
+                response.set_target_id(target_id);
+                bus.post(sudoku_alive_msg(rank), response);
+                something_done();
+            }
+            searches.clear();
+
+            if(!boards.empty()) {
+                const auto target_id = std::get<0>(boards.back());
+                const auto sequence_no = std::get<1>(boards.back());
+                auto board = std::get<2>(boards.back());
+                boards.pop_back();
+
+                auto process_candidate = [&](auto& candidate) {
+                    ++counter;
+                    const bool is_solved = candidate.is_solved();
+
+                    if(!is_solved && keep_local()) {
+                        boards.emplace_back(target_id, sequence_no, candidate);
+                    } else {
+                        auto temp{default_serialize_buffer_for(candidate)};
+                        auto serialized{
+                          default_serialize(candidate, cover(temp))};
+                        EAGINE_ASSERT(serialized);
+
+                        message_view response{extract(serialized)};
+                        response.set_target_id(target_id);
+                        response.set_sequence_no(sequence_no);
+                        bus.post(
+                          sudoku_response_msg(rank, is_solved), response);
+                    }
+                };
+
+                board.for_each_alternative(
+                  board.find_unsolved(), [&](auto& intermediate) {
+                      intermediate.for_each_alternative(
+                        intermediate.find_unsolved(), process_candidate);
+                  });
+
+                message_view response{};
+                response.set_target_id(target_id);
+                response.set_sequence_no(sequence_no);
+                bus.post(sudoku_done_msg(rank), response);
+                something_done();
+            }
+            return something_done;
         }
     };
     sudoku_rank_tuple<rank_info> _infos;
@@ -474,6 +496,8 @@ private:
                   .arg(EAGINE_ID(count), count)
                   .arg(EAGINE_ID(enqueued), boards.size())
                   .arg(EAGINE_ID(pending), pending.size())
+                  .arg(EAGINE_ID(ready), ready_helpers.size())
+                  .arg(EAGINE_ID(used), used_helpers.size())
                   .arg(EAGINE_ID(rank), S);
             }
             return count > 0;
