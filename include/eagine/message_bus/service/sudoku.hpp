@@ -99,22 +99,6 @@ static inline auto sudoku_alive_msg(unsigned_constant<S>) noexcept {
 }
 //------------------------------------------------------------------------------
 template <unsigned S>
-static inline auto sudoku_steal_msg(unsigned_constant<S>) noexcept {
-    if constexpr(S == 3) {
-        return EAGINE_MSG_ID(eagiSudoku, steal3);
-    }
-    if constexpr(S == 4) {
-        return EAGINE_MSG_ID(eagiSudoku, steal4);
-    }
-    if constexpr(S == 5) {
-        return EAGINE_MSG_ID(eagiSudoku, steal5);
-    }
-    if constexpr(S == 6) {
-        return EAGINE_MSG_ID(eagiSudoku, steal6);
-    }
-}
-//------------------------------------------------------------------------------
-template <unsigned S>
 static inline auto sudoku_query_msg(unsigned_constant<S>) noexcept {
     if constexpr(S == 3) {
         return EAGINE_MSG_ID(eagiSudoku, query3);
@@ -283,13 +267,11 @@ private:
     }
 
     template <unsigned S>
-    auto _handle_board(const message_context& msg_ctx, stored_message& message)
+    auto _handle_board(const message_context&, stored_message& message)
       -> bool {
         const unsigned_constant<S> rank{};
         auto& info = _infos.get(rank);
         basic_sudoku_board<S> board{info.traits};
-
-        msg_ctx.bus().respond_to(message, sudoku_steal_msg(rank));
 
         if(EAGINE_LIKELY(default_deserialize(board, message.content()))) {
             info.add_board(
@@ -320,7 +302,7 @@ private:
           boards;
 
         auto keep_local() const noexcept -> bool {
-            return (!query_timeout.is_expired()) && (boards.size() < 16 / S) &&
+            return (!query_timeout.is_expired()) && (boards.size() < 32 / S) &&
                    (counter % (boards.size() + 1) == 0);
         }
 
@@ -351,7 +333,6 @@ protected:
         for_each_sudoku_rank_unit(
           [&](auto rank) {
               Base::add_method(this, _bind_handle_alive(rank));
-              Base::add_method(this, _bind_handle_steal(rank));
               Base::add_method(this, _bind_handle_candidate(rank));
               Base::add_method(this, _bind_handle_solved(rank));
               Base::add_method(this, _bind_handle_done(rank));
@@ -624,22 +605,6 @@ private:
         return message_handler_map<member_function_constant<
           bool (This::*)(const message_context&, stored_message&),
           &This::_handle_alive<S>>>{sudoku_alive_msg(rank)};
-    }
-
-    template <unsigned S>
-    auto _handle_steal(const message_context&, stored_message& message)
-      -> bool {
-        _infos.get(unsigned_constant<S>{})
-          .send_board_to(this->bus(), message.source_id);
-        return true;
-    }
-
-    template <unsigned S>
-    static constexpr auto
-    _bind_handle_steal(unsigned_constant<S> rank) noexcept {
-        return message_handler_map<member_function_constant<
-          bool (This::*)(const message_context&, stored_message&),
-          &This::_handle_steal<S>>>{sudoku_alive_msg(rank)};
     }
 
     template <unsigned S>
