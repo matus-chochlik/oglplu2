@@ -83,18 +83,18 @@ static inline auto sudoku_search_msg(unsigned_constant<S>) noexcept {
 }
 //------------------------------------------------------------------------------
 template <unsigned S>
-static inline auto sudoku_ready_msg(unsigned_constant<S>) noexcept {
+static inline auto sudoku_alive_msg(unsigned_constant<S>) noexcept {
     if constexpr(S == 3) {
-        return EAGINE_MSG_ID(eagiSudoku, ready3);
+        return EAGINE_MSG_ID(eagiSudoku, alive3);
     }
     if constexpr(S == 4) {
-        return EAGINE_MSG_ID(eagiSudoku, ready4);
+        return EAGINE_MSG_ID(eagiSudoku, alive4);
     }
     if constexpr(S == 5) {
-        return EAGINE_MSG_ID(eagiSudoku, ready5);
+        return EAGINE_MSG_ID(eagiSudoku, alive5);
     }
     if constexpr(S == 6) {
-        return EAGINE_MSG_ID(eagiSudoku, ready6);
+        return EAGINE_MSG_ID(eagiSudoku, alive6);
     }
 }
 //------------------------------------------------------------------------------
@@ -215,8 +215,8 @@ public:
         for_each_sudoku_rank_unit(
           [&](auto rank, auto& info) {
               if(!info.boards.empty()) {
-                  auto target_id = std::get<0>(info.boards.back());
-                  auto sequence_no = std::get<1>(info.boards.back());
+                  const auto target_id = std::get<0>(info.boards.back());
+                  const auto sequence_no = std::get<1>(info.boards.back());
                   auto board = std::get<2>(info.boards.back());
                   info.boards.pop_back();
 
@@ -269,7 +269,7 @@ private:
     auto _handle_search(const message_context& msg_ctx, stored_message& message)
       -> bool {
         const unsigned_constant<S> rank{};
-        msg_ctx.bus().respond_to(message, sudoku_ready_msg(rank));
+        msg_ctx.bus().respond_to(message, sudoku_alive_msg(rank));
         _activity_time = std::chrono::steady_clock::now();
         return true;
     }
@@ -350,7 +350,7 @@ protected:
 
         for_each_sudoku_rank_unit(
           [&](auto rank) {
-              Base::add_method(this, _bind_handle_ready(rank));
+              Base::add_method(this, _bind_handle_alive(rank));
               Base::add_method(this, _bind_handle_steal(rank));
               Base::add_method(this, _bind_handle_candidate(rank));
               Base::add_method(this, _bind_handle_solved(rank));
@@ -420,7 +420,7 @@ private:
     struct rank_info {
         message_sequence_t query_sequence{0};
         default_sudoku_board_traits<S> traits;
-        timeout search_timeout{std::chrono::seconds(5)};
+        timeout search_timeout{std::chrono::seconds(3), nothing};
 
         std::vector<std::tuple<Key, basic_sudoku_board<S>>> boards;
 
@@ -459,7 +459,7 @@ private:
 
         auto search_helpers(endpoint& bus) -> bool {
             some_true something_done;
-            if(ready_helpers.empty() || search_timeout) {
+            if(search_timeout) {
                 bus.broadcast(sudoku_search_msg(unsigned_constant<S>{}));
                 search_timeout.reset();
                 something_done();
@@ -505,7 +505,7 @@ private:
             const unsigned_constant<S> rank{};
             basic_sudoku_board<S> board{traits};
 
-            if(default_deserialize(board, message.content())) {
+            if(EAGINE_LIKELY(default_deserialize(board, message.content()))) {
                 const auto pos = std::find_if(
                   pending.begin(), pending.end(), [&](const auto& entry) {
                       return entry.sequence_no == message.sequence_no;
@@ -589,7 +589,7 @@ private:
             }
         }
 
-        void ready_helper(identifier_t id) {
+        void helper_alive(identifier_t id) {
             if(used_helpers.find(id) == used_helpers.end()) {
                 ready_helpers.insert(id);
             }
@@ -612,18 +612,18 @@ private:
     sudoku_rank_tuple<rank_info> _infos;
 
     template <unsigned S>
-    auto _handle_ready(const message_context&, stored_message& message)
+    auto _handle_alive(const message_context&, stored_message& message)
       -> bool {
-        _infos.get(unsigned_constant<S>{}).ready_helper(message.source_id);
+        _infos.get(unsigned_constant<S>{}).helper_alive(message.source_id);
         return true;
     }
 
     template <unsigned S>
     static constexpr auto
-    _bind_handle_ready(unsigned_constant<S> rank) noexcept {
+    _bind_handle_alive(unsigned_constant<S> rank) noexcept {
         return message_handler_map<member_function_constant<
           bool (This::*)(const message_context&, stored_message&),
-          &This::_handle_ready<S>>>{sudoku_ready_msg(rank)};
+          &This::_handle_alive<S>>>{sudoku_alive_msg(rank)};
     }
 
     template <unsigned S>
@@ -639,7 +639,7 @@ private:
     _bind_handle_steal(unsigned_constant<S> rank) noexcept {
         return message_handler_map<member_function_constant<
           bool (This::*)(const message_context&, stored_message&),
-          &This::_handle_steal<S>>>{sudoku_ready_msg(rank)};
+          &This::_handle_steal<S>>>{sudoku_alive_msg(rank)};
     }
 
     template <unsigned S>
