@@ -197,12 +197,13 @@ public:
         something_done(Base::update());
 
         for_each_sudoku_rank_unit(
-          [&](auto& info) { something_done(info.update(this->bus())); },
+          [&](auto& info) {
+              if(info.update(this->bus())) {
+                  something_done();
+                  _activity_time = std::chrono::steady_clock::now();
+              }
+          },
           _infos);
-
-        if(something_done) {
-            _activity_time = std::chrono::steady_clock::now();
-        }
 
         return something_done;
     }
