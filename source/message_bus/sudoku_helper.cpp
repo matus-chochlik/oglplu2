@@ -114,11 +114,7 @@ auto main(main_ctx& ctx) -> int {
 
             int idle_streak = 0;
             while(keep_running()) {
-                some_true something_done;
-                something_done(helper_node.update());
-                something_done(helper_node.process_all());
-
-                if(something_done) {
+                if(helper_node.update_and_process_all()) {
                     idle_streak = 0;
                 } else {
                     std::this_thread::sleep_for(std::chrono::milliseconds(

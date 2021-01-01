@@ -26,13 +26,14 @@ ${install_prefix}/bin/eagine-message_bus-sudoku_helper \
 	--msg-bus-router-id-count 1000 \
 	--msg-bus-sudoku-helper-shutdown-when-idle true \
 	& pids+=($!)
-
 sleep 1
 ${install_prefix}/bin/eagine-message_bus-sudoku_tiling \
 	"${log_args[@]}" \
 	${conn_type} \
 	--4 --width 32 --height 32 \
 	& pids+=($!)
+sleep 1
+${HOME}/.oglplus/bin/service_bridges "${@}"
 
 for pid in ${pids[@]}
 do wait ${pid}

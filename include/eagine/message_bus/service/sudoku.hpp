@@ -51,6 +51,11 @@ struct sudoku_rank_tuple
     auto get(unsigned_constant<S>) noexcept -> auto& {
         return std::get<S>(*this);
     }
+
+    template <unsigned S>
+    auto get(unsigned_constant<S>) const noexcept -> const auto& {
+        return std::get<S>(*this);
+    }
 };
 //------------------------------------------------------------------------------
 template <typename Function, typename... RankTuple>
@@ -215,40 +220,38 @@ public:
                   auto board = std::get<2>(info.boards.back());
                   info.boards.pop_back();
 
+                  auto process_candidate = [&](auto& candidate) {
+                      ++info.counter;
+                      const bool is_solved = candidate.is_solved();
+
+                      if(!is_solved && info.keep_local()) {
+                          info.boards.emplace_back(
+                            target_id, sequence_no, candidate);
+                      } else {
+                          auto temp{default_serialize_buffer_for(candidate)};
+                          auto serialized{
+                            default_serialize(candidate, cover(temp))};
+                          EAGINE_ASSERT(serialized);
+
+                          message_view response{extract(serialized)};
+                          response.set_target_id(target_id);
+                          response.set_sequence_no(sequence_no);
+                          this->bus().post(
+                            sudoku_response_msg(rank, is_solved), response);
+                      }
+                  };
+
                   board.for_each_alternative(
                     board.find_unsolved(), [&](auto& intermediate) {
                         intermediate.for_each_alternative(
-                          intermediate.find_unsolved(), [&](auto& candidate) {
-                              ++info.counter;
-                              const bool is_solved = candidate.is_solved();
-                              const bool should_keep =
-                                (info.boards.size() < 8) &&
-                                (info.counter % (info.boards.size() + 1) == 0);
-
-                              if(!is_solved && should_keep) {
-                                  info.boards.emplace_back(
-                                    target_id, sequence_no, candidate);
-                              } else {
-                                  auto temp{
-                                    default_serialize_buffer_for(candidate)};
-                                  auto serialized{
-                                    default_serialize(candidate, cover(temp))};
-                                  EAGINE_ASSERT(serialized);
-
-                                  message_view response{extract(serialized)};
-                                  response.set_target_id(target_id);
-                                  response.set_sequence_no(sequence_no);
-                                  this->bus().post(
-                                    sudoku_response_msg(rank, is_solved),
-                                    response);
-                              }
-                          });
+                          intermediate.find_unsolved(), process_candidate);
                     });
                   message_view response{};
                   response.set_target_id(target_id);
                   response.set_sequence_no(sequence_no);
                   this->bus().post(sudoku_done_msg(rank), response);
                   something_done();
+                  _activity_time = std::chrono::steady_clock::now();
               }
           },
           _ranks,
@@ -289,7 +292,7 @@ private:
         msg_ctx.bus().respond_to(message, sudoku_steal_msg(rank));
 
         if(EAGINE_LIKELY(default_deserialize(board, message.content()))) {
-            info.boards.emplace_back(
+            info.add_board(
               message.source_id, message.sequence_no, std::move(board));
             _activity_time = std::chrono::steady_clock::now();
         }
@@ -308,12 +311,26 @@ private:
 
     template <unsigned S>
     struct rank_info {
+        timeout query_timeout{std::chrono::seconds(S * S)};
         default_sudoku_board_traits<S> traits;
 
         std::size_t counter{0U};
         std::vector<
           std::tuple<identifier_t, message_sequence_t, basic_sudoku_board<S>>>
           boards;
+
+        auto keep_local() const noexcept -> bool {
+            return (!query_timeout.is_expired()) && (boards.size() < 16 / S) &&
+                   (counter % (boards.size() + 1) == 0);
+        }
+
+        void add_board(
+          identifier_t source_id,
+          message_sequence_t sequence_no,
+          basic_sudoku_board<S> board) {
+            query_timeout.reset();
+            boards.emplace_back(source_id, sequence_no, std::move(board));
+        }
     };
     sudoku_rank_tuple<rank_info> _infos;
 
@@ -364,7 +381,7 @@ public:
 
         for_each_sudoku_rank_unit(
           [&](auto& info) {
-              something_done(info.handle_timeouted(this->bus()));
+              something_done(info.handle_timeouted(*this));
               something_done(info.send_boards(this->bus()));
               something_done(info.search_helpers(this->bus()));
           },
@@ -376,6 +393,19 @@ public:
     template <unsigned S>
     auto has_enqueued(const Key& key, unsigned_constant<S> rank) -> bool {
         return _infos.get(rank).has_enqueued(key);
+    }
+
+    virtual auto already_done(const Key&, unsigned_constant<3>) -> bool {
+        return false;
+    }
+    virtual auto already_done(const Key&, unsigned_constant<4>) -> bool {
+        return false;
+    }
+    virtual auto already_done(const Key&, unsigned_constant<5>) -> bool {
+        return false;
+    }
+    virtual auto already_done(const Key&, unsigned_constant<6>) -> bool {
+        return false;
     }
 
     virtual void on_solved(const Key&, basic_sudoku_board<3>&) {}
@@ -437,7 +467,7 @@ private:
             return something_done;
         }
 
-        auto handle_timeouted(endpoint& bus) -> bool {
+        auto handle_timeouted(This& solver) -> bool {
             span_size_t count = 0;
             pending.erase(
               std::remove_if(
@@ -446,15 +476,20 @@ private:
                 [&](auto& entry) {
                     if(entry.too_late) {
                         used_helpers.erase(entry.used_helper);
-                        add_board(std::move(entry.key), std::move(entry.board));
-                        ++count;
+                        const unsigned_constant<S> rank{};
+                        if(!solver.already_done(entry.key, rank)) {
+                            add_board(
+                              std::move(entry.key), std::move(entry.board));
+                            ++count;
+                        }
                         return true;
                     }
                     return false;
                 }),
               pending.end());
             if(count > 0) {
-                bus.log_warning("removing ${count} timeouted boards")
+                solver.bus()
+                  .log_warning("replacing ${count} timeouted boards")
                   .arg(EAGINE_ID(count), count)
                   .arg(EAGINE_ID(enqueued), boards.size())
                   .arg(EAGINE_ID(pending), pending.size())
@@ -942,6 +977,29 @@ private:
     };
 
     sudoku_rank_tuple<rank_info> _infos;
+
+    auto already_done(const Coord& coord, unsigned_constant<3> rank)
+      -> bool final {
+        return _is_already_done(coord, rank);
+    }
+    auto already_done(const Coord& coord, unsigned_constant<4> rank)
+      -> bool final {
+        return _is_already_done(coord, rank);
+    }
+    auto already_done(const Coord& coord, unsigned_constant<5> rank)
+      -> bool final {
+        return _is_already_done(coord, rank);
+    }
+    auto already_done(const Coord& coord, unsigned_constant<6> rank)
+      -> bool final {
+        return _is_already_done(coord, rank);
+    }
+
+    template <unsigned S>
+    auto _is_already_done(const Coord& coord, unsigned_constant<S>& rank)
+      const noexcept -> bool {
+        return _infos.get(rank).get_board(coord);
+    }
 
     void on_solved(const Coord& coord, basic_sudoku_board<3>& board) final {
         _handle_solved(coord, board);
