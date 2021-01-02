@@ -48,6 +48,12 @@ do wait ${pid}
 done
 
 kill -INT ${termpids[@]}
+for i in {1..30}
+do
+	kill -0 ${termpids[@]} 2> /dev/null || break
+	sleep 1
+done
+kill -KILL  ${termpids[@]} 2> /dev/null
 
 for pid in ${termpids[@]}
 do wait ${pid}
