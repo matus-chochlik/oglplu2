@@ -409,6 +409,10 @@ public:
         _messages.reserve(128);
     }
 
+    auto size() const noexcept {
+        return _messages.size();
+    }
+
     void push(const message_view& message) {
         auto pos = std::lower_bound(
           _messages.begin(),

@@ -182,13 +182,15 @@ protected:
     void add_methods() {
         Base::add_methods();
 
+        sudoku_rank_tuple<unsigned_constant> ranks;
         for_each_sudoku_rank_unit(
           [&](auto rank) {
               Base::add_method(this, _bind_handle_search(rank));
               Base::add_method(this, _bind_handle_board(rank));
           },
-          _ranks);
-        _activity_time = std::chrono::steady_clock::now();
+          ranks);
+
+        mark_activity();
     }
 
 public:
@@ -200,12 +202,16 @@ public:
           [&](auto& info) {
               if(info.update(this->bus())) {
                   something_done();
-                  _activity_time = std::chrono::steady_clock::now();
+                  mark_activity();
               }
           },
           _infos);
 
         return something_done;
+    }
+
+    void mark_activity() {
+        _activity_time = std::chrono::steady_clock::now();
     }
 
     auto idle_time() const noexcept {
@@ -217,7 +223,7 @@ private:
     auto _handle_search(const message_context&, stored_message& message)
       -> bool {
         _infos.get(unsigned_constant<S>{}).on_search(message.source_id);
-        _activity_time = std::chrono::steady_clock::now();
+        mark_activity();
         return true;
     }
 
@@ -239,7 +245,7 @@ private:
         if(EAGINE_LIKELY(default_deserialize(board, message.content()))) {
             info.add_board(
               message.source_id, message.sequence_no, std::move(board));
-            _activity_time = std::chrono::steady_clock::now();
+            mark_activity();
         }
         return true;
     }
@@ -251,8 +257,6 @@ private:
           bool (This::*)(const message_context&, stored_message&),
           &This::_handle_board<S>>>{sudoku_query_msg(rank)};
     }
-
-    sudoku_rank_tuple<unsigned_constant> _ranks;
 
     template <unsigned S>
     struct rank_info {
@@ -281,6 +285,7 @@ private:
           message_sequence_t sequence_no,
           basic_sudoku_board<S> board) {
             query_timeout.reset();
+            searches.insert(source_id);
             boards.emplace_back(source_id, sequence_no, std::move(board));
         }
 
@@ -559,7 +564,7 @@ private:
                 query.used_helper = helper_id;
                 query.sequence_no = sequence_no;
                 query.key = std::move(key);
-                query.too_late.reset(std::chrono::seconds(S * S * S));
+                query.too_late.reset(std::chrono::seconds(S * S));
                 boards.erase(pos);
 
                 used_helpers.insert(helper_id);
