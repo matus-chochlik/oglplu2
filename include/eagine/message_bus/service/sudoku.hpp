@@ -564,7 +564,10 @@ private:
             some_true something_done;
 
             while(!ready_helpers.empty()) {
-                const auto pos = ready_helpers.begin();
+                std::uniform_int_distribution<std::size_t> dist(
+                  0U, ready_helpers.size() - 1U);
+                const auto pos =
+                  std::next(ready_helpers.begin(), dist(randeng));
 
                 if(!send_board_to(bus, *pos)) {
                     break;
