@@ -403,10 +403,10 @@ public:
         return false;
     }
 
-    virtual void on_solved(const Key&, basic_sudoku_board<3>&) {}
-    virtual void on_solved(const Key&, basic_sudoku_board<4>&) {}
-    virtual void on_solved(const Key&, basic_sudoku_board<5>&) {}
-    virtual void on_solved(const Key&, basic_sudoku_board<6>&) {}
+    virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<3>&) {}
+    virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<4>&) {}
+    virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<5>&) {}
+    virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<6>&) {}
 
 private:
     sudoku_rank_tuple<unsigned_constant> _ranks;
@@ -520,7 +520,7 @@ private:
                                 return pos->key == std::get<0>(entry);
                             }),
                           boards.end());
-                        parent.on_solved(pos->key, board);
+                        parent.on_solved(pos->used_helper, pos->key, board);
                     } else {
                         add_board(pos->key, std::move(board));
                     }
@@ -796,7 +796,7 @@ private:
         initialize(This& solver, int x, int y, basic_sudoku_board<S> board) {
             solver.enqueue({x, y}, std::move(board));
             solver.bus()
-              .log_info("enqueuing initial board")
+              .log_info("enqueuing initial board (${x}, ${y})")
               .arg(EAGINE_ID(x), x)
               .arg(EAGINE_ID(y), y)
               .arg(EAGINE_ID(rank), S);
@@ -908,7 +908,7 @@ private:
             if(should_enqueue) {
                 solver.enqueue({x, y}, board.calculate_alternatives());
                 solver.bus()
-                  .log_info("enqueuing board")
+                  .log_info("enqueuing board (${x}, ${y})")
                   .arg(EAGINE_ID(x), x)
                   .arg(EAGINE_ID(y), y)
                   .arg(EAGINE_ID(rank), S);
@@ -935,16 +935,20 @@ private:
             try_enqueue(solver, x + 1, y + 1);
         }
 
-        void
-        handle_solved(This& solver, Coord coord, basic_sudoku_board<S> board) {
+        void handle_solved(
+          This& solver,
+          identifier_t helper_id,
+          Coord coord,
+          basic_sudoku_board<S> board) {
             const auto [x, y] = coord;
             const bool had_pending = pending_count > 0;
             if(this->set_board(coord, std::move(board))) {
                 solver.bus()
-                  .log_info("solved board")
+                  .log_info("solved board (${x}, ${y})")
+                  .arg(EAGINE_ID(rank), S)
                   .arg(EAGINE_ID(x), std::get<0>(coord))
                   .arg(EAGINE_ID(y), std::get<1>(coord))
-                  .arg(EAGINE_ID(rank), S);
+                  .arg(EAGINE_ID(helper), helper_id);
                 --pending_count;
             }
 
@@ -982,23 +986,38 @@ private:
         return _infos.get(rank).get_board(coord);
     }
 
-    void on_solved(const Coord& coord, basic_sudoku_board<3>& board) final {
-        _handle_solved(coord, board);
+    void on_solved(
+      identifier_t helper_id,
+      const Coord& coord,
+      basic_sudoku_board<3>& board) final {
+        _handle_solved(helper_id, coord, board);
     }
-    void on_solved(const Coord& coord, basic_sudoku_board<4>& board) final {
-        _handle_solved(coord, board);
+    void on_solved(
+      identifier_t helper_id,
+      const Coord& coord,
+      basic_sudoku_board<4>& board) final {
+        _handle_solved(helper_id, coord, board);
     }
-    void on_solved(const Coord& coord, basic_sudoku_board<5>& board) final {
-        _handle_solved(coord, board);
+    void on_solved(
+      identifier_t helper_id,
+      const Coord& coord,
+      basic_sudoku_board<5>& board) final {
+        _handle_solved(helper_id, coord, board);
     }
-    void on_solved(const Coord& coord, basic_sudoku_board<6>& board) final {
-        _handle_solved(coord, board);
+    void on_solved(
+      identifier_t helper_id,
+      const Coord& coord,
+      basic_sudoku_board<6>& board) final {
+        _handle_solved(helper_id, coord, board);
     }
 
     template <unsigned S>
-    void _handle_solved(const Coord& coord, basic_sudoku_board<S>& board) {
+    void _handle_solved(
+      identifier_t helper_id,
+      const Coord& coord,
+      basic_sudoku_board<S>& board) {
         auto& info = _infos.get(unsigned_constant<S>{});
-        info.handle_solved(*this, coord, std::move(board));
+        info.handle_solved(*this, helper_id, coord, std::move(board));
     }
 };
 //------------------------------------------------------------------------------
