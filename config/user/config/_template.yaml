@@ -7,7 +7,20 @@ msg_bus:
         id_major : 1000
         id_count:  1000
         cert_path: /path/to/router/certificate.pem
+        keep_running: true
+        shutdown:
+            verify: true
+            delay: 60s
+            max_age: 2500ms
     bridge:
         cert_path: /path/to/bridge/certificate.pem
+        keep_running: true
+        shutdown:
+            verify: true
+            delay: 60s
+            max_age: 2500ms
     endpoint:
         cert_path: /path/to/endpoint/certificate.pem
+    sudoku:
+        helper:
+            count: 16
