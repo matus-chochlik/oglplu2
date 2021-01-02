@@ -35,16 +35,11 @@ ${install_prefix}/bin/eagine-message_bus-sudoku_tiling \
 sleep 1
 for ssh_host in "${@}"
 do
-	coproc "${install_prefix}/bin/eagine-message_bus-bridge" \
+	"${install_prefix}/bin/eagine-message_bus-bridge" \
 		--min-log-severity stat \
 		--msg-bus-asio-local-stream \
 		--msg-bus-bridge-shutdown-delay 15s \
-	&& termpids+=(${COPROC_PID})
-
-	exec 3<&${COPROC[0]}
-	exec 4<&${COPROC[1]}
-
-	"${HOME}/.oglplus/bin/ssh-bridge" "${ssh_host}" service_bridge <&3 >&4 \
+		--ssh "${ssh_host}" \
 	&  termpids+=($!)
 done
 
@@ -52,7 +47,7 @@ for pid in ${pids[@]}
 do wait ${pid}
 done
 
-kill -TERM ${termpids[@]}
+kill -INT ${termpids[@]}
 
 for pid in ${termpids[@]}
 do wait ${pid}
