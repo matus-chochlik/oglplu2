@@ -260,7 +260,6 @@ private:
 
     template <unsigned S>
     struct rank_info {
-        timeout query_timeout{std::chrono::seconds(S * S)};
         default_sudoku_board_traits<S> traits;
 
         std::size_t counter{0U};
@@ -270,13 +269,7 @@ private:
 
         flat_set<identifier_t> searches;
 
-        auto keep_local() const noexcept -> bool {
-            return (!query_timeout.is_expired()) && (boards.size() < 32 / S) &&
-                   (counter % (boards.size() + 1) == 0);
-        }
-
         void on_search(identifier_t source_id) {
-            query_timeout.reset();
             searches.insert(source_id);
         }
 
@@ -284,7 +277,6 @@ private:
           identifier_t source_id,
           message_sequence_t sequence_no,
           basic_sudoku_board<S> board) {
-            query_timeout.reset();
             searches.insert(source_id);
             boards.emplace_back(source_id, sequence_no, std::move(board));
         }
@@ -311,20 +303,14 @@ private:
                     ++counter;
                     const bool is_solved = candidate.is_solved();
 
-                    if(!is_solved && keep_local()) {
-                        boards.emplace_back(target_id, sequence_no, candidate);
-                    } else {
-                        auto temp{default_serialize_buffer_for(candidate)};
-                        auto serialized{
-                          default_serialize(candidate, cover(temp))};
-                        EAGINE_ASSERT(serialized);
+                    auto temp{default_serialize_buffer_for(candidate)};
+                    auto serialized{default_serialize(candidate, cover(temp))};
+                    EAGINE_ASSERT(serialized);
 
-                        message_view response{extract(serialized)};
-                        response.set_target_id(target_id);
-                        response.set_sequence_no(sequence_no);
-                        bus.post(
-                          sudoku_response_msg(rank, is_solved), response);
-                    }
+                    message_view response{extract(serialized)};
+                    response.set_target_id(target_id);
+                    response.set_sequence_no(sequence_no);
+                    bus.post(sudoku_response_msg(rank, is_solved), response);
                 };
 
                 board.for_each_alternative(
