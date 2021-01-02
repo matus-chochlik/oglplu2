@@ -16,7 +16,7 @@ ${install_prefix}/bin/eagine-message_bus-router \
 	${conn_type} \
 	--msg-bus-router-shutdown-verify false \
 	--msg-bus-router-shutdown-when-idle true \
-	--msg-bus-router-shutdown-delay 15s \
+	--msg-bus-router-shutdown-delay 20s \
 	& termpids+=($!)
 sleep 1
 ${install_prefix}/bin/eagine-message_bus-sudoku_helper \
@@ -38,6 +38,7 @@ do
 	coproc "${install_prefix}/bin/eagine-message_bus-bridge" \
 		--min-log-severity stat \
 		--msg-bus-asio-local-stream \
+		--msg-bus-bridge-shutdown-delay 15s \
 	&& termpids+=(${COPROC_PID})
 
 	exec 3<&${COPROC[0]}
