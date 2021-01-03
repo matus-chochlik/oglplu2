@@ -1,6 +1,6 @@
 language: c++
 os: linux
-sudo: false
+dist: focal
 
 env:
   matrix:
@@ -11,40 +11,62 @@ matrix:
     - env: TRAVIS_NO_EMPTY_JOB=true
 
   include:
-    - env: COMPILER=clang++-3.6 JOBS=1 TEST_TYPE=configure-gl TEST_LEVEL=minimal GL_LIBS=all-apis
-      addons: &clang36
+    - env: COMPILER=g++ JOBS=1 TEST_TYPE=configure-gl TEST_LEVEL=minimal GL_LIBS=all-apis
+      addons: 
         apt:
           packages:
-            - clang-3.6
+            - python3
+            - pkgconf
             - cmake
-            - g++-5
+            - make
+            - g++
             - mesa-common-dev
             - libgl1-mesa-dev
             - libglew-dev
-            - libglfw-dev
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-    - env: COMPILER=clang++-3.6 JOBS=2 TEST_TYPE=ctest TEST_LEVEL=minimal GL_LIBS=default
-      addons: &clang36
+            - libglfw3-dev
+            - libssl-dev
+            - libpng-dev
+            - libsystemd-dev
+    - env: COMPILER=g++ JOBS=2 TEST_TYPE=ctest TEST_LEVEL=minimal GL_LIBS=default
+      addons:
         apt:
           packages:
-            - clang-3.6
+            - python3
+            - pkgconf
             - cmake
-            - g++-5
+            - make
+            - g++
             - libboost-test-dev
             - mesa-common-dev
             - libgl1-mesa-dev
             - libegl1-mesa-dev
             - libglew-dev
-            - libglfw-dev
+            - libglfw3-dev
+            - libssl-dev
+            - libpng-dev
+            - libsystemd-dev
             - libopenal-dev
             - libalut-dev
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-    - env: COMPILER=clang++-3.6 JOBS=3 TEST_TYPE=everything TEST_LEVEL=basic GL_LIBS=all-apis NO_ENUM_TESTS=--no-enum-tests
-      addons: *clang36
+    - env: COMPILER=g++ JOBS=3 TEST_TYPE=everything TEST_LEVEL=basic GL_LIBS=all-apis
+      addons:
+        apt:
+          packages:
+            - python3
+            - pkgconf
+            - cmake
+            - make
+            - g++
+            - libboost-test-dev
+            - mesa-common-dev
+            - libgl1-mesa-dev
+            - libegl1-mesa-dev
+            - libglew-dev
+            - libglfw3-dev
+            - libssl-dev
+            - libpng-dev
+            - libsystemd-dev
+            - libopenal-dev
+            - libalut-dev
 
 before_script:
   - "export DISPLAY=:99.0"
@@ -52,7 +74,7 @@ before_script:
   - sleep 3
 
 script:
-  - tools/run_tests.py --max-jobs ${JOBS} --test-type=${TEST_TYPE} --test-level=${TEST_LEVEL} --gl-libs=${GL_LIBS} --config ${NO_ENUM_TESTS} --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
+  - tools/run_tests.py --max-jobs ${JOBS} --test-type=${TEST_TYPE} --test-level=${TEST_LEVEL} --gl-libs=${GL_LIBS} --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
 
 notifications:
   email: false
