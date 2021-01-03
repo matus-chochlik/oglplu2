@@ -51,7 +51,7 @@ matrix:
             - libsystemd-dev
             - libopenal-dev
             - libalut-dev
-    - env: COMPILER=g++ JOBS=4 TEST_TYPE=build-examples TEST_LEVEL=basic GL_LIBS=all-apis EAGINE_CLANG_TIDY=clang-tidy-10
+    - env: COMPILER=g++ JOBS=4 TEST_TYPE=build-examples TEST_LEVEL=minimal GL_LIBS=default EAGINE_CLANG_TIDY=clang-tidy-10
       addons:
         apt:
           packages:
