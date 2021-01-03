@@ -703,7 +703,8 @@ public:
         return (u >= _minu) && (u < _maxu) && (v >= _minv) && (v < _maxv);
     }
 
-    auto print(std::ostream& out, Coord min, Coord max) const -> std::ostream& {
+    auto boards_extent(Coord min, Coord max) const
+      -> std::tuple<int, int, int, int> {
         const auto conv = [](int c) {
             const auto mult = S * (S - 2);
             if(c < 0) {
@@ -711,10 +712,31 @@ public:
             }
             return c / mult + (c % mult ? 1 : 0);
         };
-        const int xmin = conv(std::get<0>(min));
-        const int xmax = conv(std::get<0>(max));
-        const int ymin = conv(std::get<1>(min));
-        const int ymax = conv(std::get<1>(max));
+        return {
+          conv(std::get<0>(min)),
+          conv(std::get<1>(min)),
+          conv(std::get<0>(max)),
+          conv(std::get<1>(max))};
+    }
+
+    auto is_complete(Coord min, Coord max) const -> bool {
+        const auto [xmin, ymin, xmax, ymax] = boards_extent(min, max);
+        for(auto y : integer_range(ymin, ymax)) {
+            for(auto x : integer_range(xmin, xmax)) {
+                if(!get_board(x, y)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    auto is_complete() const -> bool {
+        return is_complete({_minu, _minv}, {_maxu, _maxv});
+    }
+
+    auto print(std::ostream& out, Coord min, Coord max) const -> std::ostream& {
+        const auto [xmin, ymin, xmax, ymax] = boards_extent(min, max);
 
         for(auto y : integer_range(ymin, ymax)) {
             for(auto by : integer_range(1U, S - 1U)) {
@@ -793,8 +815,6 @@ private:
     template <unsigned S>
     struct rank_info : sudoku_tiles<S> {
 
-        span_size_t pending_count{0};
-
         void
         initialize(This& solver, int x, int y, basic_sudoku_board<S> board) {
             solver.enqueue({x, y}, std::move(board));
@@ -803,7 +823,6 @@ private:
               .arg(EAGINE_ID(x), x)
               .arg(EAGINE_ID(y), y)
               .arg(EAGINE_ID(rank), S);
-            ++pending_count;
         }
 
         void do_enqueue(This& solver, int x, int y) {
@@ -915,7 +934,6 @@ private:
                   .arg(EAGINE_ID(x), x)
                   .arg(EAGINE_ID(y), y)
                   .arg(EAGINE_ID(rank), S);
-                ++pending_count;
             }
         }
 
@@ -943,8 +961,9 @@ private:
           identifier_t helper_id,
           Coord coord,
           basic_sudoku_board<S> board) {
+            const bool was_complete = this->is_complete();
+
             const auto [x, y] = coord;
-            const bool had_pending = pending_count > 0;
             if(this->set_board(coord, std::move(board))) {
                 solver.bus()
                   .log_info("solved board (${x}, ${y})")
@@ -952,13 +971,11 @@ private:
                   .arg(EAGINE_ID(x), std::get<0>(coord))
                   .arg(EAGINE_ID(y), std::get<1>(coord))
                   .arg(EAGINE_ID(helper), helper_id);
-                --pending_count;
             }
 
             enqueue_neighbors(solver, x, y);
 
-            EAGINE_ASSERT(pending_count >= 0);
-            if(had_pending && (pending_count == 0)) {
+            if(!was_complete && this->is_complete()) {
                 solver.on_tiles_generated(*this);
             }
         }
@@ -1022,7 +1039,7 @@ private:
         auto& info = _infos.get(unsigned_constant<S>{});
         info.handle_solved(*this, helper_id, coord, std::move(board));
     }
-};
+}; // namespace eagine::msgbus
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
