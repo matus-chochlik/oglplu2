@@ -1,6 +1,8 @@
 language: c++
 os: linux
 dist: focal
+services:
+    - xvfb
 
 env:
   matrix:
@@ -68,13 +70,8 @@ matrix:
             - libopenal-dev
             - libalut-dev
 
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3
-
 script:
-  - tools/run_tests.py --max-jobs ${JOBS} --test-type=${TEST_TYPE} --test-level=${TEST_LEVEL} --gl-libs=${GL_LIBS} --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
+  - xvfb-run tools/run_tests.py --max-jobs ${JOBS} --test-type=${TEST_TYPE} --test-level=${TEST_LEVEL} --gl-libs=${GL_LIBS} --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
 
 notifications:
   email: false
