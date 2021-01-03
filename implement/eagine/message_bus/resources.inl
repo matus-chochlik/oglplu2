@@ -10,11 +10,11 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block router_certificate_pem(
+auto router_certificate_pem(
   memory::const_block embedded_blk,
   memory::buffer& buf,
   application_config& cfg,
-  logger& log) {
+  logger& log) -> memory::const_block {
     return fetch_resource(
       string_view{"message bus router certificate"},
       string_view{"msg_bus.router.cert_path"},
@@ -25,11 +25,11 @@ memory::const_block router_certificate_pem(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block bridge_certificate_pem(
+auto bridge_certificate_pem(
   memory::const_block embedded_blk,
   memory::buffer& buf,
   application_config& cfg,
-  logger& log) {
+  logger& log) -> memory::const_block {
     return fetch_resource(
       string_view{"message bus bridge certificate"},
       string_view{"msg_bus.bridge.cert_path"},
@@ -40,11 +40,11 @@ memory::const_block bridge_certificate_pem(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block endpoint_certificate_pem(
+auto endpoint_certificate_pem(
   memory::const_block embedded_blk,
   memory::buffer& buf,
   application_config& cfg,
-  logger& log) {
+  logger& log) -> memory::const_block {
     return fetch_resource(
       string_view{"message bus endpoint certificate"},
       string_view{"msg_bus.endpoint.cert_path"},
