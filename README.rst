@@ -51,13 +51,13 @@ are required. On Linux OGLplus2 ideally also works with the `Xlib`_ library
 and the ``GL/glcorearb.h`` header (the latter is included in the repository)
 out of the box.
 
-On recent Linux distributions with the ``apt`` package manager, the following
-should be enough to install most of the dependencies for the GLFW3+GLEW
-configuration:
+On recent Debian-like Linux distributions with the ``apt`` package manager,
+the following should be enough to install most of the dependencies
+for the GLFW3+GLEW configuration:
 
 ::
 
- sudo apt-get install \
+ sudo apt install \
     python \
     pkgconf \
     cmake \
@@ -73,9 +73,6 @@ configuration:
 For other configurations using SDL, wxWidgets, GLUT, etc. you need to install
 the appropriate packages (the names vary wildly between distrubutions or even
 between versions of the same distribution so they are not listed here).
-
-The `GSL`_ library is also required; the ``third_party/GSL`` directory contains
-a git submodule which must be initialized and updated before building OGLplus2.
 
 Building
 ========
@@ -205,12 +202,10 @@ OGLplus2 tries to address these issues:
    in the examples. OGLplus2 brings a more comprehensive and more thorough
    testing suite.
 
-TODO
-
 License
 =======
 
-Copyright Matus Chochlik, 2015-2020.
+Copyright Matus Chochlik, 2015-2021.
 Distributed under the Boost Software License, Version 1.0.
 See accompanying file LICENSE_1_0.txt or copy at
 http://www.boost.org/LICENSE_1_0.txt
