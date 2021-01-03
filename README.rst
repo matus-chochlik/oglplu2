@@ -57,7 +57,18 @@ configuration:
 
 ::
 
- sudo apt-get install python pkgconf cmake make g++ libglew-dev libglfw3-dev libssl-dev libpng-dev
+ sudo apt-get install \
+    python \
+    pkgconf \
+    cmake \
+    make \
+    g++ \
+    libglew-dev \
+    libglfw3-dev \
+    libssl-dev \
+    libpng-dev \
+    libsystemd-dev \
+    libboost-test-dev
 
 For other configurations using SDL, wxWidgets, GLUT, etc. you need to install
 the appropriate packages (the names vary wildly between distrubutions or even
