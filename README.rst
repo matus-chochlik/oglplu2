@@ -45,26 +45,33 @@ Cloning the repo
 Requirements
 ============
 
-A compiler supporting C++14, a python interpreter and a GL API library like
-`GLEW`_, and a GL context management library like `GLFW`_, `GLFW3`_ or `SDL`_
-are required. On Linux OGLplus2 ideally also works with the `Xlib`_ library
-and the ``GL/glcorearb.h`` header (the latter is included in the repository)
-out of the box.
+A compiler supporting C++17, a Python 3 interpreter and a GL API library like
+`GLEW`_, and a GL context management library like `GLFW3`_, `GLFW`_ or `SDL`_
+are required. On Linux OGLplus2 also works with the `Xlib`_ library
+and the ``GL/glcorearb.h`` header (the latter is included in the repository).
 
-On recent Linux distributions with the ``apt`` package manager, the following
-should be enough to install most of the dependencies for the GLFW3+GLEW
-configuration:
+On recent Debian-like Linux distributions with the ``apt`` package manager,
+the following should be enough to install most of the dependencies
+for the GLFW3+GLEW configuration:
 
 ::
 
- sudo apt-get install python cmake clang libglew-dev libglfw3-dev
+ sudo apt install \
+    python \
+    pkgconf \
+    cmake \
+    make \
+    g++ \
+    libglew-dev \
+    libglfw3-dev \
+    libssl-dev \
+    libpng-dev \
+    libsystemd-dev \
+    libboost-test-dev
 
 For other configurations using SDL, wxWidgets, GLUT, etc. you need to install
-the appropriate packages (the names vary wildly between distrubutions or even
+the appropriate packages (the names vary between distributions or even
 between versions of the same distribution so they are not listed here).
-
-The `GSL`_ library is also required; the ``third_party/GSL`` directory contains
-a git submodule which must be initialized and updated before building OGLplus2.
 
 Building
 ========
@@ -78,7 +85,7 @@ The build system handles several important tasks:
  * Detects if the necessary things are installed and makes a site-configuration
    header file
 
- * Detects the support for C++14 features and builds configuration headers
+ * Detects the support for C++17 features and builds configuration headers
 
  * Builds several additional, automatically generated headers mostly for
    compiler deficiency workarounds.
@@ -194,12 +201,10 @@ OGLplus2 tries to address these issues:
    in the examples. OGLplus2 brings a more comprehensive and more thorough
    testing suite.
 
-TODO
-
 License
 =======
 
-Copyright Matus Chochlik, 2015-2020.
+Copyright Matus Chochlik, 2015-2021.
 Distributed under the Boost Software License, Version 1.0.
 See accompanying file LICENSE_1_0.txt or copy at
 http://www.boost.org/LICENSE_1_0.txt

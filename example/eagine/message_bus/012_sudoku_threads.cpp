@@ -33,15 +33,18 @@ public:
         std::cout << "board: " << id << '\n' << board << std::endl;
     }
 
-    void on_solved(const int& id, basic_sudoku_board<3>& board) final {
+    void
+    on_solved(identifier_t, const int& id, basic_sudoku_board<3>& board) final {
         print(id, board);
     }
 
-    void on_solved(const int& id, basic_sudoku_board<4>& board) final {
+    void
+    on_solved(identifier_t, const int& id, basic_sudoku_board<4>& board) final {
         print(id, board);
     }
 
-    void on_solved(const int& id, basic_sudoku_board<5>& board) final {
+    void
+    on_solved(identifier_t, const int& id, basic_sudoku_board<5>& board) final {
         print(id, board);
     }
 };

@@ -23,25 +23,25 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block ca_certificate_pem(main_ctx& ctx) {
+auto ca_certificate_pem(main_ctx& ctx) -> memory::const_block {
     return ca_certificate_pem(
       eagine::embed(EAGINE_ID(eagiCaCert), "@EAGINE_EMBED_CA_CERT@"), ctx);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block msgbus_router_certificate_pem(main_ctx& ctx) {
+auto msgbus_router_certificate_pem(main_ctx& ctx) -> memory::const_block {
     return msgbus::router_certificate_pem(
       eagine::embed(EAGINE_ID(mbusRtrCrt), "@EAGINE_EMBED_ROUTER_CERT@"), ctx);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block msgbus_bridge_certificate_pem(main_ctx& ctx) {
+auto msgbus_bridge_certificate_pem(main_ctx& ctx) -> memory::const_block {
     return msgbus::bridge_certificate_pem(
       eagine::embed(EAGINE_ID(mbusRtrCrt), "@EAGINE_EMBED_BRIDGE_CERT@"), ctx);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block msgbus_endpoint_certificate_pem(main_ctx& ctx) {
+auto msgbus_endpoint_certificate_pem(main_ctx& ctx) -> memory::const_block {
     return msgbus::endpoint_certificate_pem(
       eagine::embed(EAGINE_ID(mbusEptCrt), "@EAGINE_EMBED_ENDPOINT_CERT@"),
       ctx);

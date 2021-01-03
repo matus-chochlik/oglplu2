@@ -55,6 +55,10 @@ public:
     auto print(std::ostream&, const basic_sudoku_glyph<S>& glyph) const
       -> std::ostream&;
 
+    auto print_empty(std::ostream& out) const -> std::ostream& {
+        return out << _empty_glyph;
+    }
+
     auto print(std::ostream&, const basic_sudoku_board<S, false>& board) const
       -> std::ostream&;
 
@@ -207,7 +211,11 @@ public:
 
     auto alternative_count() const noexcept -> unsigned {
         unsigned count = 0U;
-        for_each_alternative([&](auto) { ++count; });
+        cell_type bits = _cel_val;
+        while(bits) {
+            bits &= (bits - 1U);
+            ++count;
+        }
         return count;
     }
 
@@ -393,6 +401,18 @@ public:
                 }
             });
         }
+    }
+
+    auto alternative_count() const noexcept -> unsigned {
+        unsigned count = 0U;
+        for_each_coord([&](const auto& coord) {
+            const auto& cell = get(coord);
+            if(!cell.is_single()) {
+                count += cell.alternative_count();
+            }
+            return true;
+        });
+        return count;
     }
 
     using block_type = std::array<cell_type, glyph_count>;
@@ -720,7 +740,7 @@ public:
 
     auto print(std::ostream& out, int xmin, int ymin, int xmax, int ymax)
       -> std::ostream& {
-        for(int y = ymax; y >= ymin; --y) {
+        for(auto y : integer_range(ymin, ymax + 1)) {
             for(auto by : integer_range(1U, S - 1U)) {
                 for(auto cy : integer_range(S)) {
                     for(auto x : integer_range(xmin, xmax + 1)) {

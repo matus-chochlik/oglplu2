@@ -296,6 +296,7 @@ struct asio_connection_state
                           log_error("failed to send data: ${error}")
                             .arg(EAGINE_ID(error), error);
                           this->is_sending = false;
+                          this->socket.close();
                       }
                   }
               });
@@ -399,11 +400,13 @@ struct asio_connection_state
     }
 
     void cleanup(asio_connection_group<Kind, Proto>& group) {
-        while(start_send(group)) {
+        while(is_usable() && start_send(group)) {
             log_debug("flushing connection outbox");
             update();
         }
-        common->adopt_flushing(socket);
+        if(is_usable()) {
+            common->adopt_flushing(socket);
+        }
         common->update();
     }
 };
