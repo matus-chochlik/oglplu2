@@ -227,7 +227,7 @@ def make_prologue(options):
     options.output.write("#include <eagine/maybe_unused.hpp>\n");
     options.output.write("namespace eagine {\n")
     options.output.write(
-        "embedded_resource get_embedded_resource(identifier res_id, string_view path) noexcept {\n"
+        "auto get_embedded_resource(identifier res_id, string_view path) noexcept -> embedded_resource {\n"
     )
     options.output.write("    EAGINE_MAYBE_UNUSED(res_id);\n")
     options.output.write("    EAGINE_MAYBE_UNUSED(path);\n")
