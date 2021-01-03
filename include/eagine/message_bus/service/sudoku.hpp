@@ -819,7 +819,7 @@ private:
         initialize(This& solver, int x, int y, basic_sudoku_board<S> board) {
             solver.enqueue({x, y}, std::move(board));
             solver.bus()
-              .log_info("enqueuing initial board (${x}, ${y})")
+              .log_debug("enqueuing initial board (${x}, ${y})")
               .arg(EAGINE_ID(x), x)
               .arg(EAGINE_ID(y), y)
               .arg(EAGINE_ID(rank), S);
@@ -930,7 +930,7 @@ private:
             if(should_enqueue) {
                 solver.enqueue({x, y}, board.calculate_alternatives());
                 solver.bus()
-                  .log_info("enqueuing board (${x}, ${y})")
+                  .log_debug("enqueuing board (${x}, ${y})")
                   .arg(EAGINE_ID(x), x)
                   .arg(EAGINE_ID(y), y)
                   .arg(EAGINE_ID(rank), S);
