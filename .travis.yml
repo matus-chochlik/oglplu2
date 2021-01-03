@@ -13,7 +13,7 @@ matrix:
     - env: TRAVIS_NO_EMPTY_JOB=true
 
   include:
-    - env: COMPILER=g++ JOBS=1 TEST_TYPE=configure-gl TEST_LEVEL=minimal GL_LIBS=all-apis
+    - env: COMPILER=g++ JOBS=1 TEST_TYPE=configure-gl TEST_LEVEL=minimal GL_LIBS=all-apis EAGINE_CLANG_TIDY=clang-tidy-10
       addons: 
         apt:
           packages:
@@ -22,6 +22,7 @@ matrix:
             - cmake
             - make
             - g++
+            - clang-tidy-10
             - mesa-common-dev
             - libgl1-mesa-dev
             - libglew-dev
@@ -29,7 +30,7 @@ matrix:
             - libssl-dev
             - libpng-dev
             - libsystemd-dev
-    - env: COMPILER=g++ JOBS=2 TEST_TYPE=ctest TEST_LEVEL=minimal GL_LIBS=default
+    - env: COMPILER=g++ JOBS=2 TEST_TYPE=ctest TEST_LEVEL=minimal GL_LIBS=default EAGINE_CLANG_TIDY=clang-tidy-10
       addons:
         apt:
           packages:
@@ -38,6 +39,7 @@ matrix:
             - cmake
             - make
             - g++
+            - clang-tidy-10
             - libboost-test-dev
             - mesa-common-dev
             - libgl1-mesa-dev
@@ -49,7 +51,7 @@ matrix:
             - libsystemd-dev
             - libopenal-dev
             - libalut-dev
-    - env: COMPILER=g++ JOBS=3 TEST_TYPE=everything TEST_LEVEL=basic GL_LIBS=all-apis
+    - env: COMPILER=g++ JOBS=3 TEST_TYPE=everything TEST_LEVEL=basic GL_LIBS=all-apis EAGINE_CLANG_TIDY=clang-tidy-10
       addons:
         apt:
           packages:
@@ -58,6 +60,7 @@ matrix:
             - cmake
             - make
             - g++
+            - clang-tidy-10
             - libboost-test-dev
             - mesa-common-dev
             - libgl1-mesa-dev
