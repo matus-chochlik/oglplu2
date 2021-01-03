@@ -185,6 +185,9 @@ protected:
       identifier source,
       identifier series,
       float value) noexcept {
+        EAGINE_MAYBE_UNUSED(source);
+        EAGINE_MAYBE_UNUSED(series);
+        EAGINE_MAYBE_UNUSED(value);
         if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
             if(auto lbe{_entry_backend(source, log_event_severity::stat)}) {
                 extract(lbe).log_chart_sample(
