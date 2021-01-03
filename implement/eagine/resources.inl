@@ -15,13 +15,13 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block fetch_resource(
+auto fetch_resource(
   string_view description,
   string_view key,
   memory::const_block embedded_blk,
   memory::buffer& buf,
   application_config& cfg,
-  logger& log) {
+  logger& log) -> memory::const_block {
 
     if(const auto res_path{cfg.get<std::string>(key)}) {
         if(const auto contents{file_contents(extract(res_path))}) {
@@ -58,11 +58,11 @@ memory::const_block fetch_resource(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block ca_certificate_pem(
+auto ca_certificate_pem(
   memory::const_block embedded_blk,
   memory::buffer& buf,
   application_config& cfg,
-  logger& log) {
+  logger& log) -> memory::const_block {
     return fetch_resource(
       string_view{"CA certificate"},
       string_view{"ca_cert_path"},

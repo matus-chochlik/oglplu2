@@ -18,19 +18,19 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-memory::const_block fetch_resource(
+auto fetch_resource(
   string_view description,
   string_view key,
   memory::const_block embedded_blk,
   memory::buffer& buf,
   application_config& args,
-  logger& log);
+  logger& log) -> memory::const_block;
 //------------------------------------------------------------------------------
-inline memory::const_block fetch_resource(
+inline auto fetch_resource(
   string_view description,
   string_view key,
   memory::const_block embedded_blk,
-  main_ctx& ctx) {
+  main_ctx& ctx) -> memory::const_block {
     return fetch_resource(
       description,
       key,
@@ -40,14 +40,14 @@ inline memory::const_block fetch_resource(
       ctx.log());
 }
 //------------------------------------------------------------------------------
-memory::const_block ca_certificate_pem(
+auto ca_certificate_pem(
   memory::const_block embedded_blk,
   memory::buffer&,
   application_config&,
-  logger&);
+  logger&) -> memory::const_block;
 //------------------------------------------------------------------------------
-inline memory::const_block
-ca_certificate_pem(memory::const_block embedded_blk, main_ctx& ctx) {
+inline auto ca_certificate_pem(memory::const_block embedded_blk, main_ctx& ctx)
+  -> memory::const_block {
     return ca_certificate_pem(
       embedded_blk, ctx.scratch_space(), ctx.config(), ctx.log());
 }
