@@ -71,7 +71,7 @@ matrix:
             - libalut-dev
 
 script:
-  - xvfb-run tools/run_tests.py --max-jobs ${JOBS} --test-type=${TEST_TYPE} --test-level=${TEST_LEVEL} --gl-libs=${GL_LIBS} --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
+  - xvfb-run --auto-servernum ./tools/run_tests.py --max-jobs ${JOBS} --test-type=${TEST_TYPE} --test-level=${TEST_LEVEL} --gl-libs=${GL_LIBS} --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
 
 notifications:
   email: false
