@@ -475,9 +475,21 @@ private:
                         used_helpers.erase(entry.used_helper);
                         const unsigned_constant<S> rank{};
                         if(!solver.already_done(entry.key, rank)) {
-                            add_board(
-                              std::move(entry.key), std::move(entry.board));
-                            ++count;
+                            entry.board.for_each_alternative(
+                              entry.board.find_unsolved(),
+                              [&](auto& candidate) {
+                                  if(candidate.is_solved()) {
+                                      solver.on_solved(
+                                        entry.used_helper,
+                                        entry.key,
+                                        candidate);
+                                  } else {
+                                      add_board(
+                                        std::move(entry.key),
+                                        std::move(candidate));
+                                      ++count;
+                                  }
+                              });
                         }
                         return true;
                     }
