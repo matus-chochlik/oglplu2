@@ -24,8 +24,6 @@ ${install_prefix}/bin/eagine-message_bus-sudoku_helper \
 	${conn_type} \
 	--msg-bus-router-id-major 1000 \
 	--msg-bus-router-id-count 1000 \
-	--msg-bus-sudoku-helper-max-idle-time 15s \
-	--msg-bus-sudoku-helper-shutdown-when-idle true \
 	& termpids+=($!)
 sleep 1
 rank=4
