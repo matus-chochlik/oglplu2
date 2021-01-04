@@ -202,7 +202,6 @@ public:
           [&](auto& info) {
               if(info.update(this->bus())) {
                   something_done();
-                  mark_activity();
               }
           },
           _infos);
@@ -536,7 +535,7 @@ private:
             if(!boards.empty()) {
                 std::binomial_distribution dist(
                   boards.size() - 1U,
-                  math::blend(1.0, 0.8, std::exp(-boards.size())));
+                  math::blend(1.0, 0.9, std::exp(-boards.size())));
                 auto pos = std::next(boards.begin(), dist(randeng));
                 auto& [key, board] = *pos;
                 auto temp{default_serialize_buffer_for(board)};
