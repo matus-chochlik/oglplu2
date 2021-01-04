@@ -105,14 +105,20 @@ auto main(main_ctx& ctx) -> int {
                 }
             }
 
+            int idle_streak = 0;
             auto keep_running = [&]() {
+                if(idle_streak > 5) {
+                    std::unique_lock check_lock{helper_mutex};
+                    if(interrupted) {
+                        return false;
+                    }
+                }
                 return !(
                   helper_node.is_shut_down() ||
                   (shutdown_when_idle &&
                    (helper_node.idle_time() > max_idle_time)));
             };
 
-            int idle_streak = 0;
             while(keep_running()) {
                 if(helper_node.update_and_process_all()) {
                     idle_streak = 0;

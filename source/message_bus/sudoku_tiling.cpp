@@ -34,7 +34,9 @@ public:
 
     template <unsigned S>
     void handle_generated(const sudoku_tiles<S>& tiles) {
-        tiles.print(std::cout) << std::endl;
+        if(_print_incomplete || tiles.are_complete()) {
+            tiles.print(std::cout) << std::endl;
+        }
     }
 
     void on_tiles_generated(const sudoku_tiles<3>& tiles) final {
@@ -60,6 +62,9 @@ private:
         result.description = "node for generating sudoku block tiles";
         return result;
     }
+
+    bool _print_incomplete{
+      cfg_init("msg_bus.sudoku.solver.print_incomplete", false)};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
@@ -103,8 +108,12 @@ auto main(main_ctx& ctx) -> int {
         enqueue(default_sudoku_board_traits<6>());
     }
 
+    auto keep_running = [&] {
+        return !(interrupted || tiling_generator.tiling_complete());
+    };
+
     int idle_streak = 0;
-    while(!(interrupted || tiling_generator.is_done())) {
+    while(keep_running()) {
         tiling_generator.update();
         if(tiling_generator.process_all()) {
             idle_streak = 0;

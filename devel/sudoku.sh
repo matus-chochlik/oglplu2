@@ -30,6 +30,7 @@ sleep 1
 ${install_prefix}/bin/eagine-message_bus-sudoku_tiling \
 	"${log_args[@]}" \
 	${conn_type} \
+	--msg-bus-sudoku-solver-print-incomplete true \
 	--4 --width 64 --height 64 \
 	& pids+=($!)
 sleep 1
@@ -48,12 +49,6 @@ do wait ${pid}
 done
 
 kill -INT ${termpids[@]}
-for i in {1..30}
-do
-	kill -0 ${termpids[@]} 2> /dev/null || break
-	sleep 1
-done
-kill -KILL  ${termpids[@]} 2> /dev/null
 
 for pid in ${termpids[@]}
 do wait ${pid}
