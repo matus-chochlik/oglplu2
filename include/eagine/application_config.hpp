@@ -15,6 +15,7 @@
 #include "valid_if/decl.hpp"
 #include "value_tree/wrappers.hpp"
 #include <memory>
+#include <vector>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -81,6 +82,51 @@ public:
         return false;
     }
 
+    template <typename T, typename A>
+    auto fetch(
+      string_view key,
+      std::vector<T, A>& dest,
+      string_view tag = {}) noexcept {
+        const auto arg_name{_prog_arg_name(key)};
+        for(auto arg : _prog_args()) {
+            if(arg.is_tag(arg_name)) {
+                T temp{};
+                if(arg.parse_next(
+                     temp, application_config_tag(), log_error_stream())) {
+                    dest.emplace_back(std::move(temp));
+                } else {
+                    log_error("could not parse configuration value '${value}'")
+                      .arg(EAGINE_ID(key), key)
+                      .arg(EAGINE_ID(value), arg.get());
+                    return false;
+                }
+            }
+        }
+        if(const auto opt_val{_eval_env_var(key)}) {
+            if(auto converted{from_string<T>(extract(opt_val))}) {
+                dest.emplace_back(std::move(extract(converted)));
+            } else {
+                log_error("could not convert configuration value '${value}'")
+                  .arg(EAGINE_ID(key), key)
+                  .arg(EAGINE_ID(value), extract(opt_val));
+                return false;
+            }
+        }
+        if(const auto attr{_find_comp_attr(key, tag)}) {
+            const auto count = attr.value_count();
+            if(count > 0) {
+                dest.resize(dest.size() + std_size(count));
+                if(!attr.select_values(
+                     tail(cover(dest), count), application_config_tag())) {
+                    log_error("could not fetch configuration values '${key}'")
+                      .arg(EAGINE_ID(key), key);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     template <typename T, typename P>
     auto fetch(string_view key, valid_if<T, P>& dest, string_view tag) noexcept
       -> bool {
@@ -117,6 +163,9 @@ private:
 
     auto _find_comp_attr(string_view key, string_view tag) noexcept
       -> valtree::compound_attribute;
+
+    auto _prog_args() noexcept -> const program_args&;
+    auto _prog_arg_name(string_view key) noexcept -> std::string;
     auto _find_prog_arg(string_view key) noexcept -> program_arg;
     auto _eval_env_var(string_view key) noexcept
       -> optionally_valid<string_view>;

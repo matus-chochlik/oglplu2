@@ -201,8 +201,13 @@ auto application_config::_find_comp_attr(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto application_config::_find_prog_arg(string_view key) noexcept
-  -> program_arg {
+auto application_config::_prog_args() noexcept -> const program_args& {
+    return main_context().args();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto application_config::_prog_arg_name(string_view key) noexcept
+  -> std::string {
     std::string arg_name;
     arg_name.reserve(std_size(3 + key.size()));
     arg_name.append("--");
@@ -212,7 +217,13 @@ auto application_config::_find_prog_arg(string_view key) noexcept
         }
         arg_name.append(&c, 1U);
     }
-    return main_context().args().find(arg_name);
+    return arg_name;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto application_config::_find_prog_arg(string_view key) noexcept
+  -> program_arg {
+    return _prog_args().find(_prog_arg_name(key));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

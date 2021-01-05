@@ -18,6 +18,7 @@ auto main(main_ctx& ctx) -> int {
     auto& cfg = ctx.config();
     std::string s;
     int i;
+    std::vector<float> v;
 
     if(cfg.fetch("value_1", s)) {
         std::cout << "string: " << s << std::endl;
@@ -29,6 +30,14 @@ auto main(main_ctx& ctx) -> int {
 
     if(cfg.fetch("section_a.subsection_b.value_c", i)) {
         std::cout << "integer: " << i << std::endl;
+    }
+
+    if(cfg.fetch("section_a.subsection_b.values", v)) {
+        std::cout << "floats:";
+        for(auto e : v) {
+            std::cout << " " << e;
+        }
+        std::cout << std::endl;
     }
 
     return 0;
