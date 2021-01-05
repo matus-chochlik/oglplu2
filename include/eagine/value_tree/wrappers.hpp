@@ -387,6 +387,22 @@ public:
     }
 
     template <typename T, identifier_t V>
+    auto select_values(
+      const attribute& attrib,
+      span_size_t offset,
+      span<T> dest,
+      selector<V> sel) const -> span<T> {
+        span_size_t index = 0;
+        for(T& elem : dest) {
+            if(!select_value(attrib, offset + index, elem, sel)) {
+                return {};
+            }
+            ++index;
+        }
+        return head(dest, index);
+    }
+
+    template <typename T, identifier_t V>
     auto
     select_value(string_view name, span_size_t offset, T& dest, selector<V> sel)
       const -> bool {
@@ -422,13 +438,20 @@ public:
 
     template <typename T>
     auto fetch_value(string_view name, T& dest) const -> bool {
-        return selecto_value(name, 0, dest, default_selector);
+        return select_value(name, 0, dest, default_selector);
     }
 
     template <typename T, identifier_t V>
     auto select_value(const attribute& attrib, T& dest, selector<V> sel) const
       -> bool {
         return select_value(attrib, 0, dest, sel);
+    }
+
+    template <typename T, identifier_t V>
+    auto
+    select_values(const attribute& attrib, span<T> dest, selector<V> sel) const
+      -> span<T> {
+        return select_values(attrib, 0, dest, sel);
     }
 
     template <typename T>
@@ -656,6 +679,11 @@ public:
     template <typename T, identifier_t V>
     auto select_value(T& dest, selector<V> sel) const -> bool {
         return _c.select_value(_a, dest, sel);
+    }
+
+    template <typename T, identifier_t V>
+    auto select_values(span<T> dest, selector<V> sel) const -> span<T> {
+        return _c.select_values(_a, dest, sel);
     }
 
     template <typename T>
