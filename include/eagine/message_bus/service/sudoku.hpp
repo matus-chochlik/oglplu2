@@ -419,7 +419,7 @@ private:
         default_sudoku_board_traits<S> traits;
         timeout search_timeout{std::chrono::seconds(3), nothing};
 
-        std::vector<std::tuple<Key, basic_sudoku_board<S>>> boards;
+        flat_map<Key, std::vector<basic_sudoku_board<S>>> key_boards;
 
         struct pending_info {
             pending_info(basic_sudoku_board<S> b)
@@ -439,19 +439,20 @@ private:
         std::default_random_engine randeng{std::random_device{}()};
 
         auto has_work() const noexcept {
-            return !boards.empty() || !pending.empty();
+            return !key_boards.empty() || !pending.empty();
         }
 
         void add_board(Key key, basic_sudoku_board<S> board) {
             const auto alternative_count = board.alternative_count();
+            auto& boards = key_boards[key];
             auto pos = std::lower_bound(
               boards.begin(),
               boards.end(),
               alternative_count,
               [=](const auto& entry, auto value) {
-                  return std::get<1>(entry).alternative_count() > value;
+                  return entry.alternative_count() > value;
               });
-            boards.emplace(pos, std::move(key), std::move(board));
+            boards.emplace(pos, std::move(board));
         }
 
         auto search_helpers(endpoint& bus) -> bool {
@@ -500,7 +501,7 @@ private:
                 solver.bus()
                   .log_warning("replacing ${count} timeouted boards")
                   .arg(EAGINE_ID(count), count)
-                  .arg(EAGINE_ID(enqueued), boards.size())
+                  .arg(EAGINE_ID(enqueued), key_boards.size())
                   .arg(EAGINE_ID(pending), pending.size())
                   .arg(EAGINE_ID(ready), ready_helpers.size())
                   .arg(EAGINE_ID(used), used_helpers.size())
@@ -526,14 +527,14 @@ private:
 
                     if(msg_id == sudoku_solved_msg(rank)) {
                         EAGINE_ASSERT(board.is_solved());
-                        boards.erase(
+                        key_boards.erase(
                           std::remove_if(
-                            boards.begin(),
-                            boards.end(),
+                            key_boards.begin(),
+                            key_boards.end(),
                             [&](const auto& entry) {
                                 return pos->key == std::get<0>(entry);
                             }),
-                          boards.end());
+                          key_boards.end());
                         parent.on_solved(pos->used_helper, pos->key, board);
                     } else {
                         add_board(pos->key, std::move(board));
@@ -544,12 +545,17 @@ private:
         }
 
         auto send_board_to(endpoint& bus, identifier_t helper_id) -> bool {
-            if(!boards.empty()) {
+            if(!key_boards.empty()) {
+                auto kbpos =
+                  key_boards.begin() + (query_sequence % key_boards.size());
+                EAGINE_ASSERT(kbpos < key_boards.end());
+                auto& [key, boards] = *kbpos;
                 std::binomial_distribution dist(
                   boards.size() - 1U,
                   math::blend(1.0, 0.9, std::exp(-boards.size())));
+
                 auto pos = std::next(boards.begin(), dist(randeng));
-                auto& [key, board] = *pos;
+                auto& board = *pos;
                 auto temp{default_serialize_buffer_for(board)};
                 auto serialized{default_serialize(board, cover(temp))};
                 EAGINE_ASSERT(serialized);
@@ -560,12 +566,16 @@ private:
                 response.set_sequence_no(sequence_no);
                 bus.post(sudoku_query_msg(unsigned_constant<S>{}), response);
 
-                auto& query = pending.emplace_back(std::move(board));
+                pending.emplace_back(std::move(board));
+                auto& query = pending.back();
                 query.used_helper = helper_id;
                 query.sequence_no = sequence_no;
                 query.key = std::move(key);
                 query.too_late.reset(std::chrono::seconds(S * S));
                 boards.erase(pos);
+                if(boards.empty()) {
+                    key_boards.erase(kbpos);
+                }
 
                 used_helpers.insert(helper_id);
                 ready_helpers.erase(helper_id);
@@ -611,11 +621,11 @@ private:
 
         auto has_enqueued(const Key& key) -> bool {
             return std::find_if(
-                     boards.begin(),
-                     boards.end(),
+                     key_boards.begin(),
+                     key_boards.end(),
                      [&](const auto& entry) {
                          return std::get<0>(entry) == key;
-                     }) != boards.end() ||
+                     }) != key_boards.end() ||
                    std::find_if(
                      pending.begin(), pending.end(), [&](const auto& entry) {
                          return entry.key == key;
