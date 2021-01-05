@@ -154,9 +154,14 @@ auto main(main_ctx& ctx) -> int {
     auto& wd = ctx.watchdog();
     wd.declare_initialized();
 
+    int idle_streak = 0;
     while(!(interrupted || router.is_done())) {
-        if(!router.update(8)) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        if(router.update(8)) {
+            idle_streak = 0;
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        } else {
+            std::this_thread::sleep_for(
+              std::chrono::milliseconds(math::minimum(++idle_streak, 100)));
         }
 
         wd.notify_alive();
