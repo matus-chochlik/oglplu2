@@ -94,7 +94,7 @@ struct framedump {
 
     virtual auto get_buffer(span_size_t size) -> memory::block = 0;
 
-    virtual void dump_frame(
+    virtual auto dump_frame(
       long frame_number,
       int width,
       int height,
@@ -102,7 +102,7 @@ struct framedump {
       span_size_t element_size,
       framedump_pixel_format,
       framedump_data_type,
-      memory::block data) = 0;
+      memory::block data) -> bool = 0;
 };
 //------------------------------------------------------------------------------
 struct application {

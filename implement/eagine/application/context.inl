@@ -33,7 +33,7 @@ public:
 
     auto doing_framedump() const noexcept;
 
-    void commit(long frame_number, video_provider& provider, oglp::gl_api& api);
+    auto commit(long frame_number, video_provider&, oglp::gl_api&) -> bool;
 
     void cleanup(oglp::gl_api& api) noexcept;
 
@@ -53,7 +53,6 @@ inline video_context_state::video_context_state(
   const video_options& opts) noexcept
   : _options{opts} {
     if(_options.doing_framedump()) {
-        ctx.log_error("BAGER").arg(EAGINE_ID(bla), _options.framedump_prefix());
 
         auto raw_framedump = make_raw_framedump(ctx);
         if(raw_framedump->initialize(ctx, opts)) {
@@ -86,10 +85,11 @@ inline auto video_context_state::doing_framedump() const noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-inline void video_context_state::commit(
+inline auto video_context_state::commit(
   long frame_number,
   video_provider& provider,
-  oglp::gl_api& api) {
+  oglp::gl_api& api) -> bool {
+    bool result = true;
     if(EAGINE_UNLIKELY(doing_framedump())) {
         auto& [gl, GL] = api;
 
@@ -117,15 +117,17 @@ inline void video_context_state::commit(
                   gl_type,
                   buffer);
 
-                target.dump_frame(
-                  frame_number,
-                  width,
-                  height,
-                  element_size,
-                  elements,
-                  format,
-                  type,
-                  buffer);
+                if(!target.dump_frame(
+                     frame_number,
+                     width,
+                     height,
+                     elements,
+                     element_size,
+                     format,
+                     type,
+                     buffer)) {
+                    result = false;
+                }
             };
 
             if(_framedump_color) {
@@ -192,6 +194,7 @@ inline void video_context_state::commit(
             }
         }
     }
+    return result;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -245,7 +248,10 @@ void video_context::end() {
 EAGINE_LIB_FUNC
 void video_context::commit() {
     if(EAGINE_LIKELY(_gl_api)) {
-        extract(_state).commit(_frame_no, extract(_provider), extract(_gl_api));
+        if(EAGINE_UNLIKELY(!extract(_state).commit(
+             _frame_no, extract(_provider), extract(_gl_api)))) {
+            _parent.stop_running();
+        }
     }
     extract(_provider).video_commit(_parent);
     ++_frame_no;
