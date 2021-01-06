@@ -31,11 +31,27 @@ public:
         }
     }
 
+    explicit operator bool() const noexcept {
+        return !_addrs.empty();
+    }
+
     operator string_view() const noexcept {
         if(_addrs.empty()) {
             return {};
         }
         return {_addrs.front()};
+    }
+
+    auto count() const noexcept {
+        return span_size(_addrs.size());
+    }
+
+    auto begin() const noexcept {
+        return _addrs.cbegin();
+    }
+
+    auto end() const noexcept {
+        return _addrs.cend();
     }
 
 private:
