@@ -552,7 +552,7 @@ private:
                 auto& [key, boards] = *kbpos;
                 std::binomial_distribution dist(
                   boards.size() - 1U,
-                  math::blend(1.0, 0.9, std::exp(-boards.size())));
+                  math::blend(1.0, 0.8, std::exp(-boards.size())));
 
                 auto pos = std::next(boards.begin(), dist(randeng));
                 auto& board = *pos;
