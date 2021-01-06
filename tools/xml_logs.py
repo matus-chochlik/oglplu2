@@ -214,7 +214,7 @@ class ArgumentParser(argparse.ArgumentParser):
         ))
 
 # ------------------------------------------------------------------------------
-def get_argument_parser():
+def getArgumentParser():
     return ArgumentParser(
         prog=os.path.basename(__file__),
         description="""
@@ -223,7 +223,7 @@ def get_argument_parser():
         """
     )
 # ------------------------------------------------------------------------------
-keep_running = True
+keepRunning = True
 # ------------------------------------------------------------------------------
 class XmlLogFormatter(object):
     # --------------------------------------------------------------------------
@@ -531,8 +531,8 @@ class XmlLogFormatter(object):
             if self._options.plot_charts:
                 self.plotCharts()
             if not self._options.keep_running:
-                global keep_running
-                keep_running = False
+                global keepRunning
+                keepRunning = False
 
     # --------------------------------------------------------------------------
     def translateLevel(self, level):
@@ -958,7 +958,7 @@ def open_socket(socket_path):
 # ------------------------------------------------------------------------------
 def handle_connections(socket_path, formatter):
     try:
-        global keep_running
+        global keepRunning
         lsock = open_socket(socket_path)
         with selectors.DefaultSelector() as selector:
             selector.register(
@@ -967,7 +967,7 @@ def handle_connections(socket_path, formatter):
                 data = formatter
             )
 
-            while keep_running:
+            while keepRunning:
                 events = selector.select(timeout=1.0)
                 for key, mask in events:
                     if type(key.data) is XmlLogFormatter:
@@ -993,12 +993,12 @@ def handle_connections(socket_path, formatter):
 
 # ------------------------------------------------------------------------------
 def handleInterrupt(sig, frame):
-    global keep_running
-    keep_running = False
+    global keepRunning
+    keepRunning = False
 # ------------------------------------------------------------------------------
 def main():
     try:
-        options = get_argument_parser().parseArgs()
+        options = getArgumentParser().parseArgs()
         signal.signal(signal.SIGINT, handleInterrupt)
         signal.signal(signal.SIGTERM, handleInterrupt)
         formatter = XmlLogFormatter(options)
