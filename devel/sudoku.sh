@@ -31,6 +31,7 @@ div=$((rank * (rank - 2)))
 ${install_prefix}/bin/eagine-message_bus-sudoku_tiling \
 	"${log_args[@]}" \
 	${conn_type} \
+	--msg-bus-sudoku-solver-block-cells true \
 	--msg-bus-sudoku-solver-print-incomplete true \
 	--${rank} \
 	--width  $(((COLUMNS / div) * div)) \

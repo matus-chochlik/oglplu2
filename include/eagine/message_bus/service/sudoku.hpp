@@ -763,7 +763,11 @@ public:
         return are_complete({_minu, _minv}, {_maxu, _maxv});
     }
 
-    auto print(std::ostream& out, Coord min, Coord max) const -> std::ostream& {
+    auto print(
+      std::ostream& out,
+      Coord min,
+      Coord max,
+      const basic_sudoku_board_traits<S>& traits) const -> std::ostream& {
         const auto [xmin, ymin, xmax, ymax] = boards_extent(min, max);
 
         for(auto y : integer_range(ymin, ymax)) {
@@ -774,11 +778,11 @@ public:
                         for(auto bx : integer_range(1U, S - 1U)) {
                             for(auto cx : integer_range(S)) {
                                 if(board) {
-                                    _traits.print(
+                                    traits.print(
                                       out,
                                       extract(board).get({bx, by, cx, cy}));
                                 } else {
-                                    _traits.print_empty(out);
+                                    traits.print_empty(out);
                                 }
                             }
                         }
@@ -788,6 +792,16 @@ public:
             }
         }
         return out;
+    }
+
+    auto print(std::ostream& out, Coord min, Coord max) const -> std::ostream& {
+        return print(out, min, max, _traits);
+    }
+
+    auto
+    print(std::ostream& out, const basic_sudoku_board_traits<S>& traits) const
+      -> auto& {
+        return print(out, {_minu, _minv}, {_maxu, _maxv}, traits);
     }
 
     auto print(std::ostream& out) const -> auto& {
@@ -1071,7 +1085,7 @@ private:
         auto& info = _infos.get(unsigned_constant<S>{});
         info.handle_solved(*this, helper_id, coord, std::move(board));
     }
-}; // namespace eagine::msgbus
+};
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
