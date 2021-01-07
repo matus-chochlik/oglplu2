@@ -296,7 +296,7 @@ auto glfw3_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
 #endif // OGLPLUS_GLFW3_FOUND
     exec_ctx.log_error("GLFW is context is not supported");
     return false;
-} // namespace eagine::application
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void glfw3_opengl_provider::update(execution_context& exec_ctx) {

@@ -15,6 +15,7 @@
 //
 #include <eagine/application/framedump_raw.hpp>
 #include <eagine/application/input.hpp>
+#include <eagine/application/opengl_eglplus.hpp>
 #include <eagine/application/opengl_glfw3.hpp>
 #include <eagine/application/state.hpp>
 #include <eagine/branch_predict.hpp>
