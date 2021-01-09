@@ -505,6 +505,33 @@ public:
       openvg_bit;
 
     opt_c_api_constant<
+      mp_list<client_api>,
+#ifdef EGL_OPENGL_API
+      int_type_c<EGL_OPENGL_API>>
+#else
+      int_type_i>
+#endif
+      opengl_api;
+
+    opt_c_api_constant<
+      mp_list<client_api>,
+#ifdef EGL_OPENGL_ES_API
+      int_type_c<EGL_OPENGL_ES_API>>
+#else
+      int_type_i>
+#endif
+      opengl_es_api;
+
+    opt_c_api_constant<
+      mp_list<client_api>,
+#ifdef EGL_OPENVG_API
+      int_type_c<EGL_OPENVG_API>>
+#else
+      int_type_i>
+#endif
+      openvg_api;
+
+    opt_c_api_constant<
       mp_list<eglp::read_draw>,
 #ifdef EGL_NONE
       int_type_c<EGL_READ>>
@@ -585,6 +612,9 @@ public:
       , opengl_es2_bit("OPENGL_ES2_BIT", traits, api)
       , opengl_es3_bit("OPENGL_ES3_BIT", traits, api)
       , openvg_bit("OPENVG_BIT", traits, api)
+      , opengl_api("OPENGL_API", traits, api)
+      , opengl_es_api("OPENGL_ES_API", traits, api)
+      , openvg_api("OPENVG_API", traits, api)
       , read("READ", traits, api)
       , draw("DRAW", traits, api)
       , none("NONE", traits, api) {}

@@ -11,6 +11,7 @@
 
 #include "c_api.hpp"
 #include "config_attribs.hpp"
+#include "context_attribs.hpp"
 #include "enum_types.hpp"
 #include "objects.hpp"
 #include "surface_attribs.hpp"
@@ -380,6 +381,89 @@ public:
         }
     } surface_attrib;
 
+    // bind_api
+    struct : func<EGLPAFP(BindAPI)> {
+        using func<EGLPAFP(BindAPI)>::func;
+
+        constexpr auto operator()(client_api api) const noexcept {
+            return this->_cnvchkcall(api);
+        }
+    } bind_api;
+
+    // query_api
+    struct : func<EGLPAFP(QueryAPI)> {
+        using func<EGLPAFP(QueryAPI)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(type_identity<client_api>{});
+        }
+    } query_api;
+
+    // create_context
+    struct : func<EGLPAFP(CreateContext)> {
+        using func<EGLPAFP(CreateContext)>::func;
+
+        constexpr auto operator()(
+          display_handle disp,
+          config_type conf,
+          context_handle share_ctxt,
+          span<const int_type> attribs) const noexcept {
+            return this->_cnvchkcall(disp, conf, share_ctxt, attribs.data())
+              .cast_to(type_identity<context_handle>{});
+        }
+
+        template <std::size_t N>
+        constexpr auto operator()(
+          display_handle disp,
+          config_type conf,
+          const surface_attributes<N> attribs) const noexcept {
+            return (*this)(disp, conf, context_handle{}, attribs.get());
+        }
+
+        template <std::size_t N>
+        constexpr auto operator()(
+          display_handle disp,
+          config_type conf,
+          context_handle share_ctxt,
+          const surface_attributes<N> attribs) const noexcept {
+            return (*this)(disp, conf, share_ctxt, attribs.get());
+        }
+    } create_context;
+
+    // destroy_context
+    struct : func<EGLPAFP(DestroyContext)> {
+        using func<EGLPAFP(DestroyContext)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, context_handle ctxt) const noexcept {
+            return this->_cnvchkcall(disp, ctxt);
+        }
+
+        auto raii(display_handle disp, context_handle ctxt) noexcept {
+            return eagine::finally([=]() { (*this)(disp, ctxt); });
+        }
+    } destroy_context;
+
+    // make_current
+    struct : func<EGLPAFP(MakeCurrent)> {
+        using func<EGLPAFP(MakeCurrent)>::func;
+
+        constexpr auto operator()(
+          display_handle disp,
+          surface_handle draw,
+          surface_handle read,
+          context_handle ctxt) const noexcept {
+            return this->_cnvchkcall(disp, draw, read, ctxt);
+        }
+
+        constexpr auto operator()(
+          display_handle disp,
+          surface_handle surf,
+          context_handle ctxt) const noexcept {
+            return this->_cnvchkcall(disp, surf, surf, ctxt);
+        }
+    } make_current;
+
     // query_string
     struct : func<EGLPAFP(QueryString)> {
         using func<EGLPAFP(QueryString)>::func;
@@ -462,6 +546,11 @@ public:
       , destroy_surface("destroy_surface", traits, *this)
       , get_current_surface("get_current_surface", traits, *this)
       , surface_attrib("surface_attrib", traits, *this)
+      , bind_api("bind_api", traits, *this)
+      , query_api("query_api", traits, *this)
+      , create_context("create_context", traits, *this)
+      , destroy_context("destroy_context", traits, *this)
+      , make_current("make_current", traits, *this)
       , query_string("query_string", traits, *this)
       , swap_interval("swap_interval", traits, *this)
       , swap_buffers("swap_buffers", traits, *this)

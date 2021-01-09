@@ -44,8 +44,17 @@ struct surface_type_bit
     using enum_class::enum_class;
 };
 
+struct client_api : egl_enum_class<client_api, EAGINE_ID_V(ClientApi)> {
+    using enum_class::enum_class;
+};
+
 struct client_api_bit
   : egl_enum_class<client_api_bit, EAGINE_ID_V(ClntApiBit)> {
+    using enum_class::enum_class;
+};
+
+struct context_attribute
+  : egl_enum_class<context_attribute, EAGINE_ID_V(CtxtAttrib)> {
     using enum_class::enum_class;
 };
 

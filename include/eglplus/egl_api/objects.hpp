@@ -17,6 +17,7 @@ namespace eagine::eglp {
 //------------------------------------------------------------------------------
 using display_tag = EAGINE_MSG_TYPE(egl, Display);
 using surface_tag = EAGINE_MSG_TYPE(egl, Surface);
+using context_tag = EAGINE_MSG_TYPE(egl, Context);
 //------------------------------------------------------------------------------
 #if defined(EGL_NO_DISPLAY)
 using display_handle =
@@ -30,6 +31,13 @@ using surface_handle =
   basic_handle<surface_tag, egl_types::surface_type, EGL_NO_SURFACE>;
 #else
 using surface_handle = basic_handle<surface_tag, nothing_t>;
+#endif
+//------------------------------------------------------------------------------
+#if defined(EGL_NO_CONTEXT)
+using context_handle =
+  basic_handle<context_tag, egl_types::context_type, EGL_NO_CONTEXT>;
+#else
+using context_handle = basic_handle<context_tag, nothing_t>;
 #endif
 //------------------------------------------------------------------------------
 } // namespace eagine::eglp
