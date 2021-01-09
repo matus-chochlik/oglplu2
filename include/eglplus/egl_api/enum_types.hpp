@@ -48,6 +48,10 @@ struct client_api_bit
   : egl_enum_class<client_api_bit, EAGINE_ID_V(ClntApiBit)> {
     using enum_class::enum_class;
 };
+
+struct read_draw : egl_enum_class<read_draw, EAGINE_ID_V(ReadDraw)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace eagine::eglp
 

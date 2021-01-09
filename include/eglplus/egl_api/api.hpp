@@ -12,6 +12,7 @@
 #include "c_api.hpp"
 #include "config_attribs.hpp"
 #include "enum_types.hpp"
+#include "surface_attribs.hpp"
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
 
@@ -292,6 +293,15 @@ public:
           span<const int_type> attribs) const noexcept {
             return this->_chkcall(disp, conf, pmp, attribs.data());
         }
+
+        template <std::size_t N>
+        constexpr auto operator()(
+          display_type disp,
+          config_type conf,
+          native_pixmap_type pmp,
+          const surface_attributes<N> attribs) const noexcept {
+            return (*this)(disp, conf, pmp, attribs.get());
+        }
     } create_pixmap_surface;
 
     // destroy_surface
@@ -307,6 +317,28 @@ public:
             return eagine::finally([=]() { (*this)(disp, surf); });
         }
     } destroy_surface;
+
+    // get_current_surface
+    struct : func<EGLPAFP(GetCurrentSurface)> {
+        using func<EGLPAFP(GetCurrentSurface)>::func;
+
+        constexpr auto operator()(read_draw which) const noexcept {
+            return this->_chkcall(which);
+        }
+    } get_current_surface;
+
+    // surface_attrib
+    struct : func<EGLPAFP(SurfaceAttrib)> {
+        using func<EGLPAFP(SurfaceAttrib)>::func;
+
+        constexpr auto operator()(
+          display_type disp,
+          surface_type surf,
+          surface_attribute attr,
+          int_type value) const noexcept {
+            return this->_chkcall(disp, surf, attr, value);
+        }
+    } surface_attrib;
 
     // query_string
     struct : func<EGLPAFP(QueryString)> {
@@ -365,8 +397,14 @@ public:
             [](auto src) { return split_c_str_into_string_list(src, ' '); });
     }
 
+    // swap_interval
+    func<EGLPAFP(SwapInterval)> swap_interval;
+
     // swap_buffers
     func<EGLPAFP(SwapBuffers)> swap_buffers;
+
+    // release_thread
+    func<EGLPAFP(ReleaseThread)> release_thread;
 
     constexpr basic_egl_operations(api_traits& traits)
       : c_api{traits}
@@ -381,8 +419,12 @@ public:
       , create_pbuffer_surface("create_pbuffer_surface", traits, *this)
       , create_pixmap_surface("create_pixmap_surface", traits, *this)
       , destroy_surface("destroy_surface", traits, *this)
+      , get_current_surface("get_current_surface", traits, *this)
+      , surface_attrib("surface_attrib", traits, *this)
       , query_string("query_string", traits, *this)
-      , swap_buffers("swap_buffers", traits, *this) {}
+      , swap_interval("swap_interval", traits, *this)
+      , swap_buffers("swap_buffers", traits, *this)
+      , release_thread("release_thread", traits, *this) {}
 };
 //------------------------------------------------------------------------------
 #undef OGLPAFP
