@@ -33,7 +33,10 @@ public:
     using enum_type = typename egl_types::enum_type;
     using attrib_type = typename egl_types::attrib_type;
     using native_display_type = typename egl_types::native_display_type;
+    using native_window_type = typename egl_types::native_window_type;
+    using native_pixmap_type = typename egl_types::native_pixmap_type;
     using display_type = typename egl_types::display_type;
+    using surface_type = typename egl_types::surface_type;
     using config_type = typename egl_types::config_type;
 
     template <typename W, W c_api::*F, typename Signature = typename W::signature>
@@ -234,6 +237,77 @@ public:
         }
     } get_config_attrib;
 
+    // create_window_surface
+    struct : func<EGLPAFP(CreateWindowSurface)> {
+        using func<EGLPAFP(CreateWindowSurface)>::func;
+
+        constexpr auto operator()(
+          display_type disp,
+          config_type conf,
+          native_window_type win) const noexcept {
+            return this->_chkcall(disp, conf, win, nullptr);
+        }
+
+        constexpr auto operator()(
+          display_type disp,
+          config_type conf,
+          native_window_type win,
+          span<const int_type> attribs) const noexcept {
+            return this->_chkcall(disp, conf, win, attribs.data());
+        }
+    } create_window_surface;
+
+    // create_pbuffer_surface
+    struct : func<EGLPAFP(CreatePbufferSurface)> {
+        using func<EGLPAFP(CreatePbufferSurface)>::func;
+
+        constexpr auto
+        operator()(display_type disp, config_type conf) const noexcept {
+            return this->_chkcall(disp, conf, nullptr);
+        }
+
+        constexpr auto operator()(
+          display_type disp,
+          config_type conf,
+          span<const int_type> attribs) const noexcept {
+            return this->_chkcall(disp, conf, attribs.data());
+        }
+    } create_pbuffer_surface;
+
+    // create_pixmap_surface
+    struct : func<EGLPAFP(CreatePixmapSurface)> {
+        using func<EGLPAFP(CreatePixmapSurface)>::func;
+
+        constexpr auto operator()(
+          display_type disp,
+          config_type conf,
+          native_pixmap_type pmp) const noexcept {
+            return this->_chkcall(disp, conf, pmp, nullptr);
+        }
+
+        constexpr auto operator()(
+          display_type disp,
+          config_type conf,
+          native_pixmap_type pmp,
+          span<const int_type> attribs) const noexcept {
+            return this->_chkcall(disp, conf, pmp, attribs.data());
+        }
+    } create_pixmap_surface;
+
+    // destroy_surface
+    struct : func<EGLPAFP(DestroySurface)> {
+        using func<EGLPAFP(DestroySurface)>::func;
+
+        constexpr auto
+        operator()(display_type disp, surface_type surf) const noexcept {
+            return this->_chkcall(disp, surf);
+        }
+
+        auto raii(display_type disp, surface_type surf) noexcept {
+            return eagine::finally([=]() { (*this)(disp, surf); });
+        }
+    } destroy_surface;
+
     // query_string
     struct : func<EGLPAFP(QueryString)> {
         using func<EGLPAFP(QueryString)>::func;
@@ -303,6 +377,10 @@ public:
       , get_configs("get_configs", traits, *this)
       , choose_config("choose_config", traits, *this)
       , get_config_attrib("get_config_attrib", traits, *this)
+      , create_window_surface("create_window_surface", traits, *this)
+      , create_pbuffer_surface("create_pbuffer_surface", traits, *this)
+      , create_pixmap_surface("create_pixmap_surface", traits, *this)
+      , destroy_surface("destroy_surface", traits, *this)
       , query_string("query_string", traits, *this)
       , swap_buffers("swap_buffers", traits, *this) {}
 };
