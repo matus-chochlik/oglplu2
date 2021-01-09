@@ -12,6 +12,7 @@
 #include "c_api.hpp"
 #include "config_attribs.hpp"
 #include "enum_types.hpp"
+#include "objects.hpp"
 #include "surface_attribs.hpp"
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
@@ -36,8 +37,6 @@ public:
     using native_display_type = typename egl_types::native_display_type;
     using native_window_type = typename egl_types::native_window_type;
     using native_pixmap_type = typename egl_types::native_pixmap_type;
-    using display_type = typename egl_types::display_type;
-    using surface_type = typename egl_types::surface_type;
     using config_type = typename egl_types::config_type;
 
     template <typename W, W c_api::*F, typename Signature = typename W::signature>
@@ -63,6 +62,11 @@ public:
 
         using base::_conv;
 
+        template <typename... Args>
+        constexpr auto _cnvchkcall(Args&&... args) const noexcept {
+            return this->_chkcall(_conv(args)...).cast_to(type_identity<RVC>{});
+        }
+
     public:
         using base::base;
 
@@ -80,7 +84,8 @@ public:
           platform_type platform,
           void_ptr_type disp,
           span<const attrib_type> attribs) const noexcept {
-            return this->_chkcall(platform, disp, attribs.data());
+            return this->_cnvchkcall(platform, disp, attribs.data())
+              .cast_to(type_identity<display_handle>{});
         }
     } get_platform_display;
 
@@ -89,14 +94,16 @@ public:
         using func<EGLPAFP(GetDisplay)>::func;
 
         constexpr auto operator()(native_display_type disp) const noexcept {
-            return this->_chkcall(disp);
+            return this->_cnvchkcall(disp).cast_to(
+              type_identity<display_handle>{});
         }
 
         constexpr auto operator()() const noexcept {
 #ifdef EGL_DEFAULT_DISPLAY
-            return this->_chkcall(EGL_DEFAULT_DISPLAY);
+            return this->_cnvchkcall(EGL_DEFAULT_DISPLAY)
+              .cast_to(type_identity<display_handle>{});
 #else
-            return this->_fake({});
+            return this->_fake({}).cast_to(type_identity<display_handle>{});
 #endif
         }
     } get_display;
@@ -107,12 +114,17 @@ public:
         using base::base;
         using base::operator();
 
-        constexpr auto operator()(display_type disp) const noexcept {
+        constexpr auto
+        operator()(display_handle disp, int* maj, int* min) const noexcept {
+            return this->_cnvchkcall(disp, maj, min)
+              .transformed(
+                [&maj, &min](auto) { return std::make_tuple(maj, min); });
+        }
+
+        constexpr auto operator()(display_handle disp) const noexcept {
             int_type maj{-1};
             int_type min{-1};
-            return (*this)(disp, &maj, &min).transformed([&maj, &min](auto) {
-                return std::make_tuple(maj, min);
-            });
+            return (*this)(disp, &maj, &min);
         }
     } initialize;
 
@@ -120,7 +132,11 @@ public:
     struct : func<EGLPAFP(Terminate)> {
         using func<EGLPAFP(Terminate)>::func;
 
-        auto raii(display_type disp) noexcept {
+        constexpr auto operator()(display_handle disp) const noexcept {
+            return this->_cnvchkcall(disp);
+        }
+
+        auto raii(display_handle disp) noexcept {
             return eagine::finally([=]() { (*this)(disp); });
         }
     } terminate;
@@ -129,9 +145,9 @@ public:
     struct : func<EGLPAFP(GetConfigs)> {
         using func<EGLPAFP(GetConfigs)>::func;
 
-        auto count(display_type disp) const noexcept {
+        auto count(display_handle disp) const noexcept {
             int_type ret_count{0};
-            return this->_chkcall(disp, nullptr, 0, &ret_count)
+            return this->_cnvchkcall(disp, nullptr, 0, &ret_count)
               .transformed([&ret_count](auto ok) {
                   return limit_cast<span_size_t>(
                     egl_types::bool_true(ok) ? ret_count : 0);
@@ -139,10 +155,10 @@ public:
         }
 
         auto
-        operator()(display_type disp, span<config_type> dest) const noexcept {
+        operator()(display_handle disp, span<config_type> dest) const noexcept {
             int_type ret_count{0};
             return this
-              ->_chkcall(
+              ->_cnvchkcall(
                 disp, dest.data(), limit_cast<int_type>(dest.size()), &ret_count)
               .transformed([dest, &ret_count](auto ok) {
                   return head(
@@ -157,10 +173,11 @@ public:
     struct : func<EGLPAFP(ChooseConfig)> {
         using func<EGLPAFP(ChooseConfig)>::func;
 
-        auto
-        count(display_type disp, span<const int_type> attribs) const noexcept {
+        auto count(display_handle disp, span<const int_type> attribs)
+          const noexcept {
             int_type ret_count{0};
-            return this->_chkcall(disp, attribs.data(), nullptr, 0, &ret_count)
+            return this
+              ->_cnvchkcall(disp, attribs.data(), nullptr, 0, &ret_count)
               .transformed([&ret_count](auto ok) {
                   return limit_cast<span_size_t>(
                     egl_types::bool_true(ok) ? ret_count : 0);
@@ -169,22 +186,22 @@ public:
 
         template <std::size_t N>
         auto
-        count(display_type disp, const config_attributes<N>& attribs) const {
+        count(display_handle disp, const config_attributes<N>& attribs) const {
             return count(disp, attribs.get());
         }
 
-        auto
-        count(display_type disp, const config_attribute_value& attribs) const {
+        auto count(display_handle disp, const config_attribute_value& attribs)
+          const {
             return count(disp, config_attributes<2>{attribs});
         }
 
         auto operator()(
-          display_type disp,
+          display_handle disp,
           span<const int_type> attribs,
           span<config_type> dest) const noexcept {
             int_type ret_count{0};
             return this
-              ->_chkcall(
+              ->_cnvchkcall(
                 disp,
                 attribs.data(),
                 dest.data(),
@@ -200,14 +217,14 @@ public:
 
         template <std::size_t N>
         auto operator()(
-          display_type disp,
+          display_handle disp,
           const config_attributes<N>& attribs,
           span<config_type> dest) const noexcept {
             return (*this)(disp, attribs.get(), dest);
         }
 
         auto operator()(
-          display_type disp,
+          display_handle disp,
           const config_attribute_value& attribs,
           span<config_type> dest) const noexcept {
             return (*this)(disp, config_attributes<2>{attribs}, dest);
@@ -219,15 +236,15 @@ public:
         using func<EGLPAFP(GetConfigAttrib)>::func;
 
         constexpr auto operator()(
-          display_type disp,
+          display_handle disp,
           config_type conf,
           config_attribute attrib,
           int_type* dest) const noexcept {
-            return this->_chkcall(disp, conf, int_type(attrib), dest);
+            return this->_cnvchkcall(disp, conf, attrib, dest);
         }
 
         constexpr auto operator()(
-          display_type disp,
+          display_handle disp,
           config_type conf,
           config_attribute attrib) const noexcept {
             int_type value{0};
@@ -243,18 +260,29 @@ public:
         using func<EGLPAFP(CreateWindowSurface)>::func;
 
         constexpr auto operator()(
-          display_type disp,
+          display_handle disp,
           config_type conf,
           native_window_type win) const noexcept {
-            return this->_chkcall(disp, conf, win, nullptr);
+            return this->_cnvchkcall(disp, conf, win, nullptr)
+              .cast_to(type_identity<surface_handle>{});
         }
 
         constexpr auto operator()(
-          display_type disp,
+          display_handle disp,
           config_type conf,
           native_window_type win,
           span<const int_type> attribs) const noexcept {
-            return this->_chkcall(disp, conf, win, attribs.data());
+            return this->_cnvchkcall(disp, conf, win, attribs.data())
+              .cast_to(type_identity<surface_handle>{});
+        }
+
+        template <std::size_t N>
+        constexpr auto operator()(
+          display_handle disp,
+          config_type conf,
+          native_window_type win,
+          const surface_attributes<N> attribs) const noexcept {
+            return (*this)(disp, conf, win, attribs.get());
         }
     } create_window_surface;
 
@@ -263,15 +291,25 @@ public:
         using func<EGLPAFP(CreatePbufferSurface)>::func;
 
         constexpr auto
-        operator()(display_type disp, config_type conf) const noexcept {
-            return this->_chkcall(disp, conf, nullptr);
+        operator()(display_handle disp, config_type conf) const noexcept {
+            return this->_cnvchkcall(disp, conf, nullptr)
+              .cast_to(type_identity<surface_handle>{});
         }
 
         constexpr auto operator()(
-          display_type disp,
+          display_handle disp,
           config_type conf,
           span<const int_type> attribs) const noexcept {
-            return this->_chkcall(disp, conf, attribs.data());
+            return this->_cnvchkcall(disp, conf, attribs.data())
+              .cast_to(type_identity<surface_handle>{});
+        }
+
+        template <std::size_t N>
+        constexpr auto operator()(
+          display_handle disp,
+          config_type conf,
+          const surface_attributes<N> attribs) const noexcept {
+            return (*this)(disp, conf, attribs.get());
         }
     } create_pbuffer_surface;
 
@@ -280,23 +318,25 @@ public:
         using func<EGLPAFP(CreatePixmapSurface)>::func;
 
         constexpr auto operator()(
-          display_type disp,
+          display_handle disp,
           config_type conf,
           native_pixmap_type pmp) const noexcept {
-            return this->_chkcall(disp, conf, pmp, nullptr);
+            return this->_cnvchkcall(disp, conf, pmp, nullptr)
+              .cast_to(type_identity<surface_handle>{});
         }
 
         constexpr auto operator()(
-          display_type disp,
+          display_handle disp,
           config_type conf,
           native_pixmap_type pmp,
           span<const int_type> attribs) const noexcept {
-            return this->_chkcall(disp, conf, pmp, attribs.data());
+            return this->_cnvchkcall(disp, conf, pmp, attribs.data())
+              .cast_to(type_identity<surface_handle>{});
         }
 
         template <std::size_t N>
         constexpr auto operator()(
-          display_type disp,
+          display_handle disp,
           config_type conf,
           native_pixmap_type pmp,
           const surface_attributes<N> attribs) const noexcept {
@@ -309,11 +349,11 @@ public:
         using func<EGLPAFP(DestroySurface)>::func;
 
         constexpr auto
-        operator()(display_type disp, surface_type surf) const noexcept {
-            return this->_chkcall(disp, surf);
+        operator()(display_handle disp, surface_handle surf) const noexcept {
+            return this->_cnvchkcall(disp, surf);
         }
 
-        auto raii(display_type disp, surface_type surf) noexcept {
+        auto raii(display_handle disp, surface_handle surf) noexcept {
             return eagine::finally([=]() { (*this)(disp, surf); });
         }
     } destroy_surface;
@@ -323,7 +363,7 @@ public:
         using func<EGLPAFP(GetCurrentSurface)>::func;
 
         constexpr auto operator()(read_draw which) const noexcept {
-            return this->_chkcall(which);
+            return this->_cnvchkcall(which);
         }
     } get_current_surface;
 
@@ -332,11 +372,11 @@ public:
         using func<EGLPAFP(SurfaceAttrib)>::func;
 
         constexpr auto operator()(
-          display_type disp,
-          surface_type surf,
+          display_handle disp,
+          surface_handle surf,
           surface_attribute attr,
           int_type value) const noexcept {
-            return this->_chkcall(disp, surf, attr, value);
+            return this->_cnvchkcall(disp, surf, attr, value);
         }
     } surface_attrib;
 
@@ -345,8 +385,8 @@ public:
         using func<EGLPAFP(QueryString)>::func;
 
         constexpr auto
-        operator()(display_type disp, string_query query) const noexcept {
-            return this->_chkcall(disp, int_type(query));
+        operator()(display_handle disp, string_query query) const noexcept {
+            return this->_cnvchkcall(disp, query);
         }
 
         constexpr auto operator()() const noexcept {
@@ -356,7 +396,7 @@ public:
 
     // query_strings
     auto query_strings(
-      display_type disp,
+      display_handle disp,
       string_query query,
       char separator) noexcept {
         return query_string(disp, query).transformed([separator](auto src) {
@@ -365,7 +405,7 @@ public:
     }
 
     // get_client_apis
-    auto get_client_apis(display_type disp) noexcept {
+    auto get_client_apis(display_handle disp) noexcept {
 #ifdef EGL_CLIENT_APIS
         return query_string(disp, string_query(EGL_CLIENT_APIS))
 #else
@@ -378,7 +418,8 @@ public:
     // get_extensions
     auto get_extensions() noexcept {
 #if defined(EGL_EXTENSIONS) && defined(EGL_NO_DISPLAY)
-        return query_string(EGL_NO_DISPLAY, string_query(EGL_EXTENSIONS))
+        return query_string(
+                 display_handle(EGL_NO_DISPLAY), string_query(EGL_EXTENSIONS))
 #else
         return query_string()
 #endif
@@ -387,7 +428,7 @@ public:
     }
 
     // get_extensions
-    auto get_extensions(display_type disp) noexcept {
+    auto get_extensions(display_handle disp) noexcept {
 #ifdef EGL_EXTENSIONS
         return query_string(disp, string_query(EGL_EXTENSIONS))
 #else

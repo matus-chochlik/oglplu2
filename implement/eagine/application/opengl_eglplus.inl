@@ -48,7 +48,7 @@ public:
 
 private:
     string_view _instance_name;
-    optionally_valid<eglp::egl_types::display_type> _display{};
+    eglp::display_handle _display{};
     int _width{1};
     int _height{1};
 };
@@ -63,7 +63,7 @@ auto eglplus_opengl_surface::initialize(
 
     if(ok display{egl.get_display()}) {
         if(ok initialized{egl.initialize(display)}) {
-            _display = {display, true};
+            _display = display;
             EAGINE_MAYBE_UNUSED(name);
             // TODO
             // return true;
@@ -81,7 +81,7 @@ auto eglplus_opengl_surface::initialize(
 EAGINE_LIB_FUNC
 void eglplus_opengl_surface::cleanup(eglp::egl_api& egl) {
     if(_display) {
-        egl.terminate(extract(_display));
+        egl.terminate(_display);
     }
 }
 //------------------------------------------------------------------------------
