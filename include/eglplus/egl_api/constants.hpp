@@ -397,6 +397,42 @@ public:
       min_swap_interval;
 
     opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_MIPMAP_LEVEL
+      int_type_c<EGL_MIPMAP_LEVEL>>
+#else
+      int_type_i>
+#endif
+      mipmap_level;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_MULTISAMPLE_RESOLVE
+      int_type_c<EGL_MULTISAMPLE_RESOLVE>>
+#else
+      int_type_i>
+#endif
+      multisample_resolve;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_SWAP_BEHAVIOR
+      int_type_c<EGL_SWAP_BEHAVIOR>>
+#else
+      int_type_i>
+#endif
+      swap_behavior;
+
+    opt_c_api_constant<
+      mp_list<context_attribute>,
+#ifdef EGL_CONTEXT_CLIENT_VERSION
+      int_type_c<EGL_CONTEXT_CLIENT_VERSION>>
+#else
+      int_type_i>
+#endif
+      context_client_version;
+
+    opt_c_api_constant<
       mp_list<surface_type_bit>,
 #ifdef EGL_WINDOW_BIT
       int_type_c<EGL_WINDOW_BIT>>
@@ -618,6 +654,10 @@ public:
       , pbuffer_pixels("PBUFFER_PIXELS", traits, api)
       , max_swap_interval("MAX_SWAP_INTERVAL", traits, api)
       , min_swap_interval("MIN_SWAP_INTERVAL", traits, api)
+      , mipmap_level("MIPMAP_LEVEL", traits, api)
+      , multisample_resolve("MULTISAMPLE_RESOLVE", traits, api)
+      , swap_behavior("SWAP_BEHAVIOR", traits, api)
+      , context_client_version("CONTEXT_CLIENT_VERSION", traits, api)
       , window_bit("WINDOW_BIT", traits, api)
       , pixmap_bit("PIXMAP_BIT", traits, api)
       , pbuffer_bit("PBUFFER_BIT", traits, api)

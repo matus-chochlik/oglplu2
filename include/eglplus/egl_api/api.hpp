@@ -18,6 +18,7 @@
 #include "sync_attribs.hpp"
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
+#include <chrono>
 
 namespace eagine::eglp {
 //------------------------------------------------------------------------------
@@ -465,6 +466,33 @@ public:
         }
     } make_current;
 
+    // get_current_context
+    struct : func<EGLPAFP(GetCurrentContext)> {
+        using func<EGLPAFP(GetCurrentContext)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_cnvchkcall().cast_to(type_identity<context_handle>{});
+        }
+    } get_current_context;
+
+    // wait_client
+    struct : func<EGLPAFP(WaitClient)> {
+        using func<EGLPAFP(WaitClient)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall();
+        }
+    } wait_client;
+
+    // wait_native
+    struct : func<EGLPAFP(WaitNative)> {
+        using func<EGLPAFP(WaitNative)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall();
+        }
+    } wait_native;
+
     // create_sync
     struct : func<EGLPAFP(CreateSync)> {
         using func<EGLPAFP(CreateSync)>::func;
@@ -485,6 +513,40 @@ public:
             return (*this)(disp, type, attribs.get());
         }
     } create_sync;
+
+    // client_wait_sync
+    struct : func<EGLPAFP(ClientWaitSync)> {
+        using func<EGLPAFP(ClientWaitSync)>::func;
+
+        template <typename R, typename P>
+        constexpr auto operator()(
+          display_handle disp,
+          sync_handle sync,
+          std::chrono::duration<R, P> timeout) const noexcept {
+            return this->_cnvchkcall(
+              disp, sync, 0, std::chrono::nanoseconds(timeout).count());
+        }
+
+        template <typename R, typename P>
+        constexpr auto
+        forever(display_handle disp, sync_handle sync) const noexcept {
+#ifdef EGL_FOREVER
+            return this->_cnvchkcall(disp, sync, 0, EGL_FOREVER);
+#else
+            return this->_fake({});
+#endif
+        }
+    } client_wait_sync;
+
+    // wait_sync
+    struct : func<EGLPAFP(WaitSync)> {
+        using func<EGLPAFP(WaitSync)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, sync_handle sync) const noexcept {
+            return this->_cnvchkcall(disp, sync, 0);
+        }
+    } wait_sync;
 
     // destroy_sync
     struct : func<EGLPAFP(DestroySync)> {
@@ -583,7 +645,12 @@ public:
       , create_context("create_context", traits, *this)
       , destroy_context("destroy_context", traits, *this)
       , make_current("make_current", traits, *this)
+      , get_current_context("get_current_context", traits, *this)
+      , wait_client("wait_client", traits, *this)
+      , wait_native("wait_native", traits, *this)
       , create_sync("create_sync", traits, *this)
+      , client_wait_sync("client_wait_sync", traits, *this)
+      , wait_sync("wait_sync", traits, *this)
       , destroy_sync("destroy_sync", traits, *this)
       , query_string("query_string", traits, *this)
       , swap_interval("swap_interval", traits, *this)
