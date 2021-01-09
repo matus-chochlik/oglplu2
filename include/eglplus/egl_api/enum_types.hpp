@@ -58,6 +58,15 @@ struct context_attribute
     using enum_class::enum_class;
 };
 
+struct sync_type : egl_enum_class<sync_type, EAGINE_ID_V(SyncType)> {
+    using enum_class::enum_class;
+};
+
+struct sync_attribute
+  : egl_enum_class<sync_attribute, EAGINE_ID_V(SyncAttrib)> {
+    using enum_class::enum_class;
+};
+
 struct read_draw : egl_enum_class<read_draw, EAGINE_ID_V(ReadDraw)> {
     using enum_class::enum_class;
 };

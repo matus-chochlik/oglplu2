@@ -533,7 +533,7 @@ public:
 
     opt_c_api_constant<
       mp_list<eglp::read_draw>,
-#ifdef EGL_NONE
+#ifdef EGL_READ
       int_type_c<EGL_READ>>
 #else
       int_type_i>
@@ -542,12 +542,30 @@ public:
 
     opt_c_api_constant<
       mp_list<eglp::read_draw>,
-#ifdef EGL_NONE
+#ifdef EGL_DRAW
       int_type_c<EGL_DRAW>>
 #else
       int_type_i>
 #endif
       draw;
+
+    opt_c_api_constant<
+      mp_list<eglp::sync_type>,
+#ifdef EGL_SYNC_FENCE
+      int_type_c<EGL_SYNC_FENCE>>
+#else
+      int_type_i>
+#endif
+      sync_fence;
+
+    opt_c_api_constant<
+      mp_list<eglp::sync_type>,
+#ifdef EGL_SYNC_CL_EVENT
+      int_type_c<EGL_SYNC_CL_EVENT>>
+#else
+      int_type_i>
+#endif
+      sync_cl_event;
 
     opt_c_api_constant<
       mp_list<eglp::config_caveat>,
@@ -617,6 +635,8 @@ public:
       , openvg_api("OPENVG_API", traits, api)
       , read("READ", traits, api)
       , draw("DRAW", traits, api)
+      , sync_fence("sync_fence", traits, api)
+      , sync_cl_event("sync_cl_event", traits, api)
       , none("NONE", traits, api) {}
 };
 //------------------------------------------------------------------------------

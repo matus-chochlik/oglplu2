@@ -15,6 +15,7 @@
 #include "enum_types.hpp"
 #include "objects.hpp"
 #include "surface_attribs.hpp"
+#include "sync_attribs.hpp"
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
 
@@ -464,6 +465,37 @@ public:
         }
     } make_current;
 
+    // create_sync
+    struct : func<EGLPAFP(CreateSync)> {
+        using func<EGLPAFP(CreateSync)>::func;
+
+        constexpr auto operator()(
+          display_handle disp,
+          sync_type type,
+          span<const int_type> attribs) const noexcept {
+            return this->_cnvchkcall(disp, type, attribs.data())
+              .cast_to(type_identity<sync_handle>{});
+        }
+
+        template <std::size_t N>
+        constexpr auto operator()(
+          display_handle disp,
+          sync_type type,
+          const sync_attributes<N> attribs) const noexcept {
+            return (*this)(disp, type, attribs.get());
+        }
+    } create_sync;
+
+    // destroy_sync
+    struct : func<EGLPAFP(DestroySync)> {
+        using func<EGLPAFP(DestroySync)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, sync_handle sync) const noexcept {
+            return this->_cnvchkcall(disp, sync);
+        }
+    } destroy_sync;
+
     // query_string
     struct : func<EGLPAFP(QueryString)> {
         using func<EGLPAFP(QueryString)>::func;
@@ -551,6 +583,8 @@ public:
       , create_context("create_context", traits, *this)
       , destroy_context("destroy_context", traits, *this)
       , make_current("make_current", traits, *this)
+      , create_sync("create_sync", traits, *this)
+      , destroy_sync("destroy_sync", traits, *this)
       , query_string("query_string", traits, *this)
       , swap_interval("swap_interval", traits, *this)
       , swap_buffers("swap_buffers", traits, *this)
