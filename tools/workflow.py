@@ -136,8 +136,8 @@ def action_finish_release():
             "Release branch '"+release_branch+"' does not exist. "
             "Re-run with --begin-release to start a new release."
         )
-    git_command(["checkout", "master"], root_dir)
-    git_command(["pull", "origin", "master"], root_dir)
+    git_command(["checkout", "main"], root_dir)
+    git_command(["pull", "origin", "main"], root_dir)
     git_command(["merge", "-X", "theirs", "--no-ff", release_branch], root_dir)
     git_command(["tag", "-a", release_version, "-m", "Tagged release "+release_version], root_dir)
     git_command(["checkout", "develop"], root_dir)
@@ -146,15 +146,15 @@ def action_finish_release():
     git_command(["branch", "-D", release_branch], root_dir)
     git_command(["push", "origin", ":"+release_branch], root_dir)
     git_command(["push", "origin", release_version], root_dir)
-    git_command(["push", "origin", "master"], root_dir)
+    git_command(["push", "origin", "main"], root_dir)
     git_command(["push", "origin", "develop"], root_dir)
 
 
 # Begins a new hotfix
 def action_begin_hotfix():
     root_dir = get_root_dir()
-    git_command(["checkout", "master"], root_dir)
-    git_command(["pull", "origin", "master"], root_dir)
+    git_command(["checkout", "main"], root_dir)
+    git_command(["pull", "origin", "main"], root_dir)
     base_version = version_string(current_version(root_dir))
     next_version = version_string(next_hotfix(root_dir))
     git_command(["checkout", "-b", "hotfix-"+next_version, base_version+"^2"], root_dir)
@@ -182,8 +182,8 @@ def action_finish_hotfix():
             "Hotfix branch '"+hotfix_branch+"' does not exist. "
             "Re-run with --begin-hotfix to start a new hotfix."
         )
-    git_command(["checkout", "master"], root_dir)
-    git_command(["pull", "origin", "master"], root_dir)
+    git_command(["checkout", "main"], root_dir)
+    git_command(["pull", "origin", "main"], root_dir)
     git_command(["merge", "-X", "theirs", "--no-ff", hotfix_branch], root_dir)
     git_command(["tag", "-a", hotfix_version, "-m", "Tagged hotfix "+hotfix_version], root_dir)
     git_command(["checkout", "develop"], root_dir)
@@ -192,7 +192,7 @@ def action_finish_hotfix():
     git_command(["branch", "-D", hotfix_branch], root_dir)
     git_command(["push", "origin", ":"+hotfix_branch], root_dir)
     git_command(["push", "origin", hotfix_version], root_dir)
-    git_command(["push", "origin", "master"], root_dir)
+    git_command(["push", "origin", "main"], root_dir)
     git_command(["push", "origin", "develop"], root_dir)
 
 
