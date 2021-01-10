@@ -70,6 +70,18 @@ struct sync_attribute
 struct read_draw : egl_enum_class<read_draw, EAGINE_ID_V(ReadDraw)> {
     using enum_class::enum_class;
 };
+
+struct texture_format : egl_enum_class<texture_format, EAGINE_ID_V(TexFormat)> {
+    using enum_class::enum_class;
+};
+
+struct texture_target : egl_enum_class<texture_target, EAGINE_ID_V(TexTarget)> {
+    using enum_class::enum_class;
+};
+
+struct gl_colorspace : egl_enum_class<gl_colorspace, EAGINE_ID_V(GLClrspace)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace eagine::eglp
 

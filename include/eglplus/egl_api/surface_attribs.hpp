@@ -40,6 +40,24 @@ operator|(surface_attribute key, egl_types::int_type value) noexcept
     return {key, value};
 }
 
+static constexpr inline auto
+operator|(surface_attribute key, texture_format value) noexcept
+  -> surface_attribute_value {
+    return {key, egl_types::int_type(value)};
+}
+
+static constexpr inline auto
+operator|(surface_attribute key, texture_target value) noexcept
+  -> surface_attribute_value {
+    return {key, egl_types::int_type(value)};
+}
+
+static constexpr inline auto
+operator|(surface_attribute key, gl_colorspace value) noexcept
+  -> surface_attribute_value {
+    return {key, egl_types::int_type(value)};
+}
+
 #if defined(EGL_TRUE) && defined(EGL_FALSE)
 static constexpr inline auto
 operator|(surface_attribute key, bool value) noexcept

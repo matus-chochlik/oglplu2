@@ -398,6 +398,42 @@ public:
 
     opt_c_api_constant<
       mp_list<surface_attribute>,
+#ifdef EGL_WIDTH
+      int_type_c<EGL_WIDTH>>
+#else
+      int_type_i>
+#endif
+      width;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_HEIGHT
+      int_type_c<EGL_HEIGHT>>
+#else
+      int_type_i>
+#endif
+      height;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_LARGEST_PBUFFER
+      int_type_c<EGL_LARGEST_PBUFFER>>
+#else
+      int_type_i>
+#endif
+      largest_pbuffer;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_GL_COLORSPACE
+      int_type_c<EGL_GL_COLORSPACE>>
+#else
+      int_type_i>
+#endif
+      gl_colorspace;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
 #ifdef EGL_MIPMAP_LEVEL
       int_type_c<EGL_MIPMAP_LEVEL>>
 #else
@@ -604,6 +640,60 @@ public:
       sync_cl_event;
 
     opt_c_api_constant<
+      mp_list<eglp::texture_format, eglp::texture_target>,
+#ifdef EGL_NO_TEXTURE
+      int_type_c<EGL_NO_TEXTURE>>
+#else
+      int_type_i>
+#endif
+      no_texture;
+
+    opt_c_api_constant<
+      mp_list<eglp::texture_target>,
+#ifdef EGL_TEXTURE_2D
+      int_type_c<EGL_TEXTURE_2D>>
+#else
+      int_type_i>
+#endif
+      texture_2d;
+
+    opt_c_api_constant<
+      mp_list<eglp::texture_format>,
+#ifdef EGL_TEXTURE_RGB
+      int_type_c<EGL_TEXTURE_RGB>>
+#else
+      int_type_i>
+#endif
+      texture_rgb;
+
+    opt_c_api_constant<
+      mp_list<eglp::texture_format>,
+#ifdef EGL_TEXTURE_RGBA
+      int_type_c<EGL_TEXTURE_RGBA>>
+#else
+      int_type_i>
+#endif
+      texture_rgba;
+
+    opt_c_api_constant<
+      mp_list<eglp::gl_colorspace>,
+#ifdef EGL_GL_COLORSPACE_LINEAR
+      int_type_c<EGL_GL_COLORSPACE_LINEAR>>
+#else
+      int_type_i>
+#endif
+      gl_colorspace_linear;
+
+    opt_c_api_constant<
+      mp_list<eglp::gl_colorspace>,
+#ifdef EGL_GL_COLORSPACE_SRGB
+      int_type_c<EGL_GL_COLORSPACE_SRGB>>
+#else
+      int_type_i>
+#endif
+      gl_colorspace_srgb;
+
+    opt_c_api_constant<
       mp_list<eglp::config_caveat>,
 #ifdef EGL_NONE
       int_type_c<EGL_NONE>>
@@ -654,6 +744,10 @@ public:
       , pbuffer_pixels("PBUFFER_PIXELS", traits, api)
       , max_swap_interval("MAX_SWAP_INTERVAL", traits, api)
       , min_swap_interval("MIN_SWAP_INTERVAL", traits, api)
+      , width("WIDTH", traits, api)
+      , height("HEIGHT", traits, api)
+      , largest_pbuffer("LARGEST_PBUFFER", traits, api)
+      , gl_colorspace("GL_COLORSPACE", traits, api)
       , mipmap_level("MIPMAP_LEVEL", traits, api)
       , multisample_resolve("MULTISAMPLE_RESOLVE", traits, api)
       , swap_behavior("SWAP_BEHAVIOR", traits, api)
@@ -677,6 +771,12 @@ public:
       , draw("DRAW", traits, api)
       , sync_fence("sync_fence", traits, api)
       , sync_cl_event("sync_cl_event", traits, api)
+      , no_texture("no_texture", traits, api)
+      , texture_2d("texture_rgba", traits, api)
+      , texture_rgb("texture_rgb", traits, api)
+      , texture_rgba("texture_rgba", traits, api)
+      , gl_colorspace_linear("gl_colorspace_linear", traits, api)
+      , gl_colorspace_srgb("gl_colorspace_srgb", traits, api)
       , none("NONE", traits, api) {}
 };
 //------------------------------------------------------------------------------
