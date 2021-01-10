@@ -226,11 +226,26 @@ public:
             return (*this)(disp, attribs.get(), dest);
         }
 
+        template <std::size_t N>
+        auto operator()(
+          display_handle disp,
+          const config_attributes<N>& attribs) const noexcept {
+            config_type result;
+            return (*this)(disp, attribs.get(), cover_one(&result))
+              .replaced_with(result);
+        }
+
         auto operator()(
           display_handle disp,
           const config_attribute_value& attribs,
           span<config_type> dest) const noexcept {
             return (*this)(disp, config_attributes<2>{attribs}, dest);
+        }
+
+        auto operator()(
+          display_handle disp,
+          const config_attribute_value& attribs) const noexcept {
+            return (*this)(disp, config_attributes<2>{attribs});
         }
     } choose_config;
 
