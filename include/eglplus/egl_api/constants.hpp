@@ -209,6 +209,42 @@ public:
 
     opt_c_api_constant<
       mp_list<config_attribute>,
+#ifdef EGL_CONFORMANT
+      int_type_c<EGL_CONFORMANT>>
+#else
+      int_type_i>
+#endif
+      conformant;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_SURFACE_TYPE
+      int_type_c<EGL_SURFACE_TYPE>>
+#else
+      int_type_i>
+#endif
+      surface_type;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_RENDERABLE_TYPE
+      int_type_c<EGL_RENDERABLE_TYPE>>
+#else
+      int_type_i>
+#endif
+      renderable_type;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_COLOR_BUFFER_TYPE
+      int_type_c<EGL_COLOR_BUFFER_TYPE>>
+#else
+      int_type_i>
+#endif
+      color_buffer_type;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
 #ifdef EGL_BUFFER_SIZE
       int_type_c<EGL_BUFFER_SIZE>>
 #else
@@ -461,12 +497,57 @@ public:
 
     opt_c_api_constant<
       mp_list<context_attribute>,
-#ifdef EGL_CONTEXT_CLIENT_VERSION
-      int_type_c<EGL_CONTEXT_CLIENT_VERSION>>
+#ifdef EGL_CONTEXT_MAJOR_VERSION
+      int_type_c<EGL_CONTEXT_MAJOR_VERSION>>
 #else
       int_type_i>
 #endif
-      context_client_version;
+      context_major_version;
+
+    opt_c_api_constant<
+      mp_list<context_attribute>,
+#ifdef EGL_CONTEXT_MINOR_VERSION
+      int_type_c<EGL_CONTEXT_MINOR_VERSION>>
+#else
+      int_type_i>
+#endif
+      context_minor_version;
+
+    opt_c_api_constant<
+      mp_list<context_attribute>,
+#ifdef EGL_CONTEXT_OPENGL_PROFILE_MASK
+      int_type_c<EGL_CONTEXT_OPENGL_PROFILE_MASK>>
+#else
+      int_type_i>
+#endif
+      context_opengl_profile_mask;
+
+    opt_c_api_constant<
+      mp_list<context_attribute>,
+#ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE
+      int_type_c<EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE>>
+#else
+      int_type_i>
+#endif
+      context_opengl_forward_compatible;
+
+    opt_c_api_constant<
+      mp_list<context_attribute>,
+#ifdef EGL_CONTEXT_OPENGL_DEBUG
+      int_type_c<EGL_CONTEXT_OPENGL_DEBUG>>
+#else
+      int_type_i>
+#endif
+      context_opengl_debug;
+
+    opt_c_api_constant<
+      mp_list<context_attribute>,
+#ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS
+      int_type_c<EGL_CONTEXT_OPENGL_ROBUST_ACCESS>>
+#else
+      int_type_i>
+#endif
+      context_opengl_robust_access;
 
     opt_c_api_constant<
       mp_list<surface_type_bit>,
@@ -532,7 +613,7 @@ public:
       vg_alpha_format_pre_bit_bit;
 
     opt_c_api_constant<
-      mp_list<client_api_bit>,
+      mp_list<client_api_bit, renderable_type_bit>,
 #ifdef EGL_OPENGL_BIT
       int_type_c<EGL_OPENGL_BIT>>
 #else
@@ -541,7 +622,7 @@ public:
       opengl_bit;
 
     opt_c_api_constant<
-      mp_list<client_api_bit>,
+      mp_list<client_api_bit, renderable_type_bit>,
 #ifdef EGL_OPENGL_ES_BIT
       int_type_c<EGL_OPENGL_ES_BIT>>
 #else
@@ -550,7 +631,7 @@ public:
       opengl_es_bit;
 
     opt_c_api_constant<
-      mp_list<client_api_bit>,
+      mp_list<client_api_bit, renderable_type_bit>,
 #ifdef EGL_OPENGL_ES2_BIT
       int_type_c<EGL_OPENGL_ES2_BIT>>
 #else
@@ -559,7 +640,7 @@ public:
       opengl_es2_bit;
 
     opt_c_api_constant<
-      mp_list<client_api_bit>,
+      mp_list<client_api_bit, renderable_type_bit>,
 #ifdef EGL_OPENGL_ES3_BIT
       int_type_c<EGL_OPENGL_ES3_BIT>>
 #else
@@ -568,7 +649,7 @@ public:
       opengl_es3_bit;
 
     opt_c_api_constant<
-      mp_list<client_api_bit>,
+      mp_list<client_api_bit, renderable_type_bit>,
 #ifdef EGL_OPENVG_BIT
       int_type_c<EGL_OPENVG_BIT>>
 #else
@@ -602,6 +683,42 @@ public:
       int_type_i>
 #endif
       openvg_api;
+
+    opt_c_api_constant<
+      mp_list<eglp::context_opengl_profile_bit>,
+#ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
+      int_type_c<EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT>>
+#else
+      int_type_i>
+#endif
+      context_opengl_core_profile_bit;
+
+    opt_c_api_constant<
+      mp_list<eglp::context_opengl_profile_bit>,
+#ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
+      int_type_c<EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT>>
+#else
+      int_type_i>
+#endif
+      context_opengl_compatibility_profile_bit;
+
+    opt_c_api_constant<
+      mp_list<eglp::color_buffer_type>,
+#ifdef EGL_RGB_BUFFER
+      int_type_c<EGL_RGB_BUFFER>>
+#else
+      int_type_i>
+#endif
+      rgb_buffer;
+
+    opt_c_api_constant<
+      mp_list<eglp::color_buffer_type>,
+#ifdef EGL_LUMINANCE_BUFFER
+      int_type_c<EGL_LUMINANCE_BUFFER>>
+#else
+      int_type_i>
+#endif
+      luminance_buffer;
 
     opt_c_api_constant<
       mp_list<eglp::read_draw>,
@@ -723,6 +840,10 @@ public:
       , version("VERSION", traits, api)
       , extensions("EXTENSIONS", traits, api)
       , config_id("CONFIG_ID", traits, api)
+      , conformant("CONFORMANT", traits, api)
+      , surface_type("SURFACE_TYPE", traits, api)
+      , renderable_type("RENDERABLE_TYPE", traits, api)
+      , color_buffer_type("RENDERABLE_TYPE", traits, api)
       , buffer_size("BUFFER_SIZE", traits, api)
       , red_size("RED_SIZE", traits, api)
       , green_size("GREEN_SIZE", traits, api)
@@ -751,7 +872,15 @@ public:
       , mipmap_level("MIPMAP_LEVEL", traits, api)
       , multisample_resolve("MULTISAMPLE_RESOLVE", traits, api)
       , swap_behavior("SWAP_BEHAVIOR", traits, api)
-      , context_client_version("CONTEXT_CLIENT_VERSION", traits, api)
+      , context_major_version("CONTEXT_MAJOR_VERSION", traits, api)
+      , context_minor_version("CONTEXT_MINOR_VERSION", traits, api)
+      , context_opengl_profile_mask("CONTEXT_OPENGL_PROFILE_MASK", traits, api)
+      , context_opengl_forward_compatible(
+          "CONTEXT_OPENGL_FORWARD_COMPATIBLE",
+          traits,
+          api)
+      , context_opengl_debug("CONTEXT_OPENGL_DEBUG", traits, api)
+      , context_opengl_robust_access("CONTEXT_OPENGL_ROBUST_ACCESS", traits, api)
       , window_bit("WINDOW_BIT", traits, api)
       , pixmap_bit("PIXMAP_BIT", traits, api)
       , pbuffer_bit("PBUFFER_BIT", traits, api)
@@ -767,6 +896,16 @@ public:
       , opengl_api("OPENGL_API", traits, api)
       , opengl_es_api("OPENGL_ES_API", traits, api)
       , openvg_api("OPENVG_API", traits, api)
+      , context_opengl_core_profile_bit(
+          "CONTEXT_OPENGL_CORE_PROFILE_BIT",
+          traits,
+          api)
+      , context_opengl_compatibility_profile_bit(
+          "CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT",
+          traits,
+          api)
+      , rgb_buffer("RGB_BUFFER", traits, api)
+      , luminance_buffer("LUMINANCE_BUFFER", traits, api)
       , read("READ", traits, api)
       , draw("DRAW", traits, api)
       , sync_fence("sync_fence", traits, api)

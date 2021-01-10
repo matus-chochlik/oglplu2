@@ -44,6 +44,11 @@ struct surface_type_bit
     using enum_class::enum_class;
 };
 
+struct renderable_type_bit
+  : egl_enum_class<renderable_type_bit, EAGINE_ID_V(RndrTypBit)> {
+    using enum_class::enum_class;
+};
+
 struct client_api : egl_enum_class<client_api, EAGINE_ID_V(ClientApi)> {
     using enum_class::enum_class;
 };
@@ -58,12 +63,22 @@ struct context_attribute
     using enum_class::enum_class;
 };
 
+struct context_opengl_profile_bit
+  : egl_enum_class<context_opengl_profile_bit, EAGINE_ID_V(OGLPrflBit)> {
+    using enum_class::enum_class;
+};
+
 struct sync_type : egl_enum_class<sync_type, EAGINE_ID_V(SyncType)> {
     using enum_class::enum_class;
 };
 
 struct sync_attribute
   : egl_enum_class<sync_attribute, EAGINE_ID_V(SyncAttrib)> {
+    using enum_class::enum_class;
+};
+
+struct color_buffer_type
+  : egl_enum_class<color_buffer_type, EAGINE_ID_V(ClrBufType)> {
     using enum_class::enum_class;
 };
 

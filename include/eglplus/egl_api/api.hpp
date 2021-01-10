@@ -433,7 +433,7 @@ public:
         constexpr auto operator()(
           display_handle disp,
           config_type conf,
-          const surface_attributes<N> attribs) const noexcept {
+          const context_attributes<N> attribs) const noexcept {
             return (*this)(disp, conf, context_handle{}, attribs.get());
         }
 
@@ -442,7 +442,7 @@ public:
           display_handle disp,
           config_type conf,
           context_handle share_ctxt,
-          const surface_attributes<N> attribs) const noexcept {
+          const context_attributes<N> attribs) const noexcept {
             return (*this)(disp, conf, share_ctxt, attribs.get());
         }
     } create_context;
@@ -478,6 +478,10 @@ public:
           surface_handle surf,
           context_handle ctxt) const noexcept {
             return this->_cnvchkcall(disp, surf, surf, ctxt);
+        }
+
+        constexpr auto none(display_handle disp) const noexcept {
+            return (*this)(disp, surface_handle{}, context_handle{});
         }
     } make_current;
 
@@ -632,10 +636,24 @@ public:
     }
 
     // swap_interval
-    func<EGLPAFP(SwapInterval)> swap_interval;
+    struct : func<EGLPAFP(SwapInterval)> {
+        using func<EGLPAFP(SwapInterval)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, int_type interval) const noexcept {
+            return this->_cnvchkcall(disp, interval);
+        }
+    } swap_interval;
 
     // swap_buffers
-    func<EGLPAFP(SwapBuffers)> swap_buffers;
+    struct : func<EGLPAFP(SwapBuffers)> {
+        using func<EGLPAFP(SwapBuffers)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, surface_handle surf) const noexcept {
+            return this->_cnvchkcall(disp, surf);
+        }
+    } swap_buffers;
 
     // release_thread
     func<EGLPAFP(ReleaseThread)> release_thread;

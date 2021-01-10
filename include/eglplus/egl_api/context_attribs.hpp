@@ -40,6 +40,13 @@ operator|(context_attribute key, egl_types::int_type value) noexcept
     return {key, value};
 }
 
+static constexpr inline auto operator|(
+  context_attribute key,
+  enum_bitfield<context_opengl_profile_bit> value) noexcept
+  -> context_attribute_value {
+    return {key, egl_types::int_type(value)};
+}
+
 #if defined(EGL_TRUE) && defined(EGL_FALSE)
 static constexpr inline auto
 operator|(context_attribute key, bool value) noexcept

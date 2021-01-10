@@ -41,14 +41,20 @@ operator|(config_attribute key, egl_types::int_type value) noexcept
 }
 
 static constexpr inline auto
-operator|(config_attribute key, enum_bitfield<surface_type_bit> value) noexcept
+operator|(config_attribute key, color_buffer_type value) noexcept
   -> config_attribute_value {
     return {key, egl_types::int_type(value)};
 }
 
 static constexpr inline auto
-operator|(config_attribute key, enum_bitfield<client_api_bit> value) noexcept
+operator|(config_attribute key, enum_bitfield<surface_type_bit> value) noexcept
   -> config_attribute_value {
+    return {key, egl_types::int_type(value)};
+}
+
+static constexpr inline auto operator|(
+  config_attribute key,
+  enum_bitfield<renderable_type_bit> value) noexcept -> config_attribute_value {
     return {key, egl_types::int_type(value)};
 }
 
