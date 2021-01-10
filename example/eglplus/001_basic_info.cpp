@@ -33,7 +33,7 @@ auto main() -> int {
             std::cout << "failed to initialize EGL" << std::endl;
         }
     } else {
-        std::cout << "failed to get defaut display" << std::endl;
+        std::cout << "failed to get default display" << std::endl;
     }
     return 0;
 }

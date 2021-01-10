@@ -397,6 +397,78 @@ public:
       min_swap_interval;
 
     opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_WIDTH
+      int_type_c<EGL_WIDTH>>
+#else
+      int_type_i>
+#endif
+      width;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_HEIGHT
+      int_type_c<EGL_HEIGHT>>
+#else
+      int_type_i>
+#endif
+      height;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_LARGEST_PBUFFER
+      int_type_c<EGL_LARGEST_PBUFFER>>
+#else
+      int_type_i>
+#endif
+      largest_pbuffer;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_GL_COLORSPACE
+      int_type_c<EGL_GL_COLORSPACE>>
+#else
+      int_type_i>
+#endif
+      gl_colorspace;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_MIPMAP_LEVEL
+      int_type_c<EGL_MIPMAP_LEVEL>>
+#else
+      int_type_i>
+#endif
+      mipmap_level;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_MULTISAMPLE_RESOLVE
+      int_type_c<EGL_MULTISAMPLE_RESOLVE>>
+#else
+      int_type_i>
+#endif
+      multisample_resolve;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_SWAP_BEHAVIOR
+      int_type_c<EGL_SWAP_BEHAVIOR>>
+#else
+      int_type_i>
+#endif
+      swap_behavior;
+
+    opt_c_api_constant<
+      mp_list<context_attribute>,
+#ifdef EGL_CONTEXT_CLIENT_VERSION
+      int_type_c<EGL_CONTEXT_CLIENT_VERSION>>
+#else
+      int_type_i>
+#endif
+      context_client_version;
+
+    opt_c_api_constant<
       mp_list<surface_type_bit>,
 #ifdef EGL_WINDOW_BIT
       int_type_c<EGL_WINDOW_BIT>>
@@ -505,6 +577,123 @@ public:
       openvg_bit;
 
     opt_c_api_constant<
+      mp_list<client_api>,
+#ifdef EGL_OPENGL_API
+      int_type_c<EGL_OPENGL_API>>
+#else
+      int_type_i>
+#endif
+      opengl_api;
+
+    opt_c_api_constant<
+      mp_list<client_api>,
+#ifdef EGL_OPENGL_ES_API
+      int_type_c<EGL_OPENGL_ES_API>>
+#else
+      int_type_i>
+#endif
+      opengl_es_api;
+
+    opt_c_api_constant<
+      mp_list<client_api>,
+#ifdef EGL_OPENVG_API
+      int_type_c<EGL_OPENVG_API>>
+#else
+      int_type_i>
+#endif
+      openvg_api;
+
+    opt_c_api_constant<
+      mp_list<eglp::read_draw>,
+#ifdef EGL_READ
+      int_type_c<EGL_READ>>
+#else
+      int_type_i>
+#endif
+      read;
+
+    opt_c_api_constant<
+      mp_list<eglp::read_draw>,
+#ifdef EGL_DRAW
+      int_type_c<EGL_DRAW>>
+#else
+      int_type_i>
+#endif
+      draw;
+
+    opt_c_api_constant<
+      mp_list<eglp::sync_type>,
+#ifdef EGL_SYNC_FENCE
+      int_type_c<EGL_SYNC_FENCE>>
+#else
+      int_type_i>
+#endif
+      sync_fence;
+
+    opt_c_api_constant<
+      mp_list<eglp::sync_type>,
+#ifdef EGL_SYNC_CL_EVENT
+      int_type_c<EGL_SYNC_CL_EVENT>>
+#else
+      int_type_i>
+#endif
+      sync_cl_event;
+
+    opt_c_api_constant<
+      mp_list<eglp::texture_format, eglp::texture_target>,
+#ifdef EGL_NO_TEXTURE
+      int_type_c<EGL_NO_TEXTURE>>
+#else
+      int_type_i>
+#endif
+      no_texture;
+
+    opt_c_api_constant<
+      mp_list<eglp::texture_target>,
+#ifdef EGL_TEXTURE_2D
+      int_type_c<EGL_TEXTURE_2D>>
+#else
+      int_type_i>
+#endif
+      texture_2d;
+
+    opt_c_api_constant<
+      mp_list<eglp::texture_format>,
+#ifdef EGL_TEXTURE_RGB
+      int_type_c<EGL_TEXTURE_RGB>>
+#else
+      int_type_i>
+#endif
+      texture_rgb;
+
+    opt_c_api_constant<
+      mp_list<eglp::texture_format>,
+#ifdef EGL_TEXTURE_RGBA
+      int_type_c<EGL_TEXTURE_RGBA>>
+#else
+      int_type_i>
+#endif
+      texture_rgba;
+
+    opt_c_api_constant<
+      mp_list<eglp::gl_colorspace>,
+#ifdef EGL_GL_COLORSPACE_LINEAR
+      int_type_c<EGL_GL_COLORSPACE_LINEAR>>
+#else
+      int_type_i>
+#endif
+      gl_colorspace_linear;
+
+    opt_c_api_constant<
+      mp_list<eglp::gl_colorspace>,
+#ifdef EGL_GL_COLORSPACE_SRGB
+      int_type_c<EGL_GL_COLORSPACE_SRGB>>
+#else
+      int_type_i>
+#endif
+      gl_colorspace_srgb;
+
+    opt_c_api_constant<
       mp_list<eglp::config_caveat>,
 #ifdef EGL_NONE
       int_type_c<EGL_NONE>>
@@ -555,6 +744,14 @@ public:
       , pbuffer_pixels("PBUFFER_PIXELS", traits, api)
       , max_swap_interval("MAX_SWAP_INTERVAL", traits, api)
       , min_swap_interval("MIN_SWAP_INTERVAL", traits, api)
+      , width("WIDTH", traits, api)
+      , height("HEIGHT", traits, api)
+      , largest_pbuffer("LARGEST_PBUFFER", traits, api)
+      , gl_colorspace("GL_COLORSPACE", traits, api)
+      , mipmap_level("MIPMAP_LEVEL", traits, api)
+      , multisample_resolve("MULTISAMPLE_RESOLVE", traits, api)
+      , swap_behavior("SWAP_BEHAVIOR", traits, api)
+      , context_client_version("CONTEXT_CLIENT_VERSION", traits, api)
       , window_bit("WINDOW_BIT", traits, api)
       , pixmap_bit("PIXMAP_BIT", traits, api)
       , pbuffer_bit("PBUFFER_BIT", traits, api)
@@ -567,6 +764,19 @@ public:
       , opengl_es2_bit("OPENGL_ES2_BIT", traits, api)
       , opengl_es3_bit("OPENGL_ES3_BIT", traits, api)
       , openvg_bit("OPENVG_BIT", traits, api)
+      , opengl_api("OPENGL_API", traits, api)
+      , opengl_es_api("OPENGL_ES_API", traits, api)
+      , openvg_api("OPENVG_API", traits, api)
+      , read("READ", traits, api)
+      , draw("DRAW", traits, api)
+      , sync_fence("sync_fence", traits, api)
+      , sync_cl_event("sync_cl_event", traits, api)
+      , no_texture("no_texture", traits, api)
+      , texture_2d("texture_rgba", traits, api)
+      , texture_rgb("texture_rgb", traits, api)
+      , texture_rgba("texture_rgba", traits, api)
+      , gl_colorspace_linear("gl_colorspace_linear", traits, api)
+      , gl_colorspace_srgb("gl_colorspace_srgb", traits, api)
       , none("NONE", traits, api) {}
 };
 //------------------------------------------------------------------------------

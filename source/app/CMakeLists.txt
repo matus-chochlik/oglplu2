@@ -18,11 +18,23 @@ foreach(LIB GLFW3)
 	endif()
 endforeach()
 
+add_library(EAGapp::EGL INTERFACE IMPORTED)
+if(EGL_FOUND)
+	target_link_libraries(
+		EAGapp::EGL
+		INTERFACE
+			EGL::EGL
+			eglplus
+	)
+endif()
+
 add_library(EAGapp::OpenAL INTERFACE IMPORTED)
 if(OPENAL_FOUND)
 	target_link_libraries(
 		EAGapp::OpenAL
-		INTERFACE OpenAL::OpenAL
+		INTERFACE
+			OpenAL::OpenAL
+			oalplus
 	)
 endif()
 
@@ -31,6 +43,7 @@ add_library(
 	application_options.cpp
 	application_context.cpp
 	application_framedump.cpp
+	application_eglplus.cpp
 	application_glfw3.cpp
 )
 eagine_add_lib_analysis(eagine-application)
@@ -57,6 +70,7 @@ target_link_libraries(
 		oglplus
 	PRIVATE
 		EAGapp::GLFW3
+		EAGapp::EGL
 		EAGapp::OpenAL
 )
 if(GLX_FOUND)

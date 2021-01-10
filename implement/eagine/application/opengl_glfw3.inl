@@ -228,7 +228,7 @@ auto glfw3_opengl_provider::is_implemented() const noexcept -> bool {
 EAGINE_LIB_FUNC
 auto glfw3_opengl_provider::implementation_name() const noexcept
   -> string_view {
-    return {"GLFW3"};
+    return {"glfw3"};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -256,7 +256,6 @@ auto glfw3_opengl_provider::should_initialize(execution_context& exec_ctx)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto glfw3_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
-    EAGINE_MAYBE_UNUSED(exec_ctx);
 #if OGLPLUS_GLFW3_FOUND
     if(glfwInit()) {
         auto monitors = []() {
@@ -285,6 +284,8 @@ auto glfw3_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
                     if(extract(new_win).initialize(
                          name, options, video_opts, monitors)) {
                         _windows[name] = std::move(new_win);
+                    } else {
+                        extract(new_win).cleanup();
                     }
                 }
             }
@@ -296,15 +297,15 @@ auto glfw3_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
 #endif // OGLPLUS_GLFW3_FOUND
     exec_ctx.log_error("GLFW is context is not supported");
     return false;
-} // namespace eagine::application
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void glfw3_opengl_provider::update(execution_context& exec_ctx) {
     EAGINE_MAYBE_UNUSED(exec_ctx);
 #if OGLPLUS_GLFW3_FOUND
     glfwPollEvents();
-    for(auto& win : _windows) {
-        win.second->update(exec_ctx);
+    for(auto& entry : _windows) {
+        entry.second->update(exec_ctx);
     }
 #endif // OGLPLUS_GLFW3_FOUND
 }
@@ -312,8 +313,8 @@ void glfw3_opengl_provider::update(execution_context& exec_ctx) {
 EAGINE_LIB_FUNC
 void glfw3_opengl_provider::cleanup(execution_context&) {
 #if OGLPLUS_GLFW3_FOUND
-    for(auto& win : _windows) {
-        win.second->cleanup();
+    for(auto& entry : _windows) {
+        entry.second->cleanup();
     }
     glfwTerminate();
 #endif // OGLPLUS_GLFW3_FOUND

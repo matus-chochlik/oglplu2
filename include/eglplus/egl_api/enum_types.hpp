@@ -44,8 +44,42 @@ struct surface_type_bit
     using enum_class::enum_class;
 };
 
+struct client_api : egl_enum_class<client_api, EAGINE_ID_V(ClientApi)> {
+    using enum_class::enum_class;
+};
+
 struct client_api_bit
   : egl_enum_class<client_api_bit, EAGINE_ID_V(ClntApiBit)> {
+    using enum_class::enum_class;
+};
+
+struct context_attribute
+  : egl_enum_class<context_attribute, EAGINE_ID_V(CtxtAttrib)> {
+    using enum_class::enum_class;
+};
+
+struct sync_type : egl_enum_class<sync_type, EAGINE_ID_V(SyncType)> {
+    using enum_class::enum_class;
+};
+
+struct sync_attribute
+  : egl_enum_class<sync_attribute, EAGINE_ID_V(SyncAttrib)> {
+    using enum_class::enum_class;
+};
+
+struct read_draw : egl_enum_class<read_draw, EAGINE_ID_V(ReadDraw)> {
+    using enum_class::enum_class;
+};
+
+struct texture_format : egl_enum_class<texture_format, EAGINE_ID_V(TexFormat)> {
+    using enum_class::enum_class;
+};
+
+struct texture_target : egl_enum_class<texture_target, EAGINE_ID_V(TexTarget)> {
+    using enum_class::enum_class;
+};
+
+struct gl_colorspace : egl_enum_class<gl_colorspace, EAGINE_ID_V(GLClrspace)> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------

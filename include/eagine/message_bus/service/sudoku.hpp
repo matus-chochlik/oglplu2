@@ -202,7 +202,6 @@ public:
           [&](auto& info) {
               if(info.update(this->bus())) {
                   something_done();
-                  mark_activity();
               }
           },
           _infos);
@@ -344,6 +343,7 @@ protected:
     void add_methods() {
         Base::add_methods();
 
+        sudoku_rank_tuple<unsigned_constant> ranks;
         for_each_sudoku_rank_unit(
           [&](auto rank) {
               Base::add_method(this, _bind_handle_alive(rank));
@@ -351,7 +351,7 @@ protected:
               Base::add_method(this, _bind_handle_solved(rank));
               Base::add_method(this, _bind_handle_done(rank));
           },
-          _ranks);
+          ranks);
     }
 
 public:
@@ -362,12 +362,16 @@ public:
         return *this;
     }
 
-    auto is_done() -> bool {
-        bool has_work = false;
+    auto has_work() const noexcept -> bool {
+        bool result = false;
         for_each_sudoku_rank_unit(
-          [&](const auto& info) { has_work |= info.has_work(); }, _infos);
+          [&](const auto& info) { result |= info.has_work(); }, _infos);
 
-        return !has_work;
+        return result;
+    }
+
+    auto is_done() const noexcept -> bool {
+        return !has_work();
     }
 
     auto update() -> bool {
@@ -409,15 +413,13 @@ public:
     virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<6>&) {}
 
 private:
-    sudoku_rank_tuple<unsigned_constant> _ranks;
-
     template <unsigned S>
     struct rank_info {
         message_sequence_t query_sequence{0};
         default_sudoku_board_traits<S> traits;
         timeout search_timeout{std::chrono::seconds(3), nothing};
 
-        std::vector<std::tuple<Key, basic_sudoku_board<S>>> boards;
+        flat_map<Key, std::vector<basic_sudoku_board<S>>> key_boards;
 
         struct pending_info {
             pending_info(basic_sudoku_board<S> b)
@@ -437,19 +439,20 @@ private:
         std::default_random_engine randeng{std::random_device{}()};
 
         auto has_work() const noexcept {
-            return !boards.empty() || !pending.empty();
+            return !key_boards.empty() || !pending.empty();
         }
 
         void add_board(Key key, basic_sudoku_board<S> board) {
             const auto alternative_count = board.alternative_count();
+            auto& boards = key_boards[key];
             auto pos = std::lower_bound(
               boards.begin(),
               boards.end(),
               alternative_count,
               [=](const auto& entry, auto value) {
-                  return std::get<1>(entry).alternative_count() > value;
+                  return entry.alternative_count() > value;
               });
-            boards.emplace(pos, std::move(key), std::move(board));
+            boards.emplace(pos, std::move(board));
         }
 
         auto search_helpers(endpoint& bus) -> bool {
@@ -473,9 +476,21 @@ private:
                         used_helpers.erase(entry.used_helper);
                         const unsigned_constant<S> rank{};
                         if(!solver.already_done(entry.key, rank)) {
-                            add_board(
-                              std::move(entry.key), std::move(entry.board));
-                            ++count;
+                            entry.board.for_each_alternative(
+                              entry.board.find_unsolved(),
+                              [&](auto& candidate) {
+                                  if(candidate.is_solved()) {
+                                      solver.on_solved(
+                                        entry.used_helper,
+                                        entry.key,
+                                        candidate);
+                                  } else {
+                                      add_board(
+                                        std::move(entry.key),
+                                        std::move(candidate));
+                                      ++count;
+                                  }
+                              });
                         }
                         return true;
                     }
@@ -486,7 +501,7 @@ private:
                 solver.bus()
                   .log_warning("replacing ${count} timeouted boards")
                   .arg(EAGINE_ID(count), count)
-                  .arg(EAGINE_ID(enqueued), boards.size())
+                  .arg(EAGINE_ID(enqueued), key_boards.size())
                   .arg(EAGINE_ID(pending), pending.size())
                   .arg(EAGINE_ID(ready), ready_helpers.size())
                   .arg(EAGINE_ID(used), used_helpers.size())
@@ -512,14 +527,14 @@ private:
 
                     if(msg_id == sudoku_solved_msg(rank)) {
                         EAGINE_ASSERT(board.is_solved());
-                        boards.erase(
+                        key_boards.erase(
                           std::remove_if(
-                            boards.begin(),
-                            boards.end(),
+                            key_boards.begin(),
+                            key_boards.end(),
                             [&](const auto& entry) {
                                 return pos->key == std::get<0>(entry);
                             }),
-                          boards.end());
+                          key_boards.end());
                         parent.on_solved(pos->used_helper, pos->key, board);
                     } else {
                         add_board(pos->key, std::move(board));
@@ -530,12 +545,17 @@ private:
         }
 
         auto send_board_to(endpoint& bus, identifier_t helper_id) -> bool {
-            if(!boards.empty()) {
+            if(!key_boards.empty()) {
+                auto kbpos =
+                  key_boards.begin() + (query_sequence % key_boards.size());
+                EAGINE_ASSERT(kbpos < key_boards.end());
+                auto& [key, boards] = *kbpos;
                 std::binomial_distribution dist(
                   boards.size() - 1U,
-                  math::blend(1.0, 0.9, std::exp(-boards.size())));
+                  math::blend(1.0, 0.8, std::exp(-boards.size())));
+
                 auto pos = std::next(boards.begin(), dist(randeng));
-                auto& [key, board] = *pos;
+                auto& board = *pos;
                 auto temp{default_serialize_buffer_for(board)};
                 auto serialized{default_serialize(board, cover(temp))};
                 EAGINE_ASSERT(serialized);
@@ -546,12 +566,16 @@ private:
                 response.set_sequence_no(sequence_no);
                 bus.post(sudoku_query_msg(unsigned_constant<S>{}), response);
 
-                auto& query = pending.emplace_back(std::move(board));
+                pending.emplace_back(std::move(board));
+                auto& query = pending.back();
                 query.used_helper = helper_id;
                 query.sequence_no = sequence_no;
                 query.key = std::move(key);
                 query.too_late.reset(std::chrono::seconds(S * S));
                 boards.erase(pos);
+                if(boards.empty()) {
+                    key_boards.erase(kbpos);
+                }
 
                 used_helpers.insert(helper_id);
                 ready_helpers.erase(helper_id);
@@ -597,11 +621,11 @@ private:
 
         auto has_enqueued(const Key& key) -> bool {
             return std::find_if(
-                     boards.begin(),
-                     boards.end(),
+                     key_boards.begin(),
+                     key_boards.end(),
                      [&](const auto& entry) {
                          return std::get<0>(entry) == key;
-                     }) != boards.end() ||
+                     }) != key_boards.end() ||
                    std::find_if(
                      pending.begin(), pending.end(), [&](const auto& entry) {
                          return entry.key == key;
@@ -719,7 +743,11 @@ public:
           conv(std::get<1>(max))};
     }
 
-    auto is_complete(Coord min, Coord max) const -> bool {
+    auto boards_extent() const {
+        return boards_extent({_minu, _minv}, {_maxu, _maxv});
+    }
+
+    auto are_complete(Coord min, Coord max) const -> bool {
         const auto [xmin, ymin, xmax, ymax] = boards_extent(min, max);
         for(auto y : integer_range(ymin, ymax)) {
             for(auto x : integer_range(xmin, xmax)) {
@@ -731,11 +759,15 @@ public:
         return true;
     }
 
-    auto is_complete() const -> bool {
-        return is_complete({_minu, _minv}, {_maxu, _maxv});
+    auto are_complete() const -> bool {
+        return are_complete({_minu, _minv}, {_maxu, _maxv});
     }
 
-    auto print(std::ostream& out, Coord min, Coord max) const -> std::ostream& {
+    auto print(
+      std::ostream& out,
+      Coord min,
+      Coord max,
+      const basic_sudoku_board_traits<S>& traits) const -> std::ostream& {
         const auto [xmin, ymin, xmax, ymax] = boards_extent(min, max);
 
         for(auto y : integer_range(ymin, ymax)) {
@@ -746,11 +778,11 @@ public:
                         for(auto bx : integer_range(1U, S - 1U)) {
                             for(auto cx : integer_range(S)) {
                                 if(board) {
-                                    _traits.print(
+                                    traits.print(
                                       out,
                                       extract(board).get({bx, by, cx, cy}));
                                 } else {
-                                    _traits.print_empty(out);
+                                    traits.print_empty(out);
                                 }
                             }
                         }
@@ -760,6 +792,16 @@ public:
             }
         }
         return out;
+    }
+
+    auto print(std::ostream& out, Coord min, Coord max) const -> std::ostream& {
+        return print(out, min, max, _traits);
+    }
+
+    auto
+    print(std::ostream& out, const basic_sudoku_board_traits<S>& traits) const
+      -> auto& {
+        return print(out, {_minu, _minv}, {_maxu, _maxv}, traits);
     }
 
     auto print(std::ostream& out) const -> auto& {
@@ -774,8 +816,8 @@ protected:
 private:
     int _minu{0};
     int _minv{0};
-    int _maxu{S * (S - 2)};
-    int _maxv{S * (S - 2)};
+    int _maxu{0};
+    int _maxv{0};
     flat_map<Coord, basic_sudoku_board<S>> _boards;
     default_sudoku_board_traits<S> _traits;
 };
@@ -804,6 +846,19 @@ public:
     template <unsigned S>
     auto initialize(Coord max, basic_sudoku_board<S> board) -> auto& {
         return initialize({0, 0}, max, {0, 0}, std::move(board));
+    }
+
+    template <unsigned S>
+    auto tiling_complete(unsigned_constant<S> rank) const noexcept -> bool {
+        return _infos.get(rank).are_complete();
+    }
+
+    auto tiling_complete() const noexcept -> bool {
+        bool result = true;
+        sudoku_rank_tuple<unsigned_constant> ranks;
+        for_each_sudoku_rank_unit(
+          [&](auto rank) { result &= tiling_complete(rank); }, ranks);
+        return result;
     }
 
     virtual void on_tiles_generated(const sudoku_tiles<3>&) {}
@@ -937,23 +992,18 @@ private:
             }
         }
 
-        void try_enqueue(This& solver, int x, int y) {
-            if(this->is_in_extent(x, y) && !this->get_board(x, y)) {
-                if(!solver.has_enqueued({x, y}, unsigned_constant<S>{})) {
-                    do_enqueue(solver, x, y);
+        void enqueue_incomplete(This& solver) {
+            const unsigned_constant<S> rank{};
+            const auto [xmin, ymin, xmax, ymax] = this->boards_extent();
+            for(auto y : integer_range(ymin, ymax)) {
+                for(auto x : integer_range(xmin, xmax)) {
+                    if(!this->get_board(x, y)) {
+                        if(!solver.has_enqueued({x, y}, rank)) {
+                            do_enqueue(solver, x, y);
+                        }
+                    }
                 }
             }
-        }
-
-        void enqueue_neighbors(This& solver, int x, int y) {
-            try_enqueue(solver, x - 1, y - 1);
-            try_enqueue(solver, x + 0, y - 1);
-            try_enqueue(solver, x + 1, y - 1);
-            try_enqueue(solver, x - 1, y + 0);
-            try_enqueue(solver, x + 1, y + 0);
-            try_enqueue(solver, x - 1, y + 1);
-            try_enqueue(solver, x + 0, y + 1);
-            try_enqueue(solver, x + 1, y + 1);
         }
 
         void handle_solved(
@@ -961,9 +1011,7 @@ private:
           identifier_t helper_id,
           Coord coord,
           basic_sudoku_board<S> board) {
-            const bool was_complete = this->is_complete();
 
-            const auto [x, y] = coord;
             if(this->set_board(coord, std::move(board))) {
                 solver.bus()
                   .log_info("solved board (${x}, ${y})")
@@ -973,11 +1021,9 @@ private:
                   .arg(EAGINE_ID(helper), helper_id);
             }
 
-            enqueue_neighbors(solver, x, y);
+            enqueue_incomplete(solver);
 
-            if(!was_complete && this->is_complete()) {
-                solver.on_tiles_generated(*this);
-            }
+            solver.on_tiles_generated(*this);
         }
     };
 
@@ -1039,7 +1085,7 @@ private:
         auto& info = _infos.get(unsigned_constant<S>{});
         info.handle_solved(*this, helper_id, coord, std::move(board));
     }
-}; // namespace eagine::msgbus
+};
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 

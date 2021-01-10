@@ -24,13 +24,18 @@ ${install_prefix}/bin/eagine-message_bus-sudoku_helper \
 	${conn_type} \
 	--msg-bus-router-id-major 1000 \
 	--msg-bus-router-id-count 1000 \
-	--msg-bus-sudoku-helper-shutdown-when-idle true \
-	& pids+=($!)
+	& termpids+=($!)
 sleep 1
+rank=4
+div=$((rank * (rank - 2)))
 ${install_prefix}/bin/eagine-message_bus-sudoku_tiling \
 	"${log_args[@]}" \
 	${conn_type} \
-	--4 --width 64 --height 64 \
+	--msg-bus-sudoku-solver-block-cells true \
+	--msg-bus-sudoku-solver-print-incomplete true \
+	--${rank} \
+	--width  $(((COLUMNS / div) * div)) \
+	--height $(((LINES / div) * div)) \
 	& pids+=($!)
 sleep 1
 for ssh_host in "${@}"
@@ -48,12 +53,6 @@ do wait ${pid}
 done
 
 kill -INT ${termpids[@]}
-for i in {1..30}
-do
-	kill -0 ${termpids[@]} 2> /dev/null || break
-	sleep 1
-done
-kill -KILL  ${termpids[@]} 2> /dev/null
 
 for pid in ${termpids[@]}
 do wait ${pid}

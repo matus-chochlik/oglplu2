@@ -1,5 +1,5 @@
 /**
- *  .file app/application_framedump.cpp
+ *  .file app/application/glfw3.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -10,11 +10,11 @@
 // clang-format off
 #include "prologue.inl"
 #include <eagine/main_ctx.hpp>
-#include <eagine/compression.hpp>
 #include <eagine/application_config.hpp>
+#include <eagine/application/context.hpp>
 #include <eagine/application/options.hpp>
 
 #include "implement.inl"
-#include <eagine/application/framedump_raw.hpp>
+#include <eagine/application/opengl_eglplus.hpp>
 #include "epilogue.inl"
 // clang-format on

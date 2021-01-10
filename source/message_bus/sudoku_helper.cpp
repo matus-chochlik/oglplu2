@@ -105,14 +105,20 @@ auto main(main_ctx& ctx) -> int {
                 }
             }
 
+            int idle_streak = 0;
             auto keep_running = [&]() {
+                if(idle_streak > 5) {
+                    std::unique_lock check_lock{helper_mutex};
+                    if(interrupted) {
+                        return false;
+                    }
+                }
                 return !(
                   helper_node.is_shut_down() ||
                   (shutdown_when_idle &&
                    (helper_node.idle_time() > max_idle_time)));
             };
 
-            int idle_streak = 0;
             while(keep_running()) {
                 if(helper_node.update_and_process_all()) {
                     idle_streak = 0;
@@ -148,9 +154,14 @@ auto main(main_ctx& ctx) -> int {
     auto& wd = ctx.watchdog();
     wd.declare_initialized();
 
+    int idle_streak = 0;
     while(!(interrupted || router.is_done())) {
-        if(!router.update(8)) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        if(router.update(8)) {
+            idle_streak = 0;
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        } else {
+            std::this_thread::sleep_for(
+              std::chrono::milliseconds(math::minimum(++idle_streak, 100)));
         }
 
         wd.notify_alive();

@@ -12,6 +12,7 @@
 
 #include "../application_config.hpp"
 #include "../main_ctx_object.hpp"
+#include <vector>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
@@ -19,18 +20,42 @@ class router_address : public main_ctx_object {
 public:
     router_address(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(RouterAddr), parent} {
-        if(app_config().fetch("msg_bus.router.address", _addr)) {
-            log_debug("configured router address ${addr}")
-              .arg(EAGINE_ID(addr), _addr);
+        if(app_config().fetch("msg_bus.router.address", _addrs)) {
+            log_debug("configured router address(es) ${addr}")
+              .arg_func([&](logger_backend& backend) {
+                  for(auto& addr : _addrs) {
+                      backend.add_string(
+                        EAGINE_ID(address), EAGINE_ID(string), addr);
+                  }
+              });
         }
     }
 
+    explicit operator bool() const noexcept {
+        return !_addrs.empty();
+    }
+
     operator string_view() const noexcept {
-        return {_addr};
+        if(_addrs.empty()) {
+            return {};
+        }
+        return {_addrs.front()};
+    }
+
+    auto count() const noexcept {
+        return span_size(_addrs.size());
+    }
+
+    auto begin() const noexcept {
+        return _addrs.cbegin();
+    }
+
+    auto end() const noexcept {
+        return _addrs.cend();
     }
 
 private:
-    std::string _addr{};
+    std::vector<std::string> _addrs{};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
