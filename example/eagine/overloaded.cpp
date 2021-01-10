@@ -1,12 +1,12 @@
 /**
- *  @example eagine/callable_composer.cpp
+ *  @example eagine/overloaded.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/callable_composer.hpp>
+#include <eagine/overloaded.hpp>
 #include <eagine/string_span.hpp>
 #include <iostream>
 
@@ -16,7 +16,7 @@ auto main() -> int {
     using std::endl;
     using v = string_view;
 
-    auto func = compose_callables(
+    auto func = overloaded(
       [](int x) { cout << "int: " << x << endl; },
       [](float x) { cout << "float: " << x << endl; },
       [](double x) { cout << "double: " << x << endl; },

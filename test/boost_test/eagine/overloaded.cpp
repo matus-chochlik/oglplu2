@@ -4,18 +4,18 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/callable_composer.hpp>
-#define BOOST_TEST_MODULE EAGINE_callable_composer
+#include <eagine/overloaded.hpp>
+#define BOOST_TEST_MODULE EAGINE_overloaded
 #include "../unit_test_begin.inl"
 
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(callable_composer_tests)
+BOOST_AUTO_TEST_SUITE(overloaded_tests)
 
-BOOST_AUTO_TEST_CASE(callable_composer_foo_1) {
+BOOST_AUTO_TEST_CASE(overloaded_foo_1) {
     using namespace eagine;
 
-    auto func = compose_callables(
+    auto func = overloaded(
       [](int) { return "int"; },
       [](float) { return "float"; },
       [](double) { return "double"; },
