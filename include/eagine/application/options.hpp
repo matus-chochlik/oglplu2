@@ -38,8 +38,8 @@ public:
         return are_equal(string_view(_provider_name), name);
     }
 
-    auto monitor_name() const noexcept -> valid_if_not_empty<string_view> {
-        return {_monitor_name};
+    auto display_name() const noexcept -> valid_if_not_empty<string_view> {
+        return {_display_name};
     }
 
     using valid_surface_size = valid_if_positive<int>;
@@ -183,7 +183,7 @@ private:
 
     video_context_kind _video_kind;
     std::string _provider_name;
-    std::string _monitor_name;
+    std::string _display_name;
     std::string _framedump_prefix;
 
     int _surface_width{1280};
@@ -273,6 +273,16 @@ public:
         return _requires_input;
     }
 
+    template <typename R, typename P>
+    auto enough_run_time(std::chrono::duration<R, P> run_time) const noexcept
+      -> bool {
+        return _max_run_time && extract(_max_run_time) <= run_time;
+    }
+
+    auto enough_frames(span_size_t frame_no) const noexcept -> bool {
+        return _max_frames && extract(_max_frames) <= frame_no;
+    }
+
 private:
     friend class execution_context;
 
@@ -290,7 +300,9 @@ private:
       basic_str_view_less<std::string, string_view>>
       _audio_opts;
 
-    bool _requires_input{cfg_init("application.input.required", false)};
+    valid_if_positive<std::chrono::seconds> _max_run_time{};
+    valid_if_positive<span_size_t> _max_frames{-1};
+    bool _requires_input{false};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::application

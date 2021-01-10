@@ -85,7 +85,7 @@ auto glfw3_opengl_window::initialize(
     int fallback_width = 1280, fallback_height = 800;
     if(video_opts.fullscreen()) {
         window_monitor = glfwGetPrimaryMonitor();
-        if(auto opt_mon_name{video_opts.monitor_name()}) {
+        if(auto opt_mon_name{video_opts.display_name()}) {
             for(auto monitor : monitors) {
                 string_view mon_name(glfwGetMonitorName(monitor));
                 if(are_equal(extract(opt_mon_name), mon_name)) {

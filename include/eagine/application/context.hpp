@@ -120,6 +120,9 @@ public:
         return *this;
     }
 
+    auto enough_run_time() const noexcept -> bool;
+    auto enough_frames(span_size_t frame_no) const noexcept -> bool;
+
     auto video_ctx_count() const noexcept {
         return span_size(_video_contexts.size());
     }

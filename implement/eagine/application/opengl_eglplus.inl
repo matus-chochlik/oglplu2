@@ -23,17 +23,17 @@ class eglplus_opengl_surface
   : public main_ctx_object
   , public video_provider {
 public:
-    eglplus_opengl_surface(main_ctx_parent parent)
-      : main_ctx_object{EAGINE_ID(EGLPbuffer), parent} {}
+    eglplus_opengl_surface(main_ctx_parent parent, eglp::egl_api& egl)
+      : main_ctx_object{EAGINE_ID(EGLPbuffer), parent}
+      , _egl_api{egl} {}
 
     auto initialize(
       execution_context&,
-      eglp::egl_api& egl,
       string_view name,
       const launch_options&,
       const video_options&) -> bool;
 
-    void cleanup(eglp::egl_api& egl);
+    void cleanup();
 
     auto video_kind() const noexcept -> video_context_kind final;
     auto instance_name() const noexcept -> string_view final;
@@ -47,9 +47,11 @@ public:
     void video_commit(execution_context&) final;
 
 private:
+    eglp::egl_api& _egl_api;
     string_view _instance_name;
     eglp::display_handle _display{};
     eglp::surface_handle _surface{};
+    eglp::context_handle _context{};
 
     int _width{1};
     int _height{1};
@@ -58,23 +60,27 @@ private:
 EAGINE_LIB_FUNC
 auto eglplus_opengl_surface::initialize(
   execution_context& exec_ctx,
-  eglp::egl_api& egl,
   string_view name,
   const launch_options&,
   const video_options& video_opts) -> bool {
     _instance_name = name;
+
+    auto& [egl, EGL] = _egl_api;
 
     if(ok display{egl.get_display()}) {
         if(ok initialized{egl.initialize(display)}) {
             _display = display;
 
             const auto config_attribs =
-              (egl.red_size | video_opts.color_bits()) +
-              (egl.green_size | video_opts.color_bits()) +
-              (egl.blue_size | video_opts.color_bits()) +
-              (egl.alpha_size | video_opts.alpha_bits()) +
-              (egl.depth_size | video_opts.depth_bits()) +
-              (egl.stencil_size | video_opts.stencil_bits());
+              (EGL.red_size | video_opts.color_bits()) +
+              (EGL.green_size | video_opts.color_bits()) +
+              (EGL.blue_size | video_opts.color_bits()) +
+              (EGL.alpha_size | video_opts.alpha_bits()) +
+              (EGL.depth_size | video_opts.depth_bits()) +
+              (EGL.stencil_size | video_opts.stencil_bits()) +
+              (EGL.color_buffer_type | EGL.rgb_buffer) +
+              (EGL.surface_type | EGL.pbuffer_bit) +
+              (EGL.renderable_type | EGL.opengl_bit);
 
             if(ok count{egl.choose_config.count(display, config_attribs)}) {
                 log_info("found ${count} suitable framebuffer configurations")
@@ -85,28 +91,52 @@ auto eglplus_opengl_surface::initialize(
                     _height = video_opts.surface_height() / 1;
 
                     const auto surface_attribs =
-                      (egl.width | _width) + (egl.height | _height);
+                      (EGL.width | _width) + (EGL.height | _height);
                     if(ok surface{egl.create_pbuffer_surface(
                          display, config, surface_attribs)}) {
+                        _surface = surface;
+
+                        if(ok bound{egl.bind_api(EGL.opengl_api)}) {
+                            const auto context_attribs =
+                              (EGL.context_major_version | 3) +
+                              (EGL.context_minor_version | 3) +
+                              (EGL.context_opengl_profile_mask |
+                               EGL.context_opengl_core_profile_bit);
+
+                            if(ok ctxt{egl.create_context(
+                                 display, config, context_attribs)}) {
+                                _context = ctxt;
+                                return true;
+                            } else {
+                                log_error("failed to create context")
+                                  .arg(EAGINE_ID(message), (!ctxt).message());
+                            }
+                        } else {
+                            log_error("failed to bind OpenGL API")
+                              .arg(EAGINE_ID(message), (!bound).message());
+                        }
                     } else {
                         log_error("failed to create pbuffer ${width}x${height}")
                           .arg(EAGINE_ID(width), _width)
-                          .arg(EAGINE_ID(height), _height);
+                          .arg(EAGINE_ID(height), _height)
+                          .arg(EAGINE_ID(message), (!surface).message());
                     }
                 } else {
                     log_error("no matching framebuffer configuration found")
                       .arg(EAGINE_ID(color), video_opts.color_bits())
                       .arg(EAGINE_ID(alpha), video_opts.alpha_bits())
                       .arg(EAGINE_ID(depth), video_opts.depth_bits())
-                      .arg(EAGINE_ID(stencil), video_opts.stencil_bits());
+                      .arg(EAGINE_ID(stencil), video_opts.stencil_bits())
+                      .arg(EAGINE_ID(message), (!config).message());
                 }
             } else {
-                log_error("failed to query framebuffer configurations");
+                log_error("failed to query framebuffer configurations")
+                  .arg(EAGINE_ID(message), (!count).message());
             }
 
         } else {
             exec_ctx.log_error("failed to initialize EGL display")
-              .arg(EAGINE_ID(message), (!display).message());
+              .arg(EAGINE_ID(message), (!initialized).message());
         }
     } else {
         exec_ctx.log_error("failed to get EGL display")
@@ -116,9 +146,15 @@ auto eglplus_opengl_surface::initialize(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void eglplus_opengl_surface::cleanup(eglp::egl_api& egl) {
+void eglplus_opengl_surface::cleanup() {
     if(_display) {
-        egl.terminate(_display);
+        if(_context) {
+            _egl_api.destroy_context(_display, _context);
+        }
+        if(_surface) {
+            _egl_api.destroy_surface(_display, _surface);
+        }
+        _egl_api.terminate(_display);
     }
 }
 //------------------------------------------------------------------------------
@@ -148,13 +184,19 @@ auto eglplus_opengl_surface::surface_size() noexcept -> std::tuple<int, int> {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void eglplus_opengl_surface::video_begin(execution_context&) {}
+void eglplus_opengl_surface::video_begin(execution_context&) {
+    _egl_api.make_current(_display, _surface, _context);
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void eglplus_opengl_surface::video_end(execution_context&) {}
+void eglplus_opengl_surface::video_end(execution_context&) {
+    _egl_api.make_current.none(_display);
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void eglplus_opengl_surface::video_commit(execution_context&) {}
+void eglplus_opengl_surface::video_commit(execution_context&) {
+    _egl_api.swap_buffers(_display, _surface);
+}
 //------------------------------------------------------------------------------
 // provider
 //------------------------------------------------------------------------------
@@ -163,7 +205,7 @@ class eglplus_opengl_provider
   , public hmi_provider {
 public:
     eglplus_opengl_provider(main_ctx_parent parent)
-      : main_ctx_object{EAGINE_ID(GLFW3Prvdr), parent} {}
+      : main_ctx_object{EAGINE_ID(EGLPPrvdr), parent} {}
 
     auto is_implemented() const noexcept -> bool final;
     auto implementation_name() const noexcept -> string_view final;
@@ -179,7 +221,7 @@ public:
     auto audio(string_view) -> std::shared_ptr<audio_provider> final;
 
 private:
-    eglp::egl_api _egl;
+    eglp::egl_api _egl_api;
 
     std::map<
       std::string,
@@ -190,9 +232,10 @@ private:
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto eglplus_opengl_provider::is_implemented() const noexcept -> bool {
-    return _egl.get_display && _egl.initialize && _egl.terminate &&
-           _egl.get_configs && _egl.choose_config && _egl.get_config_attrib &&
-           _egl.query_string && _egl.swap_buffers;
+    return _egl_api.get_display && _egl_api.initialize && _egl_api.terminate &&
+           _egl_api.get_configs && _egl_api.choose_config &&
+           _egl_api.get_config_attrib && _egl_api.query_string &&
+           _egl_api.swap_buffers;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -220,7 +263,7 @@ auto eglplus_opengl_provider::should_initialize(execution_context& exec_ctx)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto eglplus_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
-    if(_egl.get_display) {
+    if(_egl_api.get_display) {
         auto& options = exec_ctx.options();
         for(auto& [name, video_opts] : options.video_requirements()) {
             const bool should_create_surface =
@@ -228,13 +271,13 @@ auto eglplus_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
               (video_opts.video_kind() == video_context_kind::opengl);
 
             if(should_create_surface) {
-                if(auto surface{
-                     std::make_shared<eglplus_opengl_surface>(*this)}) {
+                if(auto surface{std::make_shared<eglplus_opengl_surface>(
+                     *this, _egl_api)}) {
                     if(extract(surface).initialize(
-                         exec_ctx, _egl, name, options, video_opts)) {
+                         exec_ctx, name, options, video_opts)) {
                         _surfaces[name] = std::move(surface);
                     } else {
-                        extract(surface).cleanup(_egl);
+                        extract(surface).cleanup();
                     }
                 }
             }
@@ -251,7 +294,7 @@ void eglplus_opengl_provider::update(execution_context&) {}
 EAGINE_LIB_FUNC
 void eglplus_opengl_provider::cleanup(execution_context&) {
     for(auto& entry : _surfaces) {
-        entry.second->cleanup(_egl);
+        entry.second->cleanup();
     }
 }
 //------------------------------------------------------------------------------

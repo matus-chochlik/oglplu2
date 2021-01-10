@@ -17,6 +17,10 @@ video_options::video_options(
   video_context_kind kind,
   string_view instance)
   : _video_kind{kind} {
+    _provider_name =
+      o.cfg_init("application.video.provider", std::string(), instance);
+    _display_name =
+      o.cfg_init("application.video.display", std::string(), instance);
 
     _surface_width = o.cfg_extr<valid_surface_size>(
       "application.video.surface.width", _surface_width, instance);
@@ -67,7 +71,11 @@ audio_options::audio_options(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 launch_options::launch_options(main_ctx_parent parent) noexcept
-  : main_ctx_object(EAGINE_ID(LaunchOpts), parent) {}
+  : main_ctx_object(EAGINE_ID(LaunchOpts), parent) {
+    _max_run_time = cfg_init("application.max_run_time", _max_run_time);
+    _max_frames = cfg_init("application.max_frames", _max_frames);
+    _requires_input = cfg_init("application.input.required", _requires_input);
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto launch_options::require_video(video_context_kind kind, string_view instance)
