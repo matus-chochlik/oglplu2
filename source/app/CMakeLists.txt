@@ -22,7 +22,9 @@ add_library(EAGapp::EGL INTERFACE IMPORTED)
 if(EGL_FOUND)
 	target_link_libraries(
 		EAGapp::EGL
-		INTERFACE EGL::EGL
+		INTERFACE
+			EGL::EGL
+			eglplus
 	)
 endif()
 
@@ -30,7 +32,9 @@ add_library(EAGapp::OpenAL INTERFACE IMPORTED)
 if(OPENAL_FOUND)
 	target_link_libraries(
 		EAGapp::OpenAL
-		INTERFACE OpenAL::OpenAL
+		INTERFACE
+			OpenAL::OpenAL
+			oalplus
 	)
 endif()
 
@@ -63,9 +67,7 @@ target_link_libraries(
 	eagine-application
 	PUBLIC
 		eagine
-		eglplus
 		oglplus
-		oalplus
 	PRIVATE
 		EAGapp::GLFW3
 		EAGapp::EGL
