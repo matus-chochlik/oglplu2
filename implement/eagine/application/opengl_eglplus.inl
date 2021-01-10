@@ -49,6 +49,8 @@ public:
 private:
     string_view _instance_name;
     eglp::display_handle _display{};
+    eglp::surface_handle _surface{};
+
     int _width{1};
     int _height{1};
 };
@@ -59,14 +61,49 @@ auto eglplus_opengl_surface::initialize(
   eglp::egl_api& egl,
   string_view name,
   const launch_options&,
-  const video_options&) -> bool {
+  const video_options& video_opts) -> bool {
+    _instance_name = name;
 
     if(ok display{egl.get_display()}) {
         if(ok initialized{egl.initialize(display)}) {
             _display = display;
-            EAGINE_MAYBE_UNUSED(name);
-            // TODO
-            // return true;
+
+            const auto config_attribs =
+              (egl.red_size | video_opts.color_bits()) +
+              (egl.green_size | video_opts.color_bits()) +
+              (egl.blue_size | video_opts.color_bits()) +
+              (egl.alpha_size | video_opts.alpha_bits()) +
+              (egl.depth_size | video_opts.depth_bits()) +
+              (egl.stencil_size | video_opts.stencil_bits());
+
+            if(ok count{egl.choose_config.count(display, config_attribs)}) {
+                log_info("found ${count} suitable framebuffer configurations")
+                  .arg(EAGINE_ID(count), count.get());
+
+                if(ok config{egl.choose_config(display, config_attribs)}) {
+                    _width = video_opts.surface_width() / 1;
+                    _height = video_opts.surface_height() / 1;
+
+                    const auto surface_attribs =
+                      (egl.width | _width) + (egl.height | _height);
+                    if(ok surface{egl.create_pbuffer_surface(
+                         display, config, surface_attribs)}) {
+                    } else {
+                        log_error("failed to create pbuffer ${width}x${height}")
+                          .arg(EAGINE_ID(width), _width)
+                          .arg(EAGINE_ID(height), _height);
+                    }
+                } else {
+                    log_error("no matching framebuffer configuration found")
+                      .arg(EAGINE_ID(color), video_opts.color_bits())
+                      .arg(EAGINE_ID(alpha), video_opts.alpha_bits())
+                      .arg(EAGINE_ID(depth), video_opts.depth_bits())
+                      .arg(EAGINE_ID(stencil), video_opts.stencil_bits());
+                }
+            } else {
+                log_error("failed to query framebuffer configurations");
+            }
+
         } else {
             exec_ctx.log_error("failed to initialize EGL display")
               .arg(EAGINE_ID(message), (!display).message());

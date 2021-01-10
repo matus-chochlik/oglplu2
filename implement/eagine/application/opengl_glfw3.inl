@@ -228,7 +228,7 @@ auto glfw3_opengl_provider::is_implemented() const noexcept -> bool {
 EAGINE_LIB_FUNC
 auto glfw3_opengl_provider::implementation_name() const noexcept
   -> string_view {
-    return {"GLFW3"};
+    return {"glfw3"};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

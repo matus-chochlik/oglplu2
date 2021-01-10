@@ -283,8 +283,10 @@ auto audio_context::init_al_api() noexcept -> bool {
 // providers
 //------------------------------------------------------------------------------
 inline auto make_all_hmi_providers(main_ctx_parent parent)
-  -> std::array<std::shared_ptr<hmi_provider>, 1> {
-    return {{make_glfw3_opengl_provider(parent)}};
+  -> std::array<std::shared_ptr<hmi_provider>, 2> {
+    return {
+      {make_glfw3_opengl_provider(parent),
+       make_eglplus_opengl_provider(parent)}};
 }
 //------------------------------------------------------------------------------
 // execution_context
@@ -297,12 +299,14 @@ inline auto execution_context::_setup_providers() -> bool {
         if(provider->should_initialize(*this)) {
             if(provider->initialize(*this)) {
                 return true;
+            } else {
+                log_error("failed to initialize HMI provider ${name}")
+                  .arg(EAGINE_ID(name), provider->implementation_name());
             }
-            log_error("failed to initialize HMI provider ${name}")
-              .arg(EAGINE_ID(name), provider->implementation_name());
         } else {
             log_debug("skipping initialization of HMI provider ${name}")
               .arg(EAGINE_ID(name), provider->implementation_name());
+            return true;
         }
         return false;
     };
@@ -310,7 +314,7 @@ inline auto execution_context::_setup_providers() -> bool {
     for(auto& video_opts : _options._video_opts) {
         // TODO: proper provider selection
         if(video_opts.second._provider_name.empty()) {
-            video_opts.second._provider_name = "GLFW3";
+            video_opts.second._provider_name = "glfw3";
         }
     }
 
@@ -319,10 +323,8 @@ inline auto execution_context::_setup_providers() -> bool {
             if(auto video{extract(provider).video()}) {
                 _video_contexts.emplace_back(
                   std::make_unique<video_context>(*this, std::move(video)));
-                continue;
             }
         }
-        return false;
     }
 
     for(auto& provider : _hmi_providers) {

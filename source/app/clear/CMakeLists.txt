@@ -4,16 +4,12 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 
-add_executable(
-	oglplus-ogl-clear
-	EXCLUDE_FROM_ALL
-	main.cpp
-)
+add_executable(oglplus-ogl-clear main.cpp)
 eagine_add_exe_analysis(oglplus-ogl-clear)
 add_dependencies(oglplus-ogl-clear applications)
 target_link_libraries(
 	oglplus-ogl-clear
-	PUBLIC eagine eagine-application oglplus oalplus
+	PUBLIC eagine eagine-application
 )
 
 set_target_properties(
@@ -21,3 +17,7 @@ set_target_properties(
 	PROPERTIES FOLDER "Application"
 )
 
+install(
+	TARGETS oglplus-ogl-clear
+	DESTINATION bin
+)

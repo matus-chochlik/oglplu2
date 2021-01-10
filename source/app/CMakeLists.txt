@@ -18,6 +18,14 @@ foreach(LIB GLFW3)
 	endif()
 endforeach()
 
+add_library(EAGapp::EGL INTERFACE IMPORTED)
+if(EGL_FOUND)
+	target_link_libraries(
+		EAGapp::EGL
+		INTERFACE EGL::EGL
+	)
+endif()
+
 add_library(EAGapp::OpenAL INTERFACE IMPORTED)
 if(OPENAL_FOUND)
 	target_link_libraries(
@@ -55,9 +63,12 @@ target_link_libraries(
 	eagine-application
 	PUBLIC
 		eagine
+		eglplus
 		oglplus
+		oalplus
 	PRIVATE
 		EAGapp::GLFW3
+		EAGapp::EGL
 		EAGapp::OpenAL
 )
 if(GLX_FOUND)
