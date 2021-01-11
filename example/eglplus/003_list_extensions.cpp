@@ -10,12 +10,35 @@
 #include <eglplus/egl.hpp>
 #include <eglplus/egl_api.hpp>
 #include <iostream>
+#include <vector>
 
 auto main() -> int {
     using namespace eagine;
     using namespace eagine::eglp;
 
     egl_api egl;
+
+    std::cout << "Device extensions: " << std::endl;
+    if(ok dev_count{egl.query_devices.count()}) {
+        std::vector<egl_types::device_type> devices;
+        const auto n = std_size(dev_count.get());
+        devices.resize(n);
+        if(egl.query_devices(cover(devices))) {
+            for(std::size_t d = 0; d < n; ++d) {
+                std::cout << "  Device: " << d << std::endl;
+                if(ok extensions = egl.get_device_extensions(devices[d])) {
+                    for(auto name : extensions) {
+                        std::cout << "    " << name << std::endl;
+                    }
+                } else {
+                    std::cerr << "failed to get device extension list: "
+                              << (!extensions).message() << std::endl;
+                }
+            }
+        }
+    }
+
+    std::cout << std::endl;
 
     std::cout << "Generic extensions: " << std::endl;
 
