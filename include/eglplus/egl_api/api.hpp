@@ -14,6 +14,7 @@
 #include "context_attribs.hpp"
 #include "enum_types.hpp"
 #include "objects.hpp"
+#include "platform_attribs.hpp"
 #include "surface_attribs.hpp"
 #include "sync_attribs.hpp"
 #include <eagine/scope_exit.hpp>
@@ -84,11 +85,19 @@ public:
         using func<EGLPAFP(GetPlatformDisplay)>::func;
 
         constexpr auto operator()(
-          platform_type platform,
+          platform pltf,
           void_ptr_type disp,
           span<const attrib_type> attribs) const noexcept {
-            return this->_cnvchkcall(platform, disp, attribs.data())
+            return this->_cnvchkcall(pltf, disp, attribs.data())
               .cast_to(type_identity<display_handle>{});
+        }
+
+        template <std::size_t N>
+        constexpr auto operator()(
+          platform pltf,
+          void_ptr_type disp,
+          const platform_attributes<N>& attribs) const noexcept {
+            return (*this)(pltf, disp, attribs.get());
         }
     } get_platform_display;
 

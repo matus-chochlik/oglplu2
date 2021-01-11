@@ -17,7 +17,12 @@ struct error_code : egl_enum_class<error_code, EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
 };
 
-struct platform_type : egl_enum_class<platform_type, EAGINE_ID_V(PltfrmType)> {
+struct platform : egl_enum_class<platform, EAGINE_ID_V(Platform)> {
+    using enum_class::enum_class;
+};
+
+struct platform_attribute
+  : egl_enum_class<platform_attribute, EAGINE_ID_V(PltfrmAttr)> {
     using enum_class::enum_class;
 };
 
