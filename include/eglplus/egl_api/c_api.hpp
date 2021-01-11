@@ -38,6 +38,7 @@ struct basic_egl_c_api {
     using bool_type = typename egl_types::bool_type;
     using char_type = typename egl_types::char_type;
     using int_type = typename egl_types::int_type;
+    using device_type = typename egl_types::device_type;
     using native_display_type = typename egl_types::native_display_type;
     using native_window_type = typename egl_types::native_window_type;
     using native_pixmap_type = typename egl_types::native_pixmap_type;
@@ -73,6 +74,12 @@ struct basic_egl_c_api {
       void (*(const char_type*))(),
       EGLPLUS_EGL_STATIC_FUNC(GetProcAddress)>
       GetProcAddress;
+
+    egl_api_function<bool_type(int_type, device_type, int_type*), nullptr>
+      QueryDevices;
+
+    egl_api_function<const char_type*(device_type, int_type), nullptr>
+      QueryDeviceString;
 
     egl_api_function<
       display_type(enum_type, void_ptr_type, const attrib_type*),
@@ -262,6 +269,8 @@ struct basic_egl_c_api {
     constexpr basic_egl_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
       , GetProcAddress("GetProcAddress", traits, *this)
+      , QueryDevices("QueryDevicesEXT", traits, *this)
+      , QueryDeviceString("QueryDeviceStringEXT", traits, *this)
       , GetPlatformDisplay("GetPlatformDisplay", traits, *this)
       , GetDisplay("GetDisplay", traits, *this)
       , Initialize("Initialize", traits, *this)

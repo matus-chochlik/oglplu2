@@ -21,6 +21,10 @@ auto main() -> int {
         if(auto init_res = egl.initialize(display)) {
             auto do_cleanup = egl.terminate.raii(display);
 
+            if(ok dev_count{egl.query_devices.count()}) {
+                std::cout << "Devices: " << dev_count << std::endl;
+            }
+
             if(ok vendor = egl.query_string(display, egl.vendor)) {
                 std::cout << "Vendor:  " << vendor << std::endl;
             }

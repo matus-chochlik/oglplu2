@@ -162,6 +162,11 @@ public:
 #endif
       context_lost;
 
+    opt_c_api_constant<mp_list<platform>, int_type_c<0x313F>> platform_device;
+    opt_c_api_constant<mp_list<platform>, int_type_c<0x31D5>> platform_x11;
+    opt_c_api_constant<mp_list<platform>, int_type_c<0x31D8>> platform_wayland;
+    opt_c_api_constant<mp_list<platform>, int_type_c<0x31D7>> platform_gbm_mesa;
+
     opt_c_api_constant<
       mp_list<string_query>,
 #ifdef EGL_CLIENT_APIS
@@ -835,6 +840,10 @@ public:
       , bad_native_pixmap("BAD_NATIVE_PIXMAP", traits, api)
       , bad_native_window("BAD_NATIVE_WINDOW", traits, api)
       , context_lost("CONTEXT_LOST", traits, api)
+      , platform_device("PLATFORM_DEVICE_EXT", traits, api)
+      , platform_x11("PLATFORM_X11_EXT", traits, api)
+      , platform_wayland("PLATFORM_WAYLAND_EXT", traits, api)
+      , platform_gbm_mesa("PLATFORM_GBM_MESA", traits, api)
       , client_apis("CLIENT_APIS", traits, api)
       , vendor("VENDOR", traits, api)
       , version("VERSION", traits, api)

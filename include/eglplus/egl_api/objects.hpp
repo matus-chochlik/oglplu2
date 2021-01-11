@@ -15,10 +15,16 @@
 
 namespace eagine::eglp {
 //------------------------------------------------------------------------------
+using device_tag = EAGINE_MSG_TYPE(egl, Device);
 using display_tag = EAGINE_MSG_TYPE(egl, Display);
 using surface_tag = EAGINE_MSG_TYPE(egl, Surface);
 using context_tag = EAGINE_MSG_TYPE(egl, Context);
 using sync_tag = EAGINE_MSG_TYPE(egl, Sync);
+//------------------------------------------------------------------------------
+using device_handle = basic_handle<
+  device_tag,
+  egl_types::device_type,
+  egl_types::device_type(nullptr)>;
 //------------------------------------------------------------------------------
 #if defined(EGL_NO_DISPLAY)
 using display_handle =

@@ -38,6 +38,7 @@ public:
     using char_type = typename egl_types::char_type;
     using enum_type = typename egl_types::enum_type;
     using attrib_type = typename egl_types::attrib_type;
+    using device_type = typename egl_types::device_type;
     using native_display_type = typename egl_types::native_display_type;
     using native_window_type = typename egl_types::native_window_type;
     using native_pixmap_type = typename egl_types::native_pixmap_type;
@@ -80,9 +81,67 @@ public:
         }
     };
 
+    // query_devices
+    struct : func<EGLPAFP(QueryDevices)> {
+        using func<EGLPAFP(QueryDevices)>::func;
+
+        auto count() const noexcept {
+            int_type ret_count{0};
+            return this->_cnvchkcall(0, nullptr, &ret_count)
+              .transformed([&ret_count](auto ok) {
+                  return limit_cast<span_size_t>(
+                    egl_types::bool_true(ok) ? ret_count : 0);
+              });
+        }
+
+        auto operator()(span<device_type> dest) const noexcept {
+            int_type ret_count{0};
+            return this
+              ->_cnvchkcall(
+                limit_cast<int_type>(dest.size()), dest.data(), &ret_count)
+              .transformed([dest, &ret_count](auto ok) {
+                  return head(
+                    dest,
+                    limit_cast<span_size_t>(
+                      egl_types::bool_true(ok) ? ret_count : 0));
+              });
+        }
+    } query_devices;
+
+    // query_device_string
+    struct : func<EGLPAFP(QueryDeviceString)> {
+        using func<EGLPAFP(QueryDeviceString)>::func;
+
+        constexpr auto
+        operator()(device_type dev, device_string_query query) const noexcept {
+            return this->_cnvchkcall(dev, query);
+        }
+
+        constexpr auto operator()() const noexcept {
+            return this->_fake("");
+        }
+    } query_device_string;
+
+    // get_device_extensions
+    auto get_device_extensions(device_type dev) noexcept {
+#ifdef EGL_EXTENSIONS
+        return query_device_string(dev, device_string_query(EGL_EXTENSIONS))
+          .transformed(
+            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+#else
+        return this->_fake("");
+#endif
+    }
+
     // get_platform_display
     struct : func<EGLPAFP(GetPlatformDisplay)> {
         using func<EGLPAFP(GetPlatformDisplay)>::func;
+
+        constexpr auto
+        operator()(platform pltf, void_ptr_type disp) const noexcept {
+            return this->_cnvchkcall(pltf, disp, nullptr)
+              .cast_to(type_identity<display_handle>{});
+        }
 
         constexpr auto operator()(
           platform pltf,
@@ -669,6 +728,8 @@ public:
 
     constexpr basic_egl_operations(api_traits& traits)
       : c_api{traits}
+      , query_devices("query_devices", traits, *this)
+      , query_device_string("query_device_string", traits, *this)
       , get_platform_display("get_platform_display", traits, *this)
       , get_display("get_display", traits, *this)
       , initialize("initialize", traits, *this)
