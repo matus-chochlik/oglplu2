@@ -179,6 +179,15 @@ public:
         }
     } get_display;
 
+    // get_display_driver_name
+    struct : func<EGLPAFP(GetDisplayDriverName)> {
+        using func<EGLPAFP(GetDisplayDriverName)>::func;
+
+        constexpr auto operator()(display_handle disp) const noexcept {
+            return this->_cnvchkcall(disp);
+        }
+    } get_display_driver_name;
+
     // initialize
     struct : func<EGLPAFP(Initialize)> {
         using base = func<EGLPAFP(Initialize)>;
@@ -703,6 +712,18 @@ public:
             [](auto src) { return split_c_str_into_string_list(src, ' '); });
     }
 
+    // has_extension
+    auto has_extension(display_handle disp, string_view which) noexcept {
+        if(ok extensions{get_extensions(disp)}) {
+            for(auto ext_name : extensions) {
+                if(are_equal(ext_name, which)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     // swap_interval
     struct : func<EGLPAFP(SwapInterval)> {
         using func<EGLPAFP(SwapInterval)>::func;
@@ -732,6 +753,7 @@ public:
       , query_device_string("query_device_string", traits, *this)
       , get_platform_display("get_platform_display", traits, *this)
       , get_display("get_display", traits, *this)
+      , get_display_driver_name("get_display_driver_name", traits, *this)
       , initialize("initialize", traits, *this)
       , terminate("terminate", traits, *this)
       , get_configs("get_configs", traits, *this)

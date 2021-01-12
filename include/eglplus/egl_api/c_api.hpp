@@ -91,6 +91,9 @@ struct basic_egl_c_api {
       EGLPLUS_EGL_STATIC_FUNC(GetDisplay)>
       GetDisplay;
 
+    egl_api_function<const char_type*(display_type), nullptr>
+      GetDisplayDriverName;
+
     egl_api_function<
       bool_type(display_type, int_type*, int_type*),
       EGLPLUS_EGL_STATIC_FUNC(Initialize)>
@@ -273,6 +276,7 @@ struct basic_egl_c_api {
       , QueryDeviceString("QueryDeviceStringEXT", traits, *this)
       , GetPlatformDisplay("GetPlatformDisplay", traits, *this)
       , GetDisplay("GetDisplay", traits, *this)
+      , GetDisplayDriverName("GetDisplayDriverName", traits, *this)
       , Initialize("Initialize", traits, *this)
       , Terminate("Terminate", traits, *this)
       , QueryString("QueryString", traits, *this)
