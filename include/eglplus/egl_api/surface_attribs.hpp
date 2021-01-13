@@ -58,13 +58,15 @@ operator|(surface_attribute key, gl_colorspace value) noexcept
     return {key, egl_types::int_type(value)};
 }
 
-#if defined(EGL_TRUE) && defined(EGL_FALSE)
 static constexpr inline auto
 operator|(surface_attribute key, bool value) noexcept
   -> surface_attribute_value {
+#if defined(EGL_TRUE) && defined(EGL_FALSE)
     return {key, value ? EGL_TRUE : EGL_FALSE};
-}
+#else
+    return {key, value ? 1 : 0};
 #endif
+}
 
 } // namespace eagine::eglp
 

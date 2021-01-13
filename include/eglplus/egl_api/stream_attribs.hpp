@@ -40,12 +40,14 @@ operator|(stream_attribute key, egl_types::int_type value) noexcept
     return {key, value};
 }
 
-#if defined(EGL_TRUE) && defined(EGL_FALSE)
 static constexpr inline auto
 operator|(stream_attribute key, bool value) noexcept -> stream_attribute_value {
+#if defined(EGL_TRUE) && defined(EGL_FALSE)
     return {key, value ? EGL_TRUE : EGL_FALSE};
-}
+#else
+    return {key, value ? 1 : 0};
 #endif
+}
 
 } // namespace eagine::eglp
 

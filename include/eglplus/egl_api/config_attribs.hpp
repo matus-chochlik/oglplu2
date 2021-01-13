@@ -58,12 +58,14 @@ static constexpr inline auto operator|(
     return {key, egl_types::int_type(value)};
 }
 
-#if defined(EGL_TRUE) && defined(EGL_FALSE)
 static constexpr inline auto
 operator|(config_attribute key, bool value) noexcept -> config_attribute_value {
+#if defined(EGL_TRUE) && defined(EGL_FALSE)
     return {key, value ? EGL_TRUE : EGL_FALSE};
-}
+#else
+    return {key, value ? 1 : 0};
 #endif
+}
 
 } // namespace eagine::eglp
 
