@@ -527,6 +527,36 @@ public:
         }
     } stream_attrib;
 
+    // stream_consumer_gl_texture_external
+    struct : func<EGLPAFP(StreamConsumerGLTextureExternal)> {
+        using func<EGLPAFP(StreamConsumerGLTextureExternal)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, stream_handle surf) const noexcept {
+            return this->_cnvchkcall(disp, surf);
+        }
+    } stream_consumer_gl_texture_external;
+
+    // stream_consumer_acquire
+    struct : func<EGLPAFP(StreamConsumerAcquire)> {
+        using func<EGLPAFP(StreamConsumerAcquire)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, stream_handle surf) const noexcept {
+            return this->_cnvchkcall(disp, surf);
+        }
+    } stream_consumer_acquire;
+
+    // stream_consumer_release
+    struct : func<EGLPAFP(StreamConsumerRelease)> {
+        using func<EGLPAFP(StreamConsumerRelease)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, stream_handle surf) const noexcept {
+            return this->_cnvchkcall(disp, surf);
+        }
+    } stream_consumer_release;
+
     // bind_api
     struct : func<EGLPAFP(BindAPI)> {
         using func<EGLPAFP(BindAPI)>::func;
@@ -820,6 +850,12 @@ public:
       , create_stream("create_stream", traits, *this)
       , destroy_stream("destroy_stream", traits, *this)
       , stream_attrib("stream_attrib", traits, *this)
+      , stream_consumer_gl_texture_external(
+          "consumer_gl_texture_external",
+          traits,
+          *this)
+      , stream_consumer_acquire("stream_consumer_acquire", traits, *this)
+      , stream_consumer_release("stream_consumer_release", traits, *this)
       , bind_api("bind_api", traits, *this)
       , query_api("query_api", traits, *this)
       , create_context("create_context", traits, *this)

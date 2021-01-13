@@ -189,6 +189,15 @@ struct basic_egl_c_api {
       nullptr>
       QueryStream;
 
+    egl_api_function<bool_type(display_type, stream_type), nullptr>
+      StreamConsumerGLTextureExternal;
+
+    egl_api_function<bool_type(display_type, stream_type), nullptr>
+      StreamConsumerAcquire;
+
+    egl_api_function<bool_type(display_type, stream_type), nullptr>
+      StreamConsumerRelease;
+
     egl_api_function<
       bool_type(display_type, surface_type, int_type),
       EGLPLUS_EGL_STATIC_FUNC(BindTexImage)>
@@ -322,6 +331,12 @@ struct basic_egl_c_api {
       , DestroyStream("DestroyStreamKHR", traits, *this)
       , StreamAttrib("StreamAttribKHR", traits, *this)
       , QueryStream("QueryStream", traits, *this)
+      , StreamConsumerGLTextureExternal(
+          "StreamConsumerGLTextureExternalKHR",
+          traits,
+          *this)
+      , StreamConsumerAcquire("StreamConsumerAcquireKHR", traits, *this)
+      , StreamConsumerRelease("StreamConsumerReleaseKHR", traits, *this)
       , BindTexImage("BindTexImage", traits, *this)
       , ReleaseTexImage("ReleaseTexImage", traits, *this)
       , BindAPI("BindAPI", traits, *this)
