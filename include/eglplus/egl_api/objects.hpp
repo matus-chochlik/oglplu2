@@ -19,6 +19,7 @@ using device_tag = EAGINE_MSG_TYPE(egl, Device);
 using display_tag = EAGINE_MSG_TYPE(egl, Display);
 using surface_tag = EAGINE_MSG_TYPE(egl, Surface);
 using context_tag = EAGINE_MSG_TYPE(egl, Context);
+using stream_tag = EAGINE_MSG_TYPE(egl, Stream);
 using sync_tag = EAGINE_MSG_TYPE(egl, Sync);
 //------------------------------------------------------------------------------
 using device_handle = basic_handle<
@@ -46,6 +47,11 @@ using context_handle =
 #else
 using context_handle = basic_handle<context_tag, nothing_t>;
 #endif
+//------------------------------------------------------------------------------
+using stream_handle = basic_handle<
+  stream_tag,
+  egl_types::stream_type,
+  egl_types::stream_type(nullptr)>;
 //------------------------------------------------------------------------------
 #if defined(EGL_NO_SYNC)
 using sync_handle = basic_handle<sync_tag, egl_types::sync_type, EGL_NO_SYNC>;

@@ -48,6 +48,7 @@ struct basic_egl_c_api {
     using config_type = typename egl_types::config_type;
     using attrib_type = typename egl_types::attrib_type;
     using context_type = typename egl_types::context_type;
+    using stream_type = typename egl_types::stream_type;
     using image_type = typename egl_types::image_type;
 
 #ifdef __GNUC__
@@ -166,6 +167,22 @@ struct basic_egl_c_api {
       bool_type(display_type, surface_type, int_type, int_type*),
       EGLPLUS_EGL_STATIC_FUNC(QuerySurface)>
       QuerySurface;
+
+    egl_api_function<surface_type(display_type, const int_type*), nullptr>
+      CreateStream;
+
+    egl_api_function<surface_type(display_type, const int_type*), nullptr>
+      DestroyStream;
+
+    egl_api_function<
+      bool_type(display_type, stream_type, int_type, int_type),
+      nullptr>
+      StreamAttrib;
+
+    egl_api_function<
+      bool_type(display_type, stream_type, int_type, int_type*),
+      nullptr>
+      QueryStream;
 
     egl_api_function<
       bool_type(display_type, surface_type, int_type),
@@ -292,6 +309,10 @@ struct basic_egl_c_api {
       , GetCurrentSurface("GetCurrentSurface", traits, *this)
       , SurfaceAttrib("SurfaceAttrib", traits, *this)
       , QuerySurface("QuerySurface", traits, *this)
+      , CreateStream("CreateStreamKHR", traits, *this)
+      , DestroyStream("DestroyStreamKHR", traits, *this)
+      , StreamAttrib("StreamAttribKHR", traits, *this)
+      , QueryStream("QueryStream", traits, *this)
       , BindTexImage("BindTexImage", traits, *this)
       , ReleaseTexImage("ReleaseTexImage", traits, *this)
       , BindAPI("BindAPI", traits, *this)

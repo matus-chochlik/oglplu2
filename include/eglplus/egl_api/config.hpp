@@ -30,9 +30,10 @@ namespace eagine::eglp {
 struct egl_types {
     using char_type = char;
     using void_ptr_type = void*;
+    using device_type = void*;
+    using stream_type = void*;
 #if EGLPLUS_HAS_EGL
     static constexpr bool has_api = true;
-    using device_type = void*;
     using native_display_type = EGLNativeDisplayType;
     using native_window_type = EGLNativeWindowType;
     using native_pixmap_type = EGLNativePixmapType;
@@ -50,7 +51,6 @@ struct egl_types {
     using int_type = EGLint;
 #else
     static constexpr bool has_api = false;
-    using device_type = void*;
     using native_display_type = nothing_t;
     using native_window_type = nothing_t;
     using native_pixmap_type = nothing_t;

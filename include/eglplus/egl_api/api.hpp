@@ -15,6 +15,7 @@
 #include "enum_types.hpp"
 #include "objects.hpp"
 #include "platform_attribs.hpp"
+#include "stream_attribs.hpp"
 #include "surface_attribs.hpp"
 #include "sync_attribs.hpp"
 #include <eagine/scope_exit.hpp>
@@ -475,6 +476,57 @@ public:
         }
     } surface_attrib;
 
+    // create_stream
+    struct : func<EGLPAFP(CreateStream)> {
+        using func<EGLPAFP(CreateStream)>::func;
+
+        constexpr auto operator()(display_handle disp) const noexcept {
+            return this->_cnvchkcall(disp, nullptr)
+              .cast_to(type_identity<stream_handle>{});
+        }
+
+        constexpr auto operator()(
+          display_handle disp,
+          span<const int_type> attribs) const noexcept {
+            return this->_cnvchkcall(disp, attribs.data())
+              .cast_to(type_identity<stream_handle>{});
+        }
+
+        template <std::size_t N>
+        constexpr auto operator()(
+          display_handle disp,
+          const stream_attributes<N> attribs) const noexcept {
+            return (*this)(disp, attribs.get());
+        }
+    } create_stream;
+
+    // destroy_stream
+    struct : func<EGLPAFP(DestroyStream)> {
+        using func<EGLPAFP(DestroyStream)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, stream_handle surf) const noexcept {
+            return this->_cnvchkcall(disp, surf);
+        }
+
+        auto raii(display_handle disp, stream_handle surf) noexcept {
+            return eagine::finally([=]() { (*this)(disp, surf); });
+        }
+    } destroy_stream;
+
+    // stream_attrib
+    struct : func<EGLPAFP(StreamAttrib)> {
+        using func<EGLPAFP(StreamAttrib)>::func;
+
+        constexpr auto operator()(
+          display_handle disp,
+          stream_handle surf,
+          stream_attribute attr,
+          int_type value) const noexcept {
+            return this->_cnvchkcall(disp, surf, attr, value);
+        }
+    } stream_attrib;
+
     // bind_api
     struct : func<EGLPAFP(BindAPI)> {
         using func<EGLPAFP(BindAPI)>::func;
@@ -765,6 +817,9 @@ public:
       , destroy_surface("destroy_surface", traits, *this)
       , get_current_surface("get_current_surface", traits, *this)
       , surface_attrib("surface_attrib", traits, *this)
+      , create_stream("create_stream", traits, *this)
+      , destroy_stream("destroy_stream", traits, *this)
+      , stream_attrib("stream_attrib", traits, *this)
       , bind_api("bind_api", traits, *this)
       , query_api("query_api", traits, *this)
       , create_context("create_context", traits, *this)
