@@ -83,6 +83,11 @@ struct stream_attribute
     using enum_class::enum_class;
 };
 
+struct stream_state
+  : egl_enum_class<stream_attribute, EAGINE_ID_V(StreamStat)> {
+    using enum_class::enum_class;
+};
+
 struct sync_type : egl_enum_class<sync_type, EAGINE_ID_V(SyncType)> {
     using enum_class::enum_class;
 };

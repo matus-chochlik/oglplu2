@@ -583,6 +583,8 @@ public:
 #endif
       pbuffer_bit;
 
+    opt_c_api_constant<mp_list<surface_type_bit>, int_type_c<0x0800>> stream_bit;
+
     opt_c_api_constant<
       mp_list<surface_type_bit>,
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
@@ -618,6 +620,39 @@ public:
       int_type_i>
 #endif
       vg_alpha_format_pre_bit_bit;
+
+    opt_c_api_constant<mp_list<stream_attribute>, int_type_c<0x3210>>
+      consumer_latency_usec;
+
+    opt_c_api_constant<mp_list<stream_attribute>, int_type_c<0x321E>>
+      consumer_acquire_timeout_usec;
+
+    opt_c_api_constant<mp_list<stream_attribute>, int_type_c<0x3212>>
+      producer_frame;
+
+    opt_c_api_constant<mp_list<stream_attribute>, int_type_c<0x3213>>
+      consumer_frame;
+
+    opt_c_api_constant<mp_list<stream_attribute>, int_type_c<0x3214>>
+      stream_state;
+
+    opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x3215>>
+      stream_state_created;
+
+    opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x3216>>
+      stream_state_connecting;
+
+    opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x3217>>
+      stream_state_empty;
+
+    opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x3218>>
+      stream_state_new_frame_available;
+
+    opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x3219>>
+      stream_state_old_frame_available;
+
+    opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x321A>>
+      stream_state_disconnected;
 
     opt_c_api_constant<
       mp_list<client_api_bit, renderable_type_bit>,
@@ -896,10 +931,31 @@ public:
       , window_bit("WINDOW_BIT", traits, api)
       , pixmap_bit("PIXMAP_BIT", traits, api)
       , pbuffer_bit("PBUFFER_BIT", traits, api)
+      , stream_bit("STREAM_BIT_KHR", traits, api)
       , multisample_resolve_box_bit("MULTISAMPLE_RESOLVE_BOX_BIT", traits, api)
       , swap_behavior_preserved_bit("SWAP_BEHAVIOR_PRESERVED_BIT", traits, api)
       , vg_colorspace_linear_bit("VG_COLORSPACE_LINEAR_BIT", traits, api)
       , vg_alpha_format_pre_bit_bit("VG_ALPHA_FORMAT_PRE_BIT_BIT", traits, api)
+      , consumer_latency_usec("CONSUMER_LATENCY_USEC_KHR", traits, api)
+      , consumer_acquire_timeout_usec(
+          "CONSUMER_ACQUIRE_TIMEOUT_USEC_KHR",
+          traits,
+          api)
+      , producer_frame("PRODUCER_FRAME_KHR", traits, api)
+      , consumer_frame("CONSUMER_FRAME_KHR", traits, api)
+      , stream_state("STREAM_STATE_KHR", traits, api)
+      , stream_state_created("STREAM_STATE_CREATED_KHR", traits, api)
+      , stream_state_connecting("STREAM_STATE_CONNECTING_KHR", traits, api)
+      , stream_state_empty("STREAM_STATE_EMPTY_KHR", traits, api)
+      , stream_state_new_frame_available(
+          "STREAM_STATE_NEW_FRAME_AVAILABLE_KHR",
+          traits,
+          api)
+      , stream_state_old_frame_available(
+          "STREAM_STATE_OLD_FRAME_AVAILABLE_KHR",
+          traits,
+          api)
+      , stream_state_disconnected("STREAM_STATE_DISCONNECTED_KHR", traits, api)
       , opengl_bit("OPENGL_BIT", traits, api)
       , opengl_es_bit("OPENGL_ES_BIT", traits, api)
       , opengl_es2_bit("OPENGL_ES2_BIT", traits, api)

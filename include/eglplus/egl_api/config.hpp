@@ -15,6 +15,15 @@
 #ifndef EGLPLUS_HAS_EGL
 #if defined(EGL_SUCCESS)
 #define EGLPLUS_HAS_EGL 1
+
+#ifndef EGL_BAD_STREAM_KHR
+#define EGL_BAD_STREAM_KHR 0x321B
+#endif
+
+#ifndef EGL_BAD_STATE_KHR
+#define EGL_BAD_STATE_KHR 0x321C
+#endif
+
 #else
 #define EGLPLUS_HAS_EGL 0
 #endif

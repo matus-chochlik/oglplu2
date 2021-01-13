@@ -149,6 +149,11 @@ struct basic_egl_c_api {
       CreatePixmapSurface;
 
     egl_api_function<
+      surface_type(display_type, config_type, stream_type, const int_type*),
+      nullptr>
+      CreateStreamProducerSurface;
+
+    egl_api_function<
       bool_type(display_type, surface_type),
       EGLPLUS_EGL_STATIC_FUNC(DestroySurface)>
       DestroySurface;
@@ -305,6 +310,10 @@ struct basic_egl_c_api {
       , CreatePbufferSurface("CreatePbufferSurface", traits, *this)
       , CreatePlatformPixmapSurface("CreatePlatformPixmapSurface", traits, *this)
       , CreatePixmapSurface("CreatePixmapSurface", traits, *this)
+      , CreateStreamProducerSurface(
+          "CreateStreamProducerSurfaceKHR",
+          traits,
+          *this)
       , DestroySurface("DestroySurface", traits, *this)
       , GetCurrentSurface("GetCurrentSurface", traits, *this)
       , SurfaceAttrib("SurfaceAttrib", traits, *this)
