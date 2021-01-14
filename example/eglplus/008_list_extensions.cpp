@@ -53,7 +53,7 @@ auto main() -> int {
                 if(egl.get_platform_display) {
                     if(ok display{egl.get_platform_display(
                          egl.platform_device, devices[d])}) {
-                        if(auto init_res = egl.initialize(display)) {
+                        if(ok init_res{egl.initialize(display)}) {
                             auto do_cleanup = egl.terminate.raii(display);
 
                             if(ok vendor{
@@ -88,10 +88,15 @@ auto main() -> int {
                                           << std::endl;
                             }
                         } else {
-                            std::cout << "missing required API function."
-                                      << std::endl;
+                            std::cerr << "failed to initialize display: "
+                                      << (!init_res).message() << std::endl;
                         }
+                    } else {
+                        std::cerr << "failed to get platform display: "
+                                  << (!display).message() << std::endl;
                     }
+                } else {
+                    std::cout << "missing required API function." << std::endl;
                 }
                 std::cout << std::endl;
             }
