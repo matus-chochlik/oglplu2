@@ -203,7 +203,7 @@ public:
         }
 
         constexpr auto operator()(device_handle) const noexcept {
-            return this->_fake("");
+            return this->_fake_empty_c_str();
         }
     } get_string;
 

@@ -13,6 +13,7 @@
 #include "config_attribs.hpp"
 #include "context_attribs.hpp"
 #include "enum_types.hpp"
+#include "extensions.hpp"
 #include "objects.hpp"
 #include "platform_attribs.hpp"
 #include "stream_attribs.hpp"
@@ -45,6 +46,20 @@ public:
     using native_pixmap_type = typename egl_types::native_pixmap_type;
     using config_type = typename egl_types::config_type;
 
+    // extensions
+    template <typename... Args>
+    using extension = basic_egl_extension<ApiTraits, Args...>;
+
+    extension<> EXT_device_base;
+    extension<> EXT_device_enumeration;
+    extension<> EXT_device_query;
+
+    extension<> EXT_platform_base;
+    extension<display_handle> EXT_output_base;
+
+    extension<display_handle> MESA_query_driver;
+
+    // functions
     template <typename W, W c_api::*F, typename Signature = typename W::signature>
     class func;
 
@@ -119,7 +134,7 @@ public:
         }
 
         constexpr auto operator()() const noexcept {
-            return this->_fake("");
+            return this->_fake_empty_c_str();
         }
     } query_device_string;
 
@@ -130,7 +145,7 @@ public:
           .transformed(
             [](auto src) { return split_c_str_into_string_list(src, ' '); });
 #else
-        return this->_fake("");
+        return this->_fake_empty_c_str();
 #endif
     }
 
@@ -746,7 +761,7 @@ public:
         }
 
         constexpr auto operator()() const noexcept {
-            return this->_fake("");
+            return this->_fake_empty_c_str();
         }
     } query_string;
 
@@ -772,7 +787,7 @@ public:
     }
 
     // get_extensions
-    auto get_extensions() noexcept {
+    auto get_extensions() const noexcept {
 #if defined(EGL_EXTENSIONS) && defined(EGL_NO_DISPLAY)
         return query_string(
                  display_handle(EGL_NO_DISPLAY), string_query(EGL_EXTENSIONS))
@@ -784,7 +799,7 @@ public:
     }
 
     // get_extensions
-    auto get_extensions(display_handle disp) noexcept {
+    auto get_extensions(display_handle disp) const noexcept {
 #ifdef EGL_EXTENSIONS
         return query_string(disp, string_query(EGL_EXTENSIONS))
 #else
@@ -795,10 +810,21 @@ public:
     }
 
     // has_extension
-    auto has_extension(display_handle disp, string_view which) noexcept {
+    auto has_extension(string_view which) const noexcept {
+        if(ok extensions{get_extensions()}) {
+            for(auto ext_name : extensions) {
+                if(ends_with(ext_name, which)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    auto has_extension(display_handle disp, string_view which) const noexcept {
         if(ok extensions{get_extensions(disp)}) {
             for(auto ext_name : extensions) {
-                if(are_equal(ext_name, which)) {
+                if(ends_with(ext_name, which)) {
                     return true;
                 }
             }
@@ -831,6 +857,12 @@ public:
 
     constexpr basic_egl_operations(api_traits& traits)
       : c_api{traits}
+      , EXT_device_base("EXT_device_base", traits, *this)
+      , EXT_device_enumeration("EXT_device_enumeration", traits, *this)
+      , EXT_device_query("EXT_device_query", traits, *this)
+      , EXT_platform_base("EXT_platform_base", traits, *this)
+      , EXT_output_base("EXT_output_base", traits, *this)
+      , MESA_query_driver("MESA_query_driver", traits, *this)
       , query_devices("query_devices", traits, *this)
       , query_device_string("query_device_string", traits, *this)
       , get_platform_display("get_platform_display", traits, *this)

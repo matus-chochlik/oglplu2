@@ -68,8 +68,7 @@ auto main() -> int {
                                           << std::endl;
                             }
 
-                            if(egl.has_extension(
-                                 display, "EGL_MESA_query_driver")) {
+                            if(egl.MESA_query_driver(display)) {
                                 if(ok driver_name{
                                      egl.get_display_driver_name(display)}) {
                                     std::cout << " Driver: " << driver_name
