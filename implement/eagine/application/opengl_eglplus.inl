@@ -8,6 +8,7 @@
  */
 
 #include <eagine/application/context.hpp>
+#include <eagine/integer_range.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <eagine/valid_if/decl.hpp>
 #include <oglplus/config/basic.hpp>
@@ -26,6 +27,12 @@ public:
     eglplus_opengl_surface(main_ctx_parent parent, eglp::egl_api& egl)
       : main_ctx_object{EAGINE_ID(EGLPbuffer), parent}
       , _egl_api{egl} {}
+
+    auto initialize(
+      execution_context&,
+      eglp::display_handle,
+      const launch_options&,
+      const video_options&) -> bool;
 
     auto initialize(
       execution_context&,
@@ -60,87 +67,116 @@ private:
 EAGINE_LIB_FUNC
 auto eglplus_opengl_surface::initialize(
   execution_context& exec_ctx,
-  string_view name,
+  eglp::display_handle display,
   const launch_options&,
   const video_options& video_opts) -> bool {
-    _instance_name = name;
-
     auto& [egl, EGL] = _egl_api;
 
-    if(ok display{egl.get_display()}) {
-        if(ok initialized{egl.initialize(display)}) {
-            _display = display;
+    if(ok initialized{egl.initialize(display)}) {
+        _display = display;
 
-            const auto config_attribs =
-              (EGL.red_size | video_opts.color_bits()) +
-              (EGL.green_size | video_opts.color_bits()) +
-              (EGL.blue_size | video_opts.color_bits()) +
-              (EGL.alpha_size | video_opts.alpha_bits()) +
-              (EGL.depth_size | video_opts.depth_bits()) +
-              (EGL.stencil_size | video_opts.stencil_bits()) +
-              (EGL.color_buffer_type | EGL.rgb_buffer) +
-              (EGL.surface_type | EGL.pbuffer_bit) +
-              (EGL.renderable_type | EGL.opengl_bit);
+        const auto config_attribs =
+          (EGL.red_size | video_opts.color_bits()) +
+          (EGL.green_size | video_opts.color_bits()) +
+          (EGL.blue_size | video_opts.color_bits()) +
+          (EGL.alpha_size | video_opts.alpha_bits()) +
+          (EGL.depth_size | video_opts.depth_bits()) +
+          (EGL.stencil_size | video_opts.stencil_bits()) +
+          (EGL.color_buffer_type | EGL.rgb_buffer) +
+          (EGL.surface_type | EGL.pbuffer_bit) +
+          (EGL.renderable_type | EGL.opengl_bit);
 
-            if(ok count{egl.choose_config.count(display, config_attribs)}) {
-                log_info("found ${count} suitable framebuffer configurations")
-                  .arg(EAGINE_ID(count), count.get());
+        if(ok count{egl.choose_config.count(display, config_attribs)}) {
+            log_info("found ${count} suitable framebuffer configurations")
+              .arg(EAGINE_ID(count), count.get());
 
-                if(ok config{egl.choose_config(display, config_attribs)}) {
-                    _width = video_opts.surface_width() / 1;
-                    _height = video_opts.surface_height() / 1;
+            if(ok config{egl.choose_config(display, config_attribs)}) {
+                _width = video_opts.surface_width() / 1;
+                _height = video_opts.surface_height() / 1;
 
-                    const auto surface_attribs =
-                      (EGL.width | _width) + (EGL.height | _height);
-                    if(ok surface{egl.create_pbuffer_surface(
-                         display, config, surface_attribs)}) {
-                        _surface = surface;
+                const auto surface_attribs =
+                  (EGL.width | _width) + (EGL.height | _height);
+                if(ok surface{egl.create_pbuffer_surface(
+                     display, config, surface_attribs)}) {
+                    _surface = surface;
 
-                        if(ok bound{egl.bind_api(EGL.opengl_api)}) {
-                            const auto context_attribs =
-                              (EGL.context_major_version | 3) +
-                              (EGL.context_minor_version | 3) +
-                              (EGL.context_opengl_profile_mask |
-                               EGL.context_opengl_core_profile_bit);
+                    if(ok bound{egl.bind_api(EGL.opengl_api)}) {
+                        const auto context_attribs =
+                          (EGL.context_major_version | 3) +
+                          (EGL.context_minor_version | 3) +
+                          (EGL.context_opengl_profile_mask |
+                           EGL.context_opengl_core_profile_bit);
 
-                            if(ok ctxt{egl.create_context(
-                                 display, config, context_attribs)}) {
-                                _context = ctxt;
-                                return true;
-                            } else {
-                                log_error("failed to create context")
-                                  .arg(EAGINE_ID(message), (!ctxt).message());
-                            }
+                        if(ok ctxt{egl.create_context(
+                             display, config, context_attribs)}) {
+                            _context = ctxt;
+                            return true;
                         } else {
-                            log_error("failed to bind OpenGL API")
-                              .arg(EAGINE_ID(message), (!bound).message());
+                            log_error("failed to create context")
+                              .arg(EAGINE_ID(message), (!ctxt).message());
                         }
                     } else {
-                        log_error("failed to create pbuffer ${width}x${height}")
-                          .arg(EAGINE_ID(width), _width)
-                          .arg(EAGINE_ID(height), _height)
-                          .arg(EAGINE_ID(message), (!surface).message());
+                        log_error("failed to bind OpenGL API")
+                          .arg(EAGINE_ID(message), (!bound).message());
                     }
                 } else {
-                    log_error("no matching framebuffer configuration found")
-                      .arg(EAGINE_ID(color), video_opts.color_bits())
-                      .arg(EAGINE_ID(alpha), video_opts.alpha_bits())
-                      .arg(EAGINE_ID(depth), video_opts.depth_bits())
-                      .arg(EAGINE_ID(stencil), video_opts.stencil_bits())
-                      .arg(EAGINE_ID(message), (!config).message());
+                    log_error("failed to create pbuffer ${width}x${height}")
+                      .arg(EAGINE_ID(width), _width)
+                      .arg(EAGINE_ID(height), _height)
+                      .arg(EAGINE_ID(message), (!surface).message());
                 }
             } else {
-                log_error("failed to query framebuffer configurations")
-                  .arg(EAGINE_ID(message), (!count).message());
+                log_error("no matching framebuffer configuration found")
+                  .arg(EAGINE_ID(color), video_opts.color_bits())
+                  .arg(EAGINE_ID(alpha), video_opts.alpha_bits())
+                  .arg(EAGINE_ID(depth), video_opts.depth_bits())
+                  .arg(EAGINE_ID(stencil), video_opts.stencil_bits())
+                  .arg(EAGINE_ID(message), (!config).message());
             }
-
         } else {
-            exec_ctx.log_error("failed to initialize EGL display")
-              .arg(EAGINE_ID(message), (!initialized).message());
+            log_error("failed to query framebuffer configurations")
+              .arg(EAGINE_ID(message), (!count).message());
+        }
+
+    } else {
+        exec_ctx.log_error("failed to initialize EGL display")
+          .arg(EAGINE_ID(message), (!initialized).message());
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto eglplus_opengl_surface::initialize(
+  execution_context& exec_ctx,
+  string_view name,
+  const launch_options& opts,
+  const video_options& video_opts) -> bool {
+    _instance_name = name;
+    auto& [egl, EGL] = _egl_api;
+
+    bool select_device = false; // TODO: check options if we want selection
+
+    if(select_device && egl.EXT_device_enumeration) {
+        if(ok dev_count{egl.query_devices.count()}) {
+            const auto n = std_size(dev_count.get());
+            std::vector<eglp::egl_types::device_type> devices;
+            devices.resize(n);
+            if(egl.query_devices(cover(devices))) {
+                for(auto d : integer_range(n)) {
+                    if(ok display{egl.get_platform_display(
+                         EGL.platform_device, devices[d])}) {
+                        // TODO: select device
+                    }
+                }
+            }
         }
     } else {
-        exec_ctx.log_error("failed to get EGL display")
-          .arg(EAGINE_ID(message), (!display).message());
+        if(ok display{egl.get_display()}) {
+            return initialize(exec_ctx, display, opts, video_opts);
+        } else {
+            exec_ctx.log_error("failed to get EGL display")
+              .arg(EAGINE_ID(message), (!display).message());
+        }
     }
     return false;
 }
