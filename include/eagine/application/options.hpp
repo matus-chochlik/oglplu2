@@ -42,6 +42,10 @@ public:
         return {_display_name};
     }
 
+    auto egl_device_index() const noexcept {
+        return _egl_device_idx;
+    }
+
     using valid_surface_size = valid_if_positive<int>;
     auto surface_size(valid_surface_size width, valid_surface_size height)
       -> auto& {
@@ -185,6 +189,8 @@ private:
     std::string _provider_name;
     std::string _display_name;
     std::string _framedump_prefix;
+
+    valid_if_nonnegative<span_size_t> _egl_device_idx{-1};
 
     int _surface_width{1280};
     int _surface_height{800};

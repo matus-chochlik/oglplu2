@@ -75,6 +75,13 @@ auto eglplus_opengl_surface::initialize(
     if(ok initialized{egl.initialize(display)}) {
         _display = display;
 
+        if(egl.MESA_query_driver(_display)) {
+            if(ok driver_name{egl.get_display_driver_name(_display)}) {
+                log_info("using the '${driver}' MESA display driver")
+                  .arg(EAGINE_ID(driver), driver_name.get());
+            }
+        }
+
         const auto config_attribs =
           (EGL.red_size | video_opts.color_bits()) +
           (EGL.green_size | video_opts.color_bits()) +
@@ -154,7 +161,8 @@ auto eglplus_opengl_surface::initialize(
     _instance_name = name;
     auto& [egl, EGL] = _egl_api;
 
-    bool select_device = false; // TODO: check options if we want selection
+    const auto device_idx = video_opts.egl_device_index();
+    const bool select_device = device_idx.is_valid();
 
     if(select_device && egl.EXT_device_enumeration) {
         if(ok dev_count{egl.query_devices.count()}) {
@@ -163,9 +171,19 @@ auto eglplus_opengl_surface::initialize(
             devices.resize(n);
             if(egl.query_devices(cover(devices))) {
                 for(auto d : integer_range(n)) {
-                    if(ok display{egl.get_platform_display(
-                         EGL.platform_device, devices[d])}) {
-                        // TODO: select device
+                    if(!device_idx || std_size(extract(device_idx)) == d) {
+                        if(ok display{egl.get_platform_display(
+                             EGL.platform_device, devices[d])}) {
+
+                            if(device_idx) {
+                                log_info("using EGL device ${index}")
+                                  .arg(EAGINE_ID(index), extract(device_idx));
+                            }
+
+                            // TODO: additional selection criteria?
+                            return initialize(
+                              exec_ctx, display, opts, video_opts);
+                        }
                     }
                 }
             }

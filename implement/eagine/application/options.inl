@@ -21,6 +21,8 @@ video_options::video_options(
       o.cfg_init("application.video.provider", std::string(), instance);
     _display_name =
       o.cfg_init("application.video.display", std::string(), instance);
+    _egl_device_idx =
+      o.cfg_init("application.video.egl.device", _egl_device_idx, instance);
 
     _surface_width = o.cfg_extr<valid_surface_size>(
       "application.video.surface.width", _surface_width, instance);
