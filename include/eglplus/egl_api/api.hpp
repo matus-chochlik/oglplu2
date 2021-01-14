@@ -55,6 +55,13 @@ public:
     extension<> EXT_device_query;
 
     extension<> EXT_platform_base;
+    extension<> EXT_platform_device;
+    extension<> EXT_platform_x11;
+    extension<> EXT_platform_xcb;
+    extension<> EXT_platform_wayland;
+    extension<> KHR_platform_gbm;
+    extension<> MESA_platform_surfaceless;
+
     extension<display_handle> EXT_output_base;
 
     extension<display_handle> MESA_query_driver;
@@ -861,6 +868,12 @@ public:
       , EXT_device_enumeration("EXT_device_enumeration", traits, *this)
       , EXT_device_query("EXT_device_query", traits, *this)
       , EXT_platform_base("EXT_platform_base", traits, *this)
+      , EXT_platform_device("EXT_platform_device", traits, *this)
+      , EXT_platform_x11("EXT_platform_x11", traits, *this)
+      , EXT_platform_xcb("EXT_platform_xcb", traits, *this)
+      , EXT_platform_wayland("EXT_platform_wayland", traits, *this)
+      , KHR_platform_gbm("KHR_platform_gbm", traits, *this)
+      , MESA_platform_surfaceless("MESA_platform_surfaceless", traits, *this)
       , EXT_output_base("EXT_output_base", traits, *this)
       , MESA_query_driver("MESA_query_driver", traits, *this)
       , query_devices("query_devices", traits, *this)
