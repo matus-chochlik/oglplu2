@@ -41,6 +41,8 @@ struct egl_types {
     using void_ptr_type = void*;
     using device_type = void*;
     using stream_type = void*;
+    using output_layer_type = void*;
+    using output_port_type = void*;
 #if EGLPLUS_HAS_EGL
     static constexpr bool has_api = true;
     using native_display_type = EGLNativeDisplayType;

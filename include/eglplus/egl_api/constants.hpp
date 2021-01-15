@@ -199,13 +199,21 @@ public:
       version;
 
     opt_c_api_constant<
-      mp_list<string_query>,
+      mp_list<string_query, device_string_query>,
 #ifdef EGL_EXTENSIONS
       int_type_c<EGL_EXTENSIONS>>
 #else
       int_type_i>
 #endif
       extensions;
+
+    opt_c_api_constant<
+      mp_list<string_query, device_string_query>,
+      int_type_c<0x3233>>
+      drm_device_file;
+
+    opt_c_api_constant<mp_list<platform_attribute>, int_type_c<0x333C>>
+      drm_master_fd;
 
     opt_c_api_constant<
       mp_list<config_attribute>,
@@ -386,6 +394,9 @@ public:
       int_type_i>
 #endif
       transparent_blue_value;
+
+    opt_c_api_constant<mp_list<config_attribute>, int_type_c<0x3339>>
+      color_component_type;
 
     opt_c_api_constant<
       mp_list<config_attribute>,
@@ -764,6 +775,12 @@ public:
 #endif
       luminance_buffer;
 
+    opt_c_api_constant<mp_list<eglp::color_component_type>, int_type_c<0x333A>>
+      color_component_type_fixed;
+
+    opt_c_api_constant<mp_list<eglp::color_component_type>, int_type_c<0x333B>>
+      color_component_type_float;
+
     opt_c_api_constant<
       mp_list<eglp::read_draw>,
 #ifdef EGL_READ
@@ -890,6 +907,8 @@ public:
       , vendor("VENDOR", traits, api)
       , version("VERSION", traits, api)
       , extensions("EXTENSIONS", traits, api)
+      , drm_device_file("DRM_DEVICE_FILE_EXT", traits, api)
+      , drm_master_fd("DRM_MASTER_FD_EXT", traits, api)
       , config_id("CONFIG_ID", traits, api)
       , conformant("CONFORMANT", traits, api)
       , surface_type("SURFACE_TYPE", traits, api)
@@ -910,6 +929,7 @@ public:
       , transparent_red_value("TRANSPARENT_RED_VALUE", traits, api)
       , transparent_green_value("TRANSPARENT_GREEN_VALUE", traits, api)
       , transparent_blue_value("TRANSPARENT_BLUE_VALUE", traits, api)
+      , color_component_type("COLOR_COMPONENT_TYPE_EXT", traits, api)
       , level("LEVEL", traits, api)
       , pbuffer_width("PBUFFER_WIDTH", traits, api)
       , pbuffer_height("PBUFFER_HEIGHT", traits, api)
@@ -978,6 +998,8 @@ public:
           api)
       , rgb_buffer("RGB_BUFFER", traits, api)
       , luminance_buffer("LUMINANCE_BUFFER", traits, api)
+      , color_component_type_fixed("COLOR_COMPONENT_TYPE_FIXED_EXT", traits, api)
+      , color_component_type_float("COLOR_COMPONENT_TYPE_FLOAT_EXT", traits, api)
       , read("READ", traits, api)
       , draw("DRAW", traits, api)
       , sync_fence("sync_fence", traits, api)

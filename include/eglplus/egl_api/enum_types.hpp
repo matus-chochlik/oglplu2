@@ -102,6 +102,11 @@ struct color_buffer_type
     using enum_class::enum_class;
 };
 
+struct color_component_type
+  : egl_enum_class<color_component_type, EAGINE_ID_V(ClrCmpType)> {
+    using enum_class::enum_class;
+};
+
 struct read_draw : egl_enum_class<read_draw, EAGINE_ID_V(ReadDraw)> {
     using enum_class::enum_class;
 };

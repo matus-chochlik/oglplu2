@@ -53,6 +53,7 @@ public:
     extension<> EXT_device_base;
     extension<> EXT_device_enumeration;
     extension<> EXT_device_query;
+    extension<> EXT_device_drm;
 
     extension<> EXT_platform_base;
     extension<> EXT_platform_device;
@@ -62,7 +63,10 @@ public:
     extension<> KHR_platform_gbm;
     extension<> MESA_platform_surfaceless;
 
+    extension<> EXT_create_context_robustness;
+
     extension<display_handle> EXT_output_base;
+    extension<display_handle> EXT_pixel_format_float;
 
     extension<display_handle> MESA_query_driver;
 
@@ -867,6 +871,7 @@ public:
       , EXT_device_base("EXT_device_base", traits, *this)
       , EXT_device_enumeration("EXT_device_enumeration", traits, *this)
       , EXT_device_query("EXT_device_query", traits, *this)
+      , EXT_device_drm("EXT_device_drm", traits, *this)
       , EXT_platform_base("EXT_platform_base", traits, *this)
       , EXT_platform_device("EXT_platform_device", traits, *this)
       , EXT_platform_x11("EXT_platform_x11", traits, *this)
@@ -874,7 +879,12 @@ public:
       , EXT_platform_wayland("EXT_platform_wayland", traits, *this)
       , KHR_platform_gbm("KHR_platform_gbm", traits, *this)
       , MESA_platform_surfaceless("MESA_platform_surfaceless", traits, *this)
+      , EXT_create_context_robustness(
+          "EXT_create_context_robustness",
+          traits,
+          *this)
       , EXT_output_base("EXT_output_base", traits, *this)
+      , EXT_pixel_format_float("EXT_pixel_format_float", traits, *this)
       , MESA_query_driver("MESA_query_driver", traits, *this)
       , query_devices("query_devices", traits, *this)
       , query_device_string("query_device_string", traits, *this)
