@@ -8,6 +8,7 @@
  */
 
 #include <eagine/application/context.hpp>
+#include <eagine/extract.hpp>
 #include <eagine/integer_range.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <eagine/valid_if/decl.hpp>
@@ -73,14 +74,22 @@ auto eglplus_opengl_surface::initialize(
     auto& [egl, EGL] = _egl_api;
 
     if(ok initialized{egl.initialize(display)}) {
-        _display = display;
 
-        if(egl.MESA_query_driver(_display)) {
-            if(ok driver_name{egl.get_display_driver_name(_display)}) {
-                log_info("using the '${driver}' MESA display driver")
-                  .arg(EAGINE_ID(driver), driver_name.get());
+        if(egl.MESA_query_driver(display)) {
+            if(ok driver_name{egl.get_display_driver_name(display)}) {
+                if(
+                  !video_opts.driver_name() ||
+                  are_equal(
+                    extract(video_opts.driver_name()), extract(driver_name))) {
+                    log_info("using the '${driver}' MESA display driver")
+                      .arg(EAGINE_ID(driver), extract(driver_name));
+                } else {
+                    return false;
+                }
             }
         }
+
+        _display = display;
 
         const auto config_attribs =
           (EGL.red_size | video_opts.color_bits()) +
@@ -95,7 +104,7 @@ auto eglplus_opengl_surface::initialize(
 
         if(ok count{egl.choose_config.count(display, config_attribs)}) {
             log_info("found ${count} suitable framebuffer configurations")
-              .arg(EAGINE_ID(count), count.get());
+              .arg(EAGINE_ID(count), extract(count));
 
             if(ok config{egl.choose_config(display, config_attribs)}) {
                 _width = video_opts.surface_width() / 1;
@@ -162,11 +171,12 @@ auto eglplus_opengl_surface::initialize(
     auto& [egl, EGL] = _egl_api;
 
     const auto device_idx = video_opts.egl_device_index();
-    const bool select_device = device_idx.is_valid();
+    const bool select_device =
+      device_idx.is_valid() || video_opts.driver_name().is_valid();
 
     if(select_device && egl.EXT_device_enumeration) {
         if(ok dev_count{egl.query_devices.count()}) {
-            const auto n = std_size(dev_count.get());
+            const auto n = std_size(extract(dev_count));
             std::vector<eglp::egl_types::device_type> devices;
             devices.resize(n);
             if(egl.query_devices(cover(devices))) {

@@ -195,7 +195,8 @@ public:
 
         constexpr auto
         operator()(device_handle dev, alc_string_query query) const noexcept {
-            return this->_chkcall(dev, dev, enum_type(query));
+            return this->_chkcall(dev, dev, enum_type(query))
+              .cast_to(type_identity<string_view>{});
         }
 
         constexpr auto operator()(alc_string_query query) const noexcept {
@@ -203,7 +204,8 @@ public:
         }
 
         constexpr auto operator()(device_handle) const noexcept {
-            return this->_fake_empty_c_str();
+            return this->_fake_empty_c_str().cast_to(
+              type_identity<string_view>{});
         }
     } get_string;
 
@@ -213,7 +215,7 @@ public:
       alc_string_query query,
       char separator) noexcept {
         return get_string(dev, query).transformed([separator](auto src) {
-            return split_c_str_into_string_list(src, separator);
+            return split_into_string_list(src, separator);
         });
     }
 
@@ -225,18 +227,17 @@ public:
         return get_string(dev)
 #endif
           .transformed(
-            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+            [](auto src) { return split_into_string_list(src, ' '); });
     }
 
     // get_default_device_specifier
     auto get_default_device_specifier() noexcept {
 #ifdef ALC_DEFAULT_DEVICE_SPECIFIER
         return get_string(
-                 nullptr, alc_string_query(ALC_DEFAULT_DEVICE_SPECIFIER))
+          nullptr, alc_string_query(ALC_DEFAULT_DEVICE_SPECIFIER));
 #else
-        return get_string(nullptr)
+        return get_string(nullptr);
 #endif
-          .transformed([](auto src) { return string_view(src); });
     }
 
     // get_device_specifiers
@@ -247,19 +248,17 @@ public:
         return get_string(nullptr)
 #endif
           .transformed(
-            [](auto src) { return split_c_str_into_string_list(src, '\0'); });
+            [](auto src) { return split_into_string_list(src, '\0'); });
     }
 
     // get_capture_default_device_specifier
     auto get_capture_default_device_specifier() noexcept {
 #ifdef ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER
         return get_string(
-                 nullptr,
-                 alc_string_query(ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER))
+          nullptr, alc_string_query(ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER));
 #else
-        return get_string(nullptr)
+        return get_string(nullptr);
 #endif
-          .transformed([](auto src) { return string_view(src); });
     }
 
     // get_capture_device_specifiers
@@ -271,7 +270,7 @@ public:
         return get_string(nullptr)
 #endif
           .transformed(
-            [](auto src) { return split_c_str_into_string_list(src, '\0'); });
+            [](auto src) { return split_into_string_list(src, '\0'); });
     }
 
     constexpr basic_alc_operations(api_traits& traits)

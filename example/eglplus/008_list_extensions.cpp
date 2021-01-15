@@ -58,21 +58,22 @@ auto main() -> int {
 
                             if(ok vendor{
                                  egl.query_string(display, egl.vendor)}) {
-                                std::cout << " Vendor:  " << vendor
+                                std::cout << " Vendor:  " << extract(vendor)
                                           << std::endl;
                             }
 
                             if(ok version{
                                  egl.query_string(display, egl.version)}) {
-                                std::cout << " Version: " << version
+                                std::cout << " Version: " << extract(version)
                                           << std::endl;
                             }
 
                             if(egl.MESA_query_driver(display)) {
                                 if(ok driver_name{
                                      egl.get_display_driver_name(display)}) {
-                                    std::cout << " Driver: " << driver_name
-                                              << std::endl;
+                                    std::cout
+                                      << " Driver: " << extract(driver_name)
+                                      << std::endl;
                                 }
                             }
 

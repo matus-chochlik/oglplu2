@@ -141,11 +141,13 @@ public:
 
         constexpr auto
         operator()(device_type dev, device_string_query query) const noexcept {
-            return this->_cnvchkcall(dev, query);
+            return this->_cnvchkcall(dev, query)
+              .cast_to(type_identity<string_view>{});
         }
 
         constexpr auto operator()() const noexcept {
-            return this->_fake_empty_c_str();
+            return this->_fake_empty_c_str().cast_to(
+              type_identity<string_view>{});
         }
     } query_device_string;
 
@@ -154,7 +156,7 @@ public:
 #ifdef EGL_EXTENSIONS
         return query_device_string(dev, device_string_query(EGL_EXTENSIONS))
           .transformed(
-            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+            [](auto src) { return split_into_string_list(src, ' '); });
 #else
         return this->_fake_empty_c_str();
 #endif
@@ -211,7 +213,8 @@ public:
         using func<EGLPAFP(GetDisplayDriverName)>::func;
 
         constexpr auto operator()(display_handle disp) const noexcept {
-            return this->_cnvchkcall(disp);
+            return this->_cnvchkcall(disp).cast_to(
+              type_identity<string_view>{});
         }
     } get_display_driver_name;
 
@@ -768,11 +771,13 @@ public:
 
         constexpr auto
         operator()(display_handle disp, string_query query) const noexcept {
-            return this->_cnvchkcall(disp, query);
+            return this->_cnvchkcall(disp, query)
+              .cast_to(type_identity<string_view>{});
         }
 
         constexpr auto operator()() const noexcept {
-            return this->_fake_empty_c_str();
+            return this->_fake_empty_c_str().cast_to(
+              type_identity<string_view>{});
         }
     } query_string;
 
@@ -782,7 +787,7 @@ public:
       string_query query,
       char separator) noexcept {
         return query_string(disp, query).transformed([separator](auto src) {
-            return split_c_str_into_string_list(src, separator);
+            return split_into_string_list(src, separator);
         });
     }
 
@@ -794,7 +799,7 @@ public:
         return query_string()
 #endif
           .transformed(
-            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+            [](auto src) { return split_into_string_list(src, ' '); });
     }
 
     // get_extensions
@@ -806,7 +811,7 @@ public:
         return query_string()
 #endif
           .transformed(
-            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+            [](auto src) { return split_into_string_list(src, ' '); });
     }
 
     // get_extensions
@@ -817,7 +822,7 @@ public:
         return query_string()
 #endif
           .transformed(
-            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+            [](auto src) { return split_into_string_list(src, ' '); });
     }
 
     // has_extension

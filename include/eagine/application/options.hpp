@@ -42,6 +42,10 @@ public:
         return {_display_name};
     }
 
+    auto driver_name() const noexcept -> valid_if_not_empty<string_view> {
+        return {_driver_name};
+    }
+
     auto egl_device_index() const noexcept {
         return _egl_device_idx;
     }
@@ -188,6 +192,7 @@ private:
     video_context_kind _video_kind;
     std::string _provider_name;
     std::string _display_name;
+    std::string _driver_name;
     std::string _framedump_prefix;
 
     valid_if_nonnegative<span_size_t> _egl_device_idx{-1};

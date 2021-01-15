@@ -26,11 +26,11 @@ auto main() -> int {
             }
 
             if(ok vendor = egl.query_string(display, egl.vendor)) {
-                std::cout << "Vendor:  " << vendor << std::endl;
+                std::cout << "Vendor:  " << extract(vendor) << std::endl;
             }
 
             if(ok version = egl.query_string(display, egl.version)) {
-                std::cout << "Version: " << version << std::endl;
+                std::cout << "Version: " << extract(version) << std::endl;
             }
 
         } else {

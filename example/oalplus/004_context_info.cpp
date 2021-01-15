@@ -29,15 +29,15 @@ auto main() -> int {
             al_api al;
 
             if(ok info{al.get_string(al.vendor)}) {
-                std::cout << "Vendor: " << info << std::endl;
+                std::cout << "Vendor: " << extract(info) << std::endl;
             }
 
             if(ok info{al.get_string(al.renderer)}) {
-                std::cout << "Renderer: " << info << std::endl;
+                std::cout << "Renderer: " << extract(info) << std::endl;
             }
 
             if(ok info{al.get_string(al.version)}) {
-                std::cout << "Version: " << info << std::endl;
+                std::cout << "Version: " << extract(info) << std::endl;
             }
         }
     }

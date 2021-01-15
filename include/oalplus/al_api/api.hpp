@@ -594,18 +594,20 @@ public:
         using func<OALPAFP(GetString)>::func;
 
         constexpr auto operator()(al_string_query query) const noexcept {
-            return this->_chkcall(enum_type(query));
+            return this->_chkcall(enum_type(query))
+              .cast_to(type_identity<string_view>{});
         }
 
         constexpr auto operator()() const noexcept {
-            return this->_fake_empty_c_str();
+            return this->_fake_empty_c_str().cast_to(
+              type_identity<string_view>{});
         }
     } get_string;
 
     // get_strings
     auto get_strings(al_string_query query, char separator) noexcept {
         return get_string(query).transformed([separator](auto src) {
-            return split_c_str_into_string_list(src, separator);
+            return split_into_string_list(src, separator);
         });
     }
 
@@ -617,7 +619,7 @@ public:
         return get_string()
 #endif
           .transformed(
-            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+            [](auto src) { return split_into_string_list(src, ' '); });
     }
 
     constexpr basic_al_operations(api_traits& traits)
