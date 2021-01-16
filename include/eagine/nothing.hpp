@@ -14,6 +14,9 @@ namespace eagine {
 
 struct nothing_t {
     using type = nothing_t;
+
+    template <typename... T>
+    constexpr nothing_t(T...) noexcept {}
 };
 
 static constexpr nothing_t nothing = {};
