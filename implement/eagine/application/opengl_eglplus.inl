@@ -32,6 +32,14 @@ public:
     auto initialize(
       execution_context&,
       eglp::display_handle,
+      eglp::egl_types::config_type,
+      const launch_options&,
+      const video_options&) -> bool;
+
+    auto initialize(
+      execution_context&,
+      eglp::display_handle,
+      valid_if_nonnegative<span_size_t> device_idx,
       const launch_options&,
       const video_options&) -> bool;
 
@@ -67,24 +75,112 @@ private:
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto eglplus_opengl_surface::initialize(
-  execution_context& exec_ctx,
+  execution_context&,
   eglp::display_handle display,
+  eglp::egl_types::config_type config,
   const launch_options&,
   const video_options& video_opts) -> bool {
-    auto& [egl, EGL] = _egl_api;
+    const auto& [egl, EGL] = _egl_api;
+
+    _width = video_opts.surface_width() / 1;
+    _height = video_opts.surface_height() / 1;
+
+    const auto surface_attribs = (EGL.width | _width) + (EGL.height | _height);
+    if(ok surface{
+         egl.create_pbuffer_surface(display, config, surface_attribs)}) {
+        _surface = surface;
+
+        if(ok bound{egl.bind_api(EGL.opengl_api)}) {
+            const auto context_attribs = (EGL.context_major_version | 3) +
+                                         (EGL.context_minor_version | 3) +
+                                         (EGL.context_opengl_profile_mask |
+                                          EGL.context_opengl_core_profile_bit);
+
+            if(ok ctxt{egl.create_context(display, config, context_attribs)}) {
+                _context = ctxt;
+                return true;
+            } else {
+                log_error("failed to create context")
+                  .arg(EAGINE_ID(message), (!ctxt).message());
+            }
+        } else {
+            log_error("failed to bind OpenGL API")
+              .arg(EAGINE_ID(message), (!bound).message());
+        }
+    } else {
+        log_error("failed to create pbuffer ${width}x${height}")
+          .arg(EAGINE_ID(width), _width)
+          .arg(EAGINE_ID(height), _height)
+          .arg(EAGINE_ID(message), (!surface).message());
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+
+EAGINE_LIB_FUNC
+auto eglplus_opengl_surface::initialize(
+  execution_context& exec_ctx,
+  eglp::display_handle display,
+  valid_if_nonnegative<span_size_t> device_idx,
+  const launch_options& opts,
+  const video_options& video_opts) -> bool {
+    const auto& [egl, EGL] = _egl_api;
+
+    if(device_idx) {
+        log_info("trying EGL device ${index}")
+          .arg(EAGINE_ID(index), extract(device_idx));
+    } else {
+        exec_ctx.log_info("trying default EGL display device");
+    }
 
     if(ok initialized{egl.initialize(display)}) {
-
-        if(egl.MESA_query_driver(display)) {
-            if(ok driver_name{egl.get_display_driver_name(display)}) {
-                if(
-                  !video_opts.driver_name() ||
-                  are_equal(
-                    extract(video_opts.driver_name()), extract(driver_name))) {
-                    log_info("using the '${driver}' MESA display driver")
-                      .arg(EAGINE_ID(driver), extract(driver_name));
+        if(auto conf_driver_name{video_opts.driver_name()}) {
+            if(egl.MESA_query_driver(display)) {
+                if(ok driver_name{egl.get_display_driver_name(display)}) {
+                    if(are_equal(
+                         extract(video_opts.driver_name()),
+                         extract(driver_name))) {
+                        log_info("using the ${driver} MESA display driver")
+                          .arg(
+                            EAGINE_ID(driver),
+                            EAGINE_ID(Identifier),
+                            extract(driver_name));
+                    } else {
+                        log_info(
+                          "${current} does not match the configured "
+                          "${config} display driver; skipping")
+                          .arg(
+                            EAGINE_ID(current),
+                            EAGINE_ID(Identifier),
+                            extract(driver_name))
+                          .arg(
+                            EAGINE_ID(config),
+                            EAGINE_ID(Identifier),
+                            extract(conf_driver_name));
+                        return false;
+                    }
                 } else {
+                    log_error("failed to get EGL display driver name");
                     return false;
+                }
+            } else {
+                log_info(
+                  "cannot determine current display driver to match "
+                  "with configured ${config} driver; skipping")
+                  .arg(
+                    EAGINE_ID(config),
+                    EAGINE_ID(Identifier),
+                    extract(conf_driver_name));
+                return false;
+            }
+        } else {
+            if(egl.MESA_query_driver(display)) {
+                if(ok driver_name{egl.get_display_driver_name(display)}) {
+                    log_info("using the ${driver} MESA display driver")
+                      .arg(
+                        EAGINE_ID(driver),
+                        EAGINE_ID(Identifier),
+                        extract(driver_name));
                 }
             }
         }
@@ -102,45 +198,12 @@ auto eglplus_opengl_surface::initialize(
           (EGL.surface_type | EGL.pbuffer_bit) +
           (EGL.renderable_type | EGL.opengl_bit);
 
-        if(ok count{egl.choose_config.count(display, config_attribs)}) {
+        if(ok count{egl.choose_config.count(_display, config_attribs)}) {
             log_info("found ${count} suitable framebuffer configurations")
               .arg(EAGINE_ID(count), extract(count));
 
-            if(ok config{egl.choose_config(display, config_attribs)}) {
-                _width = video_opts.surface_width() / 1;
-                _height = video_opts.surface_height() / 1;
-
-                const auto surface_attribs =
-                  (EGL.width | _width) + (EGL.height | _height);
-                if(ok surface{egl.create_pbuffer_surface(
-                     display, config, surface_attribs)}) {
-                    _surface = surface;
-
-                    if(ok bound{egl.bind_api(EGL.opengl_api)}) {
-                        const auto context_attribs =
-                          (EGL.context_major_version | 3) +
-                          (EGL.context_minor_version | 3) +
-                          (EGL.context_opengl_profile_mask |
-                           EGL.context_opengl_core_profile_bit);
-
-                        if(ok ctxt{egl.create_context(
-                             display, config, context_attribs)}) {
-                            _context = ctxt;
-                            return true;
-                        } else {
-                            log_error("failed to create context")
-                              .arg(EAGINE_ID(message), (!ctxt).message());
-                        }
-                    } else {
-                        log_error("failed to bind OpenGL API")
-                          .arg(EAGINE_ID(message), (!bound).message());
-                    }
-                } else {
-                    log_error("failed to create pbuffer ${width}x${height}")
-                      .arg(EAGINE_ID(width), _width)
-                      .arg(EAGINE_ID(height), _height)
-                      .arg(EAGINE_ID(message), (!surface).message());
-                }
+            if(ok config{egl.choose_config(_display, config_attribs)}) {
+                return initialize(exec_ctx, _display, config, opts, video_opts);
             } else {
                 log_error("no matching framebuffer configuration found")
                   .arg(EAGINE_ID(color), video_opts.color_bits())
@@ -153,7 +216,6 @@ auto eglplus_opengl_surface::initialize(
             log_error("failed to query framebuffer configurations")
               .arg(EAGINE_ID(message), (!count).message());
         }
-
     } else {
         exec_ctx.log_error("failed to initialize EGL display")
           .arg(EAGINE_ID(message), (!initialized).message());
@@ -168,7 +230,7 @@ auto eglplus_opengl_surface::initialize(
   const launch_options& opts,
   const video_options& video_opts) -> bool {
     _instance_name = name;
-    auto& [egl, EGL] = _egl_api;
+    const auto& [egl, EGL] = _egl_api;
 
     const auto device_idx = video_opts.egl_device_index();
     const bool select_device =
@@ -185,14 +247,12 @@ auto eglplus_opengl_surface::initialize(
                         if(ok display{egl.get_platform_display(
                              EGL.platform_device, devices[d])}) {
 
-                            if(device_idx) {
-                                log_info("using EGL device ${index}")
-                                  .arg(EAGINE_ID(index), extract(device_idx));
+                            if(initialize(
+                                 exec_ctx, display, d, opts, video_opts)) {
+                                return true;
+                            } else {
+                                _egl_api.terminate(display);
                             }
-
-                            // TODO: additional selection criteria?
-                            return initialize(
-                              exec_ctx, display, opts, video_opts);
                         }
                     }
                 }
@@ -200,7 +260,7 @@ auto eglplus_opengl_surface::initialize(
         }
     } else {
         if(ok display{egl.get_display()}) {
-            return initialize(exec_ctx, display, opts, video_opts);
+            return initialize(exec_ctx, display, -1, opts, video_opts);
         } else {
             exec_ctx.log_error("failed to get EGL display")
               .arg(EAGINE_ID(message), (!display).message());

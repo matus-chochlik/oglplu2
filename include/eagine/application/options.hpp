@@ -46,7 +46,8 @@ public:
         return {_driver_name};
     }
 
-    auto egl_device_index() const noexcept {
+    auto egl_device_index() const noexcept
+      -> valid_if_nonnegative<span_size_t> {
         return _egl_device_idx;
     }
 
