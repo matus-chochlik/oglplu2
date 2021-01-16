@@ -63,11 +63,12 @@ public:
     extension<> KHR_platform_gbm;
     extension<> MESA_platform_surfaceless;
 
-    extension<> EXT_create_context_robustness;
+    extension<display_handle> EXT_create_context_robustness;
 
     extension<display_handle> EXT_output_base;
     extension<display_handle> EXT_pixel_format_float;
 
+    extension<display_handle> MESA_configless_context;
     extension<display_handle> MESA_query_driver;
 
     // functions
@@ -890,6 +891,7 @@ public:
           *this)
       , EXT_output_base("EXT_output_base", traits, *this)
       , EXT_pixel_format_float("EXT_pixel_format_float", traits, *this)
+      , MESA_configless_context("MESA_configless_context", traits, *this)
       , MESA_query_driver("MESA_query_driver", traits, *this)
       , query_devices("query_devices", traits, *this)
       , query_device_string("query_device_string", traits, *this)
