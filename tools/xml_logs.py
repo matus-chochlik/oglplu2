@@ -308,6 +308,10 @@ class XmlLogFormatter(object):
         return self._ttyBoldRed() + p + self._ttyReset()
 
     # --------------------------------------------------------------------------
+    def _formatIdentifier(self, p):
+        return "\"" + self._ttyBoldBlue() + p + self._ttyReset() + "\""
+
+    # --------------------------------------------------------------------------
     def _formatProgArg(self, p):
         return "«" + self._ttyBoldWhite() + p + self._ttyReset() + "»"
 
@@ -417,6 +421,7 @@ class XmlLogFormatter(object):
 
         self._decorators = {
             "FsPath": self._formatFsPath,
+            "Identifier": self._formatIdentifier,
             "ProgramArg": self._formatProgArg,
             "Ratio": lambda x: self._formatRatio(float(x)),
             "duration": lambda x: self._formatDuration(float(x)),
