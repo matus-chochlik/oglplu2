@@ -47,6 +47,10 @@ public:
         return {_driver_name};
     }
 
+    auto device_path() const noexcept -> valid_if_not_empty<string_view> {
+        return {_device_path};
+    }
+
     auto device_kind() const noexcept
       -> valid_if_not<video_device_kind, video_device_kind::dont_care> {
         return _device_kind;
@@ -199,6 +203,7 @@ private:
     std::string _provider_name;
     std::string _display_name;
     std::string _driver_name;
+    std::string _device_path;
     std::string _framedump_prefix;
 
     valid_if_nonnegative<span_size_t> _device_idx{-1};

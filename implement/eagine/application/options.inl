@@ -25,6 +25,8 @@ video_options::video_options(
       o.cfg_init("application.video.device.index", _device_idx, instance);
     _device_kind =
       o.cfg_init("application.video.device.kind", _device_kind, instance);
+    _device_path =
+      o.cfg_init("application.video.device.path", _device_path, instance);
     _driver_name =
       o.cfg_init("application.video.driver", std::string(), instance);
 

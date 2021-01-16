@@ -116,7 +116,6 @@ auto eglplus_opengl_surface::initialize(
     return false;
 }
 //------------------------------------------------------------------------------
-
 EAGINE_LIB_FUNC
 auto eglplus_opengl_surface::initialize(
   execution_context& exec_ctx,
@@ -250,10 +249,11 @@ auto eglplus_opengl_surface::initialize(
     const auto& [egl, EGL] = _egl_api;
 
     const auto device_kind = video_opts.device_kind();
+    const auto device_path = video_opts.device_path();
     const auto device_idx = video_opts.device_index();
-    const bool select_device = device_kind.is_valid() ||
-                               device_idx.is_valid() ||
-                               video_opts.driver_name().is_valid();
+    const bool select_device =
+      device_kind.is_valid() || device_path.is_valid() ||
+      device_idx.is_valid() || video_opts.driver_name().is_valid();
 
     if(select_device && egl.EXT_device_enumeration) {
         if(ok dev_count{egl.query_devices.count()}) {
@@ -307,6 +307,45 @@ auto eglplus_opengl_surface::initialize(
                                   "software device requested; skipping")
                                   .arg(EAGINE_ID(index), cur_dev_idx);
                             }
+                        }
+                    }
+
+                    if(device_path) {
+                        if(egl.EXT_device_drm(device)) {
+                            if(ok path{egl.query_device_string(
+                                 device, EGL.drm_device_file)}) {
+                                if(are_equal(
+                                     extract(device_path), extract(path))) {
+                                    log_info(
+                                      "using DRM device ${path} as "
+                                      "explicitly specified by configuration")
+                                      .arg(
+                                        EAGINE_ID(path),
+                                        EAGINE_ID(FsPath),
+                                        extract(path));
+                                } else {
+                                    matching_device = false;
+                                    log_info(
+                                      "device file is ${current}, but "
+                                      "${config} was requested; skipping")
+                                      .arg(
+                                        EAGINE_ID(current),
+                                        EAGINE_ID(FsPath),
+                                        extract(path))
+                                      .arg(
+                                        EAGINE_ID(config),
+                                        EAGINE_ID(FsPath),
+                                        extract(device_path));
+                                }
+                            }
+                        } else {
+                            log_warning(
+                              "${config} requested by config, but cannot "
+                              "determine current device file path")
+                              .arg(
+                                EAGINE_ID(config),
+                                EAGINE_ID(FsPath),
+                                extract(device_path));
                         }
                     }
 

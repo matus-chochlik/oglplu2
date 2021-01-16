@@ -147,6 +147,11 @@ public:
               .cast_to(type_identity<string_view>{});
         }
 
+        constexpr auto operator()(device_handle dev, device_string_query query)
+          const noexcept {
+            return (*this)(device_type(dev), query);
+        }
+
         constexpr auto operator()() const noexcept {
             return this->_fake_empty_c_str().cast_to(
               type_identity<string_view>{});
