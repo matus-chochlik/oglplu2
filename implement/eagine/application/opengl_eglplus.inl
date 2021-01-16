@@ -29,6 +29,13 @@ public:
       : main_ctx_object{EAGINE_ID(EGLPbuffer), parent}
       , _egl_api{egl} {}
 
+    auto get_context_attribs(
+      execution_context&,
+      bool has_gl,
+      bool has_gles,
+      const launch_options&,
+      const video_options&) const -> std::vector<eglp::egl_types::int_type>;
+
     auto initialize(
       execution_context&,
       eglp::display_handle,
@@ -74,13 +81,50 @@ private:
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto eglplus_opengl_surface::initialize(
+auto eglplus_opengl_surface::get_context_attribs(
   execution_context&,
+  bool has_gl,
+  bool has_gles,
+  const launch_options&,
+  const video_options& video_opts) const
+  -> std::vector<eglp::egl_types::int_type> {
+    const auto& [egl, EGL] = _egl_api;
+
+    if(has_gl) {
+        return ((EGL.context_major_version |
+                 (video_opts.gl_version_major() / 3)) +
+                (EGL.context_minor_version |
+                 (video_opts.gl_version_minor() / 3)) +
+                (EGL.context_opengl_profile_mask |
+                 EGL.context_opengl_core_profile_bit))
+          .copy();
+    } else if(has_gles) {
+        return ((EGL.context_major_version |
+                 (video_opts.gl_version_major() / 3)) +
+                (EGL.context_minor_version |
+                 (video_opts.gl_version_minor() / 0)))
+          .copy();
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto eglplus_opengl_surface::initialize(
+  execution_context& exec_ctx,
   eglp::display_handle display,
   eglp::egl_types::config_type config,
-  const launch_options&,
+  const launch_options& opts,
   const video_options& video_opts) -> bool {
     const auto& [egl, EGL] = _egl_api;
+
+    const auto apis{egl.get_client_api_bits(display)};
+    const bool has_gl = apis.has(EGL.opengl_bit);
+    const bool has_gles = apis.has(EGL.opengl_es_bit);
+
+    if(!has_gl && !has_gles) {
+        log_info("display does not support any OpenAPI APIs;skipping");
+        return false;
+    }
 
     _width = video_opts.surface_width() / 1;
     _height = video_opts.surface_height() / 1;
@@ -91,12 +135,15 @@ auto eglplus_opengl_surface::initialize(
         _surface = surface;
 
         if(ok bound{egl.bind_api(EGL.opengl_api)}) {
-            const auto context_attribs = (EGL.context_major_version | 3) +
-                                         (EGL.context_minor_version | 3) +
-                                         (EGL.context_opengl_profile_mask |
-                                          EGL.context_opengl_core_profile_bit);
 
-            if(ok ctxt{egl.create_context(display, config, context_attribs)}) {
+            const auto context_attribs =
+              get_context_attribs(exec_ctx, has_gl, has_gles, opts, video_opts);
+
+            if(ok ctxt{egl.create_context(
+                 display,
+                 config,
+                 eglp::context_handle{},
+                 view(context_attribs))}) {
                 _context = ctxt;
                 return true;
             } else {

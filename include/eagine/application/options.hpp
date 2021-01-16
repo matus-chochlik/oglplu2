@@ -60,6 +60,17 @@ public:
         return _device_idx;
     }
 
+    using valid_gl_major_version = valid_if_positive<int>;
+    using valid_gl_minor_version = valid_if_nonnegative<int>;
+
+    auto gl_version_major() const noexcept -> valid_gl_major_version {
+        return {_gl_version_major};
+    }
+
+    auto gl_version_minor() const noexcept -> valid_gl_minor_version {
+        return {_gl_version_minor};
+    }
+
     using valid_surface_size = valid_if_positive<int>;
     auto surface_size(valid_surface_size width, valid_surface_size height)
       -> auto& {
@@ -207,6 +218,9 @@ private:
     std::string _framedump_prefix;
 
     valid_if_nonnegative<span_size_t> _device_idx{-1};
+
+    int _gl_version_major{-1};
+    int _gl_version_minor{-1};
 
     int _surface_width{1280};
     int _surface_height{800};

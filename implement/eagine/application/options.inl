@@ -30,10 +30,16 @@ video_options::video_options(
     _driver_name =
       o.cfg_init("application.video.driver", std::string(), instance);
 
+    _gl_version_major = o.cfg_extr<valid_gl_major_version>(
+      "application.video.gl.version.major", _gl_version_major, instance);
+    _gl_version_minor = o.cfg_extr<valid_gl_minor_version>(
+      "application.video.gl.version.minor", _gl_version_minor, instance);
+
     _surface_width = o.cfg_extr<valid_surface_size>(
       "application.video.surface.width", _surface_width, instance);
     _surface_height = o.cfg_extr<valid_surface_size>(
       "application.video.surface.height", _surface_height, instance);
+
     _samples = o.cfg_extr<valid_samples>(
       "application.video.samples", _samples, instance);
     _color_bits = o.cfg_extr<valid_color_bits>(
