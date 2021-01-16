@@ -134,8 +134,10 @@ auto eglplus_opengl_surface::initialize(
          egl.create_pbuffer_surface(display, config, surface_attribs)}) {
         _surface = surface;
 
-        if(ok bound{egl.bind_api(EGL.opengl_api)}) {
+        const auto gl_api = has_gl ? eglp::client_api(EGL.opengl_api)
+                                   : eglp::client_api(EGL.opengl_es_api);
 
+        if(ok bound{egl.bind_api(gl_api)}) {
             const auto context_attribs =
               get_context_attribs(exec_ctx, has_gl, has_gles, opts, video_opts);
 
