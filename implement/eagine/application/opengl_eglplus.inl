@@ -249,9 +249,11 @@ auto eglplus_opengl_surface::initialize(
     _instance_name = name;
     const auto& [egl, EGL] = _egl_api;
 
-    const auto device_idx = video_opts.egl_device_index();
-    const bool select_device =
-      device_idx.is_valid() || video_opts.driver_name().is_valid();
+    const auto device_kind = video_opts.device_kind();
+    const auto device_idx = video_opts.device_index();
+    const bool select_device = device_kind.is_valid() ||
+                               device_idx.is_valid() ||
+                               video_opts.driver_name().is_valid();
 
     if(select_device && egl.EXT_device_enumeration) {
         if(ok dev_count{egl.query_devices.count()}) {
@@ -259,13 +261,64 @@ auto eglplus_opengl_surface::initialize(
             std::vector<eglp::egl_types::device_type> devices;
             devices.resize(n);
             if(egl.query_devices(cover(devices))) {
-                for(auto d : integer_range(n)) {
-                    if(!device_idx || std_size(extract(device_idx)) == d) {
-                        if(ok display{egl.get_platform_display(
-                             EGL.platform_device, devices[d])}) {
+                for(auto cur_dev_idx : integer_range(n)) {
+                    bool matching_device = true;
+                    auto device = eglp::device_handle(devices[cur_dev_idx]);
+
+                    if(device_idx) {
+                        if(std_size(extract(device_idx)) == cur_dev_idx) {
+                            log_info("explicitly selected device ${index}")
+                              .arg(EAGINE_ID(index), extract(device_idx));
+                        } else {
+                            matching_device = false;
+                            log_info(
+                              "current device index is ${current} but, "
+                              "device ${config} requested; skipping")
+                              .arg(EAGINE_ID(current), cur_dev_idx)
+                              .arg(EAGINE_ID(config), extract(device_idx));
+                        }
+                    }
+
+                    if(device_kind) {
+                        if(extract(device_kind) == video_device_kind::hardware) {
+                            if(!egl.MESA_device_software(device)) {
+                                log_info(
+                                  "device ${index} seems to be hardware as "
+                                  "explicitly specified by configuration")
+                                  .arg(EAGINE_ID(index), cur_dev_idx);
+                            } else {
+                                matching_device = false;
+                                log_info(
+                                  "device ${index} is software but, "
+                                  "hardware device requested; skipping")
+                                  .arg(EAGINE_ID(index), cur_dev_idx);
+                            }
+                        } else if(
+                          extract(device_kind) == video_device_kind::software) {
+                            if(!egl.EXT_device_drm(device)) {
+                                log_info(
+                                  "device ${index} seems to be software as "
+                                  "explicitly specified by configuration")
+                                  .arg(EAGINE_ID(index), cur_dev_idx);
+                            } else {
+                                matching_device = false;
+                                log_info(
+                                  "device ${index} is hardware but, "
+                                  "software device requested; skipping")
+                                  .arg(EAGINE_ID(index), cur_dev_idx);
+                            }
+                        }
+                    }
+
+                    if(matching_device) {
+                        if(ok display{egl.get_platform_display(device)}) {
 
                             if(initialize(
-                                 exec_ctx, display, d, opts, video_opts)) {
+                                 exec_ctx,
+                                 display,
+                                 cur_dev_idx,
+                                 opts,
+                                 video_opts)) {
                                 return true;
                             } else {
                                 _egl_api.terminate(display);

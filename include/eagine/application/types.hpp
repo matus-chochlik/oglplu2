@@ -19,6 +19,17 @@ namespace eagine::application {
 enum class video_context_kind : std::uint8_t { opengl, opengl_es3, vulkan };
 enum class audio_context_kind : std::uint8_t { openal };
 //------------------------------------------------------------------------------
+enum class video_device_kind : std::uint8_t { dont_care, hardware, software };
+
+template <typename Selector>
+constexpr auto
+enumerator_mapping(type_identity<video_device_kind>, Selector) noexcept {
+    return enumerator_map_type<video_device_kind, 3>{
+      {{"dont_care", video_device_kind::dont_care},
+       {"hardware", video_device_kind::hardware},
+       {"software", video_device_kind::software}}};
+}
+//------------------------------------------------------------------------------
 enum class framedump_data_type : std::uint8_t { none, float_type, byte_type };
 
 template <typename Selector>

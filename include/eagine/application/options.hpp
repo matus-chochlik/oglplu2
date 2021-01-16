@@ -15,6 +15,7 @@
 #include "../valid_if/between.hpp"
 #include "../valid_if/nonnegative.hpp"
 #include "../valid_if/not_empty.hpp"
+#include "../valid_if/not_equal.hpp"
 #include "../valid_if/one_of.hpp"
 #include "../valid_if/positive.hpp"
 #include "types.hpp"
@@ -46,9 +47,13 @@ public:
         return {_driver_name};
     }
 
-    auto egl_device_index() const noexcept
-      -> valid_if_nonnegative<span_size_t> {
-        return _egl_device_idx;
+    auto device_kind() const noexcept
+      -> valid_if_not<video_device_kind, video_device_kind::dont_care> {
+        return _device_kind;
+    }
+
+    auto device_index() const noexcept -> valid_if_nonnegative<span_size_t> {
+        return _device_idx;
     }
 
     using valid_surface_size = valid_if_positive<int>;
@@ -196,7 +201,7 @@ private:
     std::string _driver_name;
     std::string _framedump_prefix;
 
-    valid_if_nonnegative<span_size_t> _egl_device_idx{-1};
+    valid_if_nonnegative<span_size_t> _device_idx{-1};
 
     int _surface_width{1280};
     int _surface_height{800};
@@ -207,6 +212,7 @@ private:
     int _depth_bits{24};
     int _stencil_bits{0};
 
+    video_device_kind _device_kind{video_device_kind::dont_care};
     bool _gl_debug_context{false};
     bool _gl_compat_context{false};
     bool _fullscreen{false};
