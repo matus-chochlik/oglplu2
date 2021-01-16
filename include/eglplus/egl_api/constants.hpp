@@ -173,7 +173,16 @@ public:
 #endif
       context_lost;
 
-    opt_c_api_constant<mp_list<platform>, int_type_c<0x313F>> platform_device;
+    opt_c_api_constant<
+      mp_list<platform>,
+#ifdef EGL_PLATFORM_DEVICE_EXT
+      int_type_c<EGL_PLATFORM_DEVICE_EXT>
+#else
+      int_type_i>
+#endif
+      >
+      platform_device;
+
     opt_c_api_constant<mp_list<platform>, int_type_c<0x31D5>> platform_x11;
     opt_c_api_constant<mp_list<platform>, int_type_c<0x31DC>> platform_xcb;
     opt_c_api_constant<mp_list<platform>, int_type_c<0x31D8>> platform_wayland;

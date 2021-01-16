@@ -24,6 +24,10 @@
 #define EGL_BAD_STATE_KHR 0x321C
 #endif
 
+#ifndef EGL_PLATFORM_DEVICE_EXT
+#define EGL_PLATFORM_DEVICE_EXT 0x313F
+#endif
+
 #else
 #define EGLPLUS_HAS_EGL 0
 #endif

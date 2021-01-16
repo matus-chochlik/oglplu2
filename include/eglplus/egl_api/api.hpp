@@ -53,7 +53,8 @@ public:
     extension<> EXT_device_base;
     extension<> EXT_device_enumeration;
     extension<> EXT_device_query;
-    extension<> EXT_device_drm;
+    extension<device_handle> EXT_device_drm;
+    extension<device_handle> MESA_device_software;
 
     extension<> EXT_platform_base;
     extension<> EXT_platform_device;
@@ -153,7 +154,7 @@ public:
     } query_device_string;
 
     // get_device_extensions
-    auto get_device_extensions(device_type dev) noexcept {
+    auto get_device_extensions(device_type dev) const noexcept {
 #ifdef EGL_EXTENSIONS
         return query_device_string(dev, device_string_query(EGL_EXTENSIONS))
           .transformed(
@@ -163,9 +164,23 @@ public:
 #endif
     }
 
+    auto get_device_extensions(device_handle dev) const noexcept {
+        return get_device_extensions(device_type(dev));
+    }
+
     // get_platform_display
     struct : func<EGLPAFP(GetPlatformDisplay)> {
         using func<EGLPAFP(GetPlatformDisplay)>::func;
+
+        constexpr auto operator()(device_handle dev) const noexcept {
+#ifdef EGL_PLATFORM_DEVICE_EXT
+            return this->_cnvchkcall(EGL_PLATFORM_DEVICE_EXT, dev, nullptr)
+              .cast_to(type_identity<display_handle>{});
+#else
+            EAGINE_MAYBE_UNUSED(dev);
+            return this->_fake({}).cast_to(type_identity<display_handle>{});
+#endif
+        }
 
         constexpr auto
         operator()(platform pltf, void_ptr_type disp) const noexcept {
@@ -838,6 +853,17 @@ public:
         return false;
     }
 
+    auto has_extension(device_handle dev, string_view which) const noexcept {
+        if(ok extensions{get_device_extensions(dev)}) {
+            for(auto ext_name : extensions) {
+                if(ends_with(ext_name, which)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     auto has_extension(display_handle disp, string_view which) const noexcept {
         if(ok extensions{get_extensions(disp)}) {
             for(auto ext_name : extensions) {
@@ -878,6 +904,7 @@ public:
       , EXT_device_enumeration("EXT_device_enumeration", traits, *this)
       , EXT_device_query("EXT_device_query", traits, *this)
       , EXT_device_drm("EXT_device_drm", traits, *this)
+      , MESA_device_software("MESA_device_software", traits, *this)
       , EXT_platform_base("EXT_platform_base", traits, *this)
       , EXT_platform_device("EXT_platform_device", traits, *this)
       , EXT_platform_x11("EXT_platform_x11", traits, *this)
