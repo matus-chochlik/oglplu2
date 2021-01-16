@@ -813,7 +813,7 @@ public:
     }
 
     // get_client_apis
-    auto get_client_apis(display_handle disp) noexcept {
+    auto get_client_apis(display_handle disp) const noexcept {
 #ifdef EGL_CLIENT_APIS
         return query_string(disp, string_query(EGL_CLIENT_APIS))
 #else
@@ -821,6 +821,32 @@ public:
 #endif
           .transformed(
             [](auto src) { return split_into_string_list(src, ' '); });
+    }
+
+    auto get_client_api_bits(display_handle disp) const noexcept {
+        enum_bitfield<client_api_bit> result{};
+
+        if(ok apis{get_client_apis(disp)}) {
+            for(auto api : apis) {
+#ifdef EGL_OPENGL_BIT
+                if(are_equal(api, string_view("OpenGL"))) {
+                    result.add(client_api_bit(EGL_OPENGL_BIT));
+                }
+#endif
+#ifdef EGL_OPENGL_ES_BIT
+                if(are_equal(api, string_view("OpenGL_ES"))) {
+                    result.add(client_api_bit(EGL_OPENGL_ES_BIT));
+                }
+#endif
+#ifdef EGL_OPENVG_BIT
+                if(are_equal(api, string_view("OpenVG"))) {
+                    result.add(client_api_bit(EGL_OPENVG_BIT));
+                }
+#endif
+            }
+        }
+
+        return result;
     }
 
     // get_extensions
