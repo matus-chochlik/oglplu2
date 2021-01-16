@@ -188,12 +188,12 @@ auto eglplus_opengl_surface::initialize(
         _display = display;
 
         const auto config_attribs =
-          (EGL.red_size | video_opts.color_bits()) +
-          (EGL.green_size | video_opts.color_bits()) +
-          (EGL.blue_size | video_opts.color_bits()) +
-          (EGL.alpha_size | video_opts.alpha_bits()) +
-          (EGL.depth_size | video_opts.depth_bits()) +
-          (EGL.stencil_size | video_opts.stencil_bits()) +
+          (EGL.red_size | (video_opts.color_bits() / EGL.dont_care)) +
+          (EGL.green_size | (video_opts.color_bits() / EGL.dont_care)) +
+          (EGL.blue_size | (video_opts.color_bits() / EGL.dont_care)) +
+          (EGL.alpha_size | (video_opts.alpha_bits() / EGL.dont_care)) +
+          (EGL.depth_size | (video_opts.depth_bits() / EGL.dont_care)) +
+          (EGL.stencil_size | (video_opts.stencil_bits() / EGL.dont_care)) +
           (EGL.color_buffer_type | EGL.rgb_buffer) +
           (EGL.surface_type | EGL.pbuffer_bit) +
           (EGL.renderable_type | EGL.opengl_bit);
@@ -205,11 +205,28 @@ auto eglplus_opengl_surface::initialize(
             if(ok config{egl.choose_config(_display, config_attribs)}) {
                 return initialize(exec_ctx, _display, config, opts, video_opts);
             } else {
+                const string_view dont_care{"-"};
                 log_error("no matching framebuffer configuration found")
-                  .arg(EAGINE_ID(color), video_opts.color_bits())
-                  .arg(EAGINE_ID(alpha), video_opts.alpha_bits())
-                  .arg(EAGINE_ID(depth), video_opts.depth_bits())
-                  .arg(EAGINE_ID(stencil), video_opts.stencil_bits())
+                  .arg(
+                    EAGINE_ID(color),
+                    EAGINE_ID(integer),
+                    video_opts.color_bits(),
+                    dont_care)
+                  .arg(
+                    EAGINE_ID(alpha),
+                    EAGINE_ID(integer),
+                    video_opts.alpha_bits(),
+                    dont_care)
+                  .arg(
+                    EAGINE_ID(depth),
+                    EAGINE_ID(integer),
+                    video_opts.depth_bits(),
+                    dont_care)
+                  .arg(
+                    EAGINE_ID(stencil),
+                    EAGINE_ID(integer),
+                    video_opts.stencil_bits(),
+                    dont_care)
                   .arg(EAGINE_ID(message), (!config).message());
             }
         } else {

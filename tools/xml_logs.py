@@ -425,6 +425,7 @@ class XmlLogFormatter(object):
             "ProgramArg": self._formatProgArg,
             "Ratio": lambda x: self._formatRatio(float(x)),
             "duration": lambda x: self._formatDuration(float(x)),
+            "integer": self._formatInteger,
             "int64": self._formatInteger,
             "int32": self._formatInteger,
             "int16": self._formatInteger,

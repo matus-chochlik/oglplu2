@@ -72,12 +72,13 @@ auto glfw3_opengl_window::initialize(
     _instance_name = name;
 
     glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-    glfwWindowHint(GLFW_RED_BITS, video_opts.color_bits());
-    glfwWindowHint(GLFW_BLUE_BITS, video_opts.color_bits());
-    glfwWindowHint(GLFW_GREEN_BITS, video_opts.color_bits());
-    glfwWindowHint(GLFW_ALPHA_BITS, video_opts.alpha_bits());
-    glfwWindowHint(GLFW_DEPTH_BITS, video_opts.depth_bits());
-    glfwWindowHint(GLFW_STENCIL_BITS, video_opts.stencil_bits());
+    glfwWindowHint(GLFW_RED_BITS, video_opts.color_bits() / GLFW_DONT_CARE);
+    glfwWindowHint(GLFW_BLUE_BITS, video_opts.color_bits() / GLFW_DONT_CARE);
+    glfwWindowHint(GLFW_GREEN_BITS, video_opts.color_bits() / GLFW_DONT_CARE);
+    glfwWindowHint(GLFW_ALPHA_BITS, video_opts.alpha_bits() / GLFW_DONT_CARE);
+    glfwWindowHint(GLFW_DEPTH_BITS, video_opts.depth_bits() / GLFW_DONT_CARE);
+    glfwWindowHint(
+      GLFW_STENCIL_BITS, video_opts.stencil_bits() / GLFW_DONT_CARE);
 
     glfwWindowHint(GLFW_SAMPLES, video_opts.samples() / GLFW_DONT_CARE);
 

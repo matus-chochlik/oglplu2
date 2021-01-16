@@ -20,6 +20,14 @@ public:
     // NOLINTNEXTLINE(hicpp-use-nullptr,modernize-use-nullptr)
     static constexpr const typename egl_types::config_type no_config{0};
 
+    static constexpr const typename egl_types::int_type dont_care{
+#ifdef EGL_DONT_CARE
+      EGL_DONT_CARE
+#else
+      0
+#endif
+    };
+
     using enum_type = typename egl_types::enum_type;
     using enum_type_i = type_identity<enum_type>;
     template <enum_type value>

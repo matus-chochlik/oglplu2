@@ -88,7 +88,7 @@ public:
         return *this;
     }
 
-    auto color_bits() const noexcept -> int {
+    auto color_bits() const noexcept -> valid_if_positive<int> {
         return _color_bits;
     }
 
@@ -103,7 +103,7 @@ public:
         return *this;
     }
 
-    auto alpha_bits() const noexcept -> int {
+    auto alpha_bits() const noexcept -> valid_if_positive<int> {
         return _alpha_bits;
     }
 
@@ -118,7 +118,7 @@ public:
         return *this;
     }
 
-    auto depth_bits() const noexcept -> int {
+    auto depth_bits() const noexcept -> valid_if_positive<int> {
         return _depth_bits;
     }
 
@@ -133,7 +133,7 @@ public:
         return *this;
     }
 
-    auto stencil_bits() const noexcept -> int {
+    auto stencil_bits() const noexcept -> valid_if_positive<int> {
         return _stencil_bits;
     }
 
