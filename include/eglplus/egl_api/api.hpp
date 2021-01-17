@@ -110,6 +110,65 @@ public:
         }
     };
 
+    // numeric query function
+    template <
+      typename PreTypeList,
+      typename QueryClassList,
+      typename PostTypeList,
+      typename QueryResult,
+      typename W,
+      W c_api::*F>
+    struct query_func;
+
+    template <
+      typename... PreParams,
+      typename... QueryClasses,
+      typename... PostParams,
+      typename QueryResult,
+      typename W,
+      W c_api::*F>
+    struct query_func<
+      mp_list<PreParams...>,
+      mp_list<QueryClasses...>,
+      mp_list<PostParams...>,
+      QueryResult,
+      W,
+      F> : func<W, F> {
+        using func<W, F>::func;
+
+        template <
+          typename Query,
+          typename = std::enable_if_t<
+            (true || ... || is_enum_class_value_v<QueryClasses, Query>)>,
+          typename = std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
+        constexpr auto operator()(
+          PreParams... pre_params,
+          Query query,
+          PostParams... post_params) const noexcept {
+            using RV = typename Query::tag_type;
+            QueryResult result{};
+            return this
+              ->_cnvchkcall(
+                pre_params..., int_type(query), post_params..., &result)
+              .replaced_with(result)
+              .cast_to(type_identity<RV>{});
+        }
+
+        template <
+          typename Query,
+          typename = std::enable_if_t<
+            (true || ... || is_enum_class_value_v<QueryClasses, Query>)>>
+        auto operator()(
+          PreParams... pre_params,
+          Query query,
+          PostParams... post_params,
+          span<QueryResult> dest) const noexcept {
+            EAGINE_ASSERT(dest.size());
+            return this->_cnvchkcall(
+              pre_params..., int_type(query), post_params..., dest.data());
+        }
+    };
+
     // query_devices
     struct : func<EGLPAFP(QueryDevices)> {
         using func<EGLPAFP(QueryDevices)>::func;
@@ -378,28 +437,13 @@ public:
     } choose_config;
 
     // get_config_attrib
-    struct : func<EGLPAFP(GetConfigAttrib)> {
-        using func<EGLPAFP(GetConfigAttrib)>::func;
-
-        constexpr auto operator()(
-          display_handle disp,
-          config_type conf,
-          config_attribute attrib,
-          int_type* dest) const noexcept {
-            return this->_cnvchkcall(disp, conf, attrib, dest);
-        }
-
-        constexpr auto operator()(
-          display_handle disp,
-          config_type conf,
-          config_attribute attrib) const noexcept {
-            int_type value{0};
-            return (*this)(disp, conf, attrib, &value)
-              .transformed([&value](auto ok) {
-                  return egl_types::bool_true(ok) ? value : 0;
-              });
-        }
-    } get_config_attrib;
+    query_func<
+      mp_list<display_handle, config_type>,
+      mp_list<config_attribute>,
+      mp_list<>,
+      int_type,
+      EGLPAFP(GetConfigAttrib)>
+      get_config_attrib;
 
     // create_window_surface
     struct : func<EGLPAFP(CreateWindowSurface)> {
@@ -526,6 +570,15 @@ public:
         }
     } surface_attrib;
 
+    // query_surface
+    query_func<
+      mp_list<display_handle, surface_handle>,
+      mp_list<surface_attribute>,
+      mp_list<>,
+      int_type,
+      EGLPAFP(QuerySurface)>
+      query_surface;
+
     // create_stream
     struct : func<EGLPAFP(CreateStream)> {
         using func<EGLPAFP(CreateStream)>::func;
@@ -576,6 +629,15 @@ public:
             return this->_cnvchkcall(disp, surf, attr, value);
         }
     } stream_attrib;
+
+    // query_stream
+    query_func<
+      mp_list<display_handle, stream_handle>,
+      mp_list<stream_attribute>,
+      mp_list<>,
+      int_type,
+      EGLPAFP(QueryStream)>
+      query_stream;
 
     // stream_consumer_gl_texture_external
     struct : func<EGLPAFP(StreamConsumerGLTextureExternal)> {
@@ -967,9 +1029,11 @@ public:
       , destroy_surface("destroy_surface", traits, *this)
       , get_current_surface("get_current_surface", traits, *this)
       , surface_attrib("surface_attrib", traits, *this)
+      , query_surface("query_surface", traits, *this)
       , create_stream("create_stream", traits, *this)
       , destroy_stream("destroy_stream", traits, *this)
       , stream_attrib("stream_attrib", traits, *this)
+      , query_stream("query_stream", traits, *this)
       , stream_consumer_gl_texture_external(
           "consumer_gl_texture_external",
           traits,

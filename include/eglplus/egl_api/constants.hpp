@@ -502,11 +502,22 @@ public:
     opt_c_api_constant<
       mp_list<surface_attribute>,
 #ifdef EGL_GL_COLORSPACE
-      int_type_c<EGL_GL_COLORSPACE>>
+      int_type_c<EGL_GL_COLORSPACE>,
 #else
-      int_type_i>
+      int_type_i,
 #endif
+      eglp::gl_colorspace>
       gl_colorspace;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_TEXTURE_TARGET
+      int_type_c<EGL_TEXTURE_TARGET>,
+#else
+      int_type_i,
+#endif
+      eglp::texture_target>
+      texture_target;
 
     opt_c_api_constant<
       mp_list<surface_attribute>,
@@ -960,6 +971,7 @@ public:
       , height("HEIGHT", traits, api)
       , largest_pbuffer("LARGEST_PBUFFER", traits, api)
       , gl_colorspace("GL_COLORSPACE", traits, api)
+      , texture_target("TEXTURE_TARGET", traits, api)
       , mipmap_level("MIPMAP_LEVEL", traits, api)
       , multisample_resolve("MULTISAMPLE_RESOLVE", traits, api)
       , swap_behavior("SWAP_BEHAVIOR", traits, api)
