@@ -31,9 +31,9 @@ video_options::video_options(
       o.cfg_init("application.video.driver", std::string(), instance);
 
     _gl_version_major = o.cfg_extr<valid_gl_major_version>(
-      "application.video.gl.version.major", _gl_version_major, instance);
+      "application.video.opengl.version.major", _gl_version_major, instance);
     _gl_version_minor = o.cfg_extr<valid_gl_minor_version>(
-      "application.video.gl.version.minor", _gl_version_minor, instance);
+      "application.video.opengl.version.minor", _gl_version_minor, instance);
 
     _surface_width = o.cfg_extr<valid_surface_size>(
       "application.video.surface.width", _surface_width, instance);
@@ -62,7 +62,7 @@ video_options::video_options(
     _offscreen = o.cfg_init("application.video.offscreen", false, instance);
 
     _offscreen_framebuffer =
-      o.cfg_init("application.video._offscreen_frambuffer", false, instance);
+      o.cfg_init("application.video.offscreen_frambuffer", false, instance);
 
     _framedump_prefix =
       o.cfg_init("application.video.framedump.prefix", std::string(), instance);
