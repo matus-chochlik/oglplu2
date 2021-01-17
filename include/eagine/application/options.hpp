@@ -60,6 +60,10 @@ public:
         return _device_idx;
     }
 
+    auto prefer_gles() const noexcept -> bool {
+        return _prefer_gles;
+    }
+
     using valid_gl_major_version = valid_if_positive<int>;
     using valid_gl_minor_version = valid_if_nonnegative<int>;
 
@@ -232,6 +236,7 @@ private:
     int _stencil_bits{0};
 
     video_device_kind _device_kind{video_device_kind::dont_care};
+    bool _prefer_gles{false};
     bool _gl_debug_context{false};
     bool _gl_compat_context{false};
     bool _fullscreen{false};

@@ -51,6 +51,8 @@ video_options::video_options(
     _stencil_bits = o.cfg_extr<valid_stencil_bits>(
       "application.video.0.stencil_bits", _stencil_bits, instance);
 
+    _prefer_gles =
+      o.cfg_init("application.video.opengl.prefer_es", _prefer_gles, instance);
     _gl_debug_context = o.cfg_init(
       "application.video.opengl.debug_context", _gl_debug_context, instance);
     _gl_compat_context = o.cfg_init(

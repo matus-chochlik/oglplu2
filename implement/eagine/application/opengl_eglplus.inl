@@ -32,8 +32,7 @@ public:
 
     auto get_context_attribs(
       execution_context&,
-      bool has_gl,
-      bool has_gles,
+      bool gl_or_gles,
       const launch_options&,
       const video_options&) const -> std::vector<eglp::egl_types::int_type>;
 
@@ -84,14 +83,13 @@ private:
 EAGINE_LIB_FUNC
 auto eglplus_opengl_surface::get_context_attribs(
   execution_context&,
-  bool has_gl,
-  bool has_gles,
+  bool gl_or_gles,
   const launch_options&,
   const video_options& video_opts) const
   -> std::vector<eglp::egl_types::int_type> {
     const auto& [egl, EGL] = _egl_api;
 
-    if(has_gl) {
+    if(gl_or_gles) {
         return ((EGL.context_major_version |
                  (video_opts.gl_version_major() / 3)) +
                 (EGL.context_minor_version |
@@ -99,14 +97,13 @@ auto eglplus_opengl_surface::get_context_attribs(
                 (EGL.context_opengl_profile_mask |
                  EGL.context_opengl_core_profile_bit))
           .copy();
-    } else if(has_gles) {
+    } else {
         return ((EGL.context_major_version |
                  (video_opts.gl_version_major() / 3)) +
                 (EGL.context_minor_version |
                  (video_opts.gl_version_minor() / 0)))
           .copy();
     }
-    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -129,7 +126,10 @@ auto eglplus_opengl_surface::initialize(
 
     log_info("display device supports GL APIs")
       .arg(EAGINE_ID(OpenGL), yes_no_maybe(has_gl))
-      .arg(EAGINE_ID(OpenGL_ES), yes_no_maybe(has_gles));
+      .arg(EAGINE_ID(OpenGL_ES), yes_no_maybe(has_gles))
+      .arg(EAGINE_ID(PreferES), yes_no_maybe(video_opts.prefer_gles()));
+
+    const bool gl_or_gles = has_gl && !video_opts.prefer_gles();
 
     _width = video_opts.surface_width() / 1;
     _height = video_opts.surface_height() / 1;
@@ -139,12 +139,12 @@ auto eglplus_opengl_surface::initialize(
          egl.create_pbuffer_surface(display, config, surface_attribs)}) {
         _surface = surface;
 
-        const auto gl_api = has_gl ? eglp::client_api(EGL.opengl_api)
-                                   : eglp::client_api(EGL.opengl_es_api);
+        const auto gl_api = gl_or_gles ? eglp::client_api(EGL.opengl_api)
+                                       : eglp::client_api(EGL.opengl_es_api);
 
         if(ok bound{egl.bind_api(gl_api)}) {
             const auto context_attribs =
-              get_context_attribs(exec_ctx, has_gl, has_gles, opts, video_opts);
+              get_context_attribs(exec_ctx, gl_or_gles, opts, video_opts);
 
             if(ok ctxt{egl.create_context(
                  display,
