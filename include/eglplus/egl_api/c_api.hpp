@@ -38,6 +38,7 @@ struct basic_egl_c_api {
     using bool_type = typename egl_types::bool_type;
     using char_type = typename egl_types::char_type;
     using int_type = typename egl_types::int_type;
+    using device_type = typename egl_types::device_type;
     using native_display_type = typename egl_types::native_display_type;
     using native_window_type = typename egl_types::native_window_type;
     using native_pixmap_type = typename egl_types::native_pixmap_type;
@@ -47,6 +48,7 @@ struct basic_egl_c_api {
     using config_type = typename egl_types::config_type;
     using attrib_type = typename egl_types::attrib_type;
     using context_type = typename egl_types::context_type;
+    using stream_type = typename egl_types::stream_type;
     using image_type = typename egl_types::image_type;
 
 #ifdef __GNUC__
@@ -74,6 +76,12 @@ struct basic_egl_c_api {
       EGLPLUS_EGL_STATIC_FUNC(GetProcAddress)>
       GetProcAddress;
 
+    egl_api_function<bool_type(int_type, device_type, int_type*), nullptr>
+      QueryDevices;
+
+    egl_api_function<const char_type*(device_type, int_type), nullptr>
+      QueryDeviceString;
+
     egl_api_function<
       display_type(enum_type, void_ptr_type, const attrib_type*),
       EGLPLUS_EGL_STATIC_FUNC(GetPlatformDisplay)>
@@ -83,6 +91,9 @@ struct basic_egl_c_api {
       display_type(native_display_type),
       EGLPLUS_EGL_STATIC_FUNC(GetDisplay)>
       GetDisplay;
+
+    egl_api_function<const char_type*(display_type), nullptr>
+      GetDisplayDriverName;
 
     egl_api_function<
       bool_type(display_type, int_type*, int_type*),
@@ -138,6 +149,11 @@ struct basic_egl_c_api {
       CreatePixmapSurface;
 
     egl_api_function<
+      surface_type(display_type, config_type, stream_type, const int_type*),
+      nullptr>
+      CreateStreamProducerSurface;
+
+    egl_api_function<
       bool_type(display_type, surface_type),
       EGLPLUS_EGL_STATIC_FUNC(DestroySurface)>
       DestroySurface;
@@ -156,6 +172,31 @@ struct basic_egl_c_api {
       bool_type(display_type, surface_type, int_type, int_type*),
       EGLPLUS_EGL_STATIC_FUNC(QuerySurface)>
       QuerySurface;
+
+    egl_api_function<surface_type(display_type, const int_type*), nullptr>
+      CreateStream;
+
+    egl_api_function<surface_type(display_type, const int_type*), nullptr>
+      DestroyStream;
+
+    egl_api_function<
+      bool_type(display_type, stream_type, int_type, int_type),
+      nullptr>
+      StreamAttrib;
+
+    egl_api_function<
+      bool_type(display_type, stream_type, int_type, int_type*),
+      nullptr>
+      QueryStream;
+
+    egl_api_function<bool_type(display_type, stream_type), nullptr>
+      StreamConsumerGLTextureExternal;
+
+    egl_api_function<bool_type(display_type, stream_type), nullptr>
+      StreamConsumerAcquire;
+
+    egl_api_function<bool_type(display_type, stream_type), nullptr>
+      StreamConsumerRelease;
 
     egl_api_function<
       bool_type(display_type, surface_type, int_type),
@@ -262,8 +303,11 @@ struct basic_egl_c_api {
     constexpr basic_egl_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
       , GetProcAddress("GetProcAddress", traits, *this)
+      , QueryDevices("QueryDevicesEXT", traits, *this)
+      , QueryDeviceString("QueryDeviceStringEXT", traits, *this)
       , GetPlatformDisplay("GetPlatformDisplay", traits, *this)
       , GetDisplay("GetDisplay", traits, *this)
+      , GetDisplayDriverName("GetDisplayDriverName", traits, *this)
       , Initialize("Initialize", traits, *this)
       , Terminate("Terminate", traits, *this)
       , QueryString("QueryString", traits, *this)
@@ -275,10 +319,24 @@ struct basic_egl_c_api {
       , CreatePbufferSurface("CreatePbufferSurface", traits, *this)
       , CreatePlatformPixmapSurface("CreatePlatformPixmapSurface", traits, *this)
       , CreatePixmapSurface("CreatePixmapSurface", traits, *this)
+      , CreateStreamProducerSurface(
+          "CreateStreamProducerSurfaceKHR",
+          traits,
+          *this)
       , DestroySurface("DestroySurface", traits, *this)
       , GetCurrentSurface("GetCurrentSurface", traits, *this)
       , SurfaceAttrib("SurfaceAttrib", traits, *this)
       , QuerySurface("QuerySurface", traits, *this)
+      , CreateStream("CreateStreamKHR", traits, *this)
+      , DestroyStream("DestroyStreamKHR", traits, *this)
+      , StreamAttrib("StreamAttribKHR", traits, *this)
+      , QueryStream("QueryStream", traits, *this)
+      , StreamConsumerGLTextureExternal(
+          "StreamConsumerGLTextureExternalKHR",
+          traits,
+          *this)
+      , StreamConsumerAcquire("StreamConsumerAcquireKHR", traits, *this)
+      , StreamConsumerRelease("StreamConsumerReleaseKHR", traits, *this)
       , BindTexImage("BindTexImage", traits, *this)
       , ReleaseTexImage("ReleaseTexImage", traits, *this)
       , BindAPI("BindAPI", traits, *this)

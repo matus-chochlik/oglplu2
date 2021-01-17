@@ -21,6 +21,15 @@ class FramedumpArgumentParser(argparse.ArgumentParser):
     def __init__(self, **kw):
         argparse.ArgumentParser.__init__(self, **kw)
 
+        def PositiveInt(arg):
+            try:
+                result = int(arg)
+                assert result > 0
+                return result
+            except:
+                msg = "'%s' is not a positive integer" % str(arg)
+                raise argparse.ArgumentTypeError(msg)
+
         def OutputSizeType(arg):
             if re.match("[0-9]+[kMG]?", arg):
                 return arg
@@ -75,6 +84,17 @@ class FramedumpArgumentParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            "--max-frames",
+            help="""
+                Maximum number of output video frames.
+            """,
+            type=PositiveInt,
+            dest="max_frames",
+            action="store",
+            default=None
+        )
+
+        self.add_argument(
             "--max-bytes",
             help="""
                 Maximum output video size in bytes.
@@ -91,6 +111,17 @@ class FramedumpArgumentParser(argparse.ArgumentParser):
             default=False,
             action="store_true",
             dest="gif_output"
+        )
+
+        self.add_argument(
+            "--args",
+            dest="app_options",
+            nargs=argparse.REMAINDER,
+            default=list(),
+            help="""
+                Everything following this option will be passed
+                to the application verbatim.
+            """
         )
 
     # -------------------------------------------------------------------------
@@ -155,8 +186,14 @@ class Framedump(object):
             "--application-video-framedump-prefix",
             os.path.join(self.options.work_dir_path, self.options.job_name)
         ]
+
+        if self.options.max_frames:
+            cmd_line += ["--application-max-frames", self.options.max_frames]
+
+        cmd_line += self.options.app_options
+
         self.proc = subprocess.Popen(
-            cmd_line,
+            [str(arg) for arg in cmd_line],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=None

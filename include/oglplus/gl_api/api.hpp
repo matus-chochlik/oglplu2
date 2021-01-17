@@ -3327,19 +3327,21 @@ public:
         using func<OGLPAFP(GetString)>::func;
 
         constexpr auto operator()(string_query query) const noexcept {
-            return this->_cnvchkcall(query).transformed(
-              [](auto src) { return reinterpret_cast<const char*>(src); });
+            return this->_cnvchkcall(query).transformed([](auto src) {
+                return string_view{reinterpret_cast<const char*>(src)};
+            });
         }
 
         constexpr auto operator()() const noexcept {
-            return this->_fake("");
+            return this->_fake_empty_c_str().cast_to(
+              type_identity<string_view>{});
         }
     } get_string;
 
     // get_strings
     auto get_strings(string_query query, char separator) noexcept {
         return get_string(query).transformed([separator](auto src) {
-            return split_c_str_into_string_list(src, separator);
+            return split_into_string_list(src, separator);
         });
     }
 
@@ -3351,7 +3353,7 @@ public:
         return get_string()
 #endif
           .transformed(
-            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+            [](auto src) { return split_into_string_list(src, ' '); });
     }
 
     // arb compatibility

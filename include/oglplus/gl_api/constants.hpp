@@ -2120,6 +2120,9 @@ public:
 #endif
       texture_cube_map_negative_z;
 
+    opt_c_api_constant<mp_list<oglp::texture_target>, enum_type_c<0x8D65>>
+      texture_external;
+
     opt_c_api_constant<
       mp_list<oglp::texture_compare_mode>,
 #ifdef GL_COMPARE_REF_TO_TEXTURE
@@ -4124,6 +4127,9 @@ public:
 #endif
       texture_name>
       texture_binding_2d_multisample_array;
+
+    opt_c_api_constant<mp_list<binding_query>, enum_type_c<0x8D67>, texture_name>
+      texture_binding_external;
 
     opt_c_api_constant<
       mp_list<binding_query>,
@@ -10828,6 +10834,7 @@ public:
       , texture_cube_map_negative_y("TEXTURE_CUBE_MAP_NEGATIVE_Y", traits, api)
       , texture_cube_map_positive_z("TEXTURE_CUBE_MAP_POSITIVE_Z", traits, api)
       , texture_cube_map_negative_z("TEXTURE_CUBE_MAP_NEGATIVE_Z", traits, api)
+      , texture_external("TEXTURE_EXTERNAL_OES", traits, api)
       , compare_ref_to_texture("COMPARE_REF_TO_TEXTURE", traits, api)
       , nearest("NEAREST", traits, api)
       , linear("LINEAR", traits, api)
@@ -11130,6 +11137,7 @@ public:
           "TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY",
           traits,
           api)
+      , texture_binding_external("TEXTURE_BINDING_EXTERNAL_OES", traits, api)
       , transform_feedback_binding("TRANSFORM_FEEDBACK_BINDING", traits, api)
       , vertex_array_binding("VERTEX_ARRAY_BINDING", traits, api)
       , program_pipeline_binding("PROGRAM_PIPELINE_BINDING", traits, api)

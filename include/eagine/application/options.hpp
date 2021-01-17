@@ -15,6 +15,7 @@
 #include "../valid_if/between.hpp"
 #include "../valid_if/nonnegative.hpp"
 #include "../valid_if/not_empty.hpp"
+#include "../valid_if/not_equal.hpp"
 #include "../valid_if/one_of.hpp"
 #include "../valid_if/positive.hpp"
 #include "types.hpp"
@@ -38,8 +39,40 @@ public:
         return are_equal(string_view(_provider_name), name);
     }
 
-    auto monitor_name() const noexcept -> valid_if_not_empty<string_view> {
-        return {_monitor_name};
+    auto display_name() const noexcept -> valid_if_not_empty<string_view> {
+        return {_display_name};
+    }
+
+    auto driver_name() const noexcept -> valid_if_not_empty<string_view> {
+        return {_driver_name};
+    }
+
+    auto device_path() const noexcept -> valid_if_not_empty<string_view> {
+        return {_device_path};
+    }
+
+    auto device_kind() const noexcept
+      -> valid_if_not<video_device_kind, video_device_kind::dont_care> {
+        return _device_kind;
+    }
+
+    auto device_index() const noexcept -> valid_if_nonnegative<span_size_t> {
+        return _device_idx;
+    }
+
+    auto prefer_gles() const noexcept -> bool {
+        return _prefer_gles;
+    }
+
+    using valid_gl_major_version = valid_if_positive<int>;
+    using valid_gl_minor_version = valid_if_nonnegative<int>;
+
+    auto gl_version_major() const noexcept -> valid_gl_major_version {
+        return {_gl_version_major};
+    }
+
+    auto gl_version_minor() const noexcept -> valid_gl_minor_version {
+        return {_gl_version_minor};
     }
 
     using valid_surface_size = valid_if_positive<int>;
@@ -79,7 +112,7 @@ public:
         return *this;
     }
 
-    auto color_bits() const noexcept -> int {
+    auto color_bits() const noexcept -> valid_if_positive<int> {
         return _color_bits;
     }
 
@@ -94,7 +127,7 @@ public:
         return *this;
     }
 
-    auto alpha_bits() const noexcept -> int {
+    auto alpha_bits() const noexcept -> valid_if_positive<int> {
         return _alpha_bits;
     }
 
@@ -109,7 +142,7 @@ public:
         return *this;
     }
 
-    auto depth_bits() const noexcept -> int {
+    auto depth_bits() const noexcept -> valid_if_positive<int> {
         return _depth_bits;
     }
 
@@ -124,7 +157,7 @@ public:
         return *this;
     }
 
-    auto stencil_bits() const noexcept -> int {
+    auto stencil_bits() const noexcept -> valid_if_positive<int> {
         return _stencil_bits;
     }
 
@@ -183,8 +216,15 @@ private:
 
     video_context_kind _video_kind;
     std::string _provider_name;
-    std::string _monitor_name;
+    std::string _display_name;
+    std::string _driver_name;
+    std::string _device_path;
     std::string _framedump_prefix;
+
+    valid_if_nonnegative<span_size_t> _device_idx{-1};
+
+    int _gl_version_major{-1};
+    int _gl_version_minor{-1};
 
     int _surface_width{1280};
     int _surface_height{800};
@@ -195,6 +235,8 @@ private:
     int _depth_bits{24};
     int _stencil_bits{0};
 
+    video_device_kind _device_kind{video_device_kind::dont_care};
+    bool _prefer_gles{false};
     bool _gl_debug_context{false};
     bool _gl_compat_context{false};
     bool _fullscreen{false};
@@ -273,6 +315,16 @@ public:
         return _requires_input;
     }
 
+    template <typename R, typename P>
+    auto enough_run_time(std::chrono::duration<R, P> run_time) const noexcept
+      -> bool {
+        return _max_run_time && extract(_max_run_time) <= run_time;
+    }
+
+    auto enough_frames(span_size_t frame_no) const noexcept -> bool {
+        return _max_frames && extract(_max_frames) <= frame_no;
+    }
+
 private:
     friend class execution_context;
 
@@ -290,7 +342,9 @@ private:
       basic_str_view_less<std::string, string_view>>
       _audio_opts;
 
-    bool _requires_input{cfg_init("application.input.required", false)};
+    valid_if_positive<std::chrono::seconds> _max_run_time{};
+    valid_if_positive<span_size_t> _max_frames{-1};
+    bool _requires_input{false};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::application

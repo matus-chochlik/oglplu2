@@ -255,7 +255,13 @@ void video_context::commit() {
         }
     }
     extract(_provider).video_commit(_parent);
-    ++_frame_no;
+
+    if(EAGINE_UNLIKELY(_parent.enough_frames(++_frame_no))) {
+        _parent.stop_running();
+    }
+    if(EAGINE_UNLIKELY(_parent.enough_run_time())) {
+        _parent.stop_running();
+    }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -342,6 +348,17 @@ inline auto execution_context::_setup_providers() -> bool {
 EAGINE_LIB_FUNC
 auto execution_context::state() const noexcept -> const context_state_view& {
     return extract(_state);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::enough_run_time() const noexcept -> bool {
+    return options().enough_run_time(state().run_time());
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::enough_frames(span_size_t frame_no) const noexcept
+  -> bool {
+    return options().enough_frames(frame_no);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

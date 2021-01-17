@@ -32,6 +32,7 @@ template <
   typename = std::enable_if_t<!mp_is_empty_v<mp_union_t<TL1, TL2>>>>
 static constexpr inline auto
 operator|(enum_value<T, TL1> a, enum_value<T, TL2> b) noexcept {
+    // NOLINTNEXTLINE(hicpp-signed-bitwise)
     return enum_bits<T, mp_union_t<TL1, TL2>>{a.value | b.value};
 }
 
@@ -75,10 +76,19 @@ struct enum_bitfield {
         return _value;
     }
 
-    template <typename Classes>
-    constexpr auto has(enum_value<value_type, Classes> ev) const noexcept
-      -> bool {
-        return (_value & ev.value) == ev.value;
+    auto add(EnumClass ev) noexcept -> auto& {
+        _value |= ev._value; // NOLINT(hicpp-signed-bitwise)
+        return *this;
+    }
+
+    auto clear(EnumClass ev) noexcept -> auto& {
+        _value &= ~ev._value; // NOLINT(hicpp-signed-bitwise)
+        return *this;
+    }
+
+    constexpr auto has(EnumClass ev) const noexcept -> bool {
+        // NOLINTNEXTLINE(hicpp-signed-bitwise)
+        return (_value & ev._value) == ev._value;
     }
 
     friend constexpr auto operator==(enum_bitfield a, enum_bitfield b) noexcept {

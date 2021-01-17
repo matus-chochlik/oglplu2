@@ -17,11 +17,21 @@ struct error_code : egl_enum_class<error_code, EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
 };
 
-struct platform_type : egl_enum_class<platform_type, EAGINE_ID_V(PltfrmType)> {
+struct platform : egl_enum_class<platform, EAGINE_ID_V(Platform)> {
+    using enum_class::enum_class;
+};
+
+struct platform_attribute
+  : egl_enum_class<platform_attribute, EAGINE_ID_V(PltfrmAttr)> {
     using enum_class::enum_class;
 };
 
 struct string_query : egl_enum_class<string_query, EAGINE_ID_V(StrQuery)> {
+    using enum_class::enum_class;
+};
+
+struct device_string_query
+  : egl_enum_class<device_string_query, EAGINE_ID_V(DevStrQury)> {
     using enum_class::enum_class;
 };
 
@@ -44,6 +54,11 @@ struct surface_type_bit
     using enum_class::enum_class;
 };
 
+struct renderable_type_bit
+  : egl_enum_class<renderable_type_bit, EAGINE_ID_V(RndrTypBit)> {
+    using enum_class::enum_class;
+};
+
 struct client_api : egl_enum_class<client_api, EAGINE_ID_V(ClientApi)> {
     using enum_class::enum_class;
 };
@@ -58,12 +73,37 @@ struct context_attribute
     using enum_class::enum_class;
 };
 
+struct context_opengl_profile_bit
+  : egl_enum_class<context_opengl_profile_bit, EAGINE_ID_V(OGLPrflBit)> {
+    using enum_class::enum_class;
+};
+
+struct stream_attribute
+  : egl_enum_class<stream_attribute, EAGINE_ID_V(StreamAttr)> {
+    using enum_class::enum_class;
+};
+
+struct stream_state
+  : egl_enum_class<stream_attribute, EAGINE_ID_V(StreamStat)> {
+    using enum_class::enum_class;
+};
+
 struct sync_type : egl_enum_class<sync_type, EAGINE_ID_V(SyncType)> {
     using enum_class::enum_class;
 };
 
 struct sync_attribute
   : egl_enum_class<sync_attribute, EAGINE_ID_V(SyncAttrib)> {
+    using enum_class::enum_class;
+};
+
+struct color_buffer_type
+  : egl_enum_class<color_buffer_type, EAGINE_ID_V(ClrBufType)> {
+    using enum_class::enum_class;
+};
+
+struct color_component_type
+  : egl_enum_class<color_component_type, EAGINE_ID_V(ClrCmpType)> {
     using enum_class::enum_class;
 };
 

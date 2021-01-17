@@ -24,3 +24,34 @@ msg_bus:
     sudoku:
         helper:
             count: 16
+application:
+    video:
+        provider: provider_name
+        display: display_name
+        device:
+            index: 0
+            kind: hardware
+            path: /dev/dri/card0
+        driver: driver_name
+        samples: 1
+        color_bits: 8
+        alpha_bits: 8
+        depth_bits: 24
+        stencil_bits: 8
+        fullscreen: false
+        offscreen: true
+    opengl:
+        version:
+            major: 3
+            minor: 3
+        prefer_es: false
+        debug_context: false
+        compatibility: false
+    surface:
+        width: 1280
+        height: 800
+    framedump:
+        prefix: /path/to/dir
+        color: byte
+        depth: float
+        stencil: none

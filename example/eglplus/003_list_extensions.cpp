@@ -10,6 +10,7 @@
 #include <eglplus/egl.hpp>
 #include <eglplus/egl_api.hpp>
 #include <iostream>
+#include <vector>
 
 auto main() -> int {
     using namespace eagine;
@@ -36,11 +37,11 @@ auto main() -> int {
                 auto do_cleanup = egl.terminate.raii(display);
 
                 if(ok vendor = egl.query_string(display, egl.vendor)) {
-                    std::cout << "Vendor:  " << vendor << std::endl;
+                    std::cout << "Vendor:  " << extract(vendor) << std::endl;
                 }
 
                 if(ok version = egl.query_string(display, egl.version)) {
-                    std::cout << "Version: " << version << std::endl;
+                    std::cout << "Version: " << extract(version) << std::endl;
                 }
 
                 std::cout << "Display extensions: " << std::endl;

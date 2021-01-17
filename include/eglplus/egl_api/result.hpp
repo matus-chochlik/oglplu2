@@ -106,6 +106,16 @@ public:
             return {"EGL not initialized"};
         }
 #endif
+#ifdef EGL_BAD_STREAM_KHR
+        if(_error_code == EGL_BAD_STREAM_KHR) {
+            return {"bad EGL stream"};
+        }
+#endif
+#ifdef EGL_BAD_STATE_KHR
+        if(_error_code == EGL_BAD_STATE_KHR) {
+            return {"bad EGL state"};
+        }
+#endif
 #ifdef EGL_SUCCESS
         if(_error_code == EGL_SUCCESS) {
             return {"no error"};

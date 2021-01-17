@@ -23,27 +23,27 @@ static void run() {
     gl_api gl;
 
     if(ok info{gl.get_string(gl.vendor)}) {
-        std::cout << "Vendor: " << info << std::endl;
+        std::cout << "Vendor: " << extract(info) << std::endl;
     }
 
     if(ok info{gl.get_string(gl.renderer)}) {
-        std::cout << "Renderer: " << info << std::endl;
+        std::cout << "Renderer: " << extract(info) << std::endl;
     }
 
     if(ok info{gl.get_string(gl.version)}) {
-        std::cout << "Version: " << info << std::endl;
+        std::cout << "Version: " << extract(info) << std::endl;
     }
 
     if(ok info{gl.get_integer(gl.major_version)}) {
-        std::cout << "Major version: " << info << std::endl;
+        std::cout << "Major version: " << extract(info) << std::endl;
     }
 
     if(ok info{gl.get_integer(gl.minor_version)}) {
-        std::cout << "Minor version: " << info << std::endl;
+        std::cout << "Minor version: " << extract(info) << std::endl;
     }
 
     if(ok info{gl.get_string(gl.shading_language_version)}) {
-        std::cout << "GLSL Version: " << info << std::endl;
+        std::cout << "GLSL Version: " << extract(info) << std::endl;
     }
 
     std::cout << "Extensions:" << std::endl;

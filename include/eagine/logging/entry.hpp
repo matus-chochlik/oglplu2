@@ -122,7 +122,7 @@ public:
     }
 
     auto arg(identifier name, identifier value) noexcept -> auto& {
-        return arg(name, EAGINE_ID(id), value);
+        return arg(name, EAGINE_ID(Identifier), value);
     }
 
     auto arg(identifier name, identifier tag, message_id value) noexcept

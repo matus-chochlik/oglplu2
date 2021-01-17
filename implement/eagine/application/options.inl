@@ -17,11 +17,29 @@ video_options::video_options(
   video_context_kind kind,
   string_view instance)
   : _video_kind{kind} {
+    _provider_name =
+      o.cfg_init("application.video.provider", std::string(), instance);
+    _display_name =
+      o.cfg_init("application.video.display", std::string(), instance);
+    _device_idx =
+      o.cfg_init("application.video.device.index", _device_idx, instance);
+    _device_kind =
+      o.cfg_init("application.video.device.kind", _device_kind, instance);
+    _device_path =
+      o.cfg_init("application.video.device.path", _device_path, instance);
+    _driver_name =
+      o.cfg_init("application.video.driver", std::string(), instance);
+
+    _gl_version_major = o.cfg_extr<valid_gl_major_version>(
+      "application.video.opengl.version.major", _gl_version_major, instance);
+    _gl_version_minor = o.cfg_extr<valid_gl_minor_version>(
+      "application.video.opengl.version.minor", _gl_version_minor, instance);
 
     _surface_width = o.cfg_extr<valid_surface_size>(
       "application.video.surface.width", _surface_width, instance);
     _surface_height = o.cfg_extr<valid_surface_size>(
       "application.video.surface.height", _surface_height, instance);
+
     _samples = o.cfg_extr<valid_samples>(
       "application.video.samples", _samples, instance);
     _color_bits = o.cfg_extr<valid_color_bits>(
@@ -33,6 +51,8 @@ video_options::video_options(
     _stencil_bits = o.cfg_extr<valid_stencil_bits>(
       "application.video.0.stencil_bits", _stencil_bits, instance);
 
+    _prefer_gles =
+      o.cfg_init("application.video.opengl.prefer_es", _prefer_gles, instance);
     _gl_debug_context = o.cfg_init(
       "application.video.opengl.debug_context", _gl_debug_context, instance);
     _gl_compat_context = o.cfg_init(
@@ -42,7 +62,7 @@ video_options::video_options(
     _offscreen = o.cfg_init("application.video.offscreen", false, instance);
 
     _offscreen_framebuffer =
-      o.cfg_init("application.video._offscreen_frambuffer", false, instance);
+      o.cfg_init("application.video.offscreen_frambuffer", false, instance);
 
     _framedump_prefix =
       o.cfg_init("application.video.framedump.prefix", std::string(), instance);
@@ -67,7 +87,11 @@ audio_options::audio_options(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 launch_options::launch_options(main_ctx_parent parent) noexcept
-  : main_ctx_object(EAGINE_ID(LaunchOpts), parent) {}
+  : main_ctx_object(EAGINE_ID(LaunchOpts), parent) {
+    _max_run_time = cfg_init("application.max_run_time", _max_run_time);
+    _max_frames = cfg_init("application.max_frames", _max_frames);
+    _requires_input = cfg_init("application.input.required", _requires_input);
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto launch_options::require_video(video_context_kind kind, string_view instance)

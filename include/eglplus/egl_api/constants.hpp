@@ -17,6 +17,17 @@ namespace eagine::eglp {
 template <typename ApiTraits>
 struct basic_egl_constants {
 public:
+    // NOLINTNEXTLINE(hicpp-use-nullptr,modernize-use-nullptr)
+    static constexpr const typename egl_types::config_type no_config{0};
+
+    static constexpr const typename egl_types::int_type dont_care{
+#ifdef EGL_DONT_CARE
+      EGL_DONT_CARE
+#else
+      0
+#endif
+    };
+
     using enum_type = typename egl_types::enum_type;
     using enum_type_i = type_identity<enum_type>;
     template <enum_type value>
@@ -163,6 +174,24 @@ public:
       context_lost;
 
     opt_c_api_constant<
+      mp_list<platform>,
+#ifdef EGL_PLATFORM_DEVICE_EXT
+      int_type_c<EGL_PLATFORM_DEVICE_EXT>
+#else
+      int_type_i>
+#endif
+      >
+      platform_device;
+
+    opt_c_api_constant<mp_list<platform>, int_type_c<0x31D5>> platform_x11;
+    opt_c_api_constant<mp_list<platform>, int_type_c<0x31DC>> platform_xcb;
+    opt_c_api_constant<mp_list<platform>, int_type_c<0x31D8>> platform_wayland;
+    opt_c_api_constant<mp_list<platform>, int_type_c<0x31D7>> platform_gbm_mesa;
+    opt_c_api_constant<mp_list<platform>, int_type_c<0x31DD>>
+      platform_surfaceless;
+    opt_c_api_constant<mp_list<platform>, int_type_c<0x3141>> platform_android;
+
+    opt_c_api_constant<
       mp_list<string_query>,
 #ifdef EGL_CLIENT_APIS
       int_type_c<EGL_CLIENT_APIS>>
@@ -190,13 +219,21 @@ public:
       version;
 
     opt_c_api_constant<
-      mp_list<string_query>,
+      mp_list<string_query, device_string_query>,
 #ifdef EGL_EXTENSIONS
       int_type_c<EGL_EXTENSIONS>>
 #else
       int_type_i>
 #endif
       extensions;
+
+    opt_c_api_constant<
+      mp_list<string_query, device_string_query>,
+      int_type_c<0x3233>>
+      drm_device_file;
+
+    opt_c_api_constant<mp_list<platform_attribute>, int_type_c<0x333C>>
+      drm_master_fd;
 
     opt_c_api_constant<
       mp_list<config_attribute>,
@@ -206,6 +243,42 @@ public:
       int_type_i>
 #endif
       config_id;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_CONFORMANT
+      int_type_c<EGL_CONFORMANT>>
+#else
+      int_type_i>
+#endif
+      conformant;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_SURFACE_TYPE
+      int_type_c<EGL_SURFACE_TYPE>>
+#else
+      int_type_i>
+#endif
+      surface_type;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_RENDERABLE_TYPE
+      int_type_c<EGL_RENDERABLE_TYPE>>
+#else
+      int_type_i>
+#endif
+      renderable_type;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_COLOR_BUFFER_TYPE
+      int_type_c<EGL_COLOR_BUFFER_TYPE>>
+#else
+      int_type_i>
+#endif
+      color_buffer_type;
 
     opt_c_api_constant<
       mp_list<config_attribute>,
@@ -342,6 +415,9 @@ public:
 #endif
       transparent_blue_value;
 
+    opt_c_api_constant<mp_list<config_attribute>, int_type_c<0x3339>>
+      color_component_type;
+
     opt_c_api_constant<
       mp_list<config_attribute>,
 #ifdef EGL_LEVEL
@@ -426,11 +502,22 @@ public:
     opt_c_api_constant<
       mp_list<surface_attribute>,
 #ifdef EGL_GL_COLORSPACE
-      int_type_c<EGL_GL_COLORSPACE>>
+      int_type_c<EGL_GL_COLORSPACE>,
 #else
-      int_type_i>
+      int_type_i,
 #endif
+      eglp::gl_colorspace>
       gl_colorspace;
+
+    opt_c_api_constant<
+      mp_list<surface_attribute>,
+#ifdef EGL_TEXTURE_TARGET
+      int_type_c<EGL_TEXTURE_TARGET>,
+#else
+      int_type_i,
+#endif
+      eglp::texture_target>
+      texture_target;
 
     opt_c_api_constant<
       mp_list<surface_attribute>,
@@ -461,12 +548,57 @@ public:
 
     opt_c_api_constant<
       mp_list<context_attribute>,
-#ifdef EGL_CONTEXT_CLIENT_VERSION
-      int_type_c<EGL_CONTEXT_CLIENT_VERSION>>
+#ifdef EGL_CONTEXT_MAJOR_VERSION
+      int_type_c<EGL_CONTEXT_MAJOR_VERSION>>
 #else
       int_type_i>
 #endif
-      context_client_version;
+      context_major_version;
+
+    opt_c_api_constant<
+      mp_list<context_attribute>,
+#ifdef EGL_CONTEXT_MINOR_VERSION
+      int_type_c<EGL_CONTEXT_MINOR_VERSION>>
+#else
+      int_type_i>
+#endif
+      context_minor_version;
+
+    opt_c_api_constant<
+      mp_list<context_attribute>,
+#ifdef EGL_CONTEXT_OPENGL_PROFILE_MASK
+      int_type_c<EGL_CONTEXT_OPENGL_PROFILE_MASK>>
+#else
+      int_type_i>
+#endif
+      context_opengl_profile_mask;
+
+    opt_c_api_constant<
+      mp_list<context_attribute>,
+#ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE
+      int_type_c<EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE>>
+#else
+      int_type_i>
+#endif
+      context_opengl_forward_compatible;
+
+    opt_c_api_constant<
+      mp_list<context_attribute>,
+#ifdef EGL_CONTEXT_OPENGL_DEBUG
+      int_type_c<EGL_CONTEXT_OPENGL_DEBUG>>
+#else
+      int_type_i>
+#endif
+      context_opengl_debug;
+
+    opt_c_api_constant<
+      mp_list<context_attribute>,
+#ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS
+      int_type_c<EGL_CONTEXT_OPENGL_ROBUST_ACCESS>>
+#else
+      int_type_i>
+#endif
+      context_opengl_robust_access;
 
     opt_c_api_constant<
       mp_list<surface_type_bit>,
@@ -494,6 +626,8 @@ public:
       int_type_i>
 #endif
       pbuffer_bit;
+
+    opt_c_api_constant<mp_list<surface_type_bit>, int_type_c<0x0800>> stream_bit;
 
     opt_c_api_constant<
       mp_list<surface_type_bit>,
@@ -531,8 +665,41 @@ public:
 #endif
       vg_alpha_format_pre_bit_bit;
 
+    opt_c_api_constant<mp_list<stream_attribute>, int_type_c<0x3210>>
+      consumer_latency_usec;
+
+    opt_c_api_constant<mp_list<stream_attribute>, int_type_c<0x321E>>
+      consumer_acquire_timeout_usec;
+
+    opt_c_api_constant<mp_list<stream_attribute>, int_type_c<0x3212>>
+      producer_frame;
+
+    opt_c_api_constant<mp_list<stream_attribute>, int_type_c<0x3213>>
+      consumer_frame;
+
+    opt_c_api_constant<mp_list<stream_attribute>, int_type_c<0x3214>>
+      stream_state;
+
+    opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x3215>>
+      stream_state_created;
+
+    opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x3216>>
+      stream_state_connecting;
+
+    opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x3217>>
+      stream_state_empty;
+
+    opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x3218>>
+      stream_state_new_frame_available;
+
+    opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x3219>>
+      stream_state_old_frame_available;
+
+    opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x321A>>
+      stream_state_disconnected;
+
     opt_c_api_constant<
-      mp_list<client_api_bit>,
+      mp_list<client_api_bit, renderable_type_bit>,
 #ifdef EGL_OPENGL_BIT
       int_type_c<EGL_OPENGL_BIT>>
 #else
@@ -541,7 +708,7 @@ public:
       opengl_bit;
 
     opt_c_api_constant<
-      mp_list<client_api_bit>,
+      mp_list<client_api_bit, renderable_type_bit>,
 #ifdef EGL_OPENGL_ES_BIT
       int_type_c<EGL_OPENGL_ES_BIT>>
 #else
@@ -550,7 +717,7 @@ public:
       opengl_es_bit;
 
     opt_c_api_constant<
-      mp_list<client_api_bit>,
+      mp_list<client_api_bit, renderable_type_bit>,
 #ifdef EGL_OPENGL_ES2_BIT
       int_type_c<EGL_OPENGL_ES2_BIT>>
 #else
@@ -559,7 +726,7 @@ public:
       opengl_es2_bit;
 
     opt_c_api_constant<
-      mp_list<client_api_bit>,
+      mp_list<client_api_bit, renderable_type_bit>,
 #ifdef EGL_OPENGL_ES3_BIT
       int_type_c<EGL_OPENGL_ES3_BIT>>
 #else
@@ -568,7 +735,7 @@ public:
       opengl_es3_bit;
 
     opt_c_api_constant<
-      mp_list<client_api_bit>,
+      mp_list<client_api_bit, renderable_type_bit>,
 #ifdef EGL_OPENVG_BIT
       int_type_c<EGL_OPENVG_BIT>>
 #else
@@ -602,6 +769,48 @@ public:
       int_type_i>
 #endif
       openvg_api;
+
+    opt_c_api_constant<
+      mp_list<eglp::context_opengl_profile_bit>,
+#ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
+      int_type_c<EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT>>
+#else
+      int_type_i>
+#endif
+      context_opengl_core_profile_bit;
+
+    opt_c_api_constant<
+      mp_list<eglp::context_opengl_profile_bit>,
+#ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
+      int_type_c<EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT>>
+#else
+      int_type_i>
+#endif
+      context_opengl_compatibility_profile_bit;
+
+    opt_c_api_constant<
+      mp_list<eglp::color_buffer_type>,
+#ifdef EGL_RGB_BUFFER
+      int_type_c<EGL_RGB_BUFFER>>
+#else
+      int_type_i>
+#endif
+      rgb_buffer;
+
+    opt_c_api_constant<
+      mp_list<eglp::color_buffer_type>,
+#ifdef EGL_LUMINANCE_BUFFER
+      int_type_c<EGL_LUMINANCE_BUFFER>>
+#else
+      int_type_i>
+#endif
+      luminance_buffer;
+
+    opt_c_api_constant<mp_list<eglp::color_component_type>, int_type_c<0x333A>>
+      color_component_type_fixed;
+
+    opt_c_api_constant<mp_list<eglp::color_component_type>, int_type_c<0x333B>>
+      color_component_type_float;
 
     opt_c_api_constant<
       mp_list<eglp::read_draw>,
@@ -718,11 +927,24 @@ public:
       , bad_native_pixmap("BAD_NATIVE_PIXMAP", traits, api)
       , bad_native_window("BAD_NATIVE_WINDOW", traits, api)
       , context_lost("CONTEXT_LOST", traits, api)
+      , platform_device("PLATFORM_DEVICE_EXT", traits, api)
+      , platform_x11("PLATFORM_X11_EXT", traits, api)
+      , platform_xcb("PLATFORM_XCB_EXT", traits, api)
+      , platform_wayland("PLATFORM_WAYLAND_EXT", traits, api)
+      , platform_gbm_mesa("PLATFORM_GBM_MESA", traits, api)
+      , platform_surfaceless("PLATFORM_SURFACELESS_MESA", traits, api)
+      , platform_android("PLATFORM_ANDROID_KHR", traits, api)
       , client_apis("CLIENT_APIS", traits, api)
       , vendor("VENDOR", traits, api)
       , version("VERSION", traits, api)
       , extensions("EXTENSIONS", traits, api)
+      , drm_device_file("DRM_DEVICE_FILE_EXT", traits, api)
+      , drm_master_fd("DRM_MASTER_FD_EXT", traits, api)
       , config_id("CONFIG_ID", traits, api)
+      , conformant("CONFORMANT", traits, api)
+      , surface_type("SURFACE_TYPE", traits, api)
+      , renderable_type("RENDERABLE_TYPE", traits, api)
+      , color_buffer_type("RENDERABLE_TYPE", traits, api)
       , buffer_size("BUFFER_SIZE", traits, api)
       , red_size("RED_SIZE", traits, api)
       , green_size("GREEN_SIZE", traits, api)
@@ -738,6 +960,7 @@ public:
       , transparent_red_value("TRANSPARENT_RED_VALUE", traits, api)
       , transparent_green_value("TRANSPARENT_GREEN_VALUE", traits, api)
       , transparent_blue_value("TRANSPARENT_BLUE_VALUE", traits, api)
+      , color_component_type("COLOR_COMPONENT_TYPE_EXT", traits, api)
       , level("LEVEL", traits, api)
       , pbuffer_width("PBUFFER_WIDTH", traits, api)
       , pbuffer_height("PBUFFER_HEIGHT", traits, api)
@@ -748,17 +971,47 @@ public:
       , height("HEIGHT", traits, api)
       , largest_pbuffer("LARGEST_PBUFFER", traits, api)
       , gl_colorspace("GL_COLORSPACE", traits, api)
+      , texture_target("TEXTURE_TARGET", traits, api)
       , mipmap_level("MIPMAP_LEVEL", traits, api)
       , multisample_resolve("MULTISAMPLE_RESOLVE", traits, api)
       , swap_behavior("SWAP_BEHAVIOR", traits, api)
-      , context_client_version("CONTEXT_CLIENT_VERSION", traits, api)
+      , context_major_version("CONTEXT_MAJOR_VERSION", traits, api)
+      , context_minor_version("CONTEXT_MINOR_VERSION", traits, api)
+      , context_opengl_profile_mask("CONTEXT_OPENGL_PROFILE_MASK", traits, api)
+      , context_opengl_forward_compatible(
+          "CONTEXT_OPENGL_FORWARD_COMPATIBLE",
+          traits,
+          api)
+      , context_opengl_debug("CONTEXT_OPENGL_DEBUG", traits, api)
+      , context_opengl_robust_access("CONTEXT_OPENGL_ROBUST_ACCESS", traits, api)
       , window_bit("WINDOW_BIT", traits, api)
       , pixmap_bit("PIXMAP_BIT", traits, api)
       , pbuffer_bit("PBUFFER_BIT", traits, api)
+      , stream_bit("STREAM_BIT_KHR", traits, api)
       , multisample_resolve_box_bit("MULTISAMPLE_RESOLVE_BOX_BIT", traits, api)
       , swap_behavior_preserved_bit("SWAP_BEHAVIOR_PRESERVED_BIT", traits, api)
       , vg_colorspace_linear_bit("VG_COLORSPACE_LINEAR_BIT", traits, api)
       , vg_alpha_format_pre_bit_bit("VG_ALPHA_FORMAT_PRE_BIT_BIT", traits, api)
+      , consumer_latency_usec("CONSUMER_LATENCY_USEC_KHR", traits, api)
+      , consumer_acquire_timeout_usec(
+          "CONSUMER_ACQUIRE_TIMEOUT_USEC_KHR",
+          traits,
+          api)
+      , producer_frame("PRODUCER_FRAME_KHR", traits, api)
+      , consumer_frame("CONSUMER_FRAME_KHR", traits, api)
+      , stream_state("STREAM_STATE_KHR", traits, api)
+      , stream_state_created("STREAM_STATE_CREATED_KHR", traits, api)
+      , stream_state_connecting("STREAM_STATE_CONNECTING_KHR", traits, api)
+      , stream_state_empty("STREAM_STATE_EMPTY_KHR", traits, api)
+      , stream_state_new_frame_available(
+          "STREAM_STATE_NEW_FRAME_AVAILABLE_KHR",
+          traits,
+          api)
+      , stream_state_old_frame_available(
+          "STREAM_STATE_OLD_FRAME_AVAILABLE_KHR",
+          traits,
+          api)
+      , stream_state_disconnected("STREAM_STATE_DISCONNECTED_KHR", traits, api)
       , opengl_bit("OPENGL_BIT", traits, api)
       , opengl_es_bit("OPENGL_ES_BIT", traits, api)
       , opengl_es2_bit("OPENGL_ES2_BIT", traits, api)
@@ -767,6 +1020,18 @@ public:
       , opengl_api("OPENGL_API", traits, api)
       , opengl_es_api("OPENGL_ES_API", traits, api)
       , openvg_api("OPENVG_API", traits, api)
+      , context_opengl_core_profile_bit(
+          "CONTEXT_OPENGL_CORE_PROFILE_BIT",
+          traits,
+          api)
+      , context_opengl_compatibility_profile_bit(
+          "CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT",
+          traits,
+          api)
+      , rgb_buffer("RGB_BUFFER", traits, api)
+      , luminance_buffer("LUMINANCE_BUFFER", traits, api)
+      , color_component_type_fixed("COLOR_COMPONENT_TYPE_FIXED_EXT", traits, api)
+      , color_component_type_float("COLOR_COMPONENT_TYPE_FLOAT_EXT", traits, api)
       , read("READ", traits, api)
       , draw("DRAW", traits, api)
       , sync_fence("sync_fence", traits, api)

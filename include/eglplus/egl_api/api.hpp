@@ -13,7 +13,10 @@
 #include "config_attribs.hpp"
 #include "context_attribs.hpp"
 #include "enum_types.hpp"
+#include "extensions.hpp"
 #include "objects.hpp"
+#include "platform_attribs.hpp"
+#include "stream_attribs.hpp"
 #include "surface_attribs.hpp"
 #include "sync_attribs.hpp"
 #include <eagine/scope_exit.hpp>
@@ -37,11 +40,39 @@ public:
     using char_type = typename egl_types::char_type;
     using enum_type = typename egl_types::enum_type;
     using attrib_type = typename egl_types::attrib_type;
+    using device_type = typename egl_types::device_type;
     using native_display_type = typename egl_types::native_display_type;
     using native_window_type = typename egl_types::native_window_type;
     using native_pixmap_type = typename egl_types::native_pixmap_type;
     using config_type = typename egl_types::config_type;
 
+    // extensions
+    template <typename... Args>
+    using extension = basic_egl_extension<ApiTraits, Args...>;
+
+    extension<> EXT_device_base;
+    extension<> EXT_device_enumeration;
+    extension<> EXT_device_query;
+    extension<device_handle> EXT_device_drm;
+    extension<device_handle> MESA_device_software;
+
+    extension<> EXT_platform_base;
+    extension<> EXT_platform_device;
+    extension<> EXT_platform_x11;
+    extension<> EXT_platform_xcb;
+    extension<> EXT_platform_wayland;
+    extension<> KHR_platform_gbm;
+    extension<> MESA_platform_surfaceless;
+
+    extension<display_handle> EXT_create_context_robustness;
+
+    extension<display_handle> EXT_output_base;
+    extension<display_handle> EXT_pixel_format_float;
+
+    extension<display_handle> MESA_configless_context;
+    extension<display_handle> MESA_query_driver;
+
+    // functions
     template <typename W, W c_api::*F, typename Signature = typename W::signature>
     class func;
 
@@ -79,16 +110,162 @@ public:
         }
     };
 
+    // numeric query function
+    template <
+      typename PreTypeList,
+      typename QueryClassList,
+      typename PostTypeList,
+      typename QueryResult,
+      typename W,
+      W c_api::*F>
+    struct query_func;
+
+    template <
+      typename... PreParams,
+      typename... QueryClasses,
+      typename... PostParams,
+      typename QueryResult,
+      typename W,
+      W c_api::*F>
+    struct query_func<
+      mp_list<PreParams...>,
+      mp_list<QueryClasses...>,
+      mp_list<PostParams...>,
+      QueryResult,
+      W,
+      F> : func<W, F> {
+        using func<W, F>::func;
+
+        template <
+          typename Query,
+          typename = std::enable_if_t<
+            (true || ... || is_enum_class_value_v<QueryClasses, Query>)>,
+          typename = std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
+        constexpr auto operator()(
+          PreParams... pre_params,
+          Query query,
+          PostParams... post_params) const noexcept {
+            using RV = typename Query::tag_type;
+            QueryResult result{};
+            return this
+              ->_cnvchkcall(
+                pre_params..., int_type(query), post_params..., &result)
+              .replaced_with(result)
+              .cast_to(type_identity<RV>{});
+        }
+
+        template <
+          typename Query,
+          typename = std::enable_if_t<
+            (true || ... || is_enum_class_value_v<QueryClasses, Query>)>>
+        auto operator()(
+          PreParams... pre_params,
+          Query query,
+          PostParams... post_params,
+          span<QueryResult> dest) const noexcept {
+            EAGINE_ASSERT(dest.size());
+            return this->_cnvchkcall(
+              pre_params..., int_type(query), post_params..., dest.data());
+        }
+    };
+
+    // query_devices
+    struct : func<EGLPAFP(QueryDevices)> {
+        using func<EGLPAFP(QueryDevices)>::func;
+
+        auto count() const noexcept {
+            int_type ret_count{0};
+            return this->_cnvchkcall(0, nullptr, &ret_count)
+              .transformed([&ret_count](auto ok) {
+                  return limit_cast<span_size_t>(
+                    egl_types::bool_true(ok) ? ret_count : 0);
+              });
+        }
+
+        auto operator()(span<device_type> dest) const noexcept {
+            int_type ret_count{0};
+            return this
+              ->_cnvchkcall(
+                limit_cast<int_type>(dest.size()), dest.data(), &ret_count)
+              .transformed([dest, &ret_count](auto ok) {
+                  return head(
+                    dest,
+                    limit_cast<span_size_t>(
+                      egl_types::bool_true(ok) ? ret_count : 0));
+              });
+        }
+    } query_devices;
+
+    // query_device_string
+    struct : func<EGLPAFP(QueryDeviceString)> {
+        using func<EGLPAFP(QueryDeviceString)>::func;
+
+        constexpr auto
+        operator()(device_type dev, device_string_query query) const noexcept {
+            return this->_cnvchkcall(dev, query)
+              .cast_to(type_identity<string_view>{});
+        }
+
+        constexpr auto operator()(device_handle dev, device_string_query query)
+          const noexcept {
+            return (*this)(device_type(dev), query);
+        }
+
+        constexpr auto operator()() const noexcept {
+            return this->_fake_empty_c_str().cast_to(
+              type_identity<string_view>{});
+        }
+    } query_device_string;
+
+    // get_device_extensions
+    auto get_device_extensions(device_type dev) const noexcept {
+#ifdef EGL_EXTENSIONS
+        return query_device_string(dev, device_string_query(EGL_EXTENSIONS))
+          .transformed(
+            [](auto src) { return split_into_string_list(src, ' '); });
+#else
+        return this->_fake_empty_c_str();
+#endif
+    }
+
+    auto get_device_extensions(device_handle dev) const noexcept {
+        return get_device_extensions(device_type(dev));
+    }
+
     // get_platform_display
     struct : func<EGLPAFP(GetPlatformDisplay)> {
         using func<EGLPAFP(GetPlatformDisplay)>::func;
 
+        constexpr auto operator()(device_handle dev) const noexcept {
+#ifdef EGL_PLATFORM_DEVICE_EXT
+            return this->_cnvchkcall(EGL_PLATFORM_DEVICE_EXT, dev, nullptr)
+              .cast_to(type_identity<display_handle>{});
+#else
+            EAGINE_MAYBE_UNUSED(dev);
+            return this->_fake({}).cast_to(type_identity<display_handle>{});
+#endif
+        }
+
+        constexpr auto
+        operator()(platform pltf, void_ptr_type disp) const noexcept {
+            return this->_cnvchkcall(pltf, disp, nullptr)
+              .cast_to(type_identity<display_handle>{});
+        }
+
         constexpr auto operator()(
-          platform_type platform,
+          platform pltf,
           void_ptr_type disp,
           span<const attrib_type> attribs) const noexcept {
-            return this->_cnvchkcall(platform, disp, attribs.data())
+            return this->_cnvchkcall(pltf, disp, attribs.data())
               .cast_to(type_identity<display_handle>{});
+        }
+
+        template <std::size_t N>
+        constexpr auto operator()(
+          platform pltf,
+          void_ptr_type disp,
+          const platform_attributes<N>& attribs) const noexcept {
+            return (*this)(pltf, disp, attribs.get());
         }
     } get_platform_display;
 
@@ -110,6 +287,16 @@ public:
 #endif
         }
     } get_display;
+
+    // get_display_driver_name
+    struct : func<EGLPAFP(GetDisplayDriverName)> {
+        using func<EGLPAFP(GetDisplayDriverName)>::func;
+
+        constexpr auto operator()(display_handle disp) const noexcept {
+            return this->_cnvchkcall(disp).cast_to(
+              type_identity<string_view>{});
+        }
+    } get_display_driver_name;
 
     // initialize
     struct : func<EGLPAFP(Initialize)> {
@@ -250,28 +437,13 @@ public:
     } choose_config;
 
     // get_config_attrib
-    struct : func<EGLPAFP(GetConfigAttrib)> {
-        using func<EGLPAFP(GetConfigAttrib)>::func;
-
-        constexpr auto operator()(
-          display_handle disp,
-          config_type conf,
-          config_attribute attrib,
-          int_type* dest) const noexcept {
-            return this->_cnvchkcall(disp, conf, attrib, dest);
-        }
-
-        constexpr auto operator()(
-          display_handle disp,
-          config_type conf,
-          config_attribute attrib) const noexcept {
-            int_type value{0};
-            return (*this)(disp, conf, attrib, &value)
-              .transformed([&value](auto ok) {
-                  return egl_types::bool_true(ok) ? value : 0;
-              });
-        }
-    } get_config_attrib;
+    query_func<
+      mp_list<display_handle, config_type>,
+      mp_list<config_attribute>,
+      mp_list<>,
+      int_type,
+      EGLPAFP(GetConfigAttrib)>
+      get_config_attrib;
 
     // create_window_surface
     struct : func<EGLPAFP(CreateWindowSurface)> {
@@ -398,6 +570,105 @@ public:
         }
     } surface_attrib;
 
+    // query_surface
+    query_func<
+      mp_list<display_handle, surface_handle>,
+      mp_list<surface_attribute>,
+      mp_list<>,
+      int_type,
+      EGLPAFP(QuerySurface)>
+      query_surface;
+
+    // create_stream
+    struct : func<EGLPAFP(CreateStream)> {
+        using func<EGLPAFP(CreateStream)>::func;
+
+        constexpr auto operator()(display_handle disp) const noexcept {
+            return this->_cnvchkcall(disp, nullptr)
+              .cast_to(type_identity<stream_handle>{});
+        }
+
+        constexpr auto operator()(
+          display_handle disp,
+          span<const int_type> attribs) const noexcept {
+            return this->_cnvchkcall(disp, attribs.data())
+              .cast_to(type_identity<stream_handle>{});
+        }
+
+        template <std::size_t N>
+        constexpr auto operator()(
+          display_handle disp,
+          const stream_attributes<N> attribs) const noexcept {
+            return (*this)(disp, attribs.get());
+        }
+    } create_stream;
+
+    // destroy_stream
+    struct : func<EGLPAFP(DestroyStream)> {
+        using func<EGLPAFP(DestroyStream)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, stream_handle surf) const noexcept {
+            return this->_cnvchkcall(disp, surf);
+        }
+
+        auto raii(display_handle disp, stream_handle surf) noexcept {
+            return eagine::finally([=]() { (*this)(disp, surf); });
+        }
+    } destroy_stream;
+
+    // stream_attrib
+    struct : func<EGLPAFP(StreamAttrib)> {
+        using func<EGLPAFP(StreamAttrib)>::func;
+
+        constexpr auto operator()(
+          display_handle disp,
+          stream_handle surf,
+          stream_attribute attr,
+          int_type value) const noexcept {
+            return this->_cnvchkcall(disp, surf, attr, value);
+        }
+    } stream_attrib;
+
+    // query_stream
+    query_func<
+      mp_list<display_handle, stream_handle>,
+      mp_list<stream_attribute>,
+      mp_list<>,
+      int_type,
+      EGLPAFP(QueryStream)>
+      query_stream;
+
+    // stream_consumer_gl_texture_external
+    struct : func<EGLPAFP(StreamConsumerGLTextureExternal)> {
+        using func<EGLPAFP(StreamConsumerGLTextureExternal)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, stream_handle surf) const noexcept {
+            return this->_cnvchkcall(disp, surf);
+        }
+    } stream_consumer_gl_texture_external;
+
+    // stream_consumer_acquire
+    struct : func<EGLPAFP(StreamConsumerAcquire)> {
+        using func<EGLPAFP(StreamConsumerAcquire)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, stream_handle surf) const noexcept {
+            return this->_cnvchkcall(disp, surf);
+        }
+    } stream_consumer_acquire;
+
+    // stream_consumer_release
+    struct : func<EGLPAFP(StreamConsumerRelease)> {
+        using func<EGLPAFP(StreamConsumerRelease)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, stream_handle surf) const noexcept {
+            return this->_cnvchkcall(disp, surf);
+        }
+    } stream_consumer_release;
+
     // bind_api
     struct : func<EGLPAFP(BindAPI)> {
         using func<EGLPAFP(BindAPI)>::func;
@@ -433,7 +704,7 @@ public:
         constexpr auto operator()(
           display_handle disp,
           config_type conf,
-          const surface_attributes<N> attribs) const noexcept {
+          const context_attributes<N> attribs) const noexcept {
             return (*this)(disp, conf, context_handle{}, attribs.get());
         }
 
@@ -442,7 +713,7 @@ public:
           display_handle disp,
           config_type conf,
           context_handle share_ctxt,
-          const surface_attributes<N> attribs) const noexcept {
+          const context_attributes<N> attribs) const noexcept {
             return (*this)(disp, conf, share_ctxt, attribs.get());
         }
     } create_context;
@@ -478,6 +749,10 @@ public:
           surface_handle surf,
           context_handle ctxt) const noexcept {
             return this->_cnvchkcall(disp, surf, surf, ctxt);
+        }
+
+        constexpr auto none(display_handle disp) const noexcept {
+            return (*this)(disp, surface_handle{}, context_handle{});
         }
     } make_current;
 
@@ -579,11 +854,13 @@ public:
 
         constexpr auto
         operator()(display_handle disp, string_query query) const noexcept {
-            return this->_cnvchkcall(disp, query);
+            return this->_cnvchkcall(disp, query)
+              .cast_to(type_identity<string_view>{});
         }
 
         constexpr auto operator()() const noexcept {
-            return this->_fake("");
+            return this->_fake_empty_c_str().cast_to(
+              type_identity<string_view>{});
         }
     } query_string;
 
@@ -593,23 +870,49 @@ public:
       string_query query,
       char separator) noexcept {
         return query_string(disp, query).transformed([separator](auto src) {
-            return split_c_str_into_string_list(src, separator);
+            return split_into_string_list(src, separator);
         });
     }
 
     // get_client_apis
-    auto get_client_apis(display_handle disp) noexcept {
+    auto get_client_apis(display_handle disp) const noexcept {
 #ifdef EGL_CLIENT_APIS
         return query_string(disp, string_query(EGL_CLIENT_APIS))
 #else
         return query_string()
 #endif
           .transformed(
-            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+            [](auto src) { return split_into_string_list(src, ' '); });
+    }
+
+    auto get_client_api_bits(display_handle disp) const noexcept {
+        enum_bitfield<client_api_bit> result{};
+
+        if(ok apis{get_client_apis(disp)}) {
+            for(auto api : apis) {
+#ifdef EGL_OPENGL_BIT
+                if(are_equal(api, string_view("OpenGL"))) {
+                    result.add(client_api_bit(EGL_OPENGL_BIT));
+                }
+#endif
+#ifdef EGL_OPENGL_ES_BIT
+                if(are_equal(api, string_view("OpenGL_ES"))) {
+                    result.add(client_api_bit(EGL_OPENGL_ES_BIT));
+                }
+#endif
+#ifdef EGL_OPENVG_BIT
+                if(are_equal(api, string_view("OpenVG"))) {
+                    result.add(client_api_bit(EGL_OPENVG_BIT));
+                }
+#endif
+            }
+        }
+
+        return result;
     }
 
     // get_extensions
-    auto get_extensions() noexcept {
+    auto get_extensions() const noexcept {
 #if defined(EGL_EXTENSIONS) && defined(EGL_NO_DISPLAY)
         return query_string(
                  display_handle(EGL_NO_DISPLAY), string_query(EGL_EXTENSIONS))
@@ -617,33 +920,104 @@ public:
         return query_string()
 #endif
           .transformed(
-            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+            [](auto src) { return split_into_string_list(src, ' '); });
     }
 
     // get_extensions
-    auto get_extensions(display_handle disp) noexcept {
+    auto get_extensions(display_handle disp) const noexcept {
 #ifdef EGL_EXTENSIONS
         return query_string(disp, string_query(EGL_EXTENSIONS))
 #else
         return query_string()
 #endif
           .transformed(
-            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+            [](auto src) { return split_into_string_list(src, ' '); });
+    }
+
+    // has_extension
+    auto has_extension(string_view which) const noexcept {
+        if(ok extensions{get_extensions()}) {
+            for(auto ext_name : extensions) {
+                if(ends_with(ext_name, which)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    auto has_extension(device_handle dev, string_view which) const noexcept {
+        if(ok extensions{get_device_extensions(dev)}) {
+            for(auto ext_name : extensions) {
+                if(ends_with(ext_name, which)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    auto has_extension(display_handle disp, string_view which) const noexcept {
+        if(ok extensions{get_extensions(disp)}) {
+            for(auto ext_name : extensions) {
+                if(ends_with(ext_name, which)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // swap_interval
-    func<EGLPAFP(SwapInterval)> swap_interval;
+    struct : func<EGLPAFP(SwapInterval)> {
+        using func<EGLPAFP(SwapInterval)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, int_type interval) const noexcept {
+            return this->_cnvchkcall(disp, interval);
+        }
+    } swap_interval;
 
     // swap_buffers
-    func<EGLPAFP(SwapBuffers)> swap_buffers;
+    struct : func<EGLPAFP(SwapBuffers)> {
+        using func<EGLPAFP(SwapBuffers)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, surface_handle surf) const noexcept {
+            return this->_cnvchkcall(disp, surf);
+        }
+    } swap_buffers;
 
     // release_thread
     func<EGLPAFP(ReleaseThread)> release_thread;
 
     constexpr basic_egl_operations(api_traits& traits)
       : c_api{traits}
+      , EXT_device_base("EXT_device_base", traits, *this)
+      , EXT_device_enumeration("EXT_device_enumeration", traits, *this)
+      , EXT_device_query("EXT_device_query", traits, *this)
+      , EXT_device_drm("EXT_device_drm", traits, *this)
+      , MESA_device_software("MESA_device_software", traits, *this)
+      , EXT_platform_base("EXT_platform_base", traits, *this)
+      , EXT_platform_device("EXT_platform_device", traits, *this)
+      , EXT_platform_x11("EXT_platform_x11", traits, *this)
+      , EXT_platform_xcb("EXT_platform_xcb", traits, *this)
+      , EXT_platform_wayland("EXT_platform_wayland", traits, *this)
+      , KHR_platform_gbm("KHR_platform_gbm", traits, *this)
+      , MESA_platform_surfaceless("MESA_platform_surfaceless", traits, *this)
+      , EXT_create_context_robustness(
+          "EXT_create_context_robustness",
+          traits,
+          *this)
+      , EXT_output_base("EXT_output_base", traits, *this)
+      , EXT_pixel_format_float("EXT_pixel_format_float", traits, *this)
+      , MESA_configless_context("MESA_configless_context", traits, *this)
+      , MESA_query_driver("MESA_query_driver", traits, *this)
+      , query_devices("query_devices", traits, *this)
+      , query_device_string("query_device_string", traits, *this)
       , get_platform_display("get_platform_display", traits, *this)
       , get_display("get_display", traits, *this)
+      , get_display_driver_name("get_display_driver_name", traits, *this)
       , initialize("initialize", traits, *this)
       , terminate("terminate", traits, *this)
       , get_configs("get_configs", traits, *this)
@@ -655,6 +1029,17 @@ public:
       , destroy_surface("destroy_surface", traits, *this)
       , get_current_surface("get_current_surface", traits, *this)
       , surface_attrib("surface_attrib", traits, *this)
+      , query_surface("query_surface", traits, *this)
+      , create_stream("create_stream", traits, *this)
+      , destroy_stream("destroy_stream", traits, *this)
+      , stream_attrib("stream_attrib", traits, *this)
+      , query_stream("query_stream", traits, *this)
+      , stream_consumer_gl_texture_external(
+          "consumer_gl_texture_external",
+          traits,
+          *this)
+      , stream_consumer_acquire("stream_consumer_acquire", traits, *this)
+      , stream_consumer_release("stream_consumer_release", traits, *this)
       , bind_api("bind_api", traits, *this)
       , query_api("query_api", traits, *this)
       , create_context("create_context", traits, *this)

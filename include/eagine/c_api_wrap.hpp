@@ -1077,6 +1077,10 @@ protected:
         return base::_fake(this->api().*Function, std::forward<F>(fallback));
     }
 
+    constexpr auto _fake_empty_c_str() const noexcept {
+        return _fake(static_cast<const char*>(""));
+    }
+
     template <typename Arg>
     static constexpr inline auto _conv(Arg arg) noexcept
       -> std::enable_if_t<std::is_scalar_v<Arg>, Arg> {

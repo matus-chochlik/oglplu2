@@ -15,6 +15,19 @@
 #ifndef EGLPLUS_HAS_EGL
 #if defined(EGL_SUCCESS)
 #define EGLPLUS_HAS_EGL 1
+
+#ifndef EGL_BAD_STREAM_KHR
+#define EGL_BAD_STREAM_KHR 0x321B
+#endif
+
+#ifndef EGL_BAD_STATE_KHR
+#define EGL_BAD_STATE_KHR 0x321C
+#endif
+
+#ifndef EGL_PLATFORM_DEVICE_EXT
+#define EGL_PLATFORM_DEVICE_EXT 0x313F
+#endif
+
 #else
 #define EGLPLUS_HAS_EGL 0
 #endif
@@ -30,6 +43,10 @@ namespace eagine::eglp {
 struct egl_types {
     using char_type = char;
     using void_ptr_type = void*;
+    using device_type = void*;
+    using stream_type = void*;
+    using output_layer_type = void*;
+    using output_port_type = void*;
 #if EGLPLUS_HAS_EGL
     static constexpr bool has_api = true;
     using native_display_type = EGLNativeDisplayType;

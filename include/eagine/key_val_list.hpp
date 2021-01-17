@@ -14,6 +14,7 @@
 #include <array>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 namespace eagine {
 
@@ -129,6 +130,10 @@ public:
 
     auto data() const noexcept -> const value_type* {
         return _base.data();
+    }
+
+    auto copy() const noexcept -> std::vector<value_type> {
+        return {data(), data() + size()};
     }
 
     auto get() const noexcept -> span<const value_type> {

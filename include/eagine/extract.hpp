@@ -142,6 +142,11 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Outcome>
+auto extract(const ok<Outcome>& x) noexcept -> const auto& {
+    return x.get();
+}
+//------------------------------------------------------------------------------
+template <typename Outcome>
 auto begin(
   const ok<Outcome>& x,
   decltype(std::declval<const ok<Outcome>&>().get().begin())* = nullptr) {
