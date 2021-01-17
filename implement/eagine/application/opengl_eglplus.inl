@@ -10,6 +10,7 @@
 #include <eagine/application/context.hpp>
 #include <eagine/extract.hpp>
 #include <eagine/integer_range.hpp>
+#include <eagine/logging/type/yes_no_maybe.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <eagine/valid_if/decl.hpp>
 #include <oglplus/config/basic.hpp>
@@ -125,6 +126,10 @@ auto eglplus_opengl_surface::initialize(
         log_info("display does not support any OpenAPI APIs;skipping");
         return false;
     }
+
+    log_info("display device supports GL APIs")
+      .arg(EAGINE_ID(OpenGL), yes_no_maybe(has_gl))
+      .arg(EAGINE_ID(OpenGL_ES), yes_no_maybe(has_gles));
 
     _width = video_opts.surface_width() / 1;
     _height = video_opts.surface_height() / 1;
@@ -244,7 +249,7 @@ auto eglplus_opengl_surface::initialize(
           (EGL.stencil_size | (video_opts.stencil_bits() / EGL.dont_care)) +
           (EGL.color_buffer_type | EGL.rgb_buffer) +
           (EGL.surface_type | EGL.pbuffer_bit) +
-          (EGL.renderable_type | EGL.opengl_bit);
+          (EGL.renderable_type | (EGL.opengl_bit | EGL.opengl_es_bit));
 
         if(ok count{egl.choose_config.count(_display, config_attribs)}) {
             log_info("found ${count} suitable framebuffer configurations")

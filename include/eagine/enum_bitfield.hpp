@@ -32,6 +32,7 @@ template <
   typename = std::enable_if_t<!mp_is_empty_v<mp_union_t<TL1, TL2>>>>
 static constexpr inline auto
 operator|(enum_value<T, TL1> a, enum_value<T, TL2> b) noexcept {
+    // NOLINTNEXTLINE(hicpp-signed-bitwise)
     return enum_bits<T, mp_union_t<TL1, TL2>>{a.value | b.value};
 }
 
