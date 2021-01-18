@@ -249,7 +249,7 @@ auto eglplus_opengl_surface::initialize(
           (EGL.stencil_size | (video_opts.stencil_bits() / EGL.dont_care)) +
           (EGL.color_buffer_type | EGL.rgb_buffer) +
           (EGL.surface_type | EGL.pbuffer_bit) +
-          (EGL.renderable_type | (EGL.opengl_bit | EGL.opengl_es_bit));
+          (EGL.renderable_type | (EGL.opengl_bit | EGL.opengl_es3_bit));
 
         if(ok count{egl.choose_config.count(_display, config_attribs)}) {
             log_info("found ${count} suitable framebuffer configurations")
