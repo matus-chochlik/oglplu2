@@ -14,6 +14,7 @@
 #include "context_attribs.hpp"
 #include "enum_types.hpp"
 #include "extensions.hpp"
+#include "image_attribs.hpp"
 #include "objects.hpp"
 #include "platform_attribs.hpp"
 #include "stream_attribs.hpp"
@@ -44,6 +45,7 @@ public:
     using native_display_type = typename egl_types::native_display_type;
     using native_window_type = typename egl_types::native_window_type;
     using native_pixmap_type = typename egl_types::native_pixmap_type;
+    using client_buffer_type = typename egl_types::client_buffer_type;
     using config_type = typename egl_types::config_type;
 
     // extensions
@@ -65,6 +67,7 @@ public:
     extension<> MESA_platform_surfaceless;
 
     extension<display_handle> EXT_create_context_robustness;
+    extension<display_handle> EXT_swap_buffers_with_damage;
 
     extension<display_handle> EXT_output_base;
     extension<display_handle> EXT_pixel_format_float;
@@ -669,6 +672,45 @@ public:
         }
     } stream_consumer_release;
 
+    // create_image
+    struct : func<EGLPAFP(CreateImage)> {
+        using func<EGLPAFP(CreateImage)>::func;
+
+        constexpr auto operator()(
+          display_handle disp,
+          context_handle ctxt,
+          image_target tgt,
+          client_buffer_type buf,
+          span<const int_type> attribs) const noexcept {
+            return this->_cnvchkcall(disp, ctxt, tgt, buf, attribs.data())
+              .cast_to(type_identity<image_handle>{});
+        }
+
+        template <std::size_t N>
+        constexpr auto operator()(
+          display_handle disp,
+          context_handle ctxt,
+          image_target tgt,
+          client_buffer_type buf,
+          const image_attributes<N> attribs) const noexcept {
+            return (*this)(disp, ctxt, tgt, buf, attribs.get());
+        }
+    } create_image;
+
+    // destroy_image
+    struct : func<EGLPAFP(DestroyImage)> {
+        using func<EGLPAFP(DestroyImage)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, image_handle imge) const noexcept {
+            return this->_cnvchkcall(disp, imge);
+        }
+
+        auto raii(display_handle disp, image_handle imge) noexcept {
+            return eagine::finally([=]() { (*this)(disp, imge); });
+        }
+    } destroy_image;
+
     // bind_api
     struct : func<EGLPAFP(BindAPI)> {
         using func<EGLPAFP(BindAPI)>::func;
@@ -988,6 +1030,20 @@ public:
         }
     } swap_buffers;
 
+    // swap_buffers_with_damage
+    struct : func<EGLPAFP(SwapBuffersWithDamage)> {
+        using func<EGLPAFP(SwapBuffersWithDamage)>::func;
+
+        constexpr auto operator()(
+          display_handle disp,
+          surface_handle surf,
+          span<const int_type> rects) const noexcept {
+            EAGINE_ASSERT(rects.size() % 4 == 0);
+            return this->_cnvchkcall(
+              disp, surf, rects.data(), limit_cast<int_type>(rects.size()));
+        }
+    } swap_buffers_with_damage;
+
     // release_thread
     func<EGLPAFP(ReleaseThread)> release_thread;
 
@@ -1007,6 +1063,10 @@ public:
       , MESA_platform_surfaceless("MESA_platform_surfaceless", traits, *this)
       , EXT_create_context_robustness(
           "EXT_create_context_robustness",
+          traits,
+          *this)
+      , EXT_swap_buffers_with_damage(
+          "EXT_swap_buffers_with_damage",
           traits,
           *this)
       , EXT_output_base("EXT_output_base", traits, *this)
@@ -1040,6 +1100,8 @@ public:
           *this)
       , stream_consumer_acquire("stream_consumer_acquire", traits, *this)
       , stream_consumer_release("stream_consumer_release", traits, *this)
+      , create_image("create_image", traits, *this)
+      , destroy_image("destroy_image", traits, *this)
       , bind_api("bind_api", traits, *this)
       , query_api("query_api", traits, *this)
       , create_context("create_context", traits, *this)
@@ -1055,6 +1117,7 @@ public:
       , query_string("query_string", traits, *this)
       , swap_interval("swap_interval", traits, *this)
       , swap_buffers("swap_buffers", traits, *this)
+      , swap_buffers_with_damage("swap_buffers_with_damage", traits, *this)
       , release_thread("release_thread", traits, *this) {}
 };
 //------------------------------------------------------------------------------

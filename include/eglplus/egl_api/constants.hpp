@@ -698,6 +698,9 @@ public:
     opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x321A>>
       stream_state_disconnected;
 
+    opt_c_api_constant<mp_list<image_attribute>, int_type_c<0x30D2>>
+      image_preserved;
+
     opt_c_api_constant<
       mp_list<client_api_bit, renderable_type_bit>,
 #ifdef EGL_OPENGL_BIT
@@ -1012,6 +1015,7 @@ public:
           traits,
           api)
       , stream_state_disconnected("STREAM_STATE_DISCONNECTED_KHR", traits, api)
+      , image_preserved("IMAGE_PRESERVED_KHR", traits, api)
       , opengl_bit("OPENGL_BIT", traits, api)
       , opengl_es_bit("OPENGL_ES_BIT", traits, api)
       , opengl_es2_bit("OPENGL_ES2_BIT", traits, api)

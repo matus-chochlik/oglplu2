@@ -297,6 +297,11 @@ struct basic_egl_c_api {
       EGLPLUS_EGL_STATIC_FUNC(SwapBuffers)>
       SwapBuffers;
 
+    egl_api_function<
+      bool_type(display_type, surface_type, const int_type*, int_type),
+      nullptr>
+      SwapBuffersWithDamage;
+
     egl_api_function<bool_type(), EGLPLUS_EGL_STATIC_FUNC(ReleaseThread)>
       ReleaseThread;
 
@@ -358,6 +363,7 @@ struct basic_egl_c_api {
       , CopyBuffers("CopyBuffers", traits, *this)
       , SwapInterval("SwapInterval", traits, *this)
       , SwapBuffers("SwapBuffers", traits, *this)
+      , SwapBuffersWithDamage("SwapBuffersWithDamageEXT", traits, *this)
       , ReleaseThread("ReleaseThread", traits, *this) {}
 };
 //------------------------------------------------------------------------------
