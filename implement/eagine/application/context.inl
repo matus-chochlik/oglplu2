@@ -56,7 +56,7 @@ inline video_context_state::video_context_state(
     if(_options.doing_framedump()) {
 
         auto raw_framedump = make_raw_framedump(ctx);
-        if(raw_framedump->initialize(ctx, opts)) {
+        if(extract(raw_framedump).initialize(ctx, opts)) {
             if(_options.framedump_color() != framedump_data_type::none) {
                 _framedump_color = raw_framedump;
             }
@@ -299,19 +299,20 @@ inline auto make_all_hmi_providers(main_ctx_parent parent)
 //------------------------------------------------------------------------------
 inline auto execution_context::_setup_providers() -> bool {
     auto try_init = [&](auto provider) -> bool {
-        if(provider->is_initialized()) {
+        if(extract(provider).is_initialized()) {
             return true;
         }
-        if(provider->should_initialize(*this)) {
-            if(provider->initialize(*this)) {
+        if(extract(provider).should_initialize(*this)) {
+            if(extract(provider).initialize(*this)) {
                 return true;
             } else {
                 log_error("failed to initialize HMI provider ${name}")
-                  .arg(EAGINE_ID(name), provider->implementation_name());
+                  .arg(
+                    EAGINE_ID(name), extract(provider).implementation_name());
             }
         } else {
             log_debug("skipping initialization of HMI provider ${name}")
-              .arg(EAGINE_ID(name), provider->implementation_name());
+              .arg(EAGINE_ID(name), extract(provider).implementation_name());
             return true;
         }
         return false;
@@ -365,16 +366,20 @@ EAGINE_LIB_FUNC
 auto execution_context::prepare(std::unique_ptr<launchpad> pad)
   -> execution_context& {
     if(pad) {
-        if(pad->setup(main_context(), _options)) {
+        if(extract(pad).setup(main_context(), _options)) {
 
             for(auto& provider : make_all_hmi_providers(*this)) {
-                if(provider->is_implemented()) {
+                if(extract(provider).is_implemented()) {
                     log_debug("using ${name} HMI provider")
-                      .arg(EAGINE_ID(name), provider->implementation_name());
+                      .arg(
+                        EAGINE_ID(name),
+                        extract(provider).implementation_name());
                     _hmi_providers.emplace_back(std::move(provider));
                 } else {
                     log_debug("${name} HMI provider is not implemented")
-                      .arg(EAGINE_ID(name), provider->implementation_name());
+                      .arg(
+                        EAGINE_ID(name),
+                        extract(provider).implementation_name());
                 }
             }
 
@@ -385,7 +390,7 @@ auto execution_context::prepare(std::unique_ptr<launchpad> pad)
                 if(_setup_providers()) {
                     _state = std::make_shared<context_state>(*this);
                     EAGINE_ASSERT(_state);
-                    if(!(_app = pad->launch(*this, _options))) {
+                    if(!(_app = extract(pad).launch(*this, _options))) {
                         log_error("failed to launch application");
                         _exec_result = 3;
                     }
@@ -409,7 +414,7 @@ EAGINE_LIB_FUNC
 auto execution_context::is_running() noexcept -> bool {
     if(EAGINE_LIKELY(_keep_running)) {
         if(EAGINE_LIKELY(_app)) {
-            return !_app->is_done();
+            return !extract(_app).is_done();
         }
     }
     return false;

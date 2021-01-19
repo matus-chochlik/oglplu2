@@ -56,13 +56,21 @@ public:
         return true;
     }
 
+    auto check_requirements(video_context& vc) -> bool {
+        auto& [gl, GL] = vc.gl_api();
+
+        return gl.clear_color && gl.clear && GL.color_buffer_bit;
+    }
+
     auto launch(execution_context& ec, const launch_options&)
       -> std::unique_ptr<application> final {
         if(auto opt_vc{ec.video_ctx()}) {
             auto& vc = extract(opt_vc);
             vc.begin();
             if(vc.init_gl_api()) {
-                return {std::make_unique<example_clear>(ec, vc)};
+                if(check_requirements(vc)) {
+                    return {std::make_unique<example_clear>(ec, vc)};
+                }
             }
         }
         return {};
