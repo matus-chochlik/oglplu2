@@ -115,6 +115,7 @@ auto glfw3_opengl_window::initialize(
 
     if(_window) {
         glfwSetWindowTitle(_window, c_str(options.application_title()));
+        glfwGetWindowSize(_window, &_window_width, &_window_height);
         return true;
     } else {
         log_error("Failed to create GLFW window").arg(EAGINE_ID(name), name);
