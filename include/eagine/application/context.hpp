@@ -51,6 +51,20 @@ public:
         return *_gl_api;
     }
 
+    auto surface_size() noexcept -> std::tuple<int, int> {
+        if(EAGINE_LIKELY(_provider)) {
+            return extract(_provider).surface_size();
+        }
+        return {1, 1};
+    }
+
+    auto surface_aspect() noexcept -> float {
+        if(EAGINE_LIKELY(_provider)) {
+            return extract(_provider).surface_aspect();
+        }
+        return 1.F;
+    }
+
     void cleanup() noexcept;
 
 private:

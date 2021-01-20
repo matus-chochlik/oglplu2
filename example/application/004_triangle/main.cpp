@@ -26,8 +26,8 @@ public:
         return _is_done.is_expired();
     }
 
+    void on_video_resize() noexcept final;
     void update() noexcept final;
-
     void cleanup() noexcept final;
 
 private:
@@ -112,6 +112,12 @@ example_triangle::example_triangle(execution_context&, video_context& vc)
     gl.enable_vertex_attrib_array(color_loc);
 
     gl.disable(GL.depth_test);
+}
+//------------------------------------------------------------------------------
+void example_triangle::on_video_resize() noexcept {
+    const auto [width, height] = _video.surface_size();
+    auto& gl = _video.gl_api();
+    gl.viewport(width, height);
 }
 //------------------------------------------------------------------------------
 void example_triangle::update() noexcept {

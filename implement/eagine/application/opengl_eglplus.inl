@@ -64,6 +64,7 @@ public:
     auto is_offscreen() noexcept -> tribool final;
     auto has_framebuffer() noexcept -> tribool final;
     auto surface_size() noexcept -> std::tuple<int, int> final;
+    auto surface_aspect() noexcept -> float final;
 
     void video_begin(execution_context&) final;
     void video_end(execution_context&) final;
@@ -468,6 +469,11 @@ auto eglplus_opengl_surface::has_framebuffer() noexcept -> tribool {
 EAGINE_LIB_FUNC
 auto eglplus_opengl_surface::surface_size() noexcept -> std::tuple<int, int> {
     return {_width, _height};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto eglplus_opengl_surface::surface_aspect() noexcept -> float {
+    return float(_width) / float(_height);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

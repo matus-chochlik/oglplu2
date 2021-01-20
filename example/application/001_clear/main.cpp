@@ -23,6 +23,12 @@ public:
         return _is_done.is_expired();
     }
 
+    void on_video_resize() noexcept final {
+        const auto [width, height] = _video.surface_size();
+        auto& gl = _video.gl_api();
+        gl.viewport(width, height);
+    }
+
     void update() noexcept final {
         auto& [gl, GL] = _video.gl_api();
 

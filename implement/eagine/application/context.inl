@@ -390,7 +390,9 @@ auto execution_context::prepare(std::unique_ptr<launchpad> pad)
                 if(_setup_providers()) {
                     _state = std::make_shared<context_state>(*this);
                     EAGINE_ASSERT(_state);
-                    if(!(_app = extract(pad).launch(*this, _options))) {
+                    if((_app = extract(pad).launch(*this, _options))) {
+                        extract(_app).on_video_resize();
+                    } else {
                         log_error("failed to launch application");
                         _exec_result = 3;
                     }
