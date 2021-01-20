@@ -12,4 +12,5 @@ set_target_properties(
 )
 
 add_subdirectory(001_clear)
+add_subdirectory(002_spectrum)
 add_subdirectory(004_triangle)
