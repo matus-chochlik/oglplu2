@@ -69,7 +69,6 @@ endfunction()
 
 add_subdirectory(002_spectrum_compat)
 add_subdirectory(003_checker_compat)
-add_subdirectory(004_triangle)
 add_subdirectory(005_pick_triangle)
 add_subdirectory(007_cube)
 add_subdirectory(008_yaml_shape)
