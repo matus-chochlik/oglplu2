@@ -91,13 +91,23 @@ auto eglplus_opengl_surface::get_context_attribs(
     const auto& [egl, EGL] = _egl_api;
 
     if(gl_or_gles) {
-        return ((EGL.context_major_version |
-                 (video_opts.gl_version_major() / 3)) +
-                (EGL.context_minor_version |
-                 (video_opts.gl_version_minor() / 3)) +
-                (EGL.context_opengl_profile_mask |
-                 EGL.context_opengl_core_profile_bit))
-          .copy();
+        if(video_opts.gl_compatibility_context()) {
+            return ((EGL.context_major_version |
+                     (video_opts.gl_version_major() / 3)) +
+                    (EGL.context_minor_version |
+                     (video_opts.gl_version_minor() / 0)) +
+                    (EGL.context_opengl_profile_mask |
+                     EGL.context_opengl_compatibility_profile_bit))
+              .copy();
+        } else {
+            return ((EGL.context_major_version |
+                     (video_opts.gl_version_major() / 3)) +
+                    (EGL.context_minor_version |
+                     (video_opts.gl_version_minor() / 3)) +
+                    (EGL.context_opengl_profile_mask |
+                     EGL.context_opengl_core_profile_bit))
+              .copy();
+        }
     } else {
         return ((EGL.context_major_version |
                  (video_opts.gl_version_major() / 3)) +

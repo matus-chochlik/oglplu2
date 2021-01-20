@@ -31,9 +31,9 @@ video_options::video_options(
       o.cfg_init("application.video.driver", std::string(), instance);
 
     _gl_version_major = o.cfg_extr<valid_gl_major_version>(
-      "application.video.opengl.version.major", _gl_version_major, instance);
+      "application.opengl.version.major", _gl_version_major, instance);
     _gl_version_minor = o.cfg_extr<valid_gl_minor_version>(
-      "application.video.opengl.version.minor", _gl_version_minor, instance);
+      "application.opengl.version.minor", _gl_version_minor, instance);
 
     _surface_width = o.cfg_extr<valid_surface_size>(
       "application.video.surface.width", _surface_width, instance);
@@ -52,11 +52,11 @@ video_options::video_options(
       "application.video.0.stencil_bits", _stencil_bits, instance);
 
     _prefer_gles =
-      o.cfg_init("application.video.opengl.prefer_es", _prefer_gles, instance);
+      o.cfg_init("application.opengl.prefer_es", _prefer_gles, instance);
     _gl_debug_context = o.cfg_init(
-      "application.video.opengl.debug_context", _gl_debug_context, instance);
+      "application.opengl.debug_context", _gl_debug_context, instance);
     _gl_compat_context = o.cfg_init(
-      "application.video.opengl.compatibility", _gl_compat_context, instance);
+      "application.opengl.compatibility", _gl_compat_context, instance);
 
     _fullscreen = o.cfg_init("application.video.fullscreen", false, instance);
     _offscreen = o.cfg_init("application.video.offscreen", false, instance);

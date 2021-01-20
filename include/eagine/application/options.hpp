@@ -75,6 +75,14 @@ public:
         return {_gl_version_minor};
     }
 
+    auto gl_compatibility_context() const noexcept -> bool {
+        return _gl_compat_context;
+    }
+
+    auto gl_debug_context() const noexcept -> bool {
+        return _gl_debug_context;
+    }
+
     using valid_surface_size = valid_if_positive<int>;
     auto surface_size(valid_surface_size width, valid_surface_size height)
       -> auto& {
