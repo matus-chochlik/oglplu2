@@ -55,6 +55,7 @@ public:
     extension<> EXT_device_base;
     extension<> EXT_device_enumeration;
     extension<> EXT_device_query;
+    extension<> EXT_device_query_name;
     extension<device_handle> EXT_device_drm;
     extension<device_handle> MESA_device_software;
 
@@ -1052,6 +1053,7 @@ public:
       , EXT_device_base("EXT_device_base", traits, *this)
       , EXT_device_enumeration("EXT_device_enumeration", traits, *this)
       , EXT_device_query("EXT_device_query", traits, *this)
+      , EXT_device_query_name("EXT_device_query_name", traits, *this)
       , EXT_device_drm("EXT_device_drm", traits, *this)
       , MESA_device_software("MESA_device_software", traits, *this)
       , EXT_platform_base("EXT_platform_base", traits, *this)

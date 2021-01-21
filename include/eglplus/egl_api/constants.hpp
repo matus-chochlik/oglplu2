@@ -218,6 +218,9 @@ public:
 #endif
       version;
 
+    opt_c_api_constant<mp_list<device_string_query>, int_type_c<0x335E>>
+      renderer;
+
     opt_c_api_constant<
       mp_list<string_query, device_string_query>,
 #ifdef EGL_EXTENSIONS
@@ -940,6 +943,7 @@ public:
       , client_apis("CLIENT_APIS", traits, api)
       , vendor("VENDOR", traits, api)
       , version("VERSION", traits, api)
+      , renderer("RENDERER_EXT", traits, api)
       , extensions("EXTENSIONS", traits, api)
       , drm_device_file("DRM_DEVICE_FILE_EXT", traits, api)
       , drm_master_fd("DRM_MASTER_FD_EXT", traits, api)
