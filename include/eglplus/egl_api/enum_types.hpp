@@ -88,6 +88,16 @@ struct stream_state
     using enum_class::enum_class;
 };
 
+struct output_layer_attribute
+  : egl_enum_class<output_layer_attribute, EAGINE_ID_V(OutLyrAttr)> {
+    using enum_class::enum_class;
+};
+
+struct output_port_attribute
+  : egl_enum_class<output_port_attribute, EAGINE_ID_V(OutPrtAttr)> {
+    using enum_class::enum_class;
+};
+
 struct image_attribute
   : egl_enum_class<image_attribute, EAGINE_ID_V(ImageAttr)> {
     using enum_class::enum_class;

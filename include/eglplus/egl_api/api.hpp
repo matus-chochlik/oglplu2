@@ -71,6 +71,9 @@ public:
     extension<display_handle> EXT_swap_buffers_with_damage;
 
     extension<display_handle> EXT_output_base;
+    extension<display_handle> EXT_output_drm;
+    extension<display_handle> EXT_stream_consumer_egloutput;
+
     extension<display_handle> EXT_pixel_format_float;
 
     extension<display_handle> MESA_configless_context;
@@ -1072,6 +1075,11 @@ public:
           traits,
           *this)
       , EXT_output_base("EXT_output_base", traits, *this)
+      , EXT_output_drm("EXT_output_drm", traits, *this)
+      , EXT_stream_consumer_egloutput(
+          "EXT_stream_consumer_egloutput",
+          traits,
+          *this)
       , EXT_pixel_format_float("EXT_pixel_format_float", traits, *this)
       , MESA_configless_context("MESA_configless_context", traits, *this)
       , MESA_query_driver("MESA_query_driver", traits, *this)

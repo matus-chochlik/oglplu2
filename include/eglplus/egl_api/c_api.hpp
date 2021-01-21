@@ -49,6 +49,8 @@ struct basic_egl_c_api {
     using attrib_type = typename egl_types::attrib_type;
     using context_type = typename egl_types::context_type;
     using stream_type = typename egl_types::stream_type;
+    using output_layer_type = typename egl_types::output_layer_type;
+    using output_port_type = typename egl_types::output_port_type;
     using image_type = typename egl_types::image_type;
 
 #ifdef __GNUC__
@@ -199,6 +201,56 @@ struct basic_egl_c_api {
       StreamConsumerRelease;
 
     egl_api_function<
+      bool_type(
+        display_type,
+        const attrib_type*,
+        output_layer_type*,
+        int_type,
+        int_type*),
+      nullptr>
+      GetOutputLayers;
+
+    egl_api_function<
+      bool_type(display_type, output_layer_type, int_type, attrib_type),
+      nullptr>
+      OutputLayerAttrib;
+
+    egl_api_function<
+      bool_type(display_type, output_layer_type, int_type, attrib_type*),
+      nullptr>
+      QueryOutputLayerAttrib;
+
+    egl_api_function<
+      const char_type*(display_type, output_layer_type, int_type),
+      nullptr>
+      QueryOutputLayerString;
+
+    egl_api_function<
+      bool_type(
+        display_type,
+        const attrib_type*,
+        output_port_type*,
+        int_type,
+        int_type*),
+      nullptr>
+      GetOutputPorts;
+
+    egl_api_function<
+      bool_type(display_type, output_port_type, int_type, attrib_type),
+      nullptr>
+      OutputPortAttrib;
+
+    egl_api_function<
+      bool_type(display_type, output_port_type, int_type, attrib_type*),
+      nullptr>
+      QueryOutputPortAttrib;
+
+    egl_api_function<
+      const char_type*(display_type, output_port_type, int_type),
+      nullptr>
+      QueryOutputPortString;
+
+    egl_api_function<
       bool_type(display_type, surface_type, int_type),
       EGLPLUS_EGL_STATIC_FUNC(BindTexImage)>
       BindTexImage;
@@ -342,6 +394,14 @@ struct basic_egl_c_api {
           *this)
       , StreamConsumerAcquire("StreamConsumerAcquireKHR", traits, *this)
       , StreamConsumerRelease("StreamConsumerReleaseKHR", traits, *this)
+      , GetOutputLayers("GetOutputLayersEXT", traits, *this)
+      , OutputLayerAttrib("OutputLayerAttribEXT", traits, *this)
+      , QueryOutputLayerAttrib("QueryOutputLayerAttribEXT", traits, *this)
+      , QueryOutputLayerString("QueryOutputLayerStringEXT", traits, *this)
+      , GetOutputPorts("GetOutputPortsEXT", traits, *this)
+      , OutputPortAttrib("OutputPortAttribEXT", traits, *this)
+      , QueryOutputPortAttrib("QueryOutputPortAttribEXT", traits, *this)
+      , QueryOutputPortString("QueryOutputPortStringEXT", traits, *this)
       , BindTexImage("BindTexImage", traits, *this)
       , ReleaseTexImage("ReleaseTexImage", traits, *this)
       , BindAPI("BindAPI", traits, *this)

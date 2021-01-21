@@ -111,6 +111,16 @@ public:
             return {"bad EGL stream"};
         }
 #endif
+#ifdef EGL_BAD_OUTPUT_LAYER_EXT
+        if(_error_code == EGL_BAD_OUTPUT_LAYER_EXT) {
+            return {"bad EGL output layer"};
+        }
+#endif
+#ifdef EGL_BAD_OUTPUT_PORT_EXT
+        if(_error_code == EGL_BAD_OUTPUT_PORT_EXT) {
+            return {"bad EGL output port"};
+        }
+#endif
 #ifdef EGL_BAD_STATE_KHR
         if(_error_code == EGL_BAD_STATE_KHR) {
             return {"bad EGL state"};
