@@ -48,7 +48,6 @@ install(
 	FILES
 		"config/service.yaml"
 		"config/eagine-application_config.yaml"
-		"config/application-002_spectrum.yaml"
 		"config/_template.yaml"
 	DESTINATION share/oglplus/user/.oglplus/config
 )

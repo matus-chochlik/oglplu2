@@ -4,27 +4,29 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 
-add_executable(application-002_spectrum main.cpp)
-eagine_add_exe_analysis(application-002_spectrum)
+add_executable(application-003_checker main.cpp)
+eagine_embed_target_resources(application-003_checker fragment.glsl)
+eagine_add_exe_analysis(application-003_checker)
 
-add_dependencies(application-002_spectrum application-examples)
+add_dependencies(application-003_checker application-examples)
 
 target_link_libraries(
-	application-002_spectrum
+	application-003_checker
 	PUBLIC eagine eagine-application oglplus
 )
 
 set_target_properties(
-	application-002_spectrum
+	application-003_checker
 	PROPERTIES FOLDER "Example/Application"
 )
 
 install(
-	TARGETS application-002_spectrum
+	TARGETS application-003_checker
 	DESTINATION share/oglplus/examples
 )
 
 install(
-	FILES application-002_spectrum.yaml
+	FILES application-003_checker.yaml
 	DESTINATION share/oglplus/user/.oglplus/config
 )
+
