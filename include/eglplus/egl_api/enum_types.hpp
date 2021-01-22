@@ -93,8 +93,18 @@ struct output_layer_attribute
     using enum_class::enum_class;
 };
 
+struct output_layer_string_query
+  : egl_enum_class<output_layer_string_query, EAGINE_ID_V(OutLyrStrQ)> {
+    using enum_class::enum_class;
+};
+
 struct output_port_attribute
   : egl_enum_class<output_port_attribute, EAGINE_ID_V(OutPrtAttr)> {
+    using enum_class::enum_class;
+};
+
+struct output_port_string_query
+  : egl_enum_class<output_port_string_query, EAGINE_ID_V(OutPrtStrQ)> {
     using enum_class::enum_class;
 };
 
