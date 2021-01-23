@@ -10,14 +10,69 @@
 #ifndef EAGINE_APPLICATION_INTERFACE_HPP
 #define EAGINE_APPLICATION_INTERFACE_HPP
 
+#include "../bitfield.hpp"
+#include "../callable_ref.hpp"
+#include "../identifier.hpp"
 #include "../main_ctx_fwd.hpp"
 #include "../memory/block.hpp"
+#include "../string_span.hpp"
 #include "../tribool.hpp"
+#include "../value_with_history.hpp"
 #include "options.hpp"
 #include <memory>
 
 namespace eagine::application {
 class execution_context;
+//------------------------------------------------------------------------------
+enum class input_value_type { bool_type, int_type, float_type, double_type };
+using input_value_types = bitfield<input_value_type>;
+
+static inline auto operator|(input_value_type l, input_value_type r) noexcept
+  -> input_value_types {
+    return {l, r};
+}
+//------------------------------------------------------------------------------
+enum class input_value_kind { relative, absolute_norm, absolute_free };
+using input_value_kinds = bitfield<input_value_kind>;
+
+static inline auto operator|(input_value_kind l, input_value_kind r) noexcept
+  -> input_value_kinds {
+    return {l, r};
+}
+//------------------------------------------------------------------------------
+template <typename T>
+using input_value = value_with_history<T, 3>;
+
+template <typename T>
+using input_variable = variable_with_history<T, 3>;
+//------------------------------------------------------------------------------
+struct input_info {
+    identifier device_id{};
+    identifier signal_id{};
+    input_value_kind value_kind{};
+};
+//------------------------------------------------------------------------------
+struct input_slot {
+    input_slot() noexcept = default;
+    input_slot(input_slot&&) = delete;
+    input_slot(const input_slot&) = delete;
+    auto operator=(input_slot&&) = delete;
+    auto operator=(const input_slot&) = delete;
+    virtual ~input_slot() noexcept = default;
+
+    virtual auto id() noexcept -> identifier = 0;
+    virtual auto description() noexcept -> string_view = 0;
+
+    virtual auto value_types() noexcept -> input_value_types = 0;
+    virtual auto value_kinds() noexcept -> input_value_kinds = 0;
+
+    virtual void trigger(const input_info&, input_value<bool>) noexcept = 0;
+    virtual void trigger(const input_info&, input_value<int>) noexcept = 0;
+    virtual void trigger(const input_info&, input_value<float>) noexcept = 0;
+    virtual void trigger(const input_info&, input_value<double>) noexcept = 0;
+};
+//------------------------------------------------------------------------------
+struct input_router : input_slot {};
 //------------------------------------------------------------------------------
 struct input_provider {
     input_provider() noexcept = default;
@@ -26,6 +81,13 @@ struct input_provider {
     auto operator=(input_provider&&) = delete;
     auto operator=(const input_provider&) = delete;
     virtual ~input_provider() noexcept = default;
+
+    virtual void input_enumerate(
+      callable_ref<
+        void(identifier, identifier, input_value_kinds, input_value_types)>) = 0;
+
+    virtual void input_connect(input_router&) = 0;
+    virtual void input_disconnect() = 0;
 };
 //------------------------------------------------------------------------------
 struct video_provider {
@@ -77,7 +139,7 @@ struct hmi_provider {
     virtual void update(execution_context&) = 0;
     virtual void cleanup(execution_context&) = 0;
 
-    virtual auto input() -> std::shared_ptr<input_provider> = 0;
+    virtual auto input(string_view = {}) -> std::shared_ptr<input_provider> = 0;
     virtual auto video(string_view = {}) -> std::shared_ptr<video_provider> = 0;
     virtual auto audio(string_view = {}) -> std::shared_ptr<audio_provider> = 0;
 };

@@ -82,7 +82,6 @@ public:
       std::shared_ptr<audio_provider> provider) noexcept
       : _parent{parent}
       , _provider{std::move(provider)} {
-        // TODO
         EAGINE_MAYBE_UNUSED(_parent);
     }
 

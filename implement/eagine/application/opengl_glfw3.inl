@@ -55,6 +55,14 @@ public:
     void video_end(execution_context&) final;
     void video_commit(execution_context&) final;
 
+    void input_enumerate(
+      callable_ref<
+        void(identifier, identifier, input_value_kinds, input_value_types)>)
+      final;
+
+    void input_connect(input_router&) final;
+    void input_disconnect() final;
+
 private:
     string_view _instance_name;
     GLFWwindow* _window{nullptr};
@@ -178,6 +186,21 @@ void glfw3_opengl_window::video_commit(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void glfw3_opengl_window::input_enumerate(
+  callable_ref<void(identifier, identifier, input_value_kinds, input_value_types)>
+    callback) {
+    EAGINE_MAYBE_UNUSED(callback);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void glfw3_opengl_window::input_connect(input_router& router) {
+    EAGINE_MAYBE_UNUSED(router);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void glfw3_opengl_window::input_disconnect() {}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void glfw3_opengl_window::update(execution_context& exec_ctx) {
 
     if(glfwWindowShouldClose(_window)) {
@@ -214,7 +237,7 @@ public:
     void update(execution_context&) final;
     void cleanup(execution_context&) final;
 
-    auto input() -> std::shared_ptr<input_provider> final;
+    auto input(string_view) -> std::shared_ptr<input_provider> final;
     auto video(string_view) -> std::shared_ptr<video_provider> final;
     auto audio(string_view) -> std::shared_ptr<audio_provider> final;
 
@@ -329,7 +352,15 @@ void glfw3_opengl_provider::cleanup(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_provider::input() -> std::shared_ptr<input_provider> {
+auto glfw3_opengl_provider::input(string_view name)
+  -> std::shared_ptr<input_provider> {
+    EAGINE_MAYBE_UNUSED(name);
+#if OGLPLUS_GLFW3_FOUND
+    auto pos = _windows.find(name);
+    if(pos != _windows.end()) {
+        return {pos->second};
+    }
+#endif // OGLPLUS_GLFW3_FOUND
     return {};
 }
 //------------------------------------------------------------------------------

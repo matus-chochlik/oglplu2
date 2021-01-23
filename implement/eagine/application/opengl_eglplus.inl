@@ -519,7 +519,7 @@ public:
     void update(execution_context&) final;
     void cleanup(execution_context&) final;
 
-    auto input() -> std::shared_ptr<input_provider> final;
+    auto input(string_view) -> std::shared_ptr<input_provider> final;
     auto video(string_view) -> std::shared_ptr<video_provider> final;
     auto audio(string_view) -> std::shared_ptr<audio_provider> final;
 
@@ -602,7 +602,8 @@ void eglplus_opengl_provider::cleanup(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto eglplus_opengl_provider::input() -> std::shared_ptr<input_provider> {
+auto eglplus_opengl_provider::input(string_view)
+  -> std::shared_ptr<input_provider> {
     return {};
 }
 //------------------------------------------------------------------------------
