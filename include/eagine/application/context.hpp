@@ -96,6 +96,8 @@ public:
         return *_al_api;
     }
 
+    void cleanup() noexcept;
+
 private:
     execution_context& _parent;
     std::shared_ptr<audio_provider> _provider{};
@@ -103,7 +105,9 @@ private:
 };
 //------------------------------------------------------------------------------
 class context_state;
-class execution_context : public main_ctx_object {
+class execution_context
+  : public main_ctx_object
+  , private input_router {
 public:
     execution_context(main_ctx_parent parent) noexcept
       : main_ctx_object(EAGINE_ID(AppExecCtx), parent)
@@ -159,7 +163,6 @@ public:
     }
 
     void surface_size(int width, int height);
-    void pointer_position(float x, float y, int index);
 
 private:
     int _exec_result{0};
@@ -174,6 +177,20 @@ private:
     std::vector<std::unique_ptr<audio_context>> _audio_contexts;
 
     auto _setup_providers() -> bool;
+
+    auto input_id() noexcept -> identifier final;
+    auto input_description() noexcept -> string_view final;
+
+    auto input_types() noexcept -> input_value_types final;
+    auto input_kinds() noexcept -> input_value_kinds final;
+
+    template <typename T>
+    void _forward_input(const input_info&, const input_value<T>&) noexcept;
+
+    void trigger(const input_info&, const input_value<bool>&) noexcept final;
+    void trigger(const input_info&, const input_value<int>&) noexcept final;
+    void trigger(const input_info&, const input_value<float>&) noexcept final;
+    void trigger(const input_info&, const input_value<double>&) noexcept final;
 };
 //------------------------------------------------------------------------------
 auto establish(main_ctx&) -> std::unique_ptr<launchpad>;

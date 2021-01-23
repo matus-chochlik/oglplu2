@@ -286,6 +286,9 @@ auto audio_context::init_al_api() noexcept -> bool {
     return bool(_al_api);
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void audio_context::cleanup() noexcept {}
+//------------------------------------------------------------------------------
 // providers
 //------------------------------------------------------------------------------
 inline auto make_all_hmi_providers(main_ctx_parent parent)
@@ -327,19 +330,26 @@ inline auto execution_context::_setup_providers() -> bool {
 
     for(auto& provider : _hmi_providers) {
         if(try_init(provider)) {
-            if(auto video{extract(provider).video()}) {
+            auto add_input = [&](std::shared_ptr<input_provider> input) {
+                extract(input).input_connect(*this);
+                _input_providers.emplace_back(std::move(input));
+            };
+            extract(provider).input_enumerate(
+              callable_ref<void(std::shared_ptr<input_provider>)>{add_input});
+
+            auto add_video = [&](std::shared_ptr<video_provider> video) {
                 _video_contexts.emplace_back(
                   std::make_unique<video_context>(*this, std::move(video)));
-            }
-        }
-    }
+            };
+            extract(provider).video_enumerate(
+              callable_ref<void(std::shared_ptr<video_provider>)>{add_video});
 
-    for(auto& provider : _hmi_providers) {
-        if(try_init(provider)) {
-            _audio_contexts.emplace_back(std::make_unique<audio_context>(
-              *this, extract(provider).audio()));
-        } else {
-            return false;
+            auto add_audio = [&](std::shared_ptr<audio_provider> audio) {
+                _audio_contexts.emplace_back(
+                  std::make_unique<audio_context>(*this, std::move(audio)));
+            };
+            extract(provider).audio_enumerate(
+              callable_ref<void(std::shared_ptr<audio_provider>)>{add_audio});
         }
     }
 
@@ -431,6 +441,12 @@ void execution_context::cleanup() noexcept {
     if(_app) {
         extract(_app).cleanup();
     }
+    for(auto& input : _input_providers) {
+        extract(input).input_disconnect();
+    }
+    for(auto& audio : _audio_contexts) {
+        extract(audio).cleanup();
+    }
     for(auto& video : _video_contexts) {
         extract(video).cleanup();
     }
@@ -452,10 +468,59 @@ void execution_context::surface_size(int width, int height) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void execution_context::pointer_position(float x, float y, int index) {
-    EAGINE_MAYBE_UNUSED(x);
-    EAGINE_MAYBE_UNUSED(y);
-    EAGINE_MAYBE_UNUSED(index);
+auto execution_context::input_id() noexcept -> identifier {
+    return EAGINE_ID(InputRoutr);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::input_description() noexcept -> string_view {
+    return {"Any input"};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::input_types() noexcept -> input_value_types {
+    return all_input_value_types();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::input_kinds() noexcept -> input_value_kinds {
+    return all_input_value_kinds();
+}
+//------------------------------------------------------------------------------
+template <typename T>
+inline void execution_context::_forward_input(
+  const input_info& info,
+  const input_value<T>& value) noexcept {
+    EAGINE_MAYBE_UNUSED(info);
+    EAGINE_MAYBE_UNUSED(value);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::trigger(
+  const input_info& info,
+  const input_value<bool>& value) noexcept {
+    _forward_input(info, value);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::trigger(
+  const input_info& info,
+  const input_value<int>& value) noexcept {
+    _forward_input(info, value);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::trigger(
+  const input_info& info,
+  const input_value<float>& value) noexcept {
+    _forward_input(info, value);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::trigger(
+  const input_info& info,
+  const input_value<double>& value) noexcept {
+    _forward_input(info, value);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::application

@@ -66,8 +66,11 @@ public:
 private:
     string_view _instance_name;
     GLFWwindow* _window{nullptr};
-    double _mouse_x{0};
-    double _mouse_y{0};
+    input_router* _input_router{nullptr};
+    input_variable<double> _mouse_x_pix{0};
+    input_variable<double> _mouse_y_pix{0};
+    input_variable<double> _mouse_x_ndc{0};
+    input_variable<double> _mouse_y_ndc{0};
     int _window_width{1};
     int _window_height{1};
 };
@@ -189,7 +192,17 @@ EAGINE_LIB_FUNC
 void glfw3_opengl_window::input_enumerate(
   callable_ref<void(identifier, identifier, input_value_kinds, input_value_types)>
     callback) {
-    EAGINE_MAYBE_UNUSED(callback);
+    // Mouse inputs
+    callback(
+      EAGINE_ID(Cursor),
+      EAGINE_ID(MotionX),
+      input_value_kind::absolute_free | input_value_kind::absolute_norm,
+      input_value_type::double_type);
+    callback(
+      EAGINE_ID(Cursor),
+      EAGINE_ID(MotionY),
+      input_value_kind::absolute_free | input_value_kind::absolute_norm,
+      input_value_type::double_type);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -208,8 +221,42 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
     } else {
         glfwGetWindowSize(_window, &_window_width, &_window_height);
 
-        glfwGetCursorPos(_window, &_mouse_x, &_mouse_y);
-        exec_ctx.pointer_position(float(_mouse_x), float(_mouse_y), 0);
+        if(_input_router) {
+            double mouse_x_pix{0}, mouse_y_pix{0};
+            glfwGetCursorPos(_window, &mouse_x_pix, &mouse_y_pix);
+            if(_mouse_x_pix.assign(mouse_x_pix)) {
+                extract(_input_router)
+                  .trigger(
+                    {EAGINE_ID(Cursor),
+                     EAGINE_ID(MotionX),
+                     input_value_kind::absolute_free},
+                    _mouse_x_pix);
+                if(_mouse_x_ndc.assign((mouse_x_pix / _window_width) - 0.5)) {
+                    extract(_input_router)
+                      .trigger(
+                        {EAGINE_ID(Cursor),
+                         EAGINE_ID(MotionX),
+                         input_value_kind::absolute_norm},
+                        _mouse_x_ndc);
+                }
+            }
+            if(_mouse_y_pix.assign(mouse_y_pix)) {
+                extract(_input_router)
+                  .trigger(
+                    {EAGINE_ID(Cursor),
+                     EAGINE_ID(MotionY),
+                     input_value_kind::absolute_free},
+                    _mouse_y_pix);
+                if(_mouse_y_ndc.assign((mouse_y_pix / _window_height) - 0.5)) {
+                    extract(_input_router)
+                      .trigger(
+                        {EAGINE_ID(Cursor),
+                         EAGINE_ID(MotionY),
+                         input_value_kind::absolute_norm},
+                        _mouse_y_ndc);
+                }
+            }
+        }
     }
 }
 //------------------------------------------------------------------------------
@@ -237,9 +284,12 @@ public:
     void update(execution_context&) final;
     void cleanup(execution_context&) final;
 
-    auto input(string_view) -> std::shared_ptr<input_provider> final;
-    auto video(string_view) -> std::shared_ptr<video_provider> final;
-    auto audio(string_view) -> std::shared_ptr<audio_provider> final;
+    void input_enumerate(
+      callable_ref<void(std::shared_ptr<input_provider>)>) final;
+    void video_enumerate(
+      callable_ref<void(std::shared_ptr<video_provider>)>) final;
+    void audio_enumerate(
+      callable_ref<void(std::shared_ptr<audio_provider>)>) final;
 
 private:
 #if OGLPLUS_GLFW3_FOUND
@@ -352,36 +402,30 @@ void glfw3_opengl_provider::cleanup(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_provider::input(string_view name)
-  -> std::shared_ptr<input_provider> {
-    EAGINE_MAYBE_UNUSED(name);
+void glfw3_opengl_provider::input_enumerate(
+  callable_ref<void(std::shared_ptr<input_provider>)> handler) {
+    EAGINE_MAYBE_UNUSED(handler);
 #if OGLPLUS_GLFW3_FOUND
-    auto pos = _windows.find(name);
-    if(pos != _windows.end()) {
-        return {pos->second};
+    for(auto& p : _windows) {
+        handler(p.second);
     }
 #endif // OGLPLUS_GLFW3_FOUND
-    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_provider::video(string_view name)
-  -> std::shared_ptr<video_provider> {
-    EAGINE_MAYBE_UNUSED(name);
+void glfw3_opengl_provider::video_enumerate(
+  callable_ref<void(std::shared_ptr<video_provider>)> handler) {
+    EAGINE_MAYBE_UNUSED(handler);
 #if OGLPLUS_GLFW3_FOUND
-    auto pos = _windows.find(name);
-    if(pos != _windows.end()) {
-        return {pos->second};
+    for(auto& p : _windows) {
+        handler(p.second);
     }
 #endif // OGLPLUS_GLFW3_FOUND
-    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_provider::audio(string_view)
-  -> std::shared_ptr<audio_provider> {
-    return {};
-}
+void glfw3_opengl_provider::audio_enumerate(
+  callable_ref<void(std::shared_ptr<audio_provider>)>) {}
 //------------------------------------------------------------------------------
 auto make_glfw3_opengl_provider(main_ctx_parent parent)
   -> std::shared_ptr<hmi_provider> {

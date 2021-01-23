@@ -519,9 +519,12 @@ public:
     void update(execution_context&) final;
     void cleanup(execution_context&) final;
 
-    auto input(string_view) -> std::shared_ptr<input_provider> final;
-    auto video(string_view) -> std::shared_ptr<video_provider> final;
-    auto audio(string_view) -> std::shared_ptr<audio_provider> final;
+    void input_enumerate(
+      callable_ref<void(std::shared_ptr<input_provider>)>) final;
+    void video_enumerate(
+      callable_ref<void(std::shared_ptr<video_provider>)>) final;
+    void audio_enumerate(
+      callable_ref<void(std::shared_ptr<audio_provider>)>) final;
 
 private:
     eglp::egl_api _egl_api;
@@ -602,26 +605,20 @@ void eglplus_opengl_provider::cleanup(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto eglplus_opengl_provider::input(string_view)
-  -> std::shared_ptr<input_provider> {
-    return {};
-}
+void eglplus_opengl_provider::input_enumerate(
+  callable_ref<void(std::shared_ptr<input_provider>)>) {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto eglplus_opengl_provider::video(string_view name)
-  -> std::shared_ptr<video_provider> {
-    auto pos = _surfaces.find(name);
-    if(pos != _surfaces.end()) {
-        return {pos->second};
+void eglplus_opengl_provider::video_enumerate(
+  callable_ref<void(std::shared_ptr<video_provider>)> handler) {
+    for(auto& p : _surfaces) {
+        handler(p.second);
     }
-    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto eglplus_opengl_provider::audio(string_view)
-  -> std::shared_ptr<audio_provider> {
-    return {};
-}
+void eglplus_opengl_provider::audio_enumerate(
+  callable_ref<void(std::shared_ptr<audio_provider>)>) {}
 //------------------------------------------------------------------------------
 auto make_eglplus_opengl_provider(main_ctx_parent parent)
   -> std::shared_ptr<hmi_provider> {

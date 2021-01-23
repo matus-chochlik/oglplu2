@@ -24,20 +24,39 @@
 namespace eagine::application {
 class execution_context;
 //------------------------------------------------------------------------------
-enum class input_value_type { bool_type, int_type, float_type, double_type };
+enum class input_value_type : unsigned {
+    bool_type = 1U << 0U,
+    int_type = 1U << 1U,
+    float_type = 1U << 2U,
+    double_type = 1U << 3U
+};
 using input_value_types = bitfield<input_value_type>;
 
 static inline auto operator|(input_value_type l, input_value_type r) noexcept
   -> input_value_types {
     return {l, r};
 }
+
+static inline auto all_input_value_types() noexcept -> input_value_types {
+    return input_value_type::bool_type | input_value_type::int_type |
+           input_value_type::float_type | input_value_type::double_type;
+}
 //------------------------------------------------------------------------------
-enum class input_value_kind { relative, absolute_norm, absolute_free };
+enum class input_value_kind : unsigned {
+    relative = 1U << 0U,
+    absolute_norm = 1U << 1U,
+    absolute_free = 1U << 2U
+};
 using input_value_kinds = bitfield<input_value_kind>;
 
 static inline auto operator|(input_value_kind l, input_value_kind r) noexcept
   -> input_value_kinds {
     return {l, r};
+}
+
+static inline auto all_input_value_kinds() noexcept -> input_value_kinds {
+    return input_value_kind::relative | input_value_kind::absolute_norm |
+           input_value_kind::absolute_free;
 }
 //------------------------------------------------------------------------------
 template <typename T>
@@ -50,6 +69,14 @@ struct input_info {
     identifier device_id{};
     identifier signal_id{};
     input_value_kind value_kind{};
+
+    constexpr input_info(
+      identifier dev_id,
+      identifier sig_id,
+      input_value_kind kind) noexcept
+      : device_id{dev_id}
+      , signal_id{sig_id}
+      , value_kind{kind} {}
 };
 //------------------------------------------------------------------------------
 struct input_slot {
@@ -60,16 +87,20 @@ struct input_slot {
     auto operator=(const input_slot&) = delete;
     virtual ~input_slot() noexcept = default;
 
-    virtual auto id() noexcept -> identifier = 0;
-    virtual auto description() noexcept -> string_view = 0;
+    virtual auto input_id() noexcept -> identifier = 0;
+    virtual auto input_description() noexcept -> string_view = 0;
 
-    virtual auto value_types() noexcept -> input_value_types = 0;
-    virtual auto value_kinds() noexcept -> input_value_kinds = 0;
+    virtual auto input_types() noexcept -> input_value_types = 0;
+    virtual auto input_kinds() noexcept -> input_value_kinds = 0;
 
-    virtual void trigger(const input_info&, input_value<bool>) noexcept = 0;
-    virtual void trigger(const input_info&, input_value<int>) noexcept = 0;
-    virtual void trigger(const input_info&, input_value<float>) noexcept = 0;
-    virtual void trigger(const input_info&, input_value<double>) noexcept = 0;
+    virtual void
+    trigger(const input_info&, const input_value<bool>&) noexcept = 0;
+    virtual void
+    trigger(const input_info&, const input_value<int>&) noexcept = 0;
+    virtual void
+    trigger(const input_info&, const input_value<float>&) noexcept = 0;
+    virtual void
+    trigger(const input_info&, const input_value<double>&) noexcept = 0;
 };
 //------------------------------------------------------------------------------
 struct input_router : input_slot {};
@@ -81,6 +112,8 @@ struct input_provider {
     auto operator=(input_provider&&) = delete;
     auto operator=(const input_provider&) = delete;
     virtual ~input_provider() noexcept = default;
+
+    virtual auto instance_name() const noexcept -> string_view = 0;
 
     virtual void input_enumerate(
       callable_ref<
@@ -120,6 +153,7 @@ struct audio_provider {
     virtual ~audio_provider() noexcept = default;
 
     virtual auto audio_kind() const noexcept -> audio_context_kind = 0;
+    virtual auto instance_name() const noexcept -> string_view = 0;
 };
 //------------------------------------------------------------------------------
 struct hmi_provider {
@@ -139,9 +173,12 @@ struct hmi_provider {
     virtual void update(execution_context&) = 0;
     virtual void cleanup(execution_context&) = 0;
 
-    virtual auto input(string_view = {}) -> std::shared_ptr<input_provider> = 0;
-    virtual auto video(string_view = {}) -> std::shared_ptr<video_provider> = 0;
-    virtual auto audio(string_view = {}) -> std::shared_ptr<audio_provider> = 0;
+    virtual void
+      input_enumerate(callable_ref<void(std::shared_ptr<input_provider>)>) = 0;
+    virtual void
+      video_enumerate(callable_ref<void(std::shared_ptr<video_provider>)>) = 0;
+    virtual void
+      audio_enumerate(callable_ref<void(std::shared_ptr<audio_provider>)>) = 0;
 };
 //------------------------------------------------------------------------------
 struct framedump {
