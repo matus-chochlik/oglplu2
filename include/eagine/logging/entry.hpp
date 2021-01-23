@@ -284,6 +284,10 @@ public:
         return arg(name, EAGINE_ID(real), value);
     }
 
+    auto arg(identifier name, double value) noexcept -> auto& {
+        return arg(name, float(value));
+    }
+
     auto arg(identifier name, identifier tag, span<const float>) noexcept
       -> log_entry&;
 
