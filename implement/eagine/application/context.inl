@@ -462,9 +462,18 @@ void execution_context::update() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void execution_context::surface_size(int width, int height) {
-    EAGINE_MAYBE_UNUSED(width);
-    EAGINE_MAYBE_UNUSED(height);
+void execution_context::random_uniform(span<byte> dest) {
+    extract(_state).random_uniform(dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::random_uniform_01(span<float> dest) {
+    extract(_state).random_uniform_01(dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::random_normal(span<float> dest) {
+    extract(_state).random_normal(dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

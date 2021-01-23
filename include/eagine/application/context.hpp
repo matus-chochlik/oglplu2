@@ -162,7 +162,9 @@ public:
         return nullptr;
     }
 
-    void surface_size(int width, int height);
+    void random_uniform(span<byte> dest);
+    void random_uniform_01(span<float> dest);
+    void random_normal(span<float> dest);
 
 private:
     int _exec_result{0};

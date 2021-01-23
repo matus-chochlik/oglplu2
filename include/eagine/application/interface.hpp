@@ -92,6 +92,9 @@ struct input_slot {
 
     virtual auto input_types() noexcept -> input_value_types = 0;
     virtual auto input_kinds() noexcept -> input_value_kinds = 0;
+};
+//------------------------------------------------------------------------------
+struct input_router : input_slot {
 
     virtual void
     trigger(const input_info&, const input_value<bool>&) noexcept = 0;
@@ -102,8 +105,6 @@ struct input_slot {
     virtual void
     trigger(const input_info&, const input_value<double>&) noexcept = 0;
 };
-//------------------------------------------------------------------------------
-struct input_router : input_slot {};
 //------------------------------------------------------------------------------
 struct input_provider {
     input_provider() noexcept = default;
