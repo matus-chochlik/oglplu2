@@ -32,8 +32,7 @@ class glfw3_opengl_window
   , public video_provider
   , public input_provider {
 public:
-    glfw3_opengl_window(main_ctx_parent parent)
-      : main_ctx_object{EAGINE_ID(GLFW3Wndow), parent} {}
+    glfw3_opengl_window(main_ctx_parent parent);
 
     auto initialize(
       string_view name,
@@ -73,10 +72,103 @@ private:
     input_variable<double> _mouse_y_ndc{0};
     int _window_width{1};
     int _window_height{1};
+
+    struct key_state {
+        identifier key_id;
+        int key_code;
+        input_variable<bool> pressed{false};
+
+        constexpr key_state(identifier id, int code) noexcept
+          : key_id{id}
+          , key_code{code} {}
+    };
+
+    std::vector<key_state> _key_states;
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_window::initialize(
+glfw3_opengl_window::glfw3_opengl_window(main_ctx_parent parent)
+  : main_ctx_object{EAGINE_ID(GLFW3Wndow), parent} {
+    _key_states.emplace_back(EAGINE_ID(Spacebar), GLFW_KEY_SPACE);
+    _key_states.emplace_back(EAGINE_ID(Backspace), GLFW_KEY_BACKSPACE);
+    _key_states.emplace_back(EAGINE_ID(Escape), GLFW_KEY_ESCAPE);
+    _key_states.emplace_back(EAGINE_ID(Enter), GLFW_KEY_ENTER);
+    _key_states.emplace_back(EAGINE_ID(Tab), GLFW_KEY_TAB);
+    _key_states.emplace_back(EAGINE_ID(Left), GLFW_KEY_LEFT);
+    _key_states.emplace_back(EAGINE_ID(Right), GLFW_KEY_RIGHT);
+    _key_states.emplace_back(EAGINE_ID(Up), GLFW_KEY_UP);
+    _key_states.emplace_back(EAGINE_ID(Down), GLFW_KEY_DOWN);
+    _key_states.emplace_back(EAGINE_ID(PageUp), GLFW_KEY_PAGE_UP);
+    _key_states.emplace_back(EAGINE_ID(PageDown), GLFW_KEY_PAGE_DOWN);
+    _key_states.emplace_back(EAGINE_ID(Home), GLFW_KEY_HOME);
+    _key_states.emplace_back(EAGINE_ID(End), GLFW_KEY_END);
+    _key_states.emplace_back(EAGINE_ID(Insert), GLFW_KEY_INSERT);
+    _key_states.emplace_back(EAGINE_ID(Delete), GLFW_KEY_DELETE);
+
+    _key_states.emplace_back(EAGINE_ID(A), GLFW_KEY_A);
+    _key_states.emplace_back(EAGINE_ID(B), GLFW_KEY_B);
+    _key_states.emplace_back(EAGINE_ID(C), GLFW_KEY_C);
+    _key_states.emplace_back(EAGINE_ID(D), GLFW_KEY_D);
+    _key_states.emplace_back(EAGINE_ID(E), GLFW_KEY_E);
+    _key_states.emplace_back(EAGINE_ID(F), GLFW_KEY_F);
+    _key_states.emplace_back(EAGINE_ID(G), GLFW_KEY_G);
+    _key_states.emplace_back(EAGINE_ID(H), GLFW_KEY_H);
+    _key_states.emplace_back(EAGINE_ID(I), GLFW_KEY_I);
+    _key_states.emplace_back(EAGINE_ID(J), GLFW_KEY_J);
+    _key_states.emplace_back(EAGINE_ID(K), GLFW_KEY_K);
+    _key_states.emplace_back(EAGINE_ID(L), GLFW_KEY_L);
+    _key_states.emplace_back(EAGINE_ID(M), GLFW_KEY_M);
+    _key_states.emplace_back(EAGINE_ID(N), GLFW_KEY_N);
+    _key_states.emplace_back(EAGINE_ID(O), GLFW_KEY_O);
+    _key_states.emplace_back(EAGINE_ID(P), GLFW_KEY_P);
+    _key_states.emplace_back(EAGINE_ID(Q), GLFW_KEY_Q);
+    _key_states.emplace_back(EAGINE_ID(R), GLFW_KEY_R);
+    _key_states.emplace_back(EAGINE_ID(S), GLFW_KEY_S);
+    _key_states.emplace_back(EAGINE_ID(T), GLFW_KEY_R);
+    _key_states.emplace_back(EAGINE_ID(U), GLFW_KEY_U);
+    _key_states.emplace_back(EAGINE_ID(V), GLFW_KEY_V);
+    _key_states.emplace_back(EAGINE_ID(W), GLFW_KEY_W);
+    _key_states.emplace_back(EAGINE_ID(X), GLFW_KEY_X);
+    _key_states.emplace_back(EAGINE_ID(Y), GLFW_KEY_Y);
+    _key_states.emplace_back(EAGINE_ID(Z), GLFW_KEY_Z);
+
+    _key_states.emplace_back(EAGINE_ID(0), GLFW_KEY_0);
+    _key_states.emplace_back(EAGINE_ID(1), GLFW_KEY_1);
+    _key_states.emplace_back(EAGINE_ID(2), GLFW_KEY_2);
+    _key_states.emplace_back(EAGINE_ID(3), GLFW_KEY_3);
+    _key_states.emplace_back(EAGINE_ID(4), GLFW_KEY_4);
+    _key_states.emplace_back(EAGINE_ID(5), GLFW_KEY_5);
+    _key_states.emplace_back(EAGINE_ID(6), GLFW_KEY_6);
+    _key_states.emplace_back(EAGINE_ID(7), GLFW_KEY_7);
+    _key_states.emplace_back(EAGINE_ID(8), GLFW_KEY_8);
+    _key_states.emplace_back(EAGINE_ID(9), GLFW_KEY_9);
+
+    _key_states.emplace_back(EAGINE_ID(KeyPad0), GLFW_KEY_KP_0);
+    _key_states.emplace_back(EAGINE_ID(KeyPad1), GLFW_KEY_KP_1);
+    _key_states.emplace_back(EAGINE_ID(KeyPad2), GLFW_KEY_KP_2);
+    _key_states.emplace_back(EAGINE_ID(KeyPad3), GLFW_KEY_KP_3);
+    _key_states.emplace_back(EAGINE_ID(KeyPad4), GLFW_KEY_KP_4);
+    _key_states.emplace_back(EAGINE_ID(KeyPad5), GLFW_KEY_KP_5);
+    _key_states.emplace_back(EAGINE_ID(KeyPad6), GLFW_KEY_KP_6);
+    _key_states.emplace_back(EAGINE_ID(KeyPad7), GLFW_KEY_KP_7);
+    _key_states.emplace_back(EAGINE_ID(KeyPad8), GLFW_KEY_KP_8);
+    _key_states.emplace_back(EAGINE_ID(KeyPad9), GLFW_KEY_KP_9);
+
+    _key_states.emplace_back(EAGINE_ID(F1), GLFW_KEY_F1);
+    _key_states.emplace_back(EAGINE_ID(F2), GLFW_KEY_F2);
+    _key_states.emplace_back(EAGINE_ID(F3), GLFW_KEY_F3);
+    _key_states.emplace_back(EAGINE_ID(F4), GLFW_KEY_F4);
+    _key_states.emplace_back(EAGINE_ID(F5), GLFW_KEY_F5);
+    _key_states.emplace_back(EAGINE_ID(F6), GLFW_KEY_F6);
+    _key_states.emplace_back(EAGINE_ID(F7), GLFW_KEY_F7);
+    _key_states.emplace_back(EAGINE_ID(F8), GLFW_KEY_F8);
+    _key_states.emplace_back(EAGINE_ID(F9), GLFW_KEY_F9);
+    _key_states.emplace_back(EAGINE_ID(F10), GLFW_KEY_F10);
+    _key_states.emplace_back(EAGINE_ID(F11), GLFW_KEY_F11);
+    _key_states.emplace_back(EAGINE_ID(F12), GLFW_KEY_F12);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC auto glfw3_opengl_window::initialize(
   string_view name,
   const launch_options& options,
   const video_options& video_opts,
@@ -207,11 +299,13 @@ void glfw3_opengl_window::input_enumerate(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void glfw3_opengl_window::input_connect(input_router& router) {
-    EAGINE_MAYBE_UNUSED(router);
+    _input_router = std::addressof(router);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void glfw3_opengl_window::input_disconnect() {}
+void glfw3_opengl_window::input_disconnect() {
+    _input_router = nullptr;
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void glfw3_opengl_window::update(execution_context& exec_ctx) {
@@ -222,38 +316,47 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
         glfwGetWindowSize(_window, &_window_width, &_window_height);
 
         if(_input_router) {
+            auto& inr = extract(_input_router);
             double mouse_x_pix{0}, mouse_y_pix{0};
             glfwGetCursorPos(_window, &mouse_x_pix, &mouse_y_pix);
+
             if(_mouse_x_pix.assign(mouse_x_pix)) {
-                extract(_input_router)
-                  .trigger(
-                    {EAGINE_ID(Cursor),
-                     EAGINE_ID(MotionX),
-                     input_value_kind::absolute_free},
-                    _mouse_x_pix);
+                inr.trigger(
+                  {EAGINE_ID(Cursor),
+                   EAGINE_ID(MotionX),
+                   input_value_kind::absolute_free},
+                  _mouse_x_pix);
                 if(_mouse_x_ndc.assign((mouse_x_pix / _window_width) - 0.5)) {
-                    extract(_input_router)
-                      .trigger(
-                        {EAGINE_ID(Cursor),
-                         EAGINE_ID(MotionX),
-                         input_value_kind::absolute_norm},
-                        _mouse_x_ndc);
+                    inr.trigger(
+                      {EAGINE_ID(Cursor),
+                       EAGINE_ID(MotionX),
+                       input_value_kind::absolute_norm},
+                      _mouse_x_ndc);
                 }
             }
             if(_mouse_y_pix.assign(mouse_y_pix)) {
-                extract(_input_router)
-                  .trigger(
-                    {EAGINE_ID(Cursor),
-                     EAGINE_ID(MotionY),
-                     input_value_kind::absolute_free},
-                    _mouse_y_pix);
+                inr.trigger(
+                  {EAGINE_ID(Cursor),
+                   EAGINE_ID(MotionY),
+                   input_value_kind::absolute_free},
+                  _mouse_y_pix);
                 if(_mouse_y_ndc.assign((mouse_y_pix / _window_height) - 0.5)) {
-                    extract(_input_router)
-                      .trigger(
-                        {EAGINE_ID(Cursor),
-                         EAGINE_ID(MotionY),
-                         input_value_kind::absolute_norm},
-                        _mouse_y_ndc);
+                    inr.trigger(
+                      {EAGINE_ID(Cursor),
+                       EAGINE_ID(MotionY),
+                       input_value_kind::absolute_norm},
+                      _mouse_y_ndc);
+                }
+            }
+
+            for(auto& ks : _key_states) {
+                if(ks.pressed.assign(
+                     glfwGetKey(_window, ks.key_code) == GLFW_PRESS)) {
+                    inr.trigger(
+                      {EAGINE_ID(Keyboard),
+                       ks.key_id,
+                       input_value_kind::absolute_norm},
+                      ks.pressed);
                 }
             }
         }

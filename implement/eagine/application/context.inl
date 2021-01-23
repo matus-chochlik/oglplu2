@@ -493,6 +493,7 @@ inline void execution_context::_forward_input(
   const input_value<T>& value) noexcept {
     EAGINE_MAYBE_UNUSED(info);
     EAGINE_MAYBE_UNUSED(value);
+    log_info("input").arg(EAGINE_ID(value), value.get());
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
