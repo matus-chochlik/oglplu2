@@ -54,18 +54,16 @@ public:
     void video_end(execution_context&) final;
     void video_commit(execution_context&) final;
 
-    void input_enumerate(
-      callable_ref<
-        void(identifier, identifier, input_value_kinds, input_value_types)>)
-      final;
+    void
+      input_enumerate(callable_ref<void(message_id, input_value_kinds)>) final;
 
-    void input_connect(input_router&) final;
+    void input_connect(input_sink&) final;
     void input_disconnect() final;
 
 private:
     string_view _instance_name;
     GLFWwindow* _window{nullptr};
-    input_router* _input_router{nullptr};
+    input_sink* _input_sink{nullptr};
     input_variable<double> _mouse_x_pix{0};
     input_variable<double> _mouse_y_pix{0};
     input_variable<double> _mouse_x_ndc{0};
@@ -282,29 +280,31 @@ void glfw3_opengl_window::video_commit(execution_context&) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void glfw3_opengl_window::input_enumerate(
-  callable_ref<void(identifier, identifier, input_value_kinds, input_value_types)>
-    callback) {
+  callable_ref<void(message_id, input_value_kinds)> callback) {
     // Mouse inputs
     callback(
-      EAGINE_ID(Cursor),
-      EAGINE_ID(MotionX),
-      input_value_kind::absolute_free | input_value_kind::absolute_norm,
-      input_value_type::double_type);
+      EAGINE_MSG_ID(Cursor, MotionX),
+      input_value_kind::absolute_free | input_value_kind::absolute_norm);
     callback(
-      EAGINE_ID(Cursor),
-      EAGINE_ID(MotionY),
-      input_value_kind::absolute_free | input_value_kind::absolute_norm,
-      input_value_type::double_type);
+      EAGINE_MSG_ID(Cursor, MotionY),
+      input_value_kind::absolute_free | input_value_kind::absolute_norm);
+
+    // Keyboard inputs
+    for(auto& ks : _key_states) {
+        callback(
+          message_id{EAGINE_ID(Keyboard), ks.key_id},
+          input_value_kind::absolute_norm);
+    }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void glfw3_opengl_window::input_connect(input_router& router) {
-    _input_router = std::addressof(router);
+void glfw3_opengl_window::input_connect(input_sink& sink) {
+    _input_sink = std::addressof(sink);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void glfw3_opengl_window::input_disconnect() {
-    _input_router = nullptr;
+    _input_sink = nullptr;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -315,35 +315,31 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
     } else {
         glfwGetWindowSize(_window, &_window_width, &_window_height);
 
-        if(_input_router) {
-            auto& inr = extract(_input_router);
+        if(_input_sink) {
+            auto& sink = extract(_input_sink);
             double mouse_x_pix{0}, mouse_y_pix{0};
             glfwGetCursorPos(_window, &mouse_x_pix, &mouse_y_pix);
 
             if(_mouse_x_pix.assign(mouse_x_pix)) {
-                inr.trigger(
-                  {EAGINE_ID(Cursor),
-                   EAGINE_ID(MotionX),
+                sink.consume(
+                  {EAGINE_MSG_ID(Cursor, MotionX),
                    input_value_kind::absolute_free},
                   _mouse_x_pix);
                 if(_mouse_x_ndc.assign((mouse_x_pix / _window_width) - 0.5)) {
-                    inr.trigger(
-                      {EAGINE_ID(Cursor),
-                       EAGINE_ID(MotionX),
+                    sink.consume(
+                      {EAGINE_MSG_ID(Cursor, MotionX),
                        input_value_kind::absolute_norm},
                       _mouse_x_ndc);
                 }
             }
             if(_mouse_y_pix.assign(mouse_y_pix)) {
-                inr.trigger(
-                  {EAGINE_ID(Cursor),
-                   EAGINE_ID(MotionY),
+                sink.consume(
+                  {EAGINE_MSG_ID(Cursor, MotionY),
                    input_value_kind::absolute_free},
                   _mouse_y_pix);
                 if(_mouse_y_ndc.assign((mouse_y_pix / _window_height) - 0.5)) {
-                    inr.trigger(
-                      {EAGINE_ID(Cursor),
-                       EAGINE_ID(MotionY),
+                    sink.consume(
+                      {EAGINE_MSG_ID(Cursor, MotionY),
                        input_value_kind::absolute_norm},
                       _mouse_y_ndc);
                 }
@@ -352,9 +348,8 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
             for(auto& ks : _key_states) {
                 if(ks.pressed.assign(
                      glfwGetKey(_window, ks.key_code) == GLFW_PRESS)) {
-                    inr.trigger(
-                      {EAGINE_ID(Keyboard),
-                       ks.key_id,
+                    sink.consume(
+                      {{EAGINE_ID(Keyboard), ks.key_id},
                        input_value_kind::absolute_norm},
                       ks.pressed);
                 }

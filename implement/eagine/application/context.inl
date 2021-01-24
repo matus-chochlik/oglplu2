@@ -334,8 +334,7 @@ inline auto execution_context::_setup_providers() -> bool {
                 extract(input).input_connect(*this);
                 _input_providers.emplace_back(std::move(input));
             };
-            extract(provider).input_enumerate(
-              callable_ref<void(std::shared_ptr<input_provider>)>{add_input});
+            extract(provider).input_enumerate({construct_from, add_input});
 
             auto add_video = [&](std::shared_ptr<video_provider> video) {
                 _video_contexts.emplace_back(
@@ -474,58 +473,46 @@ void execution_context::random_normal(span<float> dest) {
     extract(_state).random_normal(dest);
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto execution_context::input_id() noexcept -> identifier {
-    return EAGINE_ID(InputRoutr);
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto execution_context::input_description() noexcept -> string_view {
-    return {"Any input"};
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto execution_context::input_types() noexcept -> input_value_types {
-    return all_input_value_types();
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto execution_context::input_kinds() noexcept -> input_value_kinds {
-    return all_input_value_kinds();
-}
-//------------------------------------------------------------------------------
 template <typename T>
 inline void execution_context::_forward_input(
   const input_info& info,
   const input_value<T>& value) noexcept {
-    EAGINE_MAYBE_UNUSED(info);
-    EAGINE_MAYBE_UNUSED(value);
-    log_info("input").arg(EAGINE_ID(value), value.get());
+    const auto setup_pos = _inputs.find(_input_setup);
+    if(setup_pos != _inputs.end()) {
+        const auto& slots = setup_pos->second;
+        const auto slot_pos = slots.find(info.signal_id);
+        if(slot_pos != slots.end()) {
+            const auto& [value_kind, handler] = slot_pos->second;
+            if(info.value_kind == value_kind) {
+                handler(value);
+            }
+        }
+    }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void execution_context::trigger(
+void execution_context::consume(
   const input_info& info,
   const input_value<bool>& value) noexcept {
     _forward_input(info, value);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void execution_context::trigger(
+void execution_context::consume(
   const input_info& info,
   const input_value<int>& value) noexcept {
     _forward_input(info, value);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void execution_context::trigger(
+void execution_context::consume(
   const input_info& info,
   const input_value<float>& value) noexcept {
     _forward_input(info, value);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void execution_context::trigger(
+void execution_context::consume(
   const input_info& info,
   const input_value<double>& value) noexcept {
     _forward_input(info, value);

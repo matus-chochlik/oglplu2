@@ -10,100 +10,34 @@
 #ifndef EAGINE_APPLICATION_INTERFACE_HPP
 #define EAGINE_APPLICATION_INTERFACE_HPP
 
-#include "../bitfield.hpp"
 #include "../callable_ref.hpp"
-#include "../identifier.hpp"
 #include "../main_ctx_fwd.hpp"
 #include "../memory/block.hpp"
 #include "../string_span.hpp"
 #include "../tribool.hpp"
-#include "../value_with_history.hpp"
+#include "input.hpp"
 #include "options.hpp"
 #include <memory>
 
 namespace eagine::application {
 class execution_context;
 //------------------------------------------------------------------------------
-enum class input_value_type : unsigned {
-    bool_type = 1U << 0U,
-    int_type = 1U << 1U,
-    float_type = 1U << 2U,
-    double_type = 1U << 3U
-};
-using input_value_types = bitfield<input_value_type>;
-
-static inline auto operator|(input_value_type l, input_value_type r) noexcept
-  -> input_value_types {
-    return {l, r};
-}
-
-static inline auto all_input_value_types() noexcept -> input_value_types {
-    return input_value_type::bool_type | input_value_type::int_type |
-           input_value_type::float_type | input_value_type::double_type;
-}
-//------------------------------------------------------------------------------
-enum class input_value_kind : unsigned {
-    relative = 1U << 0U,
-    absolute_norm = 1U << 1U,
-    absolute_free = 1U << 2U
-};
-using input_value_kinds = bitfield<input_value_kind>;
-
-static inline auto operator|(input_value_kind l, input_value_kind r) noexcept
-  -> input_value_kinds {
-    return {l, r};
-}
-
-static inline auto all_input_value_kinds() noexcept -> input_value_kinds {
-    return input_value_kind::relative | input_value_kind::absolute_norm |
-           input_value_kind::absolute_free;
-}
-//------------------------------------------------------------------------------
-template <typename T>
-using input_value = value_with_history<T, 3>;
-
-template <typename T>
-using input_variable = variable_with_history<T, 3>;
-//------------------------------------------------------------------------------
-struct input_info {
-    identifier device_id{};
-    identifier signal_id{};
-    input_value_kind value_kind{};
-
-    constexpr input_info(
-      identifier dev_id,
-      identifier sig_id,
-      input_value_kind kind) noexcept
-      : device_id{dev_id}
-      , signal_id{sig_id}
-      , value_kind{kind} {}
-};
-//------------------------------------------------------------------------------
-struct input_slot {
-    input_slot() noexcept = default;
-    input_slot(input_slot&&) = delete;
-    input_slot(const input_slot&) = delete;
-    auto operator=(input_slot&&) = delete;
-    auto operator=(const input_slot&) = delete;
-    virtual ~input_slot() noexcept = default;
-
-    virtual auto input_id() noexcept -> identifier = 0;
-    virtual auto input_description() noexcept -> string_view = 0;
-
-    virtual auto input_types() noexcept -> input_value_types = 0;
-    virtual auto input_kinds() noexcept -> input_value_kinds = 0;
-};
-//------------------------------------------------------------------------------
-struct input_router : input_slot {
+struct input_sink {
+    input_sink() noexcept = default;
+    input_sink(input_sink&&) = delete;
+    input_sink(const input_sink&) = delete;
+    auto operator=(input_sink&&) = delete;
+    auto operator=(const input_sink&) = delete;
+    virtual ~input_sink() noexcept = default;
 
     virtual void
-    trigger(const input_info&, const input_value<bool>&) noexcept = 0;
+    consume(const input_info&, const input_value<bool>&) noexcept = 0;
     virtual void
-    trigger(const input_info&, const input_value<int>&) noexcept = 0;
+    consume(const input_info&, const input_value<int>&) noexcept = 0;
     virtual void
-    trigger(const input_info&, const input_value<float>&) noexcept = 0;
+    consume(const input_info&, const input_value<float>&) noexcept = 0;
     virtual void
-    trigger(const input_info&, const input_value<double>&) noexcept = 0;
+    consume(const input_info&, const input_value<double>&) noexcept = 0;
 };
 //------------------------------------------------------------------------------
 struct input_provider {
@@ -116,11 +50,10 @@ struct input_provider {
 
     virtual auto instance_name() const noexcept -> string_view = 0;
 
-    virtual void input_enumerate(
-      callable_ref<
-        void(identifier, identifier, input_value_kinds, input_value_types)>) = 0;
+    virtual void
+      input_enumerate(callable_ref<void(message_id, input_value_kinds)>) = 0;
 
-    virtual void input_connect(input_router&) = 0;
+    virtual void input_connect(input_sink&) = 0;
     virtual void input_disconnect() = 0;
 };
 //------------------------------------------------------------------------------

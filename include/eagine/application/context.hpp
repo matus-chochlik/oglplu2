@@ -14,10 +14,12 @@
 #include "../../oglplus/gl_api_fwd.hpp"
 #include "../application_config.hpp"
 #include "../assert.hpp"
+#include "../flat_map.hpp"
 #include "../main_ctx_object.hpp"
 #include "interface.hpp"
 #include "options.hpp"
 #include "state_view.hpp"
+#include <map>
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
@@ -107,7 +109,7 @@ private:
 class context_state;
 class execution_context
   : public main_ctx_object
-  , private input_router {
+  , private input_sink {
 public:
     execution_context(main_ctx_parent parent) noexcept
       : main_ctx_object(EAGINE_ID(AppExecCtx), parent)
@@ -162,6 +164,26 @@ public:
         return nullptr;
     }
 
+    auto connect_input(
+      identifier setup_id,
+      message_id signal_id,
+      input_value_kind value_kind,
+      callable_ref<void(const input&)> handler) -> auto& {
+        _inputs[setup_id].try_emplace(signal_id, value_kind, handler);
+        return *this;
+    }
+
+    auto connect_input(
+      message_id signal_id,
+      input_value_kind value_kind,
+      callable_ref<void(const input&)> handler) -> auto& {
+        return connect_input(
+          EAGINE_ID(default),
+          std::move(signal_id),
+          value_kind,
+          std::move(handler));
+    }
+
     void random_uniform(span<byte> dest);
     void random_uniform_01(span<float> dest);
     void random_normal(span<float> dest);
@@ -178,21 +200,24 @@ private:
     std::vector<std::unique_ptr<video_context>> _video_contexts;
     std::vector<std::unique_ptr<audio_context>> _audio_contexts;
 
+    identifier _input_setup{EAGINE_ID(default)};
+
+    flat_map<
+      identifier,
+      flat_map<
+        message_id,
+        std::tuple<input_value_kind, callable_ref<void(const input&)>>>>
+      _inputs;
+
     auto _setup_providers() -> bool;
-
-    auto input_id() noexcept -> identifier final;
-    auto input_description() noexcept -> string_view final;
-
-    auto input_types() noexcept -> input_value_types final;
-    auto input_kinds() noexcept -> input_value_kinds final;
 
     template <typename T>
     void _forward_input(const input_info&, const input_value<T>&) noexcept;
 
-    void trigger(const input_info&, const input_value<bool>&) noexcept final;
-    void trigger(const input_info&, const input_value<int>&) noexcept final;
-    void trigger(const input_info&, const input_value<float>&) noexcept final;
-    void trigger(const input_info&, const input_value<double>&) noexcept final;
+    void consume(const input_info&, const input_value<bool>&) noexcept final;
+    void consume(const input_info&, const input_value<int>&) noexcept final;
+    void consume(const input_info&, const input_value<float>&) noexcept final;
+    void consume(const input_info&, const input_value<double>&) noexcept final;
 };
 //------------------------------------------------------------------------------
 auto establish(main_ctx&) -> std::unique_ptr<launchpad>;
