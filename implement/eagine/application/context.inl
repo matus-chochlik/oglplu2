@@ -482,8 +482,8 @@ inline void execution_context::_forward_input(
         const auto& slots = setup_pos->second;
         const auto slot_pos = slots.find(info.signal_id);
         if(slot_pos != slots.end()) {
-            const auto& [value_kind, handler] = slot_pos->second;
-            if(info.value_kind == value_kind) {
+            const auto& [value_kinds, handler] = slot_pos->second;
+            if(value_kinds.has(info.value_kind)) {
                 handler(value);
             }
         }

@@ -18,9 +18,8 @@ public:
     example_clear(execution_context& ec, video_context& vc)
       : _ec{ec}
       , _video{vc} {
-        _ec.connect_input(
+        _ec.connect_button_input(
           EAGINE_MSG_ID(Keyboard, Escape),
-          input_value_kind::absolute_norm,
           {this, EAGINE_MEM_FUNC_C(example_clear, _stop)});
     }
 

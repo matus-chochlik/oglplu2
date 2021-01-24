@@ -167,20 +167,29 @@ public:
     auto connect_input(
       identifier setup_id,
       message_id signal_id,
-      input_value_kind value_kind,
+      input_value_kinds value_kinds,
       callable_ref<void(const input&)> handler) -> auto& {
-        _inputs[setup_id].try_emplace(signal_id, value_kind, handler);
+        _inputs[setup_id].try_emplace(signal_id, value_kinds, handler);
         return *this;
     }
 
     auto connect_input(
       message_id signal_id,
-      input_value_kind value_kind,
+      input_value_kinds value_kinds,
       callable_ref<void(const input&)> handler) -> auto& {
         return connect_input(
           EAGINE_ID(default),
           std::move(signal_id),
-          value_kind,
+          value_kinds,
+          std::move(handler));
+    }
+
+    auto connect_button_input(
+      message_id signal_id,
+      callable_ref<void(const input&)> handler) -> auto& {
+        return connect_input(
+          std::move(signal_id),
+          input_value_kind::absolute_norm | input_value_kind::absolute_free,
           std::move(handler));
     }
 
@@ -206,7 +215,7 @@ private:
       identifier,
       flat_map<
         message_id,
-        std::tuple<input_value_kind, callable_ref<void(const input&)>>>>
+        std::tuple<input_value_kinds, callable_ref<void(const input&)>>>>
       _inputs;
 
     auto _setup_providers() -> bool;
