@@ -12,6 +12,7 @@
 
 #include "assert.hpp"
 #include "mem_func_const.hpp"
+#include "selector.hpp"
 #include "type_traits.hpp"
 #include <utility>
 
@@ -101,14 +102,14 @@ public:
     template <
       typename C,
       typename = std::enable_if_t<!std::is_same_v<C, callable_ref_impl>>>
-    explicit callable_ref_impl(C& obj) noexcept
+    callable_ref_impl(construct_from_t, C& obj) noexcept
       : _data(static_cast<void*>(&obj))
       , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op<C>)) {}
 
     template <
       typename C,
       typename = std::enable_if_t<!std::is_same_v<C, callable_ref_impl>>>
-    explicit callable_ref_impl(const C& obj) noexcept
+    callable_ref_impl(construct_from_t, const C& obj) noexcept
       : _data(static_cast<void*>(const_cast<C*>(&obj)))
       , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op_c<C>)) {}
 

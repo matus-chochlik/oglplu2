@@ -89,10 +89,7 @@ static void decay_of(
         });
     };
 
-    elements.for_single(
-      isot,
-      callable_ref<void(
-        const element_symbol&, ecs::manipulator<const decay_modes>& dm)>{func});
+    elements.for_single<const decay_modes>(isot, {construct_from, func});
 }
 //------------------------------------------------------------------------------
 static void decay_of(

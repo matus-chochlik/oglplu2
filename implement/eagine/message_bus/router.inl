@@ -143,8 +143,7 @@ parent_router::fetch_messages(main_ctx_object& user, const Handler& handler)
             }
             return true;
         };
-        return the_connection->fetch_messages(
-          connection::fetch_handler{wrapped});
+        return the_connection->fetch_messages({construct_from, wrapped});
     }
     return false;
 }
@@ -285,7 +284,7 @@ auto router::_handle_pending() -> bool {
 
             something_done(pending.the_connection->update());
             something_done(pending.the_connection->fetch_messages(
-              connection::fetch_handler(handler)));
+              {construct_from, handler}));
             something_done(pending.the_connection->update());
             // if we got the endpoint id message from the connection
             if(~id == 0) {
@@ -430,7 +429,7 @@ auto router::_process_blobs() -> bool {
                         return false;
                     };
                     if(_blobs.process_outgoing(
-                         blob_manipulator::send_handler{handle_send},
+                         {construct_from, handle_send},
                          extract(opt_max_size))) {
                         something_done();
                     }
@@ -874,8 +873,7 @@ auto router::_route_messages() -> bool {
 
         const auto& conn_in = std::get<1>(nd).the_connection;
         if(EAGINE_LIKELY(conn_in && conn_in->is_usable())) {
-            something_done(
-              conn_in->fetch_messages(connection::fetch_handler(handler)));
+            something_done(conn_in->fetch_messages({construct_from, handler}));
         }
     }
 

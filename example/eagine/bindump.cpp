@@ -38,7 +38,7 @@ auto main(int argc, const char** argv) -> int {
         std::cout << c;
         return true;
     };
-    bindump::apply(bindump::byte_getter(get), bindump::char_putter(put));
+    bindump::apply({construct_from, get}, {construct_from, put});
 
     return 0;
 }

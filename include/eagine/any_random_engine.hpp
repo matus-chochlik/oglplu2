@@ -21,7 +21,7 @@ public:
 
     template <typename Engine>
     any_random_engine(Engine& engine) noexcept
-      : callable_ref<Result()>{engine}
+      : callable_ref<Result()>{construct_from, engine}
       , _min{engine.min()}
       , _max{engine.max()} {}
 

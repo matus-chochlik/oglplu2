@@ -514,8 +514,7 @@ private:
             }
             return true;
         };
-        return _requests.fetch_all(
-          message_storage::fetch_handler{fetch_handler});
+        return _requests.fetch_all({construct_from, fetch_handler});
     }
 
     memory::buffer _buffer{};

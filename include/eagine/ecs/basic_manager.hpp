@@ -511,9 +511,9 @@ public:
 
     template <typename... Components, typename Func>
     auto for_each_with(const Func& func) -> auto& {
-        callable_ref<void(entity_param, manipulator<Components> & ...)> wrap(
-          func);
-        return for_each<Components...>(wrap);
+        return for_each<Components...>(
+          callable_ref<void(entity_param, manipulator<Components> & ...)>{
+            construct_from, func});
     }
 
     template <typename... Components>

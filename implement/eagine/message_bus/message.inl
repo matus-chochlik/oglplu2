@@ -250,8 +250,7 @@ auto connection_incoming_messages::fetch_messages(
         return true;
     };
 
-    return packed.fetch_some(
-      serialized_message_storage::fetch_handler(unpacker), batch);
+    return packed.fetch_some({construct_from, unpacker}, batch);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

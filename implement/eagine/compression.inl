@@ -123,7 +123,7 @@ public:
         output.resize(1);
         cover(output).front() = 0x01U;
 
-        if(compress(input, data_handler(append), level)) {
+        if(compress(input, data_handler(construct_from, append), level)) {
             return view(output);
         }
         return {};
@@ -205,7 +205,7 @@ public:
         };
         output.clear();
 
-        if(decompress(input, data_handler(append))) {
+        if(decompress(input, data_handler(construct_from, append))) {
             return view(output);
         }
         return {};

@@ -81,9 +81,7 @@ auto substitute_variables(
         }
         return {};
     };
-    callable_ref<optionally_valid<string_view>(string_view)> translate{
-      translate_func};
-    return substitute_variables(str, translate, opts);
+    return substitute_variables(str, {construct_from, translate_func}, opts);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -101,9 +99,7 @@ auto substitute_variables(
         }
         return {};
     };
-    callable_ref<optionally_valid<string_view>(string_view)> translate{
-      translate_func};
-    return substitute_variables(str, translate, opts);
+    return substitute_variables(str, {construct_from, translate_func}, opts);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

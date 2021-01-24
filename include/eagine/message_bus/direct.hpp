@@ -227,8 +227,8 @@ public:
                 handler(std::unique_ptr<connection>{
                   std::make_unique<direct_server_connection>(state)});
             };
-            something_done(_address->process_all(
-              direct_connection_address::process_handler{wrapped_handler}));
+            something_done(
+              _address->process_all({construct_from, wrapped_handler}));
         }
         return something_done;
     }

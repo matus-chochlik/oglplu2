@@ -315,9 +315,8 @@ basic_manager<Entity>::_do_get_c(T C::*mvp, entity_param_t<Entity> ent, T res)
     auto getter = [mvp, &res](entity_param_t<Entity>, MC& cmp) {
         res = cmp.read().*mvp;
     };
-    callable_ref<void(entity_param_t<Entity>, MC&)> func(getter);
 
-    _call_for_single_c<C>(ent, func);
+    _call_for_single_c<C>(ent, {construct_from, getter});
     return res;
 }
 //------------------------------------------------------------------------------
@@ -465,11 +464,11 @@ public:
             }
         } else {
             EAGINE_ASSERT(m == this->_current());
-            callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
-              [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
-                  _func(e, clm..., cm);
-              });
-            this->_apply(hlpr);
+            auto hlpr = [&clm..., this](
+                          entity_param_t<Entity> e, manipulator<C>& cm) {
+                _func(e, clm..., cm);
+            };
+            this->_apply({construct_from, hlpr});
         }
     }
 };
@@ -531,11 +530,11 @@ public:
         } else {
             EAGINE_ASSERT(m == this->_current());
             EAGINE_MAYBE_UNUSED(m);
-            callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
-              [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
-                  _rest.apply(e, clm..., cm);
-              });
-            this->_apply(hlpr);
+            auto hlpr = [&clm..., this](
+                          entity_param_t<Entity> e, manipulator<C>& cm) {
+                _rest.apply(e, clm..., cm);
+            };
+            this->_apply({construct_from, hlpr});
         }
     }
 
@@ -633,11 +632,11 @@ public:
     void apply(entity_param_t<Entity> m, manipulator<CL>&... clm) {
         EAGINE_ASSERT(m == this->_current());
         EAGINE_MAYBE_UNUSED(m);
-        callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
-          [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
-              _func(e, clm..., cm);
-          });
-        this->_apply(hlpr);
+        auto hlpr = [&clm..., this](
+                      entity_param_t<Entity> e, manipulator<C>& cm) {
+            _func(e, clm..., cm);
+        };
+        this->_apply({construct_from, hlpr});
     }
 };
 //------------------------------------------------------------------------------
@@ -686,11 +685,11 @@ public:
     void apply(entity_param_t<Entity> m, manipulator<CL>&... clm) {
         EAGINE_ASSERT(m == this->_current());
         EAGINE_MAYBE_UNUSED(m);
-        callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
-          [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
-              _rest.apply(e, clm..., cm);
-          });
-        this->_apply(hlpr);
+        auto hlpr = [&clm..., this](
+                      entity_param_t<Entity> e, manipulator<C>& cm) {
+            _rest.apply(e, clm..., cm);
+        };
+        this->_apply({construct_from, hlpr});
     }
 
     void apply() {

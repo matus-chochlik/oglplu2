@@ -104,7 +104,8 @@ public:
             }
             return false;
         };
-        _sysfs.traverse(valtree::compound::visit_handler(sysfs_scanner));
+        _sysfs.traverse(
+          valtree::compound::visit_handler{construct_from, sysfs_scanner});
 
         if(file_contents machine_id{"/etc/machine-id"}) {
             memory::for_each_chunk(

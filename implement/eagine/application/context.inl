@@ -341,15 +341,13 @@ inline auto execution_context::_setup_providers() -> bool {
                 _video_contexts.emplace_back(
                   std::make_unique<video_context>(*this, std::move(video)));
             };
-            extract(provider).video_enumerate(
-              callable_ref<void(std::shared_ptr<video_provider>)>{add_video});
+            extract(provider).video_enumerate({construct_from, add_video});
 
             auto add_audio = [&](std::shared_ptr<audio_provider> audio) {
                 _audio_contexts.emplace_back(
                   std::make_unique<audio_context>(*this, std::move(audio)));
             };
-            extract(provider).audio_enumerate(
-              callable_ref<void(std::shared_ptr<audio_provider>)>{add_audio});
+            extract(provider).audio_enumerate({construct_from, add_audio});
         }
     }
 
