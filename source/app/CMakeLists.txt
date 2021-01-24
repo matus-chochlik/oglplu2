@@ -86,4 +86,3 @@ set_target_properties(
 	FOLDER "Library/EAGine"
 )
 
-add_subdirectory(clear)

@@ -218,6 +218,9 @@ public:
 #endif
       version;
 
+    opt_c_api_constant<mp_list<device_string_query>, int_type_c<0x335E>>
+      renderer;
+
     opt_c_api_constant<
       mp_list<string_query, device_string_query>,
 #ifdef EGL_EXTENSIONS
@@ -698,6 +701,9 @@ public:
     opt_c_api_constant<mp_list<eglp::stream_state>, int_type_c<0x321A>>
       stream_state_disconnected;
 
+    opt_c_api_constant<mp_list<image_attribute>, int_type_c<0x30D2>>
+      image_preserved;
+
     opt_c_api_constant<
       mp_list<client_api_bit, renderable_type_bit>,
 #ifdef EGL_OPENGL_BIT
@@ -937,6 +943,7 @@ public:
       , client_apis("CLIENT_APIS", traits, api)
       , vendor("VENDOR", traits, api)
       , version("VERSION", traits, api)
+      , renderer("RENDERER_EXT", traits, api)
       , extensions("EXTENSIONS", traits, api)
       , drm_device_file("DRM_DEVICE_FILE_EXT", traits, api)
       , drm_master_fd("DRM_MASTER_FD_EXT", traits, api)
@@ -1012,6 +1019,7 @@ public:
           traits,
           api)
       , stream_state_disconnected("STREAM_STATE_DISCONNECTED_KHR", traits, api)
+      , image_preserved("IMAGE_PRESERVED_KHR", traits, api)
       , opengl_bit("OPENGL_BIT", traits, api)
       , opengl_es_bit("OPENGL_ES_BIT", traits, api)
       , opengl_es2_bit("OPENGL_ES2_BIT", traits, api)

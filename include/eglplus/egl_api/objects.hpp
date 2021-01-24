@@ -20,6 +20,7 @@ using display_tag = EAGINE_MSG_TYPE(egl, Display);
 using surface_tag = EAGINE_MSG_TYPE(egl, Surface);
 using context_tag = EAGINE_MSG_TYPE(egl, Context);
 using stream_tag = EAGINE_MSG_TYPE(egl, Stream);
+using image_tag = EAGINE_MSG_TYPE(egl, Image);
 using output_layer_tag = EAGINE_MSG_TYPE(egl, OutLayer);
 using output_port_tag = EAGINE_MSG_TYPE(egl, OutPort);
 using sync_tag = EAGINE_MSG_TYPE(egl, Sync);
@@ -54,6 +55,13 @@ using stream_handle = basic_handle<
   stream_tag,
   egl_types::stream_type,
   egl_types::stream_type(nullptr)>;
+//------------------------------------------------------------------------------
+#if defined(EGL_NO_IMAGE)
+using image_handle =
+  basic_handle<image_tag, egl_types::image_type, EGL_NO_IMAGE>;
+#else
+using image_handle = basic_handle<image_tag, nothing_t>;
+#endif
 //------------------------------------------------------------------------------
 using output_layer_handle = basic_handle<
   stream_tag,

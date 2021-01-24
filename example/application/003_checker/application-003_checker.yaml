@@ -1,0 +1,3 @@
+application:
+    opengl:
+        compatibility: true

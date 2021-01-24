@@ -64,6 +64,7 @@ public:
     auto is_offscreen() noexcept -> tribool final;
     auto has_framebuffer() noexcept -> tribool final;
     auto surface_size() noexcept -> std::tuple<int, int> final;
+    auto surface_aspect() noexcept -> float final;
 
     void video_begin(execution_context&) final;
     void video_end(execution_context&) final;
@@ -90,13 +91,23 @@ auto eglplus_opengl_surface::get_context_attribs(
     const auto& [egl, EGL] = _egl_api;
 
     if(gl_or_gles) {
-        return ((EGL.context_major_version |
-                 (video_opts.gl_version_major() / 3)) +
-                (EGL.context_minor_version |
-                 (video_opts.gl_version_minor() / 3)) +
-                (EGL.context_opengl_profile_mask |
-                 EGL.context_opengl_core_profile_bit))
-          .copy();
+        if(video_opts.gl_compatibility_context()) {
+            return ((EGL.context_major_version |
+                     (video_opts.gl_version_major() / 3)) +
+                    (EGL.context_minor_version |
+                     (video_opts.gl_version_minor() / 0)) +
+                    (EGL.context_opengl_profile_mask |
+                     EGL.context_opengl_compatibility_profile_bit))
+              .copy();
+        } else {
+            return ((EGL.context_major_version |
+                     (video_opts.gl_version_major() / 3)) +
+                    (EGL.context_minor_version |
+                     (video_opts.gl_version_minor() / 3)) +
+                    (EGL.context_opengl_profile_mask |
+                     EGL.context_opengl_core_profile_bit))
+              .copy();
+        }
     } else {
         return ((EGL.context_major_version |
                  (video_opts.gl_version_major() / 3)) +
@@ -249,7 +260,7 @@ auto eglplus_opengl_surface::initialize(
           (EGL.stencil_size | (video_opts.stencil_bits() / EGL.dont_care)) +
           (EGL.color_buffer_type | EGL.rgb_buffer) +
           (EGL.surface_type | EGL.pbuffer_bit) +
-          (EGL.renderable_type | (EGL.opengl_bit | EGL.opengl_es_bit));
+          (EGL.renderable_type | (EGL.opengl_bit | EGL.opengl_es3_bit));
 
         if(ok count{egl.choose_config.count(_display, config_attribs)}) {
             log_info("found ${count} suitable framebuffer configurations")
@@ -471,6 +482,11 @@ auto eglplus_opengl_surface::surface_size() noexcept -> std::tuple<int, int> {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto eglplus_opengl_surface::surface_aspect() noexcept -> float {
+    return float(_width) / float(_height);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void eglplus_opengl_surface::video_begin(execution_context&) {
     _egl_api.make_current(_display, _surface, _context);
 }
@@ -503,9 +519,12 @@ public:
     void update(execution_context&) final;
     void cleanup(execution_context&) final;
 
-    auto input() -> std::shared_ptr<input_provider> final;
-    auto video(string_view) -> std::shared_ptr<video_provider> final;
-    auto audio(string_view) -> std::shared_ptr<audio_provider> final;
+    void input_enumerate(
+      callable_ref<void(std::shared_ptr<input_provider>)>) final;
+    void video_enumerate(
+      callable_ref<void(std::shared_ptr<video_provider>)>) final;
+    void audio_enumerate(
+      callable_ref<void(std::shared_ptr<audio_provider>)>) final;
 
 private:
     eglp::egl_api _egl_api;
@@ -586,25 +605,20 @@ void eglplus_opengl_provider::cleanup(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto eglplus_opengl_provider::input() -> std::shared_ptr<input_provider> {
-    return {};
-}
+void eglplus_opengl_provider::input_enumerate(
+  callable_ref<void(std::shared_ptr<input_provider>)>) {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto eglplus_opengl_provider::video(string_view name)
-  -> std::shared_ptr<video_provider> {
-    auto pos = _surfaces.find(name);
-    if(pos != _surfaces.end()) {
-        return {pos->second};
+void eglplus_opengl_provider::video_enumerate(
+  callable_ref<void(std::shared_ptr<video_provider>)> handler) {
+    for(auto& p : _surfaces) {
+        handler(p.second);
     }
-    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto eglplus_opengl_provider::audio(string_view)
-  -> std::shared_ptr<audio_provider> {
-    return {};
-}
+void eglplus_opengl_provider::audio_enumerate(
+  callable_ref<void(std::shared_ptr<audio_provider>)>) {}
 //------------------------------------------------------------------------------
 auto make_eglplus_opengl_provider(main_ctx_parent parent)
   -> std::shared_ptr<hmi_provider> {

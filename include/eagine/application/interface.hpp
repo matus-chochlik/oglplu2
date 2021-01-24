@@ -10,14 +10,35 @@
 #ifndef EAGINE_APPLICATION_INTERFACE_HPP
 #define EAGINE_APPLICATION_INTERFACE_HPP
 
+#include "../callable_ref.hpp"
 #include "../main_ctx_fwd.hpp"
 #include "../memory/block.hpp"
+#include "../string_span.hpp"
 #include "../tribool.hpp"
+#include "input.hpp"
 #include "options.hpp"
 #include <memory>
 
 namespace eagine::application {
 class execution_context;
+//------------------------------------------------------------------------------
+struct input_sink {
+    input_sink() noexcept = default;
+    input_sink(input_sink&&) = delete;
+    input_sink(const input_sink&) = delete;
+    auto operator=(input_sink&&) = delete;
+    auto operator=(const input_sink&) = delete;
+    virtual ~input_sink() noexcept = default;
+
+    virtual void
+    consume(const input_info&, const input_value<bool>&) noexcept = 0;
+    virtual void
+    consume(const input_info&, const input_value<int>&) noexcept = 0;
+    virtual void
+    consume(const input_info&, const input_value<float>&) noexcept = 0;
+    virtual void
+    consume(const input_info&, const input_value<double>&) noexcept = 0;
+};
 //------------------------------------------------------------------------------
 struct input_provider {
     input_provider() noexcept = default;
@@ -26,6 +47,14 @@ struct input_provider {
     auto operator=(input_provider&&) = delete;
     auto operator=(const input_provider&) = delete;
     virtual ~input_provider() noexcept = default;
+
+    virtual auto instance_name() const noexcept -> string_view = 0;
+
+    virtual void
+      input_enumerate(callable_ref<void(message_id, input_value_kinds)>) = 0;
+
+    virtual void input_connect(input_sink&) = 0;
+    virtual void input_disconnect() = 0;
 };
 //------------------------------------------------------------------------------
 struct video_provider {
@@ -42,6 +71,7 @@ struct video_provider {
     virtual auto is_offscreen() noexcept -> tribool = 0;
     virtual auto has_framebuffer() noexcept -> tribool = 0;
     virtual auto surface_size() noexcept -> std::tuple<int, int> = 0;
+    virtual auto surface_aspect() noexcept -> float = 0;
 
     virtual void video_begin(execution_context&) = 0;
     virtual void video_end(execution_context&) = 0;
@@ -57,6 +87,7 @@ struct audio_provider {
     virtual ~audio_provider() noexcept = default;
 
     virtual auto audio_kind() const noexcept -> audio_context_kind = 0;
+    virtual auto instance_name() const noexcept -> string_view = 0;
 };
 //------------------------------------------------------------------------------
 struct hmi_provider {
@@ -76,9 +107,12 @@ struct hmi_provider {
     virtual void update(execution_context&) = 0;
     virtual void cleanup(execution_context&) = 0;
 
-    virtual auto input() -> std::shared_ptr<input_provider> = 0;
-    virtual auto video(string_view = {}) -> std::shared_ptr<video_provider> = 0;
-    virtual auto audio(string_view = {}) -> std::shared_ptr<audio_provider> = 0;
+    virtual void
+      input_enumerate(callable_ref<void(std::shared_ptr<input_provider>)>) = 0;
+    virtual void
+      video_enumerate(callable_ref<void(std::shared_ptr<video_provider>)>) = 0;
+    virtual void
+      audio_enumerate(callable_ref<void(std::shared_ptr<audio_provider>)>) = 0;
 };
 //------------------------------------------------------------------------------
 struct framedump {
@@ -114,6 +148,7 @@ struct application {
     virtual ~application() noexcept = default;
 
     virtual auto is_done() noexcept -> bool = 0;
+    virtual void on_video_resize() noexcept = 0;
     virtual void update() noexcept = 0;
     virtual void cleanup() noexcept = 0;
 };

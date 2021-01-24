@@ -64,11 +64,11 @@ auto main(main_ctx& ctx) -> int {
 
     conn_setup.setup_connectors(bus, address);
 
-    msgbus::endpoint::method_handler handler{log_byte_hist};
-
     timeout idle_too_long{std::chrono::minutes{1}};
     while(!idle_too_long) {
-        if(bus.update() || bus.process_everything(handler)) {
+        if(
+          bus.update() ||
+          bus.process_everything({construct_from, log_byte_hist})) {
             idle_too_long.reset();
         } else {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));

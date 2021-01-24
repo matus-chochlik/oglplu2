@@ -97,7 +97,8 @@ auto main(main_ctx& ctx) -> int {
           .arg(
             EAGINE_ID(attribD),
             view(json_tree.fetch_blob(path("attribD"), cover(temp))));
-        json_tree.traverse(valtree::compound::visit_handler(visitor));
+        json_tree.traverse(
+          valtree::compound::visit_handler{construct_from, visitor});
     }
 
     const string_view yaml_text(
@@ -132,14 +133,16 @@ auto main(main_ctx& ctx) -> int {
             EAGINE_ID(bool),
             yaml_tree.get<bool>(path("attribC/3/zero")),
             n_a);
-        yaml_tree.traverse(valtree::compound::visit_handler(visitor));
+        yaml_tree.traverse(
+          valtree::compound::visit_handler{construct_from, visitor});
     }
 
     if(auto path_arg{ctx.args().find("--fs-tree").next()}) {
         log.info("opening ${root} filesystem tree")
           .arg(EAGINE_ID(root), path_arg.get());
         if(auto fs_tree{valtree::from_filesystem_path(path_arg, ctx)}) {
-            fs_tree.traverse(valtree::compound::visit_handler(visitor));
+            fs_tree.traverse(
+              valtree::compound::visit_handler{construct_from, visitor});
         }
     }
 

@@ -14,7 +14,10 @@
 #include "context_attribs.hpp"
 #include "enum_types.hpp"
 #include "extensions.hpp"
+#include "image_attribs.hpp"
 #include "objects.hpp"
+#include "output_layer_attribs.hpp"
+#include "output_port_attribs.hpp"
 #include "platform_attribs.hpp"
 #include "stream_attribs.hpp"
 #include "surface_attribs.hpp"
@@ -44,6 +47,7 @@ public:
     using native_display_type = typename egl_types::native_display_type;
     using native_window_type = typename egl_types::native_window_type;
     using native_pixmap_type = typename egl_types::native_pixmap_type;
+    using client_buffer_type = typename egl_types::client_buffer_type;
     using config_type = typename egl_types::config_type;
 
     // extensions
@@ -53,6 +57,7 @@ public:
     extension<> EXT_device_base;
     extension<> EXT_device_enumeration;
     extension<> EXT_device_query;
+    extension<> EXT_device_query_name;
     extension<device_handle> EXT_device_drm;
     extension<device_handle> MESA_device_software;
 
@@ -65,8 +70,12 @@ public:
     extension<> MESA_platform_surfaceless;
 
     extension<display_handle> EXT_create_context_robustness;
+    extension<display_handle> EXT_swap_buffers_with_damage;
 
     extension<display_handle> EXT_output_base;
+    extension<display_handle> EXT_output_drm;
+    extension<display_handle> EXT_stream_consumer_egloutput;
+
     extension<display_handle> EXT_pixel_format_float;
 
     extension<display_handle> MESA_configless_context;
@@ -669,6 +678,207 @@ public:
         }
     } stream_consumer_release;
 
+    // get_output_layers
+    struct : func<EGLPAFP(GetOutputLayers)> {
+        using func<EGLPAFP(GetOutputLayers)>::func;
+
+        auto count(display_handle disp) const noexcept {
+            int_type ret_count{0};
+            return this->_cnvchkcall(disp, nullptr, nullptr, 0, &ret_count)
+              .transformed([&ret_count](auto ok) {
+                  return limit_cast<span_size_t>(
+                    egl_types::bool_true(ok) ? ret_count : 0);
+              });
+        }
+
+        auto operator()(
+          display_handle disp,
+          span<attrib_type> attr,
+          span<device_type> dest) const noexcept {
+            int_type ret_count{0};
+            return this
+              ->_cnvchkcall(
+                disp,
+                attr.data(),
+                dest.data(),
+                limit_cast<int_type>(dest.size()),
+                &ret_count)
+              .transformed([dest, &ret_count](auto ok) {
+                  return head(
+                    dest,
+                    limit_cast<span_size_t>(
+                      egl_types::bool_true(ok) ? ret_count : 0));
+              });
+        }
+
+        template <std::size_t N>
+        auto operator()(
+          display_handle disp,
+          output_layer_attributes<N> attr,
+          span<device_type> dest) const noexcept {
+            return (*this)(disp, attr.get(), dest);
+        }
+    } get_output_layers;
+
+    // output_layer_attrib
+    struct : func<EGLPAFP(OutputLayerAttrib)> {
+        using func<EGLPAFP(OutputLayerAttrib)>::func;
+        auto operator()(
+          display_handle disp,
+          output_layer_handle outl,
+          output_layer_attribute_value attr) const noexcept {
+            return this->_cnvchkcall(disp, outl, attr._key, attr._value);
+        }
+    } output_layer_attrib;
+
+    // query_output_layer_attrib
+    struct : func<EGLPAFP(QueryOutputLayerAttrib)> {
+        using func<EGLPAFP(QueryOutputLayerAttrib)>::func;
+        attrib_type result{0};
+        auto operator()(
+          display_handle disp,
+          output_layer_handle outl,
+          output_layer_attribute attr) const noexcept {
+            using RV = attrib_type;
+            return this->_cnvchkcall(disp, outl, attr, &result)
+              .replaced_with(result)
+              .cast_to(type_identity<RV>{});
+        }
+    } query_output_layer_attrib;
+
+    // query_output_layer_string
+    struct : func<EGLPAFP(QueryOutputLayerString)> {
+        using func<EGLPAFP(QueryOutputLayerString)>::func;
+        attrib_type result{0};
+        auto operator()(
+          display_handle disp,
+          output_layer_handle outl,
+          output_layer_string_query qury) const noexcept {
+            return this->_cnvchkcall(disp, outl, qury)
+              .cast_to(type_identity<string_view>{});
+        }
+    } query_output_layer_string;
+
+    // get_output_ports
+    struct : func<EGLPAFP(GetOutputPorts)> {
+        using func<EGLPAFP(GetOutputPorts)>::func;
+
+        auto count(display_handle disp) const noexcept {
+            int_type ret_count{0};
+            return this->_cnvchkcall(disp, nullptr, nullptr, 0, &ret_count)
+              .transformed([&ret_count](auto ok) {
+                  return limit_cast<span_size_t>(
+                    egl_types::bool_true(ok) ? ret_count : 0);
+              });
+        }
+
+        auto operator()(
+          display_handle disp,
+          span<attrib_type> attr,
+          span<device_type> dest) const noexcept {
+            int_type ret_count{0};
+            return this
+              ->_cnvchkcall(
+                disp,
+                attr.data(),
+                dest.data(),
+                limit_cast<int_type>(dest.size()),
+                &ret_count)
+              .transformed([dest, &ret_count](auto ok) {
+                  return head(
+                    dest,
+                    limit_cast<span_size_t>(
+                      egl_types::bool_true(ok) ? ret_count : 0));
+              });
+        }
+
+        template <std::size_t N>
+        auto operator()(
+          display_handle disp,
+          output_port_attributes<N> attr,
+          span<device_type> dest) const noexcept {
+            return (*this)(disp, attr.get(), dest);
+        }
+    } get_output_ports;
+
+    // output_port_attrib
+    struct : func<EGLPAFP(OutputPortAttrib)> {
+        using func<EGLPAFP(OutputPortAttrib)>::func;
+        auto operator()(
+          display_handle disp,
+          output_port_handle outp,
+          output_port_attribute_value attr) const noexcept {
+            return this->_cnvchkcall(disp, outp, attr._key, attr._value);
+        }
+    } output_port_attrib;
+
+    // query_output_port_attrib
+    struct : func<EGLPAFP(QueryOutputPortAttrib)> {
+        using func<EGLPAFP(QueryOutputPortAttrib)>::func;
+        attrib_type result{0};
+        auto operator()(
+          display_handle disp,
+          output_port_handle outp,
+          output_port_attribute attr) const noexcept {
+            using RV = attrib_type;
+            return this->_cnvchkcall(disp, outp, attr, &result)
+              .replaced_with(result)
+              .cast_to(type_identity<RV>{});
+        }
+    } query_output_port_attrib;
+
+    // query_output_port_string
+    struct : func<EGLPAFP(QueryOutputPortString)> {
+        using func<EGLPAFP(QueryOutputPortString)>::func;
+        attrib_type result{0};
+        auto operator()(
+          display_handle disp,
+          output_port_handle outl,
+          output_port_string_query qury) const noexcept {
+            return this->_cnvchkcall(disp, outl, qury)
+              .cast_to(type_identity<string_view>{});
+        }
+    } query_output_port_string;
+
+    // create_image
+    struct : func<EGLPAFP(CreateImage)> {
+        using func<EGLPAFP(CreateImage)>::func;
+
+        constexpr auto operator()(
+          display_handle disp,
+          context_handle ctxt,
+          image_target tgt,
+          client_buffer_type buf,
+          span<const int_type> attribs) const noexcept {
+            return this->_cnvchkcall(disp, ctxt, tgt, buf, attribs.data())
+              .cast_to(type_identity<image_handle>{});
+        }
+
+        template <std::size_t N>
+        constexpr auto operator()(
+          display_handle disp,
+          context_handle ctxt,
+          image_target tgt,
+          client_buffer_type buf,
+          const image_attributes<N> attribs) const noexcept {
+            return (*this)(disp, ctxt, tgt, buf, attribs.get());
+        }
+    } create_image;
+
+    // destroy_image
+    struct : func<EGLPAFP(DestroyImage)> {
+        using func<EGLPAFP(DestroyImage)>::func;
+
+        constexpr auto
+        operator()(display_handle disp, image_handle imge) const noexcept {
+            return this->_cnvchkcall(disp, imge);
+        }
+
+        auto raii(display_handle disp, image_handle imge) noexcept {
+            return eagine::finally([=]() { (*this)(disp, imge); });
+        }
+    } destroy_image;
+
     // bind_api
     struct : func<EGLPAFP(BindAPI)> {
         using func<EGLPAFP(BindAPI)>::func;
@@ -988,6 +1198,20 @@ public:
         }
     } swap_buffers;
 
+    // swap_buffers_with_damage
+    struct : func<EGLPAFP(SwapBuffersWithDamage)> {
+        using func<EGLPAFP(SwapBuffersWithDamage)>::func;
+
+        constexpr auto operator()(
+          display_handle disp,
+          surface_handle surf,
+          span<const int_type> rects) const noexcept {
+            EAGINE_ASSERT(rects.size() % 4 == 0);
+            return this->_cnvchkcall(
+              disp, surf, rects.data(), limit_cast<int_type>(rects.size()));
+        }
+    } swap_buffers_with_damage;
+
     // release_thread
     func<EGLPAFP(ReleaseThread)> release_thread;
 
@@ -996,6 +1220,7 @@ public:
       , EXT_device_base("EXT_device_base", traits, *this)
       , EXT_device_enumeration("EXT_device_enumeration", traits, *this)
       , EXT_device_query("EXT_device_query", traits, *this)
+      , EXT_device_query_name("EXT_device_query_name", traits, *this)
       , EXT_device_drm("EXT_device_drm", traits, *this)
       , MESA_device_software("MESA_device_software", traits, *this)
       , EXT_platform_base("EXT_platform_base", traits, *this)
@@ -1009,7 +1234,16 @@ public:
           "EXT_create_context_robustness",
           traits,
           *this)
+      , EXT_swap_buffers_with_damage(
+          "EXT_swap_buffers_with_damage",
+          traits,
+          *this)
       , EXT_output_base("EXT_output_base", traits, *this)
+      , EXT_output_drm("EXT_output_drm", traits, *this)
+      , EXT_stream_consumer_egloutput(
+          "EXT_stream_consumer_egloutput",
+          traits,
+          *this)
       , EXT_pixel_format_float("EXT_pixel_format_float", traits, *this)
       , MESA_configless_context("MESA_configless_context", traits, *this)
       , MESA_query_driver("MESA_query_driver", traits, *this)
@@ -1040,6 +1274,16 @@ public:
           *this)
       , stream_consumer_acquire("stream_consumer_acquire", traits, *this)
       , stream_consumer_release("stream_consumer_release", traits, *this)
+      , get_output_layers("get_output_layers", traits, *this)
+      , output_layer_attrib("output_layer_attrib", traits, *this)
+      , query_output_layer_attrib("query_output_layer_attrib", traits, *this)
+      , query_output_layer_string("query_output_layer_string", traits, *this)
+      , get_output_ports("get_output_ports", traits, *this)
+      , output_port_attrib("output_port_attrib", traits, *this)
+      , query_output_port_attrib("query_output_port_attrib", traits, *this)
+      , query_output_port_string("query_output_port_string", traits, *this)
+      , create_image("create_image", traits, *this)
+      , destroy_image("destroy_image", traits, *this)
       , bind_api("bind_api", traits, *this)
       , query_api("query_api", traits, *this)
       , create_context("create_context", traits, *this)
@@ -1055,6 +1299,7 @@ public:
       , query_string("query_string", traits, *this)
       , swap_interval("swap_interval", traits, *this)
       , swap_buffers("swap_buffers", traits, *this)
+      , swap_buffers_with_damage("swap_buffers_with_damage", traits, *this)
       , release_thread("release_thread", traits, *this) {}
 };
 //------------------------------------------------------------------------------

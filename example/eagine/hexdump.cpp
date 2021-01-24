@@ -38,7 +38,7 @@ auto main(main_ctx& ctx) -> int {
         std::cout << c;
         return true;
     };
-    hexdump::apply(hexdump::byte_getter(get), hexdump::char_putter(put));
+    hexdump::apply({construct_from, get}, {construct_from, put});
 
     return 0;
 }

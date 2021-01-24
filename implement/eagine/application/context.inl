@@ -56,7 +56,7 @@ inline video_context_state::video_context_state(
     if(_options.doing_framedump()) {
 
         auto raw_framedump = make_raw_framedump(ctx);
-        if(raw_framedump->initialize(ctx, opts)) {
+        if(extract(raw_framedump).initialize(ctx, opts)) {
             if(_options.framedump_color() != framedump_data_type::none) {
                 _framedump_color = raw_framedump;
             }
@@ -286,6 +286,9 @@ auto audio_context::init_al_api() noexcept -> bool {
     return bool(_al_api);
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void audio_context::cleanup() noexcept {}
+//------------------------------------------------------------------------------
 // providers
 //------------------------------------------------------------------------------
 inline auto make_all_hmi_providers(main_ctx_parent parent)
@@ -299,19 +302,20 @@ inline auto make_all_hmi_providers(main_ctx_parent parent)
 //------------------------------------------------------------------------------
 inline auto execution_context::_setup_providers() -> bool {
     auto try_init = [&](auto provider) -> bool {
-        if(provider->is_initialized()) {
+        if(extract(provider).is_initialized()) {
             return true;
         }
-        if(provider->should_initialize(*this)) {
-            if(provider->initialize(*this)) {
+        if(extract(provider).should_initialize(*this)) {
+            if(extract(provider).initialize(*this)) {
                 return true;
             } else {
                 log_error("failed to initialize HMI provider ${name}")
-                  .arg(EAGINE_ID(name), provider->implementation_name());
+                  .arg(
+                    EAGINE_ID(name), extract(provider).implementation_name());
             }
         } else {
             log_debug("skipping initialization of HMI provider ${name}")
-              .arg(EAGINE_ID(name), provider->implementation_name());
+              .arg(EAGINE_ID(name), extract(provider).implementation_name());
             return true;
         }
         return false;
@@ -326,19 +330,23 @@ inline auto execution_context::_setup_providers() -> bool {
 
     for(auto& provider : _hmi_providers) {
         if(try_init(provider)) {
-            if(auto video{extract(provider).video()}) {
+            auto add_input = [&](std::shared_ptr<input_provider> input) {
+                extract(input).input_connect(*this);
+                _input_providers.emplace_back(std::move(input));
+            };
+            extract(provider).input_enumerate({construct_from, add_input});
+
+            auto add_video = [&](std::shared_ptr<video_provider> video) {
                 _video_contexts.emplace_back(
                   std::make_unique<video_context>(*this, std::move(video)));
-            }
-        }
-    }
+            };
+            extract(provider).video_enumerate({construct_from, add_video});
 
-    for(auto& provider : _hmi_providers) {
-        if(try_init(provider)) {
-            _audio_contexts.emplace_back(std::make_unique<audio_context>(
-              *this, extract(provider).audio()));
-        } else {
-            return false;
+            auto add_audio = [&](std::shared_ptr<audio_provider> audio) {
+                _audio_contexts.emplace_back(
+                  std::make_unique<audio_context>(*this, std::move(audio)));
+            };
+            extract(provider).audio_enumerate({construct_from, add_audio});
         }
     }
 
@@ -365,16 +373,20 @@ EAGINE_LIB_FUNC
 auto execution_context::prepare(std::unique_ptr<launchpad> pad)
   -> execution_context& {
     if(pad) {
-        if(pad->setup(main_context(), _options)) {
+        if(extract(pad).setup(main_context(), _options)) {
 
             for(auto& provider : make_all_hmi_providers(*this)) {
-                if(provider->is_implemented()) {
+                if(extract(provider).is_implemented()) {
                     log_debug("using ${name} HMI provider")
-                      .arg(EAGINE_ID(name), provider->implementation_name());
+                      .arg(
+                        EAGINE_ID(name),
+                        extract(provider).implementation_name());
                     _hmi_providers.emplace_back(std::move(provider));
                 } else {
                     log_debug("${name} HMI provider is not implemented")
-                      .arg(EAGINE_ID(name), provider->implementation_name());
+                      .arg(
+                        EAGINE_ID(name),
+                        extract(provider).implementation_name());
                 }
             }
 
@@ -385,7 +397,9 @@ auto execution_context::prepare(std::unique_ptr<launchpad> pad)
                 if(_setup_providers()) {
                     _state = std::make_shared<context_state>(*this);
                     EAGINE_ASSERT(_state);
-                    if(!(_app = pad->launch(*this, _options))) {
+                    if((_app = extract(pad).launch(*this, _options))) {
+                        extract(_app).on_video_resize();
+                    } else {
                         log_error("failed to launch application");
                         _exec_result = 3;
                     }
@@ -409,7 +423,7 @@ EAGINE_LIB_FUNC
 auto execution_context::is_running() noexcept -> bool {
     if(EAGINE_LIKELY(_keep_running)) {
         if(EAGINE_LIKELY(_app)) {
-            return !_app->is_done();
+            return !extract(_app).is_done();
         }
     }
     return false;
@@ -423,6 +437,12 @@ EAGINE_LIB_FUNC
 void execution_context::cleanup() noexcept {
     if(_app) {
         extract(_app).cleanup();
+    }
+    for(auto& input : _input_providers) {
+        extract(input).input_disconnect();
+    }
+    for(auto& audio : _audio_contexts) {
+        extract(audio).cleanup();
     }
     for(auto& video : _video_contexts) {
         extract(video).cleanup();
@@ -439,16 +459,63 @@ void execution_context::update() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void execution_context::surface_size(int width, int height) {
-    EAGINE_MAYBE_UNUSED(width);
-    EAGINE_MAYBE_UNUSED(height);
+void execution_context::random_uniform(span<byte> dest) {
+    extract(_state).random_uniform(dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void execution_context::pointer_position(float x, float y, int index) {
-    EAGINE_MAYBE_UNUSED(x);
-    EAGINE_MAYBE_UNUSED(y);
-    EAGINE_MAYBE_UNUSED(index);
+void execution_context::random_uniform_01(span<float> dest) {
+    extract(_state).random_uniform_01(dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::random_normal(span<float> dest) {
+    extract(_state).random_normal(dest);
+}
+//------------------------------------------------------------------------------
+template <typename T>
+inline void execution_context::_forward_input(
+  const input_info& info,
+  const input_value<T>& value) noexcept {
+    const auto setup_pos = _inputs.find(_input_setup);
+    if(setup_pos != _inputs.end()) {
+        const auto& slots = setup_pos->second;
+        const auto slot_pos = slots.find(info.signal_id);
+        if(slot_pos != slots.end()) {
+            const auto& [value_kinds, handler] = slot_pos->second;
+            if(value_kinds.has(info.value_kind)) {
+                handler(value);
+            }
+        }
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::consume(
+  const input_info& info,
+  const input_value<bool>& value) noexcept {
+    _forward_input(info, value);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::consume(
+  const input_info& info,
+  const input_value<int>& value) noexcept {
+    _forward_input(info, value);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::consume(
+  const input_info& info,
+  const input_value<float>& value) noexcept {
+    _forward_input(info, value);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::consume(
+  const input_info& info,
+  const input_value<double>& value) noexcept {
+    _forward_input(info, value);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::application

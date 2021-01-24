@@ -88,6 +88,35 @@ struct stream_state
     using enum_class::enum_class;
 };
 
+struct output_layer_attribute
+  : egl_enum_class<output_layer_attribute, EAGINE_ID_V(OutLyrAttr)> {
+    using enum_class::enum_class;
+};
+
+struct output_layer_string_query
+  : egl_enum_class<output_layer_string_query, EAGINE_ID_V(OutLyrStrQ)> {
+    using enum_class::enum_class;
+};
+
+struct output_port_attribute
+  : egl_enum_class<output_port_attribute, EAGINE_ID_V(OutPrtAttr)> {
+    using enum_class::enum_class;
+};
+
+struct output_port_string_query
+  : egl_enum_class<output_port_string_query, EAGINE_ID_V(OutPrtStrQ)> {
+    using enum_class::enum_class;
+};
+
+struct image_attribute
+  : egl_enum_class<image_attribute, EAGINE_ID_V(ImageAttr)> {
+    using enum_class::enum_class;
+};
+
+struct image_target : egl_enum_class<image_target, EAGINE_ID_V(ImgeTarget)> {
+    using enum_class::enum_class;
+};
+
 struct sync_type : egl_enum_class<sync_type, EAGINE_ID_V(SyncType)> {
     using enum_class::enum_class;
 };

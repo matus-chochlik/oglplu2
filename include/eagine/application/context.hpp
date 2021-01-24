@@ -14,10 +14,12 @@
 #include "../../oglplus/gl_api_fwd.hpp"
 #include "../application_config.hpp"
 #include "../assert.hpp"
+#include "../flat_map.hpp"
 #include "../main_ctx_object.hpp"
 #include "interface.hpp"
 #include "options.hpp"
 #include "state_view.hpp"
+#include <map>
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
@@ -51,6 +53,20 @@ public:
         return *_gl_api;
     }
 
+    auto surface_size() noexcept -> std::tuple<int, int> {
+        if(EAGINE_LIKELY(_provider)) {
+            return extract(_provider).surface_size();
+        }
+        return {1, 1};
+    }
+
+    auto surface_aspect() noexcept -> float {
+        if(EAGINE_LIKELY(_provider)) {
+            return extract(_provider).surface_aspect();
+        }
+        return 1.F;
+    }
+
     void cleanup() noexcept;
 
 private:
@@ -68,7 +84,6 @@ public:
       std::shared_ptr<audio_provider> provider) noexcept
       : _parent{parent}
       , _provider{std::move(provider)} {
-        // TODO
         EAGINE_MAYBE_UNUSED(_parent);
     }
 
@@ -83,6 +98,8 @@ public:
         return *_al_api;
     }
 
+    void cleanup() noexcept;
+
 private:
     execution_context& _parent;
     std::shared_ptr<audio_provider> _provider{};
@@ -90,7 +107,9 @@ private:
 };
 //------------------------------------------------------------------------------
 class context_state;
-class execution_context : public main_ctx_object {
+class execution_context
+  : public main_ctx_object
+  , private input_sink {
 public:
     execution_context(main_ctx_parent parent) noexcept
       : main_ctx_object(EAGINE_ID(AppExecCtx), parent)
@@ -145,8 +164,38 @@ public:
         return nullptr;
     }
 
-    void surface_size(int width, int height);
-    void pointer_position(float x, float y, int index);
+    auto connect_input(
+      identifier setup_id,
+      message_id signal_id,
+      input_value_kinds value_kinds,
+      callable_ref<void(const input&)> handler) -> auto& {
+        _inputs[setup_id].try_emplace(signal_id, value_kinds, handler);
+        return *this;
+    }
+
+    auto connect_input(
+      message_id signal_id,
+      input_value_kinds value_kinds,
+      callable_ref<void(const input&)> handler) -> auto& {
+        return connect_input(
+          EAGINE_ID(default),
+          std::move(signal_id),
+          value_kinds,
+          std::move(handler));
+    }
+
+    auto connect_button_input(
+      message_id signal_id,
+      callable_ref<void(const input&)> handler) -> auto& {
+        return connect_input(
+          std::move(signal_id),
+          input_value_kind::absolute_norm | input_value_kind::absolute_free,
+          std::move(handler));
+    }
+
+    void random_uniform(span<byte> dest);
+    void random_uniform_01(span<float> dest);
+    void random_normal(span<float> dest);
 
 private:
     int _exec_result{0};
@@ -160,7 +209,24 @@ private:
     std::vector<std::unique_ptr<video_context>> _video_contexts;
     std::vector<std::unique_ptr<audio_context>> _audio_contexts;
 
+    identifier _input_setup{EAGINE_ID(default)};
+
+    flat_map<
+      identifier,
+      flat_map<
+        message_id,
+        std::tuple<input_value_kinds, callable_ref<void(const input&)>>>>
+      _inputs;
+
     auto _setup_providers() -> bool;
+
+    template <typename T>
+    void _forward_input(const input_info&, const input_value<T>&) noexcept;
+
+    void consume(const input_info&, const input_value<bool>&) noexcept final;
+    void consume(const input_info&, const input_value<int>&) noexcept final;
+    void consume(const input_info&, const input_value<float>&) noexcept final;
+    void consume(const input_info&, const input_value<double>&) noexcept final;
 };
 //------------------------------------------------------------------------------
 auto establish(main_ctx&) -> std::unique_ptr<launchpad>;

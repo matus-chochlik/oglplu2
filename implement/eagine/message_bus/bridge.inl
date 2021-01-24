@@ -100,7 +100,7 @@ public:
             }
             return true;
         };
-        _outgoing.back().fetch_all(fetch_handler(handler));
+        _outgoing.back().fetch_all({construct_from, handler});
         _output << std::flush;
     }
 
@@ -319,7 +319,7 @@ auto bridge::_forward_messages() -> bool {
 
     if(EAGINE_LIKELY(_connection)) {
         something_done(_connection->fetch_messages(
-          connection::fetch_handler(forward_conn_to_output)));
+          {construct_from, forward_conn_to_output}));
     }
     _state->notify_output_ready();
 
@@ -351,8 +351,8 @@ auto bridge::_forward_messages() -> bool {
       };
 
     if(EAGINE_LIKELY(_state)) {
-        something_done(_state->fetch_messages(
-          bridge_state::fetch_handler(forward_input_to_conn)));
+        something_done(
+          _state->fetch_messages({construct_from, forward_input_to_conn}));
     }
 
     return something_done;

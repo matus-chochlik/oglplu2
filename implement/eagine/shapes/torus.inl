@@ -273,12 +273,12 @@ void unit_torus_gen::make_special_attrib_values(
                           span_size_t) mutable -> std::array<float, 3> {
             return {{rnd(rrg), snd(srg), 0.F}};
         };
-        (this->*function)(dest, offset_getter{get_offs});
+        (this->*function)(dest, {construct_from, get_offs});
     } else if(variant_index == 2) {
         auto get_offs = [](span_size_t s, span_size_t) -> std::array<float, 3> {
             return {{float(s), 0.F, 0.F}};
         };
-        (this->*function)(dest, offset_getter{get_offs});
+        (this->*function)(dest, {construct_from, get_offs});
     } else if(variant_index == 3) {
         auto get_offs =
           [this](span_size_t s, span_size_t r) -> std::array<float, 3> {
@@ -287,7 +287,7 @@ void unit_torus_gen::make_special_attrib_values(
             return {
               {float(math::sine_wave01(x)), float(math::sine_wave01(y)), 0.F}};
         };
-        (this->*function)(dest, offset_getter{get_offs});
+        (this->*function)(dest, {construct_from, get_offs});
     } else {
         const auto no_offs =
           [](span_size_t, span_size_t) -> std::array<float, 3> {

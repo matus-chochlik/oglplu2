@@ -199,8 +199,7 @@ auto main(int, const char** argv) -> int {
         api.close_file(pfd[1]);
 
         hexdump::apply(
-          hexdump::byte_getter(make_getbyte(pfd[0])),
-          hexdump::char_putter(putchar));
+          {construct_from, make_getbyte(pfd[0])}, {construct_from, putchar});
     } else {
         std::cerr << "required API is not available" << std::endl;
     }

@@ -28,6 +28,14 @@
 #define EGL_PLATFORM_DEVICE_EXT 0x313F
 #endif
 
+#ifndef EGL_BAD_OUTPUT_LAYER_EXT
+#define EGL_BAD_OUTPUT_LAYER_EXT 0x322D
+#endif
+
+#ifndef EGL_BAD_OUTPUT_PORT_EXT
+#define EGL_BAD_OUTPUT_PORT_EXT 0x322E
+#endif
+
 #else
 #define EGLPLUS_HAS_EGL 0
 #endif

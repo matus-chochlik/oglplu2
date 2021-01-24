@@ -56,7 +56,7 @@ public:
 
     template <typename Func>
     on_scope_exit(Func& action) noexcept
-      : _action(action_type(action)) {}
+      : _action(construct_from, action) {}
 
     on_scope_exit(const on_scope_exit&) = delete;
 

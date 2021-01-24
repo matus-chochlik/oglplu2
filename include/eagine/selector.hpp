@@ -20,8 +20,11 @@ struct selector {
     using type = selector;
 };
 
-using default_selector_t = selector<0>;
+using default_selector_t = selector<0U>;
 constexpr const default_selector_t default_selector = {};
+
+using construct_from_t = selector<0xFU>;
+constexpr const construct_from_t construct_from = {};
 
 } // namespace eagine
 

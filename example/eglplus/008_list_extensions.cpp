@@ -77,6 +77,21 @@ auto main() -> int {
                                 }
                             }
 
+                            if(egl.EXT_output_base(display)) {
+                                if(ok count{
+                                     egl.get_output_layers.count(display)}) {
+                                    std::cout
+                                      << " Output layers: " << extract(count)
+                                      << std::endl;
+                                }
+                                if(ok count{
+                                     egl.get_output_ports.count(display)}) {
+                                    std::cout
+                                      << " Output ports: " << extract(count)
+                                      << std::endl;
+                                }
+                            }
+
                             std::cout << " Display extensions: " << std::endl;
 
                             if(ok extensions = egl.get_extensions(display)) {

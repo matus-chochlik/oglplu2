@@ -57,7 +57,7 @@ void compound::traverse(visit_handler visit) {
                      span<const attribute>) -> bool {
         return visit(c, a, p);
     };
-    traverse(stack_visit_handler{adapted});
+    traverse(stack_visit_handler{construct_from, adapted});
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree

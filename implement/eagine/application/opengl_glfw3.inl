@@ -32,8 +32,7 @@ class glfw3_opengl_window
   , public video_provider
   , public input_provider {
 public:
-    glfw3_opengl_window(main_ctx_parent parent)
-      : main_ctx_object{EAGINE_ID(GLFW3Wndow), parent} {}
+    glfw3_opengl_window(main_ctx_parent parent);
 
     auto initialize(
       string_view name,
@@ -49,22 +48,125 @@ public:
     auto is_offscreen() noexcept -> tribool final;
     auto has_framebuffer() noexcept -> tribool final;
     auto surface_size() noexcept -> std::tuple<int, int> final;
+    auto surface_aspect() noexcept -> float final;
 
     void video_begin(execution_context&) final;
     void video_end(execution_context&) final;
     void video_commit(execution_context&) final;
 
+    void
+      input_enumerate(callable_ref<void(message_id, input_value_kinds)>) final;
+
+    void input_connect(input_sink&) final;
+    void input_disconnect() final;
+
 private:
     string_view _instance_name;
     GLFWwindow* _window{nullptr};
-    double _mouse_x{0};
-    double _mouse_y{0};
+    input_sink* _input_sink{nullptr};
+    input_variable<double> _mouse_x_pix{0};
+    input_variable<double> _mouse_y_pix{0};
+    input_variable<double> _mouse_x_ndc{0};
+    input_variable<double> _mouse_y_ndc{0};
     int _window_width{1};
     int _window_height{1};
+
+    struct key_state {
+        identifier key_id;
+        int key_code;
+        input_variable<bool> pressed{false};
+
+        constexpr key_state(identifier id, int code) noexcept
+          : key_id{id}
+          , key_code{code} {}
+    };
+
+    std::vector<key_state> _key_states;
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_window::initialize(
+glfw3_opengl_window::glfw3_opengl_window(main_ctx_parent parent)
+  : main_ctx_object{EAGINE_ID(GLFW3Wndow), parent} {
+    _key_states.emplace_back(EAGINE_ID(Spacebar), GLFW_KEY_SPACE);
+    _key_states.emplace_back(EAGINE_ID(Backspace), GLFW_KEY_BACKSPACE);
+    _key_states.emplace_back(EAGINE_ID(Escape), GLFW_KEY_ESCAPE);
+    _key_states.emplace_back(EAGINE_ID(Enter), GLFW_KEY_ENTER);
+    _key_states.emplace_back(EAGINE_ID(Tab), GLFW_KEY_TAB);
+    _key_states.emplace_back(EAGINE_ID(Left), GLFW_KEY_LEFT);
+    _key_states.emplace_back(EAGINE_ID(Right), GLFW_KEY_RIGHT);
+    _key_states.emplace_back(EAGINE_ID(Up), GLFW_KEY_UP);
+    _key_states.emplace_back(EAGINE_ID(Down), GLFW_KEY_DOWN);
+    _key_states.emplace_back(EAGINE_ID(PageUp), GLFW_KEY_PAGE_UP);
+    _key_states.emplace_back(EAGINE_ID(PageDown), GLFW_KEY_PAGE_DOWN);
+    _key_states.emplace_back(EAGINE_ID(Home), GLFW_KEY_HOME);
+    _key_states.emplace_back(EAGINE_ID(End), GLFW_KEY_END);
+    _key_states.emplace_back(EAGINE_ID(Insert), GLFW_KEY_INSERT);
+    _key_states.emplace_back(EAGINE_ID(Delete), GLFW_KEY_DELETE);
+
+    _key_states.emplace_back(EAGINE_ID(A), GLFW_KEY_A);
+    _key_states.emplace_back(EAGINE_ID(B), GLFW_KEY_B);
+    _key_states.emplace_back(EAGINE_ID(C), GLFW_KEY_C);
+    _key_states.emplace_back(EAGINE_ID(D), GLFW_KEY_D);
+    _key_states.emplace_back(EAGINE_ID(E), GLFW_KEY_E);
+    _key_states.emplace_back(EAGINE_ID(F), GLFW_KEY_F);
+    _key_states.emplace_back(EAGINE_ID(G), GLFW_KEY_G);
+    _key_states.emplace_back(EAGINE_ID(H), GLFW_KEY_H);
+    _key_states.emplace_back(EAGINE_ID(I), GLFW_KEY_I);
+    _key_states.emplace_back(EAGINE_ID(J), GLFW_KEY_J);
+    _key_states.emplace_back(EAGINE_ID(K), GLFW_KEY_K);
+    _key_states.emplace_back(EAGINE_ID(L), GLFW_KEY_L);
+    _key_states.emplace_back(EAGINE_ID(M), GLFW_KEY_M);
+    _key_states.emplace_back(EAGINE_ID(N), GLFW_KEY_N);
+    _key_states.emplace_back(EAGINE_ID(O), GLFW_KEY_O);
+    _key_states.emplace_back(EAGINE_ID(P), GLFW_KEY_P);
+    _key_states.emplace_back(EAGINE_ID(Q), GLFW_KEY_Q);
+    _key_states.emplace_back(EAGINE_ID(R), GLFW_KEY_R);
+    _key_states.emplace_back(EAGINE_ID(S), GLFW_KEY_S);
+    _key_states.emplace_back(EAGINE_ID(T), GLFW_KEY_R);
+    _key_states.emplace_back(EAGINE_ID(U), GLFW_KEY_U);
+    _key_states.emplace_back(EAGINE_ID(V), GLFW_KEY_V);
+    _key_states.emplace_back(EAGINE_ID(W), GLFW_KEY_W);
+    _key_states.emplace_back(EAGINE_ID(X), GLFW_KEY_X);
+    _key_states.emplace_back(EAGINE_ID(Y), GLFW_KEY_Y);
+    _key_states.emplace_back(EAGINE_ID(Z), GLFW_KEY_Z);
+
+    _key_states.emplace_back(EAGINE_ID(0), GLFW_KEY_0);
+    _key_states.emplace_back(EAGINE_ID(1), GLFW_KEY_1);
+    _key_states.emplace_back(EAGINE_ID(2), GLFW_KEY_2);
+    _key_states.emplace_back(EAGINE_ID(3), GLFW_KEY_3);
+    _key_states.emplace_back(EAGINE_ID(4), GLFW_KEY_4);
+    _key_states.emplace_back(EAGINE_ID(5), GLFW_KEY_5);
+    _key_states.emplace_back(EAGINE_ID(6), GLFW_KEY_6);
+    _key_states.emplace_back(EAGINE_ID(7), GLFW_KEY_7);
+    _key_states.emplace_back(EAGINE_ID(8), GLFW_KEY_8);
+    _key_states.emplace_back(EAGINE_ID(9), GLFW_KEY_9);
+
+    _key_states.emplace_back(EAGINE_ID(KeyPad0), GLFW_KEY_KP_0);
+    _key_states.emplace_back(EAGINE_ID(KeyPad1), GLFW_KEY_KP_1);
+    _key_states.emplace_back(EAGINE_ID(KeyPad2), GLFW_KEY_KP_2);
+    _key_states.emplace_back(EAGINE_ID(KeyPad3), GLFW_KEY_KP_3);
+    _key_states.emplace_back(EAGINE_ID(KeyPad4), GLFW_KEY_KP_4);
+    _key_states.emplace_back(EAGINE_ID(KeyPad5), GLFW_KEY_KP_5);
+    _key_states.emplace_back(EAGINE_ID(KeyPad6), GLFW_KEY_KP_6);
+    _key_states.emplace_back(EAGINE_ID(KeyPad7), GLFW_KEY_KP_7);
+    _key_states.emplace_back(EAGINE_ID(KeyPad8), GLFW_KEY_KP_8);
+    _key_states.emplace_back(EAGINE_ID(KeyPad9), GLFW_KEY_KP_9);
+
+    _key_states.emplace_back(EAGINE_ID(F1), GLFW_KEY_F1);
+    _key_states.emplace_back(EAGINE_ID(F2), GLFW_KEY_F2);
+    _key_states.emplace_back(EAGINE_ID(F3), GLFW_KEY_F3);
+    _key_states.emplace_back(EAGINE_ID(F4), GLFW_KEY_F4);
+    _key_states.emplace_back(EAGINE_ID(F5), GLFW_KEY_F5);
+    _key_states.emplace_back(EAGINE_ID(F6), GLFW_KEY_F6);
+    _key_states.emplace_back(EAGINE_ID(F7), GLFW_KEY_F7);
+    _key_states.emplace_back(EAGINE_ID(F8), GLFW_KEY_F8);
+    _key_states.emplace_back(EAGINE_ID(F9), GLFW_KEY_F9);
+    _key_states.emplace_back(EAGINE_ID(F10), GLFW_KEY_F10);
+    _key_states.emplace_back(EAGINE_ID(F11), GLFW_KEY_F11);
+    _key_states.emplace_back(EAGINE_ID(F12), GLFW_KEY_F12);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC auto glfw3_opengl_window::initialize(
   string_view name,
   const launch_options& options,
   const video_options& video_opts,
@@ -114,6 +216,7 @@ auto glfw3_opengl_window::initialize(
 
     if(_window) {
         glfwSetWindowTitle(_window, c_str(options.application_title()));
+        glfwGetWindowSize(_window, &_window_width, &_window_height);
         return true;
     } else {
         log_error("Failed to create GLFW window").arg(EAGINE_ID(name), name);
@@ -153,6 +256,11 @@ auto glfw3_opengl_window::surface_size() noexcept -> std::tuple<int, int> {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto glfw3_opengl_window::surface_aspect() noexcept -> float {
+    return float(_window_width) / float(_window_height);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void glfw3_opengl_window::video_begin(execution_context&) {
 
     EAGINE_ASSERT(_window);
@@ -171,6 +279,35 @@ void glfw3_opengl_window::video_commit(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void glfw3_opengl_window::input_enumerate(
+  callable_ref<void(message_id, input_value_kinds)> callback) {
+    // Mouse inputs
+    callback(
+      EAGINE_MSG_ID(Cursor, MotionX),
+      input_value_kind::absolute_free | input_value_kind::absolute_norm);
+    callback(
+      EAGINE_MSG_ID(Cursor, MotionY),
+      input_value_kind::absolute_free | input_value_kind::absolute_norm);
+
+    // Keyboard inputs
+    for(auto& ks : _key_states) {
+        callback(
+          message_id{EAGINE_ID(Keyboard), ks.key_id},
+          input_value_kind::absolute_norm);
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void glfw3_opengl_window::input_connect(input_sink& sink) {
+    _input_sink = std::addressof(sink);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void glfw3_opengl_window::input_disconnect() {
+    _input_sink = nullptr;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void glfw3_opengl_window::update(execution_context& exec_ctx) {
 
     if(glfwWindowShouldClose(_window)) {
@@ -178,8 +315,46 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
     } else {
         glfwGetWindowSize(_window, &_window_width, &_window_height);
 
-        glfwGetCursorPos(_window, &_mouse_x, &_mouse_y);
-        exec_ctx.pointer_position(float(_mouse_x), float(_mouse_y), 0);
+        if(_input_sink) {
+            auto& sink = extract(_input_sink);
+            double mouse_x_pix{0}, mouse_y_pix{0};
+            glfwGetCursorPos(_window, &mouse_x_pix, &mouse_y_pix);
+
+            if(_mouse_x_pix.assign(mouse_x_pix)) {
+                sink.consume(
+                  {EAGINE_MSG_ID(Cursor, MotionX),
+                   input_value_kind::absolute_free},
+                  _mouse_x_pix);
+                if(_mouse_x_ndc.assign((mouse_x_pix / _window_width) - 0.5)) {
+                    sink.consume(
+                      {EAGINE_MSG_ID(Cursor, MotionX),
+                       input_value_kind::absolute_norm},
+                      _mouse_x_ndc);
+                }
+            }
+            if(_mouse_y_pix.assign(mouse_y_pix)) {
+                sink.consume(
+                  {EAGINE_MSG_ID(Cursor, MotionY),
+                   input_value_kind::absolute_free},
+                  _mouse_y_pix);
+                if(_mouse_y_ndc.assign((mouse_y_pix / _window_height) - 0.5)) {
+                    sink.consume(
+                      {EAGINE_MSG_ID(Cursor, MotionY),
+                       input_value_kind::absolute_norm},
+                      _mouse_y_ndc);
+                }
+            }
+
+            for(auto& ks : _key_states) {
+                if(ks.pressed.assign(
+                     glfwGetKey(_window, ks.key_code) == GLFW_PRESS)) {
+                    sink.consume(
+                      {{EAGINE_ID(Keyboard), ks.key_id},
+                       input_value_kind::absolute_norm},
+                      ks.pressed);
+                }
+            }
+        }
     }
 }
 //------------------------------------------------------------------------------
@@ -207,9 +382,12 @@ public:
     void update(execution_context&) final;
     void cleanup(execution_context&) final;
 
-    auto input() -> std::shared_ptr<input_provider> final;
-    auto video(string_view) -> std::shared_ptr<video_provider> final;
-    auto audio(string_view) -> std::shared_ptr<audio_provider> final;
+    void input_enumerate(
+      callable_ref<void(std::shared_ptr<input_provider>)>) final;
+    void video_enumerate(
+      callable_ref<void(std::shared_ptr<video_provider>)>) final;
+    void audio_enumerate(
+      callable_ref<void(std::shared_ptr<audio_provider>)>) final;
 
 private:
 #if OGLPLUS_GLFW3_FOUND
@@ -322,28 +500,30 @@ void glfw3_opengl_provider::cleanup(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_provider::input() -> std::shared_ptr<input_provider> {
-    return {};
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto glfw3_opengl_provider::video(string_view name)
-  -> std::shared_ptr<video_provider> {
-    EAGINE_MAYBE_UNUSED(name);
+void glfw3_opengl_provider::input_enumerate(
+  callable_ref<void(std::shared_ptr<input_provider>)> handler) {
+    EAGINE_MAYBE_UNUSED(handler);
 #if OGLPLUS_GLFW3_FOUND
-    auto pos = _windows.find(name);
-    if(pos != _windows.end()) {
-        return {pos->second};
+    for(auto& p : _windows) {
+        handler(p.second);
     }
 #endif // OGLPLUS_GLFW3_FOUND
-    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_provider::audio(string_view)
-  -> std::shared_ptr<audio_provider> {
-    return {};
+void glfw3_opengl_provider::video_enumerate(
+  callable_ref<void(std::shared_ptr<video_provider>)> handler) {
+    EAGINE_MAYBE_UNUSED(handler);
+#if OGLPLUS_GLFW3_FOUND
+    for(auto& p : _windows) {
+        handler(p.second);
+    }
+#endif // OGLPLUS_GLFW3_FOUND
 }
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void glfw3_opengl_provider::audio_enumerate(
+  callable_ref<void(std::shared_ptr<audio_provider>)>) {}
 //------------------------------------------------------------------------------
 auto make_glfw3_opengl_provider(main_ctx_parent parent)
   -> std::shared_ptr<hmi_provider> {
