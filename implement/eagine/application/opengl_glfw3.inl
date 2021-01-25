@@ -115,6 +115,20 @@ glfw3_opengl_window::glfw3_opengl_window(main_ctx_parent parent)
     _key_states.emplace_back(EAGINE_ID(End), GLFW_KEY_END);
     _key_states.emplace_back(EAGINE_ID(Insert), GLFW_KEY_INSERT);
     _key_states.emplace_back(EAGINE_ID(Delete), GLFW_KEY_DELETE);
+    _key_states.emplace_back(EAGINE_ID(Apostrophe), GLFW_KEY_APOSTROPHE);
+    _key_states.emplace_back(EAGINE_ID(Minus), GLFW_KEY_MINUS);
+    _key_states.emplace_back(EAGINE_ID(Equal), GLFW_KEY_EQUAL);
+    _key_states.emplace_back(EAGINE_ID(Period), GLFW_KEY_PERIOD);
+    _key_states.emplace_back(EAGINE_ID(Semicolon), GLFW_KEY_SEMICOLON);
+    _key_states.emplace_back(EAGINE_ID(Slash), GLFW_KEY_SLASH);
+    _key_states.emplace_back(EAGINE_ID(LtBracket), GLFW_KEY_LEFT_BRACKET);
+    _key_states.emplace_back(EAGINE_ID(RtBracket), GLFW_KEY_RIGHT_BRACKET);
+    _key_states.emplace_back(EAGINE_ID(Backtick), GLFW_KEY_GRAVE_ACCENT);
+    _key_states.emplace_back(EAGINE_ID(CapsLock), GLFW_KEY_CAPS_LOCK);
+    _key_states.emplace_back(EAGINE_ID(NumLock), GLFW_KEY_NUM_LOCK);
+    _key_states.emplace_back(EAGINE_ID(ScrollLock), GLFW_KEY_SCROLL_LOCK);
+    _key_states.emplace_back(EAGINE_ID(PrntScreen), GLFW_KEY_PRINT_SCREEN);
+    _key_states.emplace_back(EAGINE_ID(Pause), GLFW_KEY_PAUSE);
 
     _key_states.emplace_back(EAGINE_ID(A), GLFW_KEY_A);
     _key_states.emplace_back(EAGINE_ID(B), GLFW_KEY_B);
@@ -164,6 +178,24 @@ glfw3_opengl_window::glfw3_opengl_window(main_ctx_parent parent)
     _key_states.emplace_back(EAGINE_ID(KeyPad7), GLFW_KEY_KP_7);
     _key_states.emplace_back(EAGINE_ID(KeyPad8), GLFW_KEY_KP_8);
     _key_states.emplace_back(EAGINE_ID(KeyPad9), GLFW_KEY_KP_9);
+
+    _key_states.emplace_back(EAGINE_ID(KpDecimal), GLFW_KEY_KP_DECIMAL);
+    _key_states.emplace_back(EAGINE_ID(KpAdd), GLFW_KEY_KP_ADD);
+    _key_states.emplace_back(EAGINE_ID(KpSubtract), GLFW_KEY_KP_SUBTRACT);
+    _key_states.emplace_back(EAGINE_ID(KpMultiply), GLFW_KEY_KP_MULTIPLY);
+    _key_states.emplace_back(EAGINE_ID(KpDivide), GLFW_KEY_KP_DIVIDE);
+    _key_states.emplace_back(EAGINE_ID(KpEqual), GLFW_KEY_KP_EQUAL);
+    _key_states.emplace_back(EAGINE_ID(KpEnter), GLFW_KEY_KP_ENTER);
+
+    _key_states.emplace_back(EAGINE_ID(LeftSuper), GLFW_KEY_LEFT_SUPER);
+    _key_states.emplace_back(EAGINE_ID(LeftShift), GLFW_KEY_LEFT_SHIFT);
+    _key_states.emplace_back(EAGINE_ID(LeftCtrl), GLFW_KEY_LEFT_CONTROL);
+    _key_states.emplace_back(EAGINE_ID(LeftAlt), GLFW_KEY_LEFT_ALT);
+    _key_states.emplace_back(EAGINE_ID(RightSuper), GLFW_KEY_RIGHT_SUPER);
+    _key_states.emplace_back(EAGINE_ID(RightShift), GLFW_KEY_RIGHT_SHIFT);
+    _key_states.emplace_back(EAGINE_ID(RightCtrl), GLFW_KEY_RIGHT_CONTROL);
+    _key_states.emplace_back(EAGINE_ID(RightAlt), GLFW_KEY_RIGHT_ALT);
+    _key_states.emplace_back(EAGINE_ID(Menu), GLFW_KEY_MENU);
 
     _key_states.emplace_back(EAGINE_ID(F1), GLFW_KEY_F1);
     _key_states.emplace_back(EAGINE_ID(F2), GLFW_KEY_F2);
