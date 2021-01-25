@@ -103,7 +103,17 @@ struct member_function_constant<RV (C::*)(P...) const noexcept, Ptr> {
 
 #define EAGINE_MEM_FUNC_T(CLASS, FUNC) \
     ::eagine::member_function_constant<decltype(&CLASS::FUNC), &CLASS::FUNC>
-#define EAGINE_MEM_FUNC_C(CLASS, FUNC) EAGINE_MEM_FUNC_T(CLASS, FUNC)()
+#define EAGINE_MEM_FUNC_C(CLASS, FUNC) \
+    EAGINE_MEM_FUNC_T(CLASS, FUNC) {}
+
+#define EAGINE_THIS_T() std::remove_cv_t<std::remove_pointer_t<decltype(this)>>
+
+#define EAGINE_THIS_MEM_FUNC_T(FUNC)    \
+    ::eagine::member_function_constant< \
+      decltype(&EAGINE_THIS_T()::FUNC), \
+      &EAGINE_THIS_T()::FUNC>
+#define EAGINE_THIS_MEM_FUNC_C(FUNC) \
+    EAGINE_THIS_MEM_FUNC_T(FUNC) {}
 
 } // namespace eagine
 
