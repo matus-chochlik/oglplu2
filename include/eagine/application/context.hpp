@@ -165,13 +165,10 @@ public:
     }
 
     auto connect_input(
-      identifier setup_id,
+      identifier mapping_id,
       message_id signal_id,
       input_value_kinds value_kinds,
-      callable_ref<void(const input&)> handler) -> auto& {
-        _inputs[setup_id].try_emplace(signal_id, value_kinds, handler);
-        return *this;
-    }
+      callable_ref<void(const input&)> handler) -> execution_context&;
 
     auto connect_input(
       message_id signal_id,
@@ -193,6 +190,11 @@ public:
           std::move(handler));
     }
 
+    auto set_input_mapping(identifier mapping_id) -> execution_context&;
+    auto set_input_mapping() -> auto& {
+        return set_input_mapping(EAGINE_ID(default));
+    }
+
     void random_uniform(span<byte> dest);
     void random_uniform_01(span<float> dest);
     void random_normal(span<float> dest);
@@ -209,7 +211,7 @@ private:
     std::vector<std::unique_ptr<video_context>> _video_contexts;
     std::vector<std::unique_ptr<audio_context>> _audio_contexts;
 
-    identifier _input_setup{EAGINE_ID(default)};
+    identifier _input_mapping{EAGINE_ID(none)};
 
     flat_map<
       identifier,

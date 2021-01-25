@@ -7,12 +7,13 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-namespace eagine::application {
-
 #include <eagine/application/context.hpp>
+#include <eagine/flat_set.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/config/basic.hpp>
 
+namespace eagine::application {
+//------------------------------------------------------------------------------
 #if OGLPLUS_GLFW3_FOUND
 
 #ifdef __clang__
@@ -60,14 +61,14 @@ public:
     void input_connect(input_sink&) final;
     void input_disconnect() final;
 
+    void mapping_begin(identifier setup_id) final;
+    void mapping_enable(message_id signal_id) final;
+    void mapping_commit(identifier setup_id) final;
+
 private:
     string_view _instance_name;
     GLFWwindow* _window{nullptr};
     input_sink* _input_sink{nullptr};
-    input_variable<double> _mouse_x_pix{0};
-    input_variable<double> _mouse_y_pix{0};
-    input_variable<double> _mouse_x_ndc{0};
-    input_variable<double> _mouse_y_ndc{0};
     int _window_width{1};
     int _window_height{1};
 
@@ -75,18 +76,30 @@ private:
         identifier key_id;
         int key_code;
         input_variable<bool> pressed{false};
+        bool enabled{false};
 
         constexpr key_state(identifier id, int code) noexcept
           : key_id{id}
           , key_code{code} {}
     };
 
+    flat_set<message_id> _enabled_signals;
+
     std::vector<key_state> _key_states;
+    std::vector<key_state> _mouse_states;
+
+    input_variable<double> _mouse_x_pix{0};
+    input_variable<double> _mouse_y_pix{0};
+    input_variable<double> _mouse_x_ndc{0};
+    input_variable<double> _mouse_y_ndc{0};
+    bool _mouse_enabled{false};
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 glfw3_opengl_window::glfw3_opengl_window(main_ctx_parent parent)
   : main_ctx_object{EAGINE_ID(GLFW3Wndow), parent} {
+
+    // keyboard keys/buttons
     _key_states.emplace_back(EAGINE_ID(Spacebar), GLFW_KEY_SPACE);
     _key_states.emplace_back(EAGINE_ID(Backspace), GLFW_KEY_BACKSPACE);
     _key_states.emplace_back(EAGINE_ID(Escape), GLFW_KEY_ESCAPE);
@@ -164,6 +177,16 @@ glfw3_opengl_window::glfw3_opengl_window(main_ctx_parent parent)
     _key_states.emplace_back(EAGINE_ID(F10), GLFW_KEY_F10);
     _key_states.emplace_back(EAGINE_ID(F11), GLFW_KEY_F11);
     _key_states.emplace_back(EAGINE_ID(F12), GLFW_KEY_F12);
+
+    // mouse buttons
+    _mouse_states.emplace_back(EAGINE_ID(Button0), GLFW_MOUSE_BUTTON_1);
+    _mouse_states.emplace_back(EAGINE_ID(Button1), GLFW_MOUSE_BUTTON_2);
+    _mouse_states.emplace_back(EAGINE_ID(Button2), GLFW_MOUSE_BUTTON_3);
+    _mouse_states.emplace_back(EAGINE_ID(Button3), GLFW_MOUSE_BUTTON_4);
+    _mouse_states.emplace_back(EAGINE_ID(Button4), GLFW_MOUSE_BUTTON_5);
+    _mouse_states.emplace_back(EAGINE_ID(Button5), GLFW_MOUSE_BUTTON_6);
+    _mouse_states.emplace_back(EAGINE_ID(Button6), GLFW_MOUSE_BUTTON_7);
+    _mouse_states.emplace_back(EAGINE_ID(Button7), GLFW_MOUSE_BUTTON_8);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC auto glfw3_opengl_window::initialize(
@@ -281,20 +304,26 @@ void glfw3_opengl_window::video_commit(execution_context&) {
 EAGINE_LIB_FUNC
 void glfw3_opengl_window::input_enumerate(
   callable_ref<void(message_id, input_value_kinds)> callback) {
-    // Mouse inputs
-    callback(
-      EAGINE_MSG_ID(Cursor, MotionX),
-      input_value_kind::absolute_free | input_value_kind::absolute_norm);
-    callback(
-      EAGINE_MSG_ID(Cursor, MotionY),
-      input_value_kind::absolute_free | input_value_kind::absolute_norm);
-
     // Keyboard inputs
     for(auto& ks : _key_states) {
         callback(
           message_id{EAGINE_ID(Keyboard), ks.key_id},
           input_value_kind::absolute_norm);
     }
+
+    // cursor device inputs
+    for(auto& ks : _mouse_states) {
+        callback(
+          message_id{EAGINE_ID(Cursor), ks.key_id},
+          input_value_kind::absolute_norm);
+    }
+
+    callback(
+      EAGINE_MSG_ID(Cursor, MotionX),
+      input_value_kind::absolute_free | input_value_kind::absolute_norm);
+    callback(
+      EAGINE_MSG_ID(Cursor, MotionY),
+      input_value_kind::absolute_free | input_value_kind::absolute_norm);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -308,6 +337,35 @@ void glfw3_opengl_window::input_disconnect() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void glfw3_opengl_window::mapping_begin(identifier setup_id) {
+    EAGINE_MAYBE_UNUSED(setup_id);
+    _enabled_signals.clear();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void glfw3_opengl_window::mapping_enable(message_id signal_id) {
+    _enabled_signals.insert(signal_id);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void glfw3_opengl_window::mapping_commit(identifier setup_id) {
+    EAGINE_MAYBE_UNUSED(setup_id);
+
+    for(auto& ks : _key_states) {
+        ks.enabled =
+          _enabled_signals.contains({EAGINE_ID(Keyboard), ks.key_id});
+    }
+
+    for(auto& ks : _mouse_states) {
+        ks.enabled = _enabled_signals.contains({EAGINE_ID(Cursor), ks.key_id});
+    }
+
+    _mouse_enabled =
+      _enabled_signals.contains(EAGINE_MSG_ID(Cursor, MotionX)) ||
+      _enabled_signals.contains(EAGINE_MSG_ID(Cursor, MotionY));
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void glfw3_opengl_window::update(execution_context& exec_ctx) {
 
     if(glfwWindowShouldClose(_window)) {
@@ -317,41 +375,60 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
 
         if(_input_sink) {
             auto& sink = extract(_input_sink);
-            double mouse_x_pix{0}, mouse_y_pix{0};
-            glfwGetCursorPos(_window, &mouse_x_pix, &mouse_y_pix);
+            if(_mouse_enabled) {
+                double mouse_x_pix{0}, mouse_y_pix{0};
+                glfwGetCursorPos(_window, &mouse_x_pix, &mouse_y_pix);
 
-            if(_mouse_x_pix.assign(mouse_x_pix)) {
-                sink.consume(
-                  {EAGINE_MSG_ID(Cursor, MotionX),
-                   input_value_kind::absolute_free},
-                  _mouse_x_pix);
-                if(_mouse_x_ndc.assign((mouse_x_pix / _window_width) - 0.5)) {
+                if(_mouse_x_pix.assign(mouse_x_pix)) {
                     sink.consume(
                       {EAGINE_MSG_ID(Cursor, MotionX),
-                       input_value_kind::absolute_norm},
-                      _mouse_x_ndc);
+                       input_value_kind::absolute_free},
+                      _mouse_x_pix);
+                    if(_mouse_x_ndc.assign(
+                         (mouse_x_pix / _window_width) - 0.5)) {
+                        sink.consume(
+                          {EAGINE_MSG_ID(Cursor, MotionX),
+                           input_value_kind::absolute_norm},
+                          _mouse_x_ndc);
+                    }
                 }
-            }
-            if(_mouse_y_pix.assign(mouse_y_pix)) {
-                sink.consume(
-                  {EAGINE_MSG_ID(Cursor, MotionY),
-                   input_value_kind::absolute_free},
-                  _mouse_y_pix);
-                if(_mouse_y_ndc.assign((mouse_y_pix / _window_height) - 0.5)) {
+                if(_mouse_y_pix.assign(mouse_y_pix)) {
                     sink.consume(
                       {EAGINE_MSG_ID(Cursor, MotionY),
-                       input_value_kind::absolute_norm},
-                      _mouse_y_ndc);
+                       input_value_kind::absolute_free},
+                      _mouse_y_pix);
+                    if(_mouse_y_ndc.assign(
+                         (mouse_y_pix / _window_height) - 0.5)) {
+                        sink.consume(
+                          {EAGINE_MSG_ID(Cursor, MotionY),
+                           input_value_kind::absolute_norm},
+                          _mouse_y_ndc);
+                    }
+                }
+            }
+
+            for(auto& ks : _mouse_states) {
+                if(ks.enabled) {
+                    if(ks.pressed.assign(
+                         glfwGetMouseButton(_window, ks.key_code) ==
+                         GLFW_PRESS)) {
+                        sink.consume(
+                          {{EAGINE_ID(Cursor), ks.key_id},
+                           input_value_kind::absolute_norm},
+                          ks.pressed);
+                    }
                 }
             }
 
             for(auto& ks : _key_states) {
-                if(ks.pressed.assign(
-                     glfwGetKey(_window, ks.key_code) == GLFW_PRESS)) {
-                    sink.consume(
-                      {{EAGINE_ID(Keyboard), ks.key_id},
-                       input_value_kind::absolute_norm},
-                      ks.pressed);
+                if(ks.enabled) {
+                    if(ks.pressed.assign(
+                         glfwGetKey(_window, ks.key_code) == GLFW_PRESS)) {
+                        sink.consume(
+                          {{EAGINE_ID(Keyboard), ks.key_id},
+                           input_value_kind::absolute_norm},
+                          ks.pressed);
+                    }
                 }
             }
         }

@@ -55,6 +55,10 @@ struct input_provider {
 
     virtual void input_connect(input_sink&) = 0;
     virtual void input_disconnect() = 0;
+
+    virtual void mapping_begin(identifier setup_id) = 0;
+    virtual void mapping_enable(message_id signal_id) = 0;
+    virtual void mapping_commit(identifier setup_id) = 0;
 };
 //------------------------------------------------------------------------------
 struct video_provider {

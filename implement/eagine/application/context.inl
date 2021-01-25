@@ -459,6 +459,33 @@ void execution_context::update() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto execution_context::connect_input(
+  identifier mapping_id,
+  message_id signal_id,
+  input_value_kinds value_kinds,
+  callable_ref<void(const input&)> handler) -> execution_context& {
+    _inputs[mapping_id].try_emplace(signal_id, value_kinds, handler);
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::set_input_mapping(identifier mapping_id)
+  -> execution_context& {
+    if(_input_mapping != mapping_id) {
+        const auto& mapping = _inputs[mapping_id];
+        for(auto& input : _input_providers) {
+            extract(input).mapping_begin(mapping_id);
+            for(const auto& slot : mapping) {
+                extract(input).mapping_enable(slot.first);
+            }
+            extract(input).mapping_commit(mapping_id);
+        }
+        _input_mapping = mapping_id;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void execution_context::random_uniform(span<byte> dest) {
     extract(_state).random_uniform(dest);
 }
@@ -477,9 +504,9 @@ template <typename T>
 inline void execution_context::_forward_input(
   const input_info& info,
   const input_value<T>& value) noexcept {
-    const auto setup_pos = _inputs.find(_input_setup);
-    if(setup_pos != _inputs.end()) {
-        const auto& slots = setup_pos->second;
+    const auto mapping_pos = _inputs.find(_input_mapping);
+    if(mapping_pos != _inputs.end()) {
+        const auto& slots = mapping_pos->second;
         const auto slot_pos = slots.find(info.signal_id);
         if(slot_pos != slots.end()) {
             const auto& [value_kinds, handler] = slot_pos->second;
