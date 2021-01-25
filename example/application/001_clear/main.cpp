@@ -19,8 +19,8 @@ public:
       : _ec{ec}
       , _video{vc} {
         ec.connect_button_input(
-            EAGINE_MSG_ID(Keyboard, Escape),
-            {this, EAGINE_THIS_MEM_FUNC_C(_stop)})
+            ec.stop_running_handler(),
+            {EAGINE_MSG_ID(Keyboard, Escape), EAGINE_MSG_ID(Keyboard, Q)})
           .set_input_mapping();
     }
 
@@ -55,12 +55,6 @@ public:
     }
 
 private:
-    void _stop(const input& pressed) {
-        if(pressed) {
-            _ec.stop_running();
-        }
-    }
-
     execution_context& _ec;
     video_context& _video;
     timeout _is_done{std::chrono::seconds(10)};

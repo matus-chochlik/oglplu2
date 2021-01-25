@@ -106,7 +106,9 @@ private:
     std::shared_ptr<oalp::al_api> _al_api{};
 };
 //------------------------------------------------------------------------------
+using input_handler = callable_ref<void(const input&)>;
 class context_state;
+
 class execution_context
   : public main_ctx_object
   , private input_sink {
@@ -165,34 +167,46 @@ public:
     }
 
     auto connect_input(
+      callable_ref<void(const input&)> handler,
       identifier mapping_id,
       message_id signal_id,
-      input_value_kinds value_kinds,
-      callable_ref<void(const input&)> handler) -> execution_context&;
+      input_value_kinds value_kinds) -> execution_context&;
 
     auto connect_input(
+      callable_ref<void(const input&)> handler,
       message_id signal_id,
-      input_value_kinds value_kinds,
-      callable_ref<void(const input&)> handler) -> auto& {
+      input_value_kinds value_kinds) -> auto& {
         return connect_input(
+          std::move(handler),
           EAGINE_ID(default),
           std::move(signal_id),
-          value_kinds,
-          std::move(handler));
+          value_kinds);
+    }
+
+    auto connect_button_input(input_handler handler, message_id signal_id)
+      -> auto& {
+        return connect_input(
+          std::move(handler),
+          std::move(signal_id),
+          input_value_kind::absolute_norm | input_value_kind::absolute_free);
     }
 
     auto connect_button_input(
-      message_id signal_id,
-      callable_ref<void(const input&)> handler) -> auto& {
-        return connect_input(
-          std::move(signal_id),
-          input_value_kind::absolute_norm | input_value_kind::absolute_free,
-          std::move(handler));
+      input_handler handler,
+      std::initializer_list<message_id> signal_ids) -> auto& {
+        for(const auto& signal_id : signal_ids) {
+            connect_button_input(handler, signal_id);
+        }
+        return *this;
     }
 
     auto set_input_mapping(identifier mapping_id) -> execution_context&;
     auto set_input_mapping() -> auto& {
         return set_input_mapping(EAGINE_ID(default));
+    }
+
+    auto stop_running_handler() noexcept -> input_handler {
+        return {this, EAGINE_THIS_MEM_FUNC_C(_handle_stop_running)};
     }
 
     void random_uniform(span<byte> dest);
@@ -211,6 +225,8 @@ private:
     std::vector<std::unique_ptr<video_context>> _video_contexts;
     std::vector<std::unique_ptr<audio_context>> _audio_contexts;
 
+    auto _setup_providers() -> bool;
+
     identifier _input_mapping{EAGINE_ID(none)};
 
     flat_map<
@@ -220,7 +236,11 @@ private:
         std::tuple<input_value_kinds, callable_ref<void(const input&)>>>>
       _inputs;
 
-    auto _setup_providers() -> bool;
+    void _handle_stop_running(const input& engaged) {
+        if(engaged) {
+            stop_running();
+        }
+    }
 
     template <typename T>
     void _forward_input(const input_info&, const input_value<T>&) noexcept;

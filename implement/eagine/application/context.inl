@@ -460,10 +460,10 @@ void execution_context::update() noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto execution_context::connect_input(
+  callable_ref<void(const input&)> handler,
   identifier mapping_id,
   message_id signal_id,
-  input_value_kinds value_kinds,
-  callable_ref<void(const input&)> handler) -> execution_context& {
+  input_value_kinds value_kinds) -> execution_context& {
     _inputs[mapping_id].try_emplace(signal_id, value_kinds, handler);
     return *this;
 }

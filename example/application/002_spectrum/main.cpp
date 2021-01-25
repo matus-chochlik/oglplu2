@@ -18,6 +18,10 @@ public:
     example_spectrum(execution_context& ec, video_context& vc)
       : _ec{ec}
       , _video{vc} {
+        ec.connect_button_input(
+            ec.stop_running_handler(), EAGINE_MSG_ID(Keyboard, Escape))
+          .set_input_mapping();
+
         auto& gl = _video.gl_api();
         gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
     }
