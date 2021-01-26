@@ -23,11 +23,15 @@ template <typename T>
 using state_variable = variable_with_history<T, 3>;
 //------------------------------------------------------------------------------
 class context_state_view {
+public:
     using clock_type = std::chrono::steady_clock;
 
-public:
     auto run_time() const noexcept {
         return clock_type::now() - _start_time;
+    }
+
+    auto user_idle_time() const noexcept {
+        return clock_type::now() - _user_active_time;
     }
 
     auto frame_time() const noexcept -> seconds_t<float> {
@@ -52,6 +56,7 @@ public:
 
 protected:
     const clock_type::time_point _start_time{clock_type::now()};
+    clock_type::time_point _user_active_time{clock_type::now()};
     state_variable<float> _frame_time{0.0F};
 
     bool _old_user_idle{false};

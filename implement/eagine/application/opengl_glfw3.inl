@@ -65,6 +65,11 @@ public:
     void mapping_enable(message_id signal_id) final;
     void mapping_commit(identifier setup_id) final;
 
+    void on_scroll(double x, double y) {
+        _wheel_change_x += x;
+        _wheel_change_y += y;
+    }
+
 private:
     string_view _instance_name;
     GLFWwindow* _window{nullptr};
@@ -92,8 +97,20 @@ private:
     input_variable<double> _mouse_y_pix{0};
     input_variable<double> _mouse_x_ndc{0};
     input_variable<double> _mouse_y_ndc{0};
+    input_variable<double> _wheel_scroll_x{0};
+    input_variable<double> _wheel_scroll_y{0};
+    double _wheel_change_x{0};
+    double _wheel_change_y{0};
     bool _mouse_enabled{false};
 };
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void glfw3_opengl_window_scroll_callback(GLFWwindow* window, double x, double y) {
+    if(auto raw_that{glfwGetWindowUserPointer(window)}) {
+        auto that = reinterpret_cast<glfw3_opengl_window*>(raw_that);
+        that->on_scroll(x, y);
+    }
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 glfw3_opengl_window::glfw3_opengl_window(main_ctx_parent parent)
@@ -180,10 +197,10 @@ glfw3_opengl_window::glfw3_opengl_window(main_ctx_parent parent)
     _key_states.emplace_back(EAGINE_ID(KeyPad9), GLFW_KEY_KP_9);
 
     _key_states.emplace_back(EAGINE_ID(KpDecimal), GLFW_KEY_KP_DECIMAL);
-    _key_states.emplace_back(EAGINE_ID(KpAdd), GLFW_KEY_KP_ADD);
-    _key_states.emplace_back(EAGINE_ID(KpSubtract), GLFW_KEY_KP_SUBTRACT);
-    _key_states.emplace_back(EAGINE_ID(KpMultiply), GLFW_KEY_KP_MULTIPLY);
-    _key_states.emplace_back(EAGINE_ID(KpDivide), GLFW_KEY_KP_DIVIDE);
+    _key_states.emplace_back(EAGINE_ID(KpPlus), GLFW_KEY_KP_ADD);
+    _key_states.emplace_back(EAGINE_ID(KpMinus), GLFW_KEY_KP_SUBTRACT);
+    _key_states.emplace_back(EAGINE_ID(KpAsterisk), GLFW_KEY_KP_MULTIPLY);
+    _key_states.emplace_back(EAGINE_ID(KpSlash), GLFW_KEY_KP_DIVIDE);
     _key_states.emplace_back(EAGINE_ID(KpEqual), GLFW_KEY_KP_EQUAL);
     _key_states.emplace_back(EAGINE_ID(KpEnter), GLFW_KEY_KP_ENTER);
 
@@ -270,6 +287,8 @@ EAGINE_LIB_FUNC auto glfw3_opengl_window::initialize(
       nullptr);
 
     if(_window) {
+        glfwSetWindowUserPointer(_window, this);
+        glfwSetScrollCallback(_window, &glfw3_opengl_window_scroll_callback);
         glfwSetWindowTitle(_window, c_str(options.application_title()));
         glfwGetWindowSize(_window, &_window_width, &_window_height);
         return true;
@@ -356,6 +375,10 @@ void glfw3_opengl_window::input_enumerate(
     callback(
       EAGINE_MSG_ID(Cursor, MotionY),
       input_value_kind::absolute_free | input_value_kind::absolute_norm);
+
+    // wheel inputs
+    callback(EAGINE_MSG_ID(Wheel, ScrollX), input_value_kind::relative);
+    callback(EAGINE_MSG_ID(Wheel, ScrollY), input_value_kind::relative);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -407,6 +430,21 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
 
         if(_input_sink) {
             auto& sink = extract(_input_sink);
+
+            if(_wheel_scroll_x.assign(_wheel_change_x)) {
+                sink.consume(
+                  {EAGINE_MSG_ID(Wheel, ScrollX), input_value_kind::relative},
+                  _wheel_scroll_x);
+            }
+            _wheel_change_x = 0;
+
+            if(_wheel_scroll_y.assign(_wheel_change_y)) {
+                sink.consume(
+                  {EAGINE_MSG_ID(Wheel, ScrollY), input_value_kind::relative},
+                  _wheel_scroll_y);
+            }
+            _wheel_change_y = 0;
+
             if(_mouse_enabled) {
                 double mouse_x_pix{0}, mouse_y_pix{0};
                 glfwGetCursorPos(_window, &mouse_x_pix, &mouse_y_pix);

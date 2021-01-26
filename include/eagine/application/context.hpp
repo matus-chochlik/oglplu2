@@ -170,34 +170,14 @@ public:
       callable_ref<void(const input&)> handler,
       identifier mapping_id,
       message_id signal_id,
-      input_value_kinds value_kinds) -> execution_context&;
+      input_setup setup) -> execution_context&;
 
     auto connect_input(
       callable_ref<void(const input&)> handler,
       message_id signal_id,
-      input_value_kinds value_kinds) -> auto& {
+      input_setup setup) -> auto& {
         return connect_input(
-          std::move(handler),
-          EAGINE_ID(default),
-          std::move(signal_id),
-          value_kinds);
-    }
-
-    auto connect_button_input(input_handler handler, message_id signal_id)
-      -> auto& {
-        return connect_input(
-          std::move(handler),
-          std::move(signal_id),
-          input_value_kind::absolute_norm | input_value_kind::absolute_free);
-    }
-
-    auto connect_button_input(
-      input_handler handler,
-      std::initializer_list<message_id> signal_ids) -> auto& {
-        for(const auto& signal_id : signal_ids) {
-            connect_button_input(handler, signal_id);
-        }
-        return *this;
+          std::move(handler), EAGINE_ID(default), std::move(signal_id), setup);
     }
 
     auto set_input_mapping(identifier mapping_id) -> execution_context&;
@@ -233,7 +213,7 @@ private:
       identifier,
       flat_map<
         message_id,
-        std::tuple<input_value_kinds, callable_ref<void(const input&)>>>>
+        std::tuple<input_setup, callable_ref<void(const input&)>>>>
       _inputs;
 
     void _handle_stop_running(const input& engaged) {

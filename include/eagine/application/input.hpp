@@ -48,11 +48,65 @@ struct input_info {
       , value_kind{kind} {}
 };
 //------------------------------------------------------------------------------
+class input_setup {
+public:
+    auto value_kinds(input_value_kinds init) noexcept -> auto& {
+        _value_kinds = init;
+        return *this;
+    }
+
+    auto relative() noexcept -> auto& {
+        _value_kinds |= input_value_kind::relative;
+        return *this;
+    }
+
+    auto absolute_norm() noexcept -> auto& {
+        _value_kinds |= input_value_kind::absolute_norm;
+        return *this;
+    }
+
+    auto absolute_free() noexcept -> auto& {
+        _value_kinds |= input_value_kind::absolute_free;
+        return *this;
+    }
+
+    auto any_value_kind() noexcept -> auto& {
+        _value_kinds = all_input_value_kinds();
+        return *this;
+    }
+
+    auto button() noexcept -> auto& {
+        return absolute_free().absolute_norm();
+    }
+
+    auto invert(bool init = true) noexcept -> auto& {
+        _invert = init;
+        return *this;
+    }
+
+    auto has(input_value_kind kind) const noexcept -> bool {
+        return _value_kinds.has(kind);
+    }
+
+    auto sign() const noexcept {
+        return _invert ? -1 : 1;
+    }
+
+private:
+    input_value_kinds _value_kinds{};
+    bool _invert{false};
+};
+//------------------------------------------------------------------------------
 class input : public input_value<double> {
 public:
     template <typename T>
-    input(const input_value<T>& value) noexcept
-      : input_value<double>{value} {}
+    input(
+      const input_value<T>& value,
+      const input_info&,
+      const input_setup& setup) noexcept
+      : input_value<double>{transform(
+          [&](auto elem) { return double(setup.sign() * elem); },
+          value)} {}
 
     explicit operator bool() const noexcept {
         return !are_equal(this->get(), 0.0);

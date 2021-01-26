@@ -33,8 +33,18 @@ public:
             _frame_time.assign(
               std::chrono::duration<float>(run_time()).count());
         }
+        return *this;
+    }
+
+    auto update_user_activity() noexcept -> auto& {
         _old_user_idle = _new_user_idle;
         _new_user_idle = true;
+        return *this;
+    }
+
+    auto notice_user_active() noexcept -> auto& {
+        _new_user_idle = false;
+        _user_active_time = context_state_view::clock_type::now();
         return *this;
     }
 

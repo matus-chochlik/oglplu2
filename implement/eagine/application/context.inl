@@ -451,6 +451,7 @@ void execution_context::cleanup() noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void execution_context::update() noexcept {
+    extract(_state).update_user_activity();
     for(auto& provider : _hmi_providers) {
         extract(provider).update(*this);
     }
@@ -463,8 +464,8 @@ auto execution_context::connect_input(
   callable_ref<void(const input&)> handler,
   identifier mapping_id,
   message_id signal_id,
-  input_value_kinds value_kinds) -> execution_context& {
-    _inputs[mapping_id].try_emplace(signal_id, value_kinds, handler);
+  input_setup setup) -> execution_context& {
+    _inputs[mapping_id].try_emplace(signal_id, setup, std::move(handler));
     return *this;
 }
 //------------------------------------------------------------------------------
@@ -509,9 +510,10 @@ inline void execution_context::_forward_input(
         const auto& slots = mapping_pos->second;
         const auto slot_pos = slots.find(info.signal_id);
         if(slot_pos != slots.end()) {
-            const auto& [value_kinds, handler] = slot_pos->second;
-            if(value_kinds.has(info.value_kind)) {
-                handler(value);
+            const auto& [setup, handler] = slot_pos->second;
+            if(setup.has(info.value_kind)) {
+                handler(input(value, info, setup));
+                extract(_state).notice_user_active();
             }
         }
     }

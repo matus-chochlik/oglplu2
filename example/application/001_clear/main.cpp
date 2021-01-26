@@ -18,9 +18,14 @@ public:
     example_clear(execution_context& ec, video_context& vc)
       : _ec{ec}
       , _video{vc} {
-        ec.connect_button_input(
+        ec.connect_input(
             ec.stop_running_handler(),
-            {EAGINE_MSG_ID(Keyboard, Escape), EAGINE_MSG_ID(Keyboard, Q)})
+            EAGINE_MSG_ID(Keyboard, Escape),
+            input_setup().button())
+          .connect_input(
+            ec.stop_running_handler(),
+            EAGINE_MSG_ID(Keyboard, Q),
+            input_setup().button())
           .set_input_mapping();
     }
 
