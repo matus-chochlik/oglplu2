@@ -97,6 +97,8 @@ private:
     input_variable<double> _mouse_y_pix{0};
     input_variable<double> _mouse_x_ndc{0};
     input_variable<double> _mouse_y_ndc{0};
+    input_variable<double> _mouse_x_delta{0};
+    input_variable<double> _mouse_y_delta{0};
     input_variable<double> _wheel_scroll_x{0};
     input_variable<double> _wheel_scroll_y{0};
     double _wheel_change_x{0};
@@ -370,11 +372,14 @@ void glfw3_opengl_window::input_enumerate(
     }
 
     callback(
-      EAGINE_MSG_ID(Cursor, MotionX),
+      EAGINE_MSG_ID(Cursor, PositionX),
       input_value_kind::absolute_free | input_value_kind::absolute_norm);
     callback(
-      EAGINE_MSG_ID(Cursor, MotionY),
+      EAGINE_MSG_ID(Cursor, PositionY),
       input_value_kind::absolute_free | input_value_kind::absolute_norm);
+
+    callback(EAGINE_MSG_ID(Cursor, MotionX), input_value_kind::relative);
+    callback(EAGINE_MSG_ID(Cursor, MotionY), input_value_kind::relative);
 
     // wheel inputs
     callback(EAGINE_MSG_ID(Wheel, ScrollX), input_value_kind::relative);
@@ -416,6 +421,8 @@ void glfw3_opengl_window::mapping_commit(identifier setup_id) {
     }
 
     _mouse_enabled =
+      _enabled_signals.contains(EAGINE_MSG_ID(Cursor, PositionX)) ||
+      _enabled_signals.contains(EAGINE_MSG_ID(Cursor, PositionY)) ||
       _enabled_signals.contains(EAGINE_MSG_ID(Cursor, MotionX)) ||
       _enabled_signals.contains(EAGINE_MSG_ID(Cursor, MotionY));
 }
@@ -448,31 +455,44 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
             if(_mouse_enabled) {
                 double mouse_x_pix{0}, mouse_y_pix{0};
                 glfwGetCursorPos(_window, &mouse_x_pix, &mouse_y_pix);
+                mouse_y_pix = _window_height - mouse_y_pix;
 
                 if(_mouse_x_pix.assign(mouse_x_pix)) {
                     sink.consume(
-                      {EAGINE_MSG_ID(Cursor, MotionX),
+                      {EAGINE_MSG_ID(Cursor, PositionX),
                        input_value_kind::absolute_free},
                       _mouse_x_pix);
                     if(_mouse_x_ndc.assign(
                          (mouse_x_pix / _window_width) - 0.5)) {
                         sink.consume(
-                          {EAGINE_MSG_ID(Cursor, MotionX),
+                          {EAGINE_MSG_ID(Cursor, PositionX),
                            input_value_kind::absolute_norm},
                           _mouse_x_ndc);
+                        if(_mouse_x_delta.assign(_mouse_x_ndc.delta())) {
+                            sink.consume(
+                              {EAGINE_MSG_ID(Cursor, MotionX),
+                               input_value_kind::relative},
+                              _mouse_x_delta);
+                        }
                     }
                 }
                 if(_mouse_y_pix.assign(mouse_y_pix)) {
                     sink.consume(
-                      {EAGINE_MSG_ID(Cursor, MotionY),
+                      {EAGINE_MSG_ID(Cursor, PositionY),
                        input_value_kind::absolute_free},
                       _mouse_y_pix);
                     if(_mouse_y_ndc.assign(
                          (mouse_y_pix / _window_height) - 0.5)) {
                         sink.consume(
-                          {EAGINE_MSG_ID(Cursor, MotionY),
+                          {EAGINE_MSG_ID(Cursor, PositionY),
                            input_value_kind::absolute_norm},
                           _mouse_y_ndc);
+                        if(_mouse_y_delta.assign(_mouse_y_ndc.delta())) {
+                            sink.consume(
+                              {EAGINE_MSG_ID(Cursor, MotionY),
+                               input_value_kind::relative},
+                              _mouse_y_delta);
+                        }
                     }
                 }
             }

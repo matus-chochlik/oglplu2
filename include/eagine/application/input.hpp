@@ -88,11 +88,17 @@ public:
         return _value_kinds.has(kind);
     }
 
-    auto sign() const noexcept {
-        return _invert ? -1 : 1;
+    auto multiply(double mult) noexcept -> auto& {
+        _multiplier = mult;
+        return *this;
+    }
+
+    auto multiplier() const noexcept {
+        return _invert ? -_multiplier : _multiplier;
     }
 
 private:
+    double _multiplier{1.0};
     input_value_kinds _value_kinds{};
     bool _invert{false};
 };
@@ -105,7 +111,7 @@ public:
       const input_info&,
       const input_setup& setup) noexcept
       : input_value<double>{transform(
-          [&](auto elem) { return double(setup.sign() * elem); },
+          [&](auto elem) { return double(setup.multiplier() * elem); },
           value)} {}
 
     explicit operator bool() const noexcept {

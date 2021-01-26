@@ -30,9 +30,13 @@ public:
     void update() noexcept final;
     void cleanup() noexcept final;
 
+    void dampening(const input&);
+    void dragging(const input&);
     void zoom(const input&);
     void pan_x(const input&);
     void pan_y(const input&);
+    void drag_x(const input&);
+    void drag_y(const input&);
 
 private:
     execution_context& _ctx;
@@ -58,6 +62,8 @@ private:
     float offset_y{0.0F};
     float scale{1.0F};
     float aspect{1.0F};
+    bool _dampen_motion{false};
+    bool _dragging{false};
 
     static constexpr const float min_scale{0.00001F};
     static constexpr const float max_scale{10.0F};
@@ -69,6 +75,14 @@ example_triangle::example_triangle(execution_context& ec, video_context& vc)
     ec.connect_input(
         ec.stop_running_handler(),
         EAGINE_MSG_ID(Keyboard, Escape),
+        input_setup().button())
+      .connect_input(
+        {this, EAGINE_THIS_MEM_FUNC_C(dampening)},
+        EAGINE_MSG_ID(Keyboard, LeftCtrl),
+        input_setup().button())
+      .connect_input(
+        {this, EAGINE_THIS_MEM_FUNC_C(dragging)},
+        EAGINE_MSG_ID(Cursor, Button0),
         input_setup().button())
       .connect_input(
         {this, EAGINE_THIS_MEM_FUNC_C(zoom)},
@@ -85,11 +99,11 @@ example_triangle::example_triangle(execution_context& ec, video_context& vc)
       .connect_input(
         {this, EAGINE_THIS_MEM_FUNC_C(pan_x)},
         EAGINE_MSG_ID(Keyboard, Left),
-        input_setup().button().invert())
+        input_setup().button())
       .connect_input(
         {this, EAGINE_THIS_MEM_FUNC_C(pan_x)},
         EAGINE_MSG_ID(Keyboard, Right),
-        input_setup().button())
+        input_setup().button().invert())
       .connect_input(
         {this, EAGINE_THIS_MEM_FUNC_C(pan_y)},
         EAGINE_MSG_ID(Keyboard, Up),
@@ -98,6 +112,14 @@ example_triangle::example_triangle(execution_context& ec, video_context& vc)
         {this, EAGINE_THIS_MEM_FUNC_C(pan_y)},
         EAGINE_MSG_ID(Keyboard, Down),
         input_setup().button().invert())
+      .connect_input(
+        {this, EAGINE_THIS_MEM_FUNC_C(drag_x)},
+        EAGINE_MSG_ID(Cursor, MotionX),
+        input_setup().relative().multiply(2))
+      .connect_input(
+        {this, EAGINE_THIS_MEM_FUNC_C(drag_y)},
+        EAGINE_MSG_ID(Cursor, MotionY),
+        input_setup().relative().multiply(2))
       .set_input_mapping();
 
     auto& [gl, GL] = _video.gl_api();
@@ -188,8 +210,16 @@ void example_triangle::on_video_resize() noexcept {
     gl.uniform2f(scale_loc, scale * _video.surface_aspect(), scale);
 }
 //------------------------------------------------------------------------------
+void example_triangle::dampening(const input& i) {
+    _dampen_motion = bool(i);
+}
+//------------------------------------------------------------------------------
+void example_triangle::dragging(const input& i) {
+    _dragging = bool(i);
+}
+//------------------------------------------------------------------------------
 void example_triangle::zoom(const input& i) {
-    scale *= float(std::pow(2, -i.get()));
+    scale *= float(std::pow(2, -i.get() * (_dampen_motion ? 0.1 : 1.0)));
     if(scale < min_scale) {
         scale = min_scale;
     }
@@ -202,17 +232,29 @@ void example_triangle::zoom(const input& i) {
 }
 //------------------------------------------------------------------------------
 void example_triangle::pan_x(const input& i) {
-    offset_x += float(i.get() * scale);
+    offset_x -= float(i.get() * scale * (_dampen_motion ? 0.1 : 1.0));
 
     auto& gl = _video.gl_api();
     gl.uniform2f(offset_loc, offset_x, offset_y);
 }
 //------------------------------------------------------------------------------
 void example_triangle::pan_y(const input& i) {
-    offset_y += float(i.get() * scale);
+    offset_y -= float(i.get() * scale * (_dampen_motion ? 0.1 : 1.0));
 
     auto& gl = _video.gl_api();
     gl.uniform2f(offset_loc, offset_x, offset_y);
+}
+//------------------------------------------------------------------------------
+void example_triangle::drag_x(const input& i) {
+    if(_dragging) {
+        pan_x(i);
+    }
+}
+//------------------------------------------------------------------------------
+void example_triangle::drag_y(const input& i) {
+    if(_dragging) {
+        pan_y(i);
+    }
 }
 //------------------------------------------------------------------------------
 void example_triangle::update() noexcept {
