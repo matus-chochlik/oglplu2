@@ -42,16 +42,16 @@ public:
         return seconds_(_frame_time.delta());
     }
 
-    auto user_idle() const noexcept -> state_value<bool> {
+    auto user_is_idle() const noexcept -> state_value<bool> {
         return {_new_user_idle, _old_user_idle};
     }
 
     auto user_became_idle() const noexcept -> bool {
-        return user_idle().delta() > 0;
+        return user_is_idle().delta() > 0;
     }
 
     auto user_became_active() const noexcept -> bool {
-        return user_idle().delta() < 0;
+        return user_is_idle().delta() < 0;
     }
 
 protected:

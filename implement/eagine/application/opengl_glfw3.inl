@@ -101,6 +101,9 @@ private:
     input_variable<double> _mouse_y_delta{0};
     input_variable<double> _wheel_scroll_x{0};
     input_variable<double> _wheel_scroll_y{0};
+    double _norm_x_ndc{1};
+    double _norm_y_ndc{1};
+    double _aspect{1};
     double _wheel_change_x{0};
     double _wheel_change_y{0};
     bool _mouse_enabled{false};
@@ -293,6 +296,11 @@ EAGINE_LIB_FUNC auto glfw3_opengl_window::initialize(
         glfwSetScrollCallback(_window, &glfw3_opengl_window_scroll_callback);
         glfwSetWindowTitle(_window, c_str(options.application_title()));
         glfwGetWindowSize(_window, &_window_width, &_window_height);
+        if(_window_width > 0 && _window_height > 0) {
+            _norm_x_ndc = 1.0 / _window_width;
+            _norm_y_ndc = 1.0 / _window_height;
+            _aspect = _norm_y_ndc / _norm_x_ndc;
+        }
         return true;
     } else {
         log_error("Failed to create GLFW window").arg(EAGINE_ID(name), name);
@@ -333,11 +341,10 @@ auto glfw3_opengl_window::surface_size() noexcept -> std::tuple<int, int> {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto glfw3_opengl_window::surface_aspect() noexcept -> float {
-    return float(_window_width) / float(_window_height);
+    return float(_aspect);
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-void glfw3_opengl_window::video_begin(execution_context&) {
+EAGINE_LIB_FUNC void glfw3_opengl_window::video_begin(execution_context&) {
 
     EAGINE_ASSERT(_window);
     glfwMakeContextCurrent(_window);
@@ -453,6 +460,7 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
             _wheel_change_y = 0;
 
             if(_mouse_enabled) {
+                const auto motion_adjust = 1.1;
                 double mouse_x_pix{0}, mouse_y_pix{0};
                 glfwGetCursorPos(_window, &mouse_x_pix, &mouse_y_pix);
                 mouse_y_pix = _window_height - mouse_y_pix;
@@ -462,13 +470,13 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
                       {EAGINE_MSG_ID(Cursor, PositionX),
                        input_value_kind::absolute_free},
                       _mouse_x_pix);
-                    if(_mouse_x_ndc.assign(
-                         (mouse_x_pix / _window_width) - 0.5)) {
+                    if(_mouse_x_ndc.assign((mouse_x_pix * _norm_x_ndc) - 0.5)) {
                         sink.consume(
                           {EAGINE_MSG_ID(Cursor, PositionX),
                            input_value_kind::absolute_norm},
                           _mouse_x_ndc);
-                        if(_mouse_x_delta.assign(_mouse_x_ndc.delta())) {
+                        if(_mouse_x_delta.assign(
+                             _mouse_x_ndc.delta() * motion_adjust * _aspect)) {
                             sink.consume(
                               {EAGINE_MSG_ID(Cursor, MotionX),
                                input_value_kind::relative},
@@ -481,13 +489,13 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
                       {EAGINE_MSG_ID(Cursor, PositionY),
                        input_value_kind::absolute_free},
                       _mouse_y_pix);
-                    if(_mouse_y_ndc.assign(
-                         (mouse_y_pix / _window_height) - 0.5)) {
+                    if(_mouse_y_ndc.assign((mouse_y_pix * _norm_y_ndc) - 0.5)) {
                         sink.consume(
                           {EAGINE_MSG_ID(Cursor, PositionY),
                            input_value_kind::absolute_norm},
                           _mouse_y_ndc);
-                        if(_mouse_y_delta.assign(_mouse_y_ndc.delta())) {
+                        if(_mouse_y_delta.assign(
+                             _mouse_y_ndc.delta() * motion_adjust)) {
                             sink.consume(
                               {EAGINE_MSG_ID(Cursor, MotionY),
                                input_value_kind::relative},
@@ -512,8 +520,9 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
 
             for(auto& ks : _key_states) {
                 if(ks.enabled) {
-                    if(ks.pressed.assign(
-                         glfwGetKey(_window, ks.key_code) == GLFW_PRESS)) {
+                    const auto state = glfwGetKey(_window, ks.key_code);
+                    const auto press = state == GLFW_PRESS;
+                    if(ks.pressed.assign(press) || press) {
                         sink.consume(
                           {{EAGINE_ID(Keyboard), ks.key_id},
                            input_value_kind::absolute_norm},

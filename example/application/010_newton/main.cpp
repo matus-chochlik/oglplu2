@@ -18,9 +18,9 @@
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
-class example_triangle : public application {
+class example_newton : public application {
 public:
-    example_triangle(execution_context& ctx, video_context&);
+    example_newton(execution_context& ctx, video_context&);
 
     auto is_done() noexcept -> bool final {
         return _is_done.is_expired();
@@ -62,14 +62,18 @@ private:
     float offset_y{0.0F};
     float scale{1.0F};
     float aspect{1.0F};
-    bool _dampen_motion{false};
-    bool _dragging{false};
+    bool dampen_motion{false};
+    bool is_dragging{false};
+
+    auto motion_adjust() const noexcept {
+        return dampen_motion ? 0.2 : 1.0;
+    }
 
     static constexpr const float min_scale{0.00001F};
     static constexpr const float max_scale{10.0F};
 };
 //------------------------------------------------------------------------------
-example_triangle::example_triangle(execution_context& ec, video_context& vc)
+example_newton::example_newton(execution_context& ec, video_context& vc)
   : _ctx{ec}
   , _video{vc} {
     ec.connect_input(
@@ -91,27 +95,27 @@ example_triangle::example_triangle(execution_context& ec, video_context& vc)
       .connect_input(
         {this, EAGINE_THIS_MEM_FUNC_C(zoom)},
         EAGINE_MSG_ID(Keyboard, KpPlus),
-        input_setup().button())
+        input_setup().button().multiply(0.25))
       .connect_input(
         {this, EAGINE_THIS_MEM_FUNC_C(zoom)},
         EAGINE_MSG_ID(Keyboard, KpMinus),
-        input_setup().button().invert())
+        input_setup().button().multiply(0.25).invert())
       .connect_input(
         {this, EAGINE_THIS_MEM_FUNC_C(pan_x)},
         EAGINE_MSG_ID(Keyboard, Left),
-        input_setup().button())
+        input_setup().button().multiply(0.25))
       .connect_input(
         {this, EAGINE_THIS_MEM_FUNC_C(pan_x)},
         EAGINE_MSG_ID(Keyboard, Right),
-        input_setup().button().invert())
+        input_setup().button().multiply(0.25).invert())
       .connect_input(
         {this, EAGINE_THIS_MEM_FUNC_C(pan_y)},
         EAGINE_MSG_ID(Keyboard, Up),
-        input_setup().button())
+        input_setup().button().multiply(0.25).invert())
       .connect_input(
         {this, EAGINE_THIS_MEM_FUNC_C(pan_y)},
         EAGINE_MSG_ID(Keyboard, Down),
-        input_setup().button().invert())
+        input_setup().button().multiply(0.25))
       .connect_input(
         {this, EAGINE_THIS_MEM_FUNC_C(drag_x)},
         EAGINE_MSG_ID(Cursor, MotionX),
@@ -202,7 +206,7 @@ example_triangle::example_triangle(execution_context& ec, video_context& vc)
     gl.disable(GL.depth_test);
 }
 //------------------------------------------------------------------------------
-void example_triangle::on_video_resize() noexcept {
+void example_newton::on_video_resize() noexcept {
     const auto [width, height] = _video.surface_size();
     auto& gl = _video.gl_api();
 
@@ -210,16 +214,16 @@ void example_triangle::on_video_resize() noexcept {
     gl.uniform2f(scale_loc, scale * _video.surface_aspect(), scale);
 }
 //------------------------------------------------------------------------------
-void example_triangle::dampening(const input& i) {
-    _dampen_motion = bool(i);
+void example_newton::dampening(const input& i) {
+    dampen_motion = bool(i);
 }
 //------------------------------------------------------------------------------
-void example_triangle::dragging(const input& i) {
-    _dragging = bool(i);
+void example_newton::dragging(const input& i) {
+    is_dragging = bool(i);
 }
 //------------------------------------------------------------------------------
-void example_triangle::zoom(const input& i) {
-    scale *= float(std::pow(2, -i.get() * (_dampen_motion ? 0.1 : 1.0)));
+void example_newton::zoom(const input& i) {
+    scale *= float(std::pow(2, -i.get() * motion_adjust()));
     if(scale < min_scale) {
         scale = min_scale;
     }
@@ -231,34 +235,34 @@ void example_triangle::zoom(const input& i) {
     gl.uniform2f(scale_loc, scale * aspect, scale);
 }
 //------------------------------------------------------------------------------
-void example_triangle::pan_x(const input& i) {
-    offset_x -= float(i.get() * scale * (_dampen_motion ? 0.1 : 1.0));
+void example_newton::pan_x(const input& i) {
+    offset_x -= float(i.get() * scale * motion_adjust());
 
     auto& gl = _video.gl_api();
     gl.uniform2f(offset_loc, offset_x, offset_y);
 }
 //------------------------------------------------------------------------------
-void example_triangle::pan_y(const input& i) {
-    offset_y -= float(i.get() * scale * (_dampen_motion ? 0.1 : 1.0));
+void example_newton::pan_y(const input& i) {
+    offset_y -= float(i.get() * scale * motion_adjust());
 
     auto& gl = _video.gl_api();
     gl.uniform2f(offset_loc, offset_x, offset_y);
 }
 //------------------------------------------------------------------------------
-void example_triangle::drag_x(const input& i) {
-    if(_dragging) {
+void example_newton::drag_x(const input& i) {
+    if(is_dragging) {
         pan_x(i);
     }
 }
 //------------------------------------------------------------------------------
-void example_triangle::drag_y(const input& i) {
-    if(_dragging) {
+void example_newton::drag_y(const input& i) {
+    if(is_dragging) {
         pan_y(i);
     }
 }
 //------------------------------------------------------------------------------
-void example_triangle::update() noexcept {
-    if(_ctx.state().user_became_active()) {
+void example_newton::update() noexcept {
+    if(!_ctx.state().user_is_idle()) {
         _is_done.reset();
     }
 
@@ -270,7 +274,7 @@ void example_triangle::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_triangle::cleanup() noexcept {
+void example_newton::cleanup() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_shader(std::move(vs));
@@ -311,7 +315,7 @@ public:
             vc.begin();
             if(vc.init_gl_api()) {
                 if(check_requirements(vc)) {
-                    return {std::make_unique<example_triangle>(ec, vc)};
+                    return {std::make_unique<example_newton>(ec, vc)};
                 }
             }
         }

@@ -24,7 +24,11 @@ class context_state
 public:
     context_state(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(AppliState), parent}
-      , _rand_eng{extract_or(_rand_seed, std::random_device{}())} {}
+      , _rand_init{extract_or(_rand_seed, std::random_device{}())}
+      , _rand_eng{_rand_init} {
+        log_info("using ${init} to initialize random generator")
+          .arg(EAGINE_ID(init), _rand_init);
+    }
 
     auto advance_time() noexcept -> auto& {
         if(_fixed_fps) {
@@ -68,6 +72,7 @@ private:
       cfg_extr<valid_if_positive<std::default_random_engine::result_type>>(
         "application.random.seed",
         0U)};
+    std::default_random_engine::result_type _rand_init;
 
     std::default_random_engine _rand_eng;
     std::uniform_int_distribution<byte> _dist_uniform_byte{0x00, 0xFF};
