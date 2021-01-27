@@ -67,7 +67,6 @@ function(eagine_add_directory_example)
 	eagine_install_example(${TARGET_NAME})
 endfunction()
 
-add_subdirectory(005_pick_triangle)
 add_subdirectory(007_cube)
 add_subdirectory(008_yaml_shape)
 add_subdirectory(009_json_shape)
