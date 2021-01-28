@@ -220,7 +220,7 @@ auto video_context::init_gl_api() noexcept -> bool {
         _gl_api = std::make_shared<oglp::gl_api>();
 
         const auto pos = _parent.options().video_requirements().find(
-          extract(_provider).instance_name());
+          extract(_provider).instance_id());
         EAGINE_ASSERT(pos != _parent.options().video_requirements().end());
         _state = std::make_shared<video_context_state>(_parent, pos->second);
 

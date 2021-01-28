@@ -36,7 +36,7 @@ public:
     glfw3_opengl_window(main_ctx_parent parent);
 
     auto initialize(
-      string_view name,
+      identifier id,
       const launch_options&,
       const video_options&,
       span<GLFWmonitor* const>) -> bool;
@@ -44,7 +44,7 @@ public:
     void cleanup();
 
     auto video_kind() const noexcept -> video_context_kind final;
-    auto instance_name() const noexcept -> string_view final;
+    auto instance_id() const noexcept -> identifier final;
 
     auto is_offscreen() noexcept -> tribool final;
     auto has_framebuffer() noexcept -> tribool final;
@@ -71,7 +71,7 @@ public:
     }
 
 private:
-    string_view _instance_name;
+    identifier _instance_id;
     GLFWwindow* _window{nullptr};
     input_sink* _input_sink{nullptr};
     int _window_width{1};
@@ -244,11 +244,11 @@ glfw3_opengl_window::glfw3_opengl_window(main_ctx_parent parent)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC auto glfw3_opengl_window::initialize(
-  string_view name,
+  identifier id,
   const launch_options& options,
   const video_options& video_opts,
   span<GLFWmonitor* const> monitors) -> bool {
-    _instance_name = name;
+    _instance_id = id;
 
     glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
     glfwWindowHint(GLFW_RED_BITS, video_opts.color_bits() / GLFW_DONT_CARE);
@@ -303,7 +303,7 @@ EAGINE_LIB_FUNC auto glfw3_opengl_window::initialize(
         }
         return true;
     } else {
-        log_error("Failed to create GLFW window").arg(EAGINE_ID(name), name);
+        log_error("Failed to create GLFW window").arg(EAGINE_ID(instance), id);
     }
     return false;
 }
@@ -314,8 +314,8 @@ auto glfw3_opengl_window::video_kind() const noexcept -> video_context_kind {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_window::instance_name() const noexcept -> string_view {
-    return _instance_name;
+auto glfw3_opengl_window::instance_id() const noexcept -> identifier {
+    return _instance_id;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -567,11 +567,7 @@ public:
 
 private:
 #if OGLPLUS_GLFW3_FOUND
-    std::map<
-      std::string,
-      std::shared_ptr<glfw3_opengl_window>,
-      basic_str_view_less<std::string, string_view>>
-      _windows;
+    std::map<identifier, std::shared_ptr<glfw3_opengl_window>> _windows;
 #endif
 };
 //------------------------------------------------------------------------------
@@ -599,8 +595,8 @@ auto glfw3_opengl_provider::should_initialize(execution_context& exec_ctx)
   -> bool {
     EAGINE_MAYBE_UNUSED(exec_ctx);
 #if OGLPLUS_GLFW3_FOUND
-    for(auto& [name, video_opts] : exec_ctx.options().video_requirements()) {
-        EAGINE_MAYBE_UNUSED(name);
+    for(auto& [inst, video_opts] : exec_ctx.options().video_requirements()) {
+        EAGINE_MAYBE_UNUSED(inst);
         if(video_opts.has_provider(implementation_name())) {
             return true;
         }
@@ -629,7 +625,7 @@ auto glfw3_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
         });
 
         auto& options = exec_ctx.options();
-        for(auto& [name, video_opts] : options.video_requirements()) {
+        for(auto& [inst, video_opts] : options.video_requirements()) {
             const bool should_create_window =
               video_opts.has_provider(implementation_name()) &&
               (video_opts.video_kind() == video_context_kind::opengl);
@@ -637,8 +633,8 @@ auto glfw3_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
             if(should_create_window) {
                 if(auto new_win{std::make_shared<glfw3_opengl_window>(*this)}) {
                     if(extract(new_win).initialize(
-                         name, options, video_opts, monitors)) {
-                        _windows[name] = std::move(new_win);
+                         inst, options, video_opts, monitors)) {
+                        _windows[inst] = std::move(new_win);
                     } else {
                         extract(new_win).cleanup();
                     }

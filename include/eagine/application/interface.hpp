@@ -47,7 +47,7 @@ struct input_provider {
     auto operator=(const input_provider&) = delete;
     virtual ~input_provider() noexcept = default;
 
-    virtual auto instance_name() const noexcept -> string_view = 0;
+    virtual auto instance_id() const noexcept -> identifier = 0;
 
     virtual void
       input_enumerate(callable_ref<void(message_id, input_value_kinds)>) = 0;
@@ -69,7 +69,7 @@ struct video_provider {
     virtual ~video_provider() noexcept = default;
 
     virtual auto video_kind() const noexcept -> video_context_kind = 0;
-    virtual auto instance_name() const noexcept -> string_view = 0;
+    virtual auto instance_id() const noexcept -> identifier = 0;
 
     virtual auto is_offscreen() noexcept -> tribool = 0;
     virtual auto has_framebuffer() noexcept -> tribool = 0;
@@ -90,7 +90,7 @@ struct audio_provider {
     virtual ~audio_provider() noexcept = default;
 
     virtual auto audio_kind() const noexcept -> audio_context_kind = 0;
-    virtual auto instance_name() const noexcept -> string_view = 0;
+    virtual auto instance_id() const noexcept -> identifier = 0;
 };
 //------------------------------------------------------------------------------
 struct hmi_provider {

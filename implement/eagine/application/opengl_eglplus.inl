@@ -52,14 +52,14 @@ public:
 
     auto initialize(
       execution_context&,
-      string_view name,
+      identifier instance,
       const launch_options&,
       const video_options&) -> bool;
 
     void cleanup();
 
     auto video_kind() const noexcept -> video_context_kind final;
-    auto instance_name() const noexcept -> string_view final;
+    auto instance_id() const noexcept -> identifier final;
 
     auto is_offscreen() noexcept -> tribool final;
     auto has_framebuffer() noexcept -> tribool final;
@@ -72,7 +72,7 @@ public:
 
 private:
     eglp::egl_api& _egl_api;
-    string_view _instance_name;
+    identifier _instance_id;
     eglp::display_handle _display{};
     eglp::surface_handle _surface{};
     eglp::context_handle _context{};
@@ -307,10 +307,10 @@ auto eglplus_opengl_surface::initialize(
 EAGINE_LIB_FUNC
 auto eglplus_opengl_surface::initialize(
   execution_context& exec_ctx,
-  string_view name,
+  identifier id,
   const launch_options& opts,
   const video_options& video_opts) -> bool {
-    _instance_name = name;
+    _instance_id = id;
     const auto& [egl, EGL] = _egl_api;
 
     const auto device_kind = video_opts.device_kind();
@@ -462,8 +462,8 @@ auto eglplus_opengl_surface::video_kind() const noexcept -> video_context_kind {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto eglplus_opengl_surface::instance_name() const noexcept -> string_view {
-    return _instance_name;
+auto eglplus_opengl_surface::instance_id() const noexcept -> identifier {
+    return _instance_id;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -529,11 +529,7 @@ public:
 private:
     eglp::egl_api _egl_api;
 
-    std::map<
-      std::string,
-      std::shared_ptr<eglplus_opengl_surface>,
-      basic_str_view_less<std::string, string_view>>
-      _surfaces;
+    std::map<identifier, std::shared_ptr<eglplus_opengl_surface>> _surfaces;
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -558,8 +554,8 @@ auto eglplus_opengl_provider::is_initialized() -> bool {
 EAGINE_LIB_FUNC
 auto eglplus_opengl_provider::should_initialize(execution_context& exec_ctx)
   -> bool {
-    for(auto& [name, video_opts] : exec_ctx.options().video_requirements()) {
-        EAGINE_MAYBE_UNUSED(name);
+    for(auto& [inst, video_opts] : exec_ctx.options().video_requirements()) {
+        EAGINE_MAYBE_UNUSED(inst);
         if(video_opts.has_provider(implementation_name())) {
             return true;
         }
@@ -571,7 +567,7 @@ EAGINE_LIB_FUNC
 auto eglplus_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
     if(_egl_api.get_display) {
         auto& options = exec_ctx.options();
-        for(auto& [name, video_opts] : options.video_requirements()) {
+        for(auto& [inst, video_opts] : options.video_requirements()) {
             const bool should_create_surface =
               video_opts.has_provider(implementation_name()) &&
               (video_opts.video_kind() == video_context_kind::opengl);
@@ -580,8 +576,8 @@ auto eglplus_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
                 if(auto surface{std::make_shared<eglplus_opengl_surface>(
                      *this, _egl_api)}) {
                     if(extract(surface).initialize(
-                         exec_ctx, name, options, video_opts)) {
-                        _surfaces[name] = std::move(surface);
+                         exec_ctx, inst, options, video_opts)) {
+                        _surfaces[inst] = std::move(surface);
                     } else {
                         extract(surface).cleanup();
                     }
