@@ -15,12 +15,12 @@
 #include "../memory/block.hpp"
 #include "../string_span.hpp"
 #include "../tribool.hpp"
+#include "fwd.hpp"
 #include "input.hpp"
 #include "options.hpp"
 #include <memory>
 
 namespace eagine::application {
-class execution_context;
 //------------------------------------------------------------------------------
 struct input_sink {
     input_sink() noexcept = default;

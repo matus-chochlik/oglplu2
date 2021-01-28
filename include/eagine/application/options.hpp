@@ -18,11 +18,11 @@
 #include "../valid_if/not_equal.hpp"
 #include "../valid_if/one_of.hpp"
 #include "../valid_if/positive.hpp"
+#include "fwd.hpp"
 #include "types.hpp"
 #include <map>
 
 namespace eagine::application {
-class execution_context;
 //------------------------------------------------------------------------------
 class video_options {
 public:

@@ -23,9 +23,6 @@
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
-class execution_context;
-//------------------------------------------------------------------------------
-class video_context_state;
 class video_context {
 public:
     video_context(
@@ -107,7 +104,6 @@ private:
 };
 //------------------------------------------------------------------------------
 using input_handler = callable_ref<void(const input&)>;
-class context_state;
 
 class execution_context
   : public main_ctx_object
