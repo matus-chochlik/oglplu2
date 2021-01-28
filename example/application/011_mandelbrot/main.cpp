@@ -18,9 +18,9 @@
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
-class example_newton : public application {
+class example_mandelbrot : public application {
 public:
-    example_newton(execution_context& ctx, video_context&);
+    example_mandelbrot(execution_context& ctx, video_context&);
 
     auto is_done() noexcept -> bool final {
         return _is_done.is_expired();
@@ -41,7 +41,7 @@ public:
 private:
     execution_context& _ctx;
     video_context& _video;
-    timeout _is_done{std::chrono::seconds(10)};
+    timeout _is_done{std::chrono::seconds(20)};
 
     oglp::owned_vertex_array_name vao;
 
@@ -73,7 +73,7 @@ private:
     static constexpr const float max_scale{10.0F};
 };
 //------------------------------------------------------------------------------
-example_newton::example_newton(execution_context& ec, video_context& vc)
+example_mandelbrot::example_mandelbrot(execution_context& ec, video_context& vc)
   : _ctx{ec}
   , _video{vc} {
     ec.connect_input(
@@ -206,7 +206,7 @@ example_newton::example_newton(execution_context& ec, video_context& vc)
     gl.disable(GL.depth_test);
 }
 //------------------------------------------------------------------------------
-void example_newton::on_video_resize() noexcept {
+void example_mandelbrot::on_video_resize() noexcept {
     const auto [width, height] = _video.surface_size();
     auto& gl = _video.gl_api();
 
@@ -215,15 +215,15 @@ void example_newton::on_video_resize() noexcept {
     gl.uniform2f(scale_loc, scale * aspect, scale);
 }
 //------------------------------------------------------------------------------
-void example_newton::dampening(const input& i) {
+void example_mandelbrot::dampening(const input& i) {
     dampen_motion = bool(i);
 }
 //------------------------------------------------------------------------------
-void example_newton::dragging(const input& i) {
+void example_mandelbrot::dragging(const input& i) {
     is_dragging = bool(i);
 }
 //------------------------------------------------------------------------------
-void example_newton::zoom(const input& i) {
+void example_mandelbrot::zoom(const input& i) {
     scale *= float(std::pow(2, -i.get() * motion_adjust()));
     if(scale < min_scale) {
         scale = min_scale;
@@ -236,38 +236,55 @@ void example_newton::zoom(const input& i) {
     gl.uniform2f(scale_loc, scale * aspect, scale);
 }
 //------------------------------------------------------------------------------
-void example_newton::pan_x(const input& i) {
+void example_mandelbrot::pan_x(const input& i) {
     offset_x -= float(i.get() * scale * motion_adjust());
 
     auto& gl = _video.gl_api();
     gl.uniform2f(offset_loc, offset_x, offset_y);
 }
 //------------------------------------------------------------------------------
-void example_newton::pan_y(const input& i) {
+void example_mandelbrot::pan_y(const input& i) {
     offset_y -= float(i.get() * scale * motion_adjust());
 
     auto& gl = _video.gl_api();
     gl.uniform2f(offset_loc, offset_x, offset_y);
 }
 //------------------------------------------------------------------------------
-void example_newton::drag_x(const input& i) {
+void example_mandelbrot::drag_x(const input& i) {
     if(is_dragging) {
         pan_x(i);
     }
 }
 //------------------------------------------------------------------------------
-void example_newton::drag_y(const input& i) {
+void example_mandelbrot::drag_y(const input& i) {
     if(is_dragging) {
         pan_y(i);
     }
 }
 //------------------------------------------------------------------------------
-void example_newton::update() noexcept {
-    if(!_ctx.state().user_is_idle()) {
-        _is_done.reset();
-    }
-
+void example_mandelbrot::update() noexcept {
+    auto& state = _ctx.state();
     auto& [gl, GL] = _video.gl_api();
+
+    if(!state.user_is_idle()) {
+        _is_done.reset();
+    } else if(state.user_idle_time() > std::chrono::seconds(1)) {
+        const float s = value(state.frame_duration()) * 60;
+        const float dest_offset_x = -0.525929F;
+        const float dest_offset_y = -0.668547F;
+        const float c = 0.02F * s;
+
+        offset_x = c * dest_offset_x + (1 - c) * offset_x;
+        offset_y = c * dest_offset_y + (1 - c) * offset_y;
+
+        scale *= (1 - 0.01F * s);
+        if(scale < min_scale) {
+            scale = min_scale;
+        }
+
+        gl.uniform2f(offset_loc, offset_x, offset_y);
+        gl.uniform2f(scale_loc, scale * aspect, scale);
+    }
 
     gl.clear(GL.color_buffer_bit);
     gl.draw_arrays(GL.triangle_strip, 0, 4);
@@ -275,7 +292,7 @@ void example_newton::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_newton::cleanup() noexcept {
+void example_mandelbrot::cleanup() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_shader(std::move(vs));
@@ -316,7 +333,7 @@ public:
             vc.begin();
             if(vc.init_gl_api()) {
                 if(check_requirements(vc)) {
-                    return {std::make_unique<example_newton>(ec, vc)};
+                    return {std::make_unique<example_mandelbrot>(ec, vc)};
                 }
             }
         }
