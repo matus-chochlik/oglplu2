@@ -276,12 +276,7 @@ class launch_options : public main_ctx_object {
 public:
     launch_options(main_ctx_parent parent) noexcept;
 
-    auto application_title() const noexcept -> string_view {
-        if(_app_title.empty()) {
-            return main_context().app_name();
-        }
-        return {_app_title};
-    }
+    auto application_title() const noexcept -> string_view;
 
     auto no_video() noexcept -> auto& {
         _video_opts.clear();

@@ -11,7 +11,6 @@
 #define EAGINE_APPLICATION_INTERFACE_HPP
 
 #include "../callable_ref.hpp"
-#include "../main_ctx_fwd.hpp"
 #include "../memory/block.hpp"
 #include "../string_span.hpp"
 #include "../tribool.hpp"

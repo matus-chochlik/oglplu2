@@ -1,6 +1,4 @@
 /**
- *  example combined/014_voronoi/resources.hpp
- *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
@@ -13,53 +11,54 @@
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
-#include "../example/context.hpp"
+#include <eagine/application/fwd.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::application {
 //------------------------------------------------------------------------------
 // random texture
 //------------------------------------------------------------------------------
 class random_texture {
 private:
-    owned_texture_name random;
+    oglp::owned_texture_name random;
 
 public:
-    void init(example_context& ctx);
+    void init(execution_context&, video_context&);
+    void cleanup(execution_context&, video_context&);
 };
 //------------------------------------------------------------------------------
 // voronoi program
 //------------------------------------------------------------------------------
 class voronoi_program {
 private:
-    owned_shader_name vs;
-    owned_shader_name fs;
+    oglp::owned_shader_name vs;
+    oglp::owned_shader_name fs;
 
 public:
-    owned_program_name prog;
-    uniform_location offset_loc;
-    uniform_location scale_loc;
+    oglp::owned_program_name prog;
+    oglp::uniform_location offset_loc;
+    oglp::uniform_location scale_loc;
 
-    void init(example_context& ctx);
+    void init(execution_context&, video_context&);
+    void cleanup(execution_context&, video_context&);
 };
 //------------------------------------------------------------------------------
 // screen geometry
 //------------------------------------------------------------------------------
 class screen_geometry {
 private:
-    owned_vertex_array_name vao;
+    oglp::owned_vertex_array_name vao;
 
-    owned_buffer_name positions;
-    owned_buffer_name tex_coords;
+    oglp::owned_buffer_name positions;
+    oglp::owned_buffer_name tex_coords;
 
 public:
-    vertex_attrib_location position_loc{0};
-    vertex_attrib_location tex_coord_loc{1};
+    oglp::vertex_attrib_location position_loc{0};
+    oglp::vertex_attrib_location tex_coord_loc{1};
 
-    void init(example_context& ctx);
+    void init(execution_context&, video_context&);
+    void cleanup(execution_context&, video_context&);
 };
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::application
 
 #endif

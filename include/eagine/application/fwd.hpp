@@ -10,6 +10,8 @@
 #ifndef EAGINE_APPLICATION_FWD_HPP
 #define EAGINE_APPLICATION_FWD_HPP
 
+#include "../main_ctx_fwd.hpp"
+
 namespace eagine::application {
 
 class context_state;

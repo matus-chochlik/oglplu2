@@ -1,6 +1,4 @@
 /**
- *  example combined/014_voronoi/resources.cpp
- *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
@@ -8,22 +6,21 @@
  */
 
 #include "resources.hpp"
-#include "../example.hpp"
 
+#include <eagine/application/context.hpp>
+#include <eagine/embed.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 
-namespace eagine::oglp {
+namespace eagine::application {
 //------------------------------------------------------------------------------
 // random texture
 //------------------------------------------------------------------------------
-void random_texture::init(example_context& ctx) {
-    auto& cleanup = ctx.cleanup();
-    const auto& [gl, GL] = ctx.gl();
+void random_texture::init(execution_context& ec, video_context& vc) {
+    const auto& [gl, GL] = vc.gl_api();
     auto random_data = GL.unsigned_byte_.array(size_constant<256 * 256 * 3>{});
-    ctx.random().uniform(cover(random_data));
+    ec.random_uniform(cover(random_data));
 
     gl.gen_textures() >> random;
-    gl.delete_textures.later_by(cleanup, random);
     gl.active_texture(GL.texture0);
     gl.bind_texture(GL.texture_2d, random);
     gl.tex_parameter_i(GL.texture_2d, GL.texture_min_filter, GL.nearest);
@@ -42,29 +39,30 @@ void random_texture::init(example_context& ctx) {
       as_bytes(view(random_data)));
 }
 //------------------------------------------------------------------------------
+void random_texture::cleanup(execution_context&, video_context& vc) {
+    const auto& gl = vc.gl_api();
+    gl.delete_textures(std::move(random));
+}
+//------------------------------------------------------------------------------
 // voronoi program
 //------------------------------------------------------------------------------
-void voronoi_program::init(example_context& ctx) {
-    auto& cleanup = ctx.cleanup();
-    const auto& [gl, GL] = ctx.gl();
+void voronoi_program::init(execution_context&, video_context& vc) {
+    const auto& [gl, GL] = vc.gl_api();
 
     // vertex shader
     auto vs_src = embed(EAGINE_ID(VertShader), "vertex.glsl");
     gl.create_shader(GL.vertex_shader) >> vs;
-    gl.delete_shader.later_by(cleanup, vs);
-    gl.shader_source(vs, glsl_string_ref(vs_src));
+    gl.shader_source(vs, oglp::glsl_string_ref(vs_src));
     gl.compile_shader(vs);
 
     // fragment shader
     auto fs_src = embed(EAGINE_ID(FragShader), "fragment.glsl");
     gl.create_shader(GL.fragment_shader) >> fs;
-    gl.delete_shader.later_by(cleanup, fs);
-    gl.shader_source(fs, glsl_string_ref(fs_src));
+    gl.shader_source(fs, oglp::glsl_string_ref(fs_src));
     gl.compile_shader(fs);
 
     // program
     gl.create_program() >> prog;
-    gl.delete_program.later_by(cleanup, prog);
     gl.attach_shader(prog, vs);
     gl.attach_shader(prog, fs);
     gl.link_program(prog);
@@ -74,15 +72,20 @@ void voronoi_program::init(example_context& ctx) {
     gl.get_uniform_location(prog, "Scale") >> scale_loc;
 }
 //------------------------------------------------------------------------------
+void voronoi_program::cleanup(execution_context&, video_context& vc) {
+    const auto& gl = vc.gl_api();
+    gl.delete_shader(std::move(fs));
+    gl.delete_shader(std::move(vs));
+    gl.delete_program(std::move(prog));
+}
+//------------------------------------------------------------------------------
 // screen shape
 //------------------------------------------------------------------------------
-void screen_geometry::init(example_context& ctx) {
-    auto& cleanup = ctx.cleanup();
-    const auto& [gl, GL] = ctx.gl();
+void screen_geometry::init(execution_context&, video_context& vc) {
+    const auto& [gl, GL] = vc.gl_api();
 
     // vao
     gl.gen_vertex_arrays() >> vao;
-    gl.delete_vertex_arrays.later_by(cleanup, vao);
     gl.bind_vertex_array(vao);
 
     // positions
@@ -90,7 +93,6 @@ void screen_geometry::init(example_context& ctx) {
       GL.float_.array(-1.0F, -1.0F, -1.0F, 1.0F, 1.0F, -1.0F, 1.0F, 1.0F);
 
     gl.gen_buffers() >> positions;
-    gl.delete_buffers.later_by(cleanup, positions);
     gl.bind_buffer(GL.array_buffer, positions);
     gl.buffer_data(GL.array_buffer, view(position_data), GL.static_draw);
     gl.vertex_attrib_pointer(position_loc, 2, GL.float_, GL.false_);
@@ -101,11 +103,17 @@ void screen_geometry::init(example_context& ctx) {
       GL.float_.array(-1.0F, -1.0F, -1.0F, 1.0F, 1.0F, -1.0F, 1.0F, 1.0F);
 
     gl.gen_buffers() >> tex_coords;
-    gl.delete_buffers.later_by(cleanup, tex_coords);
     gl.bind_buffer(GL.array_buffer, tex_coords);
     gl.buffer_data(GL.array_buffer, view(tex_coord_data), GL.static_draw);
     gl.vertex_attrib_pointer(tex_coord_loc, 2, GL.float_, GL.false_);
     gl.enable_vertex_attrib_array(tex_coord_loc);
 }
 //------------------------------------------------------------------------------
-} // namespace eagine::oglp
+void screen_geometry::cleanup(execution_context&, video_context& vc) {
+    const auto& gl = vc.gl_api();
+    gl.delete_buffers(std::move(tex_coords));
+    gl.delete_buffers(std::move(positions));
+    gl.delete_vertex_arrays(std::move(vao));
+}
+//------------------------------------------------------------------------------
+} // namespace eagine::application

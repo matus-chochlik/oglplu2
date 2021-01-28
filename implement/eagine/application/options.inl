@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/main_ctx.hpp>
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
@@ -91,6 +92,14 @@ launch_options::launch_options(main_ctx_parent parent) noexcept
     _max_run_time = cfg_init("application.max_run_time", _max_run_time);
     _max_frames = cfg_init("application.max_frames", _max_frames);
     _requires_input = cfg_init("application.input.required", _requires_input);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto launch_options::application_title() const noexcept -> string_view {
+    if(_app_title.empty()) {
+        return main_context().app_name();
+    }
+    return {_app_title};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
