@@ -231,7 +231,7 @@ void example_voronoi::cleanup() noexcept {
 class example_launchpad : public launchpad {
 public:
     auto setup(main_ctx&, launch_options& opts) -> bool final {
-        opts.no_audio().no_input().require_video();
+        opts.no_audio().require_input().require_video();
         return true;
     }
 
