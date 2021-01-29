@@ -354,6 +354,11 @@ inline auto execution_context::_setup_providers() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto execution_context::buffer() const noexcept -> memory::buffer& {
+    return main_ctx_object::main_context().scratch_space();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto execution_context::state() const noexcept -> const context_state_view& {
     return extract(_state);
 }

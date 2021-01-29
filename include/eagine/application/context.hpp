@@ -16,6 +16,7 @@
 #include "../assert.hpp"
 #include "../flat_map.hpp"
 #include "../main_ctx_object.hpp"
+#include "../memory/buffer.hpp"
 #include "interface.hpp"
 #include "options.hpp"
 #include "state_view.hpp"
@@ -120,6 +121,8 @@ public:
     auto options() const noexcept -> const launch_options& {
         return _options;
     }
+
+    auto buffer() const noexcept -> memory::buffer&;
 
     auto state() const noexcept -> const context_state_view&;
 
