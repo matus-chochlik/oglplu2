@@ -35,12 +35,6 @@ public:
     void update() noexcept final;
     void cleanup() noexcept final;
 
-    void dragging(const input&);
-    void orbit_x(const input&);
-    void orbit_y(const input&);
-    void drag_x(const input&);
-    void drag_y(const input&);
-
 private:
     execution_context& _ctx;
     video_context& _video;
@@ -57,8 +51,6 @@ private:
 
     orbiting_camera camera;
     oglp::uniform_location camera_loc;
-
-    bool is_dragging{false};
 };
 //------------------------------------------------------------------------------
 example_shape::example_shape(execution_context& ec, video_context& vc)
@@ -76,11 +68,11 @@ example_shape::example_shape(execution_context& ec, video_context& vc)
     gl.compile_shader(vs);
 
     // fragment shader
-    auto fs_src = embed(EAGINE_ID(FragShader), "fragment.glsl");
+    auto fs_source = embed(EAGINE_ID(FragShader), "fragment.glsl");
     oglp::owned_shader_name fs;
     gl.create_shader(GL.fragment_shader) >> fs;
     auto cleanup_fs = gl.delete_shader.raii(fs);
-    gl.shader_source(fs, oglp::glsl_string_ref(fs_src));
+    gl.shader_source(fs, oglp::glsl_string_ref(fs_source));
     gl.compile_shader(fs);
 
     // program
@@ -179,10 +171,6 @@ void example_shape::cleanup() noexcept {
     gl.delete_vertex_arrays(std::move(vao));
 
     _video.end();
-}
-//------------------------------------------------------------------------------
-void example_shape::dragging(const input& i) {
-    is_dragging = bool(i);
 }
 //------------------------------------------------------------------------------
 class example_launchpad : public launchpad {

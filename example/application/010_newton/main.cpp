@@ -80,15 +80,15 @@ example_newton::example_newton(execution_context& ec, video_context& vc)
     gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
 
     // vertex shader
-    auto vs_src = embed(EAGINE_ID(VertShader), "vertex.glsl");
+    auto vs_source = embed(EAGINE_ID(VertShader), "vertex.glsl");
     gl.create_shader(GL.vertex_shader) >> vs;
-    gl.shader_source(vs, oglp::glsl_string_ref(vs_src));
+    gl.shader_source(vs, oglp::glsl_string_ref(vs_source));
     gl.compile_shader(vs);
 
     // fragment shader
-    auto fs_src = embed(EAGINE_ID(FragShader), "fragment.glsl");
+    auto fs_source = embed(EAGINE_ID(FragShader), "fragment.glsl");
     gl.create_shader(GL.fragment_shader) >> fs;
-    gl.shader_source(fs, oglp::glsl_string_ref(fs_src));
+    gl.shader_source(fs, oglp::glsl_string_ref(fs_source));
     gl.compile_shader(fs);
 
     // program

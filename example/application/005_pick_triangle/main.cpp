@@ -77,11 +77,11 @@ example_picking::example_picking(execution_context& ec, video_context& vc)
     gl.compile_shader(vs);
 
     // fragment shader
-    auto fs_src = embed(EAGINE_ID(FragShader), "fragment.glsl");
+    auto fs_source = embed(EAGINE_ID(FragShader), "fragment.glsl");
     oglp::owned_shader_name fs;
     gl.create_shader(GL.fragment_shader) >> fs;
     auto cleanup_fs = gl.delete_shader.raii(fs);
-    gl.shader_source(fs, oglp::glsl_string_ref(fs_src));
+    gl.shader_source(fs, oglp::glsl_string_ref(fs_source));
     gl.compile_shader(fs);
 
     // program
