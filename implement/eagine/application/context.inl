@@ -465,27 +465,61 @@ void execution_context::update() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto execution_context::connect_input(
-  callable_ref<void(const input&)> handler,
-  identifier mapping_id,
-  message_id signal_id,
-  input_setup setup) -> execution_context& {
-    _inputs[mapping_id].try_emplace(signal_id, setup, std::move(handler));
+auto execution_context::connect_input(message_id input_id, input_handler handler)
+  -> execution_context& {
+    _connected_inputs.emplace(input_id, std::move(handler));
     return *this;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto execution_context::set_input_mapping(identifier mapping_id)
+auto execution_context::connect_inputs() -> execution_context& {
+    connect_input(EAGINE_MSG_ID(App, Quit), stop_running_handler());
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::map_input(
+  message_id input_id,
+  identifier mapping_id,
+  message_id signal_id,
+  input_setup setup) -> execution_context& {
+    _input_mappings[mapping_id].emplace(signal_id, input_id, setup);
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::map_inputs(identifier mapping_id)
+  -> execution_context& {
+    map_input(
+      EAGINE_MSG_ID(App, Quit),
+      mapping_id,
+      EAGINE_MSG_ID(Keyboard, Escape),
+      input_setup().trigger());
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::switch_input_mapping(identifier mapping_id)
   -> execution_context& {
     if(_input_mapping != mapping_id) {
-        const auto& mapping = _inputs[mapping_id];
+        _mapped_inputs.clear();
+        const auto& mapping = _input_mappings[mapping_id];
+        for(auto& [signal_id, slot] : mapping) {
+            const auto pos = _connected_inputs.find(std::get<0>(slot));
+            if(pos != _connected_inputs.end()) {
+                _mapped_inputs.emplace(
+                  signal_id, std::get<1>(slot), std::get<1>(*pos));
+            }
+        }
+
         for(auto& input : _input_providers) {
             extract(input).mapping_begin(mapping_id);
-            for(const auto& slot : mapping) {
+            for(auto& slot : _mapped_inputs) {
                 extract(input).mapping_enable(slot.first);
             }
             extract(input).mapping_commit(mapping_id);
         }
+
         _input_mapping = mapping_id;
     }
     return *this;
@@ -510,16 +544,12 @@ template <typename T>
 inline void execution_context::_forward_input(
   const input_info& info,
   const input_value<T>& value) noexcept {
-    const auto mapping_pos = _inputs.find(_input_mapping);
-    if(mapping_pos != _inputs.end()) {
-        const auto& slots = mapping_pos->second;
-        const auto slot_pos = slots.find(info.signal_id);
-        if(slot_pos != slots.end()) {
-            const auto& [setup, handler] = slot_pos->second;
-            if(setup.has(info.value_kind)) {
-                handler(input(value, info, setup));
-                extract(_state).notice_user_active();
-            }
+    const auto slot_pos = _mapped_inputs.find(info.signal_id);
+    if(slot_pos != _mapped_inputs.end()) {
+        const auto& [setup, handler] = slot_pos->second;
+        if(setup.is_applicable() && setup.has(info.value_kind)) {
+            handler(input(value, info, setup));
+            extract(_state).notice_user_active();
         }
     }
 }

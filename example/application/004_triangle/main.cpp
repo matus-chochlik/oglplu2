@@ -49,12 +49,6 @@ private:
 //------------------------------------------------------------------------------
 example_triangle::example_triangle(execution_context& ec, video_context& vc)
   : _video{vc} {
-    ec.connect_input(
-        ec.stop_running_handler(),
-        EAGINE_MSG_ID(Keyboard, Escape),
-        input_setup().button())
-      .set_input_mapping();
-
     auto& [gl, GL] = _video.gl_api();
 
     gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
@@ -118,6 +112,8 @@ example_triangle::example_triangle(execution_context& ec, video_context& vc)
     gl.enable_vertex_attrib_array(color_loc);
 
     gl.disable(GL.depth_test);
+
+    ec.connect_inputs().map_inputs().switch_input_mapping();
 }
 //------------------------------------------------------------------------------
 void example_triangle::on_video_resize() noexcept {

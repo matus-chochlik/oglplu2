@@ -165,23 +165,30 @@ public:
         return nullptr;
     }
 
-    auto connect_input(
-      callable_ref<void(const input&)> handler,
+    auto connect_input(message_id input_id, input_handler handler)
+      -> execution_context&;
+
+    auto connect_inputs() -> execution_context&;
+
+    auto map_input(
+      message_id input_id,
       identifier mapping_id,
       message_id signal_id,
       input_setup setup) -> execution_context&;
 
-    auto connect_input(
-      callable_ref<void(const input&)> handler,
-      message_id signal_id,
-      input_setup setup) -> auto& {
-        return connect_input(
-          std::move(handler), EAGINE_ID(default), std::move(signal_id), setup);
+    auto map_input(message_id input_id, message_id signal_id, input_setup setup)
+      -> execution_context& {
+        return map_input(input_id, {}, signal_id, setup);
     }
 
-    auto set_input_mapping(identifier mapping_id) -> execution_context&;
-    auto set_input_mapping() -> auto& {
-        return set_input_mapping(EAGINE_ID(default));
+    auto map_inputs(identifier mapping_id) -> execution_context&;
+    auto map_inputs() -> execution_context& {
+        return map_inputs({});
+    }
+
+    auto switch_input_mapping(identifier mapping_id) -> execution_context&;
+    auto switch_input_mapping() -> auto& {
+        return switch_input_mapping({});
     }
 
     auto stop_running_handler() noexcept -> input_handler {
@@ -206,14 +213,19 @@ private:
 
     auto _setup_providers() -> bool;
 
-    identifier _input_mapping{EAGINE_ID(none)};
+    identifier _input_mapping{EAGINE_ID(initial)};
 
+    // input id -> handler function reference
+    flat_map<message_id, input_handler> _connected_inputs;
+
+    // mapping id -> signal id -> (input id, setup)
     flat_map<
       identifier,
-      flat_map<
-        message_id,
-        std::tuple<input_setup, callable_ref<void(const input&)>>>>
-      _inputs;
+      flat_map<message_id, std::tuple<message_id, input_setup>>>
+      _input_mappings;
+
+    // signal id -> (setup, handler)
+    flat_map<message_id, std::tuple<input_setup, input_handler>> _mapped_inputs;
 
     void _handle_stop_running(const input& engaged) {
         if(engaged) {

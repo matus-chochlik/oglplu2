@@ -75,7 +75,7 @@ public:
         return *this;
     }
 
-    auto button() noexcept -> auto& {
+    auto trigger() noexcept -> auto& {
         return absolute_free().absolute_norm();
     }
 
@@ -97,8 +97,18 @@ public:
         return _invert ? -_multiplier : _multiplier;
     }
 
+    auto only_if(bool& flag) noexcept -> auto& {
+        _only_if = &flag;
+        return *this;
+    }
+
+    auto is_applicable() const noexcept {
+        return !_only_if || *_only_if;
+    }
+
 private:
     double _multiplier{1.0};
+    bool* _only_if{nullptr};
     input_value_kinds _value_kinds{};
     bool _invert{false};
 };

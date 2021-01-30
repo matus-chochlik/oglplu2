@@ -62,19 +62,6 @@ private:
 example_picking::example_picking(execution_context& ec, video_context& vc)
   : _ctx{ec}
   , _video{vc} {
-    ec.connect_input(
-        ec.stop_running_handler(),
-        EAGINE_MSG_ID(Keyboard, Escape),
-        input_setup().button())
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(motion_x)},
-        EAGINE_MSG_ID(Cursor, PositionX),
-        input_setup().absolute_norm())
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(motion_y)},
-        EAGINE_MSG_ID(Cursor, PositionY),
-        input_setup().absolute_norm())
-      .set_input_mapping();
 
     auto& glapi = _video.gl_api();
     auto& [gl, GL] = glapi;
@@ -131,6 +118,24 @@ example_picking::example_picking(execution_context& ec, video_context& vc)
     glapi.set_uniform(prog, highlight_loc, hl_value);
 
     gl.disable(GL.depth_test);
+
+    ec.connect_inputs()
+      .map_inputs()
+      .connect_input(
+        EAGINE_MSG_ID(Example, MotionX),
+        {this, EAGINE_THIS_MEM_FUNC_C(motion_x)})
+      .map_input(
+        EAGINE_MSG_ID(Example, MotionX),
+        EAGINE_MSG_ID(Cursor, PositionX),
+        input_setup().absolute_norm())
+      .connect_input(
+        EAGINE_MSG_ID(Example, MotionY),
+        {this, EAGINE_THIS_MEM_FUNC_C(motion_y)})
+      .map_input(
+        EAGINE_MSG_ID(Example, MotionY),
+        EAGINE_MSG_ID(Cursor, PositionY),
+        input_setup().absolute_norm())
+      .switch_input_mapping();
 }
 //------------------------------------------------------------------------------
 void example_picking::on_video_resize() noexcept {

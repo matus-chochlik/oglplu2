@@ -35,8 +35,6 @@ public:
     void zoom(const input&);
     void pan_x(const input&);
     void pan_y(const input&);
-    void drag_x(const input&);
-    void drag_y(const input&);
 
 private:
     execution_context& _ctx;
@@ -76,55 +74,6 @@ private:
 example_newton::example_newton(execution_context& ec, video_context& vc)
   : _ctx{ec}
   , _video{vc} {
-    ec.connect_input(
-        ec.stop_running_handler(),
-        EAGINE_MSG_ID(Keyboard, Escape),
-        input_setup().button())
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(dampening)},
-        EAGINE_MSG_ID(Keyboard, LeftCtrl),
-        input_setup().button())
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(dragging)},
-        EAGINE_MSG_ID(Cursor, Button0),
-        input_setup().button())
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(zoom)},
-        EAGINE_MSG_ID(Wheel, ScrollY),
-        input_setup().relative())
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(zoom)},
-        EAGINE_MSG_ID(Keyboard, KpPlus),
-        input_setup().button().multiply(0.25))
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(zoom)},
-        EAGINE_MSG_ID(Keyboard, KpMinus),
-        input_setup().button().multiply(0.25).invert())
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(pan_x)},
-        EAGINE_MSG_ID(Keyboard, Left),
-        input_setup().button().multiply(0.25))
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(pan_x)},
-        EAGINE_MSG_ID(Keyboard, Right),
-        input_setup().button().multiply(0.25).invert())
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(pan_y)},
-        EAGINE_MSG_ID(Keyboard, Up),
-        input_setup().button().multiply(0.25).invert())
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(pan_y)},
-        EAGINE_MSG_ID(Keyboard, Down),
-        input_setup().button().multiply(0.25))
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(drag_x)},
-        EAGINE_MSG_ID(Cursor, MotionX),
-        input_setup().relative().multiply(2))
-      .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(drag_y)},
-        EAGINE_MSG_ID(Cursor, MotionY),
-        input_setup().relative().multiply(2))
-      .set_input_mapping();
 
     auto& [gl, GL] = _video.gl_api();
 
@@ -204,6 +153,66 @@ example_newton::example_newton(execution_context& ec, video_context& vc)
       as_bytes(view(gradient_data)));
 
     gl.disable(GL.depth_test);
+
+    ec.connect_inputs()
+      .connect_input(
+        EAGINE_MSG_ID(Motion, Dampening),
+        {this, EAGINE_THIS_MEM_FUNC_C(dampening)})
+      .connect_input(
+        EAGINE_MSG_ID(Cursor, Dragging),
+        {this, EAGINE_THIS_MEM_FUNC_C(dragging)})
+      .connect_input(
+        EAGINE_MSG_ID(View, Zoom), {this, EAGINE_THIS_MEM_FUNC_C(zoom)})
+      .connect_input(
+        EAGINE_MSG_ID(View, PanX), {this, EAGINE_THIS_MEM_FUNC_C(pan_x)})
+      .connect_input(
+        EAGINE_MSG_ID(View, PanY), {this, EAGINE_THIS_MEM_FUNC_C(pan_y)})
+      .map_inputs()
+      .map_input(
+        EAGINE_MSG_ID(Motion, Dampening),
+        EAGINE_MSG_ID(Keyboard, LeftCtrl),
+        input_setup().trigger())
+      .map_input(
+        EAGINE_MSG_ID(Cursor, Dragging),
+        EAGINE_MSG_ID(Cursor, Button0),
+        input_setup().trigger())
+      .map_input(
+        EAGINE_MSG_ID(View, Zoom),
+        EAGINE_MSG_ID(Wheel, ScrollY),
+        input_setup().relative())
+      .map_input(
+        EAGINE_MSG_ID(View, Zoom),
+        EAGINE_MSG_ID(Keyboard, KpPlus),
+        input_setup().trigger().multiply(0.25))
+      .map_input(
+        EAGINE_MSG_ID(View, Zoom),
+        EAGINE_MSG_ID(Keyboard, KpMinus),
+        input_setup().trigger().multiply(0.25).invert())
+      .map_input(
+        EAGINE_MSG_ID(View, PanX),
+        EAGINE_MSG_ID(Keyboard, Left),
+        input_setup().trigger().multiply(0.25))
+      .map_input(
+        EAGINE_MSG_ID(View, PanX),
+        EAGINE_MSG_ID(Keyboard, Right),
+        input_setup().trigger().multiply(0.25).invert())
+      .map_input(
+        EAGINE_MSG_ID(View, PanY),
+        EAGINE_MSG_ID(Keyboard, Down),
+        input_setup().trigger().multiply(0.25))
+      .map_input(
+        EAGINE_MSG_ID(View, PanY),
+        EAGINE_MSG_ID(Keyboard, Up),
+        input_setup().trigger().multiply(0.25).invert())
+      .map_input(
+        EAGINE_MSG_ID(View, PanX),
+        EAGINE_MSG_ID(Cursor, MotionX),
+        input_setup().relative().multiply(2).only_if(is_dragging))
+      .map_input(
+        EAGINE_MSG_ID(View, PanY),
+        EAGINE_MSG_ID(Cursor, MotionY),
+        input_setup().relative().multiply(2).only_if(is_dragging))
+      .switch_input_mapping();
 }
 //------------------------------------------------------------------------------
 void example_newton::on_video_resize() noexcept {
@@ -248,18 +257,6 @@ void example_newton::pan_y(const input& i) {
 
     auto& gl = _video.gl_api();
     gl.uniform2f(offset_loc, offset_x, offset_y);
-}
-//------------------------------------------------------------------------------
-void example_newton::drag_x(const input& i) {
-    if(is_dragging) {
-        pan_x(i);
-    }
-}
-//------------------------------------------------------------------------------
-void example_newton::drag_y(const input& i) {
-    if(is_dragging) {
-        pan_y(i);
-    }
 }
 //------------------------------------------------------------------------------
 void example_newton::update() noexcept {

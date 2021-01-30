@@ -137,39 +137,58 @@ example_cube::example_cube(execution_context& ec, video_context& vc)
     gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
     gl.enable(GL.depth_test);
 
-    ec.connect_input(
-        ec.stop_running_handler(),
-        EAGINE_MSG_ID(Keyboard, Escape),
-        input_setup().button())
+    ec.connect_inputs()
       .connect_input(
-        {this, EAGINE_THIS_MEM_FUNC_C(dragging)},
+        EAGINE_MSG_ID(Example, Dragging),
+        {this, EAGINE_THIS_MEM_FUNC_C(dragging)})
+      .connect_input(
+        EAGINE_MSG_ID(Camera, Altitude), camera.altitude_change_handler())
+      .connect_input(
+        EAGINE_MSG_ID(Camera, Longitude), camera.longitude_change_handler())
+      .connect_input(
+        EAGINE_MSG_ID(Camera, Latitude), camera.latitude_change_handler())
+      .map_inputs()
+      .map_input(
+        EAGINE_MSG_ID(Example, Dragging),
         EAGINE_MSG_ID(Cursor, Button0),
-        input_setup().button())
-      .connect_input(
-        camera.altitude_change_handler(),
+        input_setup().trigger())
+      .map_input(
+        EAGINE_MSG_ID(Camera, Altitude),
         EAGINE_MSG_ID(Keyboard, KpPlus),
-        input_setup().button().multiply(0.05))
-      .connect_input(
-        camera.altitude_change_handler(),
+        input_setup().trigger().multiply(0.05))
+      .map_input(
+        EAGINE_MSG_ID(Camera, Altitude),
         EAGINE_MSG_ID(Keyboard, KpMinus),
-        input_setup().button().multiply(0.05).invert())
-      .connect_input(
-        camera.longitude_change_handler(),
+        input_setup().trigger().multiply(0.05).invert())
+      .map_input(
+        EAGINE_MSG_ID(Camera, Longitude),
         EAGINE_MSG_ID(Keyboard, Left),
-        input_setup().button().multiply(0.05))
-      .connect_input(
-        camera.longitude_change_handler(),
+        input_setup().trigger().multiply(0.05))
+      .map_input(
+        EAGINE_MSG_ID(Camera, Longitude),
         EAGINE_MSG_ID(Keyboard, Right),
-        input_setup().button().multiply(0.05).invert())
-      .connect_input(
-        camera.latitude_change_handler(),
+        input_setup().trigger().multiply(0.05).invert())
+      .map_input(
+        EAGINE_MSG_ID(Camera, Latitude),
         EAGINE_MSG_ID(Keyboard, Up),
-        input_setup().button().multiply(0.05).invert())
-      .connect_input(
-        camera.latitude_change_handler(),
+        input_setup().trigger().multiply(0.05).invert())
+      .map_input(
+        EAGINE_MSG_ID(Camera, Latitude),
         EAGINE_MSG_ID(Keyboard, Down),
-        input_setup().button().multiply(0.05))
-      .set_input_mapping();
+        input_setup().trigger().multiply(0.05))
+      .map_input(
+        EAGINE_MSG_ID(Camera, Altitude),
+        EAGINE_MSG_ID(Wheel, ScrollY),
+        input_setup().relative().multiply(0.2))
+      .map_input(
+        EAGINE_MSG_ID(Camera, Longitude),
+        EAGINE_MSG_ID(Cursor, MotionX),
+        input_setup().relative().multiply(2).only_if(is_dragging))
+      .map_input(
+        EAGINE_MSG_ID(Camera, Latitude),
+        EAGINE_MSG_ID(Cursor, MotionY),
+        input_setup().relative().multiply(2).only_if(is_dragging))
+      .switch_input_mapping();
 }
 //------------------------------------------------------------------------------
 void example_cube::on_video_resize() noexcept {
@@ -179,6 +198,10 @@ void example_cube::on_video_resize() noexcept {
 }
 //------------------------------------------------------------------------------
 void example_cube::update() noexcept {
+    if(!_ctx.state().user_is_idle()) {
+        _is_done.reset();
+    }
+
     auto& glapi = _video.gl_api();
     auto& [gl, GL] = glapi;
 
@@ -202,16 +225,6 @@ void example_cube::cleanup() noexcept {
 //------------------------------------------------------------------------------
 void example_cube::dragging(const input& i) {
     is_dragging = bool(i);
-}
-//------------------------------------------------------------------------------
-void example_cube::drag_x(const input&) {
-    if(is_dragging) {
-    }
-}
-//------------------------------------------------------------------------------
-void example_cube::drag_y(const input&) {
-    if(is_dragging) {
-    }
 }
 //------------------------------------------------------------------------------
 class example_launchpad : public launchpad {
