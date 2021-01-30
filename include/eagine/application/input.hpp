@@ -11,6 +11,7 @@
 #define EAGINE_APPLICATION_INPUT_HPP
 
 #include "../bitfield.hpp"
+#include "../callable_ref.hpp"
 #include "../message_id.hpp"
 #include "../value_with_history.hpp"
 
@@ -126,6 +127,20 @@ public:
 
     explicit operator bool() const noexcept {
         return !are_equal(this->get(), 0.0);
+    }
+};
+//------------------------------------------------------------------------------
+using input_handler = callable_ref<void(const input&)>;
+struct input_slot : std::tuple<message_id, input_handler> {
+    using base = std::tuple<message_id, input_handler>;
+    using base::base;
+
+    auto id() const noexcept -> auto& {
+        return std::get<0>(*this);
+    }
+
+    auto handler() const noexcept -> auto& {
+        return std::get<1>(*this);
     }
 };
 //------------------------------------------------------------------------------

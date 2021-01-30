@@ -42,6 +42,7 @@ add_library(
 	eagine-application
 	application_options.cpp
 	application_context.cpp
+	application_camera.cpp
 	application_framedump.cpp
 	application_eglplus.cpp
 	application_glfw3.cpp

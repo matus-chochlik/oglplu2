@@ -473,7 +473,7 @@ auto execution_context::connect_input(message_id input_id, input_handler handler
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto execution_context::connect_inputs() -> execution_context& {
-    connect_input(EAGINE_MSG_ID(App, Quit), stop_running_handler());
+    connect_input(stop_running_input());
     return *this;
 }
 //------------------------------------------------------------------------------

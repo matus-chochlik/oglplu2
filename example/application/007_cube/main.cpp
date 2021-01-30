@@ -137,58 +137,8 @@ example_cube::example_cube(execution_context& ec, video_context& vc)
     gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
     gl.enable(GL.depth_test);
 
-    ec.connect_inputs()
-      .connect_input(
-        EAGINE_MSG_ID(Example, Dragging),
-        {this, EAGINE_THIS_MEM_FUNC_C(dragging)})
-      .connect_input(
-        EAGINE_MSG_ID(Camera, Altitude), camera.altitude_change_handler())
-      .connect_input(
-        EAGINE_MSG_ID(Camera, Longitude), camera.longitude_change_handler())
-      .connect_input(
-        EAGINE_MSG_ID(Camera, Latitude), camera.latitude_change_handler())
-      .map_inputs()
-      .map_input(
-        EAGINE_MSG_ID(Example, Dragging),
-        EAGINE_MSG_ID(Cursor, Button0),
-        input_setup().trigger())
-      .map_input(
-        EAGINE_MSG_ID(Camera, Altitude),
-        EAGINE_MSG_ID(Keyboard, KpPlus),
-        input_setup().trigger().multiply(0.05))
-      .map_input(
-        EAGINE_MSG_ID(Camera, Altitude),
-        EAGINE_MSG_ID(Keyboard, KpMinus),
-        input_setup().trigger().multiply(0.05).invert())
-      .map_input(
-        EAGINE_MSG_ID(Camera, Longitude),
-        EAGINE_MSG_ID(Keyboard, Left),
-        input_setup().trigger().multiply(0.05))
-      .map_input(
-        EAGINE_MSG_ID(Camera, Longitude),
-        EAGINE_MSG_ID(Keyboard, Right),
-        input_setup().trigger().multiply(0.05).invert())
-      .map_input(
-        EAGINE_MSG_ID(Camera, Latitude),
-        EAGINE_MSG_ID(Keyboard, Up),
-        input_setup().trigger().multiply(0.05).invert())
-      .map_input(
-        EAGINE_MSG_ID(Camera, Latitude),
-        EAGINE_MSG_ID(Keyboard, Down),
-        input_setup().trigger().multiply(0.05))
-      .map_input(
-        EAGINE_MSG_ID(Camera, Altitude),
-        EAGINE_MSG_ID(Wheel, ScrollY),
-        input_setup().relative().multiply(0.2))
-      .map_input(
-        EAGINE_MSG_ID(Camera, Longitude),
-        EAGINE_MSG_ID(Cursor, MotionX),
-        input_setup().relative().multiply(2).only_if(is_dragging))
-      .map_input(
-        EAGINE_MSG_ID(Camera, Latitude),
-        EAGINE_MSG_ID(Cursor, MotionY),
-        input_setup().relative().multiply(2).only_if(is_dragging))
-      .switch_input_mapping();
+    camera.connect_inputs(ec).basic_input_mapping(ec);
+    ec.setup_inputs().switch_input_mapping();
 }
 //------------------------------------------------------------------------------
 void example_cube::on_video_resize() noexcept {

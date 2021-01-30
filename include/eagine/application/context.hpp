@@ -104,8 +104,6 @@ private:
     std::shared_ptr<oalp::al_api> _al_api{};
 };
 //------------------------------------------------------------------------------
-using input_handler = callable_ref<void(const input&)>;
-
 class execution_context
   : public main_ctx_object
   , private input_sink {
@@ -168,6 +166,10 @@ public:
     auto connect_input(message_id input_id, input_handler handler)
       -> execution_context&;
 
+    auto connect_input(const input_slot& input) -> auto& {
+        return connect_input(input.id(), input.handler());
+    }
+
     auto connect_inputs() -> execution_context&;
 
     auto map_input(
@@ -186,13 +188,22 @@ public:
         return map_inputs({});
     }
 
+    auto setup_inputs(identifier mapping_id) -> execution_context& {
+        return connect_inputs().map_inputs(mapping_id);
+    }
+    auto setup_inputs() -> execution_context& {
+        return setup_inputs({});
+    }
+
     auto switch_input_mapping(identifier mapping_id) -> execution_context&;
     auto switch_input_mapping() -> auto& {
         return switch_input_mapping({});
     }
 
-    auto stop_running_handler() noexcept -> input_handler {
-        return {this, EAGINE_THIS_MEM_FUNC_C(_handle_stop_running)};
+    auto stop_running_input() noexcept -> input_slot {
+        return {
+          EAGINE_MSG_ID(App, Stop),
+          {this, EAGINE_THIS_MEM_FUNC_C(_handle_stop_running)}};
     }
 
     void random_uniform(span<byte> dest);

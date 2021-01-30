@@ -233,6 +233,7 @@ glfw3_opengl_window::glfw3_opengl_window(main_ctx_parent parent)
     _key_states.emplace_back(EAGINE_ID(F12), GLFW_KEY_F12);
 
     // mouse buttons
+    _mouse_states.emplace_back(EAGINE_ID(Pressed), GLFW_MOUSE_BUTTON_1);
     _mouse_states.emplace_back(EAGINE_ID(Button0), GLFW_MOUSE_BUTTON_1);
     _mouse_states.emplace_back(EAGINE_ID(Button1), GLFW_MOUSE_BUTTON_2);
     _mouse_states.emplace_back(EAGINE_ID(Button2), GLFW_MOUSE_BUTTON_3);

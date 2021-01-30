@@ -10,7 +10,6 @@
 #ifndef EAGINE_APPLICATION_INTERFACE_HPP
 #define EAGINE_APPLICATION_INTERFACE_HPP
 
-#include "../callable_ref.hpp"
 #include "../memory/block.hpp"
 #include "../string_span.hpp"
 #include "../tribool.hpp"

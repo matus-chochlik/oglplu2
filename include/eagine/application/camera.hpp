@@ -25,48 +25,53 @@ public:
         return base::matrix(vc.surface_aspect());
     }
 
-    auto update_orbit(float inc) noexcept -> orbiting_camera& {
-        _orbit_factor += (inc * _orbit_dir);
-        if(_orbit_factor > 1.F) {
-            _orbit_factor = 1.F;
-            _orbit_dir.flip();
-        }
-        if(_orbit_factor < 0.F) {
-            _orbit_factor = 0.F;
-            _orbit_dir.flip();
-        }
-        return *this;
+    auto update_orbit(float inc) noexcept -> orbiting_camera&;
+    auto update_turns(float inc) noexcept -> orbiting_camera&;
+    auto update_pitch(float inc) noexcept -> orbiting_camera&;
+
+    constexpr auto pressure_input_id() const noexcept -> message_id {
+        return EAGINE_MSG_ID(Camera, Pressure);
+    }
+    auto pressure_input() noexcept -> input_slot {
+        return {
+          pressure_input_id(),
+          {this, EAGINE_THIS_MEM_FUNC_C(_handle_pressure)}};
     }
 
-    auto update_turns(float inc) noexcept -> orbiting_camera& {
-        _turns += turns_(inc * _turn_dir);
-        return *this;
+    constexpr auto altitude_change_input_id() const noexcept -> message_id {
+        return EAGINE_MSG_ID(Camera, Altitude);
+    }
+    auto altitude_change_input() noexcept -> input_slot {
+        return {
+          altitude_change_input_id(),
+          {this, EAGINE_THIS_MEM_FUNC_C(_change_altitude)}};
     }
 
-    auto update_pitch(float inc) noexcept -> orbiting_camera& {
-        const auto max = right_angles_(1.F);
-        _pitch += right_angles_(inc * _pitch_dir);
-        if(_pitch > max) {
-            _pitch = max;
-            _pitch_dir.flip();
-        }
-        if(_pitch < -max) {
-            _pitch = -max;
-            _pitch_dir.flip();
-        }
-        return *this;
+    constexpr auto longitude_change_input_id() const noexcept -> message_id {
+        return EAGINE_MSG_ID(Camera, Longitude);
+    }
+    auto longitude_change_input() noexcept -> input_slot {
+        return {
+          longitude_change_input_id(),
+          input_handler{this, EAGINE_THIS_MEM_FUNC_C(_change_longitude)}};
     }
 
-    auto altitude_change_handler() noexcept -> input_handler {
-        return {this, EAGINE_THIS_MEM_FUNC_C(_change_altitude)};
+    constexpr auto latitude_change_input_id() const noexcept -> message_id {
+        return EAGINE_MSG_ID(Camera, Latitude);
+    }
+    auto latitude_change_input() noexcept -> input_slot {
+        return {
+          latitude_change_input_id(),
+          {this, EAGINE_THIS_MEM_FUNC_C(_change_latitude)}};
     }
 
-    auto longitude_change_handler() noexcept -> input_handler {
-        return {this, EAGINE_THIS_MEM_FUNC_C(_change_longitude)};
-    }
+    auto connect_inputs(execution_context& ec) -> orbiting_camera&;
 
-    auto latitude_change_handler() noexcept -> input_handler {
-        return {this, EAGINE_THIS_MEM_FUNC_C(_change_latitude)};
+    auto basic_input_mapping(execution_context& ec, identifier mapping_id)
+      -> orbiting_camera&;
+
+    auto basic_input_mapping(execution_context& ec) -> auto& {
+        return basic_input_mapping(ec, {});
     }
 
 private:
@@ -74,32 +79,18 @@ private:
     oglp::sign _turn_dir;
     oglp::sign _pitch_dir;
 
-    void _change_altitude(const input& i) {
-        _orbit_factor -= (float(i.get()));
-        if(_orbit_factor > 1.F) {
-            _orbit_factor = 1.F;
-        }
-        if(_orbit_factor < 0.F) {
-            _orbit_factor = 0.F;
-        }
-    }
+    bool _is_dragging{false};
 
-    void _change_longitude(const input& i) {
-        _turns -= turns_(float(i.get() * 0.25));
-    }
-
-    void _change_latitude(const input& i) {
-        const auto max = right_angles_(1.F);
-        _pitch -= right_angles_(float(i.get()));
-        if(_pitch > max) {
-            _pitch = max;
-        }
-        if(_pitch < -max) {
-            _pitch = -max;
-        }
-    }
+    void _handle_pressure(const input& i);
+    void _change_altitude(const input& i);
+    void _change_longitude(const input& i);
+    void _change_latitude(const input& i);
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::application
+
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/application/camera.inl>
+#endif
 
 #endif
