@@ -67,7 +67,6 @@ function(eagine_add_directory_example)
 	eagine_install_example(${TARGET_NAME})
 endfunction()
 
-add_subdirectory(009_json_shape)
 add_subdirectory(016_torus)
 add_subdirectory(017_occlusion)
 add_subdirectory(018_uv_map)
