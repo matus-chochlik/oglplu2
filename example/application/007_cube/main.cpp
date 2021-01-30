@@ -142,9 +142,8 @@ example_cube::example_cube(execution_context& ec, video_context& vc)
 }
 //------------------------------------------------------------------------------
 void example_cube::on_video_resize() noexcept {
-    const auto [width, height] = _video.surface_size();
     auto& gl = _video.gl_api();
-    gl.viewport(width, height);
+    gl.viewport(_video.surface_size());
 }
 //------------------------------------------------------------------------------
 void example_cube::update() noexcept {

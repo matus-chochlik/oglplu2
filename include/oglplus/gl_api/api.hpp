@@ -561,6 +561,18 @@ public:
         constexpr auto operator()(sizei_type w, sizei_type h) const noexcept {
             return base::operator()(0, 0, w, h);
         }
+
+        constexpr auto
+        operator()(std::tuple<sizei_type, sizei_type> wh) const noexcept {
+            return base::operator()(0, 0, std::get<0>(wh), std::get<1>(wh));
+        }
+
+        constexpr auto
+        operator()(std::tuple<int_type, int_type, sizei_type, sizei_type> c)
+          const noexcept {
+            return base::operator()(
+              std::get<0>(c), std::get<1>(c), std::get<2>(c), std::get<3>(c));
+        }
     } viewport;
 
     // stencil func

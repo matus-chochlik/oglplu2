@@ -216,11 +216,10 @@ example_newton::example_newton(execution_context& ec, video_context& vc)
 }
 //------------------------------------------------------------------------------
 void example_newton::on_video_resize() noexcept {
-    const auto [width, height] = _video.surface_size();
     auto& gl = _video.gl_api();
 
     aspect = _video.surface_aspect();
-    gl.viewport(width, height);
+    gl.viewport(_video.surface_size());
     gl.uniform2f(scale_loc, scale * aspect, scale);
 }
 //------------------------------------------------------------------------------
