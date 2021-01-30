@@ -491,7 +491,7 @@ EAGINE_LIB_FUNC
 auto execution_context::map_inputs(identifier mapping_id)
   -> execution_context& {
     map_input(
-      EAGINE_MSG_ID(App, Quit),
+      EAGINE_MSG_ID(App, Stop),
       mapping_id,
       EAGINE_MSG_ID(Keyboard, Escape),
       input_setup().trigger());

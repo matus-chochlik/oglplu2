@@ -38,6 +38,15 @@ public:
           {this, EAGINE_THIS_MEM_FUNC_C(_handle_pressure)}};
     }
 
+    constexpr auto dampening_input_id() const noexcept -> message_id {
+        return EAGINE_MSG_ID(Camera, Dampening);
+    }
+    auto dampening_input() noexcept -> input_slot {
+        return {
+          dampening_input_id(),
+          {this, EAGINE_THIS_MEM_FUNC_C(_handle_dampening)}};
+    }
+
     constexpr auto altitude_change_input_id() const noexcept -> message_id {
         return EAGINE_MSG_ID(Camera, Altitude);
     }
@@ -80,8 +89,14 @@ private:
     oglp::sign _pitch_dir;
 
     bool _is_dragging{false};
+    bool _dampen_motion{false};
+
+    auto _motion_adjust() const noexcept {
+        return _dampen_motion ? 0.2 : 1.0;
+    }
 
     void _handle_pressure(const input& i);
+    void _handle_dampening(const input& i);
     void _change_altitude(const input& i);
     void _change_longitude(const input& i);
     void _change_latitude(const input& i);

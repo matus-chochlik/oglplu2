@@ -50,8 +50,13 @@ void orbiting_camera::_handle_pressure(const input& i) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void orbiting_camera::_handle_dampening(const input& i) {
+    _dampen_motion = bool(i);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void orbiting_camera::_change_altitude(const input& i) {
-    _orbit_factor -= (float(i.get()));
+    _orbit_factor -= (float(i.get() * _motion_adjust()));
     if(_orbit_factor > 1.F) {
         _orbit_factor = 1.F;
     }
@@ -62,13 +67,13 @@ void orbiting_camera::_change_altitude(const input& i) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void orbiting_camera::_change_longitude(const input& i) {
-    _turns -= turns_(float(i.get() * 0.25));
+    _turns -= turns_(float(i.get() * 0.25 * _motion_adjust()));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void orbiting_camera::_change_latitude(const input& i) {
     const auto max = right_angles_(1.F);
-    _pitch -= right_angles_(float(i.get()));
+    _pitch -= right_angles_(float(i.get() * _motion_adjust()));
     if(_pitch > max) {
         _pitch = max;
     }
@@ -81,6 +86,7 @@ EAGINE_LIB_FUNC
 auto orbiting_camera::connect_inputs(execution_context& ec)
   -> orbiting_camera& {
     ec.connect_input(pressure_input())
+      .connect_input(dampening_input())
       .connect_input(altitude_change_input())
       .connect_input(longitude_change_input())
       .connect_input(latitude_change_input());
@@ -97,14 +103,29 @@ auto orbiting_camera::basic_input_mapping(
         EAGINE_MSG_ID(Cursor, Pressed),
         input_setup().trigger())
       .map_input(
+        dampening_input_id(),
+        mapping_id,
+        EAGINE_MSG_ID(Keyboard, LeftCtrl),
+        input_setup().trigger())
+      .map_input(
         altitude_change_input_id(),
         mapping_id,
         EAGINE_MSG_ID(Keyboard, KpPlus),
+        input_setup().trigger().multiply(0.10))
+      .map_input(
+        altitude_change_input_id(),
+        mapping_id,
+        EAGINE_MSG_ID(Keyboard, RtBracket),
         input_setup().trigger().multiply(0.05))
       .map_input(
         altitude_change_input_id(),
         mapping_id,
         EAGINE_MSG_ID(Keyboard, KpMinus),
+        input_setup().trigger().multiply(0.10).invert())
+      .map_input(
+        altitude_change_input_id(),
+        mapping_id,
+        EAGINE_MSG_ID(Keyboard, LtBracket),
         input_setup().trigger().multiply(0.05).invert())
       .map_input(
         altitude_change_input_id(),
@@ -115,11 +136,21 @@ auto orbiting_camera::basic_input_mapping(
         longitude_change_input_id(),
         mapping_id,
         EAGINE_MSG_ID(Keyboard, Left),
+        input_setup().trigger().multiply(0.10))
+      .map_input(
+        longitude_change_input_id(),
+        mapping_id,
+        EAGINE_MSG_ID(Keyboard, A),
         input_setup().trigger().multiply(0.05))
       .map_input(
         longitude_change_input_id(),
         mapping_id,
         EAGINE_MSG_ID(Keyboard, Right),
+        input_setup().trigger().multiply(0.10).invert())
+      .map_input(
+        longitude_change_input_id(),
+        mapping_id,
+        EAGINE_MSG_ID(Keyboard, D),
         input_setup().trigger().multiply(0.05).invert())
       .map_input(
         longitude_change_input_id(),
@@ -130,11 +161,21 @@ auto orbiting_camera::basic_input_mapping(
         latitude_change_input_id(),
         mapping_id,
         EAGINE_MSG_ID(Keyboard, Down),
+        input_setup().trigger().multiply(0.10))
+      .map_input(
+        latitude_change_input_id(),
+        mapping_id,
+        EAGINE_MSG_ID(Keyboard, S),
         input_setup().trigger().multiply(0.05))
       .map_input(
         latitude_change_input_id(),
         mapping_id,
         EAGINE_MSG_ID(Keyboard, Up),
+        input_setup().trigger().multiply(0.10).invert())
+      .map_input(
+        latitude_change_input_id(),
+        mapping_id,
+        EAGINE_MSG_ID(Keyboard, W),
         input_setup().trigger().multiply(0.05).invert())
       .map_input(
         latitude_change_input_id(),
