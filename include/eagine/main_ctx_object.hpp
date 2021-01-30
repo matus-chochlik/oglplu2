@@ -79,6 +79,10 @@ public:
 
     auto app_config() const noexcept -> application_config&;
 
+    auto as_parent() noexcept -> main_ctx_object_parent_info {
+        return {*this};
+    }
+
     template <typename T>
     auto cfg_init(string_view key, T initial, string_view tag = {}) -> T {
         return application_config_initial(app_config(), key, initial, tag);
