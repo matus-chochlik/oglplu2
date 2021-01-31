@@ -43,8 +43,10 @@ void cubes_program::cleanup(video_context& vc) {
 }
 //------------------------------------------------------------------------------
 void cubes_program::set_projection(video_context& vc, orbiting_camera& camera) {
-    vc.gl_api().set_uniform(
-      prog, camera_loc, camera.matrix(vc.surface_aspect()));
+    if(camera.has_changed()) {
+        vc.gl_api().set_uniform(
+          prog, camera_loc, camera.matrix(vc.surface_aspect()));
+    }
 }
 //------------------------------------------------------------------------------
 void cubes_program::update(execution_context& ec, video_context& vc) {

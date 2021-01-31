@@ -36,8 +36,10 @@ void torus_program::cleanup(video_context& vc) {
 }
 //------------------------------------------------------------------------------
 void torus_program::set_projection(video_context& vc, orbiting_camera& camera) {
-    auto& gl = vc.gl_api();
-    gl.set_uniform(prog, camera_loc, camera.matrix(vc.surface_aspect()));
+    if(camera.has_changed()) {
+        auto& gl = vc.gl_api();
+        gl.set_uniform(prog, camera_loc, camera.matrix(vc.surface_aspect()));
+    }
 }
 //------------------------------------------------------------------------------
 void torus_program::bind_position_location(

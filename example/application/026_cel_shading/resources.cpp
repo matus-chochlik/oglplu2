@@ -36,7 +36,9 @@ void cel_program::cleanup(video_context& vc) {
 }
 //------------------------------------------------------------------------------
 void cel_program::set_projection(video_context& vc, orbiting_camera& camera) {
-    vc.gl_api().set_uniform(prog, projection_loc, camera.matrix(vc));
+    if(camera.has_changed()) {
+        vc.gl_api().set_uniform(prog, projection_loc, camera.matrix(vc));
+    }
 }
 //------------------------------------------------------------------------------
 void cel_program::set_modelview(execution_context& ec, video_context& vc) {

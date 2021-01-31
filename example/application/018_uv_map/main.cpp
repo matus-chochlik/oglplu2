@@ -207,7 +207,9 @@ void example_uv_map::update() noexcept {
     auto& [gl, GL] = glapi;
 
     gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
-    glapi.set_uniform(prog, camera_loc, camera.matrix(_video));
+    if(camera.has_changed()) {
+        glapi.set_uniform(prog, camera_loc, camera.matrix(_video));
+    }
     oglp::draw_using_instructions(glapi, view(_ops));
 
     _video.commit();

@@ -20,12 +20,14 @@ auto orbiting_camera::update_orbit(float inc) noexcept -> orbiting_camera& {
         _orbit_factor = 0.F;
         _orbit_dir.flip();
     }
+    _changed = true;
     return *this;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto orbiting_camera::update_turns(float inc) noexcept -> orbiting_camera& {
     _turns += turns_(inc * _turn_dir);
+    _changed = true;
     return *this;
 }
 //------------------------------------------------------------------------------
@@ -41,17 +43,20 @@ auto orbiting_camera::update_pitch(float inc) noexcept -> orbiting_camera& {
         _pitch = -max;
         _pitch_dir.flip();
     }
+    _changed = true;
     return *this;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void orbiting_camera::_handle_pressure(const input& i) {
     _is_dragging = bool(i);
+    _changed = true;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void orbiting_camera::_handle_dampening(const input& i) {
     _dampen_motion = bool(i);
+    _changed = true;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -63,11 +68,13 @@ void orbiting_camera::_change_altitude(const input& i) {
     if(_orbit_factor < 0.F) {
         _orbit_factor = 0.F;
     }
+    _changed = true;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void orbiting_camera::_change_longitude(const input& i) {
     _turns -= turns_(float(i.get() * 0.25 * _motion_adjust()));
+    _changed = true;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -80,6 +87,7 @@ void orbiting_camera::_change_latitude(const input& i) {
     if(_pitch < -max) {
         _pitch = -max;
     }
+    _changed = true;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

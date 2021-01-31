@@ -25,6 +25,10 @@ public:
         return base::matrix(vc.surface_aspect());
     }
 
+    auto has_changed() noexcept {
+        return std::exchange(_changed, false);
+    }
+
     auto update_orbit(float inc) noexcept -> orbiting_camera&;
     auto update_turns(float inc) noexcept -> orbiting_camera&;
     auto update_pitch(float inc) noexcept -> orbiting_camera&;
@@ -88,6 +92,7 @@ private:
     oglp::sign _turn_dir;
     oglp::sign _pitch_dir;
 
+    bool _changed{true};
     bool _is_dragging{false};
     bool _dampen_motion{false};
 
