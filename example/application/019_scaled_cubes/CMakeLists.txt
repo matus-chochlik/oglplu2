@@ -16,6 +16,23 @@ set_source_files_properties(
 	example.oglpprog
 	PROPERTIES GENERATED 1
 )
-eagine_add_directory_example(example.cpp resources.cpp)
-eagine_pack_directory_resources(example.oglpprog)
+add_executable(application-019_scaled_cubes main.cpp resources.cpp)
+eagine_embed_packed_target_resources(application-019_scaled_cubes example.oglpprog)
+eagine_add_exe_analysis(application-019_scaled_cubes)
 
+add_dependencies(application-019_scaled_cubes application-examples)
+
+target_link_libraries(
+	application-019_scaled_cubes
+	PUBLIC eagine eagine-application oglplus
+)
+
+set_target_properties(
+	application-019_scaled_cubes
+	PROPERTIES FOLDER "Example/Application"
+)
+
+install(
+	TARGETS application-019_scaled_cubes
+	DESTINATION share/oglplus/examples
+)
