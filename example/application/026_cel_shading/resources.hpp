@@ -1,6 +1,4 @@
 /**
- *  example combined/026_cel_shading/resources.hpp
- *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
@@ -13,55 +11,50 @@
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
+#include <eagine/application/fwd.hpp>
 #include <oglplus/shapes/drawing.hpp>
 
-namespace eagine {
-class example_context;
-namespace oglp {
-class example_orbiting_camera;
+namespace eagine::application {
 //------------------------------------------------------------------------------
 // program
 //------------------------------------------------------------------------------
 class cel_program {
 private:
-    owned_program_name prog;
-    uniform_location projection_loc;
-    uniform_location modelview_loc;
+    oglp::owned_program_name prog;
+    oglp::uniform_location projection_loc;
+    oglp::uniform_location modelview_loc;
     float shp_turns{0.F};
 
 public:
-    void init(example_context& ctx);
-    void set_projection(
-      const example_context& ctx,
-      const example_orbiting_camera& camera);
-    void set_modelview(const example_context& ctx);
+    void init(execution_context&, video_context&);
+    void cleanup(video_context&);
+    void set_projection(video_context&, orbiting_camera& camera);
+    void set_modelview(execution_context&, video_context&);
 
-    void bind_position_location(
-      const example_context& ctx,
-      vertex_attrib_location loc);
+    void bind_position_location(video_context&, oglp::vertex_attrib_location);
 };
 //------------------------------------------------------------------------------
 // geometry
 //------------------------------------------------------------------------------
 class icosahedron_geometry {
 private:
-    owned_vertex_array_name vao;
+    oglp::owned_vertex_array_name vao;
 
-    owned_buffer_name positions;
-    owned_buffer_name indices;
+    oglp::owned_buffer_name positions;
+    oglp::owned_buffer_name indices;
 
-    std::vector<shape_draw_operation> ops;
+    std::vector<oglp::shape_draw_operation> ops;
 
 public:
-    void init(example_context& ctx);
-    void draw(const example_context& ctx);
+    void init(execution_context&, video_context&);
+    void cleanup(video_context&);
+    void draw(video_context& ctx);
 
     static auto position_loc() noexcept {
-        return vertex_attrib_location{0};
+        return oglp::vertex_attrib_location{0};
     }
 };
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::application
 
 #endif
