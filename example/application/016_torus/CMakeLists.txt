@@ -16,6 +16,23 @@ set_source_files_properties(
 	example.oglpprog
 	PROPERTIES GENERATED 1
 )
-eagine_add_directory_example(example.cpp resources.cpp)
-eagine_pack_directory_resources(example.oglpprog)
+add_executable(application-016_torus main.cpp resources.cpp)
+eagine_embed_packed_target_resources(application-016_torus example.oglpprog)
+eagine_add_exe_analysis(application-016_torus)
 
+add_dependencies(application-016_torus application-examples)
+
+target_link_libraries(
+	application-016_torus
+	PUBLIC eagine eagine-application oglplus
+)
+
+set_target_properties(
+	application-016_torus
+	PROPERTIES FOLDER "Example/Application"
+)
+
+install(
+	TARGETS application-016_torus
+	DESTINATION share/oglplus/examples
+)

@@ -23,9 +23,9 @@
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
-class example_cube : public application {
+class example_uv_map : public application {
 public:
-    example_cube(execution_context&, video_context&);
+    example_uv_map(execution_context&, video_context&);
 
     auto is_done() noexcept -> bool final {
         return _is_done.is_expired();
@@ -57,7 +57,7 @@ private:
     oglp::uniform_location camera_loc;
 };
 //------------------------------------------------------------------------------
-example_cube::example_cube(execution_context& ec, video_context& vc)
+example_uv_map::example_uv_map(execution_context& ec, video_context& vc)
   : _ctx{ec}
   , _video{vc} {
     auto& glapi = _video.gl_api();
@@ -193,12 +193,12 @@ example_cube::example_cube(execution_context& ec, video_context& vc)
     ec.setup_inputs().switch_input_mapping();
 }
 //------------------------------------------------------------------------------
-void example_cube::on_video_resize() noexcept {
+void example_uv_map::on_video_resize() noexcept {
     auto& gl = _video.gl_api();
     gl.viewport(_video.surface_size());
 }
 //------------------------------------------------------------------------------
-void example_cube::update() noexcept {
+void example_uv_map::update() noexcept {
     if(!_ctx.state().user_is_idle()) {
         _is_done.reset();
     }
@@ -213,7 +213,7 @@ void example_cube::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_cube::cleanup() noexcept {
+void example_uv_map::cleanup() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_textures(std::move(light_tex));
@@ -255,7 +255,7 @@ public:
             vc.begin();
             if(vc.init_gl_api()) {
                 if(check_requirements(vc)) {
-                    return {std::make_unique<example_cube>(ec, vc)};
+                    return {std::make_unique<example_uv_map>(ec, vc)};
                 }
             }
         }

@@ -1,6 +1,4 @@
 /**
- *  example combined/016_torus/resources.cpp
- *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
@@ -8,62 +6,69 @@
  */
 
 #include "resources.hpp"
-#include "../example.hpp"
-#include "../example/camera.hpp"
 
+#include <eagine/application/camera.hpp>
+#include <eagine/application/context.hpp>
+#include <eagine/embed.hpp>
 #include <eagine/shapes/torus.hpp>
+#include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/shapes/generator.hpp>
 
-namespace eagine::oglp {
+namespace eagine::application {
 //------------------------------------------------------------------------------
 // program
 //------------------------------------------------------------------------------
-void torus_program::init(example_context& ctx) {
-    auto& cleanup = ctx.cleanup();
-    auto& gl = ctx.gl();
+void torus_program::init(execution_context& ec, video_context& vc) {
+    auto& gl = vc.gl_api();
 
     gl.create_program() >> prog;
-    gl.delete_program.later_by(cleanup, prog);
 
     const auto prog_src{embed(EAGINE_ID(prog), "example.oglpprog")};
-    gl.build_program(prog, prog_src.unpack(ctx.main()));
+    gl.build_program(prog, prog_src.unpack(ec));
     gl.use_program(prog);
 
     gl.get_uniform_location(prog, "Camera") >> camera_loc;
 }
 //------------------------------------------------------------------------------
-void torus_program::set_projection(
-  const example_context& ctx,
-  const example_orbiting_camera& camera) {
-    ctx.gl().set_uniform(prog, camera_loc, camera.matrix(ctx.state()));
+void torus_program::cleanup(video_context& vc) {
+    auto& gl = vc.gl_api();
+    gl.delete_program(std::move(prog));
+}
+//------------------------------------------------------------------------------
+void torus_program::set_projection(video_context& vc, orbiting_camera& camera) {
+    auto& gl = vc.gl_api();
+    gl.set_uniform(prog, camera_loc, camera.matrix(vc.surface_aspect()));
 }
 //------------------------------------------------------------------------------
 void torus_program::bind_position_location(
-  const example_context& ctx,
-  vertex_attrib_location loc) {
-    ctx.gl().bind_attrib_location(prog, loc, "Position");
+  video_context& vc,
+  oglp::vertex_attrib_location loc) {
+    auto& gl = vc.gl_api();
+    gl.bind_attrib_location(prog, loc, "Position");
 }
 //------------------------------------------------------------------------------
 void torus_program::bind_normal_location(
-  const example_context& ctx,
-  vertex_attrib_location loc) {
-    ctx.gl().bind_attrib_location(prog, loc, "Normal");
+  video_context& vc,
+  oglp::vertex_attrib_location loc) {
+    auto& gl = vc.gl_api();
+    gl.bind_attrib_location(prog, loc, "Normal");
 }
 //------------------------------------------------------------------------------
 void torus_program::bind_texcoord_location(
-  const example_context& ctx,
-  vertex_attrib_location loc) {
-    ctx.gl().bind_attrib_location(prog, loc, "TexCoord");
+  video_context& vc,
+  oglp::vertex_attrib_location loc) {
+    auto& gl = vc.gl_api();
+    gl.bind_attrib_location(prog, loc, "TexCoord");
 }
 //------------------------------------------------------------------------------
 // geometry
 //------------------------------------------------------------------------------
-void torus_geometry::init(example_context& ctx) {
-    auto& cleanup = ctx.cleanup();
-    const auto& gl = ctx.gl();
+void torus_geometry::init(execution_context& ec, video_context& vc) {
+    const auto& glapi = vc.gl_api();
+    const auto& gl = glapi;
 
-    shape_generator shape(
-      gl,
+    oglp::shape_generator shape(
+      glapi,
       shapes::unit_torus(
         shapes::vertex_attrib_kind::position |
         shapes::vertex_attrib_kind::normal |
@@ -71,54 +76,58 @@ void torus_geometry::init(example_context& ctx) {
 
     auto draw_var = shape.draw_variant(0);
     ops.resize(std_size(shape.operation_count(draw_var)));
-    shape.instructions(ctx.gl(), draw_var, cover(ops));
+    shape.instructions(glapi, draw_var, cover(ops));
 
     // vao
     gl.gen_vertex_arrays() >> vao;
-    gl.delete_vertex_arrays.later_by(cleanup, vao);
     gl.bind_vertex_array(vao);
 
     // positions
     gl.gen_buffers() >> positions;
-    gl.delete_buffers.later_by(cleanup, positions);
     shape.attrib_setup(
-      ctx.gl(),
+      glapi,
       vao,
       positions,
       position_loc(),
       eagine::shapes::vertex_attrib_kind::position / 3,
-      ctx.buffer());
+      ec.buffer());
 
     // normals
     gl.gen_buffers() >> normals;
-    gl.delete_buffers.later_by(cleanup, normals);
     shape.attrib_setup(
-      ctx.gl(),
+      glapi,
       vao,
       normals,
       normal_loc(),
       eagine::shapes::vertex_attrib_kind::normal / 3,
-      ctx.buffer());
+      ec.buffer());
 
     // texcoords
     gl.gen_buffers() >> texcoords;
-    gl.delete_buffers.later_by(cleanup, texcoords);
     shape.attrib_setup(
-      ctx.gl(),
+      glapi,
       vao,
       texcoords,
       texcoord_loc(),
       eagine::shapes::vertex_attrib_kind::wrap_coord,
-      ctx.buffer());
+      ec.buffer());
 
     // indices
     gl.gen_buffers() >> indices;
-    gl.delete_buffers.later_by(cleanup, indices);
-    shape.index_setup(ctx.gl(), indices, draw_var, ctx.buffer());
+    shape.index_setup(glapi, indices, draw_var, ec.buffer());
 }
 //------------------------------------------------------------------------------
-void torus_geometry::draw(const example_context& ctx) {
-    draw_using_instructions(ctx.gl(), view(ops));
+void torus_geometry::cleanup(video_context& vc) {
+    const auto& gl = vc.gl_api();
+    gl.delete_buffers(std::move(indices));
+    gl.delete_buffers(std::move(texcoords));
+    gl.delete_buffers(std::move(normals));
+    gl.delete_buffers(std::move(positions));
+    gl.delete_vertex_arrays(std::move(vao));
 }
 //------------------------------------------------------------------------------
-} // namespace eagine::oglp
+void torus_geometry::draw(execution_context&, video_context& ec) {
+    draw_using_instructions(ec.gl_api(), view(ops));
+}
+//------------------------------------------------------------------------------
+} // namespace eagine::application

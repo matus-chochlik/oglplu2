@@ -19,6 +19,7 @@ class video_context_state;
 class execution_context;
 class video_context;
 class audio_context;
+class orbiting_camera;
 
 } // namespace eagine::application
 

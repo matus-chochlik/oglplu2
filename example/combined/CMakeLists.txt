@@ -67,7 +67,6 @@ function(eagine_add_directory_example)
 	eagine_install_example(${TARGET_NAME})
 endfunction()
 
-add_subdirectory(016_torus)
 add_subdirectory(019_scaled_cubes)
 add_subdirectory(025_recursive_cube)
 add_subdirectory(026_cel_shading)
