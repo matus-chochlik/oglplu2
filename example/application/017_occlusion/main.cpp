@@ -23,9 +23,9 @@
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
-class example_cube : public application {
+class example_occlusion : public application {
 public:
-    example_cube(
+    example_occlusion(
       execution_context&,
       video_context&,
       string_view shape_file_path,
@@ -60,7 +60,7 @@ private:
     oglp::uniform_location camera_loc;
 };
 //------------------------------------------------------------------------------
-example_cube::example_cube(
+example_occlusion::example_occlusion(
   execution_context& ec,
   video_context& vc,
   string_view shape_file_path,
@@ -75,8 +75,7 @@ example_cube::example_cube(
     oglp::owned_shader_name vs;
     gl.create_shader(GL.vertex_shader) >> vs;
     auto cleanup_vs = gl.delete_shader.raii(vs);
-    gl.shader_source(
-      vs, oglp::glsl_string_ref(vs_source.unpack(ec.main_context())));
+    gl.shader_source(vs, oglp::glsl_string_ref(vs_source.unpack(ec)));
     gl.compile_shader(vs);
 
     // fragment shader
@@ -84,8 +83,7 @@ example_cube::example_cube(
     oglp::owned_shader_name fs;
     gl.create_shader(GL.fragment_shader) >> fs;
     auto cleanup_fs = gl.delete_shader.raii(fs);
-    gl.shader_source(
-      fs, oglp::glsl_string_ref(fs_source.unpack(ec.main_context())));
+    gl.shader_source(fs, oglp::glsl_string_ref(fs_source.unpack(ec)));
     gl.compile_shader(fs);
 
     // program
@@ -106,7 +104,7 @@ example_cube::example_cube(
         }
         const auto json_src{embed(EAGINE_ID(ShapeJson), "traffic_cone.json")};
         return valtree::from_json_text(
-          as_chars(json_src.unpack(ec.main_context())), ec.as_parent());
+          as_chars(json_src.unpack(ec)), ec.as_parent());
     };
 
     oglp::shape_generator shape(
@@ -186,7 +184,7 @@ example_cube::example_cube(
     gl.gen_buffers() >> indices;
     shape.index_setup(glapi, indices, _ctx.buffer());
 
-    // uniform
+    // camera
     const auto bs = shape.bounding_sphere();
     const auto sr = bs.radius();
     gl.get_uniform_location(prog, "Camera") >> camera_loc;
@@ -206,12 +204,12 @@ example_cube::example_cube(
     ec.setup_inputs().switch_input_mapping();
 }
 //------------------------------------------------------------------------------
-void example_cube::on_video_resize() noexcept {
+void example_occlusion::on_video_resize() noexcept {
     auto& gl = _video.gl_api();
     gl.viewport(_video.surface_size());
 }
 //------------------------------------------------------------------------------
-void example_cube::update() noexcept {
+void example_occlusion::update() noexcept {
     if(!_ctx.state().user_is_idle()) {
         _is_done.reset();
     }
@@ -226,7 +224,7 @@ void example_cube::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_cube::cleanup() noexcept {
+void example_occlusion::cleanup() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_program(std::move(prog));
@@ -274,7 +272,7 @@ public:
                     std::string color_variant_name{"Color"};
                     ec.app_config().fetch("example.color", color_variant_name);
 
-                    return {std::make_unique<example_cube>(
+                    return {std::make_unique<example_occlusion>(
                       ec, vc, shape_file_path, color_variant_name)};
                 }
             }

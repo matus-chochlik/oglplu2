@@ -60,6 +60,10 @@ public:
     auto unpack(main_ctx& ctx) const -> memory::const_block {
         return unpack(ctx.compressor(), ctx.scratch_space());
     }
+
+    auto unpack(main_ctx_object& mco) const -> memory::const_block {
+        return unpack(mco.main_context());
+    }
 };
 
 static inline auto as_chars(const embedded_resource& res) noexcept {
