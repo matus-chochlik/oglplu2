@@ -33,6 +33,16 @@ public:
     auto update_turns(float inc) noexcept -> orbiting_camera&;
     auto update_pitch(float inc) noexcept -> orbiting_camera&;
 
+    auto idle_update(
+      const context_state_view&,
+      const valid_if_positive<float>& divisor = 2.F) noexcept
+      -> orbiting_camera&;
+
+    auto idle_update(
+      const execution_context&,
+      const valid_if_positive<float>& divisor = 2.F) noexcept
+      -> orbiting_camera&;
+
     constexpr auto pressure_input_id() const noexcept -> message_id {
         return EAGINE_MSG_ID(Camera, Pressure);
     }

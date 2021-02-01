@@ -48,6 +48,21 @@ auto orbiting_camera::update_pitch(float inc) noexcept -> orbiting_camera& {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto orbiting_camera::idle_update(
+  const context_state_view& state,
+  const valid_if_positive<float>& divisor) noexcept -> orbiting_camera& {
+    const auto s = state.frame_duration().value() / extract_or(divisor, 1.F);
+    return update_orbit(s).update_turns(s).update_pitch(s);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto orbiting_camera::idle_update(
+  const execution_context& ec,
+  const valid_if_positive<float>& divisor) noexcept -> orbiting_camera& {
+    return idle_update(ec.state(), divisor);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void orbiting_camera::_handle_pressure(const input& i) {
     _is_dragging = bool(i);
     _changed = true;

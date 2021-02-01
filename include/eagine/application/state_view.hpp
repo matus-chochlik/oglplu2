@@ -54,6 +54,11 @@ public:
         return user_is_idle().delta() < 0;
     }
 
+    auto user_idle_too_long() const noexcept -> bool {
+        // TODO: configurable interval?
+        return user_idle_time() > std::chrono::seconds{1};
+    }
+
 protected:
     const clock_type::time_point _start_time{clock_type::now()};
     clock_type::time_point _user_active_time{clock_type::now()};

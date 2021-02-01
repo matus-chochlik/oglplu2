@@ -15,6 +15,7 @@
 namespace eagine::application {
 
 class context_state;
+class context_state_view;
 class video_context_state;
 class execution_context;
 class video_context;

@@ -74,8 +74,11 @@ void example_edges::on_video_resize() noexcept {
 }
 //------------------------------------------------------------------------------
 void example_edges::update() noexcept {
-    if(!_ctx.state().user_is_idle()) {
+    auto& state = _ctx.state();
+    if(!state.user_is_idle()) {
         _is_done.reset();
+    } else if(state.user_idle_too_long()) {
+        camera.idle_update(state);
     }
 
     auto& glapi = _video.gl_api();
