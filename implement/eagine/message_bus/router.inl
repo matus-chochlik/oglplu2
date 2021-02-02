@@ -236,7 +236,7 @@ auto router::_handle_accept() -> bool {
 
     if(EAGINE_LIKELY(!_acceptors.empty())) {
         acceptor::accept_handler handler{
-          this, EAGINE_MEM_FUNC_C(router, _handle_connection)};
+          this, EAGINE_THIS_MEM_FUNC_C(_handle_connection)};
         for(auto& an_acceptor : _acceptors) {
             EAGINE_ASSERT(an_acceptor);
             something_done(an_acceptor->update());
@@ -594,10 +594,10 @@ auto router::_handle_special_common(
     } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
         if(_blobs.process_incoming(
              blob_manipulator::filter_function(
-               this, EAGINE_MEM_FUNC_C(router, _do_allow_blob)),
+               this, EAGINE_THIS_MEM_FUNC_C(_do_allow_blob)),
              message)) {
             _blobs.fetch_all(blob_manipulator::fetch_handler(
-              this, EAGINE_MEM_FUNC_C(router, _handle_blob)));
+              this, EAGINE_THIS_MEM_FUNC_C(_handle_blob)));
         }
         // this should be routed
         return false;

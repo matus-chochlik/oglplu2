@@ -18,18 +18,18 @@
 #include "../valid_if/not_equal.hpp"
 #include "../valid_if/one_of.hpp"
 #include "../valid_if/positive.hpp"
+#include "fwd.hpp"
 #include "types.hpp"
 #include <map>
 
 namespace eagine::application {
-class execution_context;
 //------------------------------------------------------------------------------
 class video_options {
 public:
     video_options(
       main_ctx_object&,
       video_context_kind kind,
-      string_view instance);
+      identifier instance);
 
     auto video_kind() const noexcept {
         return _video_kind;
@@ -260,7 +260,7 @@ public:
     audio_options(
       main_ctx_object&,
       audio_context_kind kind,
-      string_view instance);
+      identifier instance);
 
     auto audio_kind() const noexcept {
         return _audio_kind;
@@ -276,12 +276,7 @@ class launch_options : public main_ctx_object {
 public:
     launch_options(main_ctx_parent parent) noexcept;
 
-    auto application_title() const noexcept -> string_view {
-        if(_app_title.empty()) {
-            return main_context().app_name();
-        }
-        return {_app_title};
-    }
+    auto application_title() const noexcept -> string_view;
 
     auto no_video() noexcept -> auto& {
         _video_opts.clear();
@@ -290,7 +285,7 @@ public:
 
     auto require_video(
       video_context_kind kind = video_context_kind::opengl,
-      string_view name = {}) -> video_options&;
+      identifier instance = {}) -> video_options&;
 
     auto video_requirements() const noexcept -> auto& {
         return _video_opts;
@@ -303,7 +298,7 @@ public:
 
     auto require_audio(
       audio_context_kind kind = audio_context_kind::openal,
-      string_view name = {}) -> audio_options&;
+      identifier instance = {}) -> audio_options&;
 
     auto audio_requirements() const noexcept -> auto& {
         return _audio_opts;
@@ -338,17 +333,8 @@ private:
 
     std::string _app_title;
 
-    std::map<
-      std::string,
-      video_options,
-      basic_str_view_less<std::string, string_view>>
-      _video_opts;
-
-    std::map<
-      std::string,
-      audio_options,
-      basic_str_view_less<std::string, string_view>>
-      _audio_opts;
+    std::map<identifier, video_options> _video_opts;
+    std::map<identifier, audio_options> _audio_opts;
 
     valid_if_positive<std::chrono::seconds> _max_run_time{};
     valid_if_positive<span_size_t> _max_frames{-1};

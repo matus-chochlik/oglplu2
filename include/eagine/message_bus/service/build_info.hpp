@@ -54,8 +54,7 @@ protected:
 
         Base::add_method(_build(
           this,
-          EAGINE_MEM_FUNC_C(
-            This,
+          EAGINE_THIS_MEM_FUNC_C(
             on_build_info_received))[EAGINE_MSG_ID(eagiBldInf, response)]);
     }
 

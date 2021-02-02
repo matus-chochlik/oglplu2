@@ -21,7 +21,6 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename Base = subscriber>
 class system_info_provider : public Base {
-    using This = system_info_provider;
 
 protected:
     using Base::Base;
@@ -124,8 +123,6 @@ private:
 template <typename Base = subscriber>
 class system_info_consumer : public Base {
 
-    using This = system_info_consumer;
-
 protected:
     using Base::Base;
 
@@ -134,48 +131,46 @@ protected:
 
         Base::add_method(_uptime(
           this,
-          EAGINE_MEM_FUNC_C(
-            This, on_uptime_received))[EAGINE_MSG_ID(eagiSysInf, uptime)]);
+          EAGINE_THIS_MEM_FUNC_C(
+            on_uptime_received))[EAGINE_MSG_ID(eagiSysInf, uptime)]);
 
         Base::add_method(_cpu_concurrent_threads(
-          this, EAGINE_MEM_FUNC_C(This, on_cpu_concurrent_threads_received))
+          this, EAGINE_THIS_MEM_FUNC_C(on_cpu_concurrent_threads_received))
                            [EAGINE_MSG_ID(eagiSysInf, cpuThreads)]);
 
         Base::add_method(_short_average_load(
           this,
-          EAGINE_MEM_FUNC_C(This, on_short_average_load_received))[EAGINE_MSG_ID(
+          EAGINE_THIS_MEM_FUNC_C(on_short_average_load_received))[EAGINE_MSG_ID(
           eagiSysInf, shortLoad)]);
 
         Base::add_method(_long_average_load(
           this,
-          EAGINE_MEM_FUNC_C(This, on_long_average_load_received))[EAGINE_MSG_ID(
+          EAGINE_THIS_MEM_FUNC_C(on_long_average_load_received))[EAGINE_MSG_ID(
           eagiSysInf, longLoad)]);
 
         Base::add_method(_memory_page_size(
           this,
-          EAGINE_MEM_FUNC_C(This, on_memory_page_size_received))[EAGINE_MSG_ID(
+          EAGINE_THIS_MEM_FUNC_C(on_memory_page_size_received))[EAGINE_MSG_ID(
           eagiSysInf, memPageSz)]);
 
         Base::add_method(_free_ram_size(
           this,
-          EAGINE_MEM_FUNC_C(
-            This,
+          EAGINE_THIS_MEM_FUNC_C(
             on_free_ram_size_received))[EAGINE_MSG_ID(eagiSysInf, freeRamSz)]);
 
         Base::add_method(_total_ram_size(
           this,
-          EAGINE_MEM_FUNC_C(This, on_total_ram_size_received))[EAGINE_MSG_ID(
-          eagiSysInf, totalRamSz)]);
+          EAGINE_THIS_MEM_FUNC_C(
+            on_total_ram_size_received))[EAGINE_MSG_ID(eagiSysInf, totalRamSz)]);
 
         Base::add_method(_free_swap_size(
           this,
-          EAGINE_MEM_FUNC_C(
-            This,
+          EAGINE_THIS_MEM_FUNC_C(
             on_free_swap_size_received))[EAGINE_MSG_ID(eagiSysInf, freeSwpSz)]);
 
         Base::add_method(_total_swap_size(
           this,
-          EAGINE_MEM_FUNC_C(This, on_total_swap_size_received))[EAGINE_MSG_ID(
+          EAGINE_THIS_MEM_FUNC_C(on_total_swap_size_received))[EAGINE_MSG_ID(
           eagiSysInf, totalSwpSz)]);
     }
 

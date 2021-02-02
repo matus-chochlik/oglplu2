@@ -249,7 +249,6 @@ public:
 class posix_mqueue_connection
   : public posix_mqueue_connection_info<connection>
   , public main_ctx_object {
-    using this_class = posix_mqueue_connection;
 
 public:
     using fetch_handler = connection::fetch_handler;
@@ -334,7 +333,7 @@ protected:
                      .receive(
                        as_chars(cover(_buffer)),
                        posix_mqueue::receive_handler(
-                         this, EAGINE_MEM_FUNC_C(this_class, _handle_receive)))
+                         this, EAGINE_THIS_MEM_FUNC_C(_handle_receive)))
                      .had_error()) {
                 something_done();
             }
@@ -345,7 +344,7 @@ protected:
     auto _send() -> bool {
         if(_data_queue.is_usable()) {
             return _outgoing.fetch_all(
-              {this, EAGINE_MEM_FUNC_C(this_class, _handle_send)});
+              {this, EAGINE_THIS_MEM_FUNC_C(_handle_send)});
         }
         return false;
     }
@@ -422,7 +421,6 @@ private:
 class posix_mqueue_acceptor
   : public posix_mqueue_connection_info<acceptor>
   , public main_ctx_object {
-    using this_class = posix_mqueue_acceptor;
 
 public:
     using accept_handler = acceptor::accept_handler;
@@ -477,7 +475,7 @@ private:
                      .receive(
                        as_chars(cover(_buffer)),
                        posix_mqueue::receive_handler(
-                         this, EAGINE_MEM_FUNC_C(this_class, _handle_receive)))
+                         this, EAGINE_THIS_MEM_FUNC_C(_handle_receive)))
                      .had_error()) {
                 something_done();
             }

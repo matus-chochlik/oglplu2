@@ -18,9 +18,7 @@ public:
     example_clear(execution_context& ec, video_context& vc)
       : _ec{ec}
       , _video{vc} {
-        _ec.connect_button_input(
-          EAGINE_MSG_ID(Keyboard, Escape),
-          {this, EAGINE_MEM_FUNC_C(example_clear, _stop)});
+        ec.connect_inputs().map_inputs().switch_input_mapping();
     }
 
     auto is_done() noexcept -> bool final {
@@ -54,12 +52,6 @@ public:
     }
 
 private:
-    void _stop(const input& pressed) {
-        if(pressed) {
-            _ec.stop_running();
-        }
-    }
-
     execution_context& _ec;
     video_context& _video;
     timeout _is_done{std::chrono::seconds(10)};
@@ -68,7 +60,7 @@ private:
 class example_launchpad : public launchpad {
 public:
     auto setup(main_ctx&, launch_options& opts) -> bool final {
-        opts.no_audio().no_input().require_video();
+        opts.no_audio().require_input().require_video();
         return true;
     }
 

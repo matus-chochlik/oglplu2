@@ -12,6 +12,7 @@
 #include "../glsl/source_ref.hpp"
 #include "c_api.hpp"
 #include "enum_types.hpp"
+#include "extensions.hpp"
 #include "object_name.hpp"
 #include "prog_var_loc.hpp"
 #include <eagine/quantities.hpp>
@@ -52,6 +53,14 @@ public:
 
     using vertex_buffer_binding = uint_type;
 
+    // extensions
+    using extension = basic_gl_extension<ApiTraits>;
+
+    extension ARB_debug_output;
+    extension ARB_compatibility;
+    extension ARB_robustness;
+
+    // utilities
     constexpr auto type_of(buffer_name) const noexcept {
 #ifdef GL_BUFFER
         return object_type(GL_BUFFER);
@@ -560,6 +569,18 @@ public:
 
         constexpr auto operator()(sizei_type w, sizei_type h) const noexcept {
             return base::operator()(0, 0, w, h);
+        }
+
+        constexpr auto
+        operator()(std::tuple<sizei_type, sizei_type> wh) const noexcept {
+            return base::operator()(0, 0, std::get<0>(wh), std::get<1>(wh));
+        }
+
+        constexpr auto
+        operator()(std::tuple<int_type, int_type, sizei_type, sizei_type> c)
+          const noexcept {
+            return base::operator()(
+              std::get<0>(c), std::get<1>(c), std::get<2>(c), std::get<3>(c));
         }
     } viewport;
 
@@ -3356,6 +3377,18 @@ public:
             [](auto src) { return split_into_string_list(src, ' '); });
     }
 
+    // has_extension
+    auto has_extension(string_view which) const noexcept {
+        if(ok extensions{get_extensions()}) {
+            for(auto ext_name : extensions) {
+                if(ends_with(ext_name, which)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     // arb compatibility
     func<OGLPAFP(Begin), void(old_primitive_type)> begin;
     func<OGLPAFP(End)> end;
@@ -3511,6 +3544,9 @@ public:
 
     constexpr basic_gl_operations(api_traits& traits)
       : c_api{traits}
+      , ARB_debug_output("ARB_debug_output", traits, *this)
+      , ARB_compatibility("ARB_compatibility", traits, *this)
+      , ARB_robustness("ARB_robustness", traits, *this)
       , fence_sync("fence_sync", traits, *this)
       , create_shader("create_shader", traits, *this)
       , create_program("create_program", traits, *this)

@@ -63,13 +63,13 @@ protected:
 
         Base::add_method(_host_id(
           this,
-          EAGINE_MEM_FUNC_C(
-            This, on_host_id_received))[EAGINE_MSG_ID(eagiSysInf, hostId)]);
+          EAGINE_THIS_MEM_FUNC_C(
+            on_host_id_received))[EAGINE_MSG_ID(eagiSysInf, hostId)]);
 
         Base::add_method(_hostname(
           this,
-          EAGINE_MEM_FUNC_C(
-            This, on_hostname_received))[EAGINE_MSG_ID(eagiSysInf, hostname)]);
+          EAGINE_THIS_MEM_FUNC_C(
+            on_hostname_received))[EAGINE_MSG_ID(eagiSysInf, hostname)]);
     }
 
 public:

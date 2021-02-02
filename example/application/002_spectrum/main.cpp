@@ -20,6 +20,8 @@ public:
       , _video{vc} {
         auto& gl = _video.gl_api();
         gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
+
+        ec.connect_inputs().map_inputs().switch_input_mapping();
     }
 
     auto is_done() noexcept -> bool final {
@@ -115,7 +117,7 @@ private:
 class example_launchpad : public launchpad {
 public:
     auto setup(main_ctx&, launch_options& opts) -> bool final {
-        opts.no_audio().no_input().require_video();
+        opts.no_audio().require_input().require_video();
         return true;
     }
 

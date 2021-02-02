@@ -220,7 +220,7 @@ auto video_context::init_gl_api() noexcept -> bool {
         _gl_api = std::make_shared<oglp::gl_api>();
 
         const auto pos = _parent.options().video_requirements().find(
-          extract(_provider).instance_name());
+          extract(_provider).instance_id());
         EAGINE_ASSERT(pos != _parent.options().video_requirements().end());
         _state = std::make_shared<video_context_state>(_parent, pos->second);
 
@@ -354,6 +354,11 @@ inline auto execution_context::_setup_providers() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto execution_context::buffer() const noexcept -> memory::buffer& {
+    return main_ctx_object::main_context().scratch_space();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto execution_context::state() const noexcept -> const context_state_view& {
     return extract(_state);
 }
@@ -451,11 +456,73 @@ void execution_context::cleanup() noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void execution_context::update() noexcept {
+    extract(_state).update_user_activity();
     for(auto& provider : _hmi_providers) {
         extract(provider).update(*this);
     }
     extract(_state).advance_time();
     extract(_app).update();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::connect_input(message_id input_id, input_handler handler)
+  -> execution_context& {
+    _connected_inputs.emplace(input_id, std::move(handler));
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::connect_inputs() -> execution_context& {
+    connect_input(stop_running_input());
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::map_input(
+  message_id input_id,
+  identifier mapping_id,
+  message_id signal_id,
+  input_setup setup) -> execution_context& {
+    _input_mappings[mapping_id].emplace(signal_id, input_id, setup);
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::map_inputs(identifier mapping_id)
+  -> execution_context& {
+    map_input(
+      EAGINE_MSG_ID(App, Stop),
+      mapping_id,
+      EAGINE_MSG_ID(Keyboard, Escape),
+      input_setup().trigger());
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto execution_context::switch_input_mapping(identifier mapping_id)
+  -> execution_context& {
+    if(_input_mapping != mapping_id) {
+        _mapped_inputs.clear();
+        const auto& mapping = _input_mappings[mapping_id];
+        for(auto& [signal_id, slot] : mapping) {
+            const auto pos = _connected_inputs.find(std::get<0>(slot));
+            if(pos != _connected_inputs.end()) {
+                _mapped_inputs.emplace(
+                  signal_id, std::get<1>(slot), std::get<1>(*pos));
+            }
+        }
+
+        for(auto& input : _input_providers) {
+            extract(input).mapping_begin(mapping_id);
+            for(auto& slot : _mapped_inputs) {
+                extract(input).mapping_enable(slot.first);
+            }
+            extract(input).mapping_commit(mapping_id);
+        }
+
+        _input_mapping = mapping_id;
+    }
+    return *this;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -477,15 +544,12 @@ template <typename T>
 inline void execution_context::_forward_input(
   const input_info& info,
   const input_value<T>& value) noexcept {
-    const auto setup_pos = _inputs.find(_input_setup);
-    if(setup_pos != _inputs.end()) {
-        const auto& slots = setup_pos->second;
-        const auto slot_pos = slots.find(info.signal_id);
-        if(slot_pos != slots.end()) {
-            const auto& [value_kinds, handler] = slot_pos->second;
-            if(value_kinds.has(info.value_kind)) {
-                handler(value);
-            }
+    const auto slot_pos = _mapped_inputs.find(info.signal_id);
+    if(slot_pos != _mapped_inputs.end()) {
+        const auto& [setup, handler] = slot_pos->second;
+        if(setup.is_applicable() && setup.has(info.value_kind)) {
+            handler(input(value, info, setup));
+            extract(_state).notice_user_active();
         }
     }
 }

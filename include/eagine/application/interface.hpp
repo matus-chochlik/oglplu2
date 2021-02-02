@@ -10,17 +10,15 @@
 #ifndef EAGINE_APPLICATION_INTERFACE_HPP
 #define EAGINE_APPLICATION_INTERFACE_HPP
 
-#include "../callable_ref.hpp"
-#include "../main_ctx_fwd.hpp"
 #include "../memory/block.hpp"
 #include "../string_span.hpp"
 #include "../tribool.hpp"
+#include "fwd.hpp"
 #include "input.hpp"
 #include "options.hpp"
 #include <memory>
 
 namespace eagine::application {
-class execution_context;
 //------------------------------------------------------------------------------
 struct input_sink {
     input_sink() noexcept = default;
@@ -48,13 +46,17 @@ struct input_provider {
     auto operator=(const input_provider&) = delete;
     virtual ~input_provider() noexcept = default;
 
-    virtual auto instance_name() const noexcept -> string_view = 0;
+    virtual auto instance_id() const noexcept -> identifier = 0;
 
     virtual void
       input_enumerate(callable_ref<void(message_id, input_value_kinds)>) = 0;
 
     virtual void input_connect(input_sink&) = 0;
     virtual void input_disconnect() = 0;
+
+    virtual void mapping_begin(identifier setup_id) = 0;
+    virtual void mapping_enable(message_id signal_id) = 0;
+    virtual void mapping_commit(identifier setup_id) = 0;
 };
 //------------------------------------------------------------------------------
 struct video_provider {
@@ -66,7 +68,7 @@ struct video_provider {
     virtual ~video_provider() noexcept = default;
 
     virtual auto video_kind() const noexcept -> video_context_kind = 0;
-    virtual auto instance_name() const noexcept -> string_view = 0;
+    virtual auto instance_id() const noexcept -> identifier = 0;
 
     virtual auto is_offscreen() noexcept -> tribool = 0;
     virtual auto has_framebuffer() noexcept -> tribool = 0;
@@ -87,7 +89,7 @@ struct audio_provider {
     virtual ~audio_provider() noexcept = default;
 
     virtual auto audio_kind() const noexcept -> audio_context_kind = 0;
-    virtual auto instance_name() const noexcept -> string_view = 0;
+    virtual auto instance_id() const noexcept -> identifier = 0;
 };
 //------------------------------------------------------------------------------
 struct hmi_provider {

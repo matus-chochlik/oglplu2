@@ -47,7 +47,7 @@ private:
     oglp::owned_program_name prog;
 };
 //------------------------------------------------------------------------------
-example_triangle::example_triangle(execution_context&, video_context& vc)
+example_triangle::example_triangle(execution_context& ec, video_context& vc)
   : _video{vc} {
     auto& [gl, GL] = _video.gl_api();
 
@@ -62,11 +62,11 @@ example_triangle::example_triangle(execution_context&, video_context& vc)
     gl.compile_shader(vs);
 
     // fragment shader
-    auto fs_src = embed(EAGINE_ID(FragShader), "fragment.glsl");
+    auto fs_source = embed(EAGINE_ID(FragShader), "fragment.glsl");
     oglp::owned_shader_name fs;
     gl.create_shader(GL.fragment_shader) >> fs;
     auto cleanup_fs = gl.delete_shader.raii(fs);
-    gl.shader_source(fs, oglp::glsl_string_ref(fs_src));
+    gl.shader_source(fs, oglp::glsl_string_ref(fs_source));
     gl.compile_shader(fs);
 
     // program
@@ -112,12 +112,13 @@ example_triangle::example_triangle(execution_context&, video_context& vc)
     gl.enable_vertex_attrib_array(color_loc);
 
     gl.disable(GL.depth_test);
+
+    ec.connect_inputs().map_inputs().switch_input_mapping();
 }
 //------------------------------------------------------------------------------
 void example_triangle::on_video_resize() noexcept {
-    const auto [width, height] = _video.surface_size();
     auto& gl = _video.gl_api();
-    gl.viewport(width, height);
+    gl.viewport(_video.surface_size());
 }
 //------------------------------------------------------------------------------
 void example_triangle::update() noexcept {
@@ -143,7 +144,7 @@ void example_triangle::cleanup() noexcept {
 class example_launchpad : public launchpad {
 public:
     auto setup(main_ctx&, launch_options& opts) -> bool final {
-        opts.no_audio().no_input().require_video();
+        opts.no_audio().require_input().require_video();
         return true;
     }
 

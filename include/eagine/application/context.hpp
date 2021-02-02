@@ -16,6 +16,7 @@
 #include "../assert.hpp"
 #include "../flat_map.hpp"
 #include "../main_ctx_object.hpp"
+#include "../memory/buffer.hpp"
 #include "interface.hpp"
 #include "options.hpp"
 #include "state_view.hpp"
@@ -23,9 +24,6 @@
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
-class execution_context;
-//------------------------------------------------------------------------------
-class video_context_state;
 class video_context {
 public:
     video_context(
@@ -106,7 +104,6 @@ private:
     std::shared_ptr<oalp::al_api> _al_api{};
 };
 //------------------------------------------------------------------------------
-class context_state;
 class execution_context
   : public main_ctx_object
   , private input_sink {
@@ -122,6 +119,8 @@ public:
     auto options() const noexcept -> const launch_options& {
         return _options;
     }
+
+    auto buffer() const noexcept -> memory::buffer&;
 
     auto state() const noexcept -> const context_state_view&;
 
@@ -164,33 +163,47 @@ public:
         return nullptr;
     }
 
-    auto connect_input(
-      identifier setup_id,
-      message_id signal_id,
-      input_value_kinds value_kinds,
-      callable_ref<void(const input&)> handler) -> auto& {
-        _inputs[setup_id].try_emplace(signal_id, value_kinds, handler);
-        return *this;
+    auto connect_input(message_id input_id, input_handler handler)
+      -> execution_context&;
+
+    auto connect_input(const input_slot& input) -> auto& {
+        return connect_input(input.id(), input.handler());
     }
 
-    auto connect_input(
+    auto connect_inputs() -> execution_context&;
+
+    auto map_input(
+      message_id input_id,
+      identifier mapping_id,
       message_id signal_id,
-      input_value_kinds value_kinds,
-      callable_ref<void(const input&)> handler) -> auto& {
-        return connect_input(
-          EAGINE_ID(default),
-          std::move(signal_id),
-          value_kinds,
-          std::move(handler));
+      input_setup setup) -> execution_context&;
+
+    auto map_input(message_id input_id, message_id signal_id, input_setup setup)
+      -> execution_context& {
+        return map_input(input_id, {}, signal_id, setup);
     }
 
-    auto connect_button_input(
-      message_id signal_id,
-      callable_ref<void(const input&)> handler) -> auto& {
-        return connect_input(
-          std::move(signal_id),
-          input_value_kind::absolute_norm | input_value_kind::absolute_free,
-          std::move(handler));
+    auto map_inputs(identifier mapping_id) -> execution_context&;
+    auto map_inputs() -> execution_context& {
+        return map_inputs({});
+    }
+
+    auto setup_inputs(identifier mapping_id) -> execution_context& {
+        return connect_inputs().map_inputs(mapping_id);
+    }
+    auto setup_inputs() -> execution_context& {
+        return setup_inputs({});
+    }
+
+    auto switch_input_mapping(identifier mapping_id) -> execution_context&;
+    auto switch_input_mapping() -> auto& {
+        return switch_input_mapping({});
+    }
+
+    auto stop_running_input() noexcept -> input_slot {
+        return {
+          EAGINE_MSG_ID(App, Stop),
+          {this, EAGINE_THIS_MEM_FUNC_C(_handle_stop_running)}};
     }
 
     void random_uniform(span<byte> dest);
@@ -209,16 +222,27 @@ private:
     std::vector<std::unique_ptr<video_context>> _video_contexts;
     std::vector<std::unique_ptr<audio_context>> _audio_contexts;
 
-    identifier _input_setup{EAGINE_ID(default)};
+    auto _setup_providers() -> bool;
 
+    identifier _input_mapping{EAGINE_ID(initial)};
+
+    // input id -> handler function reference
+    flat_map<message_id, input_handler> _connected_inputs;
+
+    // mapping id -> signal id -> (input id, setup)
     flat_map<
       identifier,
-      flat_map<
-        message_id,
-        std::tuple<input_value_kinds, callable_ref<void(const input&)>>>>
-      _inputs;
+      flat_map<message_id, std::tuple<message_id, input_setup>>>
+      _input_mappings;
 
-    auto _setup_providers() -> bool;
+    // signal id -> (setup, handler)
+    flat_map<message_id, std::tuple<input_setup, input_handler>> _mapped_inputs;
+
+    void _handle_stop_running(const input& engaged) {
+        if(engaged) {
+            stop_running();
+        }
+    }
 
     template <typename T>
     void _forward_input(const input_info&, const input_value<T>&) noexcept;
