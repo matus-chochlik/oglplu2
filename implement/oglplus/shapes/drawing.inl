@@ -140,7 +140,7 @@ inline auto shape_draw_operation::_idx_ptr() const noexcept
 //------------------------------------------------------------------------------
 template <typename A>
 inline void
-shape_draw_operation::draw(const basic_gl_api<A>& api) const noexcept {
+shape_draw_operation::_prepare(const basic_gl_api<A>& api) const noexcept {
     auto& [gl, GL] = api;
 
     if(_cw_face_winding) {
@@ -163,11 +163,33 @@ shape_draw_operation::draw(const basic_gl_api<A>& api) const noexcept {
             gl.patch_parameter_i(GL.patch_vertices, _patch_vertices);
         }
     }
+}
+//------------------------------------------------------------------------------
+template <typename A>
+inline void
+shape_draw_operation::draw(const basic_gl_api<A>& api) const noexcept {
+    _prepare(api);
+    auto& [gl, GL] = api;
 
     if(is_indexed(api)) {
         gl.draw_elements(_mode, _count, _idx_type, _idx_ptr());
     } else {
         gl.draw_arrays(_mode, _first, _count);
+    }
+}
+//------------------------------------------------------------------------------
+template <typename A>
+inline void shape_draw_operation::draw_instanced(
+  const basic_gl_api<A>& api,
+  gl_types::sizei_type inst_count) const noexcept {
+    _prepare(api);
+    auto& [gl, GL] = api;
+
+    if(is_indexed(api)) {
+        gl.draw_elements_instanced(
+          _mode, _count, _idx_type, _idx_ptr(), inst_count);
+    } else {
+        gl.draw_arrays_instanced(_mode, _first, _count, inst_count);
     }
 }
 //------------------------------------------------------------------------------
@@ -181,6 +203,16 @@ inline void draw_using_instructions(
 }
 //------------------------------------------------------------------------------
 template <typename A>
+inline void draw_instanced_using_instructions(
+  const basic_gl_api<A>& api,
+  span<const shape_draw_operation> ops,
+  gl_types::sizei_type inst_count) noexcept {
+    for(const auto& op : ops) {
+        op.draw_instanced(api, inst_count);
+    }
+}
+//------------------------------------------------------------------------------
+template <typename A>
 inline void draw_using_instructions(
   const basic_gl_api<A>& api,
   span<const shape_draw_operation> ops,
@@ -188,6 +220,19 @@ inline void draw_using_instructions(
     for(span_size_t i = subs.first; i < subs.first + subs.count; ++i) {
         if(i < ops.size()) {
             ops[i].draw(api);
+        }
+    }
+}
+//------------------------------------------------------------------------------
+template <typename A>
+inline void draw_using_instructions(
+  const basic_gl_api<A>& api,
+  span<const shape_draw_operation> ops,
+  const shape_draw_subset& subs,
+  gl_types::sizei_type inst_count) noexcept {
+    for(span_size_t i = subs.first; i < subs.first + subs.count; ++i) {
+        if(i < ops.size()) {
+            ops[i].draw_instanced(api, inst_count);
         }
     }
 }

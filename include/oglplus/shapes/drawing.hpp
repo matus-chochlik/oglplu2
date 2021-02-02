@@ -51,6 +51,9 @@ private:
 
     auto _idx_ptr() const noexcept -> gl_types::const_void_ptr_type;
 
+    template <typename A>
+    void _prepare(const basic_gl_api<A>& api) const noexcept;
+
 public:
     constexpr shape_draw_operation() noexcept = default;
 
@@ -76,6 +79,11 @@ public:
 
     template <typename A>
     void draw(const basic_gl_api<A>& api) const noexcept;
+
+    template <typename A>
+    void draw_instanced(
+      const basic_gl_api<A>& api,
+      gl_types::sizei_type inst_count) const noexcept;
 };
 //------------------------------------------------------------------------------
 struct shape_draw_subset {
@@ -89,10 +97,23 @@ void draw_using_instructions(
   span<const shape_draw_operation> ops) noexcept;
 //------------------------------------------------------------------------------
 template <typename A>
+void draw_instanced_using_instructions(
+  const basic_gl_api<A>& api,
+  span<const shape_draw_operation> ops,
+  gl_types::sizei_type inst_count) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
 void draw_using_instructions(
   const basic_gl_api<A>& api,
   span<const shape_draw_operation> ops,
   const shape_draw_subset& subs) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
+void draw_instanced_using_instructions(
+  const basic_gl_api<A>& api,
+  span<const shape_draw_operation> ops,
+  const shape_draw_subset& subs,
+  gl_types::sizei_type inst_count) noexcept;
 //------------------------------------------------------------------------------
 } // namespace eagine::oglp
 
