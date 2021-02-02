@@ -7,8 +7,7 @@ in vec4 Position;
 
 out vec3 vertColor;
 
-void main()
-{
+void main() {
 	gl_Position = Position;
    	vertColor = vec3(fract(atomicCounterIncrement(vc)*mult), 0.0, 0.0);
 }

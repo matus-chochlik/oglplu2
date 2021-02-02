@@ -2,6 +2,7 @@
 uniform sampler1D gradient;
 in vec2 vertCoord;
 out vec4 fragColor;
+
 void main() {
     vec2 z = vec2(0.0, 0.0);
     vec2 c = vertCoord;

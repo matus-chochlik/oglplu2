@@ -7,9 +7,8 @@ in vec3 geomColor;
 
 out vec3 fragColor;
 
-void main()
-{
-	vec3 Color = vec3(0.0, 0.0, sqrt(fract(atomicCounterIncrement(fc)*mult)));
-   	fragColor = geomColor + Color;
+void main() {
+    vec3 Color = vec3(0.0, 0.0, sqrt(fract(atomicCounterIncrement(fc)*mult)));
+	fragColor = geomColor + Color;
 }
 

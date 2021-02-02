@@ -2,6 +2,7 @@
 in vec3 vertNormal;
 in vec2 vertCoord;
 out vec3 fragColor;
+
 void main() {
     float ck = mod(mod(int(vertCoord.x), 2) + mod(int(vertCoord.y), 2), 2);
     float bl = pow(1.1 - abs(vertNormal.z), 2.0) * 0.7;
