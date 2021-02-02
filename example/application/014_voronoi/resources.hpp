@@ -23,7 +23,7 @@ private:
 
 public:
     void init(execution_context&, video_context&);
-    void cleanup(execution_context&, video_context&);
+    void clean_up(execution_context&, video_context&);
 };
 //------------------------------------------------------------------------------
 // voronoi program
@@ -39,7 +39,7 @@ public:
     oglp::uniform_location scale_loc;
 
     void init(execution_context&, video_context&);
-    void cleanup(execution_context&, video_context&);
+    void clean_up(execution_context&, video_context&);
 };
 //------------------------------------------------------------------------------
 // screen geometry
@@ -56,7 +56,7 @@ public:
     oglp::vertex_attrib_location tex_coord_loc{1};
 
     void init(execution_context&, video_context&);
-    void cleanup(execution_context&, video_context&);
+    void clean_up(execution_context&, video_context&);
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::application

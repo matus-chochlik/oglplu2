@@ -33,7 +33,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
 private:
     execution_context& _ctx;
@@ -218,7 +218,7 @@ void example_uv_map::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_uv_map::cleanup() noexcept {
+void example_uv_map::clean_up() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_textures(std::move(light_tex));

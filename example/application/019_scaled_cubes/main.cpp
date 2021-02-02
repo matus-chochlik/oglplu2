@@ -28,7 +28,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
 private:
     execution_context& _ctx;
@@ -99,10 +99,10 @@ void example_cubes::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_cubes::cleanup() noexcept {
+void example_cubes::clean_up() noexcept {
 
-    prog.cleanup(_video);
-    cubes.cleanup(_video);
+    prog.clean_up(_video);
+    cubes.clean_up(_video);
 
     _video.end();
 }

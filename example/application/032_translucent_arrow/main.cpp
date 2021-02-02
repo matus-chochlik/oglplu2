@@ -31,7 +31,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
 private:
     cleanup_group _cleanup;
@@ -120,7 +120,7 @@ void example_arrow::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_arrow::cleanup() noexcept {
+void example_arrow::clean_up() noexcept {
     _cleanup.clear();
 
     _video.end();

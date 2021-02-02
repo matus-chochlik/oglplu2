@@ -28,7 +28,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
 private:
     execution_context& _ctx;
@@ -93,10 +93,10 @@ void example_torus::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_torus::cleanup() noexcept {
+void example_torus::clean_up() noexcept {
 
-    prog.cleanup(_video);
-    torus.cleanup(_video);
+    prog.clean_up(_video);
+    torus.clean_up(_video);
 
     _video.end();
 }

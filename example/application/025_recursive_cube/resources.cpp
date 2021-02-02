@@ -35,7 +35,7 @@ void cube_program::init(execution_context& ec, video_context& vc) {
     gl.get_uniform_location(prog, "CubeTex") >> cube_tex_loc;
 }
 //------------------------------------------------------------------------------
-void cube_program::cleanup(video_context& vc) {
+void cube_program::clean_up(video_context& vc) {
     const auto& gl = vc.gl_api();
     gl.delete_program(std::move(prog));
 }
@@ -137,7 +137,7 @@ void cube_geometry::init(execution_context& ec, video_context& vc) {
     shape.index_setup(glapi, indices, ec.buffer());
 }
 //------------------------------------------------------------------------------
-void cube_geometry::cleanup(video_context& vc) {
+void cube_geometry::clean_up(video_context& vc) {
     const auto& gl = vc.gl_api();
     gl.delete_buffers(std::move(indices));
     gl.delete_buffers(std::move(tex_coords));
@@ -196,7 +196,7 @@ void cube_draw_buffers::init(execution_context&, video_context& vc) {
     gl.bind_renderbuffer(GL.renderbuffer, oglp::renderbuffer_name(0));
 }
 //------------------------------------------------------------------------------
-void cube_draw_buffers::cleanup(video_context& vc) {
+void cube_draw_buffers::clean_up(video_context& vc) {
     const auto& gl = vc.gl_api();
     for(int i = 0; i < 2; ++i) {
         auto& obj = objs.front();

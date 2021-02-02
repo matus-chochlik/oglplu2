@@ -30,7 +30,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
     void dampening(const input&);
     void dragging(const input&);
@@ -218,7 +218,7 @@ void example_voronoi::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_voronoi::cleanup() noexcept {
+void example_voronoi::clean_up() noexcept {
     screen.init(_ctx, _video);
     voi_prog.init(_ctx, _video);
     rand_tex.init(_ctx, _video);

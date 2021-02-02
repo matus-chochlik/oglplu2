@@ -56,7 +56,7 @@ public:
       const launch_options&,
       const video_options&) -> bool;
 
-    void cleanup();
+    void clean_up();
 
     auto video_kind() const noexcept -> video_context_kind final;
     auto instance_id() const noexcept -> identifier final;
@@ -444,7 +444,7 @@ auto eglplus_opengl_surface::initialize(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void eglplus_opengl_surface::cleanup() {
+void eglplus_opengl_surface::clean_up() {
     if(_display) {
         if(_context) {
             _egl_api.destroy_context(_display, _context);
@@ -517,7 +517,7 @@ public:
     auto should_initialize(execution_context&) -> bool final;
     auto initialize(execution_context&) -> bool final;
     void update(execution_context&) final;
-    void cleanup(execution_context&) final;
+    void clean_up(execution_context&) final;
 
     void input_enumerate(
       callable_ref<void(std::shared_ptr<input_provider>)>) final;
@@ -579,7 +579,7 @@ auto eglplus_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
                          exec_ctx, inst, options, video_opts)) {
                         _surfaces[inst] = std::move(surface);
                     } else {
-                        extract(surface).cleanup();
+                        extract(surface).clean_up();
                     }
                 }
             }
@@ -594,9 +594,9 @@ EAGINE_LIB_FUNC
 void eglplus_opengl_provider::update(execution_context&) {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void eglplus_opengl_provider::cleanup(execution_context&) {
+void eglplus_opengl_provider::clean_up(execution_context&) {
     for(auto& entry : _surfaces) {
-        entry.second->cleanup();
+        entry.second->clean_up();
     }
 }
 //------------------------------------------------------------------------------

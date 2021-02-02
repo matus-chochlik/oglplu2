@@ -25,7 +25,7 @@ private:
 
 public:
     void init(execution_context&, video_context&);
-    void cleanup(video_context&);
+    void clean_up(video_context&);
     void set_projection(video_context&, orbiting_camera& camera);
 
     void bind_position_location(video_context&, oglp::vertex_attrib_location);
@@ -48,7 +48,7 @@ private:
 
 public:
     void init(execution_context&, video_context&);
-    void cleanup(video_context&);
+    void clean_up(video_context&);
     void draw(execution_context&, video_context&);
 
     static auto position_loc() noexcept {

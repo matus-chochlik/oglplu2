@@ -36,7 +36,7 @@ public:
 
     auto commit(long frame_number, video_provider&, oglp::gl_api&) -> bool;
 
-    void cleanup(oglp::gl_api& api) noexcept;
+    void clean_up(oglp::gl_api& api) noexcept;
 
 private:
     const video_options& _options;
@@ -199,7 +199,7 @@ inline auto video_context_state::commit(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-inline void video_context_state::cleanup(oglp::gl_api& api) noexcept {
+inline void video_context_state::clean_up(oglp::gl_api& api) noexcept {
     if(_offscreen_fbo) {
         api.delete_framebuffers(std::move(_offscreen_fbo));
     }
@@ -265,10 +265,10 @@ void video_context::commit() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void video_context::cleanup() noexcept {
+void video_context::clean_up() noexcept {
     try {
         if(_state) {
-            extract(_state).cleanup(extract(_gl_api));
+            extract(_state).clean_up(extract(_gl_api));
             _state.reset();
         }
     } catch(...) {
@@ -287,7 +287,7 @@ auto audio_context::init_al_api() noexcept -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void audio_context::cleanup() noexcept {}
+void audio_context::clean_up() noexcept {}
 //------------------------------------------------------------------------------
 // providers
 //------------------------------------------------------------------------------
@@ -439,18 +439,18 @@ void execution_context::stop_running() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void execution_context::cleanup() noexcept {
+void execution_context::clean_up() noexcept {
     if(_app) {
-        extract(_app).cleanup();
+        extract(_app).clean_up();
     }
     for(auto& input : _input_providers) {
         extract(input).input_disconnect();
     }
     for(auto& audio : _audio_contexts) {
-        extract(audio).cleanup();
+        extract(audio).clean_up();
     }
     for(auto& video : _video_contexts) {
-        extract(video).cleanup();
+        extract(video).clean_up();
     }
 }
 //------------------------------------------------------------------------------

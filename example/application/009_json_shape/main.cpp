@@ -33,7 +33,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
 private:
     execution_context& _ctx;
@@ -171,7 +171,7 @@ void example_shape::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_shape::cleanup() noexcept {
+void example_shape::clean_up() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_program(std::move(prog));

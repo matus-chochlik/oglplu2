@@ -28,7 +28,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
     void dampening(const input&);
     void dragging(const input&);
@@ -287,7 +287,7 @@ void example_mandelbrot::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_mandelbrot::cleanup() noexcept {
+void example_mandelbrot::clean_up() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_shader(std::move(vs));

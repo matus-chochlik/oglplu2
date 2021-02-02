@@ -30,7 +30,7 @@ void torus_program::init(execution_context& ec, video_context& vc) {
     gl.get_uniform_location(prog, "Camera") >> camera_loc;
 }
 //------------------------------------------------------------------------------
-void torus_program::cleanup(video_context& vc) {
+void torus_program::clean_up(video_context& vc) {
     auto& gl = vc.gl_api();
     gl.delete_program(std::move(prog));
 }
@@ -119,7 +119,7 @@ void torus_geometry::init(execution_context& ec, video_context& vc) {
     shape.index_setup(glapi, indices, draw_var, ec.buffer());
 }
 //------------------------------------------------------------------------------
-void torus_geometry::cleanup(video_context& vc) {
+void torus_geometry::clean_up(video_context& vc) {
     const auto& gl = vc.gl_api();
     gl.delete_buffers(std::move(indices));
     gl.delete_buffers(std::move(texcoords));
