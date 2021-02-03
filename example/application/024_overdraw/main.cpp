@@ -21,11 +21,15 @@ example::example(execution_context& ec, video_context& vc)
     auto& [gl, GL] = glapi;
 
     _draw_prog.init(*this);
-    _screen_prog.init(*this);
     _shape.init(*this);
-    _draw_bufs.init(*this);
-
     _draw_prog.bind_position_location(*this, _shape.position_loc());
+
+    _screen_prog.init(*this);
+    _screen.init(*this);
+    _screen_prog.bind_position_location(*this, _screen.position_loc());
+    _screen_prog.bind_tex_coord_location(*this, _screen.tex_coord_loc());
+
+    _draw_bufs.init(*this);
 
     // camera
     _camera.set_near(0.1F)
@@ -35,10 +39,10 @@ example::example(execution_context& ec, video_context& vc)
       .set_fov(right_angle_());
     _draw_prog.set_projection(*this);
 
-    gl.clear_color(0.45F, 0.45F, 0.45F, 0.0F);
-    gl.enable(GL.depth_test);
     gl.enable(GL.cull_face);
     gl.cull_face(GL.back);
+    gl.blend_func(GL.one, GL.one);
+    gl.clear_color(0.F, 0.F, 0.F, 0.F);
 
     _camera.connect_inputs(ec).basic_input_mapping(ec);
     ec.setup_inputs().switch_input_mapping();
@@ -61,11 +65,26 @@ void example::update() noexcept {
     auto& glapi = _video.gl_api();
     auto& [gl, GL] = glapi;
 
+    // draw offscreen
+    _draw_bufs.draw_offscreen(*this);
+
     gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
+    gl.enable(GL.depth_test);
+    gl.enable(GL.blend);
 
     _draw_prog.use(*this);
     _draw_prog.set_projection(*this);
     _shape.draw(*this);
+
+    gl.disable(GL.blend);
+    gl.disable(GL.depth_test);
+
+    // draw onscreen
+    _draw_bufs.draw_onscreen(*this);
+
+    _screen_prog.use(*this);
+    _screen_prog.set_screen_size(*this);
+    _screen.draw(*this);
 
     _video.commit();
 }

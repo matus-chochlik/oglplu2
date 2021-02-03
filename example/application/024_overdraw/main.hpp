@@ -55,6 +55,7 @@ private:
     draw_program _draw_prog;
     screen_program _screen_prog;
     shape_geometry _shape;
+    screen_geometry _screen;
     draw_buffers _draw_bufs;
 };
 //------------------------------------------------------------------------------

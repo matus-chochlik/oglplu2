@@ -31,27 +31,27 @@ set_source_files_properties(
 	PROPERTIES GENERATED 1
 )
 
-add_executable(application-022_overdraw main.cpp resources.cpp)
+add_executable(application-024_overdraw main.cpp resources.cpp)
 eagine_embed_packed_target_resources(
-	application-022_overdraw
+	application-024_overdraw
 	draw.oglpprog
 	screen.oglpprog
 )
-eagine_add_exe_analysis(application-022_overdraw)
+eagine_add_exe_analysis(application-024_overdraw)
 
-add_dependencies(application-022_overdraw application-examples)
+add_dependencies(application-024_overdraw application-examples)
 
 target_link_libraries(
-	application-022_overdraw
+	application-024_overdraw
 	PUBLIC eagine eagine-application oglplus
 )
 
 set_target_properties(
-	application-022_overdraw
+	application-024_overdraw
 	PROPERTIES FOLDER "Example/Application"
 )
 
 install(
-	TARGETS application-022_overdraw
+	TARGETS application-024_overdraw
 	DESTINATION share/oglplus/examples
 )

@@ -12,6 +12,7 @@
 #include <eagine/application/context.hpp>
 #include <eagine/embed.hpp>
 #include <eagine/shapes/cube.hpp>
+#include <eagine/shapes/screen.hpp>
 #include <oglplus/math/coordinates.hpp>
 #include <oglplus/shapes/generator.hpp>
 
@@ -25,7 +26,7 @@ void draw_program::init(example& e) {
     gl.create_program() >> _prog;
     gl.delete_program.later_by(e.cleanup(), _prog);
 
-    const auto prog_src{embed(EAGINE_ID(_prog), "draw.oglpprog")};
+    const auto prog_src{embed(EAGINE_ID(DrawProg), "draw.oglpprog")};
     gl.build_program(_prog, prog_src.unpack(e.ctx()));
     gl.use_program(_prog);
 
@@ -44,8 +45,7 @@ void draw_program::bind_position_location(
 }
 //------------------------------------------------------------------------------
 void draw_program::use(example& e) {
-    auto& gl = e.video().gl_api();
-    gl.use_program(_prog);
+    e.video().gl_api().use_program(_prog);
 }
 //------------------------------------------------------------------------------
 // screen program
@@ -56,11 +56,13 @@ void screen_program::init(example& e) {
     gl.create_program() >> _prog;
     gl.delete_program.later_by(e.cleanup(), _prog);
 
-    const auto prog_src{embed(EAGINE_ID(_prog), "screen.oglpprog")};
+    const auto prog_src{embed(EAGINE_ID(ScreenProg), "screen.oglpprog")};
     gl.build_program(_prog, prog_src.unpack(e.ctx()));
     gl.use_program(_prog);
 
     gl.get_uniform_location(_prog, "ScreenSize") >> _screen_size_loc;
+    gl.get_uniform_location(_prog, "DrawTex") >> _draw_tex_loc;
+    gl.set_uniform(_prog, _draw_tex_loc, 0);
 }
 //------------------------------------------------------------------------------
 void screen_program::bind_position_location(
@@ -69,17 +71,22 @@ void screen_program::bind_position_location(
     e.video().gl_api().bind_attrib_location(_prog, loc, "Position");
 }
 //------------------------------------------------------------------------------
+void screen_program::bind_tex_coord_location(
+  example& e,
+  oglp::vertex_attrib_location loc) {
+    e.video().gl_api().bind_attrib_location(_prog, loc, "TexCoord");
+}
+//------------------------------------------------------------------------------
 void screen_program::set_screen_size(example& e) {
     const auto [w, h] = e.video().surface_size();
     e.video().gl_api().set_uniform(_prog, _screen_size_loc, oglp::vec2(w, h));
 }
 //------------------------------------------------------------------------------
 void screen_program::use(example& e) {
-    auto& gl = e.video().gl_api();
-    gl.use_program(_prog);
+    e.video().gl_api().use_program(_prog);
 }
 //------------------------------------------------------------------------------
-// geometry
+// shape geometry
 //------------------------------------------------------------------------------
 void shape_geometry::init(example& e) {
     const auto& glapi = e.video().gl_api();
@@ -93,6 +100,7 @@ void shape_geometry::init(example& e) {
 
     // vao
     gl.gen_vertex_arrays() >> _vao;
+    gl.delete_vertex_arrays.later_by(e.cleanup(), _vao);
     gl.bind_vertex_array(_vao);
 
     // positions
@@ -141,8 +149,62 @@ void shape_geometry::init(example& e) {
 }
 //------------------------------------------------------------------------------
 void shape_geometry::draw(example& e) {
-    draw_instanced_using_instructions(
-      e.video().gl_api(), view(_ops), count * count * count);
+    const auto& glapi = e.video().gl_api();
+    const auto& gl = glapi;
+
+    gl.bind_vertex_array(_vao);
+    draw_instanced_using_instructions(gl, view(_ops), count * count * count);
+}
+//------------------------------------------------------------------------------
+// screen geometry
+//------------------------------------------------------------------------------
+void screen_geometry::init(example& e) {
+    const auto& glapi = e.video().gl_api();
+    const auto& [gl, GL] = glapi;
+
+    oglp::shape_generator shape(
+      glapi,
+      shapes::unit_screen(
+        shapes::vertex_attrib_kind::position |
+        shapes::vertex_attrib_kind::wrap_coord));
+
+    _ops.resize(std_size(shape.operation_count()));
+    shape.instructions(glapi, cover(_ops));
+
+    // vao
+    gl.gen_vertex_arrays() >> _vao;
+    gl.delete_vertex_arrays.later_by(e.cleanup(), _vao);
+    gl.bind_vertex_array(_vao);
+
+    // positions
+    gl.gen_buffers() >> _positions;
+    gl.delete_buffers.later_by(e.cleanup(), _positions);
+    shape.attrib_setup(
+      glapi,
+      _vao,
+      _positions,
+      position_loc(),
+      eagine::shapes::vertex_attrib_kind::position,
+      e.ctx().buffer());
+
+    // coords
+    gl.gen_buffers() >> _tex_coords;
+    gl.delete_buffers.later_by(e.cleanup(), _tex_coords);
+    shape.attrib_setup(
+      glapi,
+      _vao,
+      _tex_coords,
+      tex_coord_loc(),
+      eagine::shapes::vertex_attrib_kind::wrap_coord,
+      e.ctx().buffer());
+}
+//------------------------------------------------------------------------------
+void screen_geometry::draw(example& e) {
+    const auto& glapi = e.video().gl_api();
+    const auto& gl = glapi;
+
+    gl.bind_vertex_array(_vao);
+    draw_using_instructions(gl, view(_ops));
 }
 //------------------------------------------------------------------------------
 // draw buffers
@@ -154,7 +216,6 @@ void draw_buffers::init(example& e) {
     _width = width;
     _height = height;
 
-    _tex_unit = 0;
     gl.gen_textures() >> _tex;
     gl.delete_textures.later_by(e.cleanup(), _tex);
     gl.active_texture(GL.texture0);
@@ -164,11 +225,11 @@ void draw_buffers::init(example& e) {
     gl.tex_image2d(
       GL.texture_rectangle,
       0,
-      GL.r8,
+      GL.rg8,
       _width,
       _height,
       0,
-      GL.red,
+      GL.rg,
       GL.unsigned_byte_,
       memory::const_block());
 
@@ -200,17 +261,27 @@ void draw_buffers::resize(example& e) {
         gl.tex_image2d(
           GL.texture_rectangle,
           0,
-          GL.r8,
+          GL.rg8,
           _width,
           _height,
           0,
-          GL.red,
+          GL.rg,
           GL.unsigned_byte_,
           memory::const_block());
 
         gl.renderbuffer_storage(
           GL.renderbuffer, GL.depth_component, _width, _height);
     }
+}
+//------------------------------------------------------------------------------
+void draw_buffers::draw_offscreen(example& e) {
+    const auto& [gl, GL] = e.video().gl_api();
+    gl.bind_framebuffer(GL.draw_framebuffer, _fbo);
+}
+//------------------------------------------------------------------------------
+void draw_buffers::draw_onscreen(example& e) {
+    const auto& [gl, GL] = e.video().gl_api();
+    gl.bind_framebuffer(GL.draw_framebuffer, oglp::framebuffer_name(0));
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::application
