@@ -3157,6 +3157,44 @@ public:
     func<OGLPAFP(PolygonOffset)> polygon_offset;
     func<OGLPAFP(PolygonOffsetClamp)> polygon_offset_clamp;
 
+    func<OGLPAFP(BlendEquation), void(oglp::blend_equation)> blend_equation;
+    func<OGLPAFP(BlendEquation), void(oglp::blend_equation, oglp::blend_equation)>
+      blend_equation_separate;
+
+    func<OGLPAFP(BlendEquation), void(uint_type, oglp::blend_equation)>
+      blend_equationi;
+    func<
+      OGLPAFP(BlendEquation),
+      void(uint_type, oglp::blend_equation, oglp::blend_equation)>
+      blend_equation_separatei;
+
+    func<OGLPAFP(BlendFunc), void(oglp::blend_function, oglp::blend_function)>
+      blend_func;
+
+    func<
+      OGLPAFP(BlendFunc),
+      void(
+        oglp::blend_function,
+        oglp::blend_function,
+        oglp::blend_function,
+        oglp::blend_function)>
+      blend_func_separate;
+
+    func<
+      OGLPAFP(BlendFunc),
+      void(uint_type, oglp::blend_function, oglp::blend_function)>
+      blend_funci;
+
+    func<
+      OGLPAFP(BlendFunc),
+      void(
+        uint_type,
+        oglp::blend_function,
+        oglp::blend_function,
+        oglp::blend_function,
+        oglp::blend_function)>
+      blend_func_separatei;
+
     func<OGLPAFP(SampleCoverage)> sample_coverage;
     func<OGLPAFP(SampleMaski)> sample_mask_i;
     func<OGLPAFP(MinSampleShading)> min_sample_shading;
@@ -4005,6 +4043,14 @@ public:
       , polygon_mode("polygon_mode", traits, *this)
       , polygon_offset("polygon_offset", traits, *this)
       , polygon_offset_clamp("polygon_offset_clamp", traits, *this)
+      , blend_equation("blend_equation", traits, *this)
+      , blend_equation_separate("blend_equation_separate", traits, *this)
+      , blend_equationi("blend_equationi", traits, *this)
+      , blend_equation_separatei("blend_equation_separatei", traits, *this)
+      , blend_func("blend_func", traits, *this)
+      , blend_func_separate("blend_func_separate", traits, *this)
+      , blend_funci("blend_funci", traits, *this)
+      , blend_func_separatei("blend_func_separatei", traits, *this)
       , sample_coverage("sample_coverage", traits, *this)
       , sample_mask_i("sample_mask_i", traits, *this)
       , min_sample_shading("min_sample_shading", traits, *this)
