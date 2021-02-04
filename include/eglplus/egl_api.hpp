@@ -31,6 +31,22 @@ public:
 
     basic_egl_api()
       : basic_egl_api{ApiTraits{}} {}
+
+    auto operations() noexcept -> basic_egl_operations<ApiTraits>& {
+        return *this;
+    }
+
+    auto operations() const noexcept -> const basic_egl_operations<ApiTraits>& {
+        return *this;
+    }
+
+    auto constants() noexcept -> basic_egl_constants<ApiTraits>& {
+        return *this;
+    }
+
+    auto constants() const noexcept -> const basic_egl_constants<ApiTraits>& {
+        return *this;
+    }
 };
 
 template <std::size_t I, typename ApiTraits>

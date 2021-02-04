@@ -174,6 +174,24 @@ public:
       context_lost;
 
     opt_c_api_constant<
+      mp_list<eglp::true_false>,
+#ifdef EGL_TRUE
+      enum_type_c<EGL_TRUE>>
+#else
+      enum_type_i>
+#endif
+      true_;
+
+    opt_c_api_constant<
+      mp_list<eglp::true_false>,
+#ifdef EGL_FALSE
+      enum_type_c<EGL_FALSE>>
+#else
+      enum_type_i>
+#endif
+      false_;
+
+    opt_c_api_constant<
       mp_list<platform>,
 #ifdef EGL_PLATFORM_DEVICE_EXT
       int_type_c<EGL_PLATFORM_DEVICE_EXT>
@@ -933,6 +951,8 @@ public:
       , bad_native_pixmap("BAD_NATIVE_PIXMAP", traits, api)
       , bad_native_window("BAD_NATIVE_WINDOW", traits, api)
       , context_lost("CONTEXT_LOST", traits, api)
+      , true_("TRUE", traits, api)
+      , false_("FALSE", traits, api)
       , platform_device("PLATFORM_DEVICE_EXT", traits, api)
       , platform_x11("PLATFORM_X11_EXT", traits, api)
       , platform_xcb("PLATFORM_XCB_EXT", traits, api)

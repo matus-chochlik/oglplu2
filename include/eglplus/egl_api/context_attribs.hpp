@@ -29,6 +29,8 @@ struct context_attrib_traits {
     }
 };
 
+using context_attribute_base = key_value_list<context_attrib_traits, 0U>;
+
 template <std::size_t N>
 using context_attributes = key_value_list<context_attrib_traits, N>;
 
