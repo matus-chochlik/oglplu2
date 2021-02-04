@@ -32,7 +32,7 @@ public:
 
     auto get_context_attribs(
       execution_context&,
-      bool gl_or_gles,
+      bool gl_otherwise_gles,
       const launch_options&,
       const video_options&) const -> std::vector<eglp::egl_types::int_type>;
 
@@ -84,37 +84,53 @@ private:
 EAGINE_LIB_FUNC
 auto eglplus_opengl_surface::get_context_attribs(
   execution_context&,
-  bool gl_or_gles,
+  bool gl_otherwise_gles,
   const launch_options&,
   const video_options& video_opts) const
   -> std::vector<eglp::egl_types::int_type> {
-    const auto& [egl, EGL] = _egl_api;
+    const auto& EGL = _egl_api.constants();
 
-    if(gl_or_gles) {
-        if(video_opts.gl_compatibility_context()) {
-            return ((EGL.context_major_version |
-                     (video_opts.gl_version_major() / 3)) +
-                    (EGL.context_minor_version |
-                     (video_opts.gl_version_minor() / 0)) +
-                    (EGL.context_opengl_profile_mask |
-                     EGL.context_opengl_compatibility_profile_bit))
-              .copy();
-        } else {
-            return ((EGL.context_major_version |
-                     (video_opts.gl_version_major() / 3)) +
-                    (EGL.context_minor_version |
-                     (video_opts.gl_version_minor() / 3)) +
-                    (EGL.context_opengl_profile_mask |
-                     EGL.context_opengl_core_profile_bit))
-              .copy();
+    auto add_major_version = [&](auto attribs) {
+        return attribs + (EGL.context_major_version |
+                          (video_opts.gl_version_major() / 3));
+    };
+
+    auto add_minor_version = [&](auto attribs) {
+        eglp::context_attrib_traits::value_type fallback = 0;
+        if(gl_otherwise_gles) {
+            if(!video_opts.gl_compatibility_context()) {
+                fallback = 3;
+            }
         }
-    } else {
-        return ((EGL.context_major_version |
-                 (video_opts.gl_version_major() / 3)) +
-                (EGL.context_minor_version |
-                 (video_opts.gl_version_minor() / 0)))
-          .copy();
-    }
+        return attribs + (EGL.context_minor_version |
+                          (video_opts.gl_version_minor() / fallback));
+    };
+
+    auto add_profile_mask = [&](auto attribs) {
+        if(video_opts.gl_compatibility_context()) {
+            return attribs + (EGL.context_opengl_profile_mask |
+                              EGL.context_opengl_compatibility_profile_bit);
+
+        } else {
+            return attribs + (EGL.context_opengl_profile_mask |
+                              EGL.context_opengl_core_profile_bit);
+        }
+    };
+
+    auto add_debugging = [&](auto attribs) {
+        return attribs +
+               (EGL.context_opengl_debug | video_opts.gl_debug_context());
+    };
+
+    auto add_robustness = [&](auto attribs) {
+        return attribs + (EGL.context_opengl_robust_access |
+                          video_opts.gl_robust_access());
+    };
+
+    return add_robustness(
+             add_debugging(add_profile_mask(add_minor_version(
+               add_major_version(eglp::context_attribute_base())))))
+      .copy();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -140,7 +156,7 @@ auto eglplus_opengl_surface::initialize(
       .arg(EAGINE_ID(OpenGL_ES), yes_no_maybe(has_gles))
       .arg(EAGINE_ID(PreferES), yes_no_maybe(video_opts.prefer_gles()));
 
-    const bool gl_or_gles = has_gl && !video_opts.prefer_gles();
+    const bool gl_otherwise_gles = has_gl && !video_opts.prefer_gles();
 
     _width = video_opts.surface_width() / 1;
     _height = video_opts.surface_height() / 1;
@@ -150,12 +166,13 @@ auto eglplus_opengl_surface::initialize(
          egl.create_pbuffer_surface(display, config, surface_attribs)}) {
         _surface = surface;
 
-        const auto gl_api = gl_or_gles ? eglp::client_api(EGL.opengl_api)
-                                       : eglp::client_api(EGL.opengl_es_api);
+        const auto gl_api = gl_otherwise_gles
+                              ? eglp::client_api(EGL.opengl_api)
+                              : eglp::client_api(EGL.opengl_es_api);
 
         if(ok bound{egl.bind_api(gl_api)}) {
-            const auto context_attribs =
-              get_context_attribs(exec_ctx, gl_or_gles, opts, video_opts);
+            const auto context_attribs = get_context_attribs(
+              exec_ctx, gl_otherwise_gles, opts, video_opts);
 
             if(ok ctxt{egl.create_context(
                  display,
