@@ -14,6 +14,7 @@ set(EAGINE_LIB_SOURCES
 	main_wrap.cpp
 	debug.cpp
 	git_info.cpp
+	compiler_info.cpp
 	identifier.cpp
 	from_string.cpp
 	logging.cpp

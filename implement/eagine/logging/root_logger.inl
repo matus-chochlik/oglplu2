@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/compiler_info.hpp>
 #include <eagine/git_info.hpp>
 #include <eagine/logging/asio_backend.hpp>
 #include <eagine/logging/null_backend.hpp>
@@ -99,12 +100,39 @@ auto root_logger::_log_args(const program_args& args) -> void {
 EAGINE_LIB_FUNC
 auto root_logger::_log_git_info() -> void {
     const string_view n_a{"N/A"};
-    info("build configuration information")
+    info("source version information")
       .arg(EAGINE_ID(gitBranch), EAGINE_ID(GitBranch), config_git_branch(), n_a)
       .arg(EAGINE_ID(gitHashId), EAGINE_ID(GitHash), config_git_hash_id(), n_a)
       .arg(EAGINE_ID(gitDate), EAGINE_ID(RFC2822), config_git_date(), n_a)
       .arg(EAGINE_ID(gitDescrib), EAGINE_ID(str), config_git_describe(), n_a)
       .arg(EAGINE_ID(gitVersion), EAGINE_ID(str), config_git_version(), n_a);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto root_logger::_log_compiler_info() -> void {
+    const string_view n_a{"N/A"};
+    info("compiler information")
+      .arg(EAGINE_ID(complrName), EAGINE_ID(string), compiler_name(), n_a)
+      .arg_func([](logger_backend& backend) {
+          if(auto version_major{compiler_version_major()}) {
+              backend.add_integer(
+                EAGINE_ID(complrMajr),
+                EAGINE_ID(VrsnMajor),
+                extract(version_major));
+          }
+          if(auto version_minor{compiler_version_minor()}) {
+              backend.add_integer(
+                EAGINE_ID(complrMinr),
+                EAGINE_ID(VrsnMinor),
+                extract(version_minor));
+          }
+          if(auto version_patch{compiler_version_patch()}) {
+              backend.add_integer(
+                EAGINE_ID(complrPtch),
+                EAGINE_ID(VrsnPatch),
+                extract(version_patch));
+          }
+      });
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

@@ -1,5 +1,5 @@
 /**
- *  .file lib/eagine/logging.cpp
+ *  .file lib/eagine/compiler_info.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -9,13 +9,8 @@
 
 // clang-format off
 #include "prologue.inl"
-#include <eagine/git_info.hpp>
-#include <eagine/compiler_info.hpp>
-#include <eagine/hexdump.hpp>
-#include <eagine/type_name.hpp>
 
 #include "implement.inl"
-#include <eagine/logging/entry.hpp>
-#include <eagine/logging/root_logger.hpp>
+#include <eagine/compiler_info.hpp>
 #include "epilogue.inl"
 // clang-format on
