@@ -549,9 +549,9 @@ inline void execution_context::_forward_input(
         const auto& [setup, handler] = slot_pos->second;
         if(setup.is_applicable() && setup.has(info.value_kind)) {
             handler(input(value, info, setup));
-            extract(_state).notice_user_active();
         }
     }
+    extract(_state).notice_user_active();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

@@ -41,6 +41,9 @@ public:
     }
 
     auto update_user_activity() noexcept -> auto& {
+        if(!_new_user_idle) {
+            _user_active_time = context_state_view::clock_type::now();
+        }
         _old_user_idle = _new_user_idle;
         _new_user_idle = true;
         return *this;
@@ -48,7 +51,6 @@ public:
 
     auto notice_user_active() noexcept -> auto& {
         _new_user_idle = false;
-        _user_active_time = context_state_view::clock_type::now();
         return *this;
     }
 
