@@ -107,7 +107,8 @@ public:
 
         template <typename... Args>
         constexpr auto _cnvchkcall(Args&&... args) const noexcept {
-            return this->_chkcall(_conv(args)...).cast_to(type_identity<RVC>{});
+            return this->_chkcall(_conv(std::forward<Args>(args))...)
+              .cast_to(type_identity<RVC>{});
         }
 
     public:
@@ -251,7 +252,7 @@ public:
               .cast_to(type_identity<display_handle>{});
 #else
             EAGINE_MAYBE_UNUSED(dev);
-            return this->_fake({}).cast_to(type_identity<display_handle>{});
+            return this->_fake().cast_to(type_identity<display_handle>{});
 #endif
         }
 
@@ -292,7 +293,7 @@ public:
             return this->_cnvchkcall(EGL_DEFAULT_DISPLAY)
               .cast_to(type_identity<display_handle>{});
 #else
-            return this->_fake({}).cast_to(type_identity<display_handle>{});
+            return this->_fake().cast_to(type_identity<display_handle>{});
 #endif
         }
     } get_display;
@@ -734,12 +735,12 @@ public:
     // query_output_layer_attrib
     struct : func<EGLPAFP(QueryOutputLayerAttrib)> {
         using func<EGLPAFP(QueryOutputLayerAttrib)>::func;
-        attrib_type result{0};
         auto operator()(
           display_handle disp,
           output_layer_handle outl,
           output_layer_attribute attr) const noexcept {
             using RV = attrib_type;
+            attrib_type result{0};
             return this->_cnvchkcall(disp, outl, attr, &result)
               .replaced_with(result)
               .cast_to(type_identity<RV>{});
@@ -749,7 +750,6 @@ public:
     // query_output_layer_string
     struct : func<EGLPAFP(QueryOutputLayerString)> {
         using func<EGLPAFP(QueryOutputLayerString)>::func;
-        attrib_type result{0};
         auto operator()(
           display_handle disp,
           output_layer_handle outl,
@@ -815,12 +815,12 @@ public:
     // query_output_port_attrib
     struct : func<EGLPAFP(QueryOutputPortAttrib)> {
         using func<EGLPAFP(QueryOutputPortAttrib)>::func;
-        attrib_type result{0};
         auto operator()(
           display_handle disp,
           output_port_handle outp,
           output_port_attribute attr) const noexcept {
             using RV = attrib_type;
+            attrib_type result{0};
             return this->_cnvchkcall(disp, outp, attr, &result)
               .replaced_with(result)
               .cast_to(type_identity<RV>{});
@@ -830,7 +830,6 @@ public:
     // query_output_port_string
     struct : func<EGLPAFP(QueryOutputPortString)> {
         using func<EGLPAFP(QueryOutputPortString)>::func;
-        attrib_type result{0};
         auto operator()(
           display_handle disp,
           output_port_handle outl,
@@ -849,7 +848,7 @@ public:
           context_handle ctxt,
           image_target tgt,
           client_buffer_type buf,
-          span<const int_type> attribs) const noexcept {
+          span<const attrib_type> attribs) const noexcept {
             return this->_cnvchkcall(disp, ctxt, tgt, buf, attribs.data())
               .cast_to(type_identity<image_handle>{});
         }
@@ -989,7 +988,11 @@ public:
         using func<EGLPAFP(WaitNative)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall();
+#ifdef EGL_CORE_NATIVE_ENGINEs
+            return this->_chkcall(EGL_CORE_NATIVE_ENGINE);
+#else
+            return this->_fake();
+#endif
         }
     } wait_native;
 
@@ -1000,7 +1003,7 @@ public:
         constexpr auto operator()(
           display_handle disp,
           sync_type type,
-          span<const int_type> attribs) const noexcept {
+          span<const attrib_type> attribs) const noexcept {
             return this->_cnvchkcall(disp, type, attribs.data())
               .cast_to(type_identity<sync_handle>{});
         }

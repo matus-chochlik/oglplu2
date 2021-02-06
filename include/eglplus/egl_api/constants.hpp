@@ -15,7 +15,7 @@
 namespace eagine::eglp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-struct basic_egl_constants {
+class basic_egl_constants {
 public:
     // NOLINTNEXTLINE(hicpp-use-nullptr,modernize-use-nullptr)
     static constexpr const typename egl_types::config_type no_config{0};

@@ -25,8 +25,8 @@
 namespace eagine::eglp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-struct basic_egl_c_api {
-
+class basic_egl_c_api {
+public:
     using this_api = basic_egl_c_api;
     using api_traits = ApiTraits;
 
@@ -178,7 +178,7 @@ struct basic_egl_c_api {
     egl_api_function<surface_type(display_type, const int_type*), nullptr>
       CreateStream;
 
-    egl_api_function<surface_type(display_type, const int_type*), nullptr>
+    egl_api_function<surface_type(display_type, stream_type), nullptr>
       DestroyStream;
 
     egl_api_function<
