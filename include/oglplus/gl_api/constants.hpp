@@ -688,6 +688,16 @@ public:
 #endif
       compute_shader;
 
+    // named string type
+    opt_c_api_constant<
+      mp_list<named_string_kind>,
+#ifdef GL_SHADER_INCLUDE_ARB
+      enum_type_c<GL_SHADER_INCLUDE_ARB>>
+#else
+      enum_type_c<0x8DAE>>
+#endif
+      shader_include;
+
     opt_c_api_constant<
       mp_list<sync_type>,
 #ifdef GL_SYNC_FENCE
@@ -5019,6 +5029,25 @@ public:
       enum_type_i>
 #endif
       extensions;
+
+    opt_c_api_constant<
+      mp_list<named_string_query>,
+#ifdef GL_NAMED_STRING_LENGTH_ARB
+      enum_type_c<GL_NAMED_STRING_LENGTH_ARB>>
+#else
+      enum_type_c<0x8DE9>>
+#endif
+      named_string_length;
+
+    opt_c_api_constant<
+      mp_list<named_string_query>,
+#ifdef GL_NAMED_STRING_TYPE_ARB
+      enum_type_c<GL_NAMED_STRING_TYPE_ARB>,
+#else
+      enum_type_c<0x8DEA>,
+#endif
+      named_string_kind>
+      named_string_type;
 
     opt_c_api_constant<
       mp_list<buffer_clear_bit, buffer_blit_bit>,
@@ -10605,6 +10634,7 @@ public:
       , geometry_shader("GEOMETRY_SHADER", traits, api)
       , fragment_shader("FRAGMENT_SHADER", traits, api)
       , compute_shader("COMPUTE_SHADER", traits, api)
+      , shader_include("SHADER_INCLUDE_ARB", traits, api)
       , sync_fence("SYNC_FENCE", traits, api)
       , sync_gpu_commands_complete("SYNC_GPU_COMMANDS_COMPLETE", traits, api)
       , signaled("SIGNALED", traits, api)
@@ -11266,6 +11296,8 @@ public:
       , version("VERSION", traits, api)
       , shading_language_version("SHADING_LANGUAGE_VERSION", traits, api)
       , extensions("EXTENSIONS", traits, api)
+      , named_string_length("NAMED_STRING_LENGTH_ARB", traits, api)
+      , named_string_type("NAMED_STRING_TYPE_ARB", traits, api)
       , color_buffer_bit("COLOR_BUFFER_BIT", traits, api)
       , depth_buffer_bit("DEPTH_BUFFER_BIT", traits, api)
       , stencil_buffer_bit("STENCIL_BUFFER_BIT", traits, api)

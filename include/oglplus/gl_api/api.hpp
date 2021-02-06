@@ -59,6 +59,7 @@ public:
     extension ARB_debug_output;
     extension ARB_compatibility;
     extension ARB_robustness;
+    extension ARB_shading_language_include;
 
     // utilities
     constexpr auto type_of(buffer_name) const noexcept {
@@ -626,6 +627,17 @@ public:
     } shader_source;
 
     func<OGLPAFP(CompileShader), void(shader_name)> compile_shader;
+
+    struct : func<OGLPAFP(CompileShaderInclude)> {
+        using func<OGLPAFP(CompileShaderInclude)>::func;
+
+        constexpr auto operator()(
+          shader_name shdr,
+          const glsl_source_ref& paths) const noexcept {
+            return this->_chkcall(
+              name_type(shdr), paths.count(), paths.parts(), paths.lengths());
+        }
+    } compile_shader_include;
 
     query_func<
       mp_list<shader_name>,
@@ -3427,6 +3439,36 @@ public:
         return false;
     }
 
+    // named strings
+    struct : func<OGLPAFP(NamedString)> {
+        using func<OGLPAFP(NamedString)>::func;
+
+        constexpr auto operator()(
+          named_string_kind kind,
+          string_view name,
+          string_view str) const noexcept {
+            return this->_cnvchkcall(
+              kind, name.size(), name.data(), str.size(), str.data());
+        }
+    } named_string;
+
+    struct : func<OGLPAFP(DeleteNamedString)> {
+        using func<OGLPAFP(DeleteNamedString)>::func;
+
+        constexpr auto operator()(string_view name) const noexcept {
+            return this->_cnvchkcall(name.size(), name.data());
+        }
+    } delete_named_string;
+
+    struct : func<OGLPAFP(IsNamedString)> {
+        using func<OGLPAFP(IsNamedString)>::func;
+
+        constexpr auto operator()(string_view name) const noexcept {
+            return this->_cnvchkcall(name.size(), name.data())
+              .cast_to(type_identity<true_false>{});
+        }
+    } is_named_string;
+
     // arb compatibility
     func<OGLPAFP(Begin), void(old_primitive_type)> begin;
     func<OGLPAFP(End)> end;
@@ -3585,6 +3627,10 @@ public:
       , ARB_debug_output("ARB_debug_output", traits, *this)
       , ARB_compatibility("ARB_compatibility", traits, *this)
       , ARB_robustness("ARB_robustness", traits, *this)
+      , ARB_shading_language_include(
+          "ARB_shading_language_include",
+          traits,
+          *this)
       , fence_sync("fence_sync", traits, *this)
       , create_shader("create_shader", traits, *this)
       , create_program("create_program", traits, *this)
@@ -3653,6 +3699,7 @@ public:
       , clear("clear", traits, *this)
       , shader_source("shader_source", traits, *this)
       , compile_shader("compile_shader", traits, *this)
+      , compile_shader_include("compile_shader_include", traits, *this)
       , get_shader_i("get_shader_i", traits, *this)
       , get_shader_info_log("get_shader_info_log", traits, *this)
       , attach_shader("attach_shader", traits, *this)
@@ -4097,6 +4144,9 @@ public:
       , get_float("get_float", traits, *this)
       , get_double("get_double", traits, *this)
       , get_string("get_string", traits, *this)
+      , named_string("named_string", traits, *this)
+      , delete_named_string("delete_named_string", traits, *this)
+      , is_named_string("is_named_string", traits, *this)
       , begin("begin", traits, *this)
       , end("end", traits, *this)
       , vertex2i("vertex2i", traits, *this)

@@ -1774,6 +1774,11 @@ struct basic_gl_c_api {
       CompileShader;
 
     gl_api_function<
+      void(uint_type, sizei_type, const char_type* const*, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(nullptr)>
+      CompileShaderInclude;
+
+    gl_api_function<
       void(sizei_type, const uint_type*, enum_type, const_void_ptr_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(ShaderBinary)>
       ShaderBinary;
@@ -3415,6 +3420,33 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(GetStringi)>
       GetStringi;
 
+    // named strings
+    gl_api_function<
+      void(enum_type, int_type, const char_type*, int_type, const char_type*),
+      OGLPLUS_GL_STATIC_FUNC(nullptr)>
+      NamedString;
+
+    gl_api_function<
+      void(int_type, const char_type*),
+      OGLPLUS_GL_STATIC_FUNC(nullptr)>
+      DeleteNamedString;
+
+    gl_api_function<
+      bool_type(int_type, const char_type*),
+      OGLPLUS_GL_STATIC_FUNC(nullptr)>
+      IsNamedString;
+
+    gl_api_function<
+      void(int_type, const char_type*, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(nullptr)>
+      GetNamedStringiv;
+
+    gl_api_function<
+      void(int_type, const char_type*, sizei_type, int_type*, char_type*),
+      OGLPLUS_GL_STATIC_FUNC(nullptr)>
+      GetNamedString;
+
+    // debugging
     gl_api_function<
       void(debug_callback_type*, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(DebugMessageCallback)>
@@ -4435,6 +4467,7 @@ struct basic_gl_c_api {
       , IsShader("IsShader", traits, *this)
       , ShaderSource("ShaderSource", traits, *this)
       , CompileShader("CompileShader", traits, *this)
+      , CompileShaderInclude("CompileShaderIncludeARB", traits, *this)
       , ShaderBinary("ShaderBinary", traits, *this)
       , SpecializeShader("SpecializeShader", traits, *this)
       , GetShaderiv("GetShaderiv", traits, *this)
@@ -4785,6 +4818,11 @@ struct basic_gl_c_api {
       , GetPointerv("GetPointerv", traits, *this)
       , GetString("GetString", traits, *this)
       , GetStringi("GetStringi", traits, *this)
+      , NamedString("NamedStringARB", traits, *this)
+      , DeleteNamedString("DeleteNamedStringARB", traits, *this)
+      , IsNamedString("IsNamedStringARB", traits, *this)
+      , GetNamedStringiv("GetNamedStringivARB", traits, *this)
+      , GetNamedString("GetNamedStringARB", traits, *this)
       , DebugMessageCallback("DebugMessageCallback", traits, *this)
       , DebugMessageControl("DebugMessageControl", traits, *this)
       , DebugMessageInsert("DebugMessageInsert", traits, *this)

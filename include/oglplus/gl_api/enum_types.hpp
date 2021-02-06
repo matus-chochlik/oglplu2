@@ -396,6 +396,11 @@ struct string_query : gl_enum_class<string_query, EAGINE_ID_V(StrQuery)> {
     using enum_class::enum_class;
 };
 
+struct named_string_query
+  : gl_enum_class<named_string_query, EAGINE_ID_V(NmdStrQury)> {
+    using enum_class::enum_class;
+};
+
 struct data_type : gl_enum_class<data_type, EAGINE_ID_V(DataType)> {
     using enum_class::enum_class;
 };
@@ -513,6 +518,11 @@ struct debug_output_type
 };
 
 struct support_level : gl_enum_class<support_level, EAGINE_ID_V(SupportLvl)> {
+    using enum_class::enum_class;
+};
+
+struct named_string_kind
+  : gl_enum_class<named_string_kind, EAGINE_ID_V(NmdStrKind)> {
     using enum_class::enum_class;
 };
 
