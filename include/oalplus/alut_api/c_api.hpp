@@ -25,8 +25,8 @@
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-struct basic_alut_c_api {
-
+class basic_alut_c_api {
+public:
     using this_api = basic_alut_c_api;
     using api_traits = ApiTraits;
 

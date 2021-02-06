@@ -540,7 +540,7 @@ public:
 
         constexpr auto operator()(source_name src) const noexcept {
             return this->_check(
-              this->_call(this->api().SourcePausev, name_type(src)));
+              this->_call(this->api().SourcePause, name_type(src)));
         }
 
         constexpr auto operator()(span<const name_type> srcs) const noexcept {

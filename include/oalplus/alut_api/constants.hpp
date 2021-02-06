@@ -15,7 +15,7 @@
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-struct basic_alut_constants {
+class basic_alut_constants {
 public:
     using enum_type = typename alut_types::enum_type;
     using enum_type_i = type_identity<enum_type>;

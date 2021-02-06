@@ -16,6 +16,9 @@
 
 namespace eagine::oalp {
 
+template class basic_al_constants<al_api_traits>;
+template class basic_al_operations<al_api_traits>;
+template class basic_al_c_api<al_api_traits>;
 template class basic_al_api<al_api_traits>;
 
 } // namespace eagine::oalp
