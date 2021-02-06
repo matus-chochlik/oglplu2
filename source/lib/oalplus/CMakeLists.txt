@@ -6,7 +6,7 @@
 if(OPENAL_FOUND)
 	add_library(
 		oalplus
-		_dummy.cpp
+		al_api.cpp
 	)
 	eagine_add_lib_analysis(oalplus)
 
@@ -22,7 +22,7 @@ if(OPENAL_FOUND)
 
 	target_link_libraries(
 		oalplus
-		PUBLIC eagine
+		PUBLIC eagine OpenAL::OpenAL
 	)
 
 	set_target_properties(

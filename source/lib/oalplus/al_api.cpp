@@ -1,5 +1,5 @@
 /**
- *  .file lib/oalplus/_dummy.cpp
+ *  .file lib/oalplus/al_api.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -9,6 +9,8 @@
 
 // clang-format off
 #include "prologue.inl"
+#include <oalplus/al.hpp>
 #include "implement.inl"
+#include <oalplus/al_api.hpp>
 #include "epilogue.inl"
 // clang-format on
