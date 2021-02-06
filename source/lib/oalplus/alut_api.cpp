@@ -1,5 +1,5 @@
 /**
- *  .file lib/oalplus/alc_api.cpp
+ *  .file lib/oalplus/alut_api.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -11,6 +11,6 @@
 #include "prologue.inl"
 #include <oalplus/al.hpp>
 #include "implement.inl"
-#include <oalplus/alc_api.hpp>
+#include <oalplus/alut_api.hpp>
 #include "epilogue.inl"
 // clang-format on
