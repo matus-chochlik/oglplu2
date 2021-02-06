@@ -29,8 +29,8 @@
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-struct basic_gl_c_api {
-
+class basic_gl_c_api {
+public:
     using this_api = basic_gl_c_api;
     using api_traits = ApiTraits;
 

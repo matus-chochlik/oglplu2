@@ -501,12 +501,18 @@ public:
     struct : func<OGLPAFP(DeletePathsNV)> {
         using func<OGLPAFP(DeletePathsNV)>::func;
 
+        auto bind(owned_path_nv_name& name) const noexcept {
+            return [this, &name] {
+                (*this)(std::move(name));
+            };
+        }
+
         constexpr auto operator()(owned_path_nv_name name) const noexcept {
             return this->_chkcall(name.release(), 1);
         }
 
         auto raii(owned_path_nv_name& name) const noexcept {
-            return eagine::finally([this, &name]() { (*this)(name); });
+            return eagine::finally(bind(name));
         }
     } delete_paths_nv;
 
@@ -741,13 +747,13 @@ public:
           span<int_type> dest) const noexcept {
             sizei_type real_len{0};
             return this
-              ->_chkcall(
-                name_type(prog),
-                enum_type(intf),
+              ->_cnvchkcall(
+                prog,
+                intf,
                 index,
-                sizei_type(props.size()),
-                props.raw_enums(),
-                sizei_type(dest.size()),
+                props.size(),
+                props.raw_enums().data(),
+                dest.size(),
                 &real_len,
                 dest.data())
               .replaced_with(head(dest, span_size(real_len)));
@@ -765,13 +771,13 @@ public:
           span<float_type> dest) const noexcept {
             sizei_type real_len{0};
             return this
-              ->_chkcall(
-                name_type(prog),
-                enum_type(intf),
+              ->_cnvchkcall(
+                prog,
+                intf,
                 index,
-                sizei_type(props.size()),
-                props.raw_enums(),
-                sizei_type(dest.size()),
+                props.size(),
+                props.raw_enums().data(),
+                dest.size(),
                 &real_len,
                 dest.data())
               .replaced_with(head(dest, span_size(real_len)));
@@ -887,14 +893,16 @@ public:
 
         constexpr auto operator()(
           program_name prog,
+          shader_type shdr_type,
           subroutine_location loc,
           span<char_type> dest) const noexcept {
             sizei_type real_len{0};
             return this
-              ->_chkcall(
-                name_type(prog),
+              ->_cnvchkcall(
+                prog,
+                shdr_type,
                 loc.index(),
-                sizei_type(dest.size()),
+                dest.size(),
                 &real_len,
                 dest.data())
               .replaced_with(head(dest, span_size(real_len)));
@@ -3418,7 +3426,7 @@ public:
     }
 
     // get_extensions
-    auto get_extensions() noexcept {
+    auto get_extensions() const noexcept {
 #ifdef GL_EXTENSIONS
         return get_string(string_query(GL_EXTENSIONS))
 #else

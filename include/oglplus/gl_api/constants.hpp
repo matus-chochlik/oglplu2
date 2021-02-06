@@ -20,7 +20,7 @@
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-struct basic_gl_constants {
+class basic_gl_constants {
 private:
     template <typename Wrap, typename T = typename Wrap::tag_type>
     struct _type_constructor_constant : Wrap {

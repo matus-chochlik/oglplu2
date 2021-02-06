@@ -1102,8 +1102,9 @@ protected:
         return base::_fake(this->api().*Function);
     }
 
-    constexpr auto _fake_empty_c_str() const noexcept {
-        return _fake(static_cast<const char*>(""));
+    constexpr auto _fake_empty_c_str() const noexcept ->
+      typename ApiTraits::template result<const char*> {
+        return {static_cast<const char*>("")};
     }
 
     template <typename Arg>
