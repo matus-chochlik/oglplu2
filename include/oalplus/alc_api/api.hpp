@@ -273,16 +273,7 @@ public:
             [](auto src) { return split_into_string_list(src, '\0'); });
     }
 
-    constexpr basic_alc_operations(api_traits& traits)
-      : c_api{traits}
-      , open_device("open_device", traits, *this)
-      , close_device("close_device", traits, *this)
-      , create_context("create_context", traits, *this)
-      , destroy_context("destroy_context", traits, *this)
-      , make_context_current("make_context_current", traits, *this)
-      , get_current_context("get_current_context", traits, *this)
-      , get_integer("get_integer", traits, *this)
-      , get_string("get_string", traits, *this) {}
+    basic_alc_operations(api_traits& traits);
 };
 //------------------------------------------------------------------------------
 #undef OALPAFP

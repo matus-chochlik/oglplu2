@@ -24,11 +24,11 @@
 
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
-template <typename Traits>
+template <typename ApiTraits>
 struct basic_alc_c_api {
 
     using this_api = basic_alc_c_api;
-    using api_traits = Traits;
+    using api_traits = ApiTraits;
 
     static constexpr bool has_api = alc_types::has_api;
     using device_type = typename alc_types::device_type;
@@ -149,27 +149,7 @@ struct basic_alc_c_api {
       OALPLUS_ALC_STATIC_FUNC(CaptureSamples)>
       CaptureSamples;
 
-    constexpr basic_alc_c_api(api_traits& traits)
-      : GetError("GetError", traits, *this)
-      , GetProcAddress("GetProcAddress", traits, *this)
-      , GetEnumValue("GetEnumValue", traits, *this)
-      , OpenDevice("OpenDevice", traits, *this)
-      , CaptureOpenDevice("CaptureOpenDevice", traits, *this)
-      , CloseDevice("CloseDevice", traits, *this)
-      , CaptureCloseDevice("CaptureCloseDevice", traits, *this)
-      , GetString("GetString", traits, *this)
-      , GetIntegerv("GetIntegerv", traits, *this)
-      , IsExtensionPresent("IsExtensionPresent", traits, *this)
-      , CreateContext("CreateContext", traits, *this)
-      , ProcessContext("ProcessContext", traits, *this)
-      , SuspendContext("SuspendContext", traits, *this)
-      , DestroyContext("DestroyContext", traits, *this)
-      , MakeContextCurrent("MakeContextCurrent", traits, *this)
-      , GetCurrentContext("GetCurrentContext", traits, *this)
-      , GetContextsDevice("GetContextsDevice", traits, *this)
-      , CaptureStart("CaptureStart", traits, *this)
-      , CaptureStop("CaptureStop", traits, *this)
-      , CaptureSamples("CaptureSamples", traits, *this) {}
+    basic_alc_c_api(api_traits& traits);
 };
 //------------------------------------------------------------------------------
 using alc_c_api = basic_alc_c_api<alc_api_traits>;

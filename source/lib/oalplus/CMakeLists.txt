@@ -7,6 +7,7 @@ if(OPENAL_FOUND)
 	add_library(
 		oalplus
 		al_api.cpp
+		alc_api.cpp
 	)
 	eagine_add_lib_analysis(oalplus)
 
