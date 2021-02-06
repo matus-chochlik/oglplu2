@@ -22,7 +22,7 @@ if(EGL_FOUND)
 
 	target_link_libraries(
 		eglplus
-		PUBLIC eagine
+		PUBLIC eagine EGL::EGL
 	)
 
 	set_target_properties(
