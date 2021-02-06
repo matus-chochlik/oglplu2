@@ -6,6 +6,7 @@
 add_library(
 	oglplus
 	gl.cpp
+	gl_api.cpp
 	camera.cpp
 )
 eagine_add_lib_analysis(oglplus)
