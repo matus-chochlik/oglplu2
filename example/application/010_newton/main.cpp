@@ -259,7 +259,7 @@ void example_newton::pan_y(const input& i) {
 }
 //------------------------------------------------------------------------------
 void example_newton::update() noexcept {
-    if(!_ctx.state().user_is_idle()) {
+    if(_ctx.state().is_active()) {
         _is_done.reset();
     }
 

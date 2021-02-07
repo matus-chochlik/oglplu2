@@ -77,9 +77,10 @@ void example_cubes::on_video_resize() noexcept {
 //------------------------------------------------------------------------------
 void example_cubes::update() noexcept {
     auto& state = _ctx.state();
-    if(!state.user_is_idle()) {
+    if(state.is_active()) {
         _is_done.reset();
-    } else if(state.user_idle_too_long()) {
+    }
+    if(state.user_idle_too_long()) {
         camera.idle_update(state);
     }
 

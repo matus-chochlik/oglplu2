@@ -42,6 +42,10 @@ public:
         return seconds_(_frame_time.delta());
     }
 
+    auto is_active() const noexcept -> bool {
+        return !_new_user_idle || _has_activity;
+    }
+
     auto user_is_idle() const noexcept -> state_value<bool> {
         return {_new_user_idle, _old_user_idle};
     }
@@ -64,6 +68,7 @@ protected:
     clock_type::time_point _user_active_time{clock_type::now()};
     state_variable<float> _frame_time{0.0F};
 
+    bool _has_activity{false};
     bool _old_user_idle{false};
     bool _new_user_idle{false};
 };

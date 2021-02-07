@@ -456,7 +456,7 @@ void execution_context::clean_up() noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void execution_context::update() noexcept {
-    extract(_state).update_user_activity();
+    extract(_state).update_activity();
     for(auto& provider : _hmi_providers) {
         extract(provider).update(*this);
     }

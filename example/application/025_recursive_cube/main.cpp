@@ -67,7 +67,7 @@ void example_cube::on_video_resize() noexcept {
 }
 //------------------------------------------------------------------------------
 void example_cube::update() noexcept {
-    if(!_ctx.state().user_is_idle()) {
+    if(_ctx.state().is_active()) {
         _is_done.reset();
     }
 

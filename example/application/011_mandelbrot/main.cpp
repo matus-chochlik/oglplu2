@@ -261,9 +261,10 @@ void example_mandelbrot::update() noexcept {
     auto& state = _ctx.state();
     auto& [gl, GL] = _video.gl_api();
 
-    if(!state.user_is_idle()) {
+    if(state.is_active()) {
         _is_done.reset();
-    } else if(state.user_idle_time() > std::chrono::seconds(1)) {
+    }
+    if(state.user_idle_time() > std::chrono::seconds(1)) {
         const float s = value(state.frame_duration()) * 60;
         const float dest_offset_x = -0.525929F;
         const float dest_offset_y = -0.668547F;
