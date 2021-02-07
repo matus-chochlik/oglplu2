@@ -21,6 +21,7 @@ auto compiler_name() noexcept -> valid_if_not_empty<string_view>;
 auto compiler_version_major() noexcept -> valid_if_nonnegative<int>;
 auto compiler_version_minor() noexcept -> valid_if_nonnegative<int>;
 auto compiler_version_patch() noexcept -> valid_if_nonnegative<int>;
+auto architecture_name() noexcept -> valid_if_not_empty<string_view>;
 
 } // namespace eagine
 

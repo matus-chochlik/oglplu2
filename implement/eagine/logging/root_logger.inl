@@ -110,11 +110,16 @@ auto root_logger::_log_git_info() -> void {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto root_logger::_log_compiler_info() -> void {
-    info("built with ${complrName} compiler")
+    info("built with ${complrName} compiler for ${Archtcture} architecture")
       .arg(
         EAGINE_ID(complrName),
         EAGINE_ID(string),
         compiler_name(),
+        string_view{"unknown"})
+      .arg(
+        EAGINE_ID(Archtcture),
+        EAGINE_ID(string),
+        architecture_name(),
         string_view{"unknown"})
       .arg_func([](logger_backend& backend) {
           if(auto version_major{compiler_version_major()}) {
