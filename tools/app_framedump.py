@@ -143,6 +143,32 @@ class FramedumpArgumentParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            "--main-label",
+            help="""The main label text""",
+            type=str,
+            default="http://oglplus.org/",
+            action="store",
+            dest="main_label"
+        )
+
+        self.add_argument(
+            "--sample-label",
+            help="""The sample label text""",
+            type=str,
+            default=None,
+            action="store",
+            dest="sample_label"
+        )
+
+        self.add_argument(
+            "--version-label",
+            help="""Use version number as label string.""",
+            default=False,
+            action="store_true",
+            dest="version_label"
+        )
+
+        self.add_argument(
             "--sim-active",
             help="""
                 Simulate user activity for specified number of seconds.
@@ -220,6 +246,20 @@ class FramedumpArgumentParser(argparse.ArgumentParser):
                     raise argparse.ArgumentTypeError(msg)
 
                 self.job_name = os.path.basename(self.application_path)
+                self.root_dir = os.path.realpath(
+                    os.path.join(os.path.dirname(__file__), os.path.pardir)
+                )
+
+                if self.sample_label is None:
+                    if self.version_label:
+                        version_path = os.path.join(self.root_dir, "VERSION")
+                        with open(version_path, "rt") as vfd:
+                            self.sample_label = vfd.readline()
+                    else:
+                        self.sample_label = self.job_name
+                        for prefix in ["application-"]:
+                            if self.sample_label.startswith(prefix):
+                                self.sample_label = self.sample_label[len(prefix):]
 
                 if self.twitter_gif:
                     self.gif_output = True
@@ -260,6 +300,73 @@ class Framedump(object):
     def __init__(self, options):
         self.options = options
         assert os.path.isdir(str(self.options.work_dir_path))
+
+        self.main_label_file = os.path.join(
+            options.work_dir_path,
+            'main_label.png'
+        )
+        self.sample_label_file = os.path.join(
+            options.work_dir_path,
+            'sample_label.png'
+        )
+        self.logo_file = os.path.join(
+            options.work_dir_path,
+            'logo.png'
+        )
+
+        self.runConvert([
+            '-size', '%dx24'%(len(self.options.main_label)*12 + 144), 'xc:none',
+            '-background', 'none',
+            '-pointsize', '24',
+            '-gravity', 'center',
+            '-stroke', 'black',
+            '-strokewidth', '7',
+            '-annotate', '0', self.options.main_label,
+            '-blur', '0x4',
+            '-shadow', '%dx5+1+1' % int(self.options.frame_width * 0.5),
+            '+repage',
+            '-stroke', 'none',
+            '-strokewidth', '1',
+            '-fill', 'white',
+            '-annotate', '0', self.options.main_label,
+            self.main_label_file
+        ])
+
+        self.runConvert([
+            '-size', '%dx70'%(len(self.options.sample_label)*12 + 144), 'xc:none',
+            '-background', 'none',
+            '-pointsize', '16',
+            '-gravity', 'center',
+            '-stroke', 'black',
+            '-strokewidth', '3',
+            '-annotate', '0', options.sample_label,
+            '-blur', '0x4',
+            '-shadow', '%dx4+1+1' % int(self.options.frame_width * 0.6),
+            '+repage',
+            '-stroke', 'none',
+            '-strokewidth', '1',
+            '-fill', 'white',
+            '-annotate', '0', self.options.sample_label,
+            self.sample_label_file
+        ])
+
+        self.runConvert([
+            '-size', '144x144', 'xc:none',
+            '-background', 'white',
+            '-gravity', 'center',
+            '-stroke', 'white',
+            '-fill', 'white',
+            '-draw', 'circle 72,72, 72,144',
+            '-blur', '2x2',
+            '-shadow', '%dx6' % options.frame_width,
+            '+repage',
+            os.path.join(self.options.root_dir,'doc','logo','oglplus_circular.png'),
+            '-composite',
+            '-adaptive-resize', '72x72',
+            '-border', '16x0',
+            self.logo_file
+        ])
+
         self.frame_re = re.compile(
             "^(.*)"+
             "-([0-9]+)x([0-9]+)x([0-9]+)"+
@@ -369,6 +476,15 @@ class Framedump(object):
                     self.options.frame_height
                 ),
                 '-alpha', 'Off',
+                '-gravity', 'SouthEast',
+                self.main_label_file,
+                '-composite',
+                '-gravity', 'SouthEast',
+                self.sample_label_file,
+                '-composite',
+                '-gravity', 'SouthEast',
+                self.logo_file,
+                '-composite',
                 png_path
             ])
             os.unlink(info["path"])
