@@ -22,17 +22,17 @@ private:
     using _base = matrix<T, C, R, RM, V>;
 
 public:
-    constexpr inline tmat() noexcept
-      : _base(identity<_base>()) {}
+    constexpr tmat() noexcept
+      : _base{identity<_base>{}()} {}
 
-    constexpr inline tmat(const _base& m) noexcept
-      : _base(m) {}
+    constexpr tmat(const _base& m) noexcept
+      : _base{m} {}
 
-    inline tmat(const T* d, int n) noexcept
-      : _base(_base::from(d, n)) {}
+    tmat(const T* d, int n) noexcept
+      : _base{_base::from(d, n)} {}
 
-    inline tmat(const T (&d)[C * R]) noexcept
-      : _base(_base::from(d, C * R)) {}
+    tmat(const T (&d)[C * R]) noexcept
+      : _base{_base::from(d, C * R)} {}
 
 private:
     template <
@@ -65,7 +65,7 @@ public:
       typename =
         std::enable_if_t<std::is_convertible_v<P, T> && (C <= M) && (R <= N)>>
     constexpr tmat(const matrix<P, M, N, RM, V>& m) noexcept
-      : _base(_base::from(m)) {}
+      : _base{_base::from(m)} {}
 };
 
 template <typename T, int C, int R, bool RM, bool V>
@@ -82,7 +82,7 @@ struct canonical_compound_type<math::tmat<T, C, R, RM, V>>
 
 template <typename T, int C, int R, bool RM, bool V>
 struct compound_view_maker<math::tmat<T, C, R, RM, V>> {
-    inline auto operator()(const math::tmat<T, C, R, RM, V>& m) const noexcept {
+    auto operator()(const math::tmat<T, C, R, RM, V>& m) const noexcept {
         return vect::view < T, RM ? C : R, V > ::apply(m._v);
     }
 };

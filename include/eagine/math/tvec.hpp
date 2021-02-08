@@ -20,36 +20,36 @@ template <typename T, int N, bool V>
 struct tvec : vector<T, N, V> {
     using _base = vector<T, N, V>;
 
-    constexpr inline tvec() noexcept
-      : _base(_base::zero()) {}
+    constexpr tvec() noexcept
+      : _base{_base::zero()} {}
 
-    constexpr inline tvec(T v) noexcept
-      : _base(_base::fill(v)) {}
+    constexpr tvec(T v) noexcept
+      : _base{_base::fill(v)} {}
 
-    constexpr inline tvec(const _base& v) noexcept
-      : _base(v) {}
+    constexpr tvec(const _base& v) noexcept
+      : _base{v} {}
 
-    inline tvec(const T (&d)[N]) noexcept
-      : _base(_base::from(d, N)) {}
+    tvec(const T (&d)[N]) noexcept
+      : _base{_base::from(d, N)} {}
 
     template <
       typename... P,
       typename = std::enable_if_t<
         (sizeof...(P) == N) && all_are_convertible_to<T, P...>::value>>
-    constexpr inline tvec(P&&... p) noexcept
-      : _base(_base::make(std::forward<P>(p)...)) {}
+    constexpr tvec(P&&... p) noexcept
+      : _base{_base::make(std::forward<P>(p)...)} {}
 
     template <
       typename P,
       int M,
       bool W,
       typename = std::enable_if_t<!std::is_same_v<P, T> || !(M == N)>>
-    constexpr inline tvec(const vector<P, M, W>& v) noexcept
-      : _base(_base::from(v)) {}
+    constexpr tvec(const vector<P, M, W>& v) noexcept
+      : _base{_base::from(v)} {}
 
     template <typename P, int M, bool W>
-    constexpr inline tvec(const vector<P, M, W>& v, T d) noexcept
-      : _base(_base::from(v, d)) {}
+    constexpr tvec(const vector<P, M, W>& v, T d) noexcept
+      : _base{_base::from(v, d)} {}
 
     template <
       typename P,
@@ -59,15 +59,15 @@ struct tvec : vector<T, N, V> {
       typename = std::enable_if_t<
         (sizeof...(R) > 1) && (M + sizeof...(R) == N) &&
         all_are_convertible_to<T, R...>::value>>
-    constexpr inline tvec(const vector<P, M, W>& v, R&&... r) noexcept
-      : _base(
-          _base::from(v, vector<T, N - M, W>::make(std::forward<R>(r)...))) {}
+    constexpr tvec(const vector<P, M, W>& v, R&&... r) noexcept
+      : _base{
+          _base::from(v, vector<T, N - M, W>::make(std::forward<R>(r)...))} {}
 
     template <typename P, int M, bool W>
-    constexpr inline tvec(
+    constexpr tvec(
       const vector<P, M, W>& v,
       const vector<T, N - M, W>& w) noexcept
-      : _base(_base::from(v, w)) {}
+      : _base{_base::from(v, w)} {}
 };
 
 } // namespace math
