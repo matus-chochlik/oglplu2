@@ -53,6 +53,8 @@ public:
 
     using vertex_buffer_binding = uint_type;
 
+    using debug_callback_type = typename c_api::debug_callback_type;
+
     // extensions
     using extension = basic_gl_extension<ApiTraits>;
 
@@ -3583,6 +3585,14 @@ public:
               source, type, severity, ids.size(), ids.data(), enabled);
         }
 
+        constexpr auto operator()(
+          debug_output_source source,
+          debug_output_type type,
+          debug_output_severity severity,
+          true_false enabled) const noexcept {
+            return (*this)(source, type, severity, {}, enabled);
+        }
+
     } debug_message_control;
 
     struct : func<OGLPAFP(DebugMessageInsert)> {
@@ -3599,6 +3609,17 @@ public:
         }
 
     } debug_message_insert;
+
+    struct : func<OGLPAFP(DebugMessageCallback)> {
+        using func<OGLPAFP(DebugMessageCallback)>::func;
+
+        constexpr auto operator()(
+          debug_callback_type* callback,
+          const_void_ptr_type user_data) const noexcept {
+            return this->_chkcall(callback, user_data);
+        }
+
+    } debug_message_callback;
 
     struct : func<OGLPAFP(PushDebugGroup)> {
         using func<OGLPAFP(PushDebugGroup)>::func;
