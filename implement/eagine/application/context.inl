@@ -214,15 +214,68 @@ inline void video_context_state::clean_up(oglp::gl_api& api) noexcept {
     }
 }
 //------------------------------------------------------------------------------
+static void video_context_debug_callback(
+  oglp::gl_types::enum_type source,
+  oglp::gl_types::enum_type type,
+  oglp::gl_types::uint_type id,
+  oglp::gl_types::enum_type severity,
+  oglp::gl_types::sizei_type length,
+  const oglp::gl_types::char_type* message,
+  const void* raw_pvc) {
+    EAGINE_ASSERT(raw_pvc);
+    const auto& vc = *static_cast<const video_context*>(raw_pvc);
+    const auto msg = length >= 0 ? string_view(message, span_size(length))
+                                 : string_view(message);
+    vc.parent()
+      .log_debug(msg)
+      .arg(EAGINE_ID(severity), EAGINE_ID(DbgOutSvrt), severity)
+      .arg(EAGINE_ID(source), EAGINE_ID(DbgOutSrce), source)
+      .arg(EAGINE_ID(type), EAGINE_ID(DbgOutType), type)
+      .arg(EAGINE_ID(id), id);
+
+    EAGINE_MAYBE_UNUSED(source);
+    EAGINE_MAYBE_UNUSED(type);
+    EAGINE_MAYBE_UNUSED(id);
+    EAGINE_MAYBE_UNUSED(severity);
+    EAGINE_MAYBE_UNUSED(length);
+    EAGINE_MAYBE_UNUSED(message);
+}
+//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto video_context::init_gl_api() noexcept -> bool {
     try {
         _gl_api = std::make_shared<oglp::gl_api>();
+        auto& [gl, GL] = extract(_gl_api);
 
         const auto pos = _parent.options().video_requirements().find(
           extract(_provider).instance_id());
         EAGINE_ASSERT(pos != _parent.options().video_requirements().end());
-        _state = std::make_shared<video_context_state>(_parent, pos->second);
+        const auto& opts = pos->second;
+
+        if(opts.gl_debug_context()) {
+            if(gl.ARB_debug_output) {
+                _parent.log_info("enabling GL debug output");
+
+                gl.debug_message_callback(
+                  &video_context_debug_callback,
+                  static_cast<const void*>(this));
+
+                gl.debug_message_control(
+                  GL.dont_care, GL.dont_care, GL.dont_care, GL.true_);
+
+                gl.debug_message_insert(
+                  GL.debug_source_application,
+                  GL.debug_type_other,
+                  GL.debug_severity_medium,
+                  0U,
+                  "successfully enabled GL debug output");
+            } else {
+                _parent.log_warning(
+                  "requested GL debug, but GL context does not support it");
+            }
+        }
+
+        _state = std::make_shared<video_context_state>(_parent, opts);
 
         if(!extract(_provider).has_framebuffer()) {
             if(!extract(_state).init_framebuffer(_parent, extract(_gl_api))) {

@@ -251,6 +251,9 @@ EAGINE_LIB_FUNC auto glfw3_opengl_window::initialize(
   span<GLFWmonitor* const> monitors) -> bool {
     _instance_id = id;
 
+    if(video_opts.gl_debug_context()) {
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+    }
     glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
     glfwWindowHint(GLFW_RED_BITS, video_opts.color_bits() / GLFW_DONT_CARE);
     glfwWindowHint(GLFW_BLUE_BITS, video_opts.color_bits() / GLFW_DONT_CARE);

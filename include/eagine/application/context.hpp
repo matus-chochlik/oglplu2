@@ -32,6 +32,10 @@ public:
       : _parent{parent}
       , _provider{std::move(provider)} {}
 
+    auto parent() const noexcept -> execution_context& {
+        return _parent;
+    }
+
     auto frame_number() const noexcept {
         return _frame_no;
     }
