@@ -384,7 +384,8 @@ class Framedump(object):
             "--application-video-framedump-color", "byte",
             "--application-video-framedump-prefix",
             os.path.join(self.options.work_dir_path, self.options.job_name),
-            "--application-video-fixed-fps", self.options.fps
+            "--application-video-fixed-fps", self.options.fps,
+            "--application-opengl-debug-context", "false"
         ]
 
         if self.options.sim_active:
