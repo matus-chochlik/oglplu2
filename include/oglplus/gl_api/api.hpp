@@ -840,6 +840,11 @@ public:
     func<OGLPAFP(GetUniformLocation), uniform_location(program_name, string_view)>
       get_uniform_location;
 
+    func<
+      OGLPAFP(GetUniformBlockIndex),
+      uniform_block_index(program_name, string_view)>
+      get_uniform_block_index;
+
     struct : func<OGLPAFP(GetActiveUniformName)> {
         using func<OGLPAFP(GetActiveUniformName)>::func;
 
@@ -1507,6 +1512,17 @@ public:
               prog, loc, sizei_type(v.size() / 12), transp, v.data());
         }
     } program_uniform_matrix4x3fv;
+
+    // shader block ops
+    func<
+      OGLPAFP(UniformBlockBinding),
+      void(program_name, uniform_block_index, uint_type)>
+      uniform_block_binding;
+
+    func<
+      OGLPAFP(ShaderStorageBlockBinding),
+      void(program_name, uniform_block_index, uint_type)>
+      shader_storage_block_binding;
 
     // buffer ops
     func<OGLPAFP(BindBuffer), void(buffer_target, buffer_name)> bind_buffer;

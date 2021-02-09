@@ -110,6 +110,7 @@ basic_gl_operations<ApiTraits>::basic_gl_operations(api_traits& traits)
       traits,
       *this)
   , get_uniform_location("get_uniform_location", traits, *this)
+  , get_uniform_block_index("get_uniform_block_index", traits, *this)
   , get_active_uniform_name("get_active_uniform_name", traits, *this)
   , get_subroutine_uniform_location(
       "get_subroutine_uniform_location",
@@ -187,6 +188,8 @@ basic_gl_operations<ApiTraits>::basic_gl_operations(api_traits& traits)
   , program_uniform_matrix3x4fv("program_uniform_matrix3x4fv", traits, *this)
   , program_uniform_matrix4x2fv("program_uniform_matrix4x2fv", traits, *this)
   , program_uniform_matrix4x3fv("program_uniform_matrix4x3fv", traits, *this)
+  , uniform_block_binding("uniform_block_binding", traits, *this)
+  , shader_storage_block_binding("shader_storage_block_binding", traits, *this)
   , bind_buffer("bind_buffer", traits, *this)
   , bind_buffer_base("bind_buffer_base", traits, *this)
   , bind_buffer_range("bind_buffer_range", traits, *this)

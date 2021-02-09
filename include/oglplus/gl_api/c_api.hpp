@@ -1954,6 +1954,11 @@ public:
       GetUniformLocation;
 
     gl_api_function<
+      int_type(uint_type, const char_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetUniformBlockIndex)>
+      GetUniformBlockIndex;
+
+    gl_api_function<
       void(uint_type, uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetActiveUniformName)>
       GetActiveUniformName;
