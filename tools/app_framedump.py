@@ -30,10 +30,32 @@ class FramedumpArgumentParser(argparse.ArgumentParser):
                 msg = "'%s' is not a positive integer" % str(arg)
                 raise argparse.ArgumentTypeError(msg)
 
+        def PositiveFloat(arg):
+            try:
+                result = float(arg)
+                assert result > 0
+                return result
+            except:
+                msg = "'%s' is not a positive number" % str(arg)
+                raise argparse.ArgumentTypeError(msg)
+
         def OutputSizeType(arg):
             if re.match("[0-9]+[kMG]?", arg):
                 return arg
             msg = "'%s' is not a valid file size specification" % str(arg)
+            raise argparse.ArgumentTypeError(msg)
+
+        def FrameDimType(arg):
+
+            try: dims = [int(dim) for dim in arg.split('x')]
+            except: dims = list()
+
+            def valid_coord(dim):
+                return isinstance(dim, int) and dim > 0
+
+            if (len(dims) == 2) and all(valid_coord(dim) for dim in dims):
+                return dims
+            msg = "'%s' is not a valid frame dimension specification" % str(arg)
             raise argparse.ArgumentTypeError(msg)
 
         self.add_argument(
@@ -64,6 +86,43 @@ class FramedumpArgumentParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            "--size",
+            help="""
+                The dimensions in pixels of the video frame,
+                specified as WxH where W and H are positive integers.
+            """,
+            type=FrameDimType,
+            dest="frame_size",
+            action="store",
+            default="852x480"
+        )
+
+        self.add_argument(
+            "--half-hd",
+            help="""Sets the dimensions of the output to 640x360.""",
+            dest="frame_size",
+            action="store_const",
+            const=[640,360]
+        )
+
+        self.add_argument(
+            "--hd",
+            help="""Sets the dimensions of the output to 1280x720.""",
+            dest="frame_size",
+            action="store_const",
+            const=[1280,720]
+        )
+
+        self.add_argument(
+            "--full-hd",
+            help="""Sets the dimensions of the output to 1920x1080.""",
+            dest="frame_size",
+            action="store_const",
+            const=[1920,1080]
+            
+        )
+
+        self.add_argument(
             "--fps",
             help="""Number of frames per second""",
             type=int,
@@ -81,6 +140,43 @@ class FramedumpArgumentParser(argparse.ArgumentParser):
             dest="render_scale",
             action="store",
             default="1"
+        )
+
+        self.add_argument(
+            "--main-label",
+            help="""The main label text""",
+            type=str,
+            default="http://oglplus.org/",
+            action="store",
+            dest="main_label"
+        )
+
+        self.add_argument(
+            "--sample-label",
+            help="""The sample label text""",
+            type=str,
+            default=None,
+            action="store",
+            dest="sample_label"
+        )
+
+        self.add_argument(
+            "--version-label",
+            help="""Use version number as label string.""",
+            default=False,
+            action="store_true",
+            dest="version_label"
+        )
+
+        self.add_argument(
+            "--sim-active",
+            help="""
+                Simulate user activity for specified number of seconds.
+            """,
+            type=PositiveFloat,
+            dest="sim_active",
+            action="store",
+            default=None
         )
 
         self.add_argument(
@@ -114,6 +210,14 @@ class FramedumpArgumentParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            "--twitter-gif",
+            help="""Render a GIF for Twitter""",
+            default=False,
+            action="store_true",
+            dest="twitter_gif"
+        )
+
+        self.add_argument(
             "--args",
             dest="app_options",
             nargs=argparse.REMAINDER,
@@ -142,6 +246,30 @@ class FramedumpArgumentParser(argparse.ArgumentParser):
                     raise argparse.ArgumentTypeError(msg)
 
                 self.job_name = os.path.basename(self.application_path)
+                self.root_dir = os.path.realpath(
+                    os.path.join(os.path.dirname(__file__), os.path.pardir)
+                )
+
+                if self.sample_label is None:
+                    if self.version_label:
+                        version_path = os.path.join(self.root_dir, "VERSION")
+                        with open(version_path, "rt") as vfd:
+                            self.sample_label = vfd.readline()
+                    else:
+                        self.sample_label = self.job_name
+                        for prefix in ["application-"]:
+                            if self.sample_label.startswith(prefix):
+                                self.sample_label = self.sample_label[len(prefix):]
+
+                if self.twitter_gif:
+                    self.gif_output = True
+                    self.frame_size[0] = 420
+                    self.frame_size[1] = 240
+                    self.fps = 24
+                    self.render_scale = 2
+                    self.max_bytes = "14500k"
+
+                self.frame_width, self.frame_height = self.frame_size
 
                 if self.output_path is None:
                     if self.gif_output:
@@ -172,6 +300,73 @@ class Framedump(object):
     def __init__(self, options):
         self.options = options
         assert os.path.isdir(str(self.options.work_dir_path))
+
+        self.main_label_file = os.path.join(
+            options.work_dir_path,
+            'main_label.png'
+        )
+        self.sample_label_file = os.path.join(
+            options.work_dir_path,
+            'sample_label.png'
+        )
+        self.logo_file = os.path.join(
+            options.work_dir_path,
+            'logo.png'
+        )
+
+        self.runConvert([
+            '-size', '%dx24'%(len(self.options.main_label)*12 + 144), 'xc:none',
+            '-background', 'none',
+            '-pointsize', '24',
+            '-gravity', 'center',
+            '-stroke', 'black',
+            '-strokewidth', '7',
+            '-annotate', '0', self.options.main_label,
+            '-blur', '0x4',
+            '-shadow', '%dx5+1+1' % int(self.options.frame_width * 0.5),
+            '+repage',
+            '-stroke', 'none',
+            '-strokewidth', '1',
+            '-fill', 'white',
+            '-annotate', '0', self.options.main_label,
+            self.main_label_file
+        ])
+
+        self.runConvert([
+            '-size', '%dx70'%(len(self.options.sample_label)*12 + 144), 'xc:none',
+            '-background', 'none',
+            '-pointsize', '16',
+            '-gravity', 'center',
+            '-stroke', 'black',
+            '-strokewidth', '3',
+            '-annotate', '0', options.sample_label,
+            '-blur', '0x4',
+            '-shadow', '%dx4+1+1' % int(self.options.frame_width * 0.6),
+            '+repage',
+            '-stroke', 'none',
+            '-strokewidth', '1',
+            '-fill', 'white',
+            '-annotate', '0', self.options.sample_label,
+            self.sample_label_file
+        ])
+
+        self.runConvert([
+            '-size', '144x144', 'xc:none',
+            '-background', 'white',
+            '-gravity', 'center',
+            '-stroke', 'white',
+            '-fill', 'white',
+            '-draw', 'circle 72,72, 72,144',
+            '-blur', '2x2',
+            '-shadow', '%dx6' % options.frame_width,
+            '+repage',
+            os.path.join(self.options.root_dir,'doc','logo','oglplus_circular.png'),
+            '-composite',
+            '-adaptive-resize', '72x72',
+            '-border', '16x0',
+            self.logo_file
+        ])
+
         self.frame_re = re.compile(
             "^(.*)"+
             "-([0-9]+)x([0-9]+)x([0-9]+)"+
@@ -182,10 +377,22 @@ class Framedump(object):
 
         cmd_line = [
             options.application_path,
+            "--application-video-surface-width",
+            self.options.frame_width * self.options.render_scale,
+            "--application-video-surface-height",
+            self.options.frame_height * self.options.render_scale,
             "--application-video-framedump-color", "byte",
             "--application-video-framedump-prefix",
-            os.path.join(self.options.work_dir_path, self.options.job_name)
+            os.path.join(self.options.work_dir_path, self.options.job_name),
+            "--application-video-fixed-fps", self.options.fps,
+            "--application-opengl-debug-context", "false"
         ]
+
+        if self.options.sim_active:
+            cmd_line += [
+                "--application-simulate-activity-for",
+                "%ss" % self.options.sim_active
+            ]
 
         if self.options.max_frames:
             cmd_line += ["--application-max-frames", self.options.max_frames]
@@ -259,14 +466,26 @@ class Framedump(object):
             )
             self.runConvert([
                 '-size', '%dx%d' % (
-                    info["width"]  * self.options.render_scale,
-                    info["height"] * self.options.render_scale
+                    self.options.frame_width  * self.options.render_scale,
+                    self.options.frame_height * self.options.render_scale
                 ),
                 '-depth', '8',
                 "%s:%s" % (self.convertFormat(info), info["path"]),
                 '-flip',
-                '-scale', '%dx%d' % (info["width"], info["height"]),
+                '-scale', '%dx%d' % (
+                    self.options.frame_width,
+                    self.options.frame_height
+                ),
                 '-alpha', 'Off',
+                '-gravity', 'SouthEast',
+                self.main_label_file,
+                '-composite',
+                '-gravity', 'SouthEast',
+                self.sample_label_file,
+                '-composite',
+                '-gravity', 'SouthEast',
+                self.logo_file,
+                '-composite',
                 png_path
             ])
             os.unlink(info["path"])

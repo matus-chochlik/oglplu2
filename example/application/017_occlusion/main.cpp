@@ -37,7 +37,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
 private:
     execution_context& _ctx;
@@ -211,9 +211,10 @@ void example_occlusion::on_video_resize() noexcept {
 //------------------------------------------------------------------------------
 void example_occlusion::update() noexcept {
     auto& state = _ctx.state();
-    if(!state.user_is_idle()) {
+    if(state.is_active()) {
         _is_done.reset();
-    } else if(state.user_idle_too_long()) {
+    }
+    if(state.user_idle_too_long()) {
         camera.idle_update(state);
     }
 
@@ -229,7 +230,7 @@ void example_occlusion::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_occlusion::cleanup() noexcept {
+void example_occlusion::clean_up() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_program(std::move(prog));

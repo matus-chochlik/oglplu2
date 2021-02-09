@@ -28,7 +28,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
 private:
     execution_context& _ctx;
@@ -120,7 +120,7 @@ void example_atomics::update() noexcept {
     auto& state = _ctx.state();
     auto& [gl, GL] = _video.gl_api();
 
-    if(!state.user_is_idle()) {
+    if(state.is_active()) {
         _is_done.reset();
     }
 
@@ -134,7 +134,7 @@ void example_atomics::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_atomics::cleanup() noexcept {
+void example_atomics::clean_up() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_program(std::move(prog));

@@ -37,7 +37,7 @@ void cubes_program::init(execution_context& ec, video_context& vc) {
     gl.get_uniform_location(prog, "Edges") >> edges_loc;
 }
 //------------------------------------------------------------------------------
-void cubes_program::cleanup(video_context& vc) {
+void cubes_program::clean_up(video_context& vc) {
     auto& gl = vc.gl_api();
     gl.delete_program(std::move(prog));
 }
@@ -149,7 +149,7 @@ void cubes_geometry::init(execution_context& ec, video_context& vc) {
     shape.index_setup(glapi, indices, view(vars), ec.buffer());
 }
 //------------------------------------------------------------------------------
-void cubes_geometry::cleanup(video_context& vc) {
+void cubes_geometry::clean_up(video_context& vc) {
     auto& gl = vc.gl_api();
     gl.delete_buffers(std::move(indices));
     gl.delete_buffers(std::move(coords));

@@ -104,7 +104,7 @@ public:
         _video.commit();
     }
 
-    void cleanup() noexcept final {
+    void clean_up() noexcept final {
         _video.end();
     }
 

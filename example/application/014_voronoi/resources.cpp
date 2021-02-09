@@ -39,7 +39,7 @@ void random_texture::init(execution_context& ec, video_context& vc) {
       as_bytes(view(random_data)));
 }
 //------------------------------------------------------------------------------
-void random_texture::cleanup(execution_context&, video_context& vc) {
+void random_texture::clean_up(execution_context&, video_context& vc) {
     const auto& gl = vc.gl_api();
     gl.delete_textures(std::move(random));
 }
@@ -72,7 +72,7 @@ void voronoi_program::init(execution_context&, video_context& vc) {
     gl.get_uniform_location(prog, "Scale") >> scale_loc;
 }
 //------------------------------------------------------------------------------
-void voronoi_program::cleanup(execution_context&, video_context& vc) {
+void voronoi_program::clean_up(execution_context&, video_context& vc) {
     const auto& gl = vc.gl_api();
     gl.delete_shader(std::move(fs));
     gl.delete_shader(std::move(vs));
@@ -109,7 +109,7 @@ void screen_geometry::init(execution_context&, video_context& vc) {
     gl.enable_vertex_attrib_array(tex_coord_loc);
 }
 //------------------------------------------------------------------------------
-void screen_geometry::cleanup(execution_context&, video_context& vc) {
+void screen_geometry::clean_up(execution_context&, video_context& vc) {
     const auto& gl = vc.gl_api();
     gl.delete_buffers(std::move(tex_coords));
     gl.delete_buffers(std::move(positions));

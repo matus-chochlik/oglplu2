@@ -107,7 +107,7 @@ struct hmi_provider {
     virtual auto should_initialize(execution_context&) -> bool = 0;
     virtual auto initialize(execution_context&) -> bool = 0;
     virtual void update(execution_context&) = 0;
-    virtual void cleanup(execution_context&) = 0;
+    virtual void clean_up(execution_context&) = 0;
 
     virtual void
       input_enumerate(callable_ref<void(std::shared_ptr<input_provider>)>) = 0;
@@ -152,7 +152,7 @@ struct application {
     virtual auto is_done() noexcept -> bool = 0;
     virtual void on_video_resize() noexcept = 0;
     virtual void update() noexcept = 0;
-    virtual void cleanup() noexcept = 0;
+    virtual void clean_up() noexcept = 0;
 };
 //------------------------------------------------------------------------------
 struct launchpad {

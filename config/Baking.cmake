@@ -22,13 +22,17 @@ function(oglplus_do_add_baked_resource BAKE_COMMAND RES_NAME RES_KIND INPUT TRY_
 		string(REPLACE "\;" ";" RAW_PARAMETERS ${PARAMETER_STRING})
 
 		set(PARAMETERS)
+		set(DEPENDENCIES)
+		list(APPEND DEPENDENCIES ${INPUT})
 		foreach(ITEM ${RAW_PARAMETERS})
 			if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${ITEM}")
 				list(APPEND PARAMETERS "${CMAKE_CURRENT_SOURCE_DIR}/${ITEM}")
+				list(APPEND DEPENDENCIES "${CMAKE_CURRENT_SOURCE_DIR}/${ITEM}")
 			else()
 				list(APPEND PARAMETERS "${ITEM}")
 			endif()
 		endforeach()
+		list(APPEND DEPENDENCIES "${OGLPLUS_TARGET_PREFIX}${BAKE_COMMAND}")
 
 		list(APPEND PARAMETERS "--output")
 		list(APPEND PARAMETERS "${CMAKE_CURRENT_BINARY_DIR}/${RES_NAME}.oglp${RES_KIND}")
@@ -37,7 +41,7 @@ function(oglplus_do_add_baked_resource BAKE_COMMAND RES_NAME RES_KIND INPUT TRY_
 			OUTPUT "${RES_NAME}.oglp${RES_KIND}"
 			COMMAND "${OGLPLUS_TARGET_PREFIX}${BAKE_COMMAND}"
 			ARGS ${PARAMETERS}
-			DEPENDS ${INPUT} "${OGLPLUS_TARGET_PREFIX}${BAKE_COMMAND}"
+			DEPENDS ${DEPENDENCIES}
 			COMMENT "Baking resource ${RES_NAME}.oglp${RES_KIND}"
 		)
 		set_source_files_properties(
@@ -49,15 +53,23 @@ function(oglplus_do_add_baked_resource BAKE_COMMAND RES_NAME RES_KIND INPUT TRY_
 		if(${TRY_PACK})
 			if(GZIP_COMMAND)
 				set(RES_SUFFIX .gz)
+				set(GZIP_ARGS)
+				list(APPEND GZIP_ARGS -9)
+				list(APPEND GZIP_ARGS -f)
+				list(APPEND GZIP_ARGS "${RES_NAME}.oglp${RES_KIND}")
+				list(APPEND GZIP_ARGS -c)
+				list(APPEND GZIP_ARGS >)
+				list(APPEND GZIP_ARGS "${RES_NAME}.oglp${RES_KIND}${RES_SUFFIX}")
 				add_custom_command(
-					OUTPUT "${RES_NAME}.oglp${RES_KIND}.gz"
+					OUTPUT "${RES_NAME}.oglp${RES_KIND}${RES_SUFFIX}"
+					WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 					COMMAND "${GZIP_COMMAND}"
-					ARGS -9;-f;"${CMAKE_CURRENT_BINARY_DIR}/${RES_NAME}.oglp${RES_KIND}"
+					ARGS ${GZIP_ARGS}
 					DEPENDS ${RES_NAME}.oglp${RES_KIND}
 					COMMENT "Compressing resource ${RES_NAME}.oglp${RES_KIND}"
 				)
 				set_source_files_properties(
-					"${RES_NAME}.oglp${RES_KIND}.gz"
+					"${RES_NAME}.oglp${RES_KIND}${RES_SUFFIX}"
 					PROPERTIES GENERATED 1
 				)
 			endif()

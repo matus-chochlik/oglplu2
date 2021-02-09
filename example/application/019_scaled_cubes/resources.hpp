@@ -29,7 +29,7 @@ private:
 
 public:
     void init(execution_context&, video_context&);
-    void cleanup(video_context&);
+    void clean_up(video_context&);
     void set_projection(video_context&, orbiting_camera& camera);
     void update(execution_context&, video_context&);
 
@@ -57,7 +57,7 @@ private:
 
 public:
     void init(execution_context&, video_context&);
-    void cleanup(video_context&);
+    void clean_up(video_context&);
     void draw_surface(video_context&);
     void draw_edges(video_context&);
 

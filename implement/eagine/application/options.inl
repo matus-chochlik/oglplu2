@@ -57,6 +57,8 @@ video_options::video_options(
       o.cfg_init("application.opengl.prefer_es", _prefer_gles, instname);
     _gl_debug_context = o.cfg_init(
       "application.opengl.debug_context", _gl_debug_context, instname);
+    _gl_robust_access = o.cfg_init(
+      "application.opengl.robust_access", _gl_robust_access, instname);
     _gl_compat_context = o.cfg_init(
       "application.opengl.compatibility", _gl_compat_context, instname);
 

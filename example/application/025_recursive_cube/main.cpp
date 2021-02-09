@@ -28,7 +28,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
 private:
     execution_context& _ctx;
@@ -67,7 +67,7 @@ void example_cube::on_video_resize() noexcept {
 }
 //------------------------------------------------------------------------------
 void example_cube::update() noexcept {
-    if(!_ctx.state().user_is_idle()) {
+    if(_ctx.state().is_active()) {
         _is_done.reset();
     }
 
@@ -108,11 +108,11 @@ void example_cube::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_cube::cleanup() noexcept {
+void example_cube::clean_up() noexcept {
 
-    bufs.cleanup(_video);
-    cube.cleanup(_video);
-    prog.cleanup(_video);
+    bufs.clean_up(_video);
+    cube.clean_up(_video);
+    prog.clean_up(_video);
 
     _video.end();
 }

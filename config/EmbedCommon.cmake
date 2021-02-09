@@ -42,13 +42,16 @@ function(eagine_do_embed_target_resources TARGET_NAME PACKED)
 				TARGET ${RES_NAME}
 				PROPERTY OGLPLUS_BAKED_RESOURCE_PATH
 			)
+
 			list(APPEND GEN_DEPENDS "${RES_NAME}")
 			list(APPEND GEN_OPTIONS -t)
 			list(APPEND GEN_OPTIONS ${RES_NAME} ${RES_PATH})
+			list(APPEND RES_PATHS "${RES_PATH}")
 		else()
 			list(APPEND RES_PATHS "${RES_NAME}")
 		endif()
 	endforeach()
+
 	add_custom_command(
 		OUTPUT ${RESOURCE_FILE}
 		COMMAND ${EAGINE_EMBED_GENERATOR} ${GEN_OPTIONS}

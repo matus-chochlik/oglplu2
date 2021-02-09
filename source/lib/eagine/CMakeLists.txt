@@ -14,6 +14,7 @@ set(EAGINE_LIB_SOURCES
 	main_wrap.cpp
 	debug.cpp
 	git_info.cpp
+	compiler_info.cpp
 	identifier.cpp
 	from_string.cpp
 	logging.cpp
@@ -39,6 +40,7 @@ set(EAGINE_LIB_SOURCES
 	shapes_value_tree.cpp
 	shapes_modifiers.cpp
 	shapes_to_quads.cpp
+	shapes_to_patches.cpp
 	random.cpp
 	resources.cpp
 	value_tree_json.cpp

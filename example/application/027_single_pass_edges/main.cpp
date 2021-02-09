@@ -28,7 +28,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
 private:
     execution_context& _ctx;
@@ -75,9 +75,10 @@ void example_edges::on_video_resize() noexcept {
 //------------------------------------------------------------------------------
 void example_edges::update() noexcept {
     auto& state = _ctx.state();
-    if(!state.user_is_idle()) {
+    if(state.is_active()) {
         _is_done.reset();
-    } else if(state.user_idle_too_long()) {
+    }
+    if(state.user_idle_too_long()) {
         camera.idle_update(state);
     }
 
@@ -92,10 +93,10 @@ void example_edges::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_edges::cleanup() noexcept {
+void example_edges::clean_up() noexcept {
 
-    prog.cleanup(_video);
-    shape.cleanup(_video);
+    prog.clean_up(_video);
+    shape.clean_up(_video);
 
     _video.end();
 }

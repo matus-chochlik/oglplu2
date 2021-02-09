@@ -32,7 +32,7 @@ private:
 
 public:
     void init(execution_context&, video_context&);
-    void cleanup(video_context&);
+    void clean_up(video_context&);
     void set_texture(video_context&, oglp::gl_types::int_type);
     void set_projection(video_context&, const oglp::tmat<float, 4, 4, true>&);
     void update(execution_context&, video_context&);
@@ -57,7 +57,7 @@ private:
 
 public:
     void init(execution_context&, video_context&);
-    void cleanup(video_context&);
+    void clean_up(video_context&);
     void draw(video_context&);
 
     static auto position_loc() noexcept {
@@ -90,7 +90,7 @@ private:
 
 public:
     void init(execution_context&, video_context&);
-    void cleanup(video_context&);
+    void clean_up(video_context&);
 
     auto back_fbo() const noexcept {
         return oglp::framebuffer_name{objs.back().fbo};

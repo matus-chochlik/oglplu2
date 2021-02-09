@@ -22,17 +22,11 @@ class context_state
   , public context_state_view {
 
 public:
-    context_state(main_ctx_parent parent)
-      : main_ctx_object{EAGINE_ID(AppliState), parent}
-      , _rand_init{extract_or(_rand_seed, std::random_device{}())}
-      , _rand_eng{_rand_init} {
-        log_info("using ${init} to initialize random generator")
-          .arg(EAGINE_ID(init), _rand_init);
-    }
+    context_state(main_ctx_parent parent);
 
     auto advance_time() noexcept -> auto& {
-        if(_fixed_fps) {
-            _frame_time.advance(extract(_fixed_fps));
+        if(EAGINE_UNLIKELY(_fixed_fps)) {
+            _frame_time.advance(1.F / extract(_fixed_fps));
         } else {
             _frame_time.assign(
               std::chrono::duration<float>(run_time()).count());
@@ -40,15 +34,10 @@ public:
         return *this;
     }
 
-    auto update_user_activity() noexcept -> auto& {
-        _old_user_idle = _new_user_idle;
-        _new_user_idle = true;
-        return *this;
-    }
+    auto update_activity() noexcept -> context_state&;
 
     auto notice_user_active() noexcept -> auto& {
         _new_user_idle = false;
-        _user_active_time = context_state_view::clock_type::now();
         return *this;
     }
 
@@ -65,13 +54,11 @@ public:
     }
 
 private:
-    valid_if_positive<float> _fixed_fps{
-      cfg_extr<valid_if_positive<float>>("application.video.fixed_fps", 0.F)};
+    valid_if_positive<float> _fixed_fps;
 
-    valid_if_positive<std::default_random_engine::result_type> _rand_seed{
-      cfg_extr<valid_if_positive<std::default_random_engine::result_type>>(
-        "application.random.seed",
-        0U)};
+    std::chrono::duration<float> _sim_activity_for;
+
+    valid_if_positive<std::default_random_engine::result_type> _rand_seed;
     std::default_random_engine::result_type _rand_init;
 
     std::default_random_engine _rand_eng;
@@ -81,5 +68,7 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::application
+
+#include <eagine/application/state.inl>
 
 #endif

@@ -41,7 +41,7 @@ public:
       const video_options&,
       span<GLFWmonitor* const>) -> bool;
     void update(execution_context& exec_ctx);
-    void cleanup();
+    void clean_up();
 
     auto video_kind() const noexcept -> video_context_kind final;
     auto instance_id() const noexcept -> identifier final;
@@ -251,6 +251,9 @@ EAGINE_LIB_FUNC auto glfw3_opengl_window::initialize(
   span<GLFWmonitor* const> monitors) -> bool {
     _instance_id = id;
 
+    if(video_opts.gl_debug_context()) {
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+    }
     glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
     glfwWindowHint(GLFW_RED_BITS, video_opts.color_bits() / GLFW_DONT_CARE);
     glfwWindowHint(GLFW_BLUE_BITS, video_opts.color_bits() / GLFW_DONT_CARE);
@@ -536,7 +539,7 @@ void glfw3_opengl_window::update(execution_context& exec_ctx) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void glfw3_opengl_window::cleanup() {
+void glfw3_opengl_window::clean_up() {
     if(_window) {
         glfwDestroyWindow(_window);
     }
@@ -557,7 +560,7 @@ public:
     auto should_initialize(execution_context&) -> bool final;
     auto initialize(execution_context&) -> bool final;
     void update(execution_context&) final;
-    void cleanup(execution_context&) final;
+    void clean_up(execution_context&) final;
 
     void input_enumerate(
       callable_ref<void(std::shared_ptr<input_provider>)>) final;
@@ -637,7 +640,7 @@ auto glfw3_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
                          inst, options, video_opts, monitors)) {
                         _windows[inst] = std::move(new_win);
                     } else {
-                        extract(new_win).cleanup();
+                        extract(new_win).clean_up();
                     }
                 }
             }
@@ -663,10 +666,10 @@ void glfw3_opengl_provider::update(execution_context& exec_ctx) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void glfw3_opengl_provider::cleanup(execution_context&) {
+void glfw3_opengl_provider::clean_up(execution_context&) {
 #if OGLPLUS_GLFW3_FOUND
     for(auto& entry : _windows) {
-        entry.second->cleanup();
+        entry.second->clean_up();
     }
     glfwTerminate();
 #endif // OGLPLUS_GLFW3_FOUND

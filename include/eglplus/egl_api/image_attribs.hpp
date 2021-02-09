@@ -17,10 +17,10 @@ namespace eagine::eglp {
 
 struct image_attrib_traits {
     using key_type = image_attribute;
-    using conv_type = egl_types::int_type;
-    using value_type = egl_types::int_type;
+    using conv_type = egl_types::attrib_type;
+    using value_type = egl_types::attrib_type;
 
-    static constexpr auto terminator() noexcept -> egl_types::int_type {
+    static constexpr auto terminator() noexcept -> value_type {
 #ifdef EGL_NONE
         return EGL_NONE;
 #else

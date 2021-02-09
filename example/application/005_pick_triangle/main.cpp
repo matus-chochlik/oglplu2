@@ -29,7 +29,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
     void motion_x(const input&);
     void motion_y(const input&);
@@ -170,7 +170,7 @@ void example_picking::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_picking::cleanup() noexcept {
+void example_picking::clean_up() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_program(std::move(prog));

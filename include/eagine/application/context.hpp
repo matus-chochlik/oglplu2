@@ -32,6 +32,10 @@ public:
       : _parent{parent}
       , _provider{std::move(provider)} {}
 
+    auto parent() const noexcept -> execution_context& {
+        return _parent;
+    }
+
     auto frame_number() const noexcept {
         return _frame_no;
     }
@@ -65,7 +69,7 @@ public:
         return 1.F;
     }
 
-    void cleanup() noexcept;
+    void clean_up() noexcept;
 
 private:
     execution_context& _parent;
@@ -96,7 +100,7 @@ public:
         return *_al_api;
     }
 
-    void cleanup() noexcept;
+    void clean_up() noexcept;
 
 private:
     execution_context& _parent;
@@ -128,13 +132,13 @@ public:
     auto is_running() noexcept -> bool;
     void stop_running() noexcept;
     void update() noexcept;
-    void cleanup() noexcept;
+    void clean_up() noexcept;
 
     auto run() noexcept -> execution_context& {
         while(is_running()) {
             update();
         }
-        cleanup();
+        clean_up();
         return *this;
     }
 

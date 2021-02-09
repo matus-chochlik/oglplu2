@@ -28,7 +28,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
     void dampening(const input&);
     void dragging(const input&);
@@ -259,7 +259,7 @@ void example_newton::pan_y(const input& i) {
 }
 //------------------------------------------------------------------------------
 void example_newton::update() noexcept {
-    if(!_ctx.state().user_is_idle()) {
+    if(_ctx.state().is_active()) {
         _is_done.reset();
     }
 
@@ -271,7 +271,7 @@ void example_newton::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_newton::cleanup() noexcept {
+void example_newton::clean_up() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_shader(std::move(vs));

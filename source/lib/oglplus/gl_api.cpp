@@ -1,5 +1,5 @@
 /**
- *  .file lib/eglplus/_dummy.cpp
+ *  .file lib/oglplus/gl_api.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -9,6 +9,8 @@
 
 // clang-format off
 #include "prologue.inl"
+#include <oglplus/gl.hpp>
 #include "implement.inl"
+#include <oglplus/gl_api.hpp>
 #include "epilogue.inl"
 // clang-format on

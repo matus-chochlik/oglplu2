@@ -31,7 +31,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
 private:
     cleanup_group _cleanup;
@@ -90,9 +90,10 @@ void example_arrow::on_video_resize() noexcept {
 //------------------------------------------------------------------------------
 void example_arrow::update() noexcept {
     auto& state = _ctx.state();
-    if(!state.user_is_idle()) {
+    if(state.is_active()) {
         _is_done.reset();
-    } else if(state.user_idle_too_long()) {
+    }
+    if(state.user_idle_too_long()) {
         camera.idle_update(state, 2);
     }
 
@@ -120,7 +121,7 @@ void example_arrow::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_arrow::cleanup() noexcept {
+void example_arrow::clean_up() noexcept {
     _cleanup.clear();
 
     _video.end();

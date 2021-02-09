@@ -83,6 +83,10 @@ public:
         return _gl_debug_context;
     }
 
+    auto gl_robust_access() const noexcept -> bool {
+        return _gl_robust_access;
+    }
+
     using valid_surface_size = valid_if_positive<int>;
     auto surface_size(valid_surface_size width, valid_surface_size height)
       -> auto& {
@@ -246,6 +250,7 @@ private:
     video_device_kind _device_kind{video_device_kind::dont_care};
     bool _prefer_gles{false};
     bool _gl_debug_context{false};
+    bool _gl_robust_access{false};
     bool _gl_compat_context{false};
     bool _fullscreen{false};
     bool _offscreen{false};

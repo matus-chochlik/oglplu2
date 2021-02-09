@@ -74,6 +74,7 @@ using uniform_location = prog_var_location<EAGINE_ID_V(Uniform)>;
 using subroutine_uniform_location = prog_var_location<EAGINE_ID_V(SubrtUnfrm)>;
 using subroutine_location = prog_var_location<EAGINE_ID_V(Subroutine)>;
 using frag_data_location = prog_var_location<EAGINE_ID_V(FragData)>;
+using uniform_block_index = prog_var_location<EAGINE_ID_V(UniformBlk)>;
 //------------------------------------------------------------------------------
 } // namespace eagine::oglp
 

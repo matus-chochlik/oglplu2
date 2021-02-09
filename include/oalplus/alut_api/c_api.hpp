@@ -24,11 +24,11 @@
 
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
-template <typename Traits>
-struct basic_alut_c_api {
-
+template <typename ApiTraits>
+class basic_alut_c_api {
+public:
     using this_api = basic_alut_c_api;
-    using api_traits = Traits;
+    using api_traits = ApiTraits;
 
     static constexpr bool has_api = alut_types::has_api;
     using enum_type = typename alut_types::enum_type;
@@ -95,16 +95,7 @@ struct basic_alut_c_api {
 
     alut_api_function<bool_type(), OALPLUS_ALUT_STATIC_FUNC(Exit)> Exit;
 
-    constexpr basic_alut_c_api(api_traits& traits)
-      : GetError("GetError", traits, *this)
-      , GetErrorString("GetErrorString", traits, *this)
-      , Init("Init", traits, *this)
-      , InitWithoutContext("InitWithoutContext", traits, *this)
-      , CreateBufferFromFile("CreateBufferFromFile", traits, *this)
-      , CreateBufferFromFileImage("CreateBufferFromFileImage", traits, *this)
-      , CreateBufferHelloWorld("CreateBufferHelloWorld", traits, *this)
-      , CreateBufferWaveform("CreateBufferWaveform", traits, *this)
-      , Exit("Exit", traits, *this) {}
+    basic_alut_c_api(api_traits& traits);
 };
 //------------------------------------------------------------------------------
 using alut_c_api = basic_alut_c_api<alut_api_traits>;

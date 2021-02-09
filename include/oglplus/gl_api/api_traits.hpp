@@ -13,12 +13,6 @@
 
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
-extern "C" {
-
-auto glXGetProcAddress(const gl_types::ubyte_type*) -> void*;
-
-} // extern "C"
-//------------------------------------------------------------------------------
 class gl_api_traits : public default_c_api_traits {
 public:
     template <typename R>
@@ -33,19 +27,7 @@ public:
 
     template <typename Api, typename Tag, typename Signature>
     auto link_function(Api&, Tag, string_view name, type_identity<Signature>)
-      -> std::add_pointer_t<Signature> {
-        _full_name.clear();
-        _full_name.reserve(2 + name.size() + 1);
-        _full_name.append("gl");
-        _full_name.append(name.data(), std::size_t(name.size()));
-        auto func = glXGetProcAddress(
-          reinterpret_cast<const gl_types::ubyte_type*>(_full_name.c_str()));
-        // TODO: support for extension also needs to be checked
-        if(func != nullptr) {
-            return reinterpret_cast<std::remove_pointer_t<Signature>*>(func);
-        }
-        return nullptr;
-    }
+      -> std::add_pointer_t<Signature>;
 
 private:
     std::string _full_name;

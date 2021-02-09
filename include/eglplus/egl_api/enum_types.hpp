@@ -13,6 +13,18 @@
 
 namespace eagine::eglp {
 //------------------------------------------------------------------------------
+struct true_false : egl_enum_class<true_false, EAGINE_ID_V(TrueFalse)> {
+    using enum_class::enum_class;
+
+    constexpr explicit operator bool() const noexcept {
+#ifdef EGL_TRUE
+        return this->_value == EGL_TRUE;
+#else
+        return false;
+#endif
+    }
+};
+
 struct error_code : egl_enum_class<error_code, EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
 };

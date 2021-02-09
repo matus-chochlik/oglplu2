@@ -1020,6 +1020,13 @@ protected:
         return {std::move(fallback)};
     }
 
+    template <typename RV, typename... Params>
+    static constexpr auto _fake(
+      const unimplemented_c_api_function<ApiTraits, Tag, RV(Params...)>&) noexcept
+      -> typename ApiTraits::template result<RV> {
+        return {RV{}};
+    }
+
     template <typename RV, typename... Params, RV (*Func)(Params...), typename F>
     static constexpr auto _fake(
       const static_c_api_function<ApiTraits, Tag, RV(Params...), Func>&,
@@ -1027,11 +1034,25 @@ protected:
         return {std::forward<F>(fallback)};
     }
 
+    template <typename RV, typename... Params, RV (*Func)(Params...)>
+    static constexpr auto _fake(
+      const static_c_api_function<ApiTraits, Tag, RV(Params...), Func>&) noexcept
+      -> typename ApiTraits::template result<RV> {
+        return {RV{}};
+    }
+
     template <typename RV, typename... Params, typename F>
     static constexpr auto _fake(
       const dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>&,
       F&& fallback) noexcept -> typename ApiTraits::template result<RV> {
         return {std::forward<F>(fallback)};
+    }
+
+    template <typename RV, typename... Params>
+    static constexpr auto
+    _fake(const dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>&) noexcept
+      -> typename ApiTraits::template result<RV> {
+        return {RV{}};
     }
 
 public:
@@ -1077,8 +1098,13 @@ protected:
         return base::_fake(this->api().*Function, std::forward<F>(fallback));
     }
 
-    constexpr auto _fake_empty_c_str() const noexcept {
-        return _fake(static_cast<const char*>(""));
+    constexpr auto _fake() const noexcept {
+        return base::_fake(this->api().*Function);
+    }
+
+    constexpr auto _fake_empty_c_str() const noexcept ->
+      typename ApiTraits::template result<const char*> {
+        return {static_cast<const char*>("")};
     }
 
     template <typename Arg>

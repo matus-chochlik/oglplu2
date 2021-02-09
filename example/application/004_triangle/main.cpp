@@ -28,7 +28,7 @@ public:
 
     void on_video_resize() noexcept final;
     void update() noexcept final;
-    void cleanup() noexcept final;
+    void clean_up() noexcept final;
 
 private:
     video_context& _video;
@@ -130,7 +130,7 @@ void example_triangle::update() noexcept {
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_triangle::cleanup() noexcept {
+void example_triangle::clean_up() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_program(std::move(prog));

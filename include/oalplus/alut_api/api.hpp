@@ -90,11 +90,7 @@ public:
         }
     } exit;
 
-    constexpr basic_alut_operations(api_traits& traits)
-      : c_api{traits}
-      , init("init", traits, *this)
-      , create_buffer_hello_world("create_buffer_hello_world", traits, *this)
-      , exit("exit", traits, *this) {}
+    basic_alut_operations(api_traits& traits);
 };
 //------------------------------------------------------------------------------
 #undef OALPAFP
