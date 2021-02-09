@@ -3426,7 +3426,8 @@ public:
 
         constexpr auto operator()(string_query query) const noexcept {
             return this->_cnvchkcall(query).transformed([](auto src) {
-                return string_view{reinterpret_cast<const char*>(src)};
+                return src ? string_view{reinterpret_cast<const char*>(src)}
+                           : string_view{};
             });
         }
 
