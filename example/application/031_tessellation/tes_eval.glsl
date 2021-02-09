@@ -2,8 +2,6 @@
 
 layout(triangles, equal_spacing, ccw) in;
 
-const vec3 LightPosition = vec3(120.0, 100.0, 70.0);
-
 layout (std140) uniform OffsetBlock {
 	vec4 offset[16*16*16];
 };
@@ -14,7 +12,6 @@ flat in int tecoInstanceId[];
 
 out vec3 teevNormal;
 out vec3 teevColor;
-out vec3 teevLightDir;
 flat out int teevInstanceId;
 
 void main() {
@@ -26,13 +23,12 @@ void main() {
 	teevInstanceId = tecoInstanceId[0];
     teevNormal = tempPosition.xyz;
 	teevColor = normalize(abs(
-		vec3(2.0, 2.0, 2.0)-
-		teevNormal-
+		vec3(4.0, 4.0, 4.0)-
 		offset[teevInstanceId].xyz
 	));
+	teevColor = mix(teevColor, vec3(1.0), 0.3);
 	tempPosition = tempPosition + offset[tecoInstanceId[0]];
     tempPosition.w = 1.0;
-    teevLightDir = LightPosition - tempPosition.xyz;
     gl_Position = CameraMatrix * tempPosition;
 }
 

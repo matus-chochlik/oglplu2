@@ -10,7 +10,7 @@ out vec3 tecoPosition[];
 flat out int tecoInstanceId[];
 
 int tessLevel(float dist) {
-    return int(12.0 / sqrt(dist+0.1));
+    return 1+int(32.0 / (dist+0.1));
 }
 
 void main() {

@@ -8,13 +8,12 @@ layout (std140) uniform OffsetBlock {
 };
 uniform vec2 ViewportDimensions;
 
-in vec3 teevNormal[], teevColor[], teevLightDir[];
+in vec3 teevNormal[], teevColor[];
 flat in int teevInstanceId[];
 
 noperspective out vec3 geomDist;
 flat out vec3 geomNormal;
 out vec3 geomColor;
-out vec3 geomLightDir;
 
 void main() {
     geomNormal = normalize(teevNormal[0] + teevNormal[1] + teevNormal[2]);
@@ -45,7 +44,6 @@ void main() {
 
         gl_Position = gl_in[i].gl_Position;
         geomColor = teevColor[i];
-        geomLightDir = teevLightDir[i];
         geomDist = EdgeMask[i] * DistVect;
         EmitVertex();
     }

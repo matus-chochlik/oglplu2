@@ -8,6 +8,8 @@
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
+#include <eagine/units/unit/si/angle.hpp>
+
 #include <eagine/application/camera.hpp>
 #include <eagine/application/main.hpp>
 #include <eagine/timeout.hpp>
@@ -54,12 +56,12 @@ example_sphere::example_sphere(execution_context& ec, video_context& vc)
 
     camera.set_near(0.1F)
       .set_far(100.F)
-      .set_orbit_min(12.0F)
+      .set_orbit_min(13.0F)
       .set_orbit_max(24.0F)
-      .set_fov(right_angle_());
+      .set_fov(degrees_(70.F));
     prog.set_projection(vc, camera);
 
-    gl.clear_color(0.45F, 0.45F, 0.45F, 0.0F);
+    gl.clear_color(0.25F, 0.25F, 0.25F, 0.0F);
     gl.clear_depth(1.0F);
 
     gl.enable(GL.depth_test);

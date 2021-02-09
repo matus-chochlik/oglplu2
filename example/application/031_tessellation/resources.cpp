@@ -91,11 +91,12 @@ void icosahedron_geometry::init(execution_context& ec, video_context& vc) {
     shape.index_setup(glapi, indices, ec.buffer());
 
     // offsets
-    const float d = 4.F;
+    const float d = 4.2F;
     const float h = float(count - 1) * 0.5F;
 
     std::vector<oglp::gl_types::float_type> offset_data;
     offset_data.resize(std_size(count * count * count * 4));
+    ec.random_normal(cover(offset_data));
     auto p = offset_data.begin();
 
     for(int k = 0; k != count; ++k) {
@@ -104,10 +105,10 @@ void icosahedron_geometry::init(execution_context& ec, video_context& vc) {
             const float y = (float(j) - h) * d;
             for(int i = 0; i != count; ++i) {
                 const float x = (float(i) - h) * d;
-                *p++ = x;
-                *p++ = y;
-                *p++ = z;
-                *p++ = 0;
+                *p++ += x;
+                *p++ += y;
+                *p++ += z;
+                *p++ = 0.F;
             }
         }
     }
