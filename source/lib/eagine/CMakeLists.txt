@@ -40,6 +40,7 @@ set(EAGINE_LIB_SOURCES
 	shapes_value_tree.cpp
 	shapes_modifiers.cpp
 	shapes_to_quads.cpp
+	shapes_to_patches.cpp
 	random.cpp
 	resources.cpp
 	value_tree_json.cpp
