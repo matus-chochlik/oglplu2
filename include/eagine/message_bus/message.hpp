@@ -184,6 +184,10 @@ public:
         source.fetch_all(_buffer);
     }
 
+    void store_content(memory::const_block blk) {
+        memory::copy_into(blk, _buffer);
+    }
+
     template <typename Backend, typename Value>
     auto do_store_value(const Value& value, span_size_t max_size) -> bool;
 

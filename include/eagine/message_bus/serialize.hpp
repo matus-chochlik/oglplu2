@@ -40,7 +40,7 @@ inline auto default_serialize_buffer_for(const T& inst) {
 }
 //------------------------------------------------------------------------------
 template <typename Backend>
-auto serialize_message(
+auto serialize_message_header(
   message_id msg_id,
   const message_view& msg,
   Backend& backend)
@@ -58,7 +58,19 @@ auto serialize_message(
       msg.hop_count,
       msg.priority,
       msg.crypto_flags);
-    serialization_errors errors = serialize(message_params, backend);
+    return serialize(message_params, backend);
+}
+//------------------------------------------------------------------------------
+template <typename Backend>
+auto serialize_message(
+  message_id msg_id,
+  const message_view& msg,
+  Backend& backend)
+  -> std::enable_if_t<
+    std::is_base_of_v<serializer_backend, Backend>,
+    serialization_errors> {
+
+    auto errors = serialize_message_header(msg_id, msg, backend);
 
     if(!errors) {
         if(auto sink = backend.sink()) {
@@ -72,7 +84,7 @@ auto serialize_message(
 }
 //------------------------------------------------------------------------------
 template <typename Backend>
-auto deserialize_message(
+auto deserialize_message_header(
   identifier& class_id,
   identifier& method_id,
   stored_message& msg,
@@ -91,10 +103,23 @@ auto deserialize_message(
       msg.hop_count,
       msg.priority,
       msg.crypto_flags);
-    deserialization_errors errors = deserialize(message_params, backend);
+    return deserialize(message_params, backend);
+}
+//------------------------------------------------------------------------------
+template <typename Backend>
+auto deserialize_message(
+  identifier& class_id,
+  identifier& method_id,
+  stored_message& msg,
+  Backend& backend)
+  -> std::enable_if_t<
+    std::is_base_of_v<deserializer_backend, Backend>,
+    deserialization_errors> {
+
+    auto errors = deserialize_message_header(class_id, method_id, msg, backend);
 
     if(!errors) {
-        if(auto source = backend.source()) {
+        if(auto source{backend.source()}) {
             msg.fetch_all_from(extract(source));
         } else {
             errors |= deserialization_error_code::backend_error;

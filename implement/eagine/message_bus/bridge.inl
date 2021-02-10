@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/base64.hpp>
 #include <eagine/bool_aggregate.hpp>
 #include <eagine/branch_predict.hpp>
 #include <eagine/double_buffer.hpp>
@@ -95,7 +96,21 @@ public:
                          const message_view& message) {
             if(EAGINE_LIKELY(msg_age < std::chrono::seconds(30))) {
                 string_serializer_backend backend(_sink);
-                serialize_message(msg_id, message, backend);
+                serialize_message_header(msg_id, message, backend);
+
+                span_size_t i = 0;
+                do_dissolve_bits(
+                  make_span_getter(i, message.data),
+                  [this](byte b) {
+                      const auto encode{make_base64_encode_transform()};
+                      if(auto opt_c{encode(b)}) {
+                          this->_output << extract(opt_c);
+                          return true;
+                      }
+                      return false;
+                  },
+                  6);
+
                 _output << '\n';
             }
             return true;
@@ -118,13 +133,25 @@ public:
         if(auto pos{_source.scan_for('\n', _max_read)}) {
             block_data_source source(_source.top(extract(pos)));
             string_deserializer_backend backend(source);
-            message_id msg_id{};
+            identifier class_id{};
+            identifier method_id{};
             _recv_dest.clear_data();
-            const auto errors =
-              deserialize_message(msg_id, _recv_dest, backend);
+            const auto errors = deserialize_message_header(
+              class_id, method_id, _recv_dest, backend);
             if(!errors) {
+
+                _buffer.ensure(source.remaining().size());
+                span_size_t i = 0;
+                span_size_t o = 0;
+                if(do_concentrate_bits(
+                     make_span_getter(i, source.remaining()),
+                     make_span_putter(o, cover(_buffer)),
+                     6)) {
+                    _recv_dest.store_content(head(view(_buffer), o));
+                }
+
                 std::unique_lock lock{_input_mutex};
-                _incoming.front().push(msg_id, _recv_dest);
+                _incoming.front().push({class_id, method_id}, _recv_dest);
             }
             _source.pop(extract(pos) + 1);
         }
@@ -144,6 +171,7 @@ private:
     istream_data_source _source{_input};
     ostream_data_sink _sink{_output};
 
+    memory::buffer _buffer{};
     double_buffer<message_storage> _outgoing{};
     double_buffer<message_storage> _incoming{};
     stored_message _recv_dest{};
