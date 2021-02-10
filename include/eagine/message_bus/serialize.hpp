@@ -15,6 +15,8 @@
 #include "../serialize/block_sink.hpp"
 #include "../serialize/block_source.hpp"
 #include "../serialize/data_buffer.hpp"
+#include "../serialize/packed_block_sink.hpp"
+#include "../serialize/packed_block_source.hpp"
 #include "../serialize/read.hpp"
 #include "../serialize/string_backend.hpp"
 #include "../serialize/write.hpp"
@@ -132,6 +134,17 @@ inline auto default_serialize(T& value, memory::block blk)
     return {sink.done(), errors};
 }
 //------------------------------------------------------------------------------
+template <typename T>
+inline auto default_serialize_packed(
+  T& value,
+  memory::block blk,
+  data_compressor compressor) -> serialization_result<memory::const_block> {
+    packed_block_data_sink sink(std::move(compressor), blk);
+    default_serializer_backend backend(sink);
+    auto errors = serialize(value, backend);
+    return {sink.done(), errors};
+}
+//------------------------------------------------------------------------------
 inline auto
 default_serialize_message_type(message_id msg_id, memory::block blk) {
     const auto value{msg_id.id_tuple()};
@@ -144,6 +157,17 @@ template <typename T>
 inline auto default_deserialize(T& value, memory::const_block blk)
   -> deserialization_result<memory::const_block> {
     block_data_source source(blk);
+    default_deserializer_backend backend(source);
+    auto errors = deserialize(value, backend);
+    return {source.remaining(), errors};
+}
+//------------------------------------------------------------------------------
+template <typename T>
+inline auto default_deserialize_packed(
+  T& value,
+  memory::const_block blk,
+  data_compressor compressor) -> deserialization_result<memory::const_block> {
+    packed_block_data_source source(std::move(compressor), blk);
     default_deserializer_backend backend(source);
     auto errors = deserialize(value, backend);
     return {source.remaining(), errors};

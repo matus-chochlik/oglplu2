@@ -29,6 +29,9 @@ public:
     packed_block_data_source(memory::const_block src) noexcept
       : packed_block_data_source{{}, src} {}
 
+    packed_block_data_source(data_compressor compressor) noexcept
+      : packed_block_data_source{std::move(compressor), {}} {}
+
     void reset(memory::const_block src) {
         block_data_source::reset(_compressor.decompress(src));
     }

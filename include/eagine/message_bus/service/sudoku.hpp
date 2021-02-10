@@ -200,7 +200,7 @@ public:
 
         for_each_sudoku_rank_unit(
           [&](auto& info) {
-              if(info.update(this->bus())) {
+              if(info.update(this->bus(), _compressor)) {
                   something_done();
               }
           },
@@ -241,7 +241,8 @@ private:
         auto& info = _infos.get(rank);
         basic_sudoku_board<S> board{info.traits};
 
-        if(EAGINE_LIKELY(default_deserialize(board, message.content()))) {
+        if(EAGINE_LIKELY(default_deserialize_packed(
+             board, message.content(), _compressor))) {
             info.add_board(
               message.source_id, message.sequence_no, std::move(board));
             mark_activity();
@@ -280,7 +281,7 @@ private:
             boards.emplace_back(source_id, sequence_no, std::move(board));
         }
 
-        auto update(endpoint& bus) -> bool {
+        auto update(endpoint& bus, const data_compressor& compressor) -> bool {
             const unsigned_constant<S> rank{};
             some_true something_done;
 
@@ -303,7 +304,8 @@ private:
                     const bool is_solved = candidate.is_solved();
 
                     auto temp{default_serialize_buffer_for(candidate)};
-                    auto serialized{default_serialize(candidate, cover(temp))};
+                    auto serialized{default_serialize_packed(
+                      candidate, cover(temp), compressor)};
                     EAGINE_ASSERT(serialized);
 
                     message_view response{extract(serialized)};
@@ -327,6 +329,9 @@ private:
             return something_done;
         }
     };
+
+    data_compressor _compressor{};
+
     sudoku_rank_tuple<rank_info> _infos;
 
     std::chrono::steady_clock::time_point _activity_time{
@@ -381,7 +386,7 @@ public:
         for_each_sudoku_rank_unit(
           [&](auto& info) {
               something_done(info.handle_timeouted(*this));
-              something_done(info.send_boards(this->bus()));
+              something_done(info.send_boards(this->bus(), _compressor));
               something_done(info.search_helpers(this->bus()));
           },
           _infos);
@@ -517,7 +522,8 @@ private:
             const unsigned_constant<S> rank{};
             basic_sudoku_board<S> board{traits};
 
-            if(EAGINE_LIKELY(default_deserialize(board, message.content()))) {
+            if(EAGINE_LIKELY(default_deserialize_packed(
+                 board, message.content(), parent._compressor))) {
                 const auto pos = std::find_if(
                   pending.begin(), pending.end(), [&](const auto& entry) {
                       return entry.sequence_no == message.sequence_no;
@@ -544,7 +550,10 @@ private:
             }
         }
 
-        auto send_board_to(endpoint& bus, identifier_t helper_id) -> bool {
+        auto send_board_to(
+          endpoint& bus,
+          data_compressor& compressor,
+          identifier_t helper_id) -> bool {
             if(!key_boards.empty()) {
                 auto kbpos =
                   key_boards.begin() + (query_sequence % key_boards.size());
@@ -557,7 +566,8 @@ private:
                 auto pos = std::next(boards.begin(), dist(randeng));
                 auto& board = *pos;
                 auto temp{default_serialize_buffer_for(board)};
-                auto serialized{default_serialize(board, cover(temp))};
+                auto serialized{
+                  default_serialize_packed(board, cover(temp), compressor)};
                 EAGINE_ASSERT(serialized);
 
                 const auto sequence_no = query_sequence++;
@@ -584,7 +594,7 @@ private:
             return false;
         }
 
-        auto send_boards(endpoint& bus) -> bool {
+        auto send_boards(endpoint& bus, data_compressor& compressor) -> bool {
             some_true something_done;
 
             while(!ready_helpers.empty()) {
@@ -593,7 +603,7 @@ private:
                 const auto pos =
                   std::next(ready_helpers.begin(), dist(randeng));
 
-                if(!send_board_to(bus, *pos)) {
+                if(!send_board_to(bus, compressor, *pos)) {
                     break;
                 }
                 something_done();
@@ -632,6 +642,8 @@ private:
                      }) != pending.end();
         }
     };
+
+    data_compressor _compressor{};
 
     sudoku_rank_tuple<rank_info> _infos;
 
