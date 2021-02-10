@@ -19,6 +19,7 @@ namespace eagine {
 #if EAGINE_USE_ZLIB
 class data_compressor_impl {
 private:
+    memory::buffer _buff{};
     std::array<byte, 16 * 1024> _temp{};
     ::z_stream _zsd{};
     ::z_stream _zsi{};
@@ -129,6 +130,11 @@ public:
         return {};
     }
 
+    auto compress(memory::const_block input, data_compression_level level)
+      -> memory::const_block {
+        return compress(input, _buff, level);
+    }
+
     auto decompress(memory::const_block input, const data_handler& handler)
       -> bool {
         if(!input) {
@@ -210,10 +216,11 @@ public:
         }
         return {};
     }
+
+    auto decompress(memory::const_block input) -> memory::const_block {
+        return decompress(input, _buff);
+    }
 };
-static inline auto make_data_compressor_impl() {
-    return std::make_shared<data_compressor_impl>();
-}
 #else
 class data_compressor_impl {
 public:
@@ -225,27 +232,49 @@ public:
         return false;
     }
 
-    constexpr auto
-    compress(memory::const_block, memory::buffer&, data_compression_level) const
+    constexpr auto compress(
+      memory::const_block input,
+      memory::buffer& output,
+      data_compression_level level) const -> memory::const_block {
+        output.resize(input.size() + 1);
+        copy(input, skip(cover(output), 1));
+        cover(output).front() = 0x00U;
+        return view(output);
+    }
+
+    constexpr auto compress(memory::const_block, data_compression_level) const
       -> memory::const_block {
-        return {};
+        return compress(block, _buff, level);
     }
 
     auto decompress(memory::const_block, const data_handler&) -> bool {
         return false;
     }
 
-    constexpr auto decompress(memory::const_block, memory::buffer&) const
+    constexpr auto
+    decompress(memory::const_block input, memory::buffer& output) const
       -> memory::const_block {
+        if(input.front() == 0x00U) {
+            output.resize(input.size() - 1);
+            copy(skip(input, 1), cover(output));
+            return view(output);
+        }
         return {};
     }
-};
 
-static inline auto make_data_compressor_impl()
-  -> std::shared_ptr<data_compressor_impl> {
-    return {};
-}
+    constexpr auto decompress(memory::const_block input) const
+      -> memory::const_block {
+        return decompress(input, _buff);
+    }
+
+private:
+    memory::buffer _buff{};
+};
 #endif
+//------------------------------------------------------------------------------
+static inline auto make_data_compressor_impl() {
+    return std::make_shared<data_compressor_impl>();
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 data_compressor::data_compressor()
@@ -254,12 +283,20 @@ data_compressor::data_compressor()
 EAGINE_LIB_FUNC
 auto data_compressor::compress(
   memory::const_block input,
+  const data_handler& handler,
+  data_compression_level level) -> bool {
+    EAGINE_ASSERT(_pimpl);
+    return _pimpl->compress(input, handler, level);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto data_compressor::compress(
+  memory::const_block input,
   memory::buffer& output,
   data_compression_level level) -> memory::const_block {
-    if(_pimpl) {
-        if(auto result{_pimpl->compress(input, output, level)}) {
-            return result;
-        }
+    EAGINE_ASSERT(_pimpl);
+    if(auto result{_pimpl->compress(input, output, level)}) {
+        return result;
     }
     output.resize(input.size() + 1);
     copy(input, skip(cover(output), 1));
@@ -268,19 +305,44 @@ auto data_compressor::compress(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto data_compressor::compress(
+  memory::const_block input,
+  data_compression_level level) -> memory::const_block {
+    EAGINE_ASSERT(_pimpl);
+    if(auto result{_pimpl->compress(input, level)}) {
+        return result;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto data_compressor::decompress(
+  memory::const_block input,
+  const data_handler& handler) -> bool {
+    EAGINE_ASSERT(_pimpl);
+    return _pimpl->decompress(input, handler);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto data_compressor::decompress(
   memory::const_block input,
   memory::buffer& output) -> memory::const_block {
     if(input) {
-        if(input.front() == 0x00U) {
-            output.resize(input.size() - 1);
-            copy(skip(input, 1), cover(output));
-            return view(output);
+        EAGINE_ASSERT(_pimpl);
+        if(auto result{_pimpl->decompress(input, output)}) {
+            return result;
         }
-        if(_pimpl) {
-            if(auto result{_pimpl->decompress(input, output)}) {
-                return result;
-            }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto data_compressor::decompress(memory::const_block input)
+  -> memory::const_block {
+    if(input) {
+        EAGINE_ASSERT(_pimpl);
+        if(auto result{_pimpl->decompress(input)}) {
+            return result;
         }
     }
     return {};
