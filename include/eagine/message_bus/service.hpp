@@ -97,6 +97,8 @@ using default_callback_invoker = callback_invoker<
   Signature,
   default_serializer_backend,
   default_deserializer_backend,
+  block_data_sink,
+  block_data_source,
   MaxDataSize>;
 //------------------------------------------------------------------------------
 template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
@@ -104,6 +106,8 @@ using default_invoker = invoker<
   Signature,
   default_serializer_backend,
   default_deserializer_backend,
+  block_data_sink,
+  block_data_source,
   MaxDataSize>;
 //------------------------------------------------------------------------------
 template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
@@ -111,6 +115,8 @@ using default_skeleton = skeleton<
   Signature,
   default_serializer_backend,
   default_deserializer_backend,
+  block_data_sink,
+  block_data_source,
   MaxDataSize>;
 //------------------------------------------------------------------------------
 template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
@@ -118,6 +124,8 @@ using default_function_skeleton = function_skeleton<
   Signature,
   default_serializer_backend,
   default_deserializer_backend,
+  block_data_sink,
+  block_data_source,
   MaxDataSize>;
 //------------------------------------------------------------------------------
 template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
@@ -125,6 +133,8 @@ using default_lazy_skeleton = lazy_skeleton<
   Signature,
   default_serializer_backend,
   default_deserializer_backend,
+  block_data_sink,
+  block_data_source,
   MaxDataSize>;
 //------------------------------------------------------------------------------
 template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
@@ -132,6 +142,8 @@ using default_async_skeleton = async_skeleton<
   Signature,
   default_serializer_backend,
   default_deserializer_backend,
+  block_data_sink,
+  block_data_source,
   MaxDataSize>;
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

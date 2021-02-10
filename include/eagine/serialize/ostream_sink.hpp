@@ -59,6 +59,10 @@ public:
         _subs.pop();
     }
 
+    auto finalize() -> serialization_errors final {
+        return {};
+    }
+
 private:
     auto current() noexcept -> std::ostream& {
         if(_subs.empty()) {

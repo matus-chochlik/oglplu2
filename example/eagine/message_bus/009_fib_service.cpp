@@ -54,6 +54,8 @@ struct fibonacci_server : static_subscriber<2> {
           std::int64_t(std::int64_t),
           fast_serializer_backend,
           fast_deserializer_backend,
+          block_data_sink,
+          block_data_source,
           64>()
           .call(bus(), msg_in, EAGINE_MSG_ID(Fibonacci, Result), {&fib});
         return true;
@@ -116,6 +118,8 @@ private:
       std::int64_t(std::int64_t),
       fast_serializer_backend,
       fast_deserializer_backend,
+      block_data_sink,
+      block_data_source,
       64>
       _calc_invoker{};
     std::queue<std::int64_t> _remaining{};

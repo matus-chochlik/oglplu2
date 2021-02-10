@@ -50,12 +50,7 @@ private:
     message_sequence_t _invocation_id{0};
 };
 //------------------------------------------------------------------------------
-template <
-  typename Result,
-  typename Serializer,
-  typename Deserializer,
-  std::size_t MaxDataSize,
-  bool NoExcept>
+template <typename Result, typename Deserializer, typename Source, bool NoExcept>
 class callback_invoker_base {
 
 public:
@@ -63,8 +58,8 @@ public:
       -> bool {
         Result result{};
 
-        block_data_source source(response.content());
-        Deserializer read_backend(source);
+        _source.reset(response.content());
+        Deserializer read_backend(_source);
 
         if(response.has_serializer_id(read_backend.type_id())) {
             const auto errors{deserialize(result, read_backend)};
@@ -81,14 +76,13 @@ protected:
     using _callback_t =
       callable_ref<void(const result_context&, Result&&) noexcept(NoExcept)>;
     _callback_t _callback{};
+
+private:
+    Source _source{};
 };
 //------------------------------------------------------------------------------
-template <
-  typename Serializer,
-  typename Deserializer,
-  std::size_t MaxDataSize,
-  bool NoExcept>
-class callback_invoker_base<void, Serializer, Deserializer, MaxDataSize, NoExcept> {
+template <typename Deserializer, typename Source, bool NoExcept>
+class callback_invoker_base<void, Deserializer, Source, NoExcept> {
     using _callback_t = callable_ref_impl<void() noexcept(NoExcept), NoExcept>;
 
 public:
@@ -108,22 +102,22 @@ template <
   typename Signature,
   typename Serializer,
   typename Deserializer,
+  typename Sink,
+  typename Source,
   std::size_t MaxDataSize>
 class callback_invoker
   : public callback_invoker_base<
       std::remove_cv_t<std::remove_reference_t<std::invoke_result_t<Signature>>>,
-      Serializer,
       Deserializer,
-      MaxDataSize,
+      Source,
       is_noexcept_function_v<Signature>> {
 
     using _result_t =
       std::remove_cv_t<std::remove_reference_t<std::invoke_result_t<Signature>>>;
     using base = callback_invoker_base<
       _result_t,
-      Serializer,
       Deserializer,
-      MaxDataSize,
+      Source,
       is_noexcept_function_v<Signature>>;
     using _callback_t = typename base::_callback_t;
 
@@ -153,12 +147,12 @@ public:
       Args&&... args) -> bool {
         auto tupl{std::tie(std::forward<Args>(args)...)};
 
-        block_data_sink sink(buffer);
-        Serializer write_backend(sink);
+        _sink.reset(buffer);
+        Serializer write_backend(_sink);
 
         const auto errors = serialize(tupl, write_backend);
         if(!errors) {
-            message_view message{sink.done()};
+            message_view message{_sink.done()};
             message.set_serializer_id(write_backend.type_id());
             message.set_target_id(target_id);
             bus.post(msg_id, message);
@@ -188,21 +182,20 @@ public:
     constexpr auto operator[](message_id msg_id) noexcept {
         return map_fulfill_by(msg_id);
     }
+
+private:
+    Sink _sink{};
 };
 //------------------------------------------------------------------------------
-template <
-  typename Result,
-  typename Serializer,
-  typename Deserializer,
-  std::size_t MaxDataSize>
+template <typename Result, typename Deserializer, typename Source>
 class invoker_base {
 public:
     auto fulfill_by(const message_context&, stored_message& message) -> bool {
         const auto invocation_id = message.sequence_no;
         std::remove_cv_t<std::remove_reference_t<Result>> result{};
 
-        block_data_source source(message.content());
-        Deserializer read_backend(source);
+        _source.reset(message.content());
+        Deserializer read_backend(_source);
 
         if(message.has_serializer_id(read_backend.type_id())) {
             const auto errors{deserialize(result, read_backend)};
@@ -234,12 +227,17 @@ public:
 
 protected:
     pending_promises<Result> _results{};
+
+private:
+    Source _source{};
 };
 //------------------------------------------------------------------------------
 template <
   typename Signature,
   typename Serializer,
   typename Deserializer,
+  typename Sink,
+  typename Source,
   std::size_t MaxDataSize>
 class invoker;
 //------------------------------------------------------------------------------
@@ -248,9 +246,11 @@ template <
   typename... Params,
   typename Serializer,
   typename Deserializer,
+  typename Sink,
+  typename Source,
   std::size_t MaxDataSize>
-class invoker<Result(Params...), Serializer, Deserializer, MaxDataSize>
-  : public invoker_base<Result, Serializer, Deserializer, MaxDataSize> {
+class invoker<Result(Params...), Serializer, Deserializer, Sink, Source, MaxDataSize>
+  : public invoker_base<Result, Deserializer, Source> {
 public:
     auto invoke_on(
       endpoint& bus,
@@ -302,9 +302,11 @@ template <
   typename Result,
   typename Serializer,
   typename Deserializer,
+  typename Sink,
+  typename Source,
   std::size_t MaxDataSize>
-class invoker<Result(), Serializer, Deserializer, MaxDataSize>
-  : public invoker_base<Result, Serializer, Deserializer, MaxDataSize> {
+class invoker<Result(), Serializer, Deserializer, Sink, Source, MaxDataSize>
+  : public invoker_base<Result, Deserializer, Source> {
 public:
     auto invoke_on(
       endpoint& bus,

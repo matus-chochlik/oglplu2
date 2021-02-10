@@ -484,6 +484,7 @@ auto serialize(T& value, Backend& backend) -> std::enable_if_t<
         errors |= writer.write(value, backend);
         errors |= backend.finish();
     }
+    errors |= extract(backend.sink()).finalize();
     return errors;
 }
 //------------------------------------------------------------------------------

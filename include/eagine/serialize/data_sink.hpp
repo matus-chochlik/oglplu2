@@ -60,6 +60,8 @@ struct serializer_data_sink {
     virtual void commit(transaction_handle) = 0;
 
     virtual void rollback(transaction_handle) = 0;
+
+    virtual auto finalize() -> result = 0;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine
