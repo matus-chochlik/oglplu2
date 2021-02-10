@@ -138,13 +138,14 @@ public:
             _recv_dest.clear_data();
             const auto errors = deserialize_message_header(
               class_id, method_id, _recv_dest, backend);
-            if(!errors) {
 
+            if(!errors) {
                 _buffer.ensure(source.remaining().size());
                 span_size_t i = 0;
                 span_size_t o = 0;
                 if(do_concentrate_bits(
-                     make_span_getter(i, source.remaining()),
+                     make_span_getter(
+                       i, source.remaining(), make_base64_decode_transform()),
                      make_span_putter(o, cover(_buffer)),
                      6)) {
                     _recv_dest.store_content(head(view(_buffer), o));
