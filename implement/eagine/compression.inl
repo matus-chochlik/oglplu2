@@ -218,6 +218,9 @@ public:
     }
 
     auto decompress(memory::const_block input) -> memory::const_block {
+        if(input.front() == 0x00U) {
+            return skip(input, 1);
+        }
         return decompress(input, _buff);
     }
 };
@@ -264,7 +267,10 @@ public:
 
     constexpr auto decompress(memory::const_block input) const
       -> memory::const_block {
-        return decompress(input, _buff);
+        if(input.front() == 0x00U) {
+            return skip(input, 1);
+        }
+        return {};
     }
 
 private:
