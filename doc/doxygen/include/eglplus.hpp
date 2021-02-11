@@ -12,6 +12,6 @@
 /// Implements EGL wrapper code and framebuffer setup utilities.
 
 namespace eagine {
-/// @brief EGLplus code is placed inside of this namespace.
+/// @brief EGLplus code is placed in this namespace.
 namespace eglp {}
 } // namespace eagine

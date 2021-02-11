@@ -12,6 +12,6 @@
 /// Implements OpenAL wrapper code and audio utilities.
 
 namespace eagine {
-/// @brief OALplus code is placed inside of this namespace.
+/// @brief OALplus code is placed in this namespace.
 namespace oalp {}
 } // namespace eagine

@@ -119,7 +119,7 @@ span.keywordflow {
 }
 
 span.comment {
-    color: #9090E0
+    color: #F0C060
 }
 
 span.preprocessor {
@@ -477,6 +477,12 @@ tr.memlist {
     background-color: #EEF1F7;
 }
 
+.memTemplParams {
+    color: #B0B0F0;
+    white-space: nowrap;
+    font-size: 90%;
+}
+
 p.formulaDsp {
     text-align: center;
 }
@@ -593,12 +599,6 @@ table.memberdecls {
 
 .memItemRight, .memTemplItemRight {
     width: 100%;
-}
-
-.memTemplParams {
-    color: #4665A2;
-        white-space: nowrap;
-    font-size: 80%;
 }
 
 .memtitle {

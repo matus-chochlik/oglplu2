@@ -11,5 +11,5 @@
 ///
 /// This component implements code used throughout the whole OGLplus project.
 
-/// @brief Common code is placed inside of this namespace.
+/// @brief Common code is placed in this namespace.
 namespace eagine {}

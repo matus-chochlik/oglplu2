@@ -7,12 +7,21 @@
 configure_file(Doxyfile-common.in Doxyfile-common @ONLY)
 configure_file(Doxyfile-html.in Doxyfile-html @ONLY)
 
+file(
+	GLOB_RECURSE DOC_INPUT_SOURCES
+	LIST_DIRECTORIES FALSE
+	${CMAKE_CURRENT_SOURCE_DIR}/*.hpp
+	${PROJECT_SOURCE_DIR}/include/*.hpp
+	${PROJECT_SOURCE_DIR}/example/*.hpp
+	${PROJECT_SOURCE_DIR}/example/*.cpp
+)
+
 add_custom_command(
 	OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/doxygen/index.html"
 	COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile-html
 	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 	MAIN_DEPENDENCY "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile-html"
-	DEPENDS
+	DEPENDS ${DOC_INPUT_SOURCES}
 		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-html.in"
 		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-html"
 		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-common.in"

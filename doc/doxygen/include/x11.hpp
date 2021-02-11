@@ -1,5 +1,5 @@
 /**
- *  @file oglplus.hpp
+ *  @file x11.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,11 +7,14 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-/// @mainpage OGLplus
+/// @mainpage X11
 ///
-/// Implements OpenGL wrapper code and graphics utilities.
+/// Implements some X11/glX wrapper code utilities.
 
 namespace eagine {
-/// @brief OGLplus code is placed in this namespace.
-namespace oglp {}
+/// @brief X11 wrapper code is placed in this namespace.
+namespace x11 {}
+//
+/// @brief GLX wrapper code is placed in this namespace.
+namespace glx {}
 } // namespace eagine
