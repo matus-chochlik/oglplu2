@@ -9,22 +9,23 @@ OGLplus2 README
 
 .. contents::
 
-.. _OpenGL: http://opengl.org/
-.. _OpenAL: http://openal.org/
-.. _EGL: http://www.khronos.org/egl
 .. _OGLplus: http://oglplus.org/
-.. _CMake: http://www.cmake.org/
-.. _Doxygen: http://www.doxygen.org/
-.. _Inkscape: http://inkscape.org/
-.. _libPNG: http://www.libpng.org/
-.. _GLEW: http://glew.sourceforge.net/
-.. _GL3W: http://github.com/shakesoda/gl3w
-.. _GLFW: http://www.glfw.org/
-.. _GLFW3: http://www.glfw.org/
-.. _FreeGLUT: http://freeglut.sourceforge.net/
-.. _SDL: http://www.libsdl.org/
-.. _wxGL: http://www.wxwidgets.org/
-.. _Qt: http://qt.digia.com/
+.. _Doxygen documentation: https://matus-chochlik.github.io/oglplu2/doxygen/
+.. _OpenGL: https://opengl.org/
+.. _OpenAL: https://openal.org/
+.. _EGL: https://www.khronos.org/egl
+.. _CMake: https://www.cmake.org/
+.. _Doxygen: https://www.doxygen.org/
+.. _Inkscape: https://inkscape.org/
+.. _libPNG: https://www.libpng.org/
+.. _GLEW: https://glew.sourceforge.net/
+.. _GL3W: https://github.com/shakesoda/gl3w
+.. _GLFW: https://www.glfw.org/
+.. _GLFW3: https://www.glfw.org/
+.. _FreeGLUT: https://freeglut.sourceforge.net/
+.. _SDL: https://www.libsdl.org/
+.. _wxGL: https://www.wxwidgets.org/
+.. _Qt: https://qt.digia.com/
 .. _Xlib: https://www.x.org/wiki/guide/
 .. _GSL: https://github.com/Microsoft/GSL
 
@@ -148,6 +149,12 @@ way:
 ::
 
  ./oglplus-config --build
+
+Documentation
+=============
+
+- The API is documented by `Doxygen documentation`_. Note, that it is
+  work-in-progress and incomplete.
 
 Why rebooting OGLplus?
 ======================
