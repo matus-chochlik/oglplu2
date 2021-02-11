@@ -17,6 +17,9 @@ add_custom_command(
 		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-html"
 		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-common.in"
 		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-common"
+		"${CMAKE_CURRENT_SOURCE_DIR}/header.html"
+		"${CMAKE_CURRENT_SOURCE_DIR}/footer.html"
+		"${CMAKE_CURRENT_SOURCE_DIR}/oglplus.css"
 	COMMENT "Generating Doxygen HTML documentation"
 )
 

@@ -7,6 +7,10 @@
 @INCLUDE                = @CMAKE_CURRENT_BINARY_DIR@/Doxyfile-common
 @INCLUDE                = @CMAKE_CURRENT_SOURCE_DIR@/Doxyfile-html
 
+HTML_HEADER             = @CMAKE_CURRENT_SOURCE_DIR@/header.html
+HTML_FOOTER             = @CMAKE_CURRENT_SOURCE_DIR@/footer.html
+HTML_STYLESHEET         = @CMAKE_CURRENT_SOURCE_DIR@/oglplus.css
+
 EXAMPLE_PATH            = @CMAKE_CURRENT_SOURCE_DIR@/exmaple
 IMAGE_PATH              =
 
