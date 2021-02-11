@@ -7,7 +7,6 @@ DOXYFILE_ENCODING       = UTF-8
 INPUT_ENCODING          = UTF-8
 PROJECT_NAME            = "OGLplus"
 PROJECT_BRIEF           =
-PROJECT_LOGO            =
 
 FILE_PATTERNS           = *.c *.cpp *.c++ *.inl *.h *.hpp *.md *.py *.txt
 RECURSIVE               = YES

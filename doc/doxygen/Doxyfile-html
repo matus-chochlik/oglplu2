@@ -16,7 +16,7 @@ EXAMPLE_PATTERNS        = *.cpp
 EXAMPLE_RECURSIVE       = YES
 
 CREATE_SUBDIRS          = NO
-HTML_OUTPUT             = html
+HTML_OUTPUT             = doxygen
 HTML_FILE_EXTENSION     = .html
 HTML_HEADER             =
 HTML_FOOTER             =
@@ -31,12 +31,23 @@ HTML_DYNAMIC_MENUS      = YES
 HTML_DYNAMIC_SECTIONS   = NO
 HTML_INDEX_NUM_ENTRIES  = 100
 
+HAVE_DOT                = YES
+DOT_IMAGE_FORMAT        = svg
+INTERACTIVE_SVG         = YES
+CLASS_GRAPH             = YES
+COLLABORATION_GRAPH     = NO
+GROUP_GRAPHS            = NO
+INCLUDE_GRAPH           = NO
+INCLUDED_BY_GRAPH       = NO
+CALL_GRAPH              = NO
+CALLER_GRAPH            = NO
+DIRECTORY_GRAPH         = NO
+
 SHOW_USED_FILES         = YES
 SHOW_FILES              = YES
 SHOW_NAMESPACES         = YES
 ALPHABETICAL_INDEX      = YES
 COLS_IN_ALPHA_INDEX     = 5
-SEARCH_ENGINE           = NO
 SOURCE_BROWSER          = NO
 SOURCE_TOOLTIPS         = YES
 INLINE_SOURCES          = NO
