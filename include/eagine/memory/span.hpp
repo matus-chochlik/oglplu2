@@ -291,7 +291,7 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static constexpr inline auto absolute(basic_span<T, P, S> spn) noexcept
+static constexpr auto absolute(basic_span<T, P, S> spn) noexcept
   -> basic_span<T, T*, S> {
     return {spn};
 }
@@ -306,66 +306,59 @@ template <typename T>
 using const_span = span<std::add_const_t<T>>;
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto view_one(const T& value) noexcept
-  -> const_span<T> {
+static constexpr auto view_one(const T& value) noexcept -> const_span<T> {
     return {std::addressof(value), span_size(1)};
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto cover_one(T& value) noexcept
-  -> span_if_mutable<T> {
+static constexpr auto cover_one(T& value) noexcept -> span_if_mutable<T> {
     return {std::addressof(value), span_size(1)};
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto view_one(const T* pointer) noexcept
-  -> const_span<T> {
+static constexpr auto view_one(const T* pointer) noexcept -> const_span<T> {
     return {pointer, span_size(1)};
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto cover_one(T* pointer) noexcept
-  -> span_if_mutable<T> {
+static constexpr auto cover_one(T* pointer) noexcept -> span_if_mutable<T> {
     return {pointer, span_size(1)};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename S>
-static constexpr inline auto view(T* addr, S size) noexcept -> const_span<T> {
+static constexpr auto view(T* addr, S size) noexcept -> const_span<T> {
     return {addr, span_size(size)};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename S>
-static constexpr inline auto cover(T* addr, S size) noexcept
-  -> span_if_mutable<T> {
+static constexpr auto cover(T* addr, S size) noexcept -> span_if_mutable<T> {
     return {addr, span_size(size)};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename S>
-static constexpr inline auto view(const_address addr, S size) noexcept
+static constexpr auto view(const_address addr, S size) noexcept
   -> const_span<T> {
     return {addr, span_size(size)};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename S>
-static constexpr inline auto cover(address addr, S size) noexcept
+static constexpr auto cover(address addr, S size) noexcept
   -> span_if_mutable<T> {
     return {addr, span_size(size)};
 }
 //------------------------------------------------------------------------------
 template <typename T, std::size_t N>
-static constexpr inline auto view(const T (&array)[N]) noexcept
-  -> const_span<T> {
+static constexpr auto view(const T (&array)[N]) noexcept -> const_span<T> {
     return view(static_cast<const T*>(array), N);
 }
 //------------------------------------------------------------------------------
 template <typename T, std::size_t N>
-static constexpr inline auto cover(T (&array)[N]) noexcept
-  -> span_if_mutable<T> {
+static constexpr auto cover(T (&array)[N]) noexcept -> span_if_mutable<T> {
     return cover(static_cast<T*>(array), N);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto view(std::initializer_list<T> il) noexcept
+static constexpr auto view(std::initializer_list<T> il) noexcept
   -> const_span<T> {
     return view(il.begin(), il.size());
 }
@@ -374,7 +367,7 @@ template <
   typename C,
   typename =
     std::enable_if_t<has_span_data_member_v<C> && has_span_size_member_v<C>>>
-static constexpr inline auto view(const C& container) noexcept {
+static constexpr auto view(const C& container) noexcept {
     return view(container.data(), container.size());
 }
 //------------------------------------------------------------------------------
@@ -382,13 +375,13 @@ template <
   typename C,
   typename =
     std::enable_if_t<has_span_data_member_v<C> && has_span_size_member_v<C>>>
-static constexpr inline auto cover(C& container) noexcept {
+static constexpr auto cover(C& container) noexcept {
     return cover(container.data(), container.size());
 }
 //------------------------------------------------------------------------------
 // accomodate
 //------------------------------------------------------------------------------
-static constexpr inline auto can_accomodate_between(
+static constexpr auto can_accomodate_between(
   const_address bgn,
   const_address end,
   span_size_t size) noexcept -> bool {
@@ -396,7 +389,7 @@ static constexpr inline auto can_accomodate_between(
 }
 //------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>
-static constexpr inline auto can_accomodate(
+static constexpr auto can_accomodate(
   basic_span<B, P, S> blk,
   span_size_t count,
   type_identity<T> tid = {}) noexcept {
@@ -407,13 +400,13 @@ static constexpr inline auto can_accomodate(
 }
 //------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>
-static constexpr inline auto
+static constexpr auto
 can_accomodate(basic_span<B, P, S> blk, type_identity<T> tid = {}) noexcept {
     return can_accomodate(blk, 1, tid);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>
-static constexpr inline auto
+static constexpr auto
 accomodate(basic_span<B, P, S> blk, type_identity<T> tid = {}) noexcept
   -> basic_span<std::add_const_t<T>, rebind_pointer_t<P, T>, S> {
     return {
@@ -423,18 +416,18 @@ accomodate(basic_span<B, P, S> blk, type_identity<T> tid = {}) noexcept
 // extract
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static constexpr inline auto extract(basic_span<T, P, S> spn) noexcept -> T& {
+static constexpr auto extract(basic_span<T, P, S> spn) noexcept -> T& {
     return EAGINE_CONSTEXPR_ASSERT(spn.size() >= 1, spn.front());
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static constexpr inline auto
-extract_or(basic_span<T, P, S> spn, T& fallback) noexcept -> T& {
+static constexpr auto extract_or(basic_span<T, P, S> spn, T& fallback) noexcept
+  -> T& {
     return (spn.size() >= 1) ? spn.front() : fallback;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename F>
-static constexpr inline auto extract_or(basic_span<T, P, S> spn, F&& fallback)
+static constexpr auto extract_or(basic_span<T, P, S> spn, F&& fallback)
   -> std::enable_if_t<std::is_convertible_v<F, T>, T> {
     return (spn.size() >= 1) ? spn.front() : T{std::forward<F>(fallback)};
 }

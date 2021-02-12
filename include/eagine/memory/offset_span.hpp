@@ -35,7 +35,7 @@ auto cover_one(basic_offset_ptr<T, O> ptr) -> std::enable_if_t<
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static constexpr inline auto relative(basic_span<T, P, S> spn) noexcept
+static constexpr auto relative(basic_span<T, P, S> spn) noexcept
   -> basic_span<T, basic_offset_ptr<T, std::make_signed_t<S>>, S> {
     return {spn};
 }

@@ -154,43 +154,43 @@ using const_address = basic_address<true>;
 using address = basic_address<false>;
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto as_address(T* addr) noexcept {
+static constexpr auto as_address(T* addr) noexcept {
     return basic_address<std::is_const_v<T>>(addr);
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 misalignment(const_address addr, span_size_t alignment) noexcept {
     return addr.misalignment(alignment);
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 misalignment(const void* ptr, span_size_t alignment) noexcept {
     return misalignment(as_address(ptr), alignment);
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 is_aligned_to(const_address addr, span_size_t alignment) noexcept {
     return addr.is_aligned_to(alignment);
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 is_aligned_to(const void* ptr, span_size_t alignment) noexcept {
     return is_aligned_to(as_address(ptr), alignment);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto
+static constexpr auto
 is_aligned_as(const_address addr, type_identity<T> tid = {}) noexcept {
     return addr.is_aligned_as(tid);
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 align_up_offs(span_size_t align, span_size_t misalign) noexcept {
     return (misalign ? align - misalign : 0);
 }
 //------------------------------------------------------------------------------
 template <bool IsConst>
-static constexpr inline auto align_up_by(
+static constexpr auto align_up_by(
   basic_address<IsConst> addr,
   span_size_t offs,
   span_size_t max) noexcept {
@@ -199,7 +199,7 @@ static constexpr inline auto align_up_by(
 }
 //------------------------------------------------------------------------------
 template <bool IsConst>
-static constexpr inline auto align_up(
+static constexpr auto align_up(
   basic_address<IsConst> addr,
   span_size_t align,
   span_size_t max) noexcept -> basic_address<IsConst> {
@@ -207,13 +207,13 @@ static constexpr inline auto align_up(
       addr, align_up_offs(align, misalignment(addr, align)), max);
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 align_down_offs(span_size_t, span_size_t misalign) noexcept {
     return misalign;
 }
 //------------------------------------------------------------------------------
 template <bool IsConst>
-static constexpr inline auto align_down_by(
+static constexpr auto align_down_by(
   basic_address<IsConst> addr,
   span_size_t offs,
   span_size_t max) noexcept {
@@ -222,7 +222,7 @@ static constexpr inline auto align_down_by(
 }
 //------------------------------------------------------------------------------
 template <bool IsConst>
-static constexpr inline auto align_down(
+static constexpr auto align_down(
   basic_address<IsConst> addr,
   span_size_t align,
   span_size_t max) noexcept -> basic_address<IsConst> {
@@ -232,7 +232,7 @@ static constexpr inline auto align_down(
 }
 //------------------------------------------------------------------------------
 template <bool IsConst>
-static constexpr inline auto
+static constexpr auto
 align_down(basic_address<IsConst> addr, span_size_t align) noexcept {
     return align_down(addr, align, addr.value());
 }
@@ -257,7 +257,7 @@ static constexpr auto align_up_to(
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto align_down_to(
+static constexpr auto align_down_to(
   basic_address<std::is_const_v<T>> addr,
   type_identity<T> = {},
   span_size_t align = span_align_of<T>(),

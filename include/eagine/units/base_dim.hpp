@@ -96,7 +96,7 @@ struct dim_num<amount_of_information> : int_constant<12> {};
 
 // get_number
 template <typename Derived>
-static constexpr inline auto get_number(dimension<Derived>) noexcept -> int {
+static constexpr auto get_number(dimension<Derived>) noexcept -> int {
     return dim_num_v<Derived>;
 }
 

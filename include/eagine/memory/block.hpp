@@ -24,16 +24,16 @@ using block = basic_block<false>;
 using const_block = basic_block<true>;
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static constexpr inline auto as_bytes(basic_span<T, P, S> spn) noexcept
+static constexpr auto as_bytes(basic_span<T, P, S> spn) noexcept
   -> basic_block<std::is_const_v<T>> {
     return {spn.begin_addr(), spn.end_addr()};
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto as_chars(block blk) noexcept {
+static constexpr auto as_chars(block blk) noexcept {
     return accomodate<char>(blk);
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto as_chars(const_block blk) noexcept {
+static constexpr auto as_chars(const_block blk) noexcept {
     return accomodate<const char>(blk);
 }
 //------------------------------------------------------------------------------

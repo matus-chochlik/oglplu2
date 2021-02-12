@@ -12,4 +12,11 @@
 /// This component implements code used throughout the whole OGLplus project.
 
 /// @brief Common code is placed in this namespace.
-namespace eagine {}
+namespace eagine {
+
+/// @brief Math-related code is placed in this namespace.
+namespace math {
+/// @defgroup math Math utilities
+}
+
+} // namespace eagine

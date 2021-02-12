@@ -223,7 +223,7 @@ struct vector {
 };
 
 template <typename T, int N, bool V>
-static constexpr inline auto dimension(const vector<T, N, V>&) noexcept {
+static constexpr auto dimension(const vector<T, N, V>&) noexcept {
     return span_size_t(N);
 }
 
@@ -233,7 +233,7 @@ static inline auto is_zero(const vector<T, N, V>& v) noexcept -> bool {
 }
 
 template <typename T, int N, bool V>
-static constexpr inline auto _dot(
+static constexpr auto _dot(
   const vector<T, N, V>& a,
   const vector<T, N, V>& b,
   std::true_type) noexcept {
@@ -241,7 +241,7 @@ static constexpr inline auto _dot(
 }
 
 template <typename T, int N, bool V>
-static constexpr inline auto _dot(
+static constexpr auto _dot(
   const vector<T, N, V>& a,
   const vector<T, N, V>& b,
   std::false_type) noexcept {
@@ -249,7 +249,7 @@ static constexpr inline auto _dot(
 }
 
 template <typename T, int N, bool V>
-static constexpr inline auto
+static constexpr auto
 dot(const vector<T, N, V>& a, const vector<T, N, V>& b) noexcept {
     return _dot(a, b, vect::has_vect_data<T, N, V>());
 }
@@ -271,26 +271,24 @@ cross(const vector<T, 3, V>& a, const vector<T, 3, V>& b) noexcept {
 }
 
 template <typename T, int N, bool V>
-static constexpr inline auto
-_mag(const vector<T, N, V>& a, std::true_type) noexcept {
+static constexpr auto _mag(const vector<T, N, V>& a, std::true_type) noexcept {
     return scalar<T, N, V>{
       vect::sqrt<T, N, V>::apply(vect::hsum<T, N, V>::apply(a._v * a._v))};
 }
 
 template <typename T, int N, bool V>
-static constexpr inline auto
-_mag(const vector<T, N, V> a, std::false_type) noexcept {
+static constexpr auto _mag(const vector<T, N, V> a, std::false_type) noexcept {
     using std::sqrt;
     return scalar<T, N, V>{T(sqrt(vect::esum<T, N, V>::apply(a._v * a._v)))};
 }
 
 template <typename T, int N, bool V>
-static constexpr inline auto magnitude(const vector<T, N, V>& a) noexcept {
+static constexpr auto magnitude(const vector<T, N, V>& a) noexcept {
     return _mag(a, vect::has_vect_data<T, N, V>());
 }
 
 template <typename T, int N, bool V>
-static constexpr inline auto length(const vector<T, N, V>& a) noexcept {
+static constexpr auto length(const vector<T, N, V>& a) noexcept {
     return magnitude(a);
 }
 
@@ -318,7 +316,7 @@ static inline auto normalized(const vector<T, N, V>& a) noexcept {
 }
 
 template <typename T, int N, bool V>
-static constexpr inline auto
+static constexpr auto
 distance(const vector<T, N, V>& a, const vector<T, N, V>& b) noexcept {
     return magnitude(a - b);
 }

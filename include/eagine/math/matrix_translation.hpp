@@ -56,7 +56,7 @@ struct translation<matrix<T, 4, 4, RM, V>> {
 
 // multiply
 template <typename T, int N, bool RM1, bool RM2, bool V>
-static constexpr inline auto multiply(
+static constexpr auto multiply(
   const translation<matrix<T, N, N, RM1, V>>& a,
   const translation<matrix<T, N, N, RM2, V>>& b) noexcept
   -> translation<matrix<T, N, N, RM1, V>> {
@@ -65,7 +65,7 @@ static constexpr inline auto multiply(
 
 // reorder_mat_ctr(translation)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline auto
+static constexpr auto
 reorder_mat_ctr(const translation<matrix<T, N, N, RM, V>>& c) noexcept
   -> translation<matrix<T, N, N, !RM, V>> {
     return {c._v};

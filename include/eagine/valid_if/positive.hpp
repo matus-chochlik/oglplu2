@@ -23,7 +23,7 @@ struct valid_if_positive_policy {
 
     struct do_log {
         template <typename X, typename = disable_if_same_t<X, do_log>>
-        constexpr inline do_log(X&&) noexcept {}
+        constexpr do_log(X&&) noexcept {}
 
         template <typename Log>
         void operator()(Log& log, const T& v) const {

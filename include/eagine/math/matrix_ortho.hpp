@@ -105,7 +105,7 @@ struct ortho<matrix<T, 4, 4, RM, V>> {
 
 // reorder_mat_ctr(ortho)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline auto
+static constexpr auto
 reorder_mat_ctr(const ortho<matrix<T, N, N, RM, V>>& c) noexcept
   -> ortho<matrix<T, N, N, !RM, V>> {
     return {c._v};

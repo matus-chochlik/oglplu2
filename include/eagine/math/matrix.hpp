@@ -70,42 +70,42 @@ template <typename X>
 const auto is_row_major_v = is_row_major<X>::value;
 //------------------------------------------------------------------------------
 template <typename T, int C, int R, bool RM, bool V>
-static constexpr inline auto rows(const matrix<T, C, R, RM, V>&) noexcept {
+static constexpr auto rows(const matrix<T, C, R, RM, V>&) noexcept {
     return R;
 }
 //------------------------------------------------------------------------------
 template <typename T, int C, int R, bool RM, bool V>
-static constexpr inline auto columns(const matrix<T, C, R, RM, V>&) noexcept {
+static constexpr auto columns(const matrix<T, C, R, RM, V>&) noexcept {
     return C;
 }
 //------------------------------------------------------------------------------
 template <typename T, int C, int R, bool RM, bool V>
-static constexpr inline auto row_major(const matrix<T, C, R, RM, V>&) noexcept {
+static constexpr auto row_major(const matrix<T, C, R, RM, V>&) noexcept {
     return RM;
 }
 //------------------------------------------------------------------------------
 template <typename T, int N, bool RM, bool V>
-static constexpr inline auto dimension(const matrix<T, N, N, RM, V>&) noexcept {
+static constexpr auto dimension(const matrix<T, N, N, RM, V>&) noexcept {
     return N;
 }
 //------------------------------------------------------------------------------
 // get_cm (Column-major)
 template <int CI, int RI, typename T, int C, int R, bool V>
-static constexpr inline auto get_cm(const matrix<T, C, R, false, V>& m) noexcept
+static constexpr auto get_cm(const matrix<T, C, R, false, V>& m) noexcept
   -> std::enable_if_t<(CI < C && RI < R), T> {
     return m._v[CI][RI];
 }
 //------------------------------------------------------------------------------
 // get_cm (Row-major)
 template <int CI, int RI, typename T, int C, int R, bool V>
-static constexpr inline auto get_cm(const matrix<T, C, R, true, V>& m) noexcept
+static constexpr auto get_cm(const matrix<T, C, R, true, V>& m) noexcept
   -> std::enable_if_t<(CI < C && RI < R), T> {
     return m._v[RI][CI];
 }
 //------------------------------------------------------------------------------
 // get_cm (Column-major, run-time)
 template <typename T, int C, int R, bool V>
-static constexpr inline auto
+static constexpr auto
 get_cm(const matrix<T, C, R, false, V>& m, int ci, int ri) noexcept -> T {
     EAGINE_ASSERT(ci < C && ri < R);
     return m._v[ci][ri];
@@ -113,7 +113,7 @@ get_cm(const matrix<T, C, R, false, V>& m, int ci, int ri) noexcept -> T {
 //------------------------------------------------------------------------------
 // get_cm (Row-major, run-time)
 template <typename T, int C, int R, bool V>
-static constexpr inline auto
+static constexpr auto
 get_cm(const matrix<T, C, R, true, V>& m, int ci, int ri) noexcept -> T {
     EAGINE_ASSERT(ci < C && ri < R);
     return m._v[ri][ci];
@@ -121,21 +121,21 @@ get_cm(const matrix<T, C, R, true, V>& m, int ci, int ri) noexcept -> T {
 //------------------------------------------------------------------------------
 // get_rm (Column-major)
 template <int RI, int CI, typename T, int C, int R, bool V>
-static constexpr inline auto get_rm(const matrix<T, C, R, false, V>& m) noexcept
+static constexpr auto get_rm(const matrix<T, C, R, false, V>& m) noexcept
   -> std::enable_if_t<(CI < C && RI < R), T> {
     return m._v[CI][RI];
 }
 //------------------------------------------------------------------------------
 // get_rm (Row-major)
 template <int RI, int CI, typename T, int C, int R, bool V>
-static constexpr inline auto get_rm(const matrix<T, C, R, true, V>& m) noexcept
+static constexpr auto get_rm(const matrix<T, C, R, true, V>& m) noexcept
   -> std::enable_if_t<(CI < C && RI < R), T> {
     return m._v[RI][CI];
 }
 //------------------------------------------------------------------------------
 // get_rm (Column-major, run-time)
 template <typename T, int C, int R, bool V>
-static constexpr inline auto
+static constexpr auto
 get_rm(const matrix<T, C, R, false, V>& m, int ri, int ci) noexcept -> T {
     EAGINE_ASSERT(ci < C && ri < R);
     return m._v[ci][ri];
@@ -143,7 +143,7 @@ get_rm(const matrix<T, C, R, false, V>& m, int ri, int ci) noexcept -> T {
 //------------------------------------------------------------------------------
 // get_rm (Row-major, run-time)
 template <typename T, int C, int R, bool V>
-static constexpr inline auto
+static constexpr auto
 get_rm(const matrix<T, C, R, true, V>& m, int ri, int ci) noexcept -> T {
     EAGINE_ASSERT(ci < C && ri < R);
     return m._v[ri][ci];
@@ -277,7 +277,7 @@ static inline auto reorder(const matrix<T, C, R, RM, V>& m) noexcept
 //------------------------------------------------------------------------------
 // make_row_major
 template <typename T, int C, int R, bool V>
-static constexpr inline auto make_row_major(matrix<T, C, R, true, V> m) noexcept
+static constexpr auto make_row_major(matrix<T, C, R, true, V> m) noexcept
   -> matrix<T, C, R, true, V> {
     return m;
 }
@@ -291,8 +291,7 @@ static inline auto make_row_major(const matrix<T, C, R, false, V>& m) noexcept
 //------------------------------------------------------------------------------
 // make_column_major
 template <typename T, int C, int R, bool V>
-static constexpr inline auto
-make_column_major(matrix<T, C, R, false, V> m) noexcept
+static constexpr auto make_column_major(matrix<T, C, R, false, V> m) noexcept
   -> matrix<T, C, R, false, V> {
     return m;
 }
@@ -306,8 +305,7 @@ static inline auto make_column_major(const matrix<T, C, R, true, V>& m) noexcept
 //------------------------------------------------------------------------------
 // major_vector
 template <int I, typename T, int C, int R, bool RM, bool V>
-static constexpr inline auto
-major_vector(const matrix<T, C, R, RM, V>& m) noexcept
+static constexpr auto major_vector(const matrix<T, C, R, RM, V>& m) noexcept
   -> std::enable_if_t<(I < (RM ? R : C)), vector<T, (RM ? C : R), V>> {
     return {m._v[I]};
 }
@@ -332,7 +330,7 @@ static inline auto minor_vector(const matrix<T, 4, 4, RM, V>& m) noexcept
 //------------------------------------------------------------------------------
 // row (Row-Major)
 template <int I, typename T, int C, int R, bool V>
-static constexpr inline auto row(const matrix<T, C, R, true, V>& m) noexcept
+static constexpr auto row(const matrix<T, C, R, true, V>& m) noexcept
   -> vector<T, C, V> {
     static_assert(I < R);
     return major_vector<I>(m);
@@ -376,7 +374,7 @@ static inline auto row(const matrix<T, C, R, RM, V>& m, int i) noexcept
 //------------------------------------------------------------------------------
 // column (Column-Major)
 template <int I, typename T, int C, int R, bool V>
-static constexpr inline auto column(const matrix<T, C, R, false, V>& m) noexcept
+static constexpr auto column(const matrix<T, C, R, false, V>& m) noexcept
   -> vector<T, R, V> {
     return major_vector<I>(m);
 }
@@ -439,16 +437,14 @@ struct constructed_matrix<matrix<T, C, R, RM, V>> : matrix<T, C, R, RM, V> {};
 //------------------------------------------------------------------------------
 // construct_matrix (noop)
 template <bool RM, typename T, int C, int R, bool V>
-static constexpr inline auto
-construct_matrix(const matrix<T, C, R, RM, V>& m) noexcept
+static constexpr auto construct_matrix(const matrix<T, C, R, RM, V>& m) noexcept
   -> const matrix<T, C, R, RM, V>& {
     return m;
 }
 //------------------------------------------------------------------------------
 // construct_matrix (reorder)
 template <bool RM, typename T, int C, int R, bool V>
-static constexpr inline auto
-construct_matrix(const matrix<T, C, R, !RM, V>& m) noexcept
+static constexpr auto construct_matrix(const matrix<T, C, R, !RM, V>& m) noexcept
   -> matrix<T, C, R, RM, V> {
     return reorder(m);
 }

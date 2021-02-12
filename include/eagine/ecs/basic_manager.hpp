@@ -122,7 +122,7 @@ private:
     template <typename C>
     using _bare_t = std::remove_const_t<std::remove_reference_t<C>>;
 
-    static constexpr inline auto _count_true() -> unsigned {
+    static constexpr auto _count_true() -> unsigned {
         return 0U;
     }
 

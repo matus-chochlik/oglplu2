@@ -204,19 +204,18 @@ public:
 // extract
 //------------------------------------------------------------------------------
 template <typename P, typename O>
-static constexpr inline auto extract(basic_offset_ptr<P, O> ptr) noexcept
-  -> P& {
+static constexpr auto extract(basic_offset_ptr<P, O> ptr) noexcept -> P& {
     return EAGINE_CONSTEXPR_ASSERT(!ptr.is_null(), ptr.get());
 }
 //------------------------------------------------------------------------------
 template <typename P, typename O>
-static constexpr inline auto
+static constexpr auto
 extract_or(basic_offset_ptr<P, O> ptr, P& fallback) noexcept -> P& {
     return ptr.is_null() ? fallback : ptr.get();
 }
 //------------------------------------------------------------------------------
 template <typename P, typename O, typename F>
-static constexpr inline auto extract_or(basic_offset_ptr<P, O> ptr, P& fallback)
+static constexpr auto extract_or(basic_offset_ptr<P, O> ptr, P& fallback)
   -> std::enable_if_t<std::is_convertible_v<F, P>, P> {
     return ptr.is_null() ? P{std::forward<F>(fallback)} : ptr.get();
 }
@@ -231,7 +230,7 @@ struct rebind_pointer<basic_offset_ptr<T, O>, U>
   : type_identity<basic_offset_ptr<U, O>> {};
 //------------------------------------------------------------------------------
 template <typename P, typename O>
-static constexpr inline auto as_address(basic_offset_ptr<P, O> op) noexcept
+static constexpr auto as_address(basic_offset_ptr<P, O> op) noexcept
   -> basic_address<std::is_const_v<P>> {
     return op.addr();
 }

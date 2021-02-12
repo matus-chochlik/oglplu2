@@ -225,7 +225,7 @@ public:
     }
 
     template <typename Func>
-    constexpr inline auto transformed(Func func, P... p) const noexcept {
+    constexpr auto transformed(Func func, P... p) const noexcept {
         return func(this->_get_value(), is_valid(p...));
     }
 };

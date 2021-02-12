@@ -18,45 +18,45 @@
 namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto is_positive_power_of_2(T value) noexcept
+static constexpr auto is_positive_power_of_2(T value) noexcept
   -> std::enable_if_t<std::is_integral_v<T>, bool> {
     using U = std::make_unsigned_t<T>;
     return (value > 0) && ((U(value) & (U(value) - 1)) == 0);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto greatest_common_divisor(T l, T r)
+static constexpr auto greatest_common_divisor(T l, T r) noexcept
   -> std::enable_if_t<std::is_integral_v<T>, T> {
     return (r == T(0)) ? l : greatest_common_divisor(r, T(l % r));
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto signum(T x) noexcept {
+static constexpr auto signum(T x) noexcept {
     return (x < 0) ? T(-1) : T(1);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto minimum(T a, T b) noexcept {
+static constexpr auto minimum(T a, T b) noexcept {
     return a < b ? a : b;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename... P>
-static constexpr inline auto minimum(T a, T b, T c, P... d) noexcept {
+static constexpr auto minimum(T a, T b, T c, P... d) noexcept {
     return minimum(minimum(a, b), c, d...);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto maximum(T a, T b) noexcept {
+static constexpr auto maximum(T a, T b) noexcept {
     return a > b ? a : b;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename... P>
-static constexpr inline auto maximum(T a, T b, T c, P... d) noexcept {
+static constexpr auto maximum(T a, T b, T c, P... d) noexcept {
     return maximum(maximum(a, b), c, d...);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto ratio(T a, T b) noexcept -> optionally_valid<T> {
+static constexpr auto ratio(T a, T b) noexcept -> optionally_valid<T> {
     if(b > T(0) || (b < T(0))) {
         return {a / b, true};
     }
@@ -64,7 +64,7 @@ static constexpr inline auto ratio(T a, T b) noexcept -> optionally_valid<T> {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto reciprocal(T x) noexcept -> optionally_valid<T> {
+static constexpr auto reciprocal(T x) noexcept -> optionally_valid<T> {
     using std::abs;
     if(abs(x) > std::numeric_limits<T>::epsilon()) {
         return {T(1) / x, true};
@@ -73,39 +73,39 @@ static constexpr inline auto reciprocal(T x) noexcept -> optionally_valid<T> {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Min, typename Max>
-static constexpr inline auto clamp(T x, Min min, Max max) noexcept {
+static constexpr auto clamp(T x, Min min, Max max) noexcept {
     return x < T(min) ? T(min) : x > T(max) ? T(max) : x;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename S, typename E>
-static constexpr inline auto ramp(T x, S start, E end) noexcept {
+static constexpr auto ramp(T x, S start, E end) noexcept {
     return (clamp(x, start, end) - start) / (end - start);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename A>
-static constexpr inline auto blend(T v1, T v2, A alpha) noexcept {
+static constexpr auto blend(T v1, T v2, A alpha) noexcept {
     return v1 * alpha + v2 * (1 - alpha);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto inverse_logistic(T x) noexcept {
+static constexpr auto inverse_logistic(T x) noexcept {
     using std::log;
     return log(x) - log(1 - x);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto logistic(T x) noexcept {
+static constexpr auto logistic(T x) noexcept {
     using std::exp;
     return 1 / (1 + exp(-x));
 }
 //------------------------------------------------------------------------------
 template <typename T, typename C>
-static constexpr inline auto sigmoid01(T x, C c) noexcept {
+static constexpr auto sigmoid01(T x, C c) noexcept {
     return logistic(c * inverse_logistic(x));
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto sigmoid01(T x) noexcept {
+static constexpr auto sigmoid01(T x) noexcept {
     return sigmoid01(x, 2);
 }
 //------------------------------------------------------------------------------
@@ -124,31 +124,31 @@ static inline auto sine_sigmoid01(T x) {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto sine_wave01(T x) noexcept {
+static constexpr auto sine_wave01(T x) noexcept {
     using std::sin;
     return (sin(2 * pi * x) + 1) / 2;
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto cosine_wave01(T x) noexcept {
+static constexpr auto cosine_wave01(T x) noexcept {
     using std::cos;
     return (cos(2 * pi * x) + 1) / 2;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename U = T>
-static constexpr inline auto saw(T x, U u = T(1)) noexcept {
+static constexpr auto saw(T x, U u = T(1)) noexcept {
     using std::fmod;
     return fmod(x, u);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto factorial(T n) noexcept
+static constexpr auto factorial(T n) noexcept
   -> std::enable_if_t<std::is_integral_v<T>, T> {
     return n > 0 ? n * factorial(n - 1) : 1;
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto binomial(T n, T k) noexcept
+static constexpr auto binomial(T n, T k) noexcept
   -> std::enable_if_t<std::is_integral_v<T>, T> {
     return ((n >= 0) && (k >= 0) && (k <= n))
              ? (factorial(n) / (factorial(k) * factorial(n - k)))
@@ -174,13 +174,13 @@ private:
 
 public:
     template <typename... P, typename = std::enable_if_t<sizeof...(P) == N>>
-    constexpr inline auto operator()(T t, P... p) noexcept {
+    constexpr auto operator()(T t, P... p) noexcept {
         return _calc(N - 1, 0, t, p...);
     }
 };
 //------------------------------------------------------------------------------
 template <typename T, typename... P>
-static constexpr inline auto bezier(T t, P... p) noexcept {
+static constexpr auto bezier(T t, P... p) noexcept {
     return bezier_t<T, sizeof...(P)>()(t, p...);
 }
 //------------------------------------------------------------------------------

@@ -46,7 +46,7 @@ struct reflection_I<matrix<T, 4, 4, RM, V>, I> {
 
 // multiply
 template <typename T, int N, bool RM1, bool RM2, bool V, int I>
-static constexpr inline auto multiply(
+static constexpr auto multiply(
   const reflection_I<matrix<T, N, N, RM1, V>, I>& a,
   const reflection_I<matrix<T, N, N, RM2, V>, I>& b) noexcept
   -> reflection_I<matrix<T, N, N, RM1, V>, I> {
@@ -55,7 +55,7 @@ static constexpr inline auto multiply(
 
 // reorder_mat_ctr(reflection_I)
 template <typename T, int N, bool RM, bool V, int I>
-static constexpr inline auto
+static constexpr auto
 reorder_mat_ctr(const reflection_I<matrix<T, N, N, RM, V>, I>& c) noexcept
   -> reflection_I<matrix<T, N, N, !RM, V>, I> {
     return {c._v < T(0)};

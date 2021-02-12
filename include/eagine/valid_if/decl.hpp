@@ -32,7 +32,7 @@ struct valid_flag_policy {
 
     struct do_log {
         template <typename X>
-        constexpr inline do_log(X) noexcept {}
+        constexpr do_log(X) noexcept {}
 
         template <typename Log, typename T>
         void operator()(Log& log, const T&) const {
@@ -125,7 +125,7 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename T, typename P1, typename P2>
-static constexpr inline auto
+static constexpr auto
 operator==(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
   -> tribool {
     return {
@@ -134,7 +134,7 @@ operator==(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline auto
+static constexpr auto
 operator!=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
   -> tribool {
     return {
@@ -143,7 +143,7 @@ operator!=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline auto
+static constexpr auto
 operator<(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
   -> tribool {
     return {
@@ -152,7 +152,7 @@ operator<(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline auto
+static constexpr auto
 operator>(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
   -> tribool {
     return {
@@ -161,7 +161,7 @@ operator>(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline auto
+static constexpr auto
 operator<=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
   -> tribool {
     return {
@@ -170,7 +170,7 @@ operator<=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline auto
+static constexpr auto
 operator>=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
   -> tribool {
     return {
@@ -179,23 +179,22 @@ operator>=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P>
-static constexpr inline auto extract(const valid_if<T, P>& opt) noexcept
-  -> const T& {
+static constexpr auto extract(const valid_if<T, P>& opt) noexcept -> const T& {
     return EAGINE_CONSTEXPR_ASSERT(bool(opt), opt.value_anyway());
 }
 
 template <typename T, typename P>
-static constexpr inline auto extract(valid_if<T, P>& opt) noexcept -> T& {
+static constexpr auto extract(valid_if<T, P>& opt) noexcept -> T& {
     return EAGINE_CONSTEXPR_ASSERT(bool(opt), opt.value_anyway());
 }
 
 template <typename T, typename P>
-static constexpr inline auto extract(valid_if<T, P>&& opt) noexcept -> T&& {
+static constexpr auto extract(valid_if<T, P>&& opt) noexcept -> T&& {
     return EAGINE_CONSTEXPR_ASSERT(bool(opt), std::move(opt.value_anyway()));
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename F>
-static constexpr inline auto
+static constexpr auto
 extract_or(const valid_if<T, P>& opt, F&& fallback) noexcept
   -> std::enable_if_t<std::is_convertible_v<F, T>, T> {
     if(bool(opt)) {
@@ -205,8 +204,8 @@ extract_or(const valid_if<T, P>& opt, F&& fallback) noexcept
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename F>
-static constexpr inline auto
-extract_or(valid_if<T, P>& opt, T& fallback) noexcept -> T& {
+static constexpr auto extract_or(valid_if<T, P>& opt, T& fallback) noexcept
+  -> T& {
     if(bool(opt)) {
         return opt.value_anyway();
     }

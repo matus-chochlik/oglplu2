@@ -56,7 +56,7 @@ struct is_convertible<custom_dim_unit<D, C1, S>, custom_dim_unit<D, C2, S>>
 template <typename D, typename C, typename S>
 struct value_conv<custom_dim_unit<D, C, S>, unit<D, S>> {
     template <typename T>
-    constexpr inline auto operator()(T v) const {
+    constexpr auto operator()(T v) const {
         return custom_dim_unit<D, C, S>::conversion::to_base(v);
     }
 };
@@ -64,7 +64,7 @@ struct value_conv<custom_dim_unit<D, C, S>, unit<D, S>> {
 template <typename D, typename C, typename S>
 struct value_conv<unit<D, S>, custom_dim_unit<D, C, S>> {
     template <typename T>
-    constexpr inline auto operator()(T v) const {
+    constexpr auto operator()(T v) const {
         return custom_dim_unit<D, C, S>::conversion::from_base(v);
     }
 };
@@ -76,7 +76,7 @@ struct value_conv<custom_dim_unit<D, C, S>, custom_dim_unit<D, C, S>>
 template <typename D, typename C1, typename C2, typename S>
 struct value_conv<custom_dim_unit<D, C1, S>, custom_dim_unit<D, C2, S>> {
     template <typename T>
-    constexpr inline auto operator()(T v) const {
+    constexpr auto operator()(T v) const {
         return custom_dim_unit<D, C2, S>::conversion::from_base(
           custom_dim_unit<D, C1, S>::conversion::to_base(v));
     }

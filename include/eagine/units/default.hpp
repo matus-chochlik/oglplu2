@@ -32,7 +32,7 @@ struct is_convertible<U, U> : std::true_type {};
 
 struct trivial_value_conv {
     template <typename T>
-    constexpr inline auto operator()(T v) const -> T {
+    constexpr auto operator()(T v) const -> T {
         return v;
     }
 };

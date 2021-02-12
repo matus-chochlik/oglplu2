@@ -32,11 +32,11 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 #define EAGINE_MSGBUS_ID(METHOD) EAGINE_MSG_ID(eagiMsgBus, METHOD)
 //------------------------------------------------------------------------------
-static constexpr inline auto is_special_message(message_id msg_id) noexcept {
+static constexpr auto is_special_message(message_id msg_id) noexcept {
     return msg_id.has_class(EAGINE_ID(eagiMsgBus));
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto broadcast_endpoint_id() noexcept -> identifier_t {
+static constexpr auto broadcast_endpoint_id() noexcept -> identifier_t {
     return 0U;
 }
 //------------------------------------------------------------------------------
