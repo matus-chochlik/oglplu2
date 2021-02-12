@@ -9,6 +9,7 @@
 #ifndef EAGINE_MATH_FUNCTIONS_HPP
 #define EAGINE_MATH_FUNCTIONS_HPP
 
+#include "../memory/span.hpp"
 #include "../valid_if/decl.hpp"
 #include "constants.hpp"
 #include <cassert>
@@ -164,7 +165,7 @@ private:
     }
 
     static constexpr auto _calc(int, int, T) noexcept {
-        return T(0);
+        return T{0};
     }
 
     template <typename... P>
@@ -172,17 +173,27 @@ private:
         return f * _coef(m, i, t) + _calc(m, i + 1, t, r...);
     }
 
+    template <typename P, typename S, std::size_t... I>
+    static constexpr auto _calc(
+      int m,
+      int i,
+      T t,
+      memory::basic_span<const T, P, S> p,
+      std::index_sequence<I...>) noexcept -> T {
+        return _calc(m, i, t, p[I]...);
+    }
+
 public:
     template <typename... P, typename = std::enable_if_t<sizeof...(P) == N>>
-    constexpr auto operator()(T t, P... p) noexcept {
+    constexpr auto operator()(T t, P... p) const noexcept {
         return _calc(N - 1, 0, t, p...);
     }
+
+    template <typename P, typename S>
+    auto operator()(T t, memory::basic_span<const T, P, S> p) const noexcept {
+        return _calc(N - 1, 0, t, p, std::make_index_sequence<N>());
+    }
 };
-//------------------------------------------------------------------------------
-template <typename T, typename... P>
-static constexpr auto bezier(T t, P... p) noexcept {
-    return bezier_t<T, sizeof...(P)>()(t, p...);
-}
 //------------------------------------------------------------------------------
 } // namespace eagine::math
 
