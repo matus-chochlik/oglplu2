@@ -1,11 +1,10 @@
-/**
- *  @example eagine/serialize/003_fragmented.cpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @example eagine/serialize/003_fragmented.cpp
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #include <eagine/compare.hpp>
 #include <eagine/serialize/block_sink.hpp>
 #include <eagine/serialize/block_source.hpp>
