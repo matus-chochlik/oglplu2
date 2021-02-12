@@ -36,21 +36,20 @@ using context_attributes = key_value_list<context_attrib_traits, N>;
 
 using context_attribute_value = key_value_list_element<context_attrib_traits>;
 
-static constexpr inline auto
+static constexpr auto
 operator|(context_attribute key, egl_types::int_type value) noexcept
   -> context_attribute_value {
     return {key, value};
 }
 
-static constexpr inline auto operator|(
+static constexpr auto operator|(
   context_attribute key,
   enum_bitfield<context_opengl_profile_bit> value) noexcept
   -> context_attribute_value {
     return {key, egl_types::int_type(value)};
 }
 
-static constexpr inline auto
-operator|(context_attribute key, bool value) noexcept
+static constexpr auto operator|(context_attribute key, bool value) noexcept
   -> context_attribute_value {
 #if defined(EGL_TRUE) && defined(EGL_FALSE)
     return {key, value ? EGL_TRUE : EGL_FALSE};

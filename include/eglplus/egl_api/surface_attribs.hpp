@@ -34,32 +34,31 @@ using surface_attributes = key_value_list<surface_attrib_traits, N>;
 
 using surface_attribute_value = key_value_list_element<surface_attrib_traits>;
 
-static constexpr inline auto
+static constexpr auto
 operator|(surface_attribute key, egl_types::int_type value) noexcept
   -> surface_attribute_value {
     return {key, value};
 }
 
-static constexpr inline auto
+static constexpr auto
 operator|(surface_attribute key, texture_format value) noexcept
   -> surface_attribute_value {
     return {key, egl_types::int_type(value)};
 }
 
-static constexpr inline auto
+static constexpr auto
 operator|(surface_attribute key, texture_target value) noexcept
   -> surface_attribute_value {
     return {key, egl_types::int_type(value)};
 }
 
-static constexpr inline auto
+static constexpr auto
 operator|(surface_attribute key, gl_colorspace value) noexcept
   -> surface_attribute_value {
     return {key, egl_types::int_type(value)};
 }
 
-static constexpr inline auto
-operator|(surface_attribute key, bool value) noexcept
+static constexpr auto operator|(surface_attribute key, bool value) noexcept
   -> surface_attribute_value {
 #if defined(EGL_TRUE) && defined(EGL_FALSE)
     return {key, value ? EGL_TRUE : EGL_FALSE};

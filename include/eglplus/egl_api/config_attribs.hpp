@@ -34,32 +34,32 @@ using config_attributes = key_value_list<config_attrib_traits, N>;
 
 using config_attribute_value = key_value_list_element<config_attrib_traits>;
 
-static constexpr inline auto
+static constexpr auto
 operator|(config_attribute key, egl_types::int_type value) noexcept
   -> config_attribute_value {
     return {key, value};
 }
 
-static constexpr inline auto
+static constexpr auto
 operator|(config_attribute key, color_buffer_type value) noexcept
   -> config_attribute_value {
     return {key, egl_types::int_type(value)};
 }
 
-static constexpr inline auto
+static constexpr auto
 operator|(config_attribute key, enum_bitfield<surface_type_bit> value) noexcept
   -> config_attribute_value {
     return {key, egl_types::int_type(value)};
 }
 
-static constexpr inline auto operator|(
+static constexpr auto operator|(
   config_attribute key,
   enum_bitfield<renderable_type_bit> value) noexcept -> config_attribute_value {
     return {key, egl_types::int_type(value)};
 }
 
-static constexpr inline auto
-operator|(config_attribute key, bool value) noexcept -> config_attribute_value {
+static constexpr auto operator|(config_attribute key, bool value) noexcept
+  -> config_attribute_value {
 #if defined(EGL_TRUE) && defined(EGL_FALSE)
     return {key, value ? EGL_TRUE : EGL_FALSE};
 #else

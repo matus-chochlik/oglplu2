@@ -18,7 +18,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-static constexpr inline auto default_log_severity() noexcept {
+static constexpr auto default_log_severity() noexcept {
     return static_cast<log_event_severity>(
       static_cast<std::underlying_type_t<log_event_severity>>(
         log_event_severity::EAGINE_MIN_LOG_SEVERITY) +

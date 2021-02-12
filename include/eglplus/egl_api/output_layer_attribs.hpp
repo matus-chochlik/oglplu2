@@ -35,14 +35,13 @@ using output_layer_attributes = key_value_list<output_layer_attrib_traits, N>;
 using output_layer_attribute_value =
   key_value_list_element<output_layer_attrib_traits>;
 
-static constexpr inline auto
+static constexpr auto
 operator|(output_layer_attribute key, egl_types::int_type value) noexcept
   -> output_layer_attribute_value {
     return {key, value};
 }
 
-static constexpr inline auto
-operator|(output_layer_attribute key, bool value) noexcept
+static constexpr auto operator|(output_layer_attribute key, bool value) noexcept
   -> output_layer_attribute_value {
 #if defined(EGL_TRUE) && defined(EGL_FALSE)
     return {key, value ? EGL_TRUE : EGL_FALSE};

@@ -23,7 +23,7 @@ using egl_enum_class =
 using egl_any_enum_class = any_enum_class<EAGINE_ID_V(EGL)>;
 using egl_any_enum_value = any_enum_value<EAGINE_ID_V(EGL)>;
 
-static constexpr inline auto
+static constexpr auto
 same_enum_class(egl_any_enum_class a, egl_any_enum_class b) noexcept -> bool {
     return ::eagine::same_enum_class(a, b);
 }

@@ -14,7 +14,7 @@
 #include <set>
 
 struct name_surname : eagine::ecs::component<name_surname> {
-    static constexpr inline auto uid() noexcept {
+    static constexpr auto uid() noexcept {
         return EAGINE_ID_V(nameSurnme);
     }
 
@@ -55,7 +55,7 @@ struct name_surname_manip
 };
 
 struct measurements : eagine::ecs::component<measurements> {
-    static constexpr inline auto uid() noexcept {
+    static constexpr auto uid() noexcept {
         return EAGINE_ID_V(measurment);
     }
 
@@ -98,13 +98,13 @@ struct measurements_manip
 };
 
 struct father : eagine::ecs::relation<father> {
-    static constexpr inline auto uid() noexcept {
+    static constexpr auto uid() noexcept {
         return EAGINE_ID_V(father);
     }
 };
 
 struct mother : eagine::ecs::relation<mother> {
-    static constexpr inline auto uid() noexcept {
+    static constexpr auto uid() noexcept {
         return EAGINE_ID_V(mother);
     }
 };

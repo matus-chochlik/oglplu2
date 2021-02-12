@@ -36,7 +36,7 @@ using gl_bool_class =
 using gl_any_enum_class = any_enum_class<EAGINE_ID_V(GL)>;
 using gl_any_enum_value = any_enum_value<EAGINE_ID_V(GL)>;
 
-static constexpr inline auto
+static constexpr auto
 same_enum_class(gl_any_enum_class a, gl_any_enum_class b) noexcept -> bool {
     return ::eagine::same_enum_class(a, b);
 }
