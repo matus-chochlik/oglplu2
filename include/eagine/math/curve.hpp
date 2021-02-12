@@ -242,6 +242,60 @@ public:
     }
 };
 
+/// @brief A closed smooth cubic Bezier spline passing through all input points.
+/// @ingroup math
+///
+/// This class constructs a closed sequence of Bezier curves that are smooth
+/// at the curve connection points. The control points between the begin
+/// and end points of each segment are calculated automatically to make
+/// the transition between the individual segments smooth.
+template <typename Type, typename Parameter>
+class cubic_bezier_loop : public bezier_curves<Type, Parameter, 3> {
+private:
+    template <typename P, typename S>
+    static auto
+    _make_cpoints(memory::basic_span<const Type, P, S> points, Parameter r)
+      -> std::vector<Type> {
+        span_size_t i = 0, n = points.size();
+        EAGINE_ASSERT(n != 0);
+
+        std::vector<Type> result(std_size(n * 3 + 1));
+        auto ir = result.begin();
+
+        while(i != n) {
+            const auto a = (n + i - 1) % n;
+            const auto b = i;
+            const auto c = (i + 1) % n;
+            const auto d = (i + 2) % n;
+
+            EAGINE_ASSERT(ir != result.end());
+            *ir = points[b];
+            ++ir;
+            EAGINE_ASSERT(ir != result.end());
+            *ir = Type(points[b] + (points[c] - points[a]) * r);
+            ++ir;
+            EAGINE_ASSERT(ir != result.end());
+            *ir = Type(points[c] + (points[b] - points[d]) * r);
+            ++ir;
+            ++i;
+        }
+        EAGINE_ASSERT(ir != result.end());
+        *ir = points[0];
+        ++ir;
+        EAGINE_ASSERT(ir == result.end());
+
+        return result;
+    }
+
+public:
+    /// @brief Creates a loop passing through the sequence of the input points.
+    template <typename P, typename S>
+    cubic_bezier_loop(
+      memory::basic_span<const Type, P, S> points,
+      Parameter r = Parameter(1) / Parameter(3))
+      : bezier_curves<Type, Parameter, 3>(_make_cpoints(points, r)) {}
+};
+
 } // namespace eagine::math
 
 #endif // EAGINE_MATH_CURVE_HPP
