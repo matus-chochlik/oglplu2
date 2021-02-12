@@ -1,9 +1,10 @@
-/**
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// .file tools/bake_png_image/main.cpp
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #include <eagine/main_ctx.hpp>
 #include <eagine/program_args.hpp>
