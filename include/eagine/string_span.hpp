@@ -91,19 +91,19 @@ using string_span = basic_string_span<char>;
 using string_view = basic_string_span<const char>;
 //------------------------------------------------------------------------------
 template <typename C, typename P, typename S>
-static constexpr inline auto std_view(memory::basic_span<C, P, S> spn) noexcept
+static constexpr auto std_view(memory::basic_span<C, P, S> spn) noexcept
   -> std::basic_string_view<std::remove_const_t<C>> {
     return {spn.data(), std_size_t(spn.size())};
 }
 //------------------------------------------------------------------------------
 template <typename C, typename P, typename S>
-static constexpr inline auto to_string(memory::basic_span<C, P, S> spn)
+static constexpr auto to_string(memory::basic_span<C, P, S> spn)
   -> std::basic_string<std::remove_const_t<C>> {
     return {spn.data(), std_size_t(spn.size())};
 }
 //------------------------------------------------------------------------------
 template <typename C, typename T, typename A, typename P, typename S>
-static constexpr inline auto assign_to(
+static constexpr auto assign_to(
   std::basic_string<C, T, A>& str,
   memory::basic_span<const C, P, S> spn) -> auto& {
     str.assign(spn.data(), std_size(spn.size()));
@@ -111,7 +111,7 @@ static constexpr inline auto assign_to(
 }
 //------------------------------------------------------------------------------
 template <typename C, typename T, typename A, typename P, typename S>
-static constexpr inline auto append_to(
+static constexpr auto append_to(
   std::basic_string<C, T, A>& str,
   memory::basic_span<const C, P, S> spn) -> auto& {
     str.append(spn.data(), std_size(spn.size()));
@@ -171,8 +171,7 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename C, typename P, typename S>
-static constexpr inline auto
-c_str(memory::basic_span<C, P, S> s) -> std::enable_if_t<
+static constexpr auto c_str(memory::basic_span<C, P, S> s) -> std::enable_if_t<
   std::is_convertible_v<memory::basic_span<C, P, S>, basic_string_span<C, P, S>>,
   basic_c_str<C, P, S>> {
     return {s};

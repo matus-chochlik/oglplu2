@@ -34,7 +34,7 @@ public:
     }
 
     template <typename... C, typename = std::enable_if_t<sizeof...(C) == N>>
-    constexpr inline fixed_size_string(C... c) noexcept
+    constexpr fixed_size_string(C... c) noexcept
       : _str{c...} {}
 
     fixed_size_string(const char (&s)[N]) noexcept {

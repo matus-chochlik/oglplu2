@@ -17,7 +17,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename Self, typename T, identifier_t LibId, identifier_t Id>
-static constexpr inline auto adapt_log_entry_arg(
+static constexpr auto adapt_log_entry_arg(
   identifier name,
   enum_class<Self, T, LibId, Id> ec,
   std::enable_if_t<std::is_signed_v<T>, T> = {}) {
@@ -27,7 +27,7 @@ static constexpr inline auto adapt_log_entry_arg(
 }
 //------------------------------------------------------------------------------
 template <typename Self, typename T, identifier_t LibId, identifier_t Id>
-static constexpr inline auto adapt_log_entry_arg(
+static constexpr auto adapt_log_entry_arg(
   identifier name,
   enum_class<Self, T, LibId, Id> ec,
   std::enable_if_t<std::is_unsigned_v<T>, T> = {}) {

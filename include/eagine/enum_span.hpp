@@ -28,7 +28,7 @@ public:
     enum_list() = default;
 
     template <typename... EnumValues>
-    constexpr inline enum_list(EnumValues... evs) noexcept
+    constexpr enum_list(EnumValues... evs) noexcept
       : _values{{value_type(evs)...}} {}
 
     auto values() const noexcept {

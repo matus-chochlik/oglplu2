@@ -19,7 +19,7 @@ namespace eagine {
 // TODO use std::experimental::make_array when available
 
 template <typename T, typename... P>
-static constexpr inline std::
+static constexpr std::
   enable_if_t<all_are_same<T, P...>::value, std::array<T, 1 + sizeof...(P)>>
   make_array(T v, P... p) {
     return {{std::move(v), std::move(p)...}};

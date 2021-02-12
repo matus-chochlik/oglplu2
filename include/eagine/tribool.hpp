@@ -124,13 +124,13 @@ public:
 };
 
 /// @brief Tri-state boolean and operator.
-constexpr inline auto operator&&(tribool a, tribool b) noexcept {
+constexpr auto operator&&(tribool a, tribool b) noexcept {
     return !a ? tribool{false}
               : a ? b : !b ? tribool{false} : tribool{indeterminate};
 }
 
 /// @brief Tri-state boolean or operator.
-constexpr inline auto operator||(tribool a, tribool b) noexcept {
+constexpr auto operator||(tribool a, tribool b) noexcept {
     return a ? tribool{true}
              : !a ? b : b ? tribool{true} : tribool{indeterminate};
 }

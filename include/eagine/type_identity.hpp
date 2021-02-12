@@ -24,7 +24,7 @@ struct type_identity {
     template <
       typename X,
       typename = std::enable_if_t<std::is_same_v<T, X> && !std::is_array_v<X>>>
-    constexpr inline auto operator()(X v) const -> X {
+    constexpr auto operator()(X v) const -> X {
         return v;
     }
 };
@@ -48,8 +48,7 @@ using type_t = typename get_type<T, F>::type;
 
 /// @brief Makes @c type_identity for type @c T of the argument.
 template <typename T>
-static constexpr inline auto make_identity(const T&) noexcept
-  -> type_identity<T> {
+static constexpr auto make_identity(const T&) noexcept -> type_identity<T> {
     return {};
 }
 

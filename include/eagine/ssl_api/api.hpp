@@ -82,14 +82,12 @@ public:
         using base::_conv;
 
         template <typename Tag, typename Handle>
-        static constexpr inline auto
-        _conv(basic_handle<Tag, Handle> obj) noexcept {
+        static constexpr auto _conv(basic_handle<Tag, Handle> obj) noexcept {
             return static_cast<Handle>(obj);
         }
 
         template <typename Object>
-        static constexpr inline auto
-        _conv(const object_stack<Object>& stk) noexcept {
+        static constexpr auto _conv(const object_stack<Object>& stk) noexcept {
             return stk.native();
         }
 

@@ -18,67 +18,66 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto extract(T* ptr) noexcept -> T& {
+static constexpr auto extract(T* ptr) noexcept -> T& {
     return EAGINE_CONSTEXPR_ASSERT(bool(ptr), *ptr);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto
+static constexpr auto
 extract_or(T* ptr, std::remove_const_t<T>& fallback) noexcept -> T& {
     return bool(ptr) ? *ptr : fallback;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename F>
-static constexpr inline auto extract_or(T* ptr, F&& fallback)
+static constexpr auto extract_or(T* ptr, F&& fallback)
   -> std::enable_if_t<std::is_convertible_v<F, T>, T> {
     return bool(ptr) ? *ptr : T{std::forward<F>(fallback)};
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto extract(std::shared_ptr<T>& ptr) noexcept -> T& {
+static constexpr auto extract(std::shared_ptr<T>& ptr) noexcept -> T& {
     return EAGINE_CONSTEXPR_ASSERT(bool(ptr), *ptr);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto extract(const std::shared_ptr<T>& ptr) noexcept
+static constexpr auto extract(const std::shared_ptr<T>& ptr) noexcept
   -> const T& {
     return EAGINE_CONSTEXPR_ASSERT(bool(ptr), *ptr);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto
+static constexpr auto
 extract_or(std::shared_ptr<T>& ptr, std::remove_const_t<T>& fallback) noexcept
   -> T& {
     return bool(ptr) ? *ptr : fallback;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename F>
-static constexpr inline auto extract_or(std::shared_ptr<T>& ptr, F&& fallback)
+static constexpr auto extract_or(std::shared_ptr<T>& ptr, F&& fallback)
   -> std::enable_if_t<std::is_convertible_v<F, T>, T> {
     return bool(ptr) ? *ptr : T{std::forward<F>(fallback)};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename D>
-static constexpr inline auto extract(std::unique_ptr<T, D>& ptr) noexcept
-  -> T& {
+static constexpr auto extract(std::unique_ptr<T, D>& ptr) noexcept -> T& {
     return EAGINE_CONSTEXPR_ASSERT(bool(ptr), *ptr);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename D>
-static constexpr inline auto extract(const std::unique_ptr<T, D>& ptr) noexcept
+static constexpr auto extract(const std::unique_ptr<T, D>& ptr) noexcept
   -> const T& {
     return EAGINE_CONSTEXPR_ASSERT(bool(ptr), *ptr);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename D>
-static constexpr inline auto extract_or(
+static constexpr auto extract_or(
   std::unique_ptr<T, D>& ptr,
   std::remove_const_t<T>& fallback) noexcept -> T& {
     return bool(ptr) ? *ptr : fallback;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename D, typename F>
-static constexpr inline auto extract_or(std::unique_ptr<T, D>& ptr, F&& fallback)
+static constexpr auto extract_or(std::unique_ptr<T, D>& ptr, F&& fallback)
   -> std::enable_if_t<std::is_convertible_v<F, T>, T> {
     return bool(ptr) ? *ptr : T{std::forward<F>(fallback)};
 }
@@ -98,8 +97,7 @@ private:
     using _traits = ok_traits<Outcome>;
 
 public:
-    constexpr inline ok(Outcome&& outcome) noexcept(
-      noexcept(std::declval<Outcome&&>()))
+    constexpr ok(Outcome&& outcome) noexcept(noexcept(std::declval<Outcome&&>()))
       : _outcome{std::move(outcome)} {}
 
     explicit constexpr

@@ -207,14 +207,14 @@ protected:
 };
 //------------------------------------------------------------------------------
 template <typename Result>
-static constexpr inline auto
+static constexpr auto
 extract(api_result_value<Result, api_result_validity::never>&) noexcept
   -> Result& {
     return unreachable_reference(type_identity<Result>{});
 }
 
 template <typename Result>
-static constexpr inline auto
+static constexpr auto
 extract(const api_result_value<Result, api_result_validity::never>&) noexcept
   -> const Result& {
     return unreachable_reference(type_identity<Result>{});
@@ -304,7 +304,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 extract(const api_result_value<void, api_result_validity::never>&) noexcept
   -> nothing_t {
     return {};
@@ -320,7 +320,7 @@ struct ok_traits<api_result<Result, Info, api_result_validity::never>> {
 };
 //------------------------------------------------------------------------------
 template <typename Result, typename Info, typename Fallback>
-static constexpr inline auto extract_or(
+static constexpr auto extract_or(
   const api_result<Result, Info, api_result_validity::never>&,
   Fallback&& fallback) noexcept -> Result {
     return {std::forward<Fallback>(fallback)};
@@ -487,7 +487,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 extract(const api_result_value<void, api_result_validity::always>&) noexcept
   -> nothing_t {
     return {};
@@ -503,7 +503,7 @@ struct ok_traits<api_result<Result, Info, api_result_validity::always>> {
 };
 //------------------------------------------------------------------------------
 template <typename Result, typename Info, typename Fallback>
-static constexpr inline auto extract_or(
+static constexpr auto extract_or(
   const api_result<Result, Info, api_result_validity::always>& result,
   Fallback&& fallback) noexcept -> Result {
     if(result) {
@@ -568,21 +568,21 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Result>
-static constexpr inline auto
+static constexpr auto
 extract(api_result_value<Result, api_result_validity::maybe>&& result) noexcept
   -> Result {
     return EAGINE_CONSTEXPR_ASSERT(result._valid, std::move(result._value));
 }
 
 template <typename Result>
-static constexpr inline auto
+static constexpr auto
 extract(api_result_value<Result, api_result_validity::maybe>& result) noexcept
   -> Result& {
     return EAGINE_CONSTEXPR_ASSERT(result._valid, result._value);
 }
 
 template <typename Result>
-static constexpr inline auto extract(
+static constexpr auto extract(
   const api_result_value<Result, api_result_validity::maybe>& result) noexcept
   -> const Result& {
     return EAGINE_CONSTEXPR_ASSERT(result._valid, result._value);
@@ -689,7 +689,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 extract(const api_result_value<void, api_result_validity::maybe>&) noexcept
   -> nothing_t {
     return {};
@@ -705,7 +705,7 @@ struct ok_traits<api_result<Result, Info, api_result_validity::maybe>> {
 };
 //------------------------------------------------------------------------------
 template <typename Result, typename Info, typename Fallback>
-static constexpr inline auto extract_or(
+static constexpr auto extract_or(
   const api_result<Result, Info, api_result_validity::maybe>& result,
   Fallback&& fallback) noexcept -> Result {
     if(result) {
@@ -1108,35 +1108,35 @@ protected:
     }
 
     template <typename Arg>
-    static constexpr inline auto _conv(Arg arg) noexcept
+    static constexpr auto _conv(Arg arg) noexcept
       -> std::enable_if_t<std::is_scalar_v<Arg>, Arg> {
         return arg;
     }
 
     template <typename S, typename T, identifier_t L, identifier_t I>
-    static constexpr inline auto _conv(enum_class<S, T, L, I> value) noexcept {
+    static constexpr auto _conv(enum_class<S, T, L, I> value) noexcept {
         return T(value);
     }
 
     template <typename EC>
-    static constexpr inline auto _conv(enum_bitfield<EC> bits) noexcept {
+    static constexpr auto _conv(enum_bitfield<EC> bits) noexcept {
         return _conv(bits._value);
     }
 
     template <typename Tg, typename T, T inv>
-    static constexpr inline auto _conv(basic_handle<Tg, T, inv> hndl) noexcept {
+    static constexpr auto _conv(basic_handle<Tg, T, inv> hndl) noexcept {
         return T(hndl);
     }
 
-    static constexpr inline auto _conv(string_view str) noexcept {
+    static constexpr auto _conv(string_view str) noexcept {
         return c_str(str);
     }
 
-    static constexpr inline auto _conv(memory::block blk) noexcept {
+    static constexpr auto _conv(memory::block blk) noexcept {
         return blk.data();
     }
 
-    static constexpr inline auto _conv(memory::const_block blk) noexcept {
+    static constexpr auto _conv(memory::const_block blk) noexcept {
         return blk.data();
     }
 

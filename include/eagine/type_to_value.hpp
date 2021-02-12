@@ -64,7 +64,7 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
     type_to_value(const Transform& transform)
       : type_to_value_unit<Value, Keys>(transform(type_identity<Keys>()))... {}
 
-    static constexpr inline size_type size() noexcept {
+    static constexpr size_type size() noexcept {
         return sizeof...(Keys);
     }
 

@@ -15,40 +15,40 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename... Params, typename... Args>
-static constexpr inline auto args_within_limits_of(const Args&... args) noexcept
+static constexpr auto args_within_limits_of(const Args&... args) noexcept
   -> std::enable_if_t<sizeof...(Params) == sizeof...(Args), bool> {
     return (... && is_within_limits<std::decay_t<Params>>(args));
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename... Params, typename... Args>
-static constexpr inline auto
+static constexpr auto
 args_within_limits(RV (*)(Params...), const Args&... args) noexcept -> bool {
     return args_within_limits_of<Params...>(args...);
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename Cls, typename... Params, typename... Args>
-static constexpr inline auto
+static constexpr auto
 args_within_limits(RV (Cls::*)(Params...), const Args&... args) noexcept
   -> bool {
     return args_within_limits_of<Params...>(args...);
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename Cls, typename... Params, typename... Args>
-static constexpr inline auto args_within_limits(
+static constexpr auto args_within_limits(
   RV (Cls::*)(Params...) noexcept,
   const Args&... args) noexcept -> bool {
     return args_within_limits_of<Params...>(args...);
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename Cls, typename... Params, typename... Args>
-static constexpr inline auto
+static constexpr auto
 args_within_limits(RV (Cls::*)(Params...) const, const Args&... args) noexcept
   -> bool {
     return args_within_limits_of<Params...>(args...);
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename Cls, typename... Params, typename... Args>
-static constexpr inline auto args_within_limits(
+static constexpr auto args_within_limits(
   RV (Cls::*)(Params...) const noexcept,
   const Args&... args) noexcept -> bool {
     return args_within_limits_of<Params...>(args...);

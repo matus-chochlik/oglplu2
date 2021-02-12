@@ -329,7 +329,7 @@ struct any_enum_value {
 };
 
 template <identifier_t LibId>
-static constexpr inline auto
+static constexpr auto
 same_enum_class(any_enum_class<LibId> a, any_enum_class<LibId> b) noexcept {
     return a._type_id == b._type_id;
 }

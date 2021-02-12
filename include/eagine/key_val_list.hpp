@@ -29,9 +29,7 @@ struct key_value_list_element {
     key_type _key;
     value_type _value;
 
-    constexpr inline key_value_list_element(
-      key_type key,
-      value_type value) noexcept
+    constexpr key_value_list_element(key_type key, value_type value) noexcept
       : _key{key}
       , _value{value} {}
 };
@@ -148,7 +146,7 @@ public:
 };
 
 template <typename Traits>
-static constexpr inline auto operator+(
+static constexpr auto operator+(
   const key_value_list_element<Traits>& l,
   const key_value_list_element<Traits>& r) noexcept
   -> key_value_list<Traits, 4> {
@@ -156,7 +154,7 @@ static constexpr inline auto operator+(
 }
 
 template <typename Traits, std::size_t N>
-static constexpr inline auto operator+(
+static constexpr auto operator+(
   const key_value_list<Traits, N>& l,
   const key_value_list_element<Traits>& r) noexcept
   -> key_value_list<Traits, N + 2> {

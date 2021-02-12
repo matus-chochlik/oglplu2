@@ -72,7 +72,7 @@ private:
     std::array<std::array<T, N>, 2> _a;
 
 public:
-    constexpr inline network_sorter(std::array<T, N> a)
+    constexpr network_sorter(std::array<T, N> a)
       : _a{{a, a}} {}
 
     using basic_network_sorter<T, N, Compare, Network>::rounds;

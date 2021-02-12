@@ -53,8 +53,7 @@ static inline auto make_cbyte_span(span<const char> s) noexcept
     return {memory::accomodate<const byte>(s)};
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto
-max_code_point(const valid_sequence_length& len) noexcept
+static constexpr auto max_code_point(const valid_sequence_length& len) noexcept
   -> valid_if_not_zero<code_point_t> {
     return len == 1 ? 0x0000007F :           //  7b
              len == 2 ? 0x000007FF :         // 11b
@@ -65,12 +64,12 @@ max_code_point(const valid_sequence_length& len) noexcept
                        0x00000000;
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto head_data_bitshift(
+static constexpr auto head_data_bitshift(
   const valid_sequence_length& len) noexcept -> valid_span_size {
     return {len.is_valid() ? (extract(len) - 1) * 6 : -1};
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto tail_data_bitshift(
+static constexpr auto tail_data_bitshift(
   const valid_sequence_length& idx,
   const valid_sequence_length& len) noexcept -> valid_span_size {
     return {
@@ -78,8 +77,8 @@ static constexpr inline auto tail_data_bitshift(
                                          : -1};
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto head_code_mask(
-  const valid_sequence_length& len) noexcept -> valid_if_not_zero<byte> {
+static constexpr auto head_code_mask(const valid_sequence_length& len) noexcept
+  -> valid_if_not_zero<byte> {
     return len == 1
              ? 0x80
              : len == 2
@@ -91,43 +90,42 @@ static constexpr inline auto head_code_mask(
 }
 //------------------------------------------------------------------------------
 template <typename P>
-static constexpr inline auto inverted_byte(const valid_if<byte, P> b) noexcept
+static constexpr auto inverted_byte(const valid_if<byte, P> b) noexcept
   -> optionally_valid<byte> {
     return {byte(~b.value_anyway()), b.is_valid()};
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto head_data_mask(
-  const valid_sequence_length& len) noexcept -> optionally_valid<byte> {
+static constexpr auto head_data_mask(const valid_sequence_length& len) noexcept
+  -> optionally_valid<byte> {
     return inverted_byte(head_code_mask(len));
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto tail_code_mask() noexcept -> always_valid<byte> {
+static constexpr auto tail_code_mask() noexcept -> always_valid<byte> {
     return 0xC0;
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto tail_data_mask() noexcept -> always_valid<byte> {
+static constexpr auto tail_data_mask() noexcept -> always_valid<byte> {
     return 0x3F;
 }
 //------------------------------------------------------------------------------
 template <typename P>
-static constexpr inline auto
-head_code_from_mask(const valid_if<byte, P> mask) noexcept
+static constexpr auto head_code_from_mask(const valid_if<byte, P> mask) noexcept
   -> optionally_valid<byte> {
     // NOLINTNEXTLINE(hicpp-signed-bitwise)
     return {byte((mask.value_anyway() << 1) & 0xFF), mask.is_valid()};
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto
-head_code(const valid_sequence_length& len) noexcept -> optionally_valid<byte> {
+static constexpr auto head_code(const valid_sequence_length& len) noexcept
+  -> optionally_valid<byte> {
     return head_code_from_mask(head_code_mask(len));
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto tail_code() noexcept -> always_valid<byte> {
+static constexpr auto tail_code() noexcept -> always_valid<byte> {
     return 0x80;
 }
 //------------------------------------------------------------------------------
 template <typename P1, typename P2>
-static constexpr inline auto is_valid_masked_code(
+static constexpr auto is_valid_masked_code(
   const byte b,
   const valid_if<byte, P1> mask,
   const valid_if<byte, P2> code) noexcept -> bool {
@@ -136,27 +134,27 @@ static constexpr inline auto is_valid_masked_code(
              : false;
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 is_valid_head_byte(const byte b, const valid_sequence_length& l) noexcept
   -> bool {
     return is_valid_masked_code(b, head_code_mask(l), head_code(l));
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto is_valid_head_byte(const byte b) noexcept -> bool {
+static constexpr auto is_valid_head_byte(const byte b) noexcept -> bool {
     return is_valid_head_byte(b, 1) || is_valid_head_byte(b, 2) ||
            is_valid_head_byte(b, 3) || is_valid_head_byte(b, 4) ||
            is_valid_head_byte(b, 5) || is_valid_head_byte(b, 6);
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto is_valid_tail_byte(
+static constexpr auto is_valid_tail_byte(
   const byte b,
   const valid_sequence_length&,
   const valid_sequence_length&) noexcept -> bool {
     return is_valid_masked_code(b, tail_code_mask(), tail_code());
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto required_sequence_length(
-  const code_point_t cp) noexcept -> valid_sequence_length {
+static constexpr auto required_sequence_length(const code_point_t cp) noexcept
+  -> valid_sequence_length {
     return (max_code_point(1) > cp)
              ? 1
              : (max_code_point(2) > cp)

@@ -15,7 +15,7 @@ template <typename Src, typename Dst>
 struct instead_of {
     using type = Dst;
 
-    static constexpr inline Dst value(Dst val) noexcept {
+    static constexpr Dst value(Dst val) noexcept {
         return val;
     }
 };

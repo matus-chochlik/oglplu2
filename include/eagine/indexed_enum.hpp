@@ -30,8 +30,7 @@ struct indexed_enum_value {
 
     indexed_enum_value() = default;
 
-    constexpr inline indexed_enum_value(
-      indexed_enum_base<T, Base, LibId>) noexcept
+    constexpr indexed_enum_value(indexed_enum_base<T, Base, LibId>) noexcept
       : _index(0u) {}
 
     constexpr indexed_enum_value(
@@ -41,36 +40,36 @@ struct indexed_enum_value {
     }
 
     // this constructor is used by the operator+(indexed_enum_value, index)
-    constexpr inline indexed_enum_value(unsigned idx, int) noexcept
+    constexpr indexed_enum_value(unsigned idx, int) noexcept
       : _index(idx) {}
 
-    explicit constexpr inline indexed_enum_value(T value) noexcept
+    explicit constexpr indexed_enum_value(T value) noexcept
       : _index(unsigned(value - Base)) {}
 
-    explicit constexpr inline operator value_type() const noexcept {
+    explicit constexpr operator value_type() const noexcept {
         return value_type(Base + _index);
     }
 
-    friend constexpr inline bool
+    friend constexpr bool
     operator==(indexed_enum_value a, indexed_enum_value b) noexcept {
         return a._index == b._index;
     }
 
-    friend constexpr inline bool
+    friend constexpr bool
     operator!=(indexed_enum_value a, indexed_enum_value b) noexcept {
         return a._index != b._index;
     }
 
-    friend constexpr inline bool
+    friend constexpr bool
     operator<(indexed_enum_value a, indexed_enum_value b) noexcept {
         return a._index < b._index;
     }
 
-    static constexpr inline T base() noexcept {
+    static constexpr T base() noexcept {
         return Base;
     }
 
-    constexpr inline unsigned index() const noexcept {
+    constexpr unsigned index() const noexcept {
         return _index;
     }
 };
@@ -86,40 +85,40 @@ struct any_indexed_enum_value {
     unsigned _index{0u};
     T _base_id;
 
-    constexpr inline any_indexed_enum_value() noexcept
+    constexpr any_indexed_enum_value() noexcept
       : _base_id(~T(0)) {}
 
     template <T Base>
-    constexpr inline any_indexed_enum_value(
+    constexpr any_indexed_enum_value(
       indexed_enum_value<T, Base, LibId> iec) noexcept
       : _index(iec._index)
       , _base_id(Base) {}
 
-    explicit constexpr inline operator bool() const noexcept {
+    explicit constexpr operator bool() const noexcept {
         return _base_id != ~T(0);
     }
 
-    friend constexpr inline bool
+    friend constexpr bool
     operator==(any_indexed_enum_value a, any_indexed_enum_value b) noexcept {
         return (a._index == b._index) && (a._base_id == b._base_id);
     }
 
-    friend constexpr inline bool
+    friend constexpr bool
     operator!=(any_indexed_enum_value a, any_indexed_enum_value b) noexcept {
         return (a._index != b._index) || (a._base_id |= b._base_id);
     }
 
-    constexpr inline T base() const noexcept {
+    constexpr T base() const noexcept {
         return _base_id;
     }
 
-    constexpr inline unsigned index() const noexcept {
+    constexpr unsigned index() const noexcept {
         return _index;
     }
 };
 
 template <typename T, unsigned LibId>
-static constexpr inline bool same_enum_class(
+static constexpr bool same_enum_class(
   any_indexed_enum_value<T, LibId> a,
   any_indexed_enum_value<T, LibId> b) noexcept {
     return a._base_id == b._base_id;
