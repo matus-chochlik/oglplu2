@@ -9,6 +9,7 @@
 #define EAGINE_MATH_TVEC_HPP
 
 #include "../all_are_same.hpp"
+#include "../memory/flatten_fwd.hpp"
 #include "vector.hpp"
 
 namespace eagine {
@@ -82,6 +83,35 @@ template <typename T, int N, bool V>
 struct compound_view_maker<math::tvec<T, N, V>> {
     auto operator()(const math::vector<T, N, V>& v) const noexcept {
         return vect::view<T, N, V>::apply(v._v);
+    }
+};
+
+template <typename T, int N, bool V>
+struct flatten_traits<math::tvec<T, N, V>, T> {
+
+    template <typename Ps, typename Ss>
+    static constexpr auto required_size(
+      memory::basic_span<const math::tvec<T, N, V>, Ps, Ss> src) noexcept
+      -> span_size_t {
+        return src.size() * N;
+    }
+
+    template <typename Pd, typename Sd>
+    static auto apply(
+      const math::tvec<T, N, V>& src,
+      memory::basic_span<T, Pd, Sd> dst) noexcept {
+        EAGINE_ASSERT(N <= dst.size());
+        _do_apply(src._v, dst, std::make_index_sequence<std::size_t(N)>{});
+        return skip(dst, N);
+    }
+
+private:
+    template <typename Pd, typename Sd, std::size_t... I>
+    static void _do_apply(
+      vect::data_t<T, N, V> src,
+      memory::basic_span<T, Pd, Sd> dst,
+      std::index_sequence<I...>) noexcept {
+        ((dst[I] = src[I]), ...);
     }
 };
 
