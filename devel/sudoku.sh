@@ -13,7 +13,7 @@ pids=()
 #
 ${install_prefix}/bin/eagine-message_bus-router \
 	"${log_args[@]}" \
-	${conn_type} \
+	"${conn_type}" \
 	--msg-bus-router-shutdown-verify false \
 	--msg-bus-router-shutdown-when-idle true \
 	--msg-bus-router-shutdown-delay 20s \
@@ -21,7 +21,7 @@ ${install_prefix}/bin/eagine-message_bus-router \
 sleep 1
 ${install_prefix}/bin/eagine-message_bus-sudoku_helper \
 	"${log_args[@]}" \
-	${conn_type} \
+	"${conn_type}" \
 	--msg-bus-router-id-major 1000 \
 	--msg-bus-router-id-count 1000 \
 	& termpids+=($!)
@@ -30,7 +30,7 @@ rank=4
 div=$((rank * (rank - 2)))
 ${install_prefix}/bin/eagine-message_bus-sudoku_tiling \
 	"${log_args[@]}" \
-	${conn_type} \
+	"${conn_type}" \
 	--msg-bus-sudoku-solver-block-cells true \
 	--msg-bus-sudoku-solver-print-incomplete true \
 	--${rank} \
@@ -41,8 +41,8 @@ sleep 1
 for ssh_host in "${@}"
 do
 	"${install_prefix}/bin/eagine-message_bus-bridge" \
-		--min-log-severity stat \
-		--msg-bus-asio-local-stream \
+		"${log_args[@]}" \
+		"${conn_type}" \
 		--msg-bus-bridge-shutdown-delay 15s \
 		--ssh "${ssh_host}" \
 	&  termpids+=($!)
