@@ -13,6 +13,8 @@
 /// @brief Common code is placed in this namespace.
 namespace eagine {
 
+/// @defgroup valid_if Conditionally valid values.
+
 /// @brief Math-related code is placed in this namespace.
 namespace math {
 /// @defgroup math Math utilities
