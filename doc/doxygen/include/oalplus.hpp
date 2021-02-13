@@ -6,7 +6,7 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-/// @mainpage OGLplus
+/// @subpage OGLplus
 ///
 /// Implements OpenGL wrapper code and graphics utilities.
 

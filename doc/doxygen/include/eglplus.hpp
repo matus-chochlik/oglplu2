@@ -6,7 +6,7 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-/// @mainpage EGLplus
+/// @subpage EGLplus
 ///
 /// Implements EGL wrapper code and framebuffer setup utilities.
 

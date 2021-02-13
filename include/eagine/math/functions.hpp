@@ -1,4 +1,4 @@
-/// @file eagine/math/functions.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -17,6 +17,8 @@
 
 namespace eagine::math {
 //------------------------------------------------------------------------------
+/// @brief Indicates if @p value is a positive integral power of two.
+/// @ingroup math
 template <typename T>
 static constexpr auto is_positive_power_of_2(T value) noexcept
   -> std::enable_if_t<std::is_integral_v<T>, bool> {
@@ -24,37 +26,51 @@ static constexpr auto is_positive_power_of_2(T value) noexcept
     return (value > 0) && ((U(value) & (U(value) - 1)) == 0);
 }
 //------------------------------------------------------------------------------
+/// @brief Returns the greates common divisor of arguments @p l and @p r.
+/// @ingroup math
 template <typename T>
 static constexpr auto greatest_common_divisor(T l, T r) noexcept
   -> std::enable_if_t<std::is_integral_v<T>, T> {
     return (r == T(0)) ? l : greatest_common_divisor(r, T(l % r));
 }
 //------------------------------------------------------------------------------
+/// @brief Returns 1 if @p x is non-negative, returns -1 otherwise.
+/// @ingroup math
 template <typename T>
 static constexpr auto signum(T x) noexcept {
     return (x < 0) ? T(-1) : T(1);
 }
 //------------------------------------------------------------------------------
+/// @brief Returns the minimum value of @p a and @p b.
+/// @ingroup math
 template <typename T>
 static constexpr auto minimum(T a, T b) noexcept {
     return a < b ? a : b;
 }
 //------------------------------------------------------------------------------
+/// @brief Returns the minimum value from multiple arguments.
+/// @ingroup math
 template <typename T, typename... P>
 static constexpr auto minimum(T a, T b, T c, P... d) noexcept {
     return minimum(minimum(a, b), c, d...);
 }
 //------------------------------------------------------------------------------
+/// @brief Returns the maximum value of @p a and @p b.
+/// @ingroup math
 template <typename T>
 static constexpr auto maximum(T a, T b) noexcept {
     return a > b ? a : b;
 }
 //------------------------------------------------------------------------------
+/// @brief Returns the maximum value from multiple arguments.
+/// @ingroup math
 template <typename T, typename... P>
 static constexpr auto maximum(T a, T b, T c, P... d) noexcept {
     return maximum(maximum(a, b), c, d...);
 }
 //------------------------------------------------------------------------------
+/// @brief Returns @p a divided by @p b if @p b is not zero.
+/// @ingroup math
 template <typename T>
 static constexpr auto ratio(T a, T b) noexcept -> optionally_valid<T> {
     if(b > T(0) || (b < T(0))) {
@@ -63,6 +79,8 @@ static constexpr auto ratio(T a, T b) noexcept -> optionally_valid<T> {
     return {};
 }
 //------------------------------------------------------------------------------
+/// @brief Returns the reciprocal of @p x if @p x is not zero.
+/// @ingroup math
 template <typename T>
 static constexpr auto reciprocal(T x) noexcept -> optionally_valid<T> {
     using std::abs;
@@ -72,43 +90,62 @@ static constexpr auto reciprocal(T x) noexcept -> optionally_valid<T> {
     return {};
 }
 //------------------------------------------------------------------------------
+/// @brief Clamps @p x to be between @p min and @p max.
+/// @ingroup math
 template <typename T, typename Min, typename Max>
 static constexpr auto clamp(T x, Min min, Max max) noexcept {
     return x < T(min) ? T(min) : x > T(max) ? T(max) : x;
 }
 //------------------------------------------------------------------------------
+/// @brief Normalizes @p x to (0, 1), where @p start = 0 and @p end = 1.
+/// @ingroup math
 template <typename T, typename S, typename E>
 static constexpr auto ramp(T x, S start, E end) noexcept {
     return (clamp(x, start, end) - start) / (end - start);
 }
 //------------------------------------------------------------------------------
+/// @brief Blends @p v1 and @p v2, using @p alpha as the blending factor.
+/// @ingroup math
 template <typename T, typename A>
 static constexpr auto blend(T v1, T v2, A alpha) noexcept {
     return v1 * alpha + v2 * (1 - alpha);
 }
 //------------------------------------------------------------------------------
+/// @brief Calculates the inverse logistic (log(x) - log(1 - x)) of @p x.
+/// @ingroup math
 template <typename T>
 static constexpr auto inverse_logistic(T x) noexcept {
     using std::log;
     return log(x) - log(1 - x);
 }
 //------------------------------------------------------------------------------
+/// @brief Calculates the logistic (1 / (1 + exp(-x))) of @p x.
+/// @ingroup math
 template <typename T>
 static constexpr auto logistic(T x) noexcept {
     using std::exp;
     return 1 / (1 + exp(-x));
 }
 //------------------------------------------------------------------------------
+/// @brief Calculates the sigmoid of @p x. The value @p c controls steepness.
+/// @ingroup math
+/// @pre 0 <= x <= 1
 template <typename T, typename C>
 static constexpr auto sigmoid01(T x, C c) noexcept {
     return logistic(c * inverse_logistic(x));
 }
 //------------------------------------------------------------------------------
+/// @brief Calculates the default sigmoid of @p x.
+/// @ingroup math
+/// @pre 0 <= x <= 1
 template <typename T>
 static constexpr auto sigmoid01(T x) noexcept {
     return sigmoid01(x, 2);
 }
 //------------------------------------------------------------------------------
+/// @brief Calculates goniometric sigmoid (cos in interval (0, 1)) of @p x.
+/// @ingroup math
+/// @pre 0 <= x <= 1
 template <typename T>
 static inline auto sine_sigmoid01(T x) {
 
@@ -123,30 +160,42 @@ static inline auto sine_sigmoid01(T x) {
 #endif
 }
 //------------------------------------------------------------------------------
+/// @brief Calculates sine of @p x, mapped to interval (0, 1).
+/// @ingroup math
+/// @pre 0 <= x <= 1
 template <typename T>
 static constexpr auto sine_wave01(T x) noexcept {
     using std::sin;
     return (sin(2 * pi * x) + 1) / 2;
 }
 //------------------------------------------------------------------------------
+/// @brief Calculates cosine of @p x, mapped to interval (0, 1).
+/// @ingroup math
+/// @pre 0 <= x <= 1
 template <typename T>
 static constexpr auto cosine_wave01(T x) noexcept {
     using std::cos;
     return (cos(2 * pi * x) + 1) / 2;
 }
 //------------------------------------------------------------------------------
+/// @brief Calculates floating-point modulo of @p x in intervals of @p u.
+/// @ingroup math
 template <typename T, typename U = T>
 static constexpr auto saw(T x, U u = T(1)) noexcept {
     using std::fmod;
     return fmod(x, u);
 }
 //------------------------------------------------------------------------------
+/// @brief Calculates factorial of @p n.
+/// @ingroup math
 template <typename T>
 static constexpr auto factorial(T n) noexcept
   -> std::enable_if_t<std::is_integral_v<T>, T> {
     return n > 0 ? n * factorial(n - 1) : 1;
 }
 //------------------------------------------------------------------------------
+/// @brief Calculates binomial coefficient of @p n over @p k.
+/// @ingroup math
 template <typename T>
 static constexpr auto binomial(T n, T k) noexcept
   -> std::enable_if_t<std::is_integral_v<T>, T> {
@@ -155,6 +204,12 @@ static constexpr auto binomial(T n, T k) noexcept
              : 0;
 }
 //------------------------------------------------------------------------------
+/// @brief Helper class for bezier curve segment calculations.
+/// @ingroup math
+/// @tparam Type the interpolated type.
+/// @tparam Parameter the curve interpolation parameter type.
+/// @tparam N the curve order.
+/// @see bezier_curves
 template <typename Type, typename Parameter, int N>
 struct bezier_t {
 private:
@@ -184,6 +239,7 @@ private:
     }
 
 public:
+    /// @brief Interpolate from control points in pack @p p at position @p t.
     template <
       typename... Points,
       typename = std::enable_if_t<sizeof...(Points) == N>>
@@ -191,6 +247,7 @@ public:
         return _calc(N - 1, 0, t, std::forward<Points>(p)...);
     }
 
+    /// @brief Interpolate from control points in span @p p at position @p t.
     template <typename P, typename S>
     auto operator()(Parameter t, memory::basic_span<const Type, P, S> p)
       const noexcept {

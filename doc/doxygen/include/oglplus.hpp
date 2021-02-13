@@ -6,7 +6,7 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-/// @mainpage OALplus
+/// @subpage OALplus
 ///
 /// Implements OpenAL wrapper code and audio utilities.
 
