@@ -155,41 +155,45 @@ static constexpr auto binomial(T n, T k) noexcept
              : 0;
 }
 //------------------------------------------------------------------------------
-template <typename T, int N>
+template <typename Type, typename Parameter, int N>
 struct bezier_t {
 private:
-    static constexpr auto _coef(int m, int i, T t) noexcept {
+    static constexpr auto _coef(int m, int i, Parameter t) noexcept {
         using std::pow;
-        return T(binomial(m, i) * pow(t, i) * pow(1 - t, m - i));
+        return binomial(m, i) * pow(t, i) * pow(1 - t, m - i);
     }
 
-    static constexpr auto _calc(int, int, T) noexcept {
-        return T{0};
+    static constexpr auto _calc(int, int, Parameter) noexcept {
+        return Type{0};
     }
 
     template <typename... P>
-    static constexpr auto _calc(int m, int i, T t, T f, P... r) noexcept -> T {
-        return f * _coef(m, i, t) + _calc(m, i + 1, t, r...);
+    static constexpr auto
+    _calc(int m, int i, Parameter t, Type first, P... rest) noexcept -> Type {
+        return first * _coef(m, i, t) + _calc(m, i + 1, t, rest...);
     }
 
     template <typename P, typename S, std::size_t... I>
     static constexpr auto _calc(
       int m,
       int i,
-      T t,
-      memory::basic_span<const T, P, S> p,
-      std::index_sequence<I...>) noexcept -> T {
+      Parameter t,
+      memory::basic_span<const Type, P, S> p,
+      std::index_sequence<I...>) noexcept -> Type {
         return _calc(m, i, t, p[I]...);
     }
 
 public:
-    template <typename... P, typename = std::enable_if_t<sizeof...(P) == N>>
-    constexpr auto operator()(T t, P... p) const noexcept {
-        return _calc(N - 1, 0, t, p...);
+    template <
+      typename... Points,
+      typename = std::enable_if_t<sizeof...(Points) == N>>
+    constexpr auto operator()(Parameter t, Points&&... p) const noexcept {
+        return _calc(N - 1, 0, t, std::forward<Points>(p)...);
     }
 
     template <typename P, typename S>
-    auto operator()(T t, memory::basic_span<const T, P, S> p) const noexcept {
+    auto operator()(Parameter t, memory::basic_span<const Type, P, S> p)
+      const noexcept {
         return _calc(N - 1, 0, t, p, std::make_index_sequence<N>());
     }
 };

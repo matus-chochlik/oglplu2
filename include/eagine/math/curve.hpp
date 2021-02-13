@@ -37,7 +37,7 @@ private:
     static_assert(Order > 0);
 
     std::vector<Type> _points;
-    bezier_t<Type, Order + 1> _bezier{};
+    bezier_t<Type, Parameter, Order + 1> _bezier{};
     bool _connected;
 
 public:
@@ -105,7 +105,7 @@ public:
     /// If both of the above are true then the curves are considered
     /// to be connected.
     template <typename P, typename S>
-    bezier_curves(memory::basic_span<const Type, P, S>& points)
+    bezier_curves(memory::basic_span<const Type, P, S> points)
       : _points(points.begin(), points.end())
       , _connected{are_connected(_points)} {
         EAGINE_ASSERT(points_are_ok(_points));
@@ -120,7 +120,7 @@ public:
     /// If both of the above are true then the curves are considered
     /// to be connected.
     template <typename P, typename S>
-    bezier_curves(memory::basic_span<Type, P, S>& points, bool connected)
+    bezier_curves(memory::basic_span<const Type, P, S> points, bool connected)
       : _points(points.begin(), points.end())
       , _connected(connected) {
         EAGINE_ASSERT(points_are_ok(_points));
