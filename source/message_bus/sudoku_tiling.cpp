@@ -88,21 +88,25 @@ auto main(main_ctx& ctx) -> int {
     ctx.args().find("--width").parse_next(width, ctx.log().error_stream());
     ctx.args().find("--height").parse_next(height, ctx.log().error_stream());
 
+    const bool rank_3 = ctx.args().find("--3");
+    const bool rank_4 = ctx.args().find("--4");
+    const bool rank_5 = ctx.args().find("--5");
+
     auto enqueue = [&](auto traits) {
-        tiling_generator.initialize(
+        tiling_generator.reinitialize(
           {extract_or(width, 32), extract_or(height, 32)},
           traits.make_generator().generate_medium());
     };
 
-    if(ctx.args().find("--3")) {
+    if(rank_3) {
         enqueue(default_sudoku_board_traits<3>());
     }
 
-    if(ctx.args().find("--4")) {
+    if(rank_4) {
         enqueue(default_sudoku_board_traits<4>());
     }
 
-    if(ctx.args().find("--5")) {
+    if(rank_5) {
         enqueue(default_sudoku_board_traits<5>());
     }
 
@@ -113,6 +117,21 @@ auto main(main_ctx& ctx) -> int {
     int idle_streak = 0;
     while(keep_running()) {
         tiling_generator.update();
+        if(EAGINE_UNLIKELY(
+             rank_3 &&
+             tiling_generator.solution_timeouted(unsigned_constant<3>{}))) {
+            enqueue(default_sudoku_board_traits<3>());
+        }
+        if(EAGINE_UNLIKELY(
+             rank_4 &&
+             tiling_generator.solution_timeouted(unsigned_constant<4>{}))) {
+            enqueue(default_sudoku_board_traits<4>());
+        }
+        if(EAGINE_UNLIKELY(
+             rank_5 &&
+             tiling_generator.solution_timeouted(unsigned_constant<5>{}))) {
+            enqueue(default_sudoku_board_traits<5>());
+        }
         if(tiling_generator.process_all()) {
             idle_streak = 0;
         } else {

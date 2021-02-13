@@ -394,8 +394,26 @@ public:
     }
 
     template <unsigned S>
+    auto reset(unsigned_constant<S> rank) noexcept -> auto& {
+        _infos.get(rank).reset(*this);
+        return *this;
+    }
+
+    template <unsigned S>
     auto has_enqueued(const Key& key, unsigned_constant<S> rank) -> bool {
         return _infos.get(rank).has_enqueued(key);
+    }
+
+    template <unsigned S>
+    auto set_solution_timeout(
+      unsigned_constant<S> rank,
+      std::chrono::seconds sec) noexcept -> bool {
+        return _infos.get(rank).solution_timeout.reset(sec);
+    }
+
+    template <unsigned S>
+    auto solution_timeouted(unsigned_constant<S> rank) const noexcept -> bool {
+        return _infos.get(rank).solution_timeout.is_expired();
     }
 
     virtual auto already_done(const Key&, unsigned_constant<3>) -> bool {
@@ -422,6 +440,7 @@ private:
         message_sequence_t query_sequence{0};
         default_sudoku_board_traits<S> traits;
         timeout search_timeout{std::chrono::seconds(3), nothing};
+        timeout solution_timeout{std::chrono::seconds(S * S * S * S)};
 
         flat_map<Key, std::vector<basic_sudoku_board<S>>> key_boards;
 
@@ -541,6 +560,7 @@ private:
                             }),
                           key_boards.end());
                         parent.on_solved(pos->used_helper, pos->key, board);
+                        solution_timeout.reset();
                     } else {
                         add_board(pos->key, std::move(board));
                     }
@@ -639,6 +659,17 @@ private:
                      pending.begin(), pending.end(), [&](const auto& entry) {
                          return entry.key == key;
                      }) != pending.end();
+        }
+
+        void reset(This& parent) noexcept {
+            key_boards.clear();
+            pending.clear();
+            used_helpers.clear();
+            solution_timeout.reset();
+
+            parent.bus()
+              .log_info("reset sudoku solution")
+              .arg(EAGINE_ID(rank), S);
         }
     };
 
@@ -819,6 +850,11 @@ public:
         return print(out, {_minu, _minv}, {_maxu, _maxv});
     }
 
+    auto clear() -> auto& {
+        _boards.clear();
+        return *this;
+    }
+
 protected:
     auto new_board() noexcept -> basic_sudoku_board<S> {
         return {_traits};
@@ -857,6 +893,12 @@ public:
     template <unsigned S>
     auto initialize(Coord max, basic_sudoku_board<S> board) -> auto& {
         return initialize({0, 0}, max, {0, 0}, std::move(board));
+    }
+
+    template <unsigned S>
+    auto reinitialize(Coord max, basic_sudoku_board<S> board) -> auto& {
+        base::reset(unsigned_constant<S>{});
+        return initialize(max, board);
     }
 
     template <unsigned S>

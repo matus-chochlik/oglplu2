@@ -32,6 +32,7 @@ class basic_sudoku_board_generator;
 template <unsigned S>
 class basic_sudoku_board_traits {
 public:
+    static constexpr const unsigned rank = S;
     static constexpr const unsigned glyph_count = S * S;
 
     using This = basic_sudoku_board_traits;
