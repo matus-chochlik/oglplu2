@@ -850,7 +850,7 @@ public:
         return print(out, {_minu, _minv}, {_maxu, _maxv});
     }
 
-    auto clear() -> auto& {
+    auto reset() noexcept -> auto& {
         _boards.clear();
         return *this;
     }
@@ -896,8 +896,15 @@ public:
     }
 
     template <unsigned S>
+    auto reset(unsigned_constant<S> rank) -> auto& {
+        base::reset(rank);
+        _infos.get(rank).reset();
+        return *this;
+    }
+
+    template <unsigned S>
     auto reinitialize(Coord max, basic_sudoku_board<S> board) -> auto& {
-        base::reset(unsigned_constant<S>{});
+        reset(unsigned_constant<S>{});
         return initialize(max, board);
     }
 
