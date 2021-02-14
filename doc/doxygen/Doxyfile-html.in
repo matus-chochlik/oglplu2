@@ -11,7 +11,7 @@ HTML_HEADER             = @CMAKE_CURRENT_SOURCE_DIR@/header.html
 HTML_FOOTER             = @CMAKE_CURRENT_SOURCE_DIR@/footer.html
 HTML_STYLESHEET         = @CMAKE_CURRENT_SOURCE_DIR@/oglplus.css
 
-EXAMPLE_PATH            = @CMAKE_CURRENT_SOURCE_DIR@/exmaple
+EXAMPLE_PATH            = @PROJECT_SOURCE_DIR@/example
 IMAGE_PATH              =
 
 WARN_LOGFILE           = @CMAKE_CURRENT_BINARY_DIR@/html.log
