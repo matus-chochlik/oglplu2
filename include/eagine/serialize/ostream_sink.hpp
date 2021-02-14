@@ -1,4 +1,4 @@
-/// @file eagine/serialize/ostream_sink.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

@@ -1,4 +1,4 @@
-/// @file eagine/main_ctx.inl
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

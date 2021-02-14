@@ -1,4 +1,4 @@
-/// @file eagine/memory/std_alloc.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

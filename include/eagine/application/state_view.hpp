@@ -1,4 +1,4 @@
-/// @file eagine/application/state_view.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

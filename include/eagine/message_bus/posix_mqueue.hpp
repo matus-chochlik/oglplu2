@@ -1,4 +1,4 @@
-/// @file eagine/message_bus/posix_mqueue.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

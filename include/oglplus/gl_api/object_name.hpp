@@ -1,4 +1,4 @@
-/// @file oglplus/gl_api/object_name.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

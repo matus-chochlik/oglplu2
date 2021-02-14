@@ -1,4 +1,4 @@
-/// @file eagine/all_are_same.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

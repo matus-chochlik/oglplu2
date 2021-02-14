@@ -1,4 +1,4 @@
-/// .file lib/oglplus/gl_api.cpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

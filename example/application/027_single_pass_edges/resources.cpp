@@ -1,4 +1,4 @@
-/// .file application/027_single_pass_edges/resources.cpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

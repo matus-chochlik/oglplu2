@@ -1,4 +1,4 @@
-/// @file eagine/ssl_api/object_handle.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

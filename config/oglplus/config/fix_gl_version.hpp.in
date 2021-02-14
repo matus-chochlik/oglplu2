@@ -1,4 +1,4 @@
-/// .file oglplus/config/fix_gl_version.hpp
+/// @file
 /// .brief Helper file for adjusting GL_VERSION
 ///
 /// Copyright Matus Chochlik.

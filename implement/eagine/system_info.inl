@@ -1,4 +1,4 @@
-/// @file eagine/system_info.inl
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

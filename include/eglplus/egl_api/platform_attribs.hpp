@@ -1,4 +1,4 @@
-/// @file eglplus/egl_api/platform_attribs.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

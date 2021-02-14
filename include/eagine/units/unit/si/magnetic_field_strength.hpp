@@ -1,4 +1,4 @@
-/// @file eagine/units/unit/si/magnetic_field_strength.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

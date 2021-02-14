@@ -1,4 +1,4 @@
-/// @file eagine/units/unit/si/electrical_conductance.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

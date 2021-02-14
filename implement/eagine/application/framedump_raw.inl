@@ -1,4 +1,4 @@
-/// @file eagine/application/framedump_raw.inl
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

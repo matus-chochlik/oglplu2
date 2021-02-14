@@ -1,4 +1,4 @@
-/// @file eagine/message_bus/conn_factory.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

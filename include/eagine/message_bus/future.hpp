@@ -1,4 +1,4 @@
-/// @file eagine/message_bus/future.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

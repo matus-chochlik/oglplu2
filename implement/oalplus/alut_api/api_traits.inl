@@ -1,4 +1,4 @@
-/// @file oalplus/alut_api/api_traits.inl
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

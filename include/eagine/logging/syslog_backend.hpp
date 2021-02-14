@@ -1,4 +1,4 @@
-/// @file eagine/logging/syslog_backend.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

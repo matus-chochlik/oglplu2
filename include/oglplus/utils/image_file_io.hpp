@@ -1,4 +1,4 @@
-/// @file oglplus/utils/image_file_io.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

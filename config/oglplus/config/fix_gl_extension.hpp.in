@@ -1,4 +1,4 @@
-/// .file oglplus/config/fix_gl_extension.hpp
+/// @file
 /// .brief Helper file for adjusting GL extension PP symbols
 ///
 /// Copyright Matus Chochlik.

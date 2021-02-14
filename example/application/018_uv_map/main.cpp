@@ -1,4 +1,4 @@
-/// .file application/018_uv_map/main.cpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

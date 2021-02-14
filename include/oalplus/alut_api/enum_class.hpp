@@ -1,4 +1,4 @@
-/// @file oalplus/alut_api/enum_class.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

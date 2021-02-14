@@ -1,4 +1,4 @@
-/// @file oglplus/texgen/interlace_node.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

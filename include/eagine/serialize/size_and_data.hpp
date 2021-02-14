@@ -1,4 +1,4 @@
-/// @file eagine/serialize/size_and_data.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
