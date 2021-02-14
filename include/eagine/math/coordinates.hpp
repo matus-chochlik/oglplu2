@@ -18,7 +18,7 @@
 namespace eagine::math {
 //------------------------------------------------------------------------------
 /// @brief Class representing unit spherical coordinate.
-/// @ingroup math_utils
+/// @ingroup math
 template <typename T, bool V>
 class unit_spherical_coordinate {
 public:
@@ -48,7 +48,7 @@ private:
 };
 //------------------------------------------------------------------------------
 /// @brief Converts unit spherical coordinate to cartesian vector.
-/// @ingroup math_utils
+/// @ingroup math
 template <typename T, bool V>
 auto to_cartesian(unit_spherical_coordinate<T, V> c) noexcept
   -> vector<T, 3, V> {
@@ -60,7 +60,7 @@ auto to_cartesian(unit_spherical_coordinate<T, V> c) noexcept
 }
 //------------------------------------------------------------------------------
 /// @brief Converts cartesian vector to unit spherical coordinate.
-/// @ingroup math_utils
+/// @ingroup math
 template <typename T, bool V>
 auto to_unit_spherical(vector<T, 3, V> v) noexcept
   -> unit_spherical_coordinate<T, V> {
