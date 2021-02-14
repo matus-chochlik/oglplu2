@@ -56,7 +56,7 @@ void cubes_program::update(execution_context& ec, video_context& vc) {
     glapi.set_uniform(
       prog,
       center_loc,
-      oglp::to_cartesian(oglp::unit_spherical_coordinates(
+      oglp::to_cartesian(oglp::unit_spherical_coordinate(
         turns_(t / 3.F),
         oglp::smooth_lerp(right_angles_(1.F), right_angles_(-1.F), t / 5.F))) *
         oglp::smooth_lerp(0.F, 10.F, t / 7.F));

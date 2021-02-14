@@ -57,7 +57,7 @@ void occluded_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
                 for(auto s : integer_range(1, ns)) {
                     using std::acos;
 
-                    const math::unit_spherical_coordinates<float, true> usc{
+                    const math::unit_spherical_coordinate<float, true> usc{
                       turns_(float(dis(rho_re))),
                       radians_(float(acos(2 * dis(phi_re) - 1)))};
 
