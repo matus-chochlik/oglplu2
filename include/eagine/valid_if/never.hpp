@@ -1,4 +1,4 @@
-/// @file eagine/valid_if/never.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -13,10 +13,13 @@
 
 namespace eagine {
 
-// never
+/// @brief Policy for never-valid values.
+/// @ingroup valid_if
 struct never_valid_policy {
+
+    /// @brief Indicates value validity. Always returns false.
     template <typename T>
-    constexpr auto operator()(T) const noexcept {
+    constexpr auto operator()(const T&) const noexcept {
         return false;
     }
 
@@ -31,6 +34,9 @@ struct never_valid_policy {
     };
 };
 
+/// @brief Specialization of valid_if, for never-valid values.
+/// @ingroup valid_if
+/// @see always_valid
 template <typename T>
 using never_valid = valid_if<T, never_valid_policy>;
 

@@ -1,4 +1,4 @@
-/// @file eagine/valid_if/io.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -14,6 +14,8 @@
 
 namespace eagine {
 
+/// @brief Operator for writing values of basic_valid_if to output streams.
+/// @ingroup valid_if
 template <typename T, typename P, typename L>
 auto operator<<(std::ostream& out, const basic_valid_if<T, P, L>& v) -> auto& {
     if(v.is_valid()) {

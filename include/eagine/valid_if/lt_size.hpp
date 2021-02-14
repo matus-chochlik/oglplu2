@@ -1,4 +1,4 @@
-/// @file eagine/valid_if/lt_size.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -13,9 +13,12 @@
 
 namespace eagine {
 
-// valid if less than container.size()
+/// @brief Policy class for values valid if less than container.size().
+/// @ingroup valid_if
 template <typename T, typename C>
 struct valid_if_lt_size_policy {
+
+    /// @brief Indicates value validity, true x < c.size().
     auto operator()(T x, const C& c) const {
         return x < c.size();
     }
@@ -32,6 +35,12 @@ struct valid_if_lt_size_policy {
     };
 };
 
+/// @brief Policy class for values valid if less than container size.
+/// @ingroup valid_if
+/// @see valid_if_less_than
+/// @see valid_if_lt_size_ge0
+/// @see valid_if_le_size_ge0
+/// @see valid_if_not_empty
 template <typename C, typename T>
 using valid_if_lt_size = in_class_valid_if<T, C, valid_if_lt_size_policy<T, C>>;
 

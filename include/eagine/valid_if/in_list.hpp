@@ -1,4 +1,4 @@
-/// @file eagine/valid_if/in_list.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -13,7 +13,8 @@
 
 namespace eagine {
 
-// in range
+/// @brief Policy for values valid if contained in object of Range type.
+/// @ingroup valid_if
 template <typename T, typename Range>
 struct valid_if_in_list_policy {
     Range _choices = {};
@@ -21,6 +22,7 @@ struct valid_if_in_list_policy {
     valid_if_in_list_policy(const Range& choices)
       : _choices(choices) {}
 
+    /// @brief Indicates value validity, true if value is one of the specified choices.
     auto operator()(const T& value) const noexcept -> bool {
         for(const T& choice : _choices) {
             if(are_equal(value, choice)) {
@@ -51,6 +53,8 @@ struct valid_if_in_list_policy {
     };
 };
 
+/// @brief Specialization of valid_if, for values valid in Range.
+/// @ingroup valid_if
 template <typename T, typename Range>
 using valid_if_in_list = valid_if<T, valid_if_in_list_policy<T, Range>>;
 

@@ -1,4 +1,4 @@
-/// @file eagine/valid_if/less_than.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -13,9 +13,12 @@
 
 namespace eagine {
 
-// less-than
+/// @brief Policy class for values valid if less than Cmp.
+/// @ingroup valid_if
 template <typename T, T Cmp>
 struct valid_if_lt_policy {
+
+    /// @brief Indicates value validity, true if value < Cmp.
     constexpr auto operator()(T value) const noexcept {
         return value < Cmp;
     }
@@ -33,6 +36,10 @@ struct valid_if_lt_policy {
     };
 };
 
+/// @brief Specialization of valid_if, for values valid if less than Cmp.
+/// @ingroup valid_if
+/// @see valid_if_between
+/// @see valid_if_lt_size
 template <typename T, T Cmp>
 using valid_if_less_than = valid_if<T, valid_if_lt_policy<T, Cmp>>;
 

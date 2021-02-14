@@ -1,4 +1,4 @@
-/// @file eagine/valid_if/not_empty.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -13,9 +13,12 @@
 
 namespace eagine {
 
-// not empty
+/// @brief Policy class for containers valid if their empty() member function return false.
+/// @ingroup valid_if
 template <typename T>
 struct valid_if_not_empty_policy {
+
+    /// @brief Indicates value validity, true if !range.empty().
     constexpr auto operator()(const T& range) const noexcept {
         return !range.empty();
     }
@@ -31,6 +34,10 @@ struct valid_if_not_empty_policy {
     };
 };
 
+/// @brief Specialization of valid_if, for values valid if not empty.
+/// @ingroup valid_if
+/// @see valid_if_size_gt
+/// @see valid_if_lt_size
 template <typename T>
 using valid_if_not_empty = valid_if<T, valid_if_not_empty_policy<T>>;
 

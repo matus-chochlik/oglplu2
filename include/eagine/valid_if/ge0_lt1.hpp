@@ -1,4 +1,4 @@
-/// @file eagine/valid_if/ge0_lt1.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -13,9 +13,12 @@
 
 namespace eagine {
 
-// in [0, 1)
+/// @brief Policy for values valid if greate or equal to zero, less than one.
+/// @ingroup valid_if
 template <typename T>
 struct valid_if_ge0_lt1_policy {
+
+    /// @brief Indicates value validity, true if 0 <= value < 1.
     constexpr auto operator()(T value) const noexcept {
         return (T(0) <= value) && (value < T(1));
     }
@@ -32,6 +35,10 @@ struct valid_if_ge0_lt1_policy {
     };
 };
 
+/// @brief Specialization of valid_if, for values valid if 0 <= value < 1.
+/// @ingroup valid_if
+/// @see valid_if_between
+/// @see valid_if_between_0_1
 template <typename T>
 using valid_if_ge0_lt1 = valid_if<T, valid_if_ge0_lt1_policy<T>>;
 

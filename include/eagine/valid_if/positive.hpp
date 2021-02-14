@@ -1,4 +1,4 @@
-/// @file eagine/valid_if/positive.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -13,9 +13,12 @@
 
 namespace eagine {
 
-// positive
+/// @brief Policy class for values valid when they are positive.
+/// @ingroup valid_if
 template <typename T>
 struct valid_if_positive_policy {
+
+    /// @brief Indicates value validity, true if 0 < value.
     constexpr auto operator()(T value) const noexcept {
         return value > T(0);
     }
@@ -33,6 +36,10 @@ struct valid_if_positive_policy {
     };
 };
 
+/// @brief Specialization of valid_if, for values valid if positive.
+/// @ingroup valid_if
+/// @see valid_if_nonnegative
+/// @see valid_if_less_than
 template <typename T>
 using valid_if_positive = valid_if<T, valid_if_positive_policy<T>>;
 

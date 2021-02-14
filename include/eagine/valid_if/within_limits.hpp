@@ -1,4 +1,4 @@
-/// @file eagine/valid_if/within_limits.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -14,9 +14,12 @@
 
 namespace eagine {
 
-// is withing limits
+/// @brief Policy class for values valid if they are withing limits of other type.
+/// @ingroup valid_if
 template <typename Dst, typename Src>
 struct valid_if_within_limits_policy {
+
+    /// @brief Indicates value validity, true if value fits into Dst type.
     constexpr auto operator()(Src value) const noexcept {
         return is_within_limits<Dst>(value);
     }
@@ -34,6 +37,10 @@ struct valid_if_within_limits_policy {
     };
 };
 
+/// @brief Specialization of valid_if, for values valid if within limits of Dst type.
+/// @ingroup valid_if
+/// @see valid_if_between
+/// @see is_within_limits
 template <typename Dst, typename Src>
 using valid_if_within_limits =
   valid_if<Src, valid_if_within_limits_policy<Dst, Src>>;

@@ -1,4 +1,4 @@
-/// @file eagine/valid_if/le_size_ge0.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -13,13 +13,17 @@
 
 namespace eagine {
 
-// valid if greater than or equal to 0 and not greater than container.size()
+/// @brief Policy for values valid if >= 0 and <= container.size().
+/// @ingroup valid_if
 template <typename T, typename C>
 struct valid_if_le_size_ge0_policy {
+
+    /// @brief Indicates value validity, true if 0 <= x <= c.size().
     auto operator()(T x, const C& c) const {
         return (T(0) <= x) && (x <= c.size());
     }
 
+    /// @brief Indicates value validity, true if 0 <= x <= c.size() - o.
     auto operator()(T x, const C& c, T o) const {
         return (T(0) <= x) && (x <= c.size() - o);
     }
@@ -36,6 +40,9 @@ struct valid_if_le_size_ge0_policy {
     };
 };
 
+/// @brief Specialization of valid_if, for values valid if >= 0 and <= container.size().
+/// @ingroup valid_if
+/// @see valid_if_lt_size_ge0
 template <typename C, typename T>
 using valid_if_le_size_ge0 =
   in_class_valid_if<T, C, valid_if_le_size_ge0_policy<T, C>>;

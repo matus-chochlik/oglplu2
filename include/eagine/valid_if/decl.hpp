@@ -1,4 +1,4 @@
-/// @file eagine/valid_if/decl.hpp
+/// @file
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -16,7 +16,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-/// @brief Policy class for optionally_valid.
+/// @brief Policy for optionally valid values, indicated by a boolean flag.
 /// @ingroup valid_if
 struct valid_flag_policy {
     bool _is_valid{false};
@@ -26,6 +26,7 @@ struct valid_flag_policy {
     constexpr valid_flag_policy(bool is_valid) noexcept
       : _is_valid(is_valid) {}
 
+    /// @brief Returns value validity depending on internally stored flag.
     template <typename T>
     auto operator()(const T&) const noexcept -> bool {
         return _is_valid;
@@ -294,6 +295,7 @@ static inline auto either_or(valid_if<T, P> vi, F f) noexcept(
 //------------------------------------------------------------------------------
 /// @brief Specialization of valid_if with flag indicating validity.
 /// @ingroup valid_if
+/// @see valid_if_indicated
 template <typename T>
 using optionally_valid = valid_if<T, valid_flag_policy>;
 //------------------------------------------------------------------------------

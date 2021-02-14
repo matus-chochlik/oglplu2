@@ -110,12 +110,25 @@ struct within_limits<T, T> {
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Indicates if @p value fits into the specified Dst type.
+/// @see type_utils
+/// @see limit_cast
+/// @see convert_if_fits
+///
+/// This function tests if the specified argument would fit into another type.
+/// For example if a value stored in 64-bit integer can be converted into
+/// a 16-bit integer without overflow.
 template <typename Dst, typename Src>
 static constexpr auto is_within_limits(Src value) noexcept {
     return implicitly_within_limits<Dst, Src>::value ||
            within_limits<Dst, Src>::check(value);
 }
 //------------------------------------------------------------------------------
+/// @brief Casts @p value to Dst type if the value fits in that type.
+/// @see type_utils
+/// @see is_within_limits
+/// @see convert_if_fits
+/// @pre is_within_limits<Dst>(value)
 template <typename Dst, typename Src>
 static constexpr auto limit_cast(Src value) noexcept
   -> std::enable_if_t<std::is_convertible_v<Src, Dst>, Dst> {
@@ -123,6 +136,10 @@ static constexpr auto limit_cast(Src value) noexcept
       is_within_limits<Dst>(value), Dst(std::move(value)));
 }
 //------------------------------------------------------------------------------
+/// @brief Optionally converts @p value to Dst type if the value fits in that type.
+/// @see type_utils
+/// @see is_within_limits
+/// @see limit_cast
 template <typename Dst, typename Src>
 static constexpr auto convert_if_fits(Src value) noexcept
   -> std::enable_if_t<std::is_convertible_v<Src, Dst>, optionally_valid<Dst>> {
