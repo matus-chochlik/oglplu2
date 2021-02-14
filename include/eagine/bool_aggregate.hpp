@@ -11,15 +11,16 @@
 
 namespace eagine {
 
+/// @brief Class storing initially false value and logically or-ing other values.
 class some_true {
 public:
+    /// @brief Logically or-s the stored state with the specified argument.
     constexpr auto operator()(bool b = true) noexcept -> auto& {
-        if(b) {
-            _result = true;
-        }
+        _result |= b;
         return *this;
     }
 
+    /// @brief Returns the current boolean state.
     constexpr operator bool() const noexcept {
         return _result;
     }

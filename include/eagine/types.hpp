@@ -19,46 +19,63 @@
 
 namespace eagine {
 
-// byte type
+/// @brief Byte type alias.
+/// @ingroup type_utils
 using byte = unsigned char;
 
-// alignment type used by std
+/// @brief Alignment type used by std.
+/// @ingroup type_utils
 using std_align_t = std::size_t;
-// size type used by std
+
+/// @brief Size type used by std.
+/// @ingroup type_utils
 using std_size_t = std::size_t;
-// signed span size type used by eagine
+
+/// @brief Signed span size type used by eagine.
+/// @ingroup type_utils
 using span_size_t = std::ptrdiff_t;
-// valid size type
+
+/// @brief Valid size type.
+/// @ingroup type_utils
 using valid_span_size = valid_if_nonnegative<span_size_t>;
 
-// convert to std alignment type
+/// @brief Converts argument to std alignment type.
+/// @ingroup type_utils
 template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
 static constexpr auto std_align(T v) noexcept {
     return limit_cast<std_align_t>(v);
 }
 
-// convert to std size type
+/// @brief Converts argument to std size type.
+/// @ingroup type_utils
 template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
 static constexpr auto std_size(T v) noexcept {
     return limit_cast<std_size_t>(v);
 }
 
-// convert to span size type
+/// @brief Converts argument to span size type.
+/// @ingroup type_utils
 template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
 static constexpr auto span_size(T v) noexcept {
     return limit_cast<span_size_t>(v);
 }
 
+/// @brief Returns the byte alignment of type T as span_size_t.
+/// @ingroup type_utils
 template <typename T>
 static constexpr auto span_align_of(type_identity<T> = {}) noexcept {
     return span_size(alignof(T));
 }
 
+/// @brief Returns the byte size of type T as span_size_t.
+/// @ingroup type_utils
 template <typename T>
 static constexpr auto span_size_of(type_identity<T> = {}) noexcept {
     return span_size(sizeof(T));
 }
 
+/// @brief Returns the total byte size of n elements of type T as span_size_t.
+/// @ingroup type_utils
 template <typename T, typename S>
 static constexpr auto span_size_of(S n, type_identity<T> = {}) noexcept {
     return span_size(sizeof(T)) * span_size(n);

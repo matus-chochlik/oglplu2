@@ -12,6 +12,7 @@
 namespace eagine {
 
 /// @brief Type that can by constructed from single argument of any other type.
+/// @ingroup type_utils
 struct anything {
     /// @brief Default constructor.
     constexpr anything() noexcept = default;
