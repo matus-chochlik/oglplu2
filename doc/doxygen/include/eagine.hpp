@@ -16,6 +16,8 @@ namespace eagine {
 /// @defgroup metaprogramming Metaprogramming utilities
 
 /// @defgroup type_utils Type utilities
+//
+/// @defgroup memory Memory utilities
 
 /// @defgroup logging Logging
 
