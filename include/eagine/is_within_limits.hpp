@@ -111,7 +111,7 @@ struct within_limits<T, T> {
 };
 //------------------------------------------------------------------------------
 /// @brief Indicates if @p value fits into the specified Dst type.
-/// @see type_utils
+/// @ingroup type_utils
 /// @see limit_cast
 /// @see convert_if_fits
 ///
@@ -125,7 +125,7 @@ static constexpr auto is_within_limits(Src value) noexcept {
 }
 //------------------------------------------------------------------------------
 /// @brief Casts @p value to Dst type if the value fits in that type.
-/// @see type_utils
+/// @ingroup type_utils
 /// @see is_within_limits
 /// @see convert_if_fits
 /// @pre is_within_limits<Dst>(value)
@@ -137,7 +137,7 @@ static constexpr auto limit_cast(Src value) noexcept
 }
 //------------------------------------------------------------------------------
 /// @brief Optionally converts @p value to Dst type if the value fits in that type.
-/// @see type_utils
+/// @ingroup type_utils
 /// @see is_within_limits
 /// @see limit_cast
 template <typename Dst, typename Src>

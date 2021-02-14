@@ -13,6 +13,8 @@
 /// @brief Common code is placed in this namespace.
 namespace eagine {
 
+/// @defgroup metaprogramming Metaprogramming utilities.
+
 /// @defgroup type_utils Type utilities.
 
 /// @defgroup valid_if Conditionally valid values.

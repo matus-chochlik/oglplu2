@@ -15,6 +15,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Returns the value in the specified environment variable.
 static inline auto get_environment_variable(string_view variable_name) noexcept
   -> optionally_valid<string_view> {
     if(auto value = ::getenv(c_str(variable_name))) {

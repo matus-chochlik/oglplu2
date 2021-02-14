@@ -14,6 +14,7 @@
 namespace eagine {
 
 /// @brief Template type used mostly for function type-tag dispatching.
+/// @ingroup metaprogramming
 template <typename T>
 struct type_identity {
     /// @brief Alias for the argument of this template.
@@ -29,6 +30,7 @@ struct type_identity {
 };
 
 /// @brief Implementation detail of the @c type_t template.
+/// @ingroup metaprogramming
 /// @note Do not use directly, use @c type_t instead.
 template <typename T, typename F>
 struct get_type {
@@ -42,10 +44,12 @@ struct get_type {
 };
 
 /// @brief Template returning nested alias @c type of type @c T or @c void.
+/// @ingroup metaprogramming
 template <typename T, typename F = void>
 using type_t = typename get_type<T, F>::type;
 
 /// @brief Makes @c type_identity for type @c T of the argument.
+/// @ingroup metaprogramming
 template <typename T>
 static constexpr auto make_identity(const T&) noexcept -> type_identity<T> {
     return {};
