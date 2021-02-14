@@ -398,6 +398,7 @@ private:
 //------------------------------------------------------------------------------
 /// @brief Converts argument to span using a native pointer type.
 /// @ingroup memory
+/// @see relative
 template <typename T, typename P, typename S>
 static constexpr auto absolute(basic_span<T, P, S> spn) noexcept
   -> basic_span<T, T*, S> {
@@ -551,6 +552,8 @@ can_accomodate(basic_span<B, P, S> blk, type_identity<T> tid = {}) noexcept {
 //------------------------------------------------------------------------------
 /// @brief Returns a span, rebinding the element type (typically from basic_block).
 /// @ingroup memory
+/// @see as_bytes
+/// @see as_chars
 template <typename T, typename B, typename P, typename S>
 static constexpr auto
 accomodate(basic_span<B, P, S> blk, type_identity<T> tid = {}) noexcept

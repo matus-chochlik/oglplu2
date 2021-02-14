@@ -702,7 +702,6 @@ static inline auto any_of(basic_span<T, P, S> spn, Predicate predicate)
 /// @see all_of
 /// @see any_of
 template <typename T, typename P, typename S, typename Predicate>
-template <typename T, typename P, typename S, typename Predicate>
 static inline auto none_of(basic_span<T, P, S> spn, Predicate predicate)
   -> bool {
     return std::none_of(spn.begin(), spn.end(), std::move(predicate));
