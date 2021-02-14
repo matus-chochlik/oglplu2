@@ -13,11 +13,13 @@
 /// @brief Common code is placed in this namespace.
 namespace eagine {
 
-/// @defgroup metaprogramming Metaprogramming utilities.
+/// @defgroup metaprogramming Metaprogramming utilities
 
-/// @defgroup type_utils Type utilities.
+/// @defgroup type_utils Type utilities
 
-/// @defgroup valid_if Conditionally valid values.
+/// @defgroup logging Logging
+
+/// @defgroup valid_if Conditionally valid values
 
 /// @brief Math-related code is placed in this namespace.
 namespace math {

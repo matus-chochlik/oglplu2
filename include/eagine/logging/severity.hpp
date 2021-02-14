@@ -13,14 +13,24 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Log event severity enumeration.
+/// @ingroup logging
 enum class log_event_severity {
+    /// @brief Backtracing log entries (the lowest severity).
     backtrace,
+    /// @brief Trace log entries.
     trace,
+    /// @brief Debug log entries.
     debug,
+    /// @brief Statistic log entries.
     stat,
+    /// @brief Informational log entries.
     info,
+    /// @brief Warning log entries, indicating potential problems.
     warning,
+    /// @brief Error log entries, indicating serious problems.
     error,
+    /// @brief Fatal error log entries, indicating problem requiring termination.
     fatal
 };
 
