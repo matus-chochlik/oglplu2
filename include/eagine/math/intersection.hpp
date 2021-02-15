@@ -113,6 +113,9 @@ auto line_sphere_intersection_params(
       _line_sphere_intersection_d(ray.direction()));
 }
 //------------------------------------------------------------------------------
+/// @brief Finds line-sphere intersection points.
+/// @ingroup math
+/// @see nearest_line_sphere_intersection
 template <typename T, bool V>
 static constexpr auto line_sphere_intersection(
   const line<T, V>& ray,
@@ -138,6 +141,9 @@ static constexpr auto _line_sphere_intersection_n_p(
              : R{};
 }
 //------------------------------------------------------------------------------
+/// @brief Finds nearest line-sphere intersection point.
+/// @ingroup math
+/// @see line_sphere_intersection
 template <typename T, bool V>
 static constexpr auto nearest_line_sphere_intersection(
   const line<T, V>& ray,
@@ -174,6 +180,8 @@ static inline auto line_triangle_intersection_param(
     return {};
 }
 //------------------------------------------------------------------------------
+/// @brief Finds line-triangle intersection point.
+/// @ingroup math
 template <typename T, bool V>
 static inline auto line_triangle_intersection(
   const line<T, V>& ray,
