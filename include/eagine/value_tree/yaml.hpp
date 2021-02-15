@@ -15,6 +15,8 @@
 
 namespace eagine::valtree {
 //------------------------------------------------------------------------------
+/// @brief Creates a compound from a YAML text string view.
+/// @ingroup valtree
 auto from_yaml_text(string_view, main_ctx_parent) -> compound;
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree

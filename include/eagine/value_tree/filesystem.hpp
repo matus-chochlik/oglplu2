@@ -27,6 +27,8 @@ struct file_compound_factory {
     virtual auto make_compound(string_view path, logger&) -> compound = 0;
 };
 //------------------------------------------------------------------------------
+/// @brief Creates a compound representing a filesystem subtree.
+/// @ingroup valtree
 auto from_filesystem_path(
   string_view root_path,
   main_ctx_parent,
