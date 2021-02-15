@@ -39,15 +39,18 @@ struct vector {
     /// @brief Element value type.
     using value_type = T;
 
-    /// @brief Indicates if the implementation used SIMD extensions.
+    /// @brief Indicates if the implementation uses SIMD extensions.
     using is_vectorized = vect::has_vect_data_t<T, N, V>;
 
     using data_type = vect::data_t<T, N, V>;
 
     data_type _v;
 
-    using _cpT = const vector&;
-    using _cspT = const scalar_type&;
+    /// @brief vector function parameter type.
+    using vector_param = const vector&;
+
+    /// @brief scalar function parameter type.
+    using scalar_param = const scalar_type&;
 
     /// @brief Creates a new zero vector instance.
     static auto zero() noexcept {
@@ -164,74 +167,74 @@ struct vector {
     }
 
     /// @brief Unary plus operator.
-    friend constexpr auto operator+(_cpT a) noexcept {
+    friend constexpr auto operator+(vector_param a) noexcept {
         return a;
     }
 
     /// @brief Negation operator.
-    friend constexpr auto operator-(_cpT a) noexcept {
+    friend constexpr auto operator-(vector_param a) noexcept {
         return vector{-a._v};
     }
 
     /// @brief Addition operator.
-    friend constexpr auto operator+(_cpT a, _cpT b) noexcept {
+    friend constexpr auto operator+(vector_param a, vector_param b) noexcept {
         return vector{a._v + b._v};
     }
 
     /// @brief Addition operator.
-    auto operator+=(_cpT a) noexcept -> auto& {
+    auto operator+=(vector_param a) noexcept -> auto& {
         _v = _v + a._v;
         return *this;
     }
 
     /// @brief Subtraction operator.
-    friend constexpr auto operator-(_cpT a, _cpT b) noexcept {
+    friend constexpr auto operator-(vector_param a, vector_param b) noexcept {
         return vector{a._v - b._v};
     }
 
     /// @brief Subtraction operator.
-    auto operator-=(_cpT a) noexcept -> auto& {
+    auto operator-=(vector_param a) noexcept -> auto& {
         _v = _v - a._v;
         return *this;
     }
 
     /// @brief Multiplication operator.
-    friend constexpr auto operator*(_cpT a, _cpT b) noexcept {
+    friend constexpr auto operator*(vector_param a, vector_param b) noexcept {
         return vector{a._v * b._v};
     }
 
     /// @brief Multiplication operator.
-    auto operator*=(_cpT a) noexcept -> auto& {
+    auto operator*=(vector_param a) noexcept -> auto& {
         _v = _v * a._v;
         return *this;
     }
 
     /// @brief Multiplication by scalar operator.
-    friend constexpr auto operator*(_cspT c, _cpT a) noexcept {
+    friend constexpr auto operator*(scalar_param c, vector_param a) noexcept {
         static_assert(scalar_type::is_vectorized::value);
         return vector{c._v * a._v};
     }
 
     /// @brief Multiplication by scalar operator.
-    friend constexpr auto operator*(_cpT a, _cspT c) noexcept {
+    friend constexpr auto operator*(vector_param a, scalar_param c) noexcept {
         static_assert(scalar_type::is_vectorized::value);
         return vector{a._v * c._v};
     }
 
     /// @brief Multiplication by scalar operator.
-    auto operator*=(_cspT c) noexcept -> auto& {
+    auto operator*=(scalar_param c) noexcept -> auto& {
         static_assert(scalar_type::is_vectorized::value);
         _v = _v * c._v;
         return *this;
     }
 
     /// @brief Multiplication by constant operator.
-    friend constexpr auto operator*(T c, _cpT a) noexcept {
+    friend constexpr auto operator*(T c, vector_param a) noexcept {
         return vector{a._v * vect::fill<T, N, V>::apply(c)};
     }
 
     /// @brief Multiplication by constant operator.
-    friend constexpr auto operator*(_cpT a, T c) noexcept {
+    friend constexpr auto operator*(vector_param a, T c) noexcept {
         return vector{a._v * vect::fill<T, N, V>::apply(c)};
     }
 
@@ -242,30 +245,30 @@ struct vector {
     }
 
     /// @brief Division operator.
-    friend constexpr auto operator/(_cpT a, _cpT b) noexcept {
+    friend constexpr auto operator/(vector_param a, vector_param b) noexcept {
         return vector{vect::sdiv<T, N, V>::apply(a._v, b._v)};
     }
 
     /// @brief Scalar division operator.
-    friend constexpr auto operator/(_cspT c, _cpT a) noexcept {
+    friend constexpr auto operator/(scalar_param c, vector_param a) noexcept {
         static_assert(scalar_type::is_vectorized::value);
         return vector{vect::sdiv<T, N, V>::apply(c._v, a._v)};
     }
 
     /// @brief Division by scalar operator.
-    friend constexpr auto operator/(_cpT a, _cspT c) noexcept {
+    friend constexpr auto operator/(vector_param a, scalar_param c) noexcept {
         static_assert(scalar_type::is_vectorized::value);
         return vector{vect::sdiv<T, N, V>::apply(a._v, c._v)};
     }
 
     /// @brief Division by constant operator.
-    friend constexpr auto operator/(_cpT a, T c) noexcept {
+    friend constexpr auto operator/(vector_param a, T c) noexcept {
         return vector{
           vect::sdiv<T, N, V>::apply(a._v, vect::fill<T, N, V>::apply(c))};
     }
 
     /// @brief Constant division operator.
-    friend constexpr auto operator/(T c, _cpT a) noexcept {
+    friend constexpr auto operator/(T c, vector_param a) noexcept {
         return vector{
           vect::sdiv<T, N, V>::apply(vect::fill<T, N, V>::apply(c), a._v)};
     }

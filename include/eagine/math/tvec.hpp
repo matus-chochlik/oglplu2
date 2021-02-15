@@ -19,6 +19,7 @@ namespace math {
 /// @ingroup math
 template <typename T, int N, bool V>
 struct tvec : vector<T, N, V> {
+    /// @brief The base vector type.
     using base = vector<T, N, V>;
 
     /// @brief Default constructor. Constructs a zero vector.
