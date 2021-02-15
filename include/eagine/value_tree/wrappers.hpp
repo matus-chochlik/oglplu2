@@ -21,15 +21,30 @@
 namespace eagine::valtree {
 //------------------------------------------------------------------------------
 class compound;
+
+/// @brief Handle class for value tree attributes.
+/// @ingroup valtree
+/// @see compound
+/// @see compound_attribute
+///
+/// Attributes act as key that allow access values and nested attributes
+/// of some structured tree data hierarchy (JSON, YAML, XML, filesystem
+/// hierarchy, etc.). An attribute represents a single node in such hierarchy
+/// and can be used to retrieve the values or data stored at that level in the
+/// tree hierarchy and enumerate or find nested nodes.
 class attribute {
 public:
+    /// @brief Default constructor. Constructs empty attribute refering to nothing.
     attribute() noexcept = default;
+
+    /// @brief Move constructor.
     attribute(attribute&& temp) noexcept
       : _owner{std::move(temp._owner)}
       , _pimpl{temp._pimpl} {
         temp._pimpl = nullptr;
     }
 
+    /// @brief Copy constructor. Handles attribute reference counting.
     attribute(const attribute& that)
       : _owner{that._owner}
       , _pimpl{that._pimpl} {
@@ -38,6 +53,7 @@ public:
         }
     }
 
+    /// @brief Move assignment operator.
     auto operator=(attribute&& temp) noexcept -> attribute& {
         if(this != std::addressof(temp)) {
             using std::swap;
@@ -47,6 +63,7 @@ public:
         return *this;
     }
 
+    /// @brief Copy assignment operator. Handles attribute reference counting.
     auto operator=(const attribute& that) -> attribute& {
         if(this != std::addressof(that)) {
             using std::swap;
@@ -60,6 +77,7 @@ public:
         return *this;
     }
 
+    /// @brief Destructor. Handles attribute reference counting.
     ~attribute() noexcept {
         if(_pimpl) {
             EAGINE_ASSERT(_owner);
@@ -67,10 +85,12 @@ public:
         }
     }
 
+    /// @brief Indicates if this attribute actually refers to something.
     explicit operator bool() const {
         return _owner && _pimpl;
     }
 
+    /// @brief Returns the implementation type id of this attribute.
     auto type_id() const noexcept -> identifier_t {
         if(_pimpl) {
             return _pimpl->type_id();
@@ -78,6 +98,7 @@ public:
         return 0;
     }
 
+    /// @brief Returns the implementation type id of this attribute.
     auto name() const -> string_view {
         if(_owner && _pimpl) {
             return _owner->attribute_name(*_pimpl);
@@ -189,20 +210,36 @@ private:
     T& _dest;
 };
 //------------------------------------------------------------------------------
+/// @brief Handle class for value tree compounds.
+/// @ingroup valtree
+/// @see compound
+/// @see compound_attribute
+///
+/// Compounds own, manage and parse the actual tree data
+/// of some structured tree hierarchy (JSON, YAML, XML, filesystem
+/// hierarchy, etc.). A compound represents the parsed or "open" instance
+/// of such a tree and allows to traverse and explore the tree structure
+/// and access the stored data through an unified interface.
 class compound {
 public:
+    /// @brief Default constructor. Constructs an empty compound.
     compound() noexcept = default;
 
+    /// @brief Instantiates a particular implementation.
+    /// @note Do not use directly in client code. Use one of the constructor
+    /// functions that know which implementation to pick and how to initialize it.
     template <typename Compound, typename... Args>
     static auto make(Args&&... args) -> std::
       enable_if_t<std::is_base_of_v<compound_interface, Compound>, compound> {
         return {Compound::make_shared(std::forward<Args>(args)...)};
     }
 
+    /// @brief Indicates if this compound actually refers to some tree.
     explicit operator bool() const noexcept {
         return bool(_pimpl);
     }
 
+    /// @brief Returns the implementation type id of this attribute.
     auto type_id() const noexcept -> identifier_t {
         if(_pimpl) {
             return _pimpl->type_id();
@@ -210,6 +247,11 @@ public:
         return 0;
     }
 
+    /// @brief Returns the root of attribute hierarchy describing the tree structure.
+    /// @see root
+    ///
+    /// The returned attribute can be used to explore and traverse the tree
+    /// node hierarchy by getting the names, value types and nested nodes.
     auto structure() const -> attribute {
         if(_pimpl) {
             return {_pimpl, _pimpl->structure()};
@@ -217,8 +259,12 @@ public:
         return {};
     }
 
+    /// @brief Returns the structure root as an compound_attribute.
+    /// @see structure
     auto root() const -> compound_attribute;
 
+    /// @brief Returns the name of an attribute.
+    /// @pre this->type_id() == attrib.type_id().
     auto attribute_name(const attribute& attrib) const -> string_view {
         if(_pimpl && attrib._pimpl) {
             return _pimpl->attribute_name(*attrib._pimpl);
@@ -226,6 +272,12 @@ public:
         return {};
     }
 
+    /// @brief Returns the caninical value type of an attribute.
+    /// @pre this->type_id() == attrib.type_id().
+    ///
+    /// Tree data referred-to by an attribute can be fetched either using
+    /// the canonical type or using a different, related value type, if the
+    /// necessary conversion is implemented.
     auto canonical_type(const attribute& attrib) const -> value_type {
         if(_pimpl && attrib._pimpl) {
             return _pimpl->canonical_type(*attrib._pimpl);
@@ -233,6 +285,8 @@ public:
         return value_type::unknown;
     }
 
+    /// @brief Indicates if the specified attribute is a reference or link in the tree.
+    /// @pre this->type_id() == attrib.type_id()
     auto is_link(const attribute& attrib) const -> bool {
         if(_pimpl && attrib._pimpl) {
             return _pimpl->is_link(*attrib._pimpl);
@@ -240,6 +294,11 @@ public:
         return false;
     }
 
+    /// @brief Returns the count of nested attributes of an attribute.
+    /// @pre this->type_id() == attrib.type_id()
+    /// @note Some implementations may return zero hete even if there are
+    /// nested attributes. In such implementations the nested nodes can be
+    /// traversed only by name.
     auto nested_count(const attribute& attrib) const -> span_size_t {
         if(_pimpl && attrib._pimpl) {
             return _pimpl->nested_count(*attrib._pimpl);
@@ -247,10 +306,16 @@ public:
         return 0;
     }
 
+    /// @brief Indicates if an attribute has nested attribute accessible by index.
+    /// @pre this->type_id() == attrib.type_id()
     auto has_nested(const attribute& attrib) const -> bool {
         return nested_count(attrib) != 0;
     }
 
+    /// @brief Returns nested attribute of an attribute at the specified index.
+    /// @pre this->type_id() == attrib.type_id()
+    ///
+    /// Returns empty attribute handle if no such nested attribute exists.
     auto nested(const attribute& attrib, span_size_t index) const -> attribute {
         if(_pimpl && attrib._pimpl) {
             return {_pimpl, _pimpl->nested(*attrib._pimpl, index)};
@@ -258,6 +323,10 @@ public:
         return {};
     }
 
+    /// @brief Returns nested attribute of an attribute with the specified name.
+    /// @pre this->type_id() == attrib.type_id()
+    ///
+    /// Returns empty attribute handle if no such nested attribute exists.
     auto nested(const attribute& attrib, string_view name) const -> attribute {
         if(_pimpl && attrib._pimpl) {
             return {_pimpl, _pimpl->nested(*attrib._pimpl, name)};
@@ -265,10 +334,17 @@ public:
         return {};
     }
 
+    /// @brief Returns nested attribute of the root attribute with the specified name.
+    ///
+    /// Returns empty attribute handle if no such nested attribute exists.
     auto nested(string_view name) const -> attribute {
         return nested(structure(), name);
     }
 
+    /// @brief Returns nested attribute of an attribute at the specified path.
+    /// @pre this->type_id() == attrib.type_id()
+    ///
+    /// Returns empty attribute handle if no such nested attribute exists.
     auto find(const attribute& attrib, const basic_string_path& path) const
       -> attribute {
         if(_pimpl && attrib._pimpl) {
@@ -277,6 +353,10 @@ public:
         return {};
     }
 
+    /// @brief Returns nested attribute of an attribute at path with tags.
+    /// @pre this->type_id() == attrib.type_id()
+    ///
+    /// Returns empty attribute handle if no such nested attribute exists.
     auto find(
       const attribute& attrib,
       const basic_string_path& path,
@@ -287,10 +367,16 @@ public:
         return {};
     }
 
+    /// @brief Returns nested attribute of root attribute at the specified path.
+    ///
+    /// Returns empty attribute handle if no such nested attribute exists.
     auto find(const basic_string_path& path) const -> attribute {
         return find(structure(), path);
     }
 
+    /// @brief Returns nested attribute of root attribute at path with tags.
+    ///
+    /// Returns empty attribute handle if no such nested attribute exists.
     auto find(const basic_string_path& path, span<const string_view> tags) const
       -> attribute {
         return find(structure(), path, tags);
