@@ -1,11 +1,10 @@
-/**
- *  @file eagine/math/io.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EAGINE_MATH_IO_HPP
 #define EAGINE_MATH_IO_HPP
 
@@ -16,6 +15,8 @@
 
 namespace eagine::math {
 //------------------------------------------------------------------------------
+/// @brief Operator for writing vector into output stream.
+/// @ingroup math
 template <typename T, int N, bool V>
 static inline auto operator<<(std::ostream& o, const vector<T, N, V>& v)
   -> std::ostream& {
@@ -27,6 +28,8 @@ static inline auto operator<<(std::ostream& o, const vector<T, N, V>& v)
     return o << "]";
 }
 //------------------------------------------------------------------------------
+/// @brief Operator for writing row-major matrix into output stream.
+/// @ingroup math
 template <typename T, int C, int R, bool V>
 static inline auto operator<<(std::ostream& o, const matrix<T, C, R, true, V>& m)
   -> std::ostream& {
@@ -47,6 +50,8 @@ static inline auto operator<<(std::ostream& o, const matrix<T, C, R, true, V>& m
     return o << "|";
 }
 //------------------------------------------------------------------------------
+/// @brief Operator for writing column-major matrix into output stream.
+/// @ingroup math
 template <typename T, int C, int R, bool V>
 static inline auto
 operator<<(std::ostream& o, const matrix<T, C, R, false, V>& m)
@@ -68,20 +73,26 @@ operator<<(std::ostream& o, const matrix<T, C, R, false, V>& m)
     return o << "|";
 }
 //------------------------------------------------------------------------------
-template <typename T, bool V>
-static inline auto operator<<(std::ostream& o, const line<T, V>& l)
+/// @brief Operator for writing line into output stream.
+/// @ingroup math
+template <typename T, int N, bool V>
+static inline auto operator<<(std::ostream& o, const basic_line<T, N, V>& l)
   -> std::ostream& {
     o << '[' << l.origin() << " -> " << l.direction() << ']';
     return o;
 }
 //------------------------------------------------------------------------------
-template <typename T, bool V>
-static inline auto operator<<(std::ostream& o, const triangle<T, V>& t)
+/// @brief Operator for writing triangle into output stream.
+/// @ingroup math
+template <typename T, int N, bool V>
+static inline auto operator<<(std::ostream& o, const basic_triangle<T, N, V>& t)
   -> std::ostream& {
     o << '[' << t.a() << '|' << t.b() << '|' << t.c() << ']';
     return o;
 }
 //------------------------------------------------------------------------------
+/// @brief Operator for writing sphere into output stream.
+/// @ingroup math
 template <typename T, bool V>
 static inline auto operator<<(std::ostream& o, const sphere<T, V>& s)
   -> std::ostream& {

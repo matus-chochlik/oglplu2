@@ -1,11 +1,10 @@
-/**
- *  @file eagine/serialize/write.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_SERIALIZE_WRITE_HPP
 #define EAGINE_SERIALIZE_WRITE_HPP
@@ -484,6 +483,7 @@ auto serialize(T& value, Backend& backend) -> std::enable_if_t<
         errors |= writer.write(value, backend);
         errors |= backend.finish();
     }
+    errors |= extract(backend.sink()).finalize();
     return errors;
 }
 //------------------------------------------------------------------------------

@@ -1,11 +1,10 @@
-/**
- *  @file eagine/ecs/basic_manager.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EAGINE_ECS_BASIC_MANAGER_HPP
 #define EAGINE_ECS_BASIC_MANAGER_HPP
 
@@ -122,7 +121,7 @@ private:
     template <typename C>
     using _bare_t = std::remove_const_t<std::remove_reference_t<C>>;
 
-    static constexpr inline auto _count_true() -> unsigned {
+    static constexpr auto _count_true() -> unsigned {
         return 0U;
     }
 

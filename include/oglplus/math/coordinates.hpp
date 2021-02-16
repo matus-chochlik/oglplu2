@@ -1,11 +1,10 @@
-/**
- *  @file oglplus/math/coordinates.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef OGLPLUS_MATH_COORDINATES_HPP
 #define OGLPLUS_MATH_COORDINATES_HPP
 
@@ -15,8 +14,8 @@
 
 namespace eagine::oglp {
 
-using unit_spherical_coordinates =
-  math::unit_spherical_coordinates<gl_types::float_type, math_use_simd>;
+using unit_spherical_coordinate =
+  math::unit_spherical_coordinate<gl_types::float_type, math_use_simd>;
 
 using math::to_cartesian;
 using math::to_unit_spherical;

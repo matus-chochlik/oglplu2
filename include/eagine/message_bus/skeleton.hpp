@@ -1,11 +1,10 @@
-/**
- *  @file eagine/message_bus/skeleton.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_MESSAGE_BUS_SKELETON_HPP
 #define EAGINE_MESSAGE_BUS_SKELETON_HPP
@@ -27,6 +26,8 @@ template <
   typename Signature,
   typename Serializer,
   typename Deserializer,
+  typename Sink,
+  typename Source,
   std::size_t MaxDataSize>
 class skeleton {
 public:
@@ -59,20 +60,20 @@ private:
       callable_ref<Signature> func,
       std::tuple<Params...> args) -> bool {
 
-        block_data_source source(request.content());
-        Deserializer read_backend(source);
+        _source.reset(request.content());
+        Deserializer read_backend(_source);
 
         if(request.has_serializer_id(read_backend.type_id())) {
             const auto read_errors = deserialize(args, read_backend);
             if(!read_errors) {
                 const auto result{std::apply(func, args)};
-                block_data_sink sink(buffer);
-                Serializer write_backend(sink);
+                _sink.reset(buffer);
+                Serializer write_backend(_sink);
 
                 const auto errors = serialize(result, write_backend);
                 EAGINE_ASSERT(!errors);
                 EAGINE_MAYBE_UNUSED(errors);
-                message_view msg_out{sink.done()};
+                message_view msg_out{_sink.done()};
                 msg_out.set_serializer_id(write_backend.type_id());
                 msg_ctx.bus().respond_to(request, response_id, msg_out);
                 return true;
@@ -90,26 +91,32 @@ private:
       std::tuple<>) -> bool {
 
         const auto result{func()};
-        block_data_sink sink(buffer);
-        Serializer write_backend(sink);
+        _sink.reset(buffer);
+        Serializer write_backend(_sink);
 
         const auto errors = serialize(result, write_backend);
         EAGINE_ASSERT(!errors);
         EAGINE_MAYBE_UNUSED(errors);
-        message_view msg_out{sink.done()};
+        message_view msg_out{_sink.done()};
         msg_out.set_serializer_id(write_backend.type_id());
         msg_ctx.bus().respond_to(request, response_id, msg_out);
         return true;
     }
+
+private:
+    Source _source{};
+    Sink _sink{};
 };
 //------------------------------------------------------------------------------
 template <
   typename Signature,
   typename Serializer,
   typename Deserializer,
+  typename Sink,
+  typename Source,
   std::size_t MaxDataSize>
 class function_skeleton
-  : public skeleton<Signature, Serializer, Deserializer, MaxDataSize> {
+  : public skeleton<Signature, Serializer, Deserializer, Sink, Source, MaxDataSize> {
 
     using _function_t = callable_ref<Signature>;
 
@@ -167,6 +174,8 @@ template <
   typename Signature,
   typename Serializer,
   typename Deserializer,
+  typename Sink,
+  typename Source,
   std::size_t MaxDataSize>
 class lazy_skeleton {
     using argument_tuple_type =
@@ -189,8 +198,8 @@ public:
 
         if(emplaced) {
             if constexpr(std::tuple_size_v<argument_tuple_type> > 0) {
-                block_data_source source(request.content());
-                Deserializer read_backend(source);
+                _source.reset(request.content());
+                Deserializer read_backend(_source);
 
                 if(request.has_serializer_id(read_backend.type_id())) {
                     auto& call = pos->second;
@@ -226,13 +235,13 @@ public:
             ++pos;
             if(!call.too_late) {
                 const auto result{std::apply(call.func, call.args)};
-                block_data_sink sink(cover(buffer));
-                Serializer write_backend(sink);
+                _sink.reset(cover(buffer));
+                Serializer write_backend(_sink);
 
                 const auto errors = serialize(result, write_backend);
                 EAGINE_ASSERT(!errors);
                 EAGINE_MAYBE_UNUSED(errors);
-                message_view msg_out{sink.done()};
+                message_view msg_out{_sink.done()};
                 msg_out.set_serializer_id(write_backend.type_id());
                 msg_out.set_target_id(call.invoker_id);
                 msg_out.set_sequence_no(invocation_id);
@@ -254,6 +263,8 @@ public:
 
 private:
     std::chrono::milliseconds _default_timeout{1000};
+    Source _source{};
+    Sink _sink{};
 
     struct lazy_call {
         message_id response_id{};
@@ -270,6 +281,8 @@ template <
   typename Signature,
   typename Serializer,
   typename Deserializer,
+  typename Sink,
+  typename Source,
   std::size_t MaxDataSize>
 class async_skeleton {
     using argument_tuple_type =
@@ -289,8 +302,8 @@ public:
 
         if(emplaced) {
             if constexpr(std::tuple_size_v<argument_tuple_type>) {
-                block_data_source source(request.content());
-                Deserializer read_backend(source);
+                _source.reset(request.content());
+                Deserializer read_backend(_source);
 
                 if(request.has_serializer_id(read_backend.type_id())) {
                     auto& call = pos->second;
@@ -324,12 +337,12 @@ public:
             const auto invocation_id = pos->first;
             const auto& call = pos->second;
             if(call.finished) {
-                block_data_sink sink(buffer);
-                Serializer write_backend(sink);
+                _sink.reset(buffer);
+                Serializer write_backend(_sink);
 
                 const auto errors = serialize(call.result, write_backend);
                 if(!errors) {
-                    message_view msg_out{sink.done()};
+                    message_view msg_out{_sink.done()};
                     msg_out.set_serializer_id(write_backend.type_id());
                     msg_out.set_target_id(call.invoker_id);
                     msg_out.set_sequence_no(invocation_id);
@@ -349,6 +362,9 @@ public:
     }
 
 private:
+    Source _source{};
+    Sink _sink{};
+
     struct async_call : work_unit {
         message_id response_id{};
         argument_tuple_type args{};

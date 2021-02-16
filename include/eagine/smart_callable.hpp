@@ -1,11 +1,10 @@
-/**
- *  @file eagine/smart_callable.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EAGINE_SMART_CALLABLE_HPP
 #define EAGINE_SMART_CALLABLE_HPP
 
@@ -25,7 +24,7 @@ template <typename RV, typename... Params>
 class smart_callable_base<false, RV, Params...> {
 protected:
     template <typename Callable, typename... Args>
-    static constexpr inline auto _invoke(Callable& callable, Args&&... args) {
+    static constexpr auto _invoke(Callable& callable, Args&&... args) {
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
@@ -45,7 +44,7 @@ template <typename RV, typename... Params>
 class smart_callable_base<true, RV, Params...> {
 protected:
     template <typename Callable, typename... Args>
-    static constexpr inline auto _invoke(Callable& callable, Args&&... args) {
+    static constexpr auto _invoke(Callable& callable, Args&&... args) {
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
@@ -67,7 +66,7 @@ public:
       : _function{function} {}
 
     template <typename... Args>
-    constexpr inline auto operator()(Args&&... args) const {
+    constexpr auto operator()(Args&&... args) const {
         this->_invoke(_function, std::forward<Args>(args)...);
     }
 
@@ -76,13 +75,13 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename RV, typename... Params>
-static constexpr inline smart_callable<false, RV (*)(Params...)>
+static constexpr smart_callable<false, RV (*)(Params...)>
 smart_call(RV (*function)(Params...)) noexcept {
     return {function};
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename... Params>
-static constexpr inline smart_callable<true, RV (*)(Params...)>
+static constexpr smart_callable<true, RV (*)(Params...)>
 safe_call(RV (*function)(Params...)) noexcept {
     return {function};
 }

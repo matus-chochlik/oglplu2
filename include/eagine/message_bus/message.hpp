@@ -1,11 +1,10 @@
-/**
- *  @file eagine/message_bus/message.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_MESSAGE_BUS_MESSAGE_HPP
 #define EAGINE_MESSAGE_BUS_MESSAGE_HPP
@@ -32,11 +31,11 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 #define EAGINE_MSGBUS_ID(METHOD) EAGINE_MSG_ID(eagiMsgBus, METHOD)
 //------------------------------------------------------------------------------
-static constexpr inline auto is_special_message(message_id msg_id) noexcept {
+static constexpr auto is_special_message(message_id msg_id) noexcept {
     return msg_id.has_class(EAGINE_ID(eagiMsgBus));
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto broadcast_endpoint_id() noexcept -> identifier_t {
+static constexpr auto broadcast_endpoint_id() noexcept -> identifier_t {
     return 0U;
 }
 //------------------------------------------------------------------------------
@@ -182,6 +181,10 @@ public:
     void fetch_all_from(Source& source) {
         _buffer.clear();
         source.fetch_all(_buffer);
+    }
+
+    void store_content(memory::const_block blk) {
+        memory::copy_into(blk, _buffer);
     }
 
     template <typename Backend, typename Value>

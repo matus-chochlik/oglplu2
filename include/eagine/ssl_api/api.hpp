@@ -1,11 +1,10 @@
-/**
- *  @file eagine/ssl_api/api.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EAGINE_SSL_API_API_HPP
 #define EAGINE_SSL_API_API_HPP
 
@@ -82,14 +81,12 @@ public:
         using base::_conv;
 
         template <typename Tag, typename Handle>
-        static constexpr inline auto
-        _conv(basic_handle<Tag, Handle> obj) noexcept {
+        static constexpr auto _conv(basic_handle<Tag, Handle> obj) noexcept {
             return static_cast<Handle>(obj);
         }
 
         template <typename Object>
-        static constexpr inline auto
-        _conv(const object_stack<Object>& stk) noexcept {
+        static constexpr auto _conv(const object_stack<Object>& stk) noexcept {
             return stk.native();
         }
 

@@ -1,11 +1,10 @@
-/**
- *  @example oglplus/009_glfw3_glew_cube_compat.cpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @example oglplus/009_glfw3_glew_cube_compat.cpp
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #include <GL/glew.h>
 
 #include <oglplus/constant_defs.hpp>

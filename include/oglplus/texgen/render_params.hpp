@@ -1,11 +1,10 @@
-/**
- *  @file oglplus/texgen/render_params.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef OGLPLUS_TEXGEN_RENDER_PARAMS_HPP
 #define OGLPLUS_TEXGEN_RENDER_PARAMS_HPP
 
@@ -24,12 +23,12 @@ enum class render_param_bit : unsigned {
 
 using render_param_bits = bitfield<render_param_bit>;
 
-static constexpr inline render_param_bits
+static constexpr render_param_bits
 operator|(render_param_bit a, render_param_bit b) noexcept {
     return {a, b};
 }
 
-static constexpr inline render_param_bits all_render_params() noexcept {
+static constexpr render_param_bits all_render_params() noexcept {
     return render_param_bit::normalized_coord | render_param_bit::voxel_size |
            render_param_bit::voxel_offset | render_param_bit::element_offset;
 }

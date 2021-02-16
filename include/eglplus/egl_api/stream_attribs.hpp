@@ -1,11 +1,10 @@
-/**
- *  @file eglplus/egl_api/stream_attribs.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EGLPLUS_EGL_API_STREAM_ATTRIBS_HPP
 #define EGLPLUS_EGL_API_STREAM_ATTRIBS_HPP
 
@@ -34,14 +33,14 @@ using stream_attributes = key_value_list<stream_attrib_traits, N>;
 
 using stream_attribute_value = key_value_list_element<stream_attrib_traits>;
 
-static constexpr inline auto
+static constexpr auto
 operator|(stream_attribute key, egl_types::int_type value) noexcept
   -> stream_attribute_value {
     return {key, value};
 }
 
-static constexpr inline auto
-operator|(stream_attribute key, bool value) noexcept -> stream_attribute_value {
+static constexpr auto operator|(stream_attribute key, bool value) noexcept
+  -> stream_attribute_value {
 #if defined(EGL_TRUE) && defined(EGL_FALSE)
     return {key, value ? EGL_TRUE : EGL_FALSE};
 #else

@@ -1,11 +1,10 @@
-/**
- *  @file eagine/sudoku.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EAGINE_SUDOKU_HPP
 #define EAGINE_SUDOKU_HPP
 
@@ -33,6 +32,7 @@ class basic_sudoku_board_generator;
 template <unsigned S>
 class basic_sudoku_board_traits {
 public:
+    static constexpr const unsigned rank = S;
     static constexpr const unsigned glyph_count = S * S;
 
     using This = basic_sudoku_board_traits;

@@ -1,11 +1,10 @@
-/**
- *  @file eagine/compression.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_COMPRESSION_HPP
 #define EAGINE_COMPRESSION_HPP
@@ -41,11 +40,16 @@ public:
         return compress(input, output, data_compression_level::normal);
     }
 
+    auto compress(memory::const_block input, data_compression_level level)
+      -> memory::const_block;
+
     auto decompress(memory::const_block input, const data_handler& handler)
       -> bool;
 
     auto decompress(memory::const_block input, memory::buffer& output)
       -> memory::const_block;
+
+    auto decompress(memory::const_block input) -> memory::const_block;
 
 private:
     std::shared_ptr<data_compressor_impl> _pimpl{};

@@ -1,11 +1,10 @@
-/**
- *  @file eagine/value_with_history.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_VALUE_WITH_HISTORY_HPP
 #define EAGINE_VALUE_WITH_HISTORY_HPP
@@ -18,24 +17,24 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto
+static constexpr auto
 value_with_history_changed(const T& a, const T& b) noexcept -> bool {
     return !are_equal(a, b);
 }
 
 template <typename T>
-static constexpr inline auto
+static constexpr auto
 value_with_history_delta(const T& new_value, const T& old_value) noexcept {
     return new_value - old_value;
 }
 
-static constexpr inline auto
+static constexpr auto
 value_with_history_delta(bool new_value, bool old_value) noexcept -> int {
     return int(new_value) - int(old_value);
 }
 
 template <typename T>
-static constexpr inline auto
+static constexpr auto
 value_with_history_distance(const T& new_value, const T& old_value) noexcept {
     using std::abs;
     return abs(value_with_history_delta(new_value, old_value));

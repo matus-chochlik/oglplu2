@@ -1,11 +1,10 @@
-/**
- *  @file oalplus/alc_api/enum_class.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef OALPLUS_ALC_API_ENUM_CLASS_HPP
 #define OALPLUS_ALC_API_ENUM_CLASS_HPP
 
@@ -23,7 +22,7 @@ using alc_enum_class =
 using alc_any_enum_class = any_enum_class<EAGINE_ID_V(ALC)>;
 using alc_any_enum_value = any_enum_value<EAGINE_ID_V(ALC)>;
 
-static constexpr inline auto
+static constexpr auto
 same_enum_class(alc_any_enum_class a, alc_any_enum_class b) noexcept -> bool {
     return ::eagine::same_enum_class(a, b);
 }

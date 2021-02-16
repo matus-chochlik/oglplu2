@@ -1,11 +1,10 @@
-/**
- *  @file eagine/reflect/enumerators.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_REFLECT_ENUMERATORS_HPP
 #define EAGINE_REFLECT_ENUMERATORS_HPP
@@ -18,14 +17,13 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
-constexpr inline auto
-enumerator_count(type_identity<T> id, Selector sel) noexcept
+constexpr auto enumerator_count(type_identity<T> id, Selector sel) noexcept
   -> std::enable_if_t<has_enumerator_mapping_v<T, Selector>, span_size_t> {
     return span_size_t(enumerator_mapping(id, sel).size());
 }
 //------------------------------------------------------------------------------
 template <typename T>
-constexpr inline auto enumerator_count(type_identity<T> id) noexcept {
+constexpr auto enumerator_count(type_identity<T> id) noexcept {
     return enumerator_count(id, default_selector);
 }
 //------------------------------------------------------------------------------
@@ -47,7 +45,7 @@ enumerator_name(T enumerator, type_identity<T> id, Selector sel) noexcept
 }
 //------------------------------------------------------------------------------
 template <typename T>
-constexpr inline auto enumerator_value(T value, type_identity<T> = {}) noexcept {
+constexpr auto enumerator_value(T value, type_identity<T> = {}) noexcept {
     return static_cast<std::underlying_type_t<T>>(value);
 }
 //------------------------------------------------------------------------------
@@ -108,7 +106,7 @@ inline auto from_value(
 }
 //------------------------------------------------------------------------------
 template <typename T>
-constexpr inline auto
+constexpr auto
 from_value(std::underlying_type_t<T> value, type_identity<T> id = {}) noexcept {
     return from_value(value, id, default_selector);
 }

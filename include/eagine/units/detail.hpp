@@ -1,11 +1,10 @@
-/**
- *  @file eagine/unit/detail.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_UNITS_DETAIL_HPP
 #define EAGINE_UNITS_DETAIL_HPP
@@ -64,8 +63,8 @@ struct pow_of_dim<D1, dims<dim_pow<D2, P>, T>> : pow_of_dim<D1, T> {};
 
 // get_pow_of_dim
 template <typename D, typename H, typename T>
-static constexpr inline auto
-get_pow_of_dim(base::dimension<D>, dims<H, T>) noexcept -> int {
+static constexpr auto get_pow_of_dim(base::dimension<D>, dims<H, T>) noexcept
+  -> int {
     return pow_of_dim_v<D, dims<H, T>>;
 }
 

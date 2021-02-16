@@ -1,11 +1,10 @@
-/**
- *  @file eagine/valid_if/indicated.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_VALID_IF_INDICATED_HPP
 #define EAGINE_VALID_IF_INDICATED_HPP
@@ -13,7 +12,9 @@
 #include "decl.hpp"
 
 namespace eagine {
-//------------------------------------------------------------------------------
+
+/// @brief Policy for values valid when non-boolean Indicator has Value.
+/// @ingroup valid_if
 template <typename Indicator, typename Comparable, Comparable Value>
 struct valid_if_indicated_policy {
     Indicator _indicator{};
@@ -23,6 +24,7 @@ struct valid_if_indicated_policy {
     constexpr valid_if_indicated_policy(Indicator indicator) noexcept
       : _indicator(indicator) {}
 
+    /// @brief Indicates value validity, true if indicator == Value.
     template <typename T>
     auto operator()(const T&) const noexcept {
         return Comparable(_indicator) == Value;
@@ -30,7 +32,7 @@ struct valid_if_indicated_policy {
 
     struct do_log {
         template <typename X>
-        constexpr inline do_log(X) noexcept {}
+        constexpr do_log(X) noexcept {}
 
         template <typename Log, typename T>
         void operator()(Log& log, const T&) const {
@@ -38,7 +40,13 @@ struct valid_if_indicated_policy {
         }
     };
 };
-//------------------------------------------------------------------------------
+
+/// @brief Specialization of valid_if, for values with non-boolean indicator.
+/// @ingroup valid_if
+/// @see optionally_valid
+///
+/// This is a more generalized for of optionally_valid for indicators of types
+/// other than boolean.
 template <
   typename T,
   typename Indicator,

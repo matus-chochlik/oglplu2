@@ -1,11 +1,10 @@
-/**
- *  @file eglplus/egl_api/enum_class.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EGLPLUS_EGL_API_ENUM_CLASS_HPP
 #define EGLPLUS_EGL_API_ENUM_CLASS_HPP
 
@@ -23,7 +22,7 @@ using egl_enum_class =
 using egl_any_enum_class = any_enum_class<EAGINE_ID_V(EGL)>;
 using egl_any_enum_value = any_enum_value<EAGINE_ID_V(EGL)>;
 
-static constexpr inline auto
+static constexpr auto
 same_enum_class(egl_any_enum_class a, egl_any_enum_class b) noexcept -> bool {
     return ::eagine::same_enum_class(a, b);
 }

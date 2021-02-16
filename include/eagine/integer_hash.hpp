@@ -1,11 +1,10 @@
-/**
- *  @file eagine/integer_hash.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EAGINE_INTEGER_HASH_HPP
 #define EAGINE_INTEGER_HASH_HPP
 
@@ -16,7 +15,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <std::size_t N, typename I>
-constexpr inline auto
+constexpr auto
 integer_rotate_right(I x, type_identity<I> = {}, size_constant<N> = {}) noexcept
   -> I {
     static_assert(N < sizeof(I) * 8);
@@ -24,14 +23,14 @@ integer_rotate_right(I x, type_identity<I> = {}, size_constant<N> = {}) noexcept
 }
 //------------------------------------------------------------------------------
 template <typename H>
-constexpr inline auto
+constexpr auto
 integer_hash_init(H x, type_identity<H> = {}, type_identity<H> = {}) noexcept
   -> H {
     return x;
 }
 //------------------------------------------------------------------------------
 template <typename H, typename I>
-constexpr inline auto integer_hash_init(
+constexpr auto integer_hash_init(
   I x,
   type_identity<H> hid = {},
   type_identity<I> = {}) noexcept -> H {

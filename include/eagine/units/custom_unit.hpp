@@ -1,11 +1,10 @@
-/**
- *  @file eagine/unit/custom_unit.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_UNITS_CUSTOM_UNIT_HPP
 #define EAGINE_UNITS_CUSTOM_UNIT_HPP
@@ -56,7 +55,7 @@ struct is_convertible<custom_dim_unit<D, C1, S>, custom_dim_unit<D, C2, S>>
 template <typename D, typename C, typename S>
 struct value_conv<custom_dim_unit<D, C, S>, unit<D, S>> {
     template <typename T>
-    constexpr inline auto operator()(T v) const {
+    constexpr auto operator()(T v) const {
         return custom_dim_unit<D, C, S>::conversion::to_base(v);
     }
 };
@@ -64,7 +63,7 @@ struct value_conv<custom_dim_unit<D, C, S>, unit<D, S>> {
 template <typename D, typename C, typename S>
 struct value_conv<unit<D, S>, custom_dim_unit<D, C, S>> {
     template <typename T>
-    constexpr inline auto operator()(T v) const {
+    constexpr auto operator()(T v) const {
         return custom_dim_unit<D, C, S>::conversion::from_base(v);
     }
 };
@@ -76,7 +75,7 @@ struct value_conv<custom_dim_unit<D, C, S>, custom_dim_unit<D, C, S>>
 template <typename D, typename C1, typename C2, typename S>
 struct value_conv<custom_dim_unit<D, C1, S>, custom_dim_unit<D, C2, S>> {
     template <typename T>
-    constexpr inline auto operator()(T v) const {
+    constexpr auto operator()(T v) const {
         return custom_dim_unit<D, C2, S>::conversion::from_base(
           custom_dim_unit<D, C1, S>::conversion::to_base(v));
     }

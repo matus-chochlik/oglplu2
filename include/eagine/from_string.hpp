@@ -1,11 +1,10 @@
-/**
- *  @file eagine/from_string.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_FROM_STRING_HPP
 #define EAGINE_FROM_STRING_HPP
@@ -354,11 +353,20 @@ static inline auto from_string(
     return {};
 }
 //------------------------------------------------------------------------------
+/// @brief Converts the string representation in @p src to a value of type @p T.
+/// @ingroup type_utils
+/// @see is_within_limits
 template <typename T>
 auto from_string(string_view src) noexcept {
     return from_string(src, type_identity<T>(), default_selector);
 }
 //------------------------------------------------------------------------------
+/// @brief Converts the string representation in @p src to a value of type @p T.
+/// @ingroup type_utils
+/// @see is_within_limits
+///
+/// This overload allows to specify a selector that can change the value
+/// conversion rules.
 template <typename T, identifier_t V>
 auto from_string(string_view src, selector<V> sel) noexcept {
     return from_string(src, type_identity<T>(), sel);

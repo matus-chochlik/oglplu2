@@ -1,11 +1,10 @@
-/**
- *  @file eagine/value_tree/yaml.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_VALUE_TREE_YAML_HPP
 #define EAGINE_VALUE_TREE_YAML_HPP
@@ -16,6 +15,8 @@
 
 namespace eagine::valtree {
 //------------------------------------------------------------------------------
+/// @brief Creates a compound from a YAML text string view.
+/// @ingroup valtree
 auto from_yaml_text(string_view, main_ctx_parent) -> compound;
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree

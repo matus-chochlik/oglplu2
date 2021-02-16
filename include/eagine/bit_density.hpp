@@ -1,11 +1,10 @@
-/**
- *  @file eagine/bit_density.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_BIT_DENSITY_HPP
 #define EAGINE_BIT_DENSITY_HPP
@@ -23,11 +22,11 @@ using double_byte = std::conditional_t<
   uint_fast16_t,
   std::conditional_t<(CHAR_BIT > 16), uint_fast32_t, uint_fast64_t>>;
 //------------------------------------------------------------------------------
-static constexpr inline auto byte_bits() noexcept {
+static constexpr auto byte_bits() noexcept {
     return span_size_t(CHAR_BIT);
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 dissolved_bits_length(span_size_t original_length, span_size_t bits) noexcept
   -> span_size_t {
     return EAGINE_CONSTEXPR_ASSERT(
@@ -36,7 +35,7 @@ dissolved_bits_length(span_size_t original_length, span_size_t bits) noexcept
        (((original_length * byte_bits()) % bits) ? 1 : 0)));
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 concentrated_bits_length(span_size_t original_length, span_size_t bits) noexcept
   -> span_size_t {
     return EAGINE_CONSTEXPR_ASSERT(

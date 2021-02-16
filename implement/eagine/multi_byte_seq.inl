@@ -1,11 +1,10 @@
-/**
- *  @file eagine/multi_byte_seq.inl
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #include <eagine/assert.hpp>
 #include <array>
 
@@ -42,7 +41,7 @@ inline auto is_valid_encoding(const valid_cbyte_span& vseq) noexcept -> bool {
 }
 //------------------------------------------------------------------------------
 template <typename P1, typename P2>
-static constexpr inline auto do_decode_code_point_head(
+static constexpr auto do_decode_code_point_head(
   const byte b,
   const valid_if<byte, P1> mask,
   const valid_if<span_size_t, P2> bitshift) noexcept
@@ -53,7 +52,7 @@ static constexpr inline auto do_decode_code_point_head(
             (mask.is_valid() && bitshift.is_valid())};
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto
+static constexpr auto
 decode_code_point_head(const byte b, const valid_sequence_length& l) noexcept
   -> optionally_valid<code_point_t> {
     return do_decode_code_point_head(
@@ -61,7 +60,7 @@ decode_code_point_head(const byte b, const valid_sequence_length& l) noexcept
 }
 //------------------------------------------------------------------------------
 template <typename P1, typename P2>
-static constexpr inline auto do_decode_code_point_tail(
+static constexpr auto do_decode_code_point_tail(
   const byte b,
   const valid_if<byte, P1> mask,
   const valid_if<span_size_t, P2> bitshift) noexcept
@@ -72,7 +71,7 @@ static constexpr inline auto do_decode_code_point_tail(
             (mask.is_valid() && bitshift.is_valid())};
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto decode_code_point_tail(
+static constexpr auto decode_code_point_tail(
   const byte b,
   const valid_sequence_length& i,
   const valid_sequence_length& l) noexcept -> optionally_valid<code_point_t> {
@@ -106,7 +105,7 @@ inline auto do_decode_code_point(
 }
 //------------------------------------------------------------------------------
 template <typename P1, typename P2, typename P3>
-static constexpr inline auto do_encode_code_point_byte(
+static constexpr auto do_encode_code_point_byte(
   const code_point_t cp,
   const valid_if<byte, P1> code,
   const valid_if<byte, P2> mask,
@@ -119,14 +118,14 @@ static constexpr inline auto do_encode_code_point_byte(
       (code.is_valid() && mask.is_valid() && bitshift.is_valid())};
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto encode_code_point_head(
+static constexpr auto encode_code_point_head(
   const code_point_t cp,
   const valid_sequence_length& l) noexcept -> optionally_valid<byte> {
     return do_encode_code_point_byte(
       cp, head_code(l), head_data_mask(l), head_data_bitshift(l));
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto encode_code_point_tail(
+static constexpr auto encode_code_point_tail(
   const code_point_t cp,
   const valid_sequence_length& i,
   const valid_sequence_length& l) noexcept -> optionally_valid<byte> {

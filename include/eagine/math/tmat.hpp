@@ -1,11 +1,10 @@
-/**
- *  @file eagine/math/tmat.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EAGINE_MATH_TMAT_HPP
 #define EAGINE_MATH_TMAT_HPP
 
@@ -16,23 +15,28 @@
 namespace eagine {
 namespace math {
 
+/// @brief Generic template for RxC dimensional matrices.
+/// @ingroup math
 template <typename T, int C, int R, bool RM, bool V>
 struct tmat : matrix<T, C, R, RM, V> {
-private:
-    using _base = matrix<T, C, R, RM, V>;
+    /// @brief The base matrix type.
+    using base = matrix<T, C, R, RM, V>;
 
-public:
+    /// @brief Default constructor. Constructs identity matrix.
     constexpr tmat() noexcept
-      : _base{identity<_base>{}()} {}
+      : base{identity<base>{}()} {}
 
-    constexpr tmat(const _base& m) noexcept
-      : _base{m} {}
+    /// @brief Construction from a base matrix.
+    constexpr tmat(const base& m) noexcept
+      : base{m} {}
 
+    /// @brief Construction from element data pointer and count.
     tmat(const T* d, int n) noexcept
-      : _base{_base::from(d, n)} {}
+      : base{base::from(d, n)} {}
 
+    /// @brief Construction from element data array.
     tmat(const T (&d)[C * R]) noexcept
-      : _base{_base::from(d, C * R)} {}
+      : base{base::from(d, C * R)} {}
 
 private:
     template <
@@ -41,7 +45,7 @@ private:
         ((sizeof...(P)) == (C * R)) && all_are_convertible_to<T, P...>::value>>
     static auto _make(P&&... p) {
         T d[C * R] = {T(p)...};
-        return _base::from(d, C * R);
+        return base::from(d, C * R);
     }
 
 public:
@@ -50,13 +54,13 @@ public:
       typename = std::enable_if_t<
         ((sizeof...(P)) == (R * C)) && all_are_convertible_to<T, P...>::value>>
     tmat(P&&... p)
-      : _base(_make(std::forward<P>(p)...)) {}
+      : base(_make(std::forward<P>(p)...)) {}
 
     template <
       typename... P,
       typename = std::enable_if_t<((sizeof...(P)) == (RM ? R : C))>>
     constexpr tmat(const vector<P, RM ? C : R, V>&... v) noexcept
-      : _base{{v._v...}} {}
+      : base{{v._v...}} {}
 
     template <
       typename P,
@@ -65,7 +69,7 @@ public:
       typename =
         std::enable_if_t<std::is_convertible_v<P, T> && (C <= M) && (R <= N)>>
     constexpr tmat(const matrix<P, M, N, RM, V>& m) noexcept
-      : _base{_base::from(m)} {}
+      : base{base::from(m)} {}
 };
 
 template <typename T, int C, int R, bool RM, bool V>

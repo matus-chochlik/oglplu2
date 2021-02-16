@@ -1,11 +1,10 @@
-/**
- *  @file eagine/math/intersection.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EAGINE_MATH_INTERSECTION_HPP
 #define EAGINE_MATH_INTERSECTION_HPP
 
@@ -54,21 +53,20 @@ nearest_ray_param(const std::pair<valid_if<T, P, L>, valid_if<T, P, L>>& params)
 // line-sphere
 //------------------------------------------------------------------------------
 template <typename T, bool V>
-static constexpr inline auto
+static constexpr auto
 _line_sphere_intersection_a(vector<T, 3, V> ld, vector<T, 3, V> oc) noexcept
   -> T {
     return -T(2) * dot(ld, oc);
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
-static constexpr inline auto
-_line_sphere_intersection_d(vector<T, 3, V> ld) noexcept
+static constexpr auto _line_sphere_intersection_d(vector<T, 3, V> ld) noexcept
   -> valid_if_positive<T> {
     return T(2) * dot(ld, ld);
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
-static constexpr inline auto _line_sphere_intersection_b(
+static constexpr auto _line_sphere_intersection_b(
   vector<T, 3, V> ld,
   vector<T, 3, V> oc,
   T sr) noexcept -> valid_if_nonnegative<T> {
@@ -78,7 +76,7 @@ static constexpr inline auto _line_sphere_intersection_b(
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto _line_sphere_intersection_t(
+static constexpr auto _line_sphere_intersection_t(
   T a,
   valid_if_nonnegative<T> b,
   valid_if_positive<T> d) noexcept {
@@ -92,7 +90,7 @@ static constexpr inline auto _line_sphere_intersection_t(
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
-static constexpr inline auto _line_sphere_intersection_p(
+static constexpr auto _line_sphere_intersection_p(
   const line<T, V>& ray,
   const std::pair<optionally_valid<T>, optionally_valid<T>>& ts) {
     using E = optionally_valid<vector<T, 3, V>>;
@@ -115,8 +113,11 @@ auto line_sphere_intersection_params(
       _line_sphere_intersection_d(ray.direction()));
 }
 //------------------------------------------------------------------------------
+/// @brief Finds line-sphere intersection points.
+/// @ingroup math
+/// @see nearest_line_sphere_intersection
 template <typename T, bool V>
-static constexpr inline auto line_sphere_intersection(
+static constexpr auto line_sphere_intersection(
   const line<T, V>& ray,
   const sphere<T, V>& sph) noexcept -> std::
   pair<optionally_valid<vector<T, 3, V>>, optionally_valid<vector<T, 3, V>>> {
@@ -125,7 +126,7 @@ static constexpr inline auto line_sphere_intersection(
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
-static constexpr inline auto _line_sphere_intersection_n_p(
+static constexpr auto _line_sphere_intersection_n_p(
   const line<T, V>& ray,
   const std::pair<optionally_valid<T>, optionally_valid<T>>& ts) {
     using R = optionally_valid<vector<T, 3, V>>;
@@ -140,8 +141,11 @@ static constexpr inline auto _line_sphere_intersection_n_p(
              : R{};
 }
 //------------------------------------------------------------------------------
+/// @brief Finds nearest line-sphere intersection point.
+/// @ingroup math
+/// @see line_sphere_intersection
 template <typename T, bool V>
-static constexpr inline auto nearest_line_sphere_intersection(
+static constexpr auto nearest_line_sphere_intersection(
   const line<T, V>& ray,
   const sphere<T, V>& sph) noexcept -> optionally_valid<vector<T, 3, V>> {
     return _line_sphere_intersection_n_p(
@@ -176,6 +180,8 @@ static inline auto line_triangle_intersection_param(
     return {};
 }
 //------------------------------------------------------------------------------
+/// @brief Finds line-triangle intersection point.
+/// @ingroup math
 template <typename T, bool V>
 static inline auto line_triangle_intersection(
   const line<T, V>& ray,

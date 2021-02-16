@@ -1,11 +1,10 @@
-/**
- *  @file oglplus/camera.inl
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #include <eagine/math/matrix_inverse.hpp>
 #include <oglplus/math/coordinates.hpp>
@@ -14,7 +13,7 @@ namespace eagine::oglp {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 auto orbiting_camera::target_to_camera_direction() const noexcept -> vec3 {
-    return to_cartesian(unit_spherical_coordinates(azimuth(), elevation()));
+    return to_cartesian(unit_spherical_coordinate(azimuth(), elevation()));
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

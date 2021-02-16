@@ -1,11 +1,10 @@
-/**
- *  @file eagine/enum_log.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_ENUM_LOG_HPP
 #define EAGINE_ENUM_LOG_HPP
@@ -17,7 +16,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename Self, typename T, identifier_t LibId, identifier_t Id>
-static constexpr inline auto adapt_log_entry_arg(
+static constexpr auto adapt_log_entry_arg(
   identifier name,
   enum_class<Self, T, LibId, Id> ec,
   std::enable_if_t<std::is_signed_v<T>, T> = {}) {
@@ -27,7 +26,7 @@ static constexpr inline auto adapt_log_entry_arg(
 }
 //------------------------------------------------------------------------------
 template <typename Self, typename T, identifier_t LibId, identifier_t Id>
-static constexpr inline auto adapt_log_entry_arg(
+static constexpr auto adapt_log_entry_arg(
   identifier name,
   enum_class<Self, T, LibId, Id> ec,
   std::enable_if_t<std::is_unsigned_v<T>, T> = {}) {

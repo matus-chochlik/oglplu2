@@ -1,11 +1,10 @@
-/**
- *  @file eagine/range_types.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_RANGE_TYPES_HPP
 #define EAGINE_RANGE_TYPES_HPP
@@ -34,7 +33,7 @@ template <typename R>
 using valid_range_position = valid_if_le_size_ge0<R, range_index_t<R>>;
 //------------------------------------------------------------------------------
 template <typename R, typename T>
-static constexpr inline auto range_index(T i) noexcept {
+static constexpr auto range_index(T i) noexcept {
     return limit_cast<range_index_t<R>>(i);
 }
 //------------------------------------------------------------------------------

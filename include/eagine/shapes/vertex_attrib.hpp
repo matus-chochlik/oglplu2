@@ -1,11 +1,10 @@
-/**
- *  @file eagine/shapes/vertex_attrib.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_SHAPES_VERTEX_ATTRIB_HPP
 #define EAGINE_SHAPES_VERTEX_ATTRIB_HPP
@@ -65,12 +64,12 @@ enumerator_mapping(type_identity<vertex_attrib_kind>, Selector) noexcept {
 //------------------------------------------------------------------------------
 using vertex_attrib_bits = bitfield<vertex_attrib_kind>;
 //------------------------------------------------------------------------------
-static constexpr inline auto all_vertex_attrib_bits() noexcept {
+static constexpr auto all_vertex_attrib_bits() noexcept {
     return vertex_attrib_bits{(1U << 16U) - 1U};
 }
 //------------------------------------------------------------------------------
 // vertex_attrib_kind | vertex_attrib_kind
-static constexpr inline auto
+static constexpr auto
 operator|(vertex_attrib_kind a, vertex_attrib_kind b) noexcept
   -> vertex_attrib_bits {
     return {a, b};
@@ -142,7 +141,7 @@ struct vertex_attrib_variant {
 };
 //------------------------------------------------------------------------------
 // vertex_attrib_kind / variant_index{}
-static constexpr inline auto
+static constexpr auto
 operator/(vertex_attrib_kind attrib, span_size_t variant_index) noexcept
   -> vertex_attrib_variant {
     return {attrib, variant_index};
@@ -152,19 +151,19 @@ template <std::size_t N>
 using vertex_attrib_variants = std::array<const vertex_attrib_variant, N>;
 //------------------------------------------------------------------------------
 // + vertex_attrib_variant
-static constexpr inline auto operator+(vertex_attrib_variant a) noexcept {
+static constexpr auto operator+(vertex_attrib_variant a) noexcept {
     return vertex_attrib_variants<1>{{a}};
 }
 //------------------------------------------------------------------------------
 // vertex_attrib_variant + vertex_attrib_variant
-static constexpr inline auto
+static constexpr auto
 operator+(vertex_attrib_variant a, vertex_attrib_variant b) noexcept {
     return vertex_attrib_variants<2>{{a, b}};
 }
 //------------------------------------------------------------------------------
 // append_attrib
 template <std::size_t N, std::size_t... I>
-static constexpr inline auto do_append_attrib(
+static constexpr auto do_append_attrib(
   const vertex_attrib_variants<N>& a,
   vertex_attrib_variant b,
   std::index_sequence<I...>) noexcept {
@@ -173,7 +172,7 @@ static constexpr inline auto do_append_attrib(
 //------------------------------------------------------------------------------
 // array<vertex_attrib_variant, N> + vertex_attrib_variant
 template <std::size_t N>
-static constexpr inline auto operator+(
+static constexpr auto operator+(
   const vertex_attrib_variants<N>& a,
   vertex_attrib_variant b) noexcept {
     return do_append_attrib(a, b, std::make_index_sequence<N>());

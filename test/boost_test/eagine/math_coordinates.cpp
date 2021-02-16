@@ -1,9 +1,8 @@
-/**
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #include <eagine/math/coordinates.hpp>
 #define BOOST_TEST_MODULE EAGINE_math_coordinates
 #include "../unit_test_begin.inl"
@@ -23,7 +22,7 @@ static inline void test_eagine_math_coord_spherical_cartesian_roundtrip() {
         auto azim = radians_(rg.get<T>(-T(pi), T(pi)));
         auto elev = radians_(rg.get<T>(-T(pi / 2), T(pi / 2)));
 
-        unit_spherical_coordinates<T, V> orig(azim, elev);
+        unit_spherical_coordinate<T, V> orig(azim, elev);
         auto calc = to_unit_spherical(to_cartesian(orig));
 
         BOOST_CHECK_CLOSE(

@@ -1,11 +1,10 @@
-/**
- *  @file eagine/unit/unit.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_UNITS_UNIT_HPP
 #define EAGINE_UNITS_UNIT_HPP
@@ -62,35 +61,35 @@ struct div_result<unit<D1, S>, unit<D2, S>>
 
 // quotation
 template <typename U>
-static constexpr inline auto operator!(U) noexcept
+static constexpr auto operator!(U) noexcept
   -> std::enable_if_t<is_unit_v<U>, lit_result_t<U>> {
     return {};
 }
 
 // addition
 template <typename U1, typename U2>
-static constexpr inline auto operator+(U1, U2) noexcept
+static constexpr auto operator+(U1, U2) noexcept
   -> std::enable_if_t<is_unit_v<U1> && is_unit_v<U2>, add_result_t<U1, U2>> {
     return {};
 }
 
 // subtraction
 template <typename U1, typename U2>
-static constexpr inline auto operator-(U1, U2) noexcept
+static constexpr auto operator-(U1, U2) noexcept
   -> std::enable_if_t<is_unit_v<U1> && is_unit_v<U2>, sub_result_t<U1, U2>> {
     return {};
 }
 
 // multiplication
 template <typename U1, typename U2>
-static constexpr inline auto operator*(U1, U2) noexcept
+static constexpr auto operator*(U1, U2) noexcept
   -> std::enable_if_t<is_unit_v<U1> && is_unit_v<U2>, mul_result_t<U1, U2>> {
     return {};
 }
 
 // division
 template <typename U1, typename U2>
-static constexpr inline auto operator/(U1, U2) noexcept
+static constexpr auto operator/(U1, U2) noexcept
   -> std::enable_if_t<is_unit_v<U1> && is_unit_v<U2>, div_result_t<U1, U2>> {
     return {};
 }

@@ -1,11 +1,10 @@
-/**
- *  @file eagine/math/matrix_looking_at.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EAGINE_MATH_MATRIX_LOOKING_AT_HPP
 #define EAGINE_MATH_MATRIX_LOOKING_AT_HPP
 
@@ -73,7 +72,7 @@ struct looking_at_y_up<matrix<T, 4, 4, RM, V>> {
 
 // reorder_mat_ctr(looking_at_y_up)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline auto
+static constexpr auto
 reorder_mat_ctr(const looking_at_y_up<matrix<T, N, N, RM, V>>& c) noexcept
   -> looking_at_y_up<matrix<T, N, N, !RM, V>> {
     return {c._e, c._t};

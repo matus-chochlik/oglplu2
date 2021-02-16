@@ -1,11 +1,10 @@
-/**
- *  @file eagine/identifier.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_IDENTIFIER_HPP
 #define EAGINE_IDENTIFIER_HPP
@@ -21,19 +20,19 @@ namespace eagine {
 template <typename CharSet>
 class identifier_encoding {
 public:
-    static constexpr inline auto encode(const char c) noexcept -> std::uint8_t {
+    static constexpr auto encode(const char c) noexcept -> std::uint8_t {
         return _do_encode(c, 0, CharSet::values);
     }
 
-    static constexpr inline auto decode(const std::uint8_t i) noexcept -> char {
+    static constexpr auto decode(const std::uint8_t i) noexcept -> char {
         return _do_decode(i, CharSet::values);
     }
 
-    static constexpr inline auto invalid() noexcept {
+    static constexpr auto invalid() noexcept {
         return _get_invalid(CharSet::values);
     }
 
-    static constexpr inline auto invalid(const std::uint8_t c) noexcept {
+    static constexpr auto invalid(const std::uint8_t c) noexcept {
         return c >= invalid();
     }
 
@@ -43,12 +42,12 @@ public:
 
 private:
     template <std::size_t L>
-    static constexpr inline auto _get_invalid(const char (&)[L]) noexcept {
+    static constexpr auto _get_invalid(const char (&)[L]) noexcept {
         return std::uint8_t(L);
     }
 
     template <std::size_t L>
-    static constexpr inline auto _do_encode(
+    static constexpr auto _do_encode(
       const char c,
       const std::uint8_t i,
       const char (&enc)[L]) noexcept -> std::uint8_t {
@@ -58,7 +57,7 @@ private:
     }
 
     template <std::size_t L>
-    static constexpr inline auto
+    static constexpr auto
     _do_decode(const std::uint8_t i, const char (&enc)[L]) noexcept -> char {
         return (i < invalid()) ? enc[i] : '\0';
     }
@@ -143,46 +142,45 @@ public:
     basic_identifier() = default;
 
     template <std::size_t L, typename = std::enable_if_t<(L <= M + 1)>>
-    explicit constexpr inline basic_identifier(const char (&init)[L]) noexcept
+    explicit constexpr basic_identifier(const char (&init)[L]) noexcept
       : _bites{_make_bites(
           static_cast<const char*>(init),
           L,
           std::make_index_sequence<M>{})} {}
 
-    explicit constexpr inline basic_identifier(span<const char> init) noexcept
+    explicit constexpr basic_identifier(span<const char> init) noexcept
       : _bites{_make_bites(
           init.data(),
           init.size(),
           std::make_index_sequence<M>{})} {}
 
-    explicit constexpr inline basic_identifier(UIntT init) noexcept
+    explicit constexpr basic_identifier(UIntT init) noexcept
       : _bites{_bites_t::from_value(init)} {}
 
-    explicit constexpr inline basic_identifier(_bites_t init) noexcept
+    explicit constexpr basic_identifier(_bites_t init) noexcept
       : _bites{std::move(init)} {}
 
-    static constexpr inline auto max_size() noexcept -> size_type {
+    static constexpr auto max_size() noexcept -> size_type {
         return M;
     }
 
-    constexpr inline auto size() const noexcept -> size_type {
+    constexpr auto size() const noexcept -> size_type {
         return _get_size(0);
     }
 
-    constexpr inline auto operator[](size_type idx) const noexcept
-      -> value_type {
+    constexpr auto operator[](size_type idx) const noexcept -> value_type {
         return encoding::decode(_bites[idx]);
     }
 
-    constexpr inline auto value() const noexcept -> UIntT {
+    constexpr auto value() const noexcept -> UIntT {
         return _bites.bytes().template as<UIntT>();
     }
 
-    constexpr inline auto matches(UIntT what) const noexcept {
+    constexpr auto matches(UIntT what) const noexcept {
         return value() == what;
     }
 
-    constexpr inline auto name() const noexcept -> name_type {
+    constexpr auto name() const noexcept -> name_type {
         return _get_name(std::make_index_sequence<M>{});
     }
 
@@ -190,32 +188,32 @@ public:
         return name().str();
     }
 
-    friend constexpr inline auto
+    friend constexpr auto
     operator==(const basic_identifier& a, const basic_identifier& b) noexcept {
         return a._bites == b._bites;
     }
 
-    friend constexpr inline auto
+    friend constexpr auto
     operator!=(const basic_identifier& a, const basic_identifier& b) noexcept {
         return a._bites != b._bites;
     }
 
-    friend constexpr inline auto
+    friend constexpr auto
     operator<(const basic_identifier& a, const basic_identifier& b) noexcept {
         return a._bites < b._bites;
     }
 
-    friend constexpr inline auto
+    friend constexpr auto
     operator<=(const basic_identifier& a, const basic_identifier& b) noexcept {
         return a._bites <= b._bites;
     }
 
-    friend constexpr inline auto
+    friend constexpr auto
     operator>(const basic_identifier& a, const basic_identifier& b) noexcept {
         return a._bites > b._bites;
     }
 
-    friend constexpr inline auto
+    friend constexpr auto
     operator>=(const basic_identifier& a, const basic_identifier& b) noexcept {
         return a._bites >= b._bites;
     }
@@ -224,7 +222,7 @@ private:
     _bites_t _bites;
 
     template <std::size_t... I>
-    static constexpr inline auto _make_bites(
+    static constexpr auto _make_bites(
       const char* init,
       std::size_t l,
       std::index_sequence<I...>) noexcept {
@@ -233,13 +231,12 @@ private:
     }
 
     template <std::size_t... I>
-    constexpr inline auto _get_name(std::index_sequence<I...>) const noexcept
+    constexpr auto _get_name(std::index_sequence<I...>) const noexcept
       -> name_type {
         return name_type{size(), (*this)[size_type(I)]...};
     }
 
-    constexpr inline auto _get_size(std::size_t s) const noexcept
-      -> std::size_t {
+    constexpr auto _get_size(std::size_t s) const noexcept -> std::size_t {
         return (s < M) ? encoding::invalid(_bites[size_type(s)])
                            ? s
                            : _get_size(s + 1)

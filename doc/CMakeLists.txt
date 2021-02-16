@@ -4,6 +4,9 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 find_package(Doxygen)
+
+add_subdirectory(logo)
+
 if(Doxygen_FOUND)
 	add_subdirectory(doxygen)
 endif()

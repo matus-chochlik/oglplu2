@@ -1,11 +1,10 @@
-/**
- *  @file eagine/enum_span.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_ENUM_SPAN_HPP
 #define EAGINE_ENUM_SPAN_HPP
@@ -28,7 +27,7 @@ public:
     enum_list() = default;
 
     template <typename... EnumValues>
-    constexpr inline enum_list(EnumValues... evs) noexcept
+    constexpr enum_list(EnumValues... evs) noexcept
       : _values{{value_type(evs)...}} {}
 
     auto values() const noexcept {

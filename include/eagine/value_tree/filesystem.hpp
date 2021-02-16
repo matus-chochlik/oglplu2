@@ -1,11 +1,10 @@
-/**
- *  @file eagine/value_tree/filesystem.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_VALUE_TREE_FILESYSTEM_HPP
 #define EAGINE_VALUE_TREE_FILESYSTEM_HPP
@@ -28,6 +27,8 @@ struct file_compound_factory {
     virtual auto make_compound(string_view path, logger&) -> compound = 0;
 };
 //------------------------------------------------------------------------------
+/// @brief Creates a compound representing a filesystem subtree.
+/// @ingroup valtree
 auto from_filesystem_path(
   string_view root_path,
   main_ctx_parent,

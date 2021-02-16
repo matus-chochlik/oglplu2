@@ -1,11 +1,10 @@
-/**
- *  @file eagine/enum_class.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_ENUM_CLASS_HPP
 #define EAGINE_ENUM_CLASS_HPP
@@ -329,7 +328,7 @@ struct any_enum_value {
 };
 
 template <identifier_t LibId>
-static constexpr inline auto
+static constexpr auto
 same_enum_class(any_enum_class<LibId> a, any_enum_class<LibId> b) noexcept {
     return a._type_id == b._type_id;
 }

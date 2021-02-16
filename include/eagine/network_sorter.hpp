@@ -1,6 +1,10 @@
-/**
- *  @file eagine/network_sorter.hpp
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_NETWORK_SORTER_HPP
 #define EAGINE_NETWORK_SORTER_HPP
@@ -72,7 +76,7 @@ private:
     std::array<std::array<T, N>, 2> _a;
 
 public:
-    constexpr inline network_sorter(std::array<T, N> a)
+    constexpr network_sorter(std::array<T, N> a)
       : _a{{a, a}} {}
 
     using basic_network_sorter<T, N, Compare, Network>::rounds;

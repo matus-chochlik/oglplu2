@@ -1,11 +1,10 @@
-/**
- *  @file eagine/type_to_value.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_TYPE_TO_VALUE_HPP
 #define EAGINE_TYPE_TO_VALUE_HPP
@@ -64,7 +63,7 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
     type_to_value(const Transform& transform)
       : type_to_value_unit<Value, Keys>(transform(type_identity<Keys>()))... {}
 
-    static constexpr inline size_type size() noexcept {
+    static constexpr size_type size() noexcept {
         return sizeof...(Keys);
     }
 

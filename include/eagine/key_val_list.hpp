@@ -1,11 +1,10 @@
-/**
- *  @file eagine/key_val_list.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_KEY_VAL_LIST_HPP
 #define EAGINE_KEY_VAL_LIST_HPP
@@ -29,9 +28,7 @@ struct key_value_list_element {
     key_type _key;
     value_type _value;
 
-    constexpr inline key_value_list_element(
-      key_type key,
-      value_type value) noexcept
+    constexpr key_value_list_element(key_type key, value_type value) noexcept
       : _key{key}
       , _value{value} {}
 };
@@ -148,7 +145,7 @@ public:
 };
 
 template <typename Traits>
-static constexpr inline auto operator+(
+static constexpr auto operator+(
   const key_value_list_element<Traits>& l,
   const key_value_list_element<Traits>& r) noexcept
   -> key_value_list<Traits, 4> {
@@ -156,7 +153,7 @@ static constexpr inline auto operator+(
 }
 
 template <typename Traits, std::size_t N>
-static constexpr inline auto operator+(
+static constexpr auto operator+(
   const key_value_list<Traits, N>& l,
   const key_value_list_element<Traits>& r) noexcept
   -> key_value_list<Traits, N + 2> {

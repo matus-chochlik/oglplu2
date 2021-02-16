@@ -88,13 +88,6 @@ endif()
 include(config/SiteConfig.cmake)
 include(config/GitInfo.cmake)
 
-# common functions for GL version and extension detection
-# include(config/GLVerFeat.cmake)
-# GL version detection
-# include(config/GLVer.cmake)
-# GL feature detection
-# include(config/GLFeat.cmake)
-
 # re-create the site-configuration header
 include(config/SiteConfig.cmake)
 

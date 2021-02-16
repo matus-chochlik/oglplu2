@@ -1,11 +1,10 @@
-/**
- *  @file eagine/enum_bitfield.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_ENUM_BITFIELD_HPP
 #define EAGINE_ENUM_BITFIELD_HPP
@@ -21,7 +20,7 @@ template <typename T, typename... Classes>
 struct enum_bits<T, mp_list<Classes...>> {
     T _bits{0};
 
-    explicit constexpr inline enum_bits(T bits) noexcept
+    explicit constexpr enum_bits(T bits) noexcept
       : _bits(bits) {}
 };
 
@@ -30,7 +29,7 @@ template <
   typename TL1,
   typename TL2,
   typename = std::enable_if_t<!mp_is_empty_v<mp_union_t<TL1, TL2>>>>
-static constexpr inline auto
+static constexpr auto
 operator|(enum_value<T, TL1> a, enum_value<T, TL2> b) noexcept {
     // NOLINTNEXTLINE(hicpp-signed-bitwise)
     return enum_bits<T, mp_union_t<TL1, TL2>>{a.value | b.value};
@@ -41,7 +40,7 @@ template <
   typename TL1,
   typename TL2,
   typename = std::enable_if_t<!mp_is_empty_v<mp_union_t<TL1, TL2>>>>
-static constexpr inline auto
+static constexpr auto
 operator|(enum_bits<T, TL1> eb, enum_value<T, TL2> ev) noexcept {
     return enum_bits<T, mp_union_t<TL1, TL2>>{eb._bits | ev.value};
 }
@@ -52,7 +51,7 @@ struct enum_bitfield {
 
     value_type _value{0};
 
-    constexpr inline enum_bitfield() noexcept = default;
+    constexpr enum_bitfield() noexcept = default;
 
     explicit constexpr enum_bitfield(value_type value) noexcept
       : _value{value} {}

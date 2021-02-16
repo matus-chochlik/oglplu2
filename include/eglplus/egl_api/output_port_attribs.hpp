@@ -1,11 +1,10 @@
-/**
- *  @file eglplus/egl_api/output_port_attribs.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EGLPLUS_EGL_API_OUTPUT_PORT_ATTRIBS_HPP
 #define EGLPLUS_EGL_API_OUTPUT_PORT_ATTRIBS_HPP
 
@@ -35,14 +34,13 @@ using output_port_attributes = key_value_list<output_port_attrib_traits, N>;
 using output_port_attribute_value =
   key_value_list_element<output_port_attrib_traits>;
 
-static constexpr inline auto
+static constexpr auto
 operator|(output_port_attribute key, egl_types::int_type value) noexcept
   -> output_port_attribute_value {
     return {key, value};
 }
 
-static constexpr inline auto
-operator|(output_port_attribute key, bool value) noexcept
+static constexpr auto operator|(output_port_attribute key, bool value) noexcept
   -> output_port_attribute_value {
 #if defined(EGL_TRUE) && defined(EGL_FALSE)
     return {key, value ? EGL_TRUE : EGL_FALSE};

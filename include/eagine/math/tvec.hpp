@@ -1,56 +1,66 @@
-/**
- *  @file eagine/math/tvec.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EAGINE_MATH_TVEC_HPP
 #define EAGINE_MATH_TVEC_HPP
 
 #include "../all_are_same.hpp"
+#include "../memory/flatten_fwd.hpp"
 #include "vector.hpp"
 
 namespace eagine {
 namespace math {
 
-// tvec
+/// @brief Generic template for N-dimensional vectors.
+/// @ingroup math
 template <typename T, int N, bool V>
 struct tvec : vector<T, N, V> {
-    using _base = vector<T, N, V>;
+    /// @brief The base vector type.
+    using base = vector<T, N, V>;
 
+    /// @brief Default constructor. Constructs a zero vector.
     constexpr tvec() noexcept
-      : _base{_base::zero()} {}
+      : base{base::zero()} {}
 
+    /// @brief Constructor initializing all coordinates to @p v.
     constexpr tvec(T v) noexcept
-      : _base{_base::fill(v)} {}
+      : base{base::fill(v)} {}
 
-    constexpr tvec(const _base& v) noexcept
-      : _base{v} {}
+    /// @brief Construction from base vector.
+    constexpr tvec(const base& v) noexcept
+      : base{v} {}
 
+    /// @brief Construction from native array.
     tvec(const T (&d)[N]) noexcept
-      : _base{_base::from(d, N)} {}
+      : base{base::from(d, N)} {}
 
+    /// @brief Construction from coordinates.
     template <
       typename... P,
       typename = std::enable_if_t<
         (sizeof...(P) == N) && all_are_convertible_to<T, P...>::value>>
     constexpr tvec(P&&... p) noexcept
-      : _base{_base::make(std::forward<P>(p)...)} {}
+      : base{base::make(std::forward<P>(p)...)} {}
 
+    /// @brief Construction from vector of different dimensionality.
     template <
       typename P,
       int M,
       bool W,
       typename = std::enable_if_t<!std::is_same_v<P, T> || !(M == N)>>
     constexpr tvec(const vector<P, M, W>& v) noexcept
-      : _base{_base::from(v)} {}
+      : base{base::from(v)} {}
 
+    /// @brief Construction from vector of different dimensionality.
     template <typename P, int M, bool W>
     constexpr tvec(const vector<P, M, W>& v, T d) noexcept
-      : _base{_base::from(v, d)} {}
+      : base{base::from(v, d)} {}
 
+    /// @brief Construction from vector of different dimensionality.
     template <
       typename P,
       int M,
@@ -60,14 +70,14 @@ struct tvec : vector<T, N, V> {
         (sizeof...(R) > 1) && (M + sizeof...(R) == N) &&
         all_are_convertible_to<T, R...>::value>>
     constexpr tvec(const vector<P, M, W>& v, R&&... r) noexcept
-      : _base{
-          _base::from(v, vector<T, N - M, W>::make(std::forward<R>(r)...))} {}
+      : base{base::from(v, vector<T, N - M, W>::make(std::forward<R>(r)...))} {}
 
+    /// @brief Construction from a pair of vectors of different dimensionality.
     template <typename P, int M, bool W>
     constexpr tvec(
       const vector<P, M, W>& v,
       const vector<T, N - M, W>& w) noexcept
-      : _base{_base::from(v, w)} {}
+      : base{base::from(v, w)} {}
 };
 
 } // namespace math
@@ -83,6 +93,35 @@ template <typename T, int N, bool V>
 struct compound_view_maker<math::tvec<T, N, V>> {
     auto operator()(const math::vector<T, N, V>& v) const noexcept {
         return vect::view<T, N, V>::apply(v._v);
+    }
+};
+
+template <typename T, int N, bool V>
+struct flatten_traits<math::tvec<T, N, V>, T> {
+
+    template <typename Ps, typename Ss>
+    static constexpr auto required_size(
+      memory::basic_span<const math::tvec<T, N, V>, Ps, Ss> src) noexcept
+      -> span_size_t {
+        return src.size() * N;
+    }
+
+    template <typename Pd, typename Sd>
+    static auto apply(
+      const math::tvec<T, N, V>& src,
+      memory::basic_span<T, Pd, Sd> dst) noexcept {
+        EAGINE_ASSERT(N <= dst.size());
+        _do_apply(src._v, dst, std::make_index_sequence<std::size_t(N)>{});
+        return skip(dst, N);
+    }
+
+private:
+    template <typename Pd, typename Sd, std::size_t... I>
+    static void _do_apply(
+      vect::data_t<T, N, V> src,
+      memory::basic_span<T, Pd, Sd> dst,
+      std::index_sequence<I...>) noexcept {
+        ((dst[I] = src[I]), ...);
     }
 };
 

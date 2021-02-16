@@ -1,11 +1,10 @@
-/**
- *  @file eagine/message_bus/service/sudoku.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_MESSAGE_BUS_SERVICE_SUDOKU_HPP
 #define EAGINE_MESSAGE_BUS_SERVICE_SUDOKU_HPP
@@ -200,7 +199,7 @@ public:
 
         for_each_sudoku_rank_unit(
           [&](auto& info) {
-              if(info.update(this->bus())) {
+              if(info.update(this->bus(), _compressor)) {
                   something_done();
               }
           },
@@ -241,7 +240,8 @@ private:
         auto& info = _infos.get(rank);
         basic_sudoku_board<S> board{info.traits};
 
-        if(EAGINE_LIKELY(default_deserialize(board, message.content()))) {
+        if(EAGINE_LIKELY(default_deserialize_packed(
+             board, message.content(), _compressor))) {
             info.add_board(
               message.source_id, message.sequence_no, std::move(board));
             mark_activity();
@@ -280,7 +280,7 @@ private:
             boards.emplace_back(source_id, sequence_no, std::move(board));
         }
 
-        auto update(endpoint& bus) -> bool {
+        auto update(endpoint& bus, const data_compressor& compressor) -> bool {
             const unsigned_constant<S> rank{};
             some_true something_done;
 
@@ -303,7 +303,8 @@ private:
                     const bool is_solved = candidate.is_solved();
 
                     auto temp{default_serialize_buffer_for(candidate)};
-                    auto serialized{default_serialize(candidate, cover(temp))};
+                    auto serialized{default_serialize_packed(
+                      candidate, cover(temp), compressor)};
                     EAGINE_ASSERT(serialized);
 
                     message_view response{extract(serialized)};
@@ -327,6 +328,9 @@ private:
             return something_done;
         }
     };
+
+    data_compressor _compressor{};
+
     sudoku_rank_tuple<rank_info> _infos;
 
     std::chrono::steady_clock::time_point _activity_time{
@@ -381,7 +385,7 @@ public:
         for_each_sudoku_rank_unit(
           [&](auto& info) {
               something_done(info.handle_timeouted(*this));
-              something_done(info.send_boards(this->bus()));
+              something_done(info.send_boards(this->bus(), _compressor));
               something_done(info.search_helpers(this->bus()));
           },
           _infos);
@@ -390,8 +394,26 @@ public:
     }
 
     template <unsigned S>
+    auto reset(unsigned_constant<S> rank) noexcept -> auto& {
+        _infos.get(rank).reset(*this);
+        return *this;
+    }
+
+    template <unsigned S>
     auto has_enqueued(const Key& key, unsigned_constant<S> rank) -> bool {
         return _infos.get(rank).has_enqueued(key);
+    }
+
+    template <unsigned S>
+    auto set_solution_timeout(
+      unsigned_constant<S> rank,
+      std::chrono::seconds sec) noexcept -> bool {
+        return _infos.get(rank).solution_timeout.reset(sec);
+    }
+
+    template <unsigned S>
+    auto solution_timeouted(unsigned_constant<S> rank) const noexcept -> bool {
+        return _infos.get(rank).solution_timeout.is_expired();
     }
 
     virtual auto already_done(const Key&, unsigned_constant<3>) -> bool {
@@ -418,6 +440,7 @@ private:
         message_sequence_t query_sequence{0};
         default_sudoku_board_traits<S> traits;
         timeout search_timeout{std::chrono::seconds(3), nothing};
+        timeout solution_timeout{std::chrono::seconds(S * S * S * S)};
 
         flat_map<Key, std::vector<basic_sudoku_board<S>>> key_boards;
 
@@ -517,7 +540,8 @@ private:
             const unsigned_constant<S> rank{};
             basic_sudoku_board<S> board{traits};
 
-            if(EAGINE_LIKELY(default_deserialize(board, message.content()))) {
+            if(EAGINE_LIKELY(default_deserialize_packed(
+                 board, message.content(), parent._compressor))) {
                 const auto pos = std::find_if(
                   pending.begin(), pending.end(), [&](const auto& entry) {
                       return entry.sequence_no == message.sequence_no;
@@ -536,6 +560,7 @@ private:
                             }),
                           key_boards.end());
                         parent.on_solved(pos->used_helper, pos->key, board);
+                        solution_timeout.reset();
                     } else {
                         add_board(pos->key, std::move(board));
                     }
@@ -544,7 +569,10 @@ private:
             }
         }
 
-        auto send_board_to(endpoint& bus, identifier_t helper_id) -> bool {
+        auto send_board_to(
+          endpoint& bus,
+          data_compressor& compressor,
+          identifier_t helper_id) -> bool {
             if(!key_boards.empty()) {
                 auto kbpos =
                   key_boards.begin() + (query_sequence % key_boards.size());
@@ -557,7 +585,8 @@ private:
                 auto pos = std::next(boards.begin(), dist(randeng));
                 auto& board = *pos;
                 auto temp{default_serialize_buffer_for(board)};
-                auto serialized{default_serialize(board, cover(temp))};
+                auto serialized{
+                  default_serialize_packed(board, cover(temp), compressor)};
                 EAGINE_ASSERT(serialized);
 
                 const auto sequence_no = query_sequence++;
@@ -584,7 +613,7 @@ private:
             return false;
         }
 
-        auto send_boards(endpoint& bus) -> bool {
+        auto send_boards(endpoint& bus, data_compressor& compressor) -> bool {
             some_true something_done;
 
             while(!ready_helpers.empty()) {
@@ -593,7 +622,7 @@ private:
                 const auto pos =
                   std::next(ready_helpers.begin(), dist(randeng));
 
-                if(!send_board_to(bus, *pos)) {
+                if(!send_board_to(bus, compressor, *pos)) {
                     break;
                 }
                 something_done();
@@ -631,7 +660,20 @@ private:
                          return entry.key == key;
                      }) != pending.end();
         }
+
+        void reset(This& parent) noexcept {
+            key_boards.clear();
+            pending.clear();
+            used_helpers.clear();
+            solution_timeout.reset();
+
+            parent.bus()
+              .log_info("reset sudoku solution")
+              .arg(EAGINE_ID(rank), S);
+        }
     };
+
+    data_compressor _compressor{};
 
     sudoku_rank_tuple<rank_info> _infos;
 
@@ -808,6 +850,11 @@ public:
         return print(out, {_minu, _minv}, {_maxu, _maxv});
     }
 
+    auto reset() noexcept -> auto& {
+        _boards.clear();
+        return *this;
+    }
+
 protected:
     auto new_board() noexcept -> basic_sudoku_board<S> {
         return {_traits};
@@ -846,6 +893,19 @@ public:
     template <unsigned S>
     auto initialize(Coord max, basic_sudoku_board<S> board) -> auto& {
         return initialize({0, 0}, max, {0, 0}, std::move(board));
+    }
+
+    template <unsigned S>
+    auto reset(unsigned_constant<S> rank) -> auto& {
+        base::reset(rank);
+        _infos.get(rank).reset();
+        return *this;
+    }
+
+    template <unsigned S>
+    auto reinitialize(Coord max, basic_sudoku_board<S> board) -> auto& {
+        reset(unsigned_constant<S>{});
+        return initialize(max, board);
     }
 
     template <unsigned S>

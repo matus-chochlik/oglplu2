@@ -1,11 +1,10 @@
-/**
- *  @file eagine/base64.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_BASE64_HPP
 #define EAGINE_BASE64_HPP
@@ -17,7 +16,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-static constexpr inline auto make_base64_encode_transform() {
+static constexpr auto make_base64_encode_transform() {
     return [](byte b) -> always_valid<char> {
         const auto i = int(b);
         if(i < 26) {
@@ -39,7 +38,7 @@ static constexpr inline auto make_base64_encode_transform() {
     };
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto make_base64_decode_transform() {
+static constexpr auto make_base64_decode_transform() {
     return [](char c) -> optionally_valid<byte> {
         if((c >= 'A') && (c <= 'Z')) {
             return {byte(c - 'A'), true};

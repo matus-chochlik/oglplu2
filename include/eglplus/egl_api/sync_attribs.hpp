@@ -1,11 +1,10 @@
-/**
- *  @file eglplus/egl_api/sync_attribs.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EGLPLUS_EGL_API_SYNC_ATTRIBS_HPP
 #define EGLPLUS_EGL_API_SYNC_ATTRIBS_HPP
 
@@ -34,13 +33,13 @@ using sync_attributes = key_value_list<sync_attrib_traits, N>;
 
 using sync_attribute_value = key_value_list_element<sync_attrib_traits>;
 
-static constexpr inline auto
+static constexpr auto
 operator|(sync_attribute key, egl_types::int_type value) noexcept
   -> sync_attribute_value {
     return {key, value};
 }
 
-static constexpr inline auto operator|(sync_attribute key, bool value) noexcept
+static constexpr auto operator|(sync_attribute key, bool value) noexcept
   -> sync_attribute_value {
 #if defined(EGL_TRUE) && defined(EGL_FALSE)
     return {key, value ? EGL_TRUE : EGL_FALSE};

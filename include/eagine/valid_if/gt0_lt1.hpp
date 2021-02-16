@@ -1,11 +1,10 @@
-/**
- *  @file eagine/valid_if/gt0_lt1.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_VALID_IF_GT0_LT1_HPP
 #define EAGINE_VALID_IF_GT0_LT1_HPP
@@ -23,7 +22,7 @@ struct valid_if_gt0_lt1_policy {
 
     struct do_log {
         template <typename X, typename = disable_if_same_t<X, do_log>>
-        constexpr inline do_log(X&&) noexcept {}
+        constexpr do_log(X&&) noexcept {}
 
         template <typename Log>
         void operator()(Log& log, const T& v) const {

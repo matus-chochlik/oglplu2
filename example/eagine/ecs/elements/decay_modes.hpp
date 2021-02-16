@@ -1,11 +1,10 @@
-/**
- *  @example eagine/ecs/elements/decay_modes.cpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @example eagine/ecs/elements/decay_modes.cpp
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EAGINE_EXAMPLE_ECS_DECAY_MODES_HPP // NOLINT(llvm-header-guard)
 #define EAGINE_EXAMPLE_ECS_DECAY_MODES_HPP
 
@@ -32,8 +31,7 @@ template <decay_part... M>
 using decay_mode_t = std::integer_sequence<decay_part, M...>;
 //------------------------------------------------------------------------------
 template <decay_part... M>
-constexpr inline auto
-  is_fission_v = (false || ... || (M == decay_part::fission));
+constexpr auto is_fission_v = (false || ... || (M == decay_part::fission));
 //------------------------------------------------------------------------------
 struct decay_mode_info {
     std::string symbol;

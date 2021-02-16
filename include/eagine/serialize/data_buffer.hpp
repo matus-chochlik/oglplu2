@@ -1,11 +1,10 @@
-/**
- *  @file eagine/serialize/data_buffer.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 
 #ifndef EAGINE_SERIALIZE_DATA_BUFFER_HPP
 #define EAGINE_SERIALIZE_DATA_BUFFER_HPP
@@ -195,7 +194,7 @@ struct get_serialize_buffer_size
         void>> {};
 //------------------------------------------------------------------------------
 template <identifier_t SerializerId, typename T, typename Selector>
-constexpr inline auto get_serialize_array_for(const T&, Selector) noexcept
+constexpr auto get_serialize_array_for(const T&, Selector) noexcept
   -> std::array<byte, serialize_buffer_size_v<SerializerId, T, Selector>> {
     return {};
 }
@@ -213,7 +212,7 @@ template <
   identifier_t SerializerId,
   typename T,
   typename Selector = default_selector_t>
-constexpr inline auto serialize_buffer_for(const T& inst, Selector sel = {}) {
+constexpr auto serialize_buffer_for(const T& inst, Selector sel = {}) {
     if constexpr(get_serialize_buffer_size<SerializerId, T, Selector>::
                    is_constant) {
         return get_serialize_array_for<SerializerId>(inst, sel);

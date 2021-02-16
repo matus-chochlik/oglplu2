@@ -1,11 +1,10 @@
-/**
- *  @file eagine/math/matrix_ctr.hpp
- *
- *  Copyright Matus Chochlik.
- *  Distributed under the Boost Software License, Version 1.0.
- *  See accompanying file LICENSE_1_0.txt or copy at
- *   http://www.boost.org/LICENSE_1_0.txt
- */
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
 #ifndef EAGINE_MATH_MATRIX_CTR_HPP
 #define EAGINE_MATH_MATRIX_CTR_HPP
 
@@ -39,8 +38,7 @@ struct constructed_matrix<MC<matrix<T, C, R, RM, V>, I>>
 
 // construct_matrix (noop)
 template <bool RM, typename MC>
-static constexpr inline auto
-construct_matrix(const MC& c) noexcept -> std::enable_if_t<
+static constexpr auto construct_matrix(const MC& c) noexcept -> std::enable_if_t<
   is_matrix_constructor_v<MC> && is_row_major_v<constructed_matrix_t<MC>> == RM,
   constructed_matrix_t<MC>> {
     return c();
@@ -48,8 +46,7 @@ construct_matrix(const MC& c) noexcept -> std::enable_if_t<
 
 // construct_matrix (reorder)
 template <bool RM, typename MC>
-static constexpr inline auto
-construct_matrix(const MC& c) noexcept -> std::enable_if_t<
+static constexpr auto construct_matrix(const MC& c) noexcept -> std::enable_if_t<
   is_matrix_constructor_v<MC> && is_row_major_v<constructed_matrix_t<MC>> != RM,
   reordered_matrix_t<constructed_matrix_t<MC>>> {
     return reorder_mat_ctr(c)();

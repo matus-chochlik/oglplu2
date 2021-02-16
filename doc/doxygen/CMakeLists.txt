@@ -7,20 +7,60 @@
 configure_file(Doxyfile-common.in Doxyfile-common @ONLY)
 configure_file(Doxyfile-html.in Doxyfile-html @ONLY)
 
+file(
+	GLOB_RECURSE DOC_INPUT_SOURCES
+	LIST_DIRECTORIES FALSE
+	${CMAKE_CURRENT_SOURCE_DIR}/*.hpp
+	${PROJECT_SOURCE_DIR}/include/*.hpp
+	${PROJECT_SOURCE_DIR}/example/*.hpp
+	${PROJECT_SOURCE_DIR}/example/*.cpp
+)
+
 add_custom_command(
-	OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/html/index.html"
+	OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/doxygen/index.html"
 	COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile-html
 	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 	MAIN_DEPENDENCY "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile-html"
-	DEPENDS
+	DEPENDS ${DOC_INPUT_SOURCES}
 		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-html.in"
 		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-html"
 		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-common.in"
 		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-common"
+		"${CMAKE_CURRENT_SOURCE_DIR}/header.html"
+		"${CMAKE_CURRENT_SOURCE_DIR}/footer.html"
+		"${CMAKE_CURRENT_SOURCE_DIR}/oglplus.css"
 	COMMENT "Generating Doxygen HTML documentation"
 )
 
 add_custom_target(
 	doc-doxygen-html
-	DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/html/index.html"
+	DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/doxygen/index.html"
 )
+
+set_target_properties(
+	doc-doxygen-html
+	PROPERTIES FOLDER "Documentation"
+)
+
+install(
+	DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doxygen
+	DESTINATION share/oglplus/doc
+	USE_SOURCE_PERMISSIONS
+	COMPONENT doc-doxygen-html
+	EXCLUDE_FROM_ALL
+)
+
+add_custom_command(
+	OUTPUT "${CMAKE_INSTALL_PREFIX}/share/oglplus/doc/doxygen/index.html"
+	COMMAND ${CMAKE_COMMAND}
+	ARGS -DCOMPONENT=doc-doxygen-html -P cmake_install.cmake
+	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+	MAIN_DEPENDENCY "${CMAKE_CURRENT_BINARY_DIR}/doxygen/index.html"
+	DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/doxygen/index.html"
+)
+
+add_custom_target(
+	install-doc-doxygen-html
+	DEPENDS "${CMAKE_INSTALL_PREFIX}/share/oglplus/doc/doxygen/index.html"
+)
+
