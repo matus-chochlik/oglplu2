@@ -79,16 +79,24 @@ public:
         return target() + target_to_camera_direction() * orbit();
     }
 
-    auto perspective_matrix(float aspect) const noexcept {
+    auto perspective_matrix_ctr(float aspect) const noexcept {
         return matrix_perspective::y(_fov, aspect, _near, _far);
     }
 
-    auto projection_matrix() const noexcept {
+    auto perspective_matrix(float aspect) const noexcept {
+        return perspective_matrix_ctr(aspect)();
+    }
+
+    auto projection_matrix_ctr() const noexcept {
         return matrix_orbiting_y_up(_target, orbit(), azimuth(), elevation());
     }
 
+    auto projection_matrix() const noexcept {
+        return projection_matrix_ctr()();
+    }
+
     auto matrix(float aspect) const noexcept {
-        return perspective_matrix(aspect) * projection_matrix();
+        return perspective_matrix_ctr(aspect) * projection_matrix_ctr();
     }
 
     auto target_plane_point(float ndcx, float ndcy, float aspect) const noexcept
