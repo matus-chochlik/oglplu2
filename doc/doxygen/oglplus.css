@@ -3,6 +3,10 @@ body, table, div, p, dl {
     font-size: 12px;
 }
 
+html {
+    background-color: #202020;
+}
+
 body {
     background-color: #606060;
     color: black;
