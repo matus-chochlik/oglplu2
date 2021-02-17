@@ -22,5 +22,11 @@ void main() {
 	vec3 Offset = offsetBlock.offset[gl_InstanceID].xyz;
     gl_Position = ProjectionMatrix * vec4(Origin+Offset, 1.0);
 	vertAge = ageBlock.age[gl_InstanceID];
-    vertColor = mix(vec3(1.0, 0.7, 0.5), vec3(0.25, 0.25, 0.25), sqrt(vertAge));
+    vertColor = mix(
+		mix(
+			vec3(1.2, 1.1, 1.0),
+			vec3(1.0, 0.7, 0.5),
+			min(sqrt(vertAge*3), 0.0)),
+		vec3(0.1, 0.1, 0.1),
+		sqrt(vertAge));
 }
