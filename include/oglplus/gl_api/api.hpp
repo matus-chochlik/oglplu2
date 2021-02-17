@@ -703,8 +703,23 @@ public:
       uint_type(program_name, program_interface, string_view)>
       get_program_resource_index;
 
+    struct : func<OGLPAFP(GetProgramResourceIndex)> {
+        using func<OGLPAFP(GetProgramResourceIndex)>::func;
+        constexpr auto
+        operator()(program_name prog, string_view name) const noexcept {
+#ifdef GL_SHADER_STORAGE_BLOCK
+            return this
+              ->_cnvchkcall(name_type(prog), GL_SHADER_STORAGE_BLOCK, name)
+              .cast_to(type_identity<shader_storage_block_index>{});
+#else
+            return this->_fake().cast_to(
+              type_identity<shader_storage_block_index>{});
+#endif
+        }
+    } get_shader_storage_block_index;
+
     func<
-      OGLPAFP(GetProgramResourceIndex),
+      OGLPAFP(GetProgramResourceLocation),
       program_resource_location(program_name, program_interface, string_view)>
       get_program_resource_location;
 
@@ -1520,7 +1535,7 @@ public:
 
     func<
       OGLPAFP(ShaderStorageBlockBinding),
-      void(program_name, uniform_block_index, uint_type)>
+      void(program_name, shader_storage_block_index, uint_type)>
       shader_storage_block_binding;
 
     // buffer ops
