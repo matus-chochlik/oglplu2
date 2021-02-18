@@ -13,6 +13,7 @@
 #include <numeric>
 #include <tuple>
 #include <type_traits>
+#include <vector>
 
 namespace eagine::memory {
 //------------------------------------------------------------------------------
