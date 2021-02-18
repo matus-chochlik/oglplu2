@@ -1,6 +1,4 @@
-#version 460
-
-layout(binding = 0) uniform atomic_uint emitCounter;
+#version 430
 
 layout (std430) buffer OffsetBlock {
 	vec4 offset[];
@@ -18,7 +16,6 @@ out vec3 vertColor;
 out float vertAge;
 
 void main() {
-	atomicCounterExchange(emitCounter, 0);
 	vec3 Offset = offsetBlock.offset[gl_InstanceID].xyz;
     gl_Position = ProjectionMatrix * vec4(Origin+Offset, 1.0);
 	vertAge = ageBlock.age[gl_InstanceID];

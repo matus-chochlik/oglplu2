@@ -89,7 +89,10 @@ void particles::init(example& e) {
 }
 //------------------------------------------------------------------------------
 void particles::emit(example& e) {
-    auto& gl = e.video().gl_api();
+    auto& [gl, GL] = e.video().gl_api();
+
+    const auto cursor_values = GL.unsigned_int_.array(0U);
+    gl.buffer_sub_data(GL.atomic_counter_buffer, 0, view(cursor_values));
     gl.dispatch_compute(_count, 1, 1);
 }
 //------------------------------------------------------------------------------
