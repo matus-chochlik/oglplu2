@@ -47,11 +47,11 @@ private:
 class keyboard_distance {
 public:
     template <typename Layout>
-    keyboard_distance(const Layout& layout) {
+    keyboard_distance(const Layout& layout, float multiplier = 1.F) {
         layout.for_each_char_coord([&](char lc, auto lp) {
             layout.for_each_char_coord([&](char rc, auto rp) {
                 if(lc != rc) {
-                    _key_dist[{lc, rc}] = math::distance(lp, rp);
+                    _key_dist[{lc, rc}] = multiplier * math::distance(lp, rp);
                 }
             });
         });

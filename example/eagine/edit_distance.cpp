@@ -23,7 +23,7 @@ auto main() -> int {
         words.emplace_back(std::move(word));
     }
 
-    keyboard_distance kb_dist{default_keyboard_layout{}};
+    keyboard_distance kb_dist{default_keyboard_layout{}, 0.5F};
 
     while(std::getline(std::cin, word).good()) {
         std::size_t min_idx = words.size();
