@@ -21,6 +21,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 /// @brief Basic class storing paths made of string elements.
+/// @ingroup string_utils
 ///
 /// Efficiently stores a sequence of string elements in a single block of memory.
 class basic_string_path {

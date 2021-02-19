@@ -19,7 +19,11 @@ namespace eagine {
 
 /// @defgroup memory Memory utilities
 
+/// @defgroup string_utils String utilities
+
 /// @defgroup time_utils Time and duration utilities
+
+/// @defgroup identifiers Short string identifiers
 
 /// @defgroup logging Logging
 
