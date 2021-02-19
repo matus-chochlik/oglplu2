@@ -77,6 +77,7 @@ private:
 /// @see identifier
 struct default_identifier_char_set {
     /// @brief The default identifier character set.
+    /// @showinitializer
     static constexpr const char values[63] = {
       'e', 't', 'a', 'o', 'i', 'n', 's', 'r', 'h', 'l', 'd', 'c', 'u',
       'm', 'f', 'p', 'g', 'w', 'y', 'b', 'v', 'k', 'x', 'j', 'q', 'z',
@@ -164,6 +165,7 @@ static inline auto operator<<(std::ostream& out, const identifier_name<M>& n)
 /// @ingroup identifiers
 /// @see identifier
 /// @see long_identifier
+/// @see EAGINE_ID
 ///
 /// Packed identifier store short constant strings with limited allowed set
 /// of characters that are used as object identifiers throughout the project.
@@ -323,14 +325,35 @@ private:
 /// @see basic_identifier
 /// @see default_identifier_char_set
 /// @see identifier_t
+/// @see EAGINE_ID
 ///
 /// Allows to store constant short string identifiers with maximum length of 10.
 using identifier =
   basic_identifier<10, 6, default_identifier_char_set, identifier_t>;
 //------------------------------------------------------------------------------
+/// @brief Macro for constructing instances of eagine::identifier.
+/// @ingroup identifiers
+/// @see eagine::identifier
+/// @see dec_to_identifier
+/// @see byte_to_identifier
 #define EAGINE_ID(NAME) ::eagine::identifier(#NAME)
+
 #define EAGINE_ID_V(NAME) ::eagine::identifier(#NAME).value()
+
+/// @brief Macro for defining selector types corresponding to identifier @p NAME.
+/// @ingroup identifiers
+/// @see eagine::identifier
+/// @see eagine::selector
+/// @see EAGINE_ID
+/// @see EAGINE_TAG
 #define EAGINE_TAG_TYPE(NAME) ::eagine::selector<EAGINE_ID_V(NAME)>
+
+/// @brief Macro for defining selector values corresponding to identifier @p NAME.
+/// @ingroup identifiers
+/// @see eagine::identifier
+/// @see eagine::selector
+/// @see EAGINE_ID
+/// @see EAGINE_TAG_TYPE
 #define EAGINE_TAG(NAME) \
     EAGINE_TAG_TYPE(NAME) {}
 //------------------------------------------------------------------------------
@@ -340,11 +363,15 @@ using identifier =
 /// @see basic_identifier
 /// @see default_identifier_char_set
 /// @see long_identifier_t
+/// @see EAGINE_LONG_ID
 ///
 /// Allows to store constant short string identifiers with maximum length of 10.
 using long_identifier =
   basic_identifier<20, 6, default_identifier_char_set, long_identifier_t>;
 //------------------------------------------------------------------------------
+/// @brief Macro for constructing instances of eagine::long_identifier.
+/// @ingroup identifiers
+/// @see eagine::long_identifier
 #define EAGINE_LONG_ID(NAME) ::eagine::long_identifier(#NAME)
 #define EAGINE_LONG_ID_V(NAME) ::eagine::long_identifier(#NAME).value()
 #endif
