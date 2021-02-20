@@ -27,49 +27,81 @@ namespace eagine {
 
 class system_info_impl;
 
+/// @brief Class providing basic system information.
+/// @ingroup main_context
 class system_info : public main_ctx_object {
 public:
+    /// @brief Alias for host id type.
+    using host_id_type = std::uint32_t;
+
     system_info(main_ctx_parent parent) noexcept
       : main_ctx_object{EAGINE_ID(SystemInfo), parent} {}
 
+    /// @brief Do potentially expensive pre-initialization and caching.
     auto preinitialize() noexcept -> system_info&;
 
-    using host_id_type = std::uint32_t;
-
+    /// @brief Returns a unique numeric id of this host computer.
     auto host_id() noexcept -> valid_if_positive<host_id_type>;
 
+    /// @brief Returns the hostname.
     auto hostname() noexcept -> valid_if_not_empty<std::string>;
 
+    /// @brief Returns the system uptime.
     auto uptime() noexcept -> std::chrono::duration<float>;
 
+    /// @brief Returns the number of threads that can run concurrently.
     auto cpu_concurrent_threads() noexcept -> valid_if_positive<span_size_t> {
         return {span_size(std::thread::hardware_concurrency())};
     }
 
+    /// @brief Returns the number of running processes.
     auto current_processes() noexcept -> valid_if_positive<span_size_t>;
 
+    /// @brief Returns the short-term average system load in range (0.0, 1.0).
     auto short_average_load() noexcept -> valid_if_nonnegative<float>;
+
+    /// @brief Returns the long-term average system load in range (0.0, 1.0).
     auto long_average_load() noexcept -> valid_if_nonnegative<float>;
 
+    /// @brief Returns the memory page size on this system.
     auto memory_page_size() noexcept -> valid_if_positive<span_size_t>;
 
+    /// @brief Returns free RAM size.
     auto free_ram_size() noexcept -> valid_if_positive<span_size_t>;
+
+    /// @brief Returns total RAM size.
     auto total_ram_size() noexcept -> valid_if_positive<span_size_t>;
 
+    /// @brief Returns free swap size.
     auto free_swap_size() noexcept -> valid_if_nonnegative<span_size_t>;
+
+    /// @brief Returns total swap size.
     auto total_swap_size() noexcept -> valid_if_nonnegative<span_size_t>;
 
+    /// @brief Returns the number of system thermal sensors.
     auto thermal_sensor_count() noexcept -> span_size_t;
+
+    /// @brief Returns the temperature on the i-th thermal sensor.
     auto sensor_temperature(span_size_t) noexcept
       -> valid_if_positive<kelvins_t<float>>;
+
+    /// @brief Returns the temperature on the CPU thermal sensor if present.
     auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
+
+    /// @brief Returns the temperature on the GPU thermal sensor if present.
     auto gpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
 
+    /// @brief Returns the number of cooling devices.
     auto cooling_device_count() noexcept -> span_size_t;
+
+    /// @brief Returns the state of the i-th cooling device.
     auto cooling_device_state(span_size_t) noexcept
       -> valid_if_between_0_1<float>;
 
+    /// @brief Returns the count of batteries in the system.
     auto battery_count() noexcept -> span_size_t;
+
+    /// @brief Returns the capacity of the i-th battery.
     auto battery_capacity(span_size_t) noexcept -> valid_if_between_0_1<float>;
 
 private:
