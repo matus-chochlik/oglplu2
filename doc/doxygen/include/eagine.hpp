@@ -37,8 +37,10 @@ namespace math {
 }
 
 /// @brief Value-tree code is placed in this namespace.
-namespace math {
+namespace valtree {
 /// @defgroup valtree Value trees
 }
+//
+/// @defgroup main_context Program utilities and main context
 
 } // namespace eagine

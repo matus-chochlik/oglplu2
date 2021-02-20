@@ -19,9 +19,17 @@
 
 namespace eagine {
 
+/// @brief Structure storing customization options for main context.
+/// @ingroup main_context
 struct main_ctx_options {
+
+    /// @brief The application name. Defaults to the executable name.
     std::string app_name{};
+
+    /// @brief The application root logger identifier.
     identifier app_id{"RootLogger"};
+
+    /// @brief Options for the root logger.
     root_logger_options logger_opts{};
 };
 

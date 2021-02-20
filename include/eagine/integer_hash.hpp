@@ -65,6 +65,8 @@ constexpr auto integer_hash_init(
     return integer_hash_init(UI(x), hid, type_identity<UI>());
 }
 //------------------------------------------------------------------------------
+/// @brief Creates a hash value with type @p H from an integer value of type @p I.
+/// @ingroup type_utils
 template <typename H, typename I>
 inline auto
 integer_hash(I x, type_identity<H> hid = {}, type_identity<I> iid = {}) -> H {
