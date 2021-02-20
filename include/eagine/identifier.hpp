@@ -325,6 +325,9 @@ private:
 /// @see basic_identifier
 /// @see default_identifier_char_set
 /// @see identifier_t
+/// @see dec_to_identifier
+/// @see byte_to_identifier
+/// @see random_identifier
 /// @see EAGINE_ID
 ///
 /// Allows to store constant short string identifiers with maximum length of 10.
