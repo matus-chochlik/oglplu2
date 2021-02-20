@@ -28,11 +28,17 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Common base class for wrapping C-API constant values.
+/// @ingroup c_api_wrap
+/// @see no_c_api_constant
+/// @see static_c_api_constant
+/// @see dynamic_c_api_constant
 struct c_api_constant_base {
 public:
     constexpr c_api_constant_base(string_view name) noexcept
       : _name{name} {}
 
+    /// @brief Returns the name of the constant as a string.
     constexpr auto name() const noexcept {
         return _name;
     }
@@ -41,6 +47,8 @@ private:
     string_view _name{};
 };
 //------------------------------------------------------------------------------
+/// @brief Class wrapping a constant with missing or unknown value.
+/// @ingroup c_api_wrap
 template <typename T, typename Tag = nothing_t, bool is_indexed = false>
 struct no_c_api_constant
   : c_api_constant_base
@@ -50,6 +58,7 @@ public:
     constexpr no_c_api_constant(string_view name, ApiTraits&, Api&) noexcept
       : c_api_constant_base{name} {}
 
+    /// @brief Adds the specified value to the constant (it it is_indexed).
     template <typename I>
     constexpr auto operator+(I) const noexcept -> std::
       enable_if_t<(is_indexed && std::is_integral_v<I>), no_enum_value<T, Tag>> {
@@ -57,6 +66,8 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Class wrapping a constant with value known at compile-time.
+/// @ingroup c_api_wrap
 template <
   typename ClassList,
   typename T,
@@ -72,6 +83,7 @@ public:
       : c_api_constant_base{name}
       , enum_value<T, ClassList, Tag>{value} {}
 
+    /// @brief Adds the specified value to the constant (it it is_indexed).
     template <typename I>
     constexpr auto operator+(I index) const noexcept -> std::enable_if_t<
       (is_indexed && std::is_integral_v<I>),
@@ -84,6 +96,8 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Class wrapping a constant with value loaded at run-time.
+/// @ingroup c_api_wrap
 template <
   typename ClassList,
   typename T,
@@ -104,6 +118,7 @@ public:
       , opt_enum_value<T, ClassList, Tag>{
           traits.load_constant(api, name, type_identity<T>())} {}
 
+    /// @brief Adds the specified value to the constant (it it is_indexed).
     template <typename I>
     constexpr auto operator+(I index) const noexcept -> std::enable_if_t<
       (is_indexed && std::is_integral_v<I>),
@@ -132,6 +147,11 @@ template <typename ClassList, typename T, typename Tag, bool is_indexed>
 struct get_opt_c_api_constant<ClassList, type_identity<T>, Tag, is_indexed>
   : type_identity<dynamic_c_api_constant<ClassList, T, Tag, is_indexed>> {};
 
+/// @brief Template used for switching between static and dynamic constant.
+/// @ingroup c_api_wrap
+/// @see no_c_api_constant
+/// @see static_c_api_constant
+/// @see dynamic_c_api_constant
 template <
   typename ClassList,
   typename Constant,
@@ -140,6 +160,8 @@ template <
 using opt_c_api_constant =
   typename get_opt_c_api_constant<ClassList, Constant, Tag, is_indexed>::type;
 //------------------------------------------------------------------------------
+/// @brief Exception wrapping information about failed C-API function call result.
+/// @ingroup c_api_wrap
 template <typename Info>
 class bad_result
   : public std::runtime_error
@@ -150,20 +172,39 @@ public:
       , Info(std::move(info)) {}
 };
 //------------------------------------------------------------------------------
-enum class api_result_validity { always, maybe, never };
+/// @brief Enumeration of C-API function call result validity.
+/// @ingroup c_api_wrap
+/// @see api_result
+enum class api_result_validity {
+    /// @brief Result is always valid.
+    always,
+    /// @brief Result is conditionally valid.
+    maybe,
+    /// @brief Result is never valid.
+    never
+};
 //------------------------------------------------------------------------------
 template <typename Result, api_result_validity>
 class api_result_value;
 
+/// @brief Class wrapping the result of a C-API function call.
+/// @ingroup c_api_wrap
 template <
   typename Result,
   typename Info,
   api_result_validity = api_result_validity::always>
 class api_result;
 
+/// @brief Alias for conditionally-valid result of a C-API function call.
+/// @ingroup c_api_wrap
 template <typename Result, typename Info>
 using api_opt_result = api_result<Result, Info, api_result_validity::maybe>;
 
+/// @brief Alias for always-invalid result of a C-API function call.
+/// @ingroup c_api_wrap
+///
+/// Such result may be returned from wrappers of C-API functions that are not
+/// available in the current build. For example dynamically linked functions.
 template <typename Result, typename Info>
 using api_no_result = api_result<Result, Info, api_result_validity::never>;
 //------------------------------------------------------------------------------
@@ -227,6 +268,8 @@ inline auto operator>>(
     return dest = std::move(result._value);
 }
 //------------------------------------------------------------------------------
+/// @brief Specialization for never-valid results.
+/// @ingroup c_api_wrap
 template <>
 class api_result_value<void, api_result_validity::never> {
 public:
@@ -327,6 +370,8 @@ static constexpr auto extract_or(
 //------------------------------------------------------------------------------
 // api_result
 //------------------------------------------------------------------------------
+/// @brief Specialization for always-valid result value.
+/// @ingroup c_api_wrap
 template <typename Result>
 class api_result_value<Result, api_result_validity::always> {
 public:
@@ -335,6 +380,8 @@ public:
     constexpr api_result_value(Result value) noexcept
       : _value{std::move(value)} {}
 
+    /// @brief Indicates if the result value is valid.
+    /// @returns true
     constexpr auto is_valid() const noexcept {
         return true;
     }
@@ -407,7 +454,7 @@ inline auto operator>>(
 //------------------------------------------------------------------------------
 template <>
 class api_result_value<void, api_result_validity::always> {
-
+public:
     constexpr auto is_valid() const noexcept {
         return true;
     }
@@ -441,6 +488,10 @@ protected:
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Specialization of api_result for always-valid result values.
+/// @ingroup c_api_wrap
+///
+/// The other specializations (@c maybe, @c never) has the same API as this one.
 template <typename Result, typename Info>
 class api_result<Result, Info, api_result_validity::always>
   : public Info
@@ -450,10 +501,12 @@ class api_result<Result, Info, api_result_validity::always>
 public:
     using base::base;
 
+    /// @brief Tests if this result is valid and contains an extractable value.
     explicit constexpr operator bool() const noexcept {
         return bool(*static_cast<const Info*>(this));
     }
 
+    /// @brief Returns a transformed api_result with a new stored value.
     template <typename T>
     auto replaced_with(T value) const {
         api_result<T, Info, api_result_validity::always> result{
@@ -462,6 +515,7 @@ public:
         return result;
     }
 
+    /// @brief Returns an api_result with the stored value cast to different type.
     template <typename T>
     auto cast_to(type_identity<T> tid) const {
         return this->_cast_to(*this, tid);
@@ -475,6 +529,7 @@ public:
         return *this;
     }
 
+    /// @brief Returns an api_result with the value transformed by the specified function.
     template <typename Transform>
     auto transformed(Transform transform) const {
         return this->_transformed(*this, transform);
@@ -513,6 +568,8 @@ static constexpr auto extract_or(
 //------------------------------------------------------------------------------
 // api opt result
 //------------------------------------------------------------------------------
+/// @brief Specialization for conditionally-valid result value.
+/// @ingroup c_api_wrap
 template <typename Result>
 class api_result_value<Result, api_result_validity::maybe> {
 public:
@@ -522,6 +579,7 @@ public:
       : _value{std::move(value)}
       , _valid{valid} {}
 
+    /// @brief Indicates if the result value is valid.
     constexpr auto is_valid() const noexcept {
         return _valid;
     }
@@ -566,6 +624,8 @@ public:
     bool _valid{false};
 };
 //------------------------------------------------------------------------------
+/// @brief Specialization of extract for api_result_value.
+/// @ingroup c_api_wrap
 template <typename Result>
 static constexpr auto
 extract(api_result_value<Result, api_result_validity::maybe>&& result) noexcept
@@ -573,6 +633,8 @@ extract(api_result_value<Result, api_result_validity::maybe>&& result) noexcept
     return EAGINE_CONSTEXPR_ASSERT(result._valid, std::move(result._value));
 }
 
+/// @brief Specialization of extract for api_result_value.
+/// @ingroup c_api_wrap
 template <typename Result>
 static constexpr auto
 extract(api_result_value<Result, api_result_validity::maybe>& result) noexcept
@@ -580,6 +642,8 @@ extract(api_result_value<Result, api_result_validity::maybe>& result) noexcept
     return EAGINE_CONSTEXPR_ASSERT(result._valid, result._value);
 }
 
+/// @brief Specialization of extract for api_result_value.
+/// @ingroup c_api_wrap
 template <typename Result>
 static constexpr auto extract(
   const api_result_value<Result, api_result_validity::maybe>& result) noexcept
@@ -587,6 +651,11 @@ static constexpr auto extract(
     return EAGINE_CONSTEXPR_ASSERT(result._valid, result._value);
 }
 
+/// @brief Extraction operator for api_result_value.
+/// @ingroup c_api_wrap
+/// @throws bad_result<Info>
+///
+/// Extracts the value from an api_result, if the value is valid, throws otherwise.
 template <typename Result, typename Info>
 inline auto operator>>(
   api_result<Result, Info, api_result_validity::maybe> result,

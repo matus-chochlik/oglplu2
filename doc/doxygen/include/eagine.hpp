@@ -40,7 +40,9 @@ namespace math {
 namespace valtree {
 /// @defgroup valtree Value trees
 }
-//
+
 /// @defgroup main_context Program utilities and main context
+
+/// @defgroup c_api_wrap C-API wrappers
 
 } // namespace eagine
