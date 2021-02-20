@@ -12,11 +12,9 @@
 namespace eagine {
 
 /// @brief Class counting invocation of its call operator.
+/// @ingroup functional
 template <typename Int = int>
 class count_t {
-private:
-    Int _c{Int(0)};
-
 public:
     /// @brief The value type alias.
     using value_type = Int;
@@ -41,6 +39,9 @@ public:
     constexpr void operator()(const P&...) noexcept {
         ++_c;
     }
+
+private:
+    Int _c{Int(0)};
 };
 
 } // namespace eagine

@@ -15,15 +15,19 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Class representing a value animated between two points, with easing.
 template <typename T, typename F, typename S = float>
 class animated_value {
 public:
+    /// @brief Default constructor.
     animated_value() = default;
 
+    /// @brief Initializing to the specified value.
     animated_value(const T& initial)
       : _curr{initial}
       , _next{initial} {}
 
+    /// @brief Sets the next point to animate into, duration and sigmoid slope.
     auto set(T value, valid_if_positive<F> duration, S slope) -> auto& {
         _curr = _next;
         _next = value;
@@ -33,10 +37,12 @@ public:
         return *this;
     }
 
+    /// @brief Sets the next point to animate into and the duration of the transition.
     auto set(T value, valid_if_positive<F> duration) -> auto& {
         return set(value, duration, 2);
     }
 
+    /// @brief Gets the current value between the current and the next point.
     auto get() const -> T {
         return math::blend(
           _next,
@@ -44,11 +50,13 @@ public:
           math::sigmoid01(math::clamp(_phase / _duration, 0, 1), _slope));
     }
 
+    /// @brief Updates the transition factor by the specified amount.
     auto update(F deltaT) -> auto& {
         _phase += deltaT;
         return *this;
     }
 
+    /// @brief Indicates if the current transition factor is higher than current duration.
     auto is_done() const noexcept -> bool {
         return _phase >= _duration;
     }
