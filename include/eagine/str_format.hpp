@@ -18,8 +18,6 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 class format_string_and_list_base {
-private:
-    std::string _fmt_str;
 
 protected:
     format_string_and_list_base(std::string&& fmt_str) noexcept
@@ -41,6 +39,9 @@ protected:
     ~format_string_and_list_base() noexcept = default;
 
     auto _fmt(span<const std::string> values) const -> std::string;
+
+private:
+    std::string _fmt_str;
 };
 //------------------------------------------------------------------------------
 template <span_size_t N>
@@ -57,10 +58,11 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Helper class used in implementation of string variable substitution.
+/// @ingroup string_utils
+/// @see format
 template <span_size_t N>
 class format_string_and_list : public format_string_and_list_base {
-public:
-    std::array<std::string, N> _list{};
 
 public:
     format_string_and_list(
@@ -73,15 +75,17 @@ public:
         _list[N - 1] = std::move(val);
     }
 
+    /// @brief Implicit conversion to a string with the variable substituted.
     operator std::string() const {
         return _fmt(view(_list));
     }
+
+public:
+    std::array<std::string, N> _list{};
 };
 //------------------------------------------------------------------------------
 template <>
 class format_string_and_list<1> : public format_string_and_list_base {
-public:
-    std::array<std::string, 1> _list;
 
 public:
     format_string_and_list(
@@ -94,8 +98,14 @@ public:
     operator std::string() const {
         return _fmt(view(_list));
     }
+
+public:
+    std::array<std::string, 1> _list{};
 };
 //------------------------------------------------------------------------------
+/// @brief Operator for adding variable name and value for string formatting.
+/// @ingroup string_utils
+/// @see format
 template <span_size_t N>
 static inline auto
 operator%(format_string_and_list<N>&& fsal, std::string&& val) noexcept
@@ -103,6 +113,8 @@ operator%(format_string_and_list<N>&& fsal, std::string&& val) noexcept
     return {std::move(fsal), std::move(val)};
 }
 //------------------------------------------------------------------------------
+/// @brief Function taking a format string, returning an object for variable specification.
+/// @ingroup string_utils
 static inline auto format(std::string&& fmt_str) noexcept
   -> format_string_and_list<0> {
     return {fmt_str};
