@@ -19,8 +19,6 @@ namespace eagine::memory {
 // std_allocator
 template <typename T>
 class std_allocator : public block_owner {
-private:
-    shared_byte_allocator _sba;
 
 public:
     auto _get_sba() const -> auto& {
@@ -42,13 +40,13 @@ public:
 
     template <typename U>
     std_allocator(const std_allocator<U>& that)
-      : _sba(that._get_sba()) {}
+      : _sba{that._get_sba()} {}
 
     std_allocator(shared_byte_allocator sba) noexcept
-      : _sba(std::move(sba)) {}
+      : _sba{std::move(sba)} {}
 
     std_allocator() noexcept
-      : _sba(default_byte_allocator()) {}
+      : _sba{default_byte_allocator()} {}
 
     template <typename ByteAlloc>
     auto as() -> ByteAlloc& {
@@ -110,6 +108,9 @@ public:
     static inline void destroy(U* p) noexcept(noexcept(p->~U())) {
         return p->~U();
     }
+
+private:
+    shared_byte_allocator _sba{};
 };
 
 } // namespace eagine::memory

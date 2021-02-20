@@ -21,26 +21,6 @@ namespace eagine::memory {
 
 template <typename Alloc>
 class basic_allocation_arena : public block_owner {
-private:
-    Alloc _alloc;
-    std::vector<owned_block> _blks;
-    std::vector<span_size_t> _alns;
-
-    auto _do_allocate(const span_size_t size, const span_size_t align) -> block;
-
-    template <typename T>
-    auto _allocate(const span_size_t count, const span_size_t align) -> block;
-
-    template <typename T>
-    auto _make_n(const span_size_t count, const span_size_t align) -> T*;
-
-    template <typename T, typename... Args>
-    auto _make_1(const span_size_t align, Args&&... args) -> T*;
-
-protected:
-    auto allocator() const -> const Alloc& {
-        return _alloc;
-    }
 
 public:
     basic_allocation_arena() = default;
@@ -110,6 +90,27 @@ public:
     void destroy(T& v) {
         v.~T();
     }
+
+protected:
+    auto allocator() const -> const Alloc& {
+        return _alloc;
+    }
+
+private:
+    Alloc _alloc;
+    std::vector<owned_block> _blks;
+    std::vector<span_size_t> _alns;
+
+    auto _do_allocate(const span_size_t size, const span_size_t align) -> block;
+
+    template <typename T>
+    auto _allocate(const span_size_t count, const span_size_t align) -> block;
+
+    template <typename T>
+    auto _make_n(const span_size_t count, const span_size_t align) -> T*;
+
+    template <typename T, typename... Args>
+    auto _make_1(const span_size_t align, Args&&... args) -> T*;
 };
 
 using system_allocation_arena =

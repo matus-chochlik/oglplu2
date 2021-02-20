@@ -20,28 +20,6 @@
 namespace eagine::memory {
 //------------------------------------------------------------------------------
 class object_storage {
-protected:
-    shared_byte_allocator _alloc{};
-
-    template <typename T>
-    static void _destroy(block blk) noexcept {
-        auto spn = accomodate<T>(blk);
-        EAGINE_ASSERT(spn);
-        auto& x{extract(spn)};
-        x.~T();
-    }
-
-    std::vector<owned_block, std_allocator<owned_block>> _blks;
-    std::vector<span_size_t, std_allocator<span_size_t>> _alns;
-    std::vector<void (*)(block), std_allocator<void (*)(block)>> _dtrs;
-
-    template <typename Func>
-    void for_each_block(Func& func) noexcept {
-        for(std_size_t i = 0; i < _blks.size(); ++i) {
-            func(i, block(_blks[i]));
-        }
-    }
-
 public:
     template <
       typename X,
@@ -121,6 +99,28 @@ public:
         _alns.clear();
         _blks.clear();
     }
+
+protected:
+    shared_byte_allocator _alloc{};
+
+    template <typename T>
+    static void _destroy(block blk) noexcept {
+        auto spn = accomodate<T>(blk);
+        EAGINE_ASSERT(spn);
+        auto& x{extract(spn)};
+        x.~T();
+    }
+
+    std::vector<owned_block, std_allocator<owned_block>> _blks;
+    std::vector<span_size_t, std_allocator<span_size_t>> _alns;
+    std::vector<void (*)(block), std_allocator<void (*)(block)>> _dtrs;
+
+    template <typename Func>
+    void for_each_block(Func& func) noexcept {
+        for(std_size_t i = 0; i < _blks.size(); ++i) {
+            func(i, block(_blks[i]));
+        }
+    }
 };
 //------------------------------------------------------------------------------
 template <typename Signature>
@@ -128,22 +128,9 @@ class callable_storage;
 
 template <typename... Params>
 class callable_storage<void(Params...)> : private memory::object_storage {
-private:
-    using base = memory::object_storage;
-    std::vector<
-      void (*)(block, Params...),
-      std_allocator<void (*)(block, Params...)>>
-      _clrs{};
-
-    template <typename T>
-    static void _call(block blk, Params... params) noexcept {
-        auto spn = accomodate<T>(blk);
-        EAGINE_ASSERT(spn);
-        auto& x{extract(spn)};
-        x(params...);
-    }
-
 public:
+    using base = memory::object_storage;
+
     template <
       typename X,
       typename = shared_byte_allocator::enable_if_compatible_t<X>>
@@ -188,6 +175,20 @@ public:
             this->_clrs[i](blk, params...);
         };
         base::for_each_block(fn);
+    }
+
+private:
+    std::vector<
+      void (*)(block, Params...),
+      std_allocator<void (*)(block, Params...)>>
+      _clrs{};
+
+    template <typename T>
+    static void _call(block blk, Params... params) noexcept {
+        auto spn = accomodate<T>(blk);
+        EAGINE_ASSERT(spn);
+        auto& x{extract(spn)};
+        x(params...);
     }
 };
 //------------------------------------------------------------------------------

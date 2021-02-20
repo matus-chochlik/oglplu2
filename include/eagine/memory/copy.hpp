@@ -16,12 +16,20 @@
 
 namespace eagine::memory {
 
+/// @brief Copies the content of source block to destination block.
+/// @ingroup memory
+/// @see const_block
+/// @see block
 static inline auto copy(const_block source, block dest) -> block {
     EAGINE_ASSERT(dest.size() >= source.size());
     std::memcpy(dest.data(), source.data(), std_size(source.size()));
     return block(dest.data(), source.size());
 }
 
+/// @brief Copies the content of source block to destination buffer.
+/// @ingroup memory
+/// @see const_block
+/// @see buffer
 static inline auto copy_into(const_block source, buffer& dest) -> block {
     dest.resize(source.size());
     return copy(source, cover(dest));

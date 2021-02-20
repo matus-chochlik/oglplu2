@@ -30,23 +30,6 @@ class multi_align_byte_allocator<std::index_sequence<Align...>, Policy>
       Policy,
       multi_align_byte_allocator,
       std::index_sequence<Align...>> {
-private:
-    std::array<span_size_t, sizeof...(Align)> _alignment;
-
-    std::array<shared_byte_allocator, sizeof...(Align)> _aligned_alloc;
-
-    shared_byte_allocator _fallback_alloc;
-
-    auto _get_alloc(span_size_t align) -> shared_byte_allocator& {
-        EAGINE_ASSERT(_alignment.size() == _aligned_alloc.size());
-        for(std::size_t i = 0; i < _alignment.size(); ++i) {
-            if(_alignment[i] == align) {
-                return _aligned_alloc[i];
-            }
-        }
-        return _fallback_alloc;
-    }
-
 public:
     multi_align_byte_allocator(
       instead_of_t<size_constant<Align>, shared_byte_allocator>... aligned_alloc,
@@ -92,6 +75,23 @@ public:
     void deallocate(owned_block&& b, size_type a) noexcept override {
         EAGINE_ASSERT(!!_get_alloc(a).has_allocated(b, a));
         _get_alloc(a).deallocate(std::move(b), a);
+    }
+
+private:
+    std::array<span_size_t, sizeof...(Align)> _alignment;
+
+    std::array<shared_byte_allocator, sizeof...(Align)> _aligned_alloc;
+
+    shared_byte_allocator _fallback_alloc;
+
+    auto _get_alloc(span_size_t align) -> shared_byte_allocator& {
+        EAGINE_ASSERT(_alignment.size() == _aligned_alloc.size());
+        for(std::size_t i = 0; i < _alignment.size(); ++i) {
+            if(_alignment[i] == align) {
+                return _aligned_alloc[i];
+            }
+        }
+        return _fallback_alloc;
     }
 };
 
