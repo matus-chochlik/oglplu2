@@ -19,6 +19,8 @@ namespace eagine {
 
 /// @defgroup memory Memory utilities
 
+/// @defgroup functional Functional and function-related utilities
+
 /// @defgroup string_utils String utilities
 
 /// @defgroup time_utils Time and duration utilities

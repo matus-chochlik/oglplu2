@@ -13,9 +13,14 @@
 
 namespace eagine {
 
+/// @brief Implementation of addition on types representing numbers.
+/// @ingroup metaprogramming
+/// @see mp_plus_t
 template <typename T1, typename T2>
 struct mp_plus;
 
+/// @brief Addition operation on types representing numbers.
+/// @ingroup metaprogramming
 template <typename T1, typename T2>
 using mp_plus_t = typename mp_plus<T1, T2>::type;
 

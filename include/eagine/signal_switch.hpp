@@ -21,16 +21,6 @@ namespace eagine {
 ///
 /// @note Only a single instance per process should be created.
 class signal_switch {
-
-    static auto _state() noexcept -> auto& {
-        static volatile std::sig_atomic_t state{0};
-        return state;
-    }
-
-    static void _flip(int sig_num) {
-        _state() = sig_num;
-    }
-
 public:
     /// @brief Default constructor. Stores the original handlers if any.
     /// @post !bool(*this)
@@ -76,6 +66,15 @@ public:
     }
 
 private:
+    static auto _state() noexcept -> volatile std::sig_atomic_t& {
+        static volatile std::sig_atomic_t state{0};
+        return state;
+    }
+
+    static void _flip(int sig_num) {
+        _state() = sig_num;
+    }
+
     using _sighandler_t = void(int);
     _sighandler_t* _intr_handler{nullptr};
     _sighandler_t* _term_handler{nullptr};
