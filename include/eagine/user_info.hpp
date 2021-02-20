@@ -17,12 +17,17 @@ namespace eagine {
 
 class user_info_impl;
 
+/// @brief Class providing user-related information.
+/// @ingroup main_context
 class user_info : public main_ctx_object {
 public:
     user_info(main_ctx_parent parent) noexcept
       : main_ctx_object{EAGINE_ID(UserInfo), parent} {}
 
+    /// @brief The user's login name.
     auto login_name() -> valid_if_not_empty<string_view>;
+
+    /// @brief Paths to the user's home directory.
     auto home_dir_path() -> valid_if_not_empty<string_view>;
 
 private:

@@ -36,8 +36,12 @@ struct main_ctx_options {
 class data_compressor;
 class process_watchdog;
 
-/// @brief Class for a single-instance object providing useful information.
+/// @brief Class for a single-instance object providing useful information ans services.
 /// @ingroup main_context
+///
+/// A single instance of this class is initialized in the main function
+/// and constructs several useful utility service objects that can be shared
+/// throughout the system.
 class main_ctx {
 public:
     main_ctx(master_ctx&) noexcept;
@@ -62,7 +66,7 @@ public:
         return *_single_ptr();
     }
 
-    /// @brief Returns this process instance id.
+    /// @brief Returns this process instance id. Not equal to system PID.
     auto instance_id() const noexcept -> process_instance_id_t {
         return _instance_id;
     }
