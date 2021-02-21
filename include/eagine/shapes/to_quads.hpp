@@ -15,11 +15,10 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Generator modifier transforming triangle strips to quads (lines with adjacency)
+/// @ingroup shapes
+/// @see to_quads
 class to_quads_gen : public delegated_gen {
-private:
-    template <typename T>
-    void _indices(drawing_variant, span<T> dest) noexcept;
-
 public:
     to_quads_gen(std::unique_ptr<generator_intf>&& gen) noexcept
       : delegated_gen(std::move(gen)) {}
@@ -35,8 +34,14 @@ public:
     auto operation_count(drawing_variant) -> span_size_t override;
 
     void instructions(drawing_variant, span<draw_operation> ops) override;
+
+private:
+    template <typename T>
+    void _indices(drawing_variant, span<T> dest) noexcept;
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of to_quads_gen modifier.
+/// @ingroup shapes
 static inline auto to_quads(std::unique_ptr<generator_intf>&& gen) noexcept {
     return std::make_unique<to_quads_gen>(std::move(gen));
 }

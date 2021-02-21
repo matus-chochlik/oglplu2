@@ -16,12 +16,10 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Generator of centered flat 2d screen shape from (-1,-1,0) to (1,1,0)
+/// @ingroup shapes
+/// @see unit_screen
 class unit_screen_gen : public centered_unit_shape_generator_base {
-private:
-    using _base = centered_unit_shape_generator_base;
-
-    static auto _attr_mask() noexcept -> vertex_attrib_bits;
-
 public:
     unit_screen_gen(vertex_attrib_bits attr_bits) noexcept;
 
@@ -44,8 +42,19 @@ public:
     void instructions(drawing_variant, span<draw_operation> ops) override;
 
     auto bounding_sphere() -> math::sphere<float, true> override;
+
+private:
+    using _base = centered_unit_shape_generator_base;
+
+    static auto _attr_mask() noexcept -> vertex_attrib_bits;
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of unit_screen_gen.
+/// @ingroup shapes
+/// see unit_cube
+/// see unit_sphere
+/// see unit_icosphere
+/// see unit_torus
 static inline auto unit_screen(vertex_attrib_bits attr_bits) {
     return std::make_unique<unit_screen_gen>(attr_bits);
 }

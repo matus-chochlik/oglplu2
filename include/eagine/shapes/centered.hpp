@@ -16,6 +16,9 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Generator modifier recalculating the shape center from vertex positions.
+/// @ingroup shapes
+/// @see center
 class centered_gen : public delegated_gen {
 
 public:
@@ -27,6 +30,8 @@ public:
     auto bounding_sphere() -> math::sphere<float, true> override;
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of centered_gen modifier.
+/// @ingroup shapes
 static inline auto center(std::unique_ptr<generator_intf>&& gen) noexcept {
     return std::make_unique<centered_gen>(std::move(gen));
 }

@@ -16,10 +16,9 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Base class for delegating shape generators based on other generators.
+/// @ingroup shapes
 class delegated_gen : public generator_intf {
-private:
-    std::unique_ptr<generator_intf> _gen;
-
 public:
     delegated_gen(std::unique_ptr<generator_intf>&& gen) noexcept
       : _gen(std::move(gen)) {}
@@ -123,6 +122,9 @@ public:
     auto bounding_sphere() -> math::sphere<float, true> override {
         return _gen->bounding_sphere();
     }
+
+private:
+    std::unique_ptr<generator_intf> _gen;
 };
 //------------------------------------------------------------------------------
 } // namespace shapes

@@ -17,9 +17,10 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Generator modifier scaling the generated vertices by specifed amount.
+/// @ingroup shapes
+/// @see translate
 class scaled_gen : public delegated_gen {
-private:
-    std::array<float, 3> _s;
 
 public:
     scaled_gen(
@@ -31,8 +32,13 @@ public:
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
     auto bounding_sphere() -> math::sphere<float, true> override;
+
+private:
+    std::array<float, 3> _s;
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of scaled_gen modifier.
+/// @ingroup shapes
 static inline auto
 scale(std::unique_ptr<generator_intf>&& gen, std::array<float, 3> s) noexcept {
     return std::make_unique<scaled_gen>(std::move(gen), s);
