@@ -17,30 +17,10 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Generator of centered cube shape with unit edge size.
+/// @ingroup shapes
+/// @see unit_cube
 class unit_cube_gen : public centered_unit_shape_generator_base {
-private:
-    using _base = centered_unit_shape_generator_base;
-
-    static auto _attr_mask() noexcept -> vertex_attrib_bits;
-
-    static auto _shared_attrs() noexcept -> vertex_attrib_bits;
-
-    auto _only_shared_attribs() noexcept -> bool;
-
-    static auto _coord_c(span_size_t v, span_size_t c) noexcept -> int;
-
-    static auto _normal_c(span_size_t f, span_size_t c) noexcept -> int;
-
-    static auto _tangential_c(span_size_t f, span_size_t c) noexcept -> int;
-
-    static auto _bitangential_c(span_size_t f, span_size_t c) noexcept -> int;
-
-    template <typename T>
-    void _indices(drawing_variant, span<T> dest) noexcept;
-
-    static auto _face_vert(span_size_t f, span_size_t t, span_size_t v) noexcept
-      -> span_size_t;
-
 public:
     unit_cube_gen(vertex_attrib_bits attr_bits) noexcept;
 
@@ -75,8 +55,33 @@ public:
     void instructions(drawing_variant, span<draw_operation> ops) override;
 
     auto bounding_sphere() -> math::sphere<float, true> override;
+
+private:
+    using _base = centered_unit_shape_generator_base;
+
+    static auto _attr_mask() noexcept -> vertex_attrib_bits;
+
+    static auto _shared_attrs() noexcept -> vertex_attrib_bits;
+
+    auto _only_shared_attribs() noexcept -> bool;
+
+    static auto _coord_c(span_size_t v, span_size_t c) noexcept -> int;
+
+    static auto _normal_c(span_size_t f, span_size_t c) noexcept -> int;
+
+    static auto _tangential_c(span_size_t f, span_size_t c) noexcept -> int;
+
+    static auto _bitangential_c(span_size_t f, span_size_t c) noexcept -> int;
+
+    template <typename T>
+    void _indices(drawing_variant, span<T> dest) noexcept;
+
+    static auto _face_vert(span_size_t f, span_size_t t, span_size_t v) noexcept
+      -> span_size_t;
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of unit_cube_gen.
+/// @ingroup shapes
 static inline auto unit_cube(vertex_attrib_bits attr_bits) {
     return std::make_unique<unit_cube_gen>(attr_bits);
 }

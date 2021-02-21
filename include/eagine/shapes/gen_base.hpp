@@ -223,15 +223,9 @@ struct generator_intf {
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Common base implementation of the shape generator interface.
+/// @ingroup shapes
 class generator_base : public generator_intf {
-private:
-    vertex_attrib_bits _attr_bits;
-    generator_capabilities _caps;
-
-protected:
-    generator_base(vertex_attrib_bits attr_bits) noexcept
-      : _attr_bits(attr_bits) {}
-
 public:
     auto attrib_bits() noexcept -> vertex_attrib_bits final {
         return _attr_bits;
@@ -316,15 +310,25 @@ public:
     void indices(drawing_variant, span<std::uint16_t> dest) override;
 
     void indices(drawing_variant, span<std::uint32_t> dest) override;
+
+protected:
+    generator_base(vertex_attrib_bits attr_bits) noexcept
+      : _attr_bits(attr_bits) {}
+
+private:
+    vertex_attrib_bits _attr_bits;
+    generator_capabilities _caps;
 };
 //------------------------------------------------------------------------------
+/// @brief Base class for shape generators re-calculating the center.
+/// @ingroup shapes
 class centered_unit_shape_generator_base : public generator_base {
+public:
+    void attrib_values(vertex_attrib_variant vav, span<float> dest) override;
+
 protected:
     centered_unit_shape_generator_base(vertex_attrib_bits attr_bits) noexcept
       : generator_base(attr_bits) {}
-
-public:
-    void attrib_values(vertex_attrib_variant vav, span<float> dest) override;
 };
 //------------------------------------------------------------------------------
 static inline auto operator+(
