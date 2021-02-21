@@ -213,7 +213,7 @@ EAGINE_LIB_FUNC
 void centered_unit_shape_generator_base::attrib_values(
   vertex_attrib_variant vav,
   span<float> dest) {
-    if(vav.attrib == vertex_attrib_kind::box_coord) {
+    if(vav.attribute() == vertex_attrib_kind::box_coord) {
         this->attrib_values({vertex_attrib_kind::position, vav}, dest);
         for(float& x : dest) {
             x += 0.5F;

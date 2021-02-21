@@ -6,10 +6,6 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-/// @subpage EGLplus
-///
-/// Implements EGL wrapper code and framebuffer setup utilities.
-
 namespace eagine {
 /// @brief EGLplus code is placed in this namespace.
 namespace eglp {}

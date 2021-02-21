@@ -80,7 +80,7 @@ auto value_tree_loader::attribute_variants(vertex_attrib_kind attrib)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto value_tree_loader::variant_name(vertex_attrib_variant vav) -> string_view {
-    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
+    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attribute()))}) {
         if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
             if(auto vpv_a{_source.nested(variant_a, "name")}) {
                 auto pos = _variant_names.find(vav);
@@ -90,24 +90,24 @@ auto value_tree_loader::variant_name(vertex_attrib_variant vav) -> string_view {
                 auto& name = _variant_names[vav] = {};
                 if(_source.fetch_value(vpv_a, name)) {
                     log_debug("cached attribute variant name")
-                      .arg(EAGINE_ID(attribute), vav.attrib)
+                      .arg(EAGINE_ID(attribute), vav.attribute())
                       .arg(EAGINE_ID(variant), vav.index())
                       .arg(EAGINE_ID(name), name);
                     return {name};
                 } else {
                     log_error("could not fetch attribute variant name")
-                      .arg(EAGINE_ID(attribute), vav.attrib)
+                      .arg(EAGINE_ID(attribute), vav.attribute())
                       .arg(EAGINE_ID(variant), vav.index());
                 }
             }
         } else {
             log_error("could not find vertex attribute variant")
-              .arg(EAGINE_ID(attribute), vav.attrib)
+              .arg(EAGINE_ID(attribute), vav.attribute())
               .arg(EAGINE_ID(variant), vav.index());
         }
     } else {
         log_error("could not find vertex attribute")
-          .arg(EAGINE_ID(attribute), vav.attrib);
+          .arg(EAGINE_ID(attribute), vav.attribute());
     }
     return {};
 }
@@ -115,7 +115,7 @@ auto value_tree_loader::variant_name(vertex_attrib_variant vav) -> string_view {
 EAGINE_LIB_FUNC
 auto value_tree_loader::values_per_vertex(vertex_attrib_variant vav)
   -> span_size_t {
-    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
+    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attribute()))}) {
         if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
             if(auto vpv_a{_source.nested(variant_a, "values_per_vertex")}) {
                 span_size_t result{};
@@ -123,18 +123,18 @@ auto value_tree_loader::values_per_vertex(vertex_attrib_variant vav)
                     return result;
                 } else {
                     log_error("could not fetch attribute variant vertex count")
-                      .arg(EAGINE_ID(attribute), vav.attrib)
+                      .arg(EAGINE_ID(attribute), vav.attribute())
                       .arg(EAGINE_ID(variant), vav.index());
                 }
             }
         } else {
             log_error("could not find vertex attribute variant")
-              .arg(EAGINE_ID(attribute), vav.attrib)
+              .arg(EAGINE_ID(attribute), vav.attribute())
               .arg(EAGINE_ID(variant), vav.index());
         }
     } else {
         log_error("could not find vertex attribute")
-          .arg(EAGINE_ID(attribute), vav.attrib);
+          .arg(EAGINE_ID(attribute), vav.attribute());
     }
     return _base::values_per_vertex(vav);
 }
@@ -142,7 +142,7 @@ auto value_tree_loader::values_per_vertex(vertex_attrib_variant vav)
 EAGINE_LIB_FUNC
 auto value_tree_loader::attrib_type(vertex_attrib_variant vav)
   -> attrib_data_type {
-    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
+    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attribute()))}) {
         if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
             if(auto type_a{_source.nested(variant_a, "type")}) {
                 if(_source.fetch_value(type_a, _temp)) {
@@ -151,30 +151,30 @@ auto value_tree_loader::attrib_type(vertex_attrib_variant vav)
                     } else {
                         log_error("unknown attribute variant data type")
                           .arg(EAGINE_ID(type), view(_temp))
-                          .arg(EAGINE_ID(attribute), vav.attrib)
+                          .arg(EAGINE_ID(attribute), vav.attribute())
                           .arg(EAGINE_ID(variant), vav.index());
                     }
                 } else {
                     log_error("could not fetch attribute variant data type")
-                      .arg(EAGINE_ID(attribute), vav.attrib)
+                      .arg(EAGINE_ID(attribute), vav.attribute())
                       .arg(EAGINE_ID(variant), vav.index());
                 }
             }
         } else {
             log_error("could not find vertex attribute variant")
-              .arg(EAGINE_ID(attribute), vav.attrib)
+              .arg(EAGINE_ID(attribute), vav.attribute())
               .arg(EAGINE_ID(variant), vav.index());
         }
     } else {
         log_error("could not find vertex attribute")
-          .arg(EAGINE_ID(attribute), vav.attrib);
+          .arg(EAGINE_ID(attribute), vav.attribute());
     }
     return attrib_data_type::float_;
 }
 //------------------------------------------------------------------------------
 auto value_tree_loader::is_attrib_normalized(vertex_attrib_variant vav)
   -> bool {
-    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
+    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attribute()))}) {
         if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
             if(auto norm_a{_source.nested(variant_a, "normalized")}) {
                 bool normalized{false};
@@ -182,7 +182,7 @@ auto value_tree_loader::is_attrib_normalized(vertex_attrib_variant vav)
                     return normalized;
                 } else {
                     log_error("could not fetch attribute variant normalized")
-                      .arg(EAGINE_ID(attribute), vav.attrib)
+                      .arg(EAGINE_ID(attribute), vav.attribute())
                       .arg(EAGINE_ID(variant), vav.index());
                 }
             } else if(auto type_a{_source.nested(variant_a, "type")}) {
@@ -192,55 +192,55 @@ auto value_tree_loader::is_attrib_normalized(vertex_attrib_variant vav)
                     } else {
                         log_error("unknown attribute variant data type")
                           .arg(EAGINE_ID(type), view(_temp))
-                          .arg(EAGINE_ID(attribute), vav.attrib)
+                          .arg(EAGINE_ID(attribute), vav.attribute())
                           .arg(EAGINE_ID(variant), vav.index());
                     }
                 } else {
                     log_error("could not fetch attribute variant data type")
-                      .arg(EAGINE_ID(attribute), vav.attrib)
+                      .arg(EAGINE_ID(attribute), vav.attribute())
                       .arg(EAGINE_ID(variant), vav.index());
                 }
             }
 
         } else {
             log_error("could not find vertex attribute variant")
-              .arg(EAGINE_ID(attribute), vav.attrib)
+              .arg(EAGINE_ID(attribute), vav.attribute())
               .arg(EAGINE_ID(variant), vav.index());
         }
     } else {
         log_error("could not find vertex attribute")
-          .arg(EAGINE_ID(attribute), vav.attrib);
+          .arg(EAGINE_ID(attribute), vav.attribute());
     }
     return false;
 }
 //------------------------------------------------------------------------------
 template <typename T>
 void value_tree_loader::_attrib_values(vertex_attrib_variant vav, span<T> dest) {
-    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
+    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attribute()))}) {
         if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
             if(auto data_a{_source.nested(variant_a, "data")}) {
                 if(_source.fetch_values(data_a, dest)) {
                     log_debug("loaded vertex attribute data")
-                      .arg(EAGINE_ID(attribute), vav.attrib)
+                      .arg(EAGINE_ID(attribute), vav.attribute())
                       .arg(EAGINE_ID(variant), vav.index());
                 } else {
                     log_error("could not fetch vertex attribute data")
-                      .arg(EAGINE_ID(attribute), vav.attrib)
+                      .arg(EAGINE_ID(attribute), vav.attribute())
                       .arg(EAGINE_ID(variant), vav.index());
                 }
             } else {
                 log_error("could not find vertex attribute data")
-                  .arg(EAGINE_ID(attribute), vav.attrib)
+                  .arg(EAGINE_ID(attribute), vav.attribute())
                   .arg(EAGINE_ID(variant), vav.index());
             }
         } else {
             log_error("could not find vertex attribute variant")
-              .arg(EAGINE_ID(attribute), vav.attrib)
+              .arg(EAGINE_ID(attribute), vav.attribute())
               .arg(EAGINE_ID(variant), vav.index());
         }
     } else {
         log_error("could not find vertex attribute")
-          .arg(EAGINE_ID(attribute), vav.attrib);
+          .arg(EAGINE_ID(attribute), vav.attribute());
     }
 }
 //------------------------------------------------------------------------------

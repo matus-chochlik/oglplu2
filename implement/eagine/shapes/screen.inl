@@ -152,7 +152,7 @@ EAGINE_LIB_FUNC
 void unit_screen_gen::attrib_values(
   vertex_attrib_variant vav,
   span<float> dest) {
-    switch(vav.attrib) {
+    switch(vav.attribute()) {
         case vertex_attrib_kind::position:
             positions(dest);
             break;

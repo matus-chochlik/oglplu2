@@ -25,8 +25,12 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Alias for shape drawing variant index type.
+/// @ingroup shapes
 using drawing_variant = span_size_t;
 //------------------------------------------------------------------------------
+/// @brief Interface for shape loaders or generators.
+/// @ingroup shapes
 struct generator_intf {
 
     generator_intf() = default;
@@ -36,8 +40,10 @@ struct generator_intf {
     auto operator=(const generator_intf&) = delete;
     virtual ~generator_intf() = default;
 
+    /// @brief Returns the set of vertex attributes supported by this generator.
     virtual auto attrib_bits() noexcept -> vertex_attrib_bits = 0;
 
+    /// @brief Tests if the specified attribute is supported by this generator.
     auto has(vertex_attrib_kind attrib) noexcept {
         return bool(attrib_bits() | attrib);
     }
@@ -204,7 +210,7 @@ public:
 
     auto has_variant(vertex_attrib_variant vav) -> bool {
         EAGINE_ASSERT(vav.has_valid_index());
-        return vav.index() < attribute_variants(vav.attrib);
+        return vav.index() < attribute_variants(vav.attribute());
     }
 
     auto values_per_vertex(vertex_attrib_variant vav) -> span_size_t override {
