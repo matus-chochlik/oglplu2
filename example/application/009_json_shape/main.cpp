@@ -1,4 +1,4 @@
-/// @file
+/// @example application/009_json_shape/main.cpp
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

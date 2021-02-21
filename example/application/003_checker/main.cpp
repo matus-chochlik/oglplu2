@@ -1,4 +1,4 @@
-/// @file
+/// @example application/003_checker/main.cpp
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

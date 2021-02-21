@@ -1,4 +1,4 @@
-/// @file
+/// @example application/017_occlusion/main.cpp
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
