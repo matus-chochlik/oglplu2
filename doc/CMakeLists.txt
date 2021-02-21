@@ -9,3 +9,12 @@ find_package(Doxygen)
 if(Doxygen_FOUND)
 	add_subdirectory(doxygen)
 endif()
+
+find_program(
+	SPHINX_EXECUTABLE
+    NAMES sphinx-build
+    DOC "Path to sphinx-build executable"
+)
+if(SPHINX_EXECUTABLE)
+	add_subdirectory(sphinx)
+endif()
