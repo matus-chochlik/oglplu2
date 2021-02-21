@@ -22,7 +22,7 @@ public:
     }
 
     constexpr auto message() const noexcept -> string_view {
-        return {"EGL function not available"};
+        return {"GL function not available"};
     }
 
 private:
