@@ -17,16 +17,28 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief The shape primitive type enumeration.
+/// @ingroup shapes
 enum class primitive_type : std::uint8_t {
+    /// @brief Individual points.
     points,
+    /// @brief Individual line segments.
     lines,
+    /// @brief Line strips.
     line_strip,
+    /// @brief Close line loops.
     line_loop,
+    /// @brief Individual triangles.
     triangles,
+    /// @brief Triangle strips.
     triangle_strip,
+    /// @brief Triangle fans.
     triangle_fan,
+    /// @brief Quadrilaterals (represented as lines with adjacency).
     quads,
+    /// @brief Tetrahedrons (represented as lines with adjacency).
     tetrahedrons,
+    /// @brief Patches.
     patches
 };
 //------------------------------------------------------------------------------
@@ -46,13 +58,23 @@ enumerator_mapping(type_identity<primitive_type>, Selector) noexcept {
        {"patches", primitive_type::patches}}};
 }
 //------------------------------------------------------------------------------
+/// @brief Shape vertex attribute data type enumeration.
+/// @ingroup shapes
+/// @see index_data_type
 enum class attrib_data_type {
+    /// @brief None / unknown.
     none,
+    /// @brief Unsigned byte.
     ubyte,
+    /// @brief Signed 16-bit integer.
     int_16,
+    /// @brief Signed 32-bit integer.
     int_32,
+    /// @brief Unsigned 16-bit integer.
     uint_16,
+    /// @brief Unsigned 32-bit integer.
     uint_32,
+    /// @brief Floating-point.
     float_
 };
 //------------------------------------------------------------------------------
@@ -80,10 +102,17 @@ enumerator_mapping(type_identity<attrib_data_type>, value_tree_tag) noexcept {
        {"float", attrib_data_type::float_}}};
 }
 //------------------------------------------------------------------------------
+/// @brief Shape element index type enumeration.
+/// @ingroup shapes
+/// @see attrib_data_type
 enum class index_data_type : std::uint8_t {
+    /// @brief None / unknown.
     none = 0,
+    /// @brief Unsigned 8-bit integer.
     unsigned_8 = 8,
+    /// @brief Unsigned 16-bit integer.
     unsigned_16 = 16,
+    /// @brief Unsigned 32-bit integer.
     unsigned_32 = 32
 };
 //------------------------------------------------------------------------------
@@ -125,17 +154,37 @@ static inline auto operator>=(index_data_type l, index_data_type r) noexcept {
     return UT(l) >= UT(r);
 }
 //------------------------------------------------------------------------------
+/// @brief Draw operation parameters.
+/// @ingroup shapes
 struct draw_operation {
+    /// @brief The index of the first element.
     span_size_t first{0};
+
+    /// @brief The count of elements.
     span_size_t count{0};
+
+    /// @brief The drawing phase (shader-dependent).
     std::uint32_t phase{0};
+
+    /// @brief The primitive restart index value.
     std::uint32_t primitive_restart_index{0};
+
+    /// @brief The number of vertices per patch.
     std::uint16_t patch_vertices{3};
+
+    /// @brief The primitive type.
     primitive_type mode{primitive_type::points};
+
+    /// @brief The index data type.
     index_data_type idx_type{index_data_type::none};
+
+    /// @brief Whether primitive restart is enabled.
     bool primitive_restart : 1;
+
+    /// @brief Whether the shape faces have clockwise winding (or counterclockwise).
     bool cw_face_winding : 1;
 
+    /// @brief Default constructor.
     constexpr draw_operation() noexcept
       : primitive_restart(false)
       , cw_face_winding(false) {}

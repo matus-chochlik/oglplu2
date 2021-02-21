@@ -48,33 +48,43 @@ struct generator_intf {
         return bool(attrib_bits() | attrib);
     }
 
+    /// @brief Enables or disables the specified generator capability.
     virtual auto enable(generator_capability cap, bool value = true) noexcept
       -> bool = 0;
 
+    /// @brief Disables the specified generator capability.
     auto disable(generator_capability cap) noexcept {
         return enable(cap, false);
     }
 
+    /// @brief Indicates if the specified generator capability is enabled.
     virtual auto is_enabled(generator_capability cap) noexcept -> bool = 0;
 
+    /// @brief Indicates if element strips are enabled.
     auto strips_allowed() noexcept -> bool {
         return is_enabled(generator_capability::element_strips);
     }
 
+    /// @brief Indicates if element fans are enabled.
     auto fans_allowed() noexcept -> bool {
         return is_enabled(generator_capability::element_fans);
     }
 
+    /// @brief Indicates if primitive restart is enabled.
     auto primitive_restart() noexcept -> bool {
         return is_enabled(generator_capability::primitive_restart);
     }
 
+    /// @brief Returns the shaped vertex count.
     virtual auto vertex_count() -> span_size_t = 0;
 
+    /// @brief Returns the count of shape attribute variants.
     virtual auto attribute_variants(vertex_attrib_kind) -> span_size_t = 0;
 
+    /// @brief Returns the name of the specified attribute variant.
     virtual auto variant_name(vertex_attrib_variant vav) -> string_view = 0;
 
+    /// @brief Finds attribute variant by kind and name.
     auto find_variant(vertex_attrib_kind attrib, string_view name)
       -> vertex_attrib_variant {
         const span_size_t n = attribute_variants(attrib);
@@ -88,75 +98,114 @@ struct generator_intf {
         return {attrib, index};
     }
 
+    /// @brief Returns the number of values per vertex for the specified variant.
     virtual auto values_per_vertex(vertex_attrib_variant) -> span_size_t = 0;
 
+    /// @brief Returns the attribute data type for the specified variant.
     virtual auto attrib_type(vertex_attrib_variant vav) -> attrib_data_type = 0;
 
+    /// @brief Indicates if the specified variant attribute values should be normalized.
     virtual auto is_attrib_normalized(vertex_attrib_variant vav) -> bool = 0;
 
+    /// @brief Fetches the vertex attribute data for the specified variant as bytes.
     virtual void attrib_values(vertex_attrib_variant, span<byte> dest) = 0;
+
+    /// @brief Fetches the vertex attribute data for the specified variant as integers.
     virtual void attrib_values(vertex_attrib_variant, span<std::int16_t>) = 0;
+
+    /// @brief Fetches the vertex attribute data for the specified variant as integers.
     virtual void attrib_values(vertex_attrib_variant, span<std::int32_t>) = 0;
+
+    /// @brief Fetches the vertex attribute data for the specified variant as integers.
     virtual void attrib_values(vertex_attrib_variant, span<std::uint16_t>) = 0;
+
+    /// @brief Fetches the vertex attribute data for the specified variant as integers.
     virtual void attrib_values(vertex_attrib_variant, span<std::uint32_t>) = 0;
+
+    /// @brief Fetches the vertex attribute data for the specified variant as floats.
     virtual void attrib_values(vertex_attrib_variant, span<float> dest) = 0;
 
+    /// @brief Returns the count of possible shape draw variants.
     virtual auto draw_variant_count() -> span_size_t = 0;
 
+    /// @brief Returns the identifier of the drawing variant at the specified index.
     auto draw_variant(span_size_t index) -> drawing_variant {
         return index;
     }
 
+    /// @brief Returns the index data type for the specified draw variant.
     virtual auto index_type(drawing_variant) -> index_data_type = 0;
 
-    auto index_type() {
+    /// @brief Returns the index data type for the default draw variant.
+    auto index_type() -> index_data_type {
         return index_type(0);
     }
 
+    /// @brief Returns the index count for the specified drawing variant.
     virtual auto index_count(drawing_variant) -> span_size_t = 0;
 
+    /// @brief Returns the index count for the default drawing variant.
     auto index_count() {
         return index_count(0);
     }
 
+    /// @brief Fetches the index data for the specified drawing variant.
     virtual void indices(drawing_variant, span<std::uint8_t> dest) = 0;
+
+    /// @brief Fetches the index data for the default drawing variant.
     void indices(span<std::uint8_t> dest) {
         indices(0, dest);
     }
 
+    /// @brief Fetches the index data for the specified drawing variant.
     virtual void indices(drawing_variant, span<std::uint16_t> dest) = 0;
+
+    /// @brief Fetches the index data for the default drawing variant.
     void indices(span<std::uint16_t> dest) {
         indices(0, dest);
     }
 
+    /// @brief Fetches the index data for the specified drawing variant.
     virtual void indices(drawing_variant, span<std::uint32_t> dest) = 0;
+
+    /// @brief Fetches the index data for the default drawing variant.
     void indices(span<std::uint32_t> dest) {
         indices(0, dest);
     }
 
+    /// @brief Returns the number of drawing instructions for the specified variant.
     virtual auto operation_count(drawing_variant) -> span_size_t = 0;
+
+    /// @brief Returns the number of drawing instructions for the default variant.
     auto operation_count() {
         return operation_count(0);
     }
 
+    /// @brief Fetches the drawing operations for the specified drawing variant.
     virtual void instructions(drawing_variant, span<draw_operation> dest) = 0;
+
+    /// @brief Fetches the drawing operations for the default drawing variant.
     void instructions(span<draw_operation> dest) {
         return instructions(0, dest);
     }
 
+    /// @brief Returns the bounding sphere for the generated shape.
     virtual auto bounding_sphere() -> math::sphere<float, true>;
 
+    /// @brief Calculates the intersections of the shape geometry with a ray.
     virtual void ray_intersections(
       drawing_variant,
       span<const math::line<float, true>> rays,
       span<optionally_valid<float>> intersections);
 
+    /// @brief Calculates the intersections of the shape geometry with a ray.
     void ray_intersections(
       span<const math::line<float, true>> rays,
       span<optionally_valid<float>> intersections) {
         return ray_intersections(0, rays, intersections);
     }
 
+    /// @brief Returns the parameter for the nearest intersection with a ray.
     auto
     ray_intersection(drawing_variant var, const math::line<float, true>& ray)
       -> optionally_valid<float> {
@@ -165,6 +214,7 @@ struct generator_intf {
         return result;
     }
 
+    /// @brief Returns the parameter for the nearest intersection with a ray.
     auto ray_intersection(const math::line<float, true>& ray)
       -> optionally_valid<float> {
         optionally_valid<float> result{};
