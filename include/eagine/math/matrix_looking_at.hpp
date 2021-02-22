@@ -15,25 +15,39 @@ namespace eagine::math {
 
 // looking_at_y_up
 template <typename X>
-struct looking_at_y_up;
+class looking_at_y_up;
 
 // is_matrix_constructor<looking_at_y_up>
 template <typename T, int N, bool RM, bool V>
 struct is_matrix_constructor<looking_at_y_up<matrix<T, N, N, RM, V>>>
   : std::true_type {};
 
-// looking_at_y_up matrix 4x4
+/// @brief Implements constructor of look-at matrix used for camera transformations.
+/// @ingroup math
+///
+/// This implementation assumes the positive y axis points up.
+/// @note Do not use directly, use matrix_looking_at_y_up
 template <typename T, bool RM, bool V>
-struct looking_at_y_up<matrix<T, 4, 4, RM, V>> {
-    using _dT = vector<T, 3, V>;
-
-    vector<T, 3, V> _e, _t;
-
+class looking_at_y_up<matrix<T, 4, 4, RM, V>> {
+public:
+    /// @brief Initializes the matrix constructor.
+    /// @param eye is the position of the camera.
+    /// @param target is the point the camera is looking at.
     constexpr looking_at_y_up(
       const vector<T, 3, V>& eye,
       const vector<T, 3, V>& target) noexcept
       : _e(eye)
       , _t(target) {}
+
+    /// @brief Returns the constructed matrix.
+    constexpr auto operator()() const noexcept {
+        return _make(bool_constant<RM>());
+    }
+
+private:
+    using _dT = vector<T, 3, V>;
+
+    vector<T, 3, V> _e, _t;
 
     static constexpr auto
     _make(const _dT& x, const _dT& y, const _dT& z, const _dT& t) noexcept {
@@ -64,10 +78,6 @@ struct looking_at_y_up<matrix<T, 4, 4, RM, V>> {
     constexpr auto _make(std::false_type) const noexcept {
         return reorder(_make(std::true_type()));
     }
-
-    constexpr auto operator()() const noexcept {
-        return _make(bool_constant<RM>());
-    }
 };
 
 // reorder_mat_ctr(looking_at_y_up)
@@ -78,7 +88,8 @@ reorder_mat_ctr(const looking_at_y_up<matrix<T, N, N, RM, V>>& c) noexcept
     return {c._e, c._t};
 }
 
-// matrix_*
+/// @brief Alias for constructor of look-at matrix used for camera transformations.
+/// @ingroup math
 template <typename T, bool V>
 using matrix_looking_at_y_up =
   convertible_matrix_constructor<looking_at_y_up<matrix<T, 4, 4, true, V>>>;

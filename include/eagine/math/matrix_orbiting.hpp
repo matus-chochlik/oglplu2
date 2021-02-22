@@ -15,20 +15,23 @@ namespace eagine::math {
 
 // orbiting_y_up
 template <typename X>
-struct orbiting_y_up;
+class orbiting_y_up;
 
 // is_matrix_constructor<orbiting_y_up>
 template <typename T, int N, bool RM, bool V>
 struct is_matrix_constructor<orbiting_y_up<matrix<T, N, N, RM, V>>>
   : std::true_type {};
 
-// orbiting_y_up matrix 4x4
+/// @brief Implements constructor of orbiting matrix used for camera transformations.
+/// @ingroup math
+///
+/// This implementation assumes the positive y axis points up.
+///
+/// This implementation assumes the positive y axis points up.
+/// @note Do not use directly, use matrix_orbiting_y_up
 template <typename T, bool RM, bool V>
-struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
-    vector<T, 3, V> _t;
-    vector<T, 3, V> _x, _z, _y;
-    T _r;
-
+class orbiting_y_up<matrix<T, 4, 4, RM, V>> {
+public:
     constexpr orbiting_y_up(
       const vector<T, 3, V>& t,
       const vector<T, 3, V>& x,
@@ -54,6 +57,11 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
       , _y(cross(_z, _x))
       , _r(rs) {}
 
+    /// @brief Initalizes the matrix constructor.
+    /// @param target is the point that the camera orbits around.
+    /// @param radius is the distance from the target that the camera orbits at.
+    /// @param azimuth is the azimuth (longitude) angle.
+    /// @param elevation is the elevation (latitude) angle.
     constexpr orbiting_y_up(
       const vector<T, 3, V>& target,
       const T radius,
@@ -67,6 +75,18 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
           sin(elevation),
           cos(elevation)) {}
 
+    /// @brief Returns the constructed matrix.
+    constexpr auto operator()() const noexcept {
+        return _make(bool_constant<RM>());
+    }
+
+    friend constexpr auto
+    reorder_mat_ctr(const orbiting_y_up<matrix<T, 4, 4, RM, V>>& c) noexcept
+      -> orbiting_y_up<matrix<T, 4, 4, !RM, V>> {
+        return {c._t, c._x, c._y, c._z, c._r};
+    }
+
+private:
     constexpr auto _make(std::true_type) const noexcept {
         return matrix<T, 4, 4, true, V>{
           {{_x[0], _x[1], _x[2], -_r * dot(_x, _z) - dot(_x, _t)},
@@ -79,20 +99,13 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
         return reorder(_make(std::true_type()));
     }
 
-    constexpr auto operator()() const noexcept {
-        return _make(bool_constant<RM>());
-    }
+    vector<T, 3, V> _t;
+    vector<T, 3, V> _x, _z, _y;
+    T _r;
 };
 
-// reorder_mat_ctr(orbiting_y_up)
-template <typename T, int N, bool RM, bool V>
-static constexpr auto
-reorder_mat_ctr(const orbiting_y_up<matrix<T, N, N, RM, V>>& c) noexcept
-  -> orbiting_y_up<matrix<T, N, N, !RM, V>> {
-    return {c._t, c._x, c._y, c._z, c._r};
-}
-
-// matrix_*
+/// @brief Alias for constructor of orbiting matrix used for camera transformations.
+/// @ingroup math
 template <typename T, bool V>
 using matrix_orbiting_y_up =
   convertible_matrix_constructor<orbiting_y_up<matrix<T, 4, 4, true, V>>>;

@@ -15,22 +15,24 @@ namespace eagine::math {
 
 // perspective
 template <typename X>
-struct perspective;
+class perspective;
 
 // is_matrix_constructor<perspective>
 template <typename T, int N, bool RM, bool V>
 struct is_matrix_constructor<perspective<matrix<T, N, N, RM, V>>>
   : std::true_type {};
 
-// perspective matrix 4x4
+/// @brief Implements constructor of perspective projection matrix.
+/// @ingroup math
+///
+/// @note Do not use directly, use matrix_perspective.
 template <typename T, bool RM, bool V>
-struct perspective<matrix<T, 4, 4, RM, V>> {
-    using _dT = vect::data_t<T, 6, V>;
-    _dT _v;
-
-    constexpr perspective(const _dT& v) noexcept
+class perspective<matrix<T, 4, 4, RM, V>> {
+public:
+    constexpr perspective(const vect::data_t<T, 6, V>& v) noexcept
       : _v(v) {}
 
+    /// @brief Initialized the matrix constructor.
     constexpr perspective(
       T x_left,
       T x_right,
@@ -40,6 +42,53 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
       T z_far) noexcept
       : _v{x_left, x_right, y_bottom, y_top, z_near, z_far} {}
 
+    /// @brief Returns the constructed matrix.
+    constexpr auto operator()() const noexcept {
+        return _make(bool_constant<RM>());
+    }
+
+    /// @brief Constructs perspective matrix with x-FOV angle and aspect ratio.
+    static auto x(radians_t<T> xfov, T aspect, T z_near, T z_far) noexcept {
+        EAGINE_ASSERT(aspect > T(0));
+        EAGINE_ASSERT(T(xfov) > T(0));
+
+        T x_right = z_near * tan(xfov * T(0.5));
+        T x_left = -x_right;
+
+        T y_bottom = x_left / aspect;
+        T y_top = x_right / aspect;
+
+        return perspective(x_left, x_right, y_bottom, y_top, z_near, z_far);
+    }
+
+    /// @brief Constructs perspective matrix with y-FOV angle and aspect ratio.
+    static auto y(radians_t<T> yfov, T aspect, T z_near, T z_far) noexcept {
+        EAGINE_ASSERT(aspect > T(0));
+        EAGINE_ASSERT(T(yfov) > T(0));
+
+        T y_top = z_near * tan(yfov * T(0.5));
+        T y_bottom = -y_top;
+
+        T x_left = y_bottom * aspect;
+        T x_right = y_top * aspect;
+
+        return perspective(x_left, x_right, y_bottom, y_top, z_near, z_far);
+    }
+
+    /// @brief Constructs perspective matrix with FOV angle and aspect ratio of 1.
+    static auto square(radians_t<T> fov, T z_near, T z_far) noexcept {
+        EAGINE_ASSERT(T(fov) > T(0));
+
+        T x_right = z_near * tan(fov * T(0.5));
+        T x_left = -x_right;
+
+        T y_bottom = x_left;
+        T y_top = x_right;
+
+        return perspective(x_left, x_right, y_bottom, y_top, z_near, z_far);
+    }
+
+private:
     constexpr auto _x_left() const noexcept {
         return _v[0];
     }
@@ -62,44 +111,6 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
 
     constexpr auto _z_far() const noexcept {
         return _v[5];
-    }
-
-    static auto square(radians_t<T> fov, T z_near, T z_far) noexcept {
-        EAGINE_ASSERT(T(fov) > T(0));
-
-        T x_right = z_near * tan(fov * T(0.5));
-        T x_left = -x_right;
-
-        T y_bottom = x_left;
-        T y_top = x_right;
-
-        return perspective(x_left, x_right, y_bottom, y_top, z_near, z_far);
-    }
-
-    static auto x(radians_t<T> xfov, T aspect, T z_near, T z_far) noexcept {
-        EAGINE_ASSERT(aspect > T(0));
-        EAGINE_ASSERT(T(xfov) > T(0));
-
-        T x_right = z_near * tan(xfov * T(0.5));
-        T x_left = -x_right;
-
-        T y_bottom = x_left / aspect;
-        T y_top = x_right / aspect;
-
-        return perspective(x_left, x_right, y_bottom, y_top, z_near, z_far);
-    }
-
-    static auto y(radians_t<T> yfov, T aspect, T z_near, T z_far) noexcept {
-        EAGINE_ASSERT(aspect > T(0));
-        EAGINE_ASSERT(T(yfov) > T(0));
-
-        T y_top = z_near * tan(yfov * T(0.5));
-        T y_bottom = -y_top;
-
-        T x_left = y_bottom * aspect;
-        T x_right = y_top * aspect;
-
-        return perspective(x_left, x_right, y_bottom, y_top, z_near, z_far);
     }
 
     constexpr auto _m00() const noexcept {
@@ -146,9 +157,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
            {T(0), T(0), _m32(), T(0)}}};
     }
 
-    constexpr auto operator()() const noexcept {
-        return _make(bool_constant<RM>());
-    }
+    using _dT = vect::data_t<T, 6, V>;
+    _dT _v;
 };
 
 // reorder_mat_ctr(perspective)
@@ -159,7 +169,8 @@ reorder_mat_ctr(const perspective<matrix<T, N, N, RM, V>>& c) noexcept
     return {c._v};
 }
 
-// matrix_*
+/// @brief Alias for constructor of perspective projection matrix.
+/// @ingroup math
 template <typename T, bool V>
 using matrix_perspective =
   convertible_matrix_constructor<perspective<matrix<T, 4, 4, true, V>>>;

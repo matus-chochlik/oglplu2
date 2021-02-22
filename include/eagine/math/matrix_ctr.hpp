@@ -36,7 +36,8 @@ struct constructed_matrix<MC<matrix<T, C, R, RM, V>, I>>
       matrix<T, C, R, RM, V>,
       nothing_t> {};
 
-// construct_matrix (noop)
+/// @brief Uses the specified matrix constructor @p c to construct a matrix.
+/// @ingroup math
 template <bool RM, typename MC>
 static constexpr auto construct_matrix(const MC& c) noexcept -> std::enable_if_t<
   is_matrix_constructor_v<MC> && is_row_major_v<constructed_matrix_t<MC>> == RM,
@@ -52,6 +53,11 @@ static constexpr auto construct_matrix(const MC& c) noexcept -> std::enable_if_t
     return reorder_mat_ctr(c)();
 }
 
+/// @brief Multiplies the results of two matrix constructors.
+/// @ingroup math
+///
+/// This is typically more efficient than constructing the two matrices and
+/// multiplying them.
 template <
   typename MC1,
   typename MC2,
@@ -62,14 +68,19 @@ static inline auto multiply(const MC1& mc1, const MC2& mc2) noexcept {
     return multiply(construct_matrix<true>(mc1), construct_matrix<false>(mc2));
 }
 
+/// @brief Helper class used in matrix constructor implementation.
+/// @ingroup math
 template <typename MC>
-struct convertible_matrix_constructor : MC {
+class convertible_matrix_constructor : public MC {
     static_assert(is_matrix_constructor_v<MC>);
 
+public:
+    /// @brief Forwards arguments to the basic matrix constructor.
     template <typename... P>
     convertible_matrix_constructor(P&&... p)
       : MC(std::forward<P>(p)...) {}
 
+    /// @brief Implicit conversion to the constructed matrix type.
     operator constructed_matrix_t<MC>() const noexcept {
         return MC::operator()();
     }
