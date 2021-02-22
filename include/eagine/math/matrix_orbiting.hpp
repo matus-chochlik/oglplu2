@@ -24,6 +24,7 @@ struct is_matrix_constructor<orbiting_y_up<matrix<T, N, N, RM, V>>>
 
 /// @brief Implements constructor of orbiting matrix used for camera transformations.
 /// @ingroup math
+/// @see matrix_orbiting_y_up
 ///
 /// This implementation assumes the positive y axis points up.
 ///

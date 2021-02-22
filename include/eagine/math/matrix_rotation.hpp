@@ -21,21 +21,42 @@ namespace eagine::math {
 
 // rotation_I
 template <typename X, int I>
-struct rotation_I;
+class rotation_I;
 
 // is_matrix_constructor<rotation_I>
 template <typename T, int N, bool RM, bool V, int I>
 struct is_matrix_constructor<rotation_I<matrix<T, N, N, RM, V>, I>>
   : std::true_type {};
 
-// scale matrix 4x4 row-major
+/// @brief Implements constructor of rotation transformation matrix.
+/// @ingroup math
+/// @tparam I index of the rotation axis (0 = x, 1 = y, 2 = z).
+/// @see matrix_rotation_x
+/// @see matrix_rotation_y
+/// @see matrix_rotation_z
+///
+/// @note Do not use directly, use matrix_rotation_{x,y,z}
 template <typename T, bool RM, bool V, int I>
-struct rotation_I<matrix<T, 4, 4, RM, V>, I> {
-    radians_t<T> _v;
-
+class rotation_I<matrix<T, 4, 4, RM, V>, I> {
+public:
+    /// @brief Initializes the matrix constructor.
+    /// @param v is the angle of rotation.
     constexpr rotation_I(radians_t<T> v) noexcept
       : _v(v) {}
 
+    /// @brief Returns the constructed matrix.
+    constexpr auto operator()() const {
+        using _axis = int_constant<I>;
+        return _make(cos(_v), sin(_v) * (RM ? 1 : -1), _axis());
+    }
+
+    friend constexpr auto
+    reorder_mat_ctr(const rotation_I<matrix<T, 4, 4, RM, V>, I>& c) noexcept
+      -> rotation_I<matrix<T, 4, 4, !RM, V>, I> {
+        return {c._v};
+    }
+
+private:
     using _x = int_constant<0>;
     using _y = int_constant<1>;
     using _z = int_constant<2>;
@@ -64,10 +85,7 @@ struct rotation_I<matrix<T, 4, 4, RM, V>, I> {
            {T(0), T(0), T(0), T(1)}}};
     }
 
-    constexpr auto operator()() const {
-        using _axis = int_constant<I>;
-        return _make(cos(_v), sin(_v) * (RM ? 1 : -1), _axis());
-    }
+    radians_t<T> _v;
 };
 
 // multiply
@@ -79,47 +97,56 @@ static constexpr auto multiply(
     return {radians_t<T>{T(a._v) + T(b._v)}};
 }
 
-// reorder_mat_ctr(rotation_I)
-template <typename T, int N, bool RM, bool V, int I>
-static constexpr auto
-reorder_mat_ctr(const rotation_I<matrix<T, N, N, RM, V>, I>& c) noexcept
-  -> rotation_I<matrix<T, N, N, !RM, V>, I> {
-    return {c._v};
-}
-
-// rotation x
+/// @brief Alias for implementation of constructor of rotation along x-axis matrix.
+/// @ingroup math
 template <typename M>
 using rotation_x = rotation_I<M, 0>;
 
-// pitch
-template <typename M>
-using pitch = rotation_x<M>;
-
-// rotation y
+/// @brief Alias for implementation of constructor of rotation along y-axis matrix.
+/// @ingroup math
 template <typename M>
 using rotation_y = rotation_I<M, 1>;
 
-// yaw
-template <typename M>
-using yaw = rotation_y<M>;
-
-// rotation z
+/// @brief Alias for implementation of constructor of rotation along z-axis matrix.
+/// @ingroup math
 template <typename M>
 using rotation_z = rotation_I<M, 2>;
 
-// roll
-template <typename M>
-using roll = rotation_z<M>;
-
-// matrix_*
+/// @brief Alias for constructor of rotation along x-axis transformation matrix.
+/// @ingroup math
+/// @see matrix_translation
+/// @see matrix_rotation_y
+/// @see matrix_rotation_z
+/// @see matrix_scale
+/// @see matrix_uniform_scale
 template <typename T, bool V>
 using matrix_rotation_x =
   convertible_matrix_constructor<rotation_x<matrix<T, 4, 4, true, V>>>;
 
+/// @brief Alias for constructor of rotation along y-axis transformation matrix.
+/// @ingroup math
+/// @see matrix_translation
+/// @see matrix_rotation_x
+/// @see matrix_rotation_z
+/// @see matrix_reflection_x
+/// @see matrix_reflection_y
+/// @see matrix_reflection_z
+/// @see matrix_scale
+/// @see matrix_uniform_scale
 template <typename T, bool V>
 using matrix_rotation_y =
   convertible_matrix_constructor<rotation_y<matrix<T, 4, 4, true, V>>>;
 
+/// @brief Alias for constructor of rotation along z-axis transformation matrix.
+/// @ingroup math
+/// @see matrix_translation
+/// @see matrix_rotation_x
+/// @see matrix_rotation_y
+/// @see matrix_reflection_x
+/// @see matrix_reflection_y
+/// @see matrix_reflection_z
+/// @see matrix_scale
+/// @see matrix_uniform_scale
 template <typename T, bool V>
 using matrix_rotation_z =
   convertible_matrix_constructor<rotation_z<matrix<T, 4, 4, true, V>>>;

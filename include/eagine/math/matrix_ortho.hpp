@@ -22,6 +22,7 @@ struct is_matrix_constructor<ortho<matrix<T, N, N, RM, V>>> : std::true_type {};
 
 /// @brief Implements constructor of orthographic projection matrix.
 /// @ingroup math
+/// @see matrix_ortho
 ///
 /// @note Do not use directly, use matrix_ortho.
 template <typename T, bool RM, bool V>

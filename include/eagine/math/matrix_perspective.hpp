@@ -24,6 +24,7 @@ struct is_matrix_constructor<perspective<matrix<T, N, N, RM, V>>>
 
 /// @brief Implements constructor of perspective projection matrix.
 /// @ingroup math
+/// @see matrix_perspective
 ///
 /// @note Do not use directly, use matrix_perspective.
 template <typename T, bool RM, bool V>

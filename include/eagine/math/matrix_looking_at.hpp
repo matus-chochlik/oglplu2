@@ -24,6 +24,7 @@ struct is_matrix_constructor<looking_at_y_up<matrix<T, N, N, RM, V>>>
 
 /// @brief Implements constructor of look-at matrix used for camera transformations.
 /// @ingroup math
+/// @see matrix_looking_at_y_up
 ///
 /// This implementation assumes the positive y axis points up.
 /// @note Do not use directly, use matrix_looking_at_y_up
