@@ -27,21 +27,6 @@ public:
     /// @brief Pointer type.
     using pointer = typename block::pointer;
 
-private:
-    span_size_t _size{0};
-    span_size_t _align{0};
-    owned_block _storage{};
-    shared_byte_allocator _alloc{};
-
-    auto _is_ok() const noexcept {
-        return bool(_alloc) && size() <= capacity();
-    }
-
-    void _reallocate(span_size_t new_size) {
-        _alloc.do_reallocate(_storage, new_size, _align);
-    }
-
-public:
     /// @brief Constructor with explicit alignment specification.
     explicit buffer(span_size_t align)
       : _align(align)
@@ -186,6 +171,20 @@ public:
     operator const_block() const noexcept {
         EAGINE_ASSERT(_is_ok());
         return {_storage.begin(), _size};
+    }
+
+private:
+    span_size_t _size{0};
+    span_size_t _align{0};
+    owned_block _storage{};
+    shared_byte_allocator _alloc{};
+
+    auto _is_ok() const noexcept -> bool {
+        return bool(_alloc) && size() <= capacity();
+    }
+
+    void _reallocate(span_size_t new_size) {
+        _alloc.do_reallocate(_storage, new_size, _align);
     }
 };
 //------------------------------------------------------------------------------

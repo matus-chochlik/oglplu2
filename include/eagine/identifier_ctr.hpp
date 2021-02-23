@@ -14,7 +14,18 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Creates an identifier representing a byte value as a hex string.
+/// @ingroup identifiers
+/// @see identifier
+/// @see dec_to_identifier
+/// @see random_identifier
 auto byte_to_identifier(byte b) noexcept -> identifier;
+
+/// @brief Creates an identifier representing an integer value as a decimal string.
+/// @ingroup identifiers
+/// @see identifier
+/// @see byte_to_identifier
+/// @see random_identifier
 auto dec_to_identifier(int i) noexcept -> identifier;
 //------------------------------------------------------------------------------
 } // namespace eagine

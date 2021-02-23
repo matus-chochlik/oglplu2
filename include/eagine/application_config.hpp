@@ -21,11 +21,17 @@ namespace eagine {
 class master_ctx;
 class application_config_impl;
 
+/// @brief Class for reading application configuration.
+/// @ingroup main_context
+///
+/// This class allow to read application configuration values from from
+/// environment variables, command line arguments and/or configuration files.
 class application_config : public main_ctx_object {
 public:
     application_config(main_ctx_parent parent) noexcept
       : main_ctx_object{EAGINE_ID(AppConfig), parent} {}
 
+    /// @brief Checks is the boolean option identified by @p key is set to true.
     auto is_set(string_view key, string_view tag = {}) noexcept -> bool {
         if(const auto attr{_find_comp_attr(key, tag)}) {
             bool flag{false};
@@ -47,6 +53,7 @@ public:
         return false;
     }
 
+    /// @brief Fetches the configuration value identified by @p key, into @p dest.
     template <typename T>
     auto fetch(string_view key, T& dest, string_view tag = {}) noexcept
       -> bool {
@@ -81,6 +88,7 @@ public:
         return false;
     }
 
+    /// @brief Fetches the configuration values identified by @p key, into @p dest.
     template <typename T, typename A>
     auto fetch(
       string_view key,
@@ -126,6 +134,7 @@ public:
         return true;
     }
 
+    /// @brief Fetches the configuration value identified by @p key, into @p dest.
     template <typename T, typename P>
     auto fetch(string_view key, valid_if<T, P>& dest, string_view tag) noexcept
       -> bool {
@@ -143,6 +152,7 @@ public:
         return false;
     }
 
+    /// @brief Returns the configuration value or type @p T, identified by @p key.
     template <typename T>
     auto get(string_view key, type_identity<T> = {}) -> optionally_valid<T> {
         T temp{};
@@ -150,6 +160,7 @@ public:
         return {std::move(temp), fetched};
     }
 
+    /// @brief Fetches the configuration value identified by @p key, into @p init.
     template <typename T>
     auto init(string_view key, T& initial, string_view tag = {}) -> T {
         fetch(key, initial, tag);

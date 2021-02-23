@@ -327,7 +327,7 @@ auto unit_torus_gen::attribute_variants(vertex_attrib_kind attrib)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto unit_torus_gen::variant_name(vertex_attrib_variant vav) -> string_view {
-    switch(vav.attrib) {
+    switch(vav.attribute()) {
         case vertex_attrib_kind::position:
         case vertex_attrib_kind::normal:
         case vertex_attrib_kind::tangential:
@@ -352,7 +352,7 @@ auto unit_torus_gen::variant_name(vertex_attrib_variant vav) -> string_view {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
-    switch(vav.attrib) {
+    switch(vav.attribute()) {
         case vertex_attrib_kind::vertex_pivot:
             vertex_pivots(dest);
             break;

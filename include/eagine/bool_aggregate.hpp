@@ -12,6 +12,7 @@
 namespace eagine {
 
 /// @brief Class storing initially false value and logically or-ing other values.
+/// @ingroup type_utils
 class some_true {
 public:
     /// @brief Logically or-s the stored state with the specified argument.

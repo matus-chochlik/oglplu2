@@ -82,7 +82,6 @@ private:
 //------------------------------------------------------------------------------
 template <typename Deserializer, typename Source, bool NoExcept>
 class callback_invoker_base<void, Deserializer, Source, NoExcept> {
-    using _callback_t = callable_ref_impl<void() noexcept(NoExcept), NoExcept>;
 
 public:
     auto fulfill_by(const message_context& msg_ctx, stored_message& response)
@@ -94,6 +93,7 @@ public:
     }
 
 protected:
+    using _callback_t = basic_callable_ref<void() noexcept(NoExcept), NoExcept>;
     _callback_t _callback{};
 };
 //------------------------------------------------------------------------------

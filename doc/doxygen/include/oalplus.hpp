@@ -6,10 +6,6 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-/// @subpage OGLplus
-///
-/// Implements OpenGL wrapper code and graphics utilities.
-
 namespace eagine {
 /// @brief OGLplus code is placed in this namespace.
 namespace oglp {}

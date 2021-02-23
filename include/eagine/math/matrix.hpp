@@ -467,19 +467,26 @@ static inline auto column(const matrix<T, C, R, RM, V>& m, int i) noexcept
     return _col_hlp(m, int_constant<C - 1>(), i);
 }
 //------------------------------------------------------------------------------
-// is_matrix_constructor trait
+/// @brief Indicates if the specified type @p X is a matrix constructor.
+/// @ingroup math
+/// @see constructed_matrix_t
 template <typename X>
 struct is_matrix_constructor : std::false_type {};
 
 /// @brief Trait indicating if a type X is a matrix constructor.
 /// @ingroup math
+///
+/// Matrix constructor types define a nullary call operator that can construct
+/// a matrix instantiation.
 template <typename X>
 constexpr auto is_matrix_constructor_v = is_matrix_constructor<X>::value;
 //------------------------------------------------------------------------------
 template <bool RM, typename T, int C, int R, bool V>
 struct is_matrix_constructor<matrix<T, C, R, RM, V>> : std::true_type {};
 //------------------------------------------------------------------------------
-// constructed_matrix trait
+/// @brief Gets the constructed matrix type for a matrix constructor type.
+/// @ingroup math
+/// @see is_matrix_constructor_v
 template <typename X>
 struct constructed_matrix;
 //------------------------------------------------------------------------------
@@ -568,6 +575,7 @@ multiply(const matrix<T, C, R, RM, V>& m, const vector<T, C, V>& v) noexcept
 //------------------------------------------------------------------------------
 /// @brief Multiplication operator for matrix constructors.
 /// @ingroup math
+///
 /// Doing multiplication on matrix constructors is typically more efficient
 /// than doing multiplication on the constructed matrices, because it can
 /// save row/column reordering operations.

@@ -1,1 +1,0 @@
---vertex 032_extruded.vs.glsl --geometry 032_extruded.gs.glsl --fragment 032_extruded.fs.glsl

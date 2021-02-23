@@ -36,7 +36,7 @@ struct tvec : vector<T, N, V> {
 
     /// @brief Construction from native array.
     tvec(const T (&d)[N]) noexcept
-      : base{base::from(d, N)} {}
+      : base{base::from(static_cast<const T*>(d), N)} {}
 
     /// @brief Construction from coordinates.
     template <

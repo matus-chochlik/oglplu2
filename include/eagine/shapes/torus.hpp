@@ -21,21 +21,10 @@
 namespace eagine {
 namespace shapes {
 
+/// @brief Generator of centered torus shape with unit diameter.
+/// @ingroup shapes
+/// @see unit_torus
 class unit_torus_gen : public centered_unit_shape_generator_base {
-private:
-    using _base = centered_unit_shape_generator_base;
-
-    const std::size_t _r_seed{1234};
-    const std::size_t _s_seed{2345};
-    span_size_t _rings;
-    span_size_t _sections;
-    float _radius_ratio;
-
-    static auto _attr_mask() noexcept -> vertex_attrib_bits;
-
-    template <typename T>
-    void _indices(drawing_variant, span<T> dest) noexcept;
-
 public:
     unit_torus_gen(
       vertex_attrib_bits attr_bits,
@@ -100,8 +89,24 @@ public:
     void instructions(drawing_variant, span<draw_operation> ops) override;
 
     auto bounding_sphere() -> math::sphere<float, true> override;
+
+private:
+    using _base = centered_unit_shape_generator_base;
+
+    const std::size_t _r_seed{1234};
+    const std::size_t _s_seed{2345};
+    span_size_t _rings;
+    span_size_t _sections;
+    float _radius_ratio;
+
+    static auto _attr_mask() noexcept -> vertex_attrib_bits;
+
+    template <typename T>
+    void _indices(drawing_variant, span<T> dest) noexcept;
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of unit_torus_gen.
+/// @ingroup shapes
 static inline auto unit_torus(
   vertex_attrib_bits attr_bits,
   valid_if_greater_than<int, 4> rings,
@@ -111,6 +116,12 @@ static inline auto unit_torus(
       attr_bits, std::move(rings), std::move(sections), std::move(radius_ratio));
 }
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of unit_torus_gen.
+/// @ingroup shapes
+/// see unit_cube
+/// see unit_sphere
+/// see unit_icosphere
+/// see unit_screen
 static inline auto unit_torus(vertex_attrib_bits attr_bits) {
     return unit_torus(attr_bits, 18, 36, 0.5F);
 }

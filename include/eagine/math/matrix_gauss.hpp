@@ -14,6 +14,9 @@
 
 namespace eagine::math {
 //------------------------------------------------------------------------------
+/// @brief Implements gaussian elimination on matrices @p a and @p b
+/// @ingroup math
+/// @see gauss_jordan_elimination
 template <typename T, int Ca, int Cb, int R, bool V>
 static inline auto gauss_elimination(
   matrix<T, Ca, R, true, V>& a,
@@ -54,6 +57,9 @@ static inline auto gauss_elimination(
     return true;
 }
 //------------------------------------------------------------------------------
+/// @brief Implements gaussian elimination on matrices @p a and @p b
+/// @ingroup math
+/// @see gauss_jordan_elimination
 template <typename T, int Ca, int Cb, int R, bool V>
 static inline auto gauss_elimination(
   matrix<T, Ca, R, false, V>& a,
@@ -66,6 +72,9 @@ static inline auto gauss_elimination(
     return false;
 }
 //------------------------------------------------------------------------------
+/// @brief Implements gaussian elimination on matrices @p a and @p b
+/// @ingroup math
+/// @see gauss_jordan_elimination
 template <typename T, int Ca, int Cb, int R, bool V>
 static inline auto gauss_elimination(
   matrix<T, Ca, R, true, V>& a,
@@ -78,6 +87,9 @@ static inline auto gauss_elimination(
     return false;
 }
 //------------------------------------------------------------------------------
+/// @brief Implements gaussian elimination on matrices @p a and @p b
+/// @ingroup math
+/// @see gauss_jordan_elimination
 template <typename T, int Ca, int Cb, int R, bool V>
 static inline auto gauss_elimination(
   matrix<T, Ca, R, false, V>& a,
@@ -92,6 +104,10 @@ static inline auto gauss_elimination(
     return false;
 }
 //------------------------------------------------------------------------------
+/// @brief Implements gauss-jordan elimination on matrices @p a and @p b
+/// @ingroup math
+/// @see gauss_elimination
+/// @see inverse_matrix
 template <typename T, int Ca, int Cb, int R, bool V>
 static inline auto gauss_jordan_elimination(
   matrix<T, Ca, R, true, V>& a,
@@ -114,6 +130,10 @@ static inline auto gauss_jordan_elimination(
     return false;
 }
 //------------------------------------------------------------------------------
+/// @brief Implements gauss-jordan elimination on matrices @p a and @p b
+/// @ingroup math
+/// @see gauss_elimination
+/// @see inverse_matrix
 template <typename T, int Ca, int Cb, int R, bool V>
 static inline auto gauss_jordan_elimination(
   matrix<T, Ca, R, false, V>& a,
@@ -126,6 +146,10 @@ static inline auto gauss_jordan_elimination(
     return false;
 }
 //------------------------------------------------------------------------------
+/// @brief Implements gauss-jordan elimination on matrices @p a and @p b
+/// @ingroup math
+/// @see gauss_elimination
+/// @see inverse_matrix
 template <typename T, int Ca, int Cb, int R, bool V>
 static inline auto gauss_jordan_elimination(
   matrix<T, Ca, R, true, V>& a,
@@ -138,6 +162,10 @@ static inline auto gauss_jordan_elimination(
     return false;
 }
 //------------------------------------------------------------------------------
+/// @brief Implements gauss-jordan elimination on matrices @p a and @p b
+/// @ingroup math
+/// @see gauss_elimination
+/// @see inverse_matrix
 template <typename T, int Ca, int Cb, int R, bool V>
 static inline auto gauss_jordan_elimination(
   matrix<T, Ca, R, false, V>& a,

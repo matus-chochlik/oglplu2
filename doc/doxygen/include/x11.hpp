@@ -6,10 +6,6 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-/// @mainpage X11
-///
-/// Implements some X11/glX wrapper code utilities.
-
 namespace eagine {
 /// @brief X11 wrapper code is placed in this namespace.
 namespace x11 {}

@@ -11,7 +11,10 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Structure holding root logger customization options.
+/// @ingroup logging
 struct root_logger_options {
+    /// @brief Option saying that by default no logging should be done.
     bool default_no_log{false};
 };
 //------------------------------------------------------------------------------

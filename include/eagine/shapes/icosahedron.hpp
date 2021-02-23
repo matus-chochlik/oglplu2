@@ -16,19 +16,10 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Generator of centered icosahedron shape with unit diameter.
+/// @ingroup shapes
+/// @see unit_icosahedron
 class unit_icosahedron_gen : public centered_unit_shape_generator_base {
-private:
-    using _base = centered_unit_shape_generator_base;
-
-    static auto _attr_mask() noexcept -> vertex_attrib_bits;
-
-    static auto _shared_attrs() noexcept -> vertex_attrib_bits;
-
-    auto _only_shared_attribs() noexcept -> bool;
-
-    template <typename T>
-    void _indices(drawing_variant, span<T> dest) noexcept;
-
 public:
     unit_icosahedron_gen(vertex_attrib_bits attr_bits) noexcept;
 
@@ -53,8 +44,26 @@ public:
     void instructions(drawing_variant, span<draw_operation> ops) override;
 
     auto bounding_sphere() -> math::sphere<float, true> override;
+
+private:
+    using _base = centered_unit_shape_generator_base;
+
+    static auto _attr_mask() noexcept -> vertex_attrib_bits;
+
+    static auto _shared_attrs() noexcept -> vertex_attrib_bits;
+
+    auto _only_shared_attribs() noexcept -> bool;
+
+    template <typename T>
+    void _indices(drawing_variant, span<T> dest) noexcept;
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of unit_icosahedron_gen.
+/// @ingroup shapes
+/// see unit_cube
+/// see unit_sphere
+/// see unit_torus
+/// see unit_screen
 static inline auto unit_icosahedron(vertex_attrib_bits attr_bits) {
     return std::make_unique<unit_icosahedron_gen>(attr_bits);
 }

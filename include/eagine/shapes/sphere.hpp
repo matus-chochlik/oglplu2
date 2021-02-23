@@ -17,18 +17,10 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Generator of centered UV-sphere shape with unit diameter.
+/// @ingroup shapes
+/// @see unit_sphere
 class unit_sphere_gen : public centered_unit_shape_generator_base {
-private:
-    using _base = centered_unit_shape_generator_base;
-
-    span_size_t _rings;
-    span_size_t _sections;
-
-    static auto _attr_mask() noexcept -> vertex_attrib_bits;
-
-    template <typename T>
-    void _indices(drawing_variant, span<T> dest) noexcept;
-
 public:
     unit_sphere_gen(
       vertex_attrib_bits attr_bits,
@@ -72,8 +64,25 @@ public:
       drawing_variant,
       span<const math::line<float, true>> rays,
       span<optionally_valid<float>> intersections) override;
+
+private:
+    using _base = centered_unit_shape_generator_base;
+
+    span_size_t _rings;
+    span_size_t _sections;
+
+    static auto _attr_mask() noexcept -> vertex_attrib_bits;
+
+    template <typename T>
+    void _indices(drawing_variant, span<T> dest) noexcept;
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of unit_sphere_gen.
+/// @ingroup shapes
+/// see unit_cube
+/// see unit_icosphere
+/// see unit_torus
+/// see unit_screen
 static inline auto unit_sphere(
   vertex_attrib_bits attr_bits,
   valid_if_greater_than<int, 2> rings,

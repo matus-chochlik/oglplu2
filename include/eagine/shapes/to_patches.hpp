@@ -15,6 +15,9 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Generator modifier changing primitives in draw instructions to patches.
+/// @ingroup shapes
+/// @see to_patches
 class to_patches_gen : public delegated_gen {
 
 public:
@@ -24,6 +27,8 @@ public:
     void instructions(drawing_variant, span<draw_operation> ops) override;
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of to_patches_gen modifier.
+/// @ingroup shapes
 static inline auto to_patches(std::unique_ptr<generator_intf>&& gen) noexcept {
     return std::make_unique<to_patches_gen>(std::move(gen));
 }

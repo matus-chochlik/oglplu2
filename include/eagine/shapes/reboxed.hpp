@@ -16,6 +16,9 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Generator modifier recalculating the vertex box coords values.
+/// @ingroup shapes
+/// @see rebox
 class reboxed_gen : public delegated_gen {
 
 public:
@@ -25,6 +28,8 @@ public:
     void attrib_values(vertex_attrib_variant, span<float>) override;
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of reboxed_gen modifier.
+/// @ingroup shapes
 static inline auto rebox(std::unique_ptr<generator_intf>&& gen) noexcept {
     return std::make_unique<reboxed_gen>(std::move(gen));
 }

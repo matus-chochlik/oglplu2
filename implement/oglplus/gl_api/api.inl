@@ -93,6 +93,10 @@ basic_gl_operations<ApiTraits>::basic_gl_operations(api_traits& traits)
   , get_program_info_log("get_program_info_log", traits, *this)
   , use_program("use_program", traits, *this)
   , get_program_resource_index("get_program_resource_index", traits, *this)
+  , get_shader_storage_block_index(
+      "get_shader_storage_block_index",
+      traits,
+      *this)
   , get_program_resource_location("get_program_resource_location", traits, *this)
   , get_program_resource_name("get_program_resource_name", traits, *this)
   , get_program_interface_i("get_program_interface_i", traits, *this)

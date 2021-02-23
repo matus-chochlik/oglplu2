@@ -16,10 +16,10 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Generator modifier translating the generated vertices by specifed amount.
+/// @ingroup shapes
+/// @see translate
 class translated_gen : public delegated_gen {
-private:
-    std::array<float, 3> _d;
-
 public:
     translated_gen(
       std::unique_ptr<generator_intf>&& gen,
@@ -30,8 +30,13 @@ public:
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
     auto bounding_sphere() -> math::sphere<float, true> override;
+
+private:
+    std::array<float, 3> _d;
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of translated_gen modifier.
+/// @ingroup shapes
 static inline auto translate(
   std::unique_ptr<generator_intf>&& gen,
   std::array<float, 3> d) noexcept {

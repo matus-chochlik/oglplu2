@@ -17,6 +17,7 @@ set(EAGINE_LIB_SOURCES
 	compiler_info.cpp
 	identifier.cpp
 	from_string.cpp
+	edit_distance.cpp
 	logging.cpp
 	ecs.cpp
 	file_contents.cpp

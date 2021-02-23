@@ -17,11 +17,139 @@
 
 namespace eagine {
 
+/// @brief Declaration of class template storing a reference to a callable object.
+/// @ingroup functional
+/// @see callable_ref
 template <typename FuncSig, bool NoExcept>
-class callable_ref_impl;
+class basic_callable_ref;
 
+/// @brief Implementation of class template storing a reference to a callable object.
+/// @ingroup functional
+/// @see callable_ref
+///
+/// Unlike std::function basic_callable_ref does not do any conversion on
+/// the parameters or return values, the referenced callable must match,
+/// and it does not copy the callable, it must remain in scope while the
+/// reference is used.
 template <typename RV, typename... P, bool NE>
-class callable_ref_impl<RV(P...) noexcept(NE), NE> {
+class basic_callable_ref<RV(P...) noexcept(NE), NE> {
+public:
+    /// @brief Alias for the callable's argument type tuple.
+    using argument_tuple_type =
+      std::tuple<std::remove_cv_t<std::remove_reference_t<P>>...>;
+
+    /// @brief Creates a default-constructed instance of argument_type_tuple.
+    static auto argument_tuple() noexcept -> argument_tuple_type {
+        return {};
+    }
+
+    /// @brief Default constructor.
+    /// @post !is_valid
+    constexpr basic_callable_ref() noexcept = default;
+
+    /// @brief Move constructor.
+    constexpr basic_callable_ref(basic_callable_ref&& temp) noexcept
+      : _data{std::exchange(temp._data, nullptr)}
+      , _func{std::exchange(temp._func, nullptr)} {}
+
+    /// @brief Copy constructor.
+    constexpr basic_callable_ref(const basic_callable_ref&) noexcept = default;
+
+    /// @brief Move assignment operator.
+    constexpr auto operator=(basic_callable_ref&& temp) noexcept
+      -> basic_callable_ref& {
+        std::swap(temp._data, _data);
+        std::swap(temp._func, _func);
+        return *this;
+    }
+
+    /// @brief Copy assignment operator.
+    constexpr auto operator=(const basic_callable_ref&) noexcept
+      -> basic_callable_ref& = default;
+
+    ~basic_callable_ref() noexcept = default;
+
+    /// @brief Construction from a pointer to function.
+    basic_callable_ref(RV (*func)(P...) noexcept(NE)) noexcept
+      : _func{reinterpret_cast<_func_t>(func)} {}
+
+    /// @brief Construction from pointers to an object and a function.
+    template <typename T>
+    basic_callable_ref(T* data, RV (*func)(T*, P...) noexcept(NE)) noexcept
+      : _data{static_cast<void*>(data)}
+      , _func{reinterpret_cast<_func_t>(func)} {
+        EAGINE_ASSERT(_data != nullptr);
+    }
+
+    /// @brief Construction from a reference to an object and a pointer to function.
+    template <typename T>
+    basic_callable_ref(T& data, RV (*func)(T*, P...) noexcept(NE)) noexcept
+      : _data(static_cast<void*>(&data))
+      , _func(reinterpret_cast<_func_t>(func)) {}
+
+    /// @brief Construction a reference to object with a call operator.
+    template <
+      typename C,
+      typename = std::enable_if_t<!std::is_same_v<C, basic_callable_ref>>>
+    basic_callable_ref(construct_from_t, C& obj) noexcept
+      : _data(static_cast<void*>(&obj))
+      , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op<C>)) {}
+
+    /// @brief Construction a const reference to object with a call operator.
+    template <
+      typename C,
+      typename = std::enable_if_t<!std::is_same_v<C, basic_callable_ref>>>
+    basic_callable_ref(construct_from_t, const C& obj) noexcept
+      : _data(static_cast<void*>(const_cast<C*>(&obj)))
+      , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op_c<C>)) {}
+
+    /// @brief Construction a pointer to object and member function constant.
+    template <typename C, RV (C::*Ptr)(P...) noexcept(NE)>
+    basic_callable_ref(
+      C* obj,
+      member_function_constant<RV (C::*)(P...) noexcept(NE), Ptr> mfc) noexcept
+      : _data(static_cast<void*>(obj))
+      , _func(reinterpret_cast<_func_t>(mfc.make_free())) {
+        EAGINE_ASSERT(_data != nullptr);
+        EAGINE_ASSERT(_func != nullptr);
+    }
+
+    /// @brief Construction a pointer to const object and member function constant.
+    template <typename C, RV (C::*Ptr)(P...) const noexcept(NE)>
+    basic_callable_ref(
+      const C* obj,
+      member_function_constant<RV (C::*)(P...) const noexcept(NE), Ptr>
+        mfc) noexcept
+      : _data(static_cast<void*>(const_cast<C*>(obj)))
+      , _func(reinterpret_cast<_func_t>(mfc.make_free())) {
+        EAGINE_ASSERT(_data != nullptr);
+        EAGINE_ASSERT(_func != nullptr);
+    }
+
+    /// @brief Indicates if this object stores a valid callable reference.
+    constexpr auto is_valid() const noexcept {
+        return _func != nullptr;
+    }
+
+    /// @brief Indicates if this object stores a valid callable reference.
+    /// @see is_valid
+    explicit constexpr operator bool() const noexcept {
+        return is_valid();
+    }
+
+    /// @brief Call operator.
+    /// @pre is_valid()
+    template <typename... A>
+    auto operator()(A&&... a) const -> RV {
+        EAGINE_ASSERT(is_valid());
+        if(_data == nullptr) {
+            return (reinterpret_cast<_func_pt>(_func))(std::forward<A>(a)...);
+        } else {
+            return (reinterpret_cast<_func_vpt>(_func))(
+              _data, std::forward<A>(a)...);
+        }
+    }
+
 private:
     void* _data{nullptr};
     void (*_func)() noexcept(NE){nullptr};
@@ -55,106 +183,12 @@ private:
             return obj(std::forward<P>(p)...);
         }
     }
-
-public:
-    using argument_tuple_type =
-      std::tuple<std::remove_cv_t<std::remove_reference_t<P>>...>;
-
-    static auto argument_tuple() noexcept {
-        return argument_tuple_type{};
-    }
-
-    constexpr callable_ref_impl() noexcept = default;
-
-    constexpr callable_ref_impl(callable_ref_impl&& temp) noexcept
-      : _data{std::exchange(temp._data, nullptr)}
-      , _func{std::exchange(temp._func, nullptr)} {}
-
-    constexpr callable_ref_impl(const callable_ref_impl&) noexcept = default;
-
-    constexpr auto operator=(callable_ref_impl&& temp) noexcept
-      -> callable_ref_impl& {
-        std::swap(temp._data, _data);
-        std::swap(temp._func, _func);
-        return *this;
-    }
-    constexpr auto operator=(const callable_ref_impl&) noexcept
-      -> callable_ref_impl& = default;
-
-    ~callable_ref_impl() noexcept = default;
-
-    callable_ref_impl(RV (*func)(P...) noexcept(NE)) noexcept
-      : _func(reinterpret_cast<_func_t>(func)) {}
-
-    template <typename T>
-    callable_ref_impl(T* data, RV (*func)(T*, P...) noexcept(NE)) noexcept
-      : _data(static_cast<void*>(data))
-      , _func(reinterpret_cast<_func_t>(func)) {
-        EAGINE_ASSERT(_data != nullptr);
-    }
-
-    template <typename T>
-    callable_ref_impl(T& data, RV (*func)(T*, P...) noexcept(NE)) noexcept
-      : _data(static_cast<void*>(&data))
-      , _func(reinterpret_cast<_func_t>(func)) {}
-
-    template <
-      typename C,
-      typename = std::enable_if_t<!std::is_same_v<C, callable_ref_impl>>>
-    callable_ref_impl(construct_from_t, C& obj) noexcept
-      : _data(static_cast<void*>(&obj))
-      , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op<C>)) {}
-
-    template <
-      typename C,
-      typename = std::enable_if_t<!std::is_same_v<C, callable_ref_impl>>>
-    callable_ref_impl(construct_from_t, const C& obj) noexcept
-      : _data(static_cast<void*>(const_cast<C*>(&obj)))
-      , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op_c<C>)) {}
-
-    template <typename C, RV (C::*Ptr)(P...) noexcept(NE)>
-    callable_ref_impl(
-      C* obj,
-      member_function_constant<RV (C::*)(P...) noexcept(NE), Ptr> mfc) noexcept
-      : _data(static_cast<void*>(obj))
-      , _func(reinterpret_cast<_func_t>(mfc.make_free())) {
-        EAGINE_ASSERT(_data != nullptr);
-        EAGINE_ASSERT(_func != nullptr);
-    }
-
-    template <typename C, RV (C::*Ptr)(P...) const noexcept(NE)>
-    callable_ref_impl(
-      const C* obj,
-      member_function_constant<RV (C::*)(P...) const noexcept(NE), Ptr>
-        mfc) noexcept
-      : _data(static_cast<void*>(const_cast<C*>(obj)))
-      , _func(reinterpret_cast<_func_t>(mfc.make_free())) {
-        EAGINE_ASSERT(_data != nullptr);
-        EAGINE_ASSERT(_func != nullptr);
-    }
-
-    constexpr auto is_valid() const noexcept {
-        return _func != nullptr;
-    }
-
-    explicit constexpr operator bool() const noexcept {
-        return is_valid();
-    }
-
-    template <typename... A>
-    auto operator()(A&&... a) const -> RV {
-        EAGINE_ASSERT(is_valid());
-        if(_data == nullptr) {
-            return (reinterpret_cast<_func_pt>(_func))(std::forward<A>(a)...);
-        } else {
-            return (reinterpret_cast<_func_vpt>(_func))(
-              _data, std::forward<A>(a)...);
-        }
-    }
 };
 
+/// @brief Alias for callable object references.
+/// @ingroup functional
 template <typename Sig>
-using callable_ref = callable_ref_impl<Sig, is_noexcept_function_v<Sig>>;
+using callable_ref = basic_callable_ref<Sig, is_noexcept_function_v<Sig>>;
 
 } // namespace eagine
 

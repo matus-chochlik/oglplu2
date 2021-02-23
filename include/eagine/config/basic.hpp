@@ -13,10 +13,19 @@
 #endif
 
 #ifndef EAGINE_LOW_PROFILE
+/// @brief Enables or disables "low-profile" mode.
+/// @ingroup build_config
+///
+/// In low-profile mode some of the expensive checks and features, used mostly
+/// for debugging and development, are disabled. This typically results in
+/// better run-time performance and may shorten the build times at the expense
+/// of losing some information useful for checking the code.
 #define EAGINE_LOW_PROFILE 0
 #endif
 
 #ifndef EAGINE_DEBUG
+/// @brief Enables or disables debugging helper utilities.
+/// @ingroup build_config
 #define EAGINE_DEBUG 1
 #endif
 

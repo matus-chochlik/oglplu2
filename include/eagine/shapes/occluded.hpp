@@ -16,6 +16,9 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Generator modifier calculating vertex occlusion weights.
+/// @ingroup shapes
+/// @see occlude
 class occluded_gen : public delegated_gen {
 
 public:
@@ -31,6 +34,8 @@ private:
     span_size_t _samples{64};
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of occluded_gen modifier.
+/// @ingroup shapes
 static inline auto occlude(
   std::unique_ptr<generator_intf>&& gen,
   span_size_t samples = 8) noexcept {

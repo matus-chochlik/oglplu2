@@ -33,41 +33,6 @@ public:
     template <typename X, typename T = void>
     using enable_if_compatible_t = std::enable_if_t<is_compatible_v<X>, T>;
 
-private:
-    byte_allocator* _pballoc = nullptr;
-
-    template <typename X>
-    static auto _get_new(X&& that) noexcept
-      -> enable_if_compatible_t<X, byte_allocator*> {
-        try {
-            return that.accomodate_self();
-        } catch(std::bad_alloc&) {
-        }
-        return nullptr;
-    }
-
-    void _cleanup() noexcept {
-        if(_pballoc) {
-            if(_pballoc->release()) {
-                _pballoc->eject_self();
-            }
-        }
-    }
-
-    auto _release() noexcept -> byte_allocator* {
-        byte_allocator* result = _pballoc;
-        _pballoc = nullptr;
-        return result;
-    }
-
-    auto _copy() const noexcept -> byte_allocator* {
-        return _pballoc ? _pballoc->duplicate() : nullptr;
-    }
-
-    explicit basic_shared_byte_alloc(byte_allocator* pballoc) noexcept
-      : _pballoc(pballoc) {}
-
-public:
     basic_shared_byte_alloc() noexcept
       : basic_shared_byte_alloc(nullptr) {}
 
@@ -171,6 +136,40 @@ public:
         }
         return *pa;
     }
+
+private:
+    byte_allocator* _pballoc{nullptr};
+
+    template <typename X>
+    static auto _get_new(X&& that) noexcept
+      -> enable_if_compatible_t<X, byte_allocator*> {
+        try {
+            return that.accomodate_self();
+        } catch(std::bad_alloc&) {
+        }
+        return nullptr;
+    }
+
+    void _cleanup() noexcept {
+        if(_pballoc) {
+            if(_pballoc->release()) {
+                _pballoc->eject_self();
+            }
+        }
+    }
+
+    auto _release() noexcept -> byte_allocator* {
+        byte_allocator* result = _pballoc;
+        _pballoc = nullptr;
+        return result;
+    }
+
+    auto _copy() const noexcept -> byte_allocator* {
+        return _pballoc ? _pballoc->duplicate() : nullptr;
+    }
+
+    explicit basic_shared_byte_alloc(byte_allocator* pballoc) noexcept
+      : _pballoc{pballoc} {}
 };
 
 using shared_byte_allocator = basic_shared_byte_alloc<nothing_t>;

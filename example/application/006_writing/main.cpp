@@ -1,4 +1,4 @@
-/// @file
+/// @example application/006_writing/main.cpp
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

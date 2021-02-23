@@ -33,13 +33,6 @@ namespace eagine::math {
 /// by the other control points.
 template <typename Type, typename Parameter, span_size_t Order>
 class bezier_curves {
-private:
-    static_assert(Order > 0);
-
-    std::vector<Type> _points;
-    bezier_t<Type, Parameter, Order + 1> _bezier{};
-    bool _connected;
-
 public:
     /// @brief Returns whether the curves made from points are connected.
     static auto are_connected(const std::vector<Type>& points) noexcept
@@ -239,6 +232,13 @@ public:
 
         return {std::move(new_points), false};
     }
+
+private:
+    static_assert(Order > 0);
+
+    std::vector<Type> _points;
+    bezier_t<Type, Parameter, Order + 1> _bezier{};
+    bool _connected;
 };
 
 /// @brief A closed smooth cubic Bezier spline passing through all input points.
@@ -250,6 +250,14 @@ public:
 /// the transition between the individual segments smooth.
 template <typename Type, typename Parameter>
 class cubic_bezier_loop : public bezier_curves<Type, Parameter, 3> {
+public:
+    /// @brief Creates a loop passing through the sequence of the input points.
+    template <typename P, typename S>
+    cubic_bezier_loop(
+      memory::basic_span<const Type, P, S> points,
+      Parameter r = Parameter(1) / Parameter(3))
+      : bezier_curves<Type, Parameter, 3>(_make_cpoints(points, r)) {}
+
 private:
     template <typename P, typename S>
     static auto
@@ -285,14 +293,6 @@ private:
 
         return result;
     }
-
-public:
-    /// @brief Creates a loop passing through the sequence of the input points.
-    template <typename P, typename S>
-    cubic_bezier_loop(
-      memory::basic_span<const Type, P, S> points,
-      Parameter r = Parameter(1) / Parameter(3))
-      : bezier_curves<Type, Parameter, 3>(_make_cpoints(points, r)) {}
 };
 
 } // namespace eagine::math

@@ -14,8 +14,25 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Creates an random identifier using the specified random engine.
+/// @ingroup identifiers
+/// @see identifier
+/// @see byte_to_identifier
+/// @see dec_to_identifier
 auto random_identifier(any_random_engine<std::uint32_t> engine) -> identifier;
+
+/// @brief Creates an random identifier using the specified random engine.
+/// @ingroup identifiers
+/// @see identifier
+/// @see byte_to_identifier
+/// @see dec_to_identifier
 auto random_identifier(any_random_engine<std::uint64_t> engine) -> identifier;
+
+/// @brief Creates an random identifier using a default random engine.
+/// @ingroup identifiers
+/// @see identifier
+/// @see byte_to_identifier
+/// @see dec_to_identifier
 auto random_identifier() -> identifier;
 //------------------------------------------------------------------------------
 } // namespace eagine

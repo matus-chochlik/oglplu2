@@ -28,10 +28,6 @@ public:
     /// @brief The associated byte pointer type.
     using byte_pointer = std::conditional_t<IsConst, const byte*, byte*>;
 
-private:
-    pointer _addr{nullptr};
-
-public:
     ~basic_address() noexcept = default;
 
     /// @brief Default constructor.
@@ -193,6 +189,9 @@ public:
       -> basic_address {
         return {a, -o};
     }
+
+private:
+    pointer _addr{nullptr};
 };
 //------------------------------------------------------------------------------
 /// @brief Type alias for const memory address values.

@@ -1,4 +1,4 @@
-/// @file
+/// @example application/019_scaled_cubes/resources.cpp
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

@@ -12,18 +12,28 @@
 
 namespace eagine::math {
 
-// identity
 template <typename X>
-struct identity;
+class identity;
 
 // is_matrix_constructor<identity>
 template <typename T, int R, int C, bool RM, bool V>
 struct is_matrix_constructor<identity<matrix<T, R, C, RM, V>>>
   : std::true_type {};
 
-// identity Matrix
+/// @brief Identity matrix constructor.
+/// @ingroup math
+/// @see is_matrix_constructor_v
+/// @see constructed_matrix_t
 template <typename T, int R, int C, bool RM, bool V>
-struct identity<matrix<T, R, C, RM, V>> {
+class identity<matrix<T, R, C, RM, V>> {
+public:
+    /// @brief Returns an identity matrix.
+    constexpr auto operator()() const noexcept -> matrix<T, R, C, RM, V> {
+        using _riS = _make_useq<RM ? R : C>;
+        return _identity(_riS());
+    }
+
+private:
     template <int... U>
     using _useq = std::integer_sequence<int, U...>;
 
@@ -34,11 +44,6 @@ struct identity<matrix<T, R, C, RM, V>> {
     static constexpr auto _identity(_useq<I...>) noexcept
       -> matrix<T, R, C, RM, V> {
         return {{vect::axis < T, RM ? C : R, I, V > ::apply(1)...}};
-    }
-
-    constexpr auto operator()() const noexcept -> matrix<T, R, C, RM, V> {
-        using _riS = _make_useq<RM ? R : C>;
-        return _identity(_riS());
     }
 };
 

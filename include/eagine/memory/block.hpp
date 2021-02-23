@@ -64,12 +64,6 @@ class block_owner;
 /// @see block
 /// @see block_owner
 class owned_block : public block {
-private:
-    friend class block_owner;
-
-    owned_block(block b) noexcept
-      : block(b) {}
-
 public:
     /// @brief Default constructor.
     /// @post is_empty()
@@ -101,6 +95,12 @@ public:
     ~owned_block() noexcept {
         EAGINE_ASSERT(empty());
     }
+
+private:
+    friend class block_owner;
+
+    constexpr owned_block(block b) noexcept
+      : block{b} {}
 };
 //------------------------------------------------------------------------------
 /// @brief Base class for classes that act as memory block owners.

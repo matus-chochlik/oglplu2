@@ -44,37 +44,6 @@ public:
     /// @brief The const reference type.
     using const_reference = std::add_const_t<Pointee>&;
 
-private:
-    static_assert(std::is_signed_v<offset_type>);
-
-    offset_type _offs = {0};
-    using _rawptr = typename address::pointer;
-
-    template <typename P, typename O>
-    static auto _that_addr(const basic_offset_ptr<P, O>& that) {
-        return address(_rawptr(&that));
-    }
-
-    auto _this_addr() const noexcept {
-        return _that_addr(*this);
-    }
-
-    auto _get_offs(address addr) noexcept -> offset_type {
-        return addr ? addr - _this_addr() : 0;
-    }
-
-    auto _get_offs(Pointee* ptr) noexcept {
-        return _get_offs(address(ptr));
-    }
-
-    template <typename P, typename O>
-    auto _get_offs(const basic_offset_ptr<P, O>& that) noexcept -> offset_type {
-        return that.is_null() ? offset_type(0)
-                              : limit_cast<offset_type>(that.offset()) +
-                                  _get_offs(_that_addr(that));
-    }
-
-public:
     /// @brief Default constructor.
     /// @post is_null
     constexpr basic_offset_ptr() noexcept = default;
@@ -250,6 +219,36 @@ public:
       -> const_reference {
         EAGINE_ASSERT(!is_null());
         return get()[index];
+    }
+
+private:
+    static_assert(std::is_signed_v<offset_type>);
+
+    offset_type _offs = {0};
+    using _rawptr = typename address::pointer;
+
+    template <typename P, typename O>
+    static auto _that_addr(const basic_offset_ptr<P, O>& that) {
+        return address(_rawptr(&that));
+    }
+
+    auto _this_addr() const noexcept {
+        return _that_addr(*this);
+    }
+
+    auto _get_offs(address addr) noexcept -> offset_type {
+        return addr ? addr - _this_addr() : 0;
+    }
+
+    auto _get_offs(Pointee* ptr) noexcept {
+        return _get_offs(address(ptr));
+    }
+
+    template <typename P, typename O>
+    auto _get_offs(const basic_offset_ptr<P, O>& that) noexcept -> offset_type {
+        return that.is_null() ? offset_type(0)
+                              : limit_cast<offset_type>(that.offset()) +
+                                  _get_offs(_that_addr(that));
     }
 };
 //------------------------------------------------------------------------------

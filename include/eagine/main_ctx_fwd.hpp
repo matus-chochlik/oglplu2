@@ -19,6 +19,8 @@ class main_ctx_log_backend_getter;
 class main_ctx_object;
 class main_ctx_object_parent_info;
 
+/// @brief Alias for main_ctx_object_parent_info parameter type.
+/// @ingroup main_context
 using main_ctx_parent = const main_ctx_object_parent_info&;
 
 } // namespace eagine
