@@ -18,6 +18,10 @@
 
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the constants from the GL API.
+/// @ingroup gl_api_wrap
+/// @see basic_gl_c_api
+/// @see basic_gl_operations
 template <typename ApiTraits>
 class basic_gl_constants {
 private:
@@ -93,6 +97,8 @@ public:
     template <bool_type value>
     using bool_type_c = std::integral_constant<bool_type, value>;
 
+    /// @var no_error
+    /// @glconstwrap{NO_ERROR}
     opt_c_api_constant<
       mp_list<error_code, graphics_reset_status>,
 #ifdef GL_NO_ERROR
@@ -102,6 +108,8 @@ public:
 #endif
       no_error;
 
+    /// @var invalid_enum
+    /// @glconstwrap{INVALID_ENUM}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef GL_INVALID_ENUM
@@ -111,6 +119,8 @@ public:
 #endif
       invalid_enum;
 
+    /// @var invalid_value
+    /// @glconstwrap{INVALID_VALUE}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef GL_INVALID_VALUE
@@ -120,6 +130,8 @@ public:
 #endif
       invalid_value;
 
+    /// @var invalid_operation
+    /// @glconstwrap{INVALID_OPERATION}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef GL_INVALID_OPERATION
@@ -129,6 +141,8 @@ public:
 #endif
       invalid_operation;
 
+    /// @var invalid_framebuffer_operation
+    /// @glconstwrap{INVALID_FRAMEBUFFER_OPERATION}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef GL_INVALID_FRAMEBUFFER_OPERATION
@@ -138,6 +152,8 @@ public:
 #endif
       invalid_framebuffer_operation;
 
+    /// @var stack_overflow
+    /// @glconstwrap{STACK_OVERFLOW}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef GL_STACK_OVERFLOW
@@ -147,6 +163,8 @@ public:
 #endif
       stack_overflow;
 
+    /// @var stack_underflow
+    /// @glconstwrap{STACK_UNDERFLOW}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef GL_STACK_UNDERFLOW
@@ -156,6 +174,8 @@ public:
 #endif
       stack_underflow;
 
+    /// @var table_too_large
+    /// @glconstwrap{TABLE_TOO_LARGE}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef GL_TABLE_TOO_LARGE
@@ -165,6 +185,8 @@ public:
 #endif
       table_too_large;
 
+    /// @var context_lost
+    /// @glconstwrap{CONTEXT_LOST}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef GL_CONTEXT_LOST
@@ -174,6 +196,8 @@ public:
 #endif
       context_lost;
 
+    /// @var out_of_memory
+    /// @glconstwrap{OUT_OF_MEMORY}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef GL_OUT_OF_MEMORY
@@ -183,6 +207,8 @@ public:
 #endif
       out_of_memory;
 
+    /// @var true_
+    /// @glconstwrap{TRUE}
     opt_c_api_constant<
       mp_list<oglp::true_false>,
 #ifdef GL_TRUE
@@ -192,6 +218,8 @@ public:
 #endif
       true_;
 
+    /// @var false_
+    /// @glconstwrap{FALSE}
     opt_c_api_constant<
       mp_list<oglp::true_false>,
 #ifdef GL_FALSE
@@ -201,6 +229,8 @@ public:
 #endif
       false_;
 
+    /// @var context_flag_forward_compatible_bit
+    /// @glconstwrap{CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT}
     opt_c_api_constant<
       mp_list<context_flag_bit>,
 #ifdef GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT
@@ -210,6 +240,8 @@ public:
 #endif
       context_flag_forward_compatible_bit;
 
+    /// @var context_flag_debug_bit
+    /// @glconstwrap{CONTEXT_FLAG_FORWARD_DEBUG_BIT}
     opt_c_api_constant<
       mp_list<context_flag_bit>,
 #ifdef GL_CONTEXT_FLAG_DEBUG_BIT
@@ -219,6 +251,8 @@ public:
 #endif
       context_flag_debug_bit;
 
+    /// @var context_flag_robust_access_bit
+    /// @glconstwrap{CONTEXT_FLAG_ROBUST_ACCESS_BIT}
     opt_c_api_constant<
       mp_list<context_flag_bit>,
 #ifdef GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT
@@ -228,6 +262,8 @@ public:
 #endif
       context_flag_robust_access_bit;
 
+    /// @var context_flag_no_error_bit
+    /// @glconstwrap{CONTEXT_FLAG_NO_ERROR_BIT}
     opt_c_api_constant<
       mp_list<context_flag_bit>,
 #ifdef GL_CONTEXT_FLAG_NO_ERROR_BIT
@@ -237,6 +273,8 @@ public:
 #endif
       context_flag_no_error_bit;
 
+    /// @var context_core_profile_bit
+    /// @glconstwrap{CONTEXT_CORE_PROFILE_BIT}
     opt_c_api_constant<
       mp_list<context_profile_bit>,
 #ifdef GL_CONTEXT_CORE_PROFILE_BIT
@@ -246,6 +284,8 @@ public:
 #endif
       context_core_profile_bit;
 
+    /// @var context_compatibility_profile_bit
+    /// @glconstwrap{CONTEXT_COMPATIBILITY_PROFILE_BIT}
     opt_c_api_constant<
       mp_list<context_profile_bit>,
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
@@ -255,6 +295,8 @@ public:
 #endif
       context_compatibility_profile_bit;
 
+    /// @var no_reset_notification
+    /// @glconstwrap{NO_RESET_NOTIFICATION}
     opt_c_api_constant<
       mp_list<oglp::reset_notification_strategy>,
 #ifdef GL_NO_RESET_NOTIFICATION
@@ -264,6 +306,8 @@ public:
 #endif
       no_reset_notification;
 
+    /// @var lose_context_on_reset
+    /// @glconstwrap{LOSE_CONTEXT_ON_RESET}
     opt_c_api_constant<
       mp_list<oglp::reset_notification_strategy>,
 #ifdef GL_LOSE_CONTEXT_ON_RESET
@@ -273,6 +317,8 @@ public:
 #endif
       lose_context_on_reset;
 
+    /// @var context_release_behavior_flush
+    /// @glconstwrap{CONTEXT_RELEASE_BEHAVIOR_FLUSH}
     opt_c_api_constant<
       mp_list<context_release_behavior>,
 #ifdef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
@@ -282,6 +328,8 @@ public:
 #endif
       context_release_behavior_flush;
 
+    /// @var guilty_context_reset
+    /// @glconstwrap{GUILTY_CONTEXT_RESET}
     opt_c_api_constant<
       mp_list<graphics_reset_status>,
 #ifdef GL_GUILTY_CONTEXT_RESET
@@ -291,6 +339,8 @@ public:
 #endif
       guilty_context_reset;
 
+    /// @var innocent_context_reset
+    /// @glconstwrap{INNOCENT_CONTEXT_RESET}
     opt_c_api_constant<
       mp_list<graphics_reset_status>,
 #ifdef GL_INNOCENT_CONTEXT_RESET
@@ -300,6 +350,8 @@ public:
 #endif
       innocent_context_reset;
 
+    /// @var graphics_reset_status
+    /// @glconstwrap{GRAPHICS_RESET_STATUS}
     opt_c_api_constant<
       mp_list<graphics_reset_status>,
 #ifdef GL_UNKNOWN_CONTEXT_RESET
@@ -309,6 +361,8 @@ public:
 #endif
       unknown_context_reset;
 
+    /// @var vertex_attrib_array_barrier_bit
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
@@ -318,6 +372,8 @@ public:
 #endif
       vertex_attrib_array_barrier_bit;
 
+    /// @var element_array_barrier_bit
+    /// @glconstwrap{ELEMENT_ARRAY_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
@@ -327,6 +383,8 @@ public:
 #endif
       element_array_barrier_bit;
 
+    /// @var uniform_barrier_bit
+    /// @glconstwrap{UNIFORM_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_UNIFORM_BARRIER_BIT
@@ -336,6 +394,8 @@ public:
 #endif
       uniform_barrier_bit;
 
+    /// @var texture_fetch_barrier_bit
+    /// @glconstwrap{TEXTURE_FETCH_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_TEXTURE_FETCH_BARRIER_BIT
@@ -345,6 +405,8 @@ public:
 #endif
       texture_fetch_barrier_bit;
 
+    /// @var shader_image_access_barrier_bit
+    /// @glconstwrap{SHADER_IMAGE_ACCESS_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
@@ -354,6 +416,8 @@ public:
 #endif
       shader_image_access_barrier_bit;
 
+    /// @var command_barrier_bit
+    /// @glconstwrap{COMMAND_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_COMMAND_BARRIER_BIT
@@ -363,6 +427,8 @@ public:
 #endif
       command_barrier_bit;
 
+    /// @var pixel_buffer_barrier_bit
+    /// @glconstwrap{PIXEL_BUFFER_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_PIXEL_BUFFER_BARRIER_BIT
@@ -372,6 +438,8 @@ public:
 #endif
       pixel_buffer_barrier_bit;
 
+    /// @var texture_update_barrier_bit
+    /// @glconstwrap{TEXTURE_UPDATE_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_TEXTURE_UPDATE_BARRIER_BIT
@@ -381,6 +449,8 @@ public:
 #endif
       texture_update_barrier_bit;
 
+    /// @var buffer_update_barrier_bit
+    /// @glconstwrap{BUFFER_UPDATE_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_BUFFER_UPDATE_BARRIER_BIT
@@ -390,6 +460,8 @@ public:
 #endif
       buffer_update_barrier_bit;
 
+    /// @var client_mapped_buffer_barrier_bit
+    /// @glconstwrap{CLIENT_MAPPED_BUFFER_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT
@@ -399,6 +471,8 @@ public:
 #endif
       client_mapped_buffer_barrier_bit;
 
+    /// @var query_buffer_barrier_bit
+    /// @glconstwrap{QUERY_BUFFER_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_QUERY_BUFFER_BARRIER_BIT
@@ -408,6 +482,8 @@ public:
 #endif
       query_buffer_barrier_bit;
 
+    /// @var framebuffer_barrier_bit
+    /// @glconstwrap{FRAMEBUFFER_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_FRAMEBUFFER_BARRIER_BIT
@@ -417,6 +493,8 @@ public:
 #endif
       framebuffer_barrier_bit;
 
+    /// @var transform_feedback_barrier_bit
+    /// @glconstwrap{TRANSFORM_FEEDBACK_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
@@ -426,6 +504,8 @@ public:
 #endif
       transform_feedback_barrier_bit;
 
+    /// @var atomic_counter_barrier_bit
+    /// @glconstwrap{ATOMIC_COUNTER_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_ATOMIC_COUNTER_BARRIER_BIT
@@ -435,6 +515,8 @@ public:
 #endif
       atomic_counter_barrier_bit;
 
+    /// @var shader_storage_barrier_bit
+    /// @glconstwrap{SHADER_STORAGE_BARRIER_BIT}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_SHADER_STORAGE_BARRIER_BIT
@@ -444,6 +526,8 @@ public:
 #endif
       shader_storage_barrier_bit;
 
+    /// @var all_barrier_bits
+    /// @glconstwrap{ALL_BARRIER_BITS}
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_ALL_BARRIER_BITS

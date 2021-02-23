@@ -60,3 +60,4 @@ WARNINGS                = YES
 WARN_IF_UNDOCUMENTED    = NO
 WARN_NO_PARAMDOC        = NO
 
+ALIASES                += glconstwrap{1}="Wrapper for <code>GL_\1</code>"

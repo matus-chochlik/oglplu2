@@ -23,6 +23,10 @@ namespace eagine::oglp {
 //------------------------------------------------------------------------------
 #define OGLPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the functions from the GL API.
+/// @ingroup gl_api_wrap
+/// @see basic_gl_constants
+/// @see basic_gl_c_api
 template <typename ApiTraits>
 class basic_gl_operations : public basic_gl_c_api<ApiTraits> {
 

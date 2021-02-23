@@ -27,6 +27,10 @@
 
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the C-functions from the GL API.
+/// @ingroup gl_api_wrap
+/// @see basic_gl_constants
+/// @see basic_gl_operations
 template <typename ApiTraits>
 class basic_gl_c_api {
 public:
