@@ -537,6 +537,8 @@ public:
 #endif
       all_barrier_bits;
 
+    /// @var read_only
+    /// @glconstwrap{READ_ONLY}
     opt_c_api_constant<
       mp_list<access_specifier>,
 #ifdef GL_READ_ONLY
@@ -546,6 +548,8 @@ public:
 #endif
       read_only;
 
+    /// @var write_only
+    /// @glconstwrap{WRITE_ONLY}
     opt_c_api_constant<
       mp_list<access_specifier>,
 #ifdef GL_WRITE_ONLY
@@ -555,6 +559,8 @@ public:
 #endif
       write_only;
 
+    /// @var read_Write
+    /// @glconstwrap{READ_WRITE}
     opt_c_api_constant<
       mp_list<access_specifier>,
 #ifdef GL_READ_WRITE
@@ -564,6 +570,8 @@ public:
 #endif
       read_write;
 
+    /// @var low_float
+    /// @glconstwrap{LOW_FLOAT}
     opt_c_api_constant<
       mp_list<precision_type>,
 #ifdef GL_LOW_FLOAT
@@ -573,6 +581,8 @@ public:
 #endif
       low_float;
 
+    /// @var medium_float
+    /// @glconstwrap{MEDIUM_FLOAT}
     opt_c_api_constant<
       mp_list<precision_type>,
 #ifdef GL_MEDIUM_FLOAT
@@ -582,6 +592,8 @@ public:
 #endif
       medium_float;
 
+    /// @var high_float
+    /// @glconstwrap{HIGH_FLOAT}
     opt_c_api_constant<
       mp_list<precision_type>,
 #ifdef GL_HIGH_FLOAT
@@ -591,6 +603,8 @@ public:
 #endif
       high_float;
 
+    /// @var low_int
+    /// @glconstwrap{LOW_INT}
     opt_c_api_constant<
       mp_list<precision_type>,
 #ifdef GL_LOW_INT
@@ -600,6 +614,8 @@ public:
 #endif
       low_int;
 
+    /// @var medium_int
+    /// @glconstwrap{MEDIUM_INT}
     opt_c_api_constant<
       mp_list<precision_type>,
 #ifdef GL_MEDIUM_INT
@@ -609,6 +625,8 @@ public:
 #endif
       medium_int;
 
+    /// @var high_int
+    /// @glconstwrap{HIGH_INT}
     opt_c_api_constant<
       mp_list<precision_type>,
 #ifdef GL_HIGH_INT
@@ -618,6 +636,8 @@ public:
 #endif
       high_int;
 
+    /// @var buffer
+    /// @glconstwrap{BUFFER}
     opt_c_api_constant<
       mp_list<oglp::object_type>,
 #ifdef GL_BUFFER
@@ -627,6 +647,8 @@ public:
 #endif
       buffer;
 
+    /// @var framebuffer
+    /// @glconstwrap{FRAMEBUFFER}
     opt_c_api_constant<
       mp_list<oglp::object_type>,
 #ifdef GL_FRAMEBUFFER
@@ -636,6 +658,8 @@ public:
 #endif
       framebuffer;
 
+    /// @var program_pipeline
+    /// @glconstwrap{PROGRAM_PIPELINE}
     opt_c_api_constant<
       mp_list<oglp::object_type>,
 #ifdef GL_PROGRAM_PIPELINE
@@ -645,6 +669,8 @@ public:
 #endif
       program_pipeline;
 
+    /// @var program
+    /// @glconstwrap{PROGRAM}
     opt_c_api_constant<
       mp_list<oglp::object_type>,
 #ifdef GL_PROGRAM
@@ -654,6 +680,8 @@ public:
 #endif
       program;
 
+    /// @var query
+    /// @glconstwrap{QUERY}
     opt_c_api_constant<
       mp_list<oglp::object_type>,
 #ifdef GL_QUERY
@@ -663,6 +691,8 @@ public:
 #endif
       query;
 
+    /// @var renderbuffer
+    /// @glconstwrap{RENDERBUFFER}
     opt_c_api_constant<
       mp_list<oglp::object_type, renderbuffer_target>,
 #ifdef GL_RENDERBUFFER
@@ -672,6 +702,8 @@ public:
 #endif
       renderbuffer;
 
+    /// @var sampler
+    /// @glconstwrap{SAMPLER}
     opt_c_api_constant<
       mp_list<oglp::object_type>,
 #ifdef GL_SAMPLER
@@ -681,6 +713,8 @@ public:
 #endif
       sampler;
 
+    /// @var shader
+    /// @glconstwrap{SHADER}
     opt_c_api_constant<
       mp_list<oglp::object_type>,
 #ifdef GL_SHADER
@@ -690,6 +724,8 @@ public:
 #endif
       shader;
 
+    /// @var texture
+    /// @glconstwrap{TEXTURE}
     opt_c_api_constant<
       mp_list<oglp::object_type, matrix_mode>,
 #ifdef GL_TEXTURE
@@ -699,6 +735,8 @@ public:
 #endif
       texture;
 
+    /// @var transform_feedback
+    /// @glconstwrap{TRANSFORM_FEEDBACK}
     opt_c_api_constant<
       mp_list<oglp::object_type, transform_feedback_target>,
 #ifdef GL_TRANSFORM_FEEDBACK
@@ -708,6 +746,8 @@ public:
 #endif
       transform_feedback;
 
+    /// @var vertex_array
+    /// @glconstwrap{VERTEX_ARRAY}
     opt_c_api_constant<
       mp_list<oglp::object_type, client_capability>,
 #ifdef GL_VERTEX_ARRAY
@@ -717,6 +757,8 @@ public:
 #endif
       vertex_array;
 
+    /// @var vertex_shader
+    /// @glconstwrap{VERTEX_SHADER}
     opt_c_api_constant<
       mp_list<oglp::shader_type, program_pipeline_parameter>,
 #ifdef GL_VERTEX_SHADER
@@ -726,6 +768,8 @@ public:
 #endif
       vertex_shader;
 
+    /// @var tess_control_shader
+    /// @glconstwrap{TESS_CONTROL_SHADER}
     opt_c_api_constant<
       mp_list<oglp::shader_type, program_pipeline_parameter>,
 #ifdef GL_TESS_CONTROL_SHADER
@@ -735,6 +779,8 @@ public:
 #endif
       tess_control_shader;
 
+    /// @var tess_evaluation_shader
+    /// @glconstwrap{TESS_EVALUATION_SHADER}
     opt_c_api_constant<
       mp_list<oglp::shader_type, program_pipeline_parameter>,
 #ifdef GL_TESS_EVALUATION_SHADER
@@ -744,6 +790,8 @@ public:
 #endif
       tess_evaluation_shader;
 
+    /// @var geometry_shader
+    /// @glconstwrap{GEOMETRY_SHADER}
     opt_c_api_constant<
       mp_list<oglp::shader_type, program_pipeline_parameter>,
 #ifdef GL_GEOMETRY_SHADER
@@ -753,6 +801,8 @@ public:
 #endif
       geometry_shader;
 
+    /// @var fragment_shader
+    /// @glconstwrap{FRAGMENT_SHADER}
     opt_c_api_constant<
       mp_list<oglp::shader_type, program_pipeline_parameter>,
 #ifdef GL_FRAGMENT_SHADER
@@ -762,6 +812,8 @@ public:
 #endif
       fragment_shader;
 
+    /// @var compute_shader
+    /// @glconstwrap{COMPUTE_SHADER}
     opt_c_api_constant<
       mp_list<oglp::shader_type>,
 #ifdef GL_COMPUTE_SHADER
@@ -771,7 +823,8 @@ public:
 #endif
       compute_shader;
 
-    // named string type
+    /// @var shader_include
+    /// @glconstwrap{SHADER_INCLUDE}
     opt_c_api_constant<
       mp_list<named_string_kind>,
 #ifdef GL_SHADER_INCLUDE_ARB
@@ -781,6 +834,8 @@ public:
 #endif
       shader_include;
 
+    /// @var sync_fence
+    /// @glconstwrap{SYNC_FENCE}
     opt_c_api_constant<
       mp_list<sync_type>,
 #ifdef GL_SYNC_FENCE
@@ -790,6 +845,8 @@ public:
 #endif
       sync_fence;
 
+    /// @var sync_gpu_commands_complete
+    /// @glconstwrap{SYNC_GPU_COMMANDS_COMPLETE}
     opt_c_api_constant<
       mp_list<oglp::sync_condition, sync_parameter>,
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
@@ -799,6 +856,8 @@ public:
 #endif
       sync_gpu_commands_complete;
 
+    /// @var signaled
+    /// @glconstwrap{SIGNALED}
     opt_c_api_constant<
       mp_list<oglp::sync_status>,
 #ifdef GL_SIGNALED
@@ -808,6 +867,8 @@ public:
 #endif
       signaled;
 
+    /// @var unsignaled
+    /// @glconstwrap{UNSIGNALED}
     opt_c_api_constant<
       mp_list<oglp::sync_status>,
 #ifdef GL_UNSIGNALED
@@ -817,6 +878,8 @@ public:
 #endif
       unsignaled;
 
+    /// @var object_type
+    /// @glconstwrap{OBJECT_TYPE}
     opt_c_api_constant<
       mp_list<sync_parameter>,
 #ifdef GL_OBJECT_TYPE
@@ -826,6 +889,8 @@ public:
 #endif
       object_type;
 
+    /// @var sync_status
+    /// @glconstwrap{SYNC_STATUS}
     opt_c_api_constant<
       mp_list<sync_parameter>,
 #ifdef GL_SYNC_STATUS
@@ -835,6 +900,8 @@ public:
 #endif
       sync_status;
 
+    /// @var sync_condition
+    /// @glconstwrap{SYNC_CONDITION}
     opt_c_api_constant<
       mp_list<sync_parameter>,
 #ifdef GL_SYNC_CONDITION
@@ -844,6 +911,8 @@ public:
 #endif
       sync_condition;
 
+    /// @var sync_wait_result
+    /// @glconstwrap{SYNC_WAIT_RESULT}
     opt_c_api_constant<
       mp_list<sync_wait_result>,
 #ifdef GL_CONDITION_SATISFIED
@@ -853,6 +922,8 @@ public:
 #endif
       condition_satisfied;
 
+    /// @var already_signaled
+    /// @glconstwrap{ALREADY_SIGNALED}
     opt_c_api_constant<
       mp_list<sync_wait_result>,
 #ifdef GL_ALREADY_SIGNALED
@@ -862,6 +933,8 @@ public:
 #endif
       already_signaled;
 
+    /// @var timeout_expired
+    /// @glconstwrap{TIMEOUT_EXPIRED}
     opt_c_api_constant<
       mp_list<sync_wait_result>,
 #ifdef GL_TIMEOUT_EXPIRED
@@ -871,6 +944,8 @@ public:
 #endif
       timeout_expired;
 
+    /// @var wait_failed
+    /// @glconstwrap{WAIT_FAILED}
     opt_c_api_constant<
       mp_list<sync_wait_result>,
 #ifdef GL_WAIT_FAILED
@@ -880,6 +955,8 @@ public:
 #endif
       wait_failed;
 
+    /// @var shader_type
+    /// @glconstwrap{SHADER_TYPE}
     opt_c_api_constant<
       mp_list<shader_parameter>,
 #ifdef GL_SHADER_TYPE
@@ -890,6 +967,8 @@ public:
       oglp::shader_type>
       shader_type;
 
+    /// @var compute_shader_bit
+    /// @glconstwrap{COMPUTE_SHADER_BIT}
     opt_c_api_constant<
       mp_list<program_stage_bit>,
 #ifdef GL_COMPUTE_SHADER_BIT
@@ -899,6 +978,8 @@ public:
 #endif
       compute_shader_bit;
 
+    /// @var vertex_shader_bit
+    /// @glconstwrap{VERTEX_SHADER_BIT}
     opt_c_api_constant<
       mp_list<program_stage_bit>,
 #ifdef GL_VERTEX_SHADER_BIT
@@ -908,6 +989,8 @@ public:
 #endif
       vertex_shader_bit;
 
+    /// @var tess_control_shader_bit
+    /// @glconstwrap{TESS_CONTROL_SHADER_BIT}
     opt_c_api_constant<
       mp_list<program_stage_bit>,
 #ifdef GL_TESS_CONTROL_SHADER_BIT
@@ -917,6 +1000,8 @@ public:
 #endif
       tess_control_shader_bit;
 
+    /// @var tess_evaluation_shader_bit
+    /// @glconstwrap{TESS_EVALUATION_SHADER_BIT}
     opt_c_api_constant<
       mp_list<program_stage_bit>,
 #ifdef GL_TESS_EVALUATION_SHADER_BIT
@@ -926,6 +1011,8 @@ public:
 #endif
       tess_evaluation_shader_bit;
 
+    /// @var geometry_shader_bit
+    /// @glconstwrap{GEOMETRY_SHADER_BIT}
     opt_c_api_constant<
       mp_list<program_stage_bit>,
 #ifdef GL_GEOMETRY_SHADER_BIT
@@ -935,6 +1022,8 @@ public:
 #endif
       geometry_shader_bit;
 
+    /// @var fragment_shader_bit
+    /// @glconstwrap{FRAGMENT_SHADER_BIT}
     opt_c_api_constant<
       mp_list<program_stage_bit>,
 #ifdef GL_FRAGMENT_SHADER_BIT
@@ -944,6 +1033,8 @@ public:
 #endif
       fragment_shader_bit;
 
+    /// @var all_shader_bits
+    /// @glconstwrap{ALL_SHADER_BITS}
     opt_c_api_constant<
       mp_list<program_stage_bit>,
 #ifdef GL_ALL_SHADER_BITS
@@ -953,6 +1044,8 @@ public:
 #endif
       all_shader_bits;
 
+    /// @var active_subroutine_uniforms
+    /// @glconstwrap{ACTIVE_SUBROUTINE_UNIFORMS}
     opt_c_api_constant<
       mp_list<program_stage_parameter>,
 #ifdef GL_ACTIVE_SUBROUTINE_UNIFORMS
@@ -962,6 +1055,8 @@ public:
 #endif
       active_subroutine_uniforms;
 
+    /// @var active_subroutine_uniform_locations
+    /// @glconstwrap{ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS}
     opt_c_api_constant<
       mp_list<program_stage_parameter>,
 #ifdef GL_ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS
@@ -971,6 +1066,8 @@ public:
 #endif
       active_subroutine_uniform_locations;
 
+    /// @var active_subroutines
+    /// @glconstwrap{ACTIVE_SUBROUTINES}
     opt_c_api_constant<
       mp_list<program_stage_parameter>,
 #ifdef GL_ACTIVE_SUBROUTINES
@@ -980,6 +1077,8 @@ public:
 #endif
       active_subroutines;
 
+    /// @var active_subroutine_uniform_max_length
+    /// @glconstwrap{ACTIVE_SUBROUTINE_UNIFORM_MAX_LENGTH}
     opt_c_api_constant<
       mp_list<program_stage_parameter>,
 #ifdef GL_ACTIVE_SUBROUTINE_UNIFORM_MAX_LENGTH
@@ -989,6 +1088,8 @@ public:
 #endif
       active_subroutine_uniform_max_length;
 
+    /// @var active_subroutine_max_length
+    /// @glconstwrap{ACTIVE_SUBROUTINE_MAX_LENGTH}
     opt_c_api_constant<
       mp_list<program_stage_parameter>,
 #ifdef GL_ACTIVE_SUBROUTINE_MAX_LENGTH
@@ -998,6 +1099,8 @@ public:
 #endif
       active_subroutine_max_length;
 
+    /// @var delete_status
+    /// @glconstwrap{DELETE_STATUS}
     opt_c_api_constant<
       mp_list<shader_parameter, program_parameter>,
 #ifdef GL_DELETE_STATUS
@@ -1008,6 +1111,8 @@ public:
       true_false>
       delete_status;
 
+    /// @var compile_status
+    /// @glconstwrap{COMPILE_STATUS}
     opt_c_api_constant<
       mp_list<shader_parameter>,
 #ifdef GL_COMPILE_STATUS
@@ -1018,6 +1123,8 @@ public:
       true_false>
       compile_status;
 
+    /// @var info_log_length
+    /// @glconstwrap{INFO_LOG_LENGTH}
     opt_c_api_constant<
       mp_list<shader_parameter, program_parameter, program_pipeline_parameter>,
 #ifdef GL_INFO_LOG_LENGTH
@@ -1027,6 +1134,8 @@ public:
 #endif
       info_log_length;
 
+    /// @var shader_source_length
+    /// @glconstwrap{SHADER_SOURCE_LENGTH}
     opt_c_api_constant<
       mp_list<shader_parameter>,
 #ifdef GL_SHADER_SOURCE_LENGTH
@@ -1036,6 +1145,8 @@ public:
 #endif
       shader_source_length;
 
+    /// @var spir_v_binary
+    /// @glconstwrap{SPIR_V_BINARY}
     opt_c_api_constant<
       mp_list<shader_parameter>,
 #ifdef GL_SPIR_V_BINARY
@@ -1046,6 +1157,8 @@ public:
       true_false>
       spir_v_binary;
 
+    /// @var program_separable
+    /// @glconstwrap{PROGRAM_SEPARABLE}
     opt_c_api_constant<
       mp_list<program_parameter>,
 #ifdef GL_PROGRAM_SEPARABLE
@@ -1056,6 +1169,8 @@ public:
       true_false>
       program_separable;
 
+    /// @var completion_status
+    /// @glconstwrap{COMPLETION_STATUS}
     opt_c_api_constant<
       mp_list<shader_parameter, program_parameter>,
 #ifdef GL_COMPLETION_STATUS_ARB
@@ -1066,6 +1181,8 @@ public:
       true_false>
       completion_status;
 
+    /// @var link_status
+    /// @glconstwrap{LINK_STATUS}
     opt_c_api_constant<
       mp_list<program_parameter>,
 #ifdef GL_LINK_STATUS
@@ -1076,6 +1193,8 @@ public:
       true_false>
       link_status;
 
+    /// @var validate_status
+    /// @glconstwrap{VALIDATE_STATUS}
     opt_c_api_constant<
       mp_list<program_parameter>,
 #ifdef GL_VALIDATE_STATUS
@@ -1086,6 +1205,8 @@ public:
       true_false>
       validate_status;
 
+    /// @var attached_shaders
+    /// @glconstwrap{ATTACHED_SHADERS}
     opt_c_api_constant<
       mp_list<program_parameter>,
 #ifdef GL_ATTACHED_SHADERS
