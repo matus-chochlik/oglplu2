@@ -8,5 +8,7 @@
 
 namespace eagine {
 /// @brief OALplus code is placed in this namespace.
-namespace oalp {}
+namespace oalp {
+/// @defgroup gl_api_wrap GL API wrappers
+}
 } // namespace eagine

@@ -93,6 +93,7 @@ MACRO_EXPANSION         = YES
 EXPAND_ONLY_PREDEF      = YES
 PREDEFINED             += "__SIZEOF_INT128__"
 PREDEFINED             += "EAGINE_HAS_LONG_ID"
+PREDEFINED             += "OGLPLUS_HAS_GL"
 
 QUIET                   = YES
 WARN_IF_DOC_ERROR       = YES

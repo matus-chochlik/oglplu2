@@ -341,6 +341,10 @@ using identifier =
 /// @see byte_to_identifier
 #define EAGINE_ID(NAME) ::eagine::identifier(#NAME)
 
+/// @brief Macro for constructing instances of eagine::identifier_t.
+/// @ingroup identifiers
+/// @see eagine::identifier
+/// @see EAGINE_ID_V
 #define EAGINE_ID_V(NAME) ::eagine::identifier(#NAME).value()
 
 /// @brief Macro for defining selector types corresponding to identifier @p NAME.
