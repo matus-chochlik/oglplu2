@@ -60,10 +60,11 @@ private:
 //------------------------------------------------------------------------------
 /// @brief Constructs instances of unit_icosahedron_gen.
 /// @ingroup shapes
-/// see unit_cube
-/// see unit_sphere
-/// see unit_torus
-/// see unit_screen
+/// @see from_value_tree
+/// @see unit_cube
+/// @see unit_sphere
+/// @see unit_torus
+/// @see unit_screen
 static inline auto unit_icosahedron(vertex_attrib_bits attr_bits) {
     return std::make_unique<unit_icosahedron_gen>(attr_bits);
 }

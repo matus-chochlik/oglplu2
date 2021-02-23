@@ -79,10 +79,11 @@ private:
 //------------------------------------------------------------------------------
 /// @brief Constructs instances of unit_sphere_gen.
 /// @ingroup shapes
-/// see unit_cube
-/// see unit_icosphere
-/// see unit_torus
-/// see unit_screen
+/// @see from_value_tree
+/// @see unit_cube
+/// @see unit_icosahedron
+/// @see unit_torus
+/// @see unit_screen
 static inline auto unit_sphere(
   vertex_attrib_bits attr_bits,
   valid_if_greater_than<int, 2> rings,
