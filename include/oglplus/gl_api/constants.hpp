@@ -3172,6 +3172,8 @@ public:
       oglp::texture_wrap_mode>
       texture_wrap_r;
 
+    /// @var clamp_to_edge
+    /// @glconstwrap{CLAMP_TO_EDGE}
     opt_c_api_constant<
       mp_list<texture_wrap_mode>,
 #ifdef GL_CLAMP_TO_EDGE
@@ -3181,6 +3183,8 @@ public:
 #endif
       clamp_to_edge;
 
+    /// @var repeat
+    /// @glconstwrap{REPEAT}
     opt_c_api_constant<
       mp_list<texture_wrap_mode>,
 #ifdef GL_REPEAT
@@ -3190,6 +3194,8 @@ public:
 #endif
       repeat;
 
+    /// @var clamp_to_border
+    /// @glconstwrap{CLAMP_TO_BORDER}
     opt_c_api_constant<
       mp_list<texture_wrap_mode>,
 #ifdef GL_CLAMP_TO_BORDER
@@ -3199,6 +3205,8 @@ public:
 #endif
       clamp_to_border;
 
+    /// @var mirrored_repeat
+    /// @glconstwrap{MIRRORED_REPEAT}
     opt_c_api_constant<
       mp_list<texture_wrap_mode>,
 #ifdef GL_MIRRORED_REPEAT
@@ -3208,6 +3216,8 @@ public:
 #endif
       mirrored_repeat;
 
+    /// @var mirror_clamp_to_edge
+    /// @glconstwrap{MIRROR_CLAMP_TO_EDGE}
     opt_c_api_constant<
       mp_list<texture_wrap_mode>,
 #ifdef GL_MIRROR_CLAMP_TO_EDGE
@@ -3217,6 +3227,8 @@ public:
 #endif
       mirror_clamp_to_edge;
 
+    /// @var red
+    /// @glconstwrap{RED}
     opt_c_api_constant<
       mp_list<texture_swizzle_mode, pixel_internal_format, pixel_format>,
 #ifdef GL_RED
@@ -3226,6 +3238,8 @@ public:
 #endif
       red;
 
+    /// @var green
+    /// @glconstwrap{GREEN}
     opt_c_api_constant<
       mp_list<texture_swizzle_mode, pixel_format>,
 #ifdef GL_GREEN
@@ -3235,6 +3249,8 @@ public:
 #endif
       green;
 
+    /// @var blue
+    /// @glconstwrap{BLUE}
     opt_c_api_constant<
       mp_list<texture_swizzle_mode, pixel_format>,
 #ifdef GL_BLUE
@@ -3244,6 +3260,8 @@ public:
 #endif
       blue;
 
+    /// @var alpha
+    /// @glconstwrap{ALPHA}
     opt_c_api_constant<
       mp_list<texture_swizzle_mode, path_color_format_nv>,
 #ifdef GL_ALPHA
@@ -3253,6 +3271,8 @@ public:
 #endif
       alpha;
 
+    /// @var zero
+    /// @glconstwrap{ZERO}
     opt_c_api_constant<
       mp_list<texture_swizzle_mode, blend_function, stencil_operation>,
 #ifdef GL_ZERO
@@ -3262,6 +3282,8 @@ public:
 #endif
       zero;
 
+    /// @var one
+    /// @glconstwrap{ONE}
     opt_c_api_constant<
       mp_list<texture_swizzle_mode, blend_function>,
 #ifdef GL_ONE
@@ -3271,6 +3293,8 @@ public:
 #endif
       one;
 
+    /// @var primitives_generated
+    /// @glconstwrap{PRIMITIVES_GENERATED}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_PRIMITIVES_GENERATED
@@ -3280,6 +3304,8 @@ public:
 #endif
       primitives_generated;
 
+    /// @var transform_feedback_primitives_written
+    /// @glconstwrap{TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
@@ -3289,6 +3315,8 @@ public:
 #endif
       transform_feedback_primitives_written;
 
+    /// @var transform_feedback_overflow
+    /// @glconstwrap{TRANSFORM_FEEDBACK_OVERFLOW}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_TRANSFORM_FEEDBACK_OVERFLOW
@@ -3298,6 +3326,8 @@ public:
 #endif
       transform_feedback_overflow;
 
+    /// @var transform_feedback_stream_overflow
+    /// @glconstwrap{TRANSFORM_FEEDBACK_STREAM_OVERFLOW}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW
@@ -3307,6 +3337,8 @@ public:
 #endif
       transform_feedback_stream_overflow;
 
+    /// @var samples_passed
+    /// @glconstwrap{SAMPLES_PASSED}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_SAMPLES_PASSED
@@ -3316,6 +3348,8 @@ public:
 #endif
       samples_passed;
 
+    /// @var any_samples_passed
+    /// @glconstwrap{ANY_SAMPLES_PASSED}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_ANY_SAMPLES_PASSED
@@ -3325,6 +3359,8 @@ public:
 #endif
       any_samples_passed;
 
+    /// @var any_samples_passed_conservative
+    /// @glconstwrap{ANY_SAMPLES_PASSED_CONSERVATIVE}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_ANY_SAMPLES_PASSED_CONSERVATIVE
@@ -3334,6 +3370,8 @@ public:
 #endif
       any_samples_passed_conservative;
 
+    /// @var time_elapsed
+    /// @glconstwrap{TIME_ELAPSED}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_TIME_ELAPSED
@@ -3343,6 +3381,8 @@ public:
 #endif
       time_elapsed;
 
+    /// @var timestamp
+    /// @glconstwrap{TIMESTAMP}
     opt_c_api_constant<
       mp_list<query_target, counter_query_target>,
 #ifdef GL_TIMESTAMP
@@ -3352,6 +3392,8 @@ public:
 #endif
       timestamp;
 
+    /// @var vertices_submitted
+    /// @glconstwrap{VERTICES_SUBMITTED}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_VERTICES_SUBMITTED
@@ -3361,6 +3403,8 @@ public:
 #endif
       vertices_submitted;
 
+    /// @var primitives_submitted
+    /// @glconstwrap{PRIMITIVES_SUBMITTED}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_PRIMITIVES_SUBMITTED
@@ -3370,6 +3414,8 @@ public:
 #endif
       primitives_submitted;
 
+    /// @var vertex_shader_invocations
+    /// @glconstwrap{VERTEX_SHADER_INVOCATIONS}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_VERTEX_SHADER_INVOCATIONS
@@ -3379,6 +3425,8 @@ public:
 #endif
       vertex_shader_invocations;
 
+    /// @var tess_control_shader_patches
+    /// @glconstwrap{TESS_CONTROL_SHADER_PATCHES}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_TESS_CONTROL_SHADER_PATCHES
@@ -3388,6 +3436,8 @@ public:
 #endif
       tess_control_shader_patches;
 
+    /// @var tess_evaluation_shader_invocations
+    /// @glconstwrap{TESS_EVALUATION_SHADER_INVOCATIONS}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_TESS_EVALUATION_SHADER_INVOCATIONS
@@ -3397,6 +3447,8 @@ public:
 #endif
       tess_evaluation_shader_invocations;
 
+    /// @var geometry_shader_invocations
+    /// @glconstwrap{GEOMETRY_SHADER_INVOCATIONS}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_GEOMETRY_SHADER_INVOCATIONS
@@ -3406,6 +3458,8 @@ public:
 #endif
       geometry_shader_invocations;
 
+    /// @var geometry_shader_primitives_emitted
+    /// @glconstwrap{GEOMETRY_SHADER_PRIMITIVES_EMITTED}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED
@@ -3415,6 +3469,8 @@ public:
 #endif
       geometry_shader_primitives_emitted;
 
+    /// @var clipping_input_primitives
+    /// @glconstwrap{CLIPPING_INPUT_PRIMITIVES}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_CLIPPING_INPUT_PRIMITIVES
@@ -3424,6 +3480,8 @@ public:
 #endif
       clipping_input_primitives;
 
+    /// @var clipping_output_primitives
+    /// @glconstwrap{CLIPPING_OUTPUT_PRIMITIVES}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_CLIPPING_OUTPUT_PRIMITIVES
@@ -3433,6 +3491,8 @@ public:
 #endif
       clipping_output_primitives;
 
+    /// @var fragment_shader_invocations
+    /// @glconstwrap{FRAGMENT_SHADER_INVOCATIONS}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_FRAGMENT_SHADER_INVOCATIONS
@@ -3442,6 +3502,8 @@ public:
 #endif
       fragment_shader_invocations;
 
+    /// @var compute_shader_invocations
+    /// @glconstwrap{COMPUTE_SHADER_INVOCATIONS}
     opt_c_api_constant<
       mp_list<query_target>,
 #ifdef GL_COMPUTE_SHADER_INVOCATIONS
@@ -3451,6 +3513,8 @@ public:
 #endif
       compute_shader_invocations;
 
+    /// @var query_result
+    /// @glconstwrap{QUERY_RESULT}
     opt_c_api_constant<
       mp_list<query_parameter>,
 #ifdef GL_QUERY_RESULT
@@ -3460,6 +3524,8 @@ public:
 #endif
       query_result;
 
+    /// @var query_result_available
+    /// @glconstwrap{QUERY_RESULT_AVAILABLE}
     opt_c_api_constant<
       mp_list<query_parameter>,
 #ifdef GL_QUERY_RESULT_AVAILABLE
@@ -3470,6 +3536,8 @@ public:
       true_false>
       query_result_available;
 
+    /// @var interleaved_attribs
+    /// @glconstwrap{INTERLEAVED_ATTRIBS}
     opt_c_api_constant<
       mp_list<transform_feedback_mode>,
 #ifdef GL_INTERLEAVED_ATTRIBS
@@ -3479,6 +3547,8 @@ public:
 #endif
       interleaved_attribs;
 
+    /// @var separate_attribs
+    /// @glconstwrap{SEPARATE_ATTRIBS}
     opt_c_api_constant<
       mp_list<transform_feedback_mode>,
 #ifdef GL_SEPARATE_ATTRIBS
@@ -3488,6 +3558,8 @@ public:
 #endif
       separate_attribs;
 
+    /// @var transform_feedback_buffer_start
+    /// @glconstwrap{TRANSFORM_FEEDBACK_BUFFER_START}
     opt_c_api_constant<
       mp_list<transform_feedback_parameter>,
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
@@ -3497,6 +3569,8 @@ public:
 #endif
       transform_feedback_buffer_start;
 
+    /// @var transform_feedback_buffer_size
+    /// @glconstwrap{TRANSFORM_FEEDBACK_BUFFER_SIZE}
     opt_c_api_constant<
       mp_list<transform_feedback_parameter>,
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
@@ -3506,6 +3580,8 @@ public:
 #endif
       transform_feedback_buffer_size;
 
+    /// @var transform_feedback_parameter
+    /// @glconstwrap{TRANSFORM_FEEDBACK_PARAMETER}
     opt_c_api_constant<
       mp_list<transform_feedback_parameter>,
 #ifdef GL_TRANSFORM_FEEDBACK_PAUSED
@@ -3516,6 +3592,8 @@ public:
       true_false>
       transform_feedback_paused;
 
+    /// @var transform_feedback_active
+    /// @glconstwrap{TRANSFORM_FEEDBACK_ACTIVE}
     opt_c_api_constant<
       mp_list<transform_feedback_parameter>,
 #ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
@@ -3526,6 +3604,8 @@ public:
       true_false>
       transform_feedback_active;
 
+    /// @var current_vertex_attrib
+    /// @glconstwrap{CURRENT_VERTEX_ATTRIB}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_CURRENT_VERTEX_ATTRIB
@@ -3535,6 +3615,8 @@ public:
 #endif
       current_vertex_attrib;
 
+    /// @var vertex_attrib_array_buffer_binding
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING
@@ -3544,6 +3626,8 @@ public:
 #endif
       vertex_attrib_array_buffer_binding;
 
+    /// @var vertex_attrib_array_divisor
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_DIVISOR}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_DIVISOR
@@ -3553,6 +3637,8 @@ public:
 #endif
       vertex_attrib_array_divisor;
 
+    /// @var vertex_attrib_array_enabled
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_ENABLED}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_ENABLED
@@ -3563,6 +3649,8 @@ public:
       true_false>
       vertex_attrib_array_enabled;
 
+    /// @var vertex_attrib_array_integer
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_INTEGER}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_INTEGER
@@ -3573,6 +3661,8 @@ public:
       true_false>
       vertex_attrib_array_integer;
 
+    /// @var vertex_attrib_array_integer_ext
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_INTEGER_EXT}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_INTEGER_EXT
@@ -3582,6 +3672,8 @@ public:
 #endif
       vertex_attrib_array_integer_ext;
 
+    /// @var vertex_attrib_array_long
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_LONG}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_LONG
@@ -3592,6 +3684,8 @@ public:
       true_false>
       vertex_attrib_array_long;
 
+    /// @var vertex_attrib_array_normalized
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_NORMALIZED}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_NORMALIZED
@@ -3602,6 +3696,8 @@ public:
       true_false>
       vertex_attrib_array_normalized;
 
+    /// @var vertex_attrib_array_pointer
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_POINTER}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_POINTER
@@ -3611,6 +3707,8 @@ public:
 #endif
       vertex_attrib_array_pointer;
 
+    /// @var vertex_attrib_array_size
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_SIZE}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_SIZE
@@ -3620,6 +3718,8 @@ public:
 #endif
       vertex_attrib_array_size;
 
+    /// @var vertex_attrib_array_stride
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_STRIDE}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_STRIDE
@@ -3629,6 +3729,8 @@ public:
 #endif
       vertex_attrib_array_stride;
 
+    /// @var vertex_attrib_array_type
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_TYPE}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_TYPE
@@ -3638,6 +3740,8 @@ public:
 #endif
       vertex_attrib_array_type;
 
+    /// @var vertex_attrib_binding
+    /// @glconstwrap{VERTEX_ATTRIB_BINDING}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_BINDING
@@ -3647,6 +3751,8 @@ public:
 #endif
       vertex_attrib_binding;
 
+    /// @var vertex_attrib_relative_offset
+    /// @glconstwrap{VERTEX_ATTRIB_RELATIVE_OFFSET}
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_RELATIVE_OFFSET
@@ -3656,6 +3762,8 @@ public:
 #endif
       vertex_attrib_relative_offset;
 
+    /// @var uniform
+    /// @glconstwrap{UNIFORM}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_UNIFORM
@@ -3665,6 +3773,8 @@ public:
 #endif
       uniform;
 
+    /// @var uniform_block
+    /// @glconstwrap{UNIFORM_BLOCK}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_UNIFORM_BLOCK
@@ -3674,6 +3784,8 @@ public:
 #endif
       uniform_block;
 
+    /// @var program_input
+    /// @glconstwrap{PROGRAM_INPUT}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_PROGRAM_INPUT
@@ -3683,6 +3795,8 @@ public:
 #endif
       program_input;
 
+    /// @var program_output
+    /// @glconstwrap{PROGRAM_OUTPUT}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_PROGRAM_OUTPUT
@@ -3692,6 +3806,8 @@ public:
 #endif
       program_output;
 
+    /// @var vertex_subroutine
+    /// @glconstwrap{VERTEX_SUBROUTINE}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_VERTEX_SUBROUTINE
@@ -3701,6 +3817,8 @@ public:
 #endif
       vertex_subroutine;
 
+    /// @var tess_control_subroutine
+    /// @glconstwrap{TESS_CONTROL_SUBROUTINE}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_TESS_CONTROL_SUBROUTINE
@@ -3710,6 +3828,8 @@ public:
 #endif
       tess_control_subroutine;
 
+    /// @var tess_evaluation_subroutine
+    /// @glconstwrap{TESS_EVALUATION_SUBROUTINE}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_TESS_EVALUATION_SUBROUTINE
@@ -3719,6 +3839,8 @@ public:
 #endif
       tess_evaluation_subroutine;
 
+    /// @var geometry_subroutine
+    /// @glconstwrap{GEOMETRY_SUBROUTINE}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_GEOMETRY_SUBROUTINE
@@ -3728,6 +3850,8 @@ public:
 #endif
       geometry_subroutine;
 
+    /// @var fragment_subroutine
+    /// @glconstwrap{FRAGMENT_SUBROUTINE}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_FRAGMENT_SUBROUTINE
@@ -3737,6 +3861,8 @@ public:
 #endif
       fragment_subroutine;
 
+    /// @var compute_subroutine
+    /// @glconstwrap{COMPUTE_SUBROUTINE}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_COMPUTE_SUBROUTINE
@@ -3746,6 +3872,8 @@ public:
 #endif
       compute_subroutine;
 
+    /// @var vertex_subroutine_uniform
+    /// @glconstwrap{VERTEX_SUBROUTINE_UNIFORM}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_VERTEX_SUBROUTINE_UNIFORM
@@ -3755,6 +3883,8 @@ public:
 #endif
       vertex_subroutine_uniform;
 
+    /// @var tess_control_subroutine_uniform
+    /// @glconstwrap{TESS_CONTROL_SUBROUTINE_UNIFORM}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_TESS_CONTROL_SUBROUTINE_UNIFORM
@@ -3764,6 +3894,8 @@ public:
 #endif
       tess_control_subroutine_uniform;
 
+    /// @var tess_evaluation_subroutine_uniform
+    /// @glconstwrap{TESS_EVALUATION_SUBROUTINE_UNIFORM}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_TESS_EVALUATION_SUBROUTINE_UNIFORM
@@ -3773,6 +3905,8 @@ public:
 #endif
       tess_evaluation_subroutine_uniform;
 
+    /// @var geometry_subroutine_uniform
+    /// @glconstwrap{GEOMETRY_SUBROUTINE_UNIFORM}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_GEOMETRY_SUBROUTINE_UNIFORM
@@ -3782,6 +3916,8 @@ public:
 #endif
       geometry_subroutine_uniform;
 
+    /// @var fragment_subroutine_uniform
+    /// @glconstwrap{FRAGMENT_SUBROUTINE_UNIFORM}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_FRAGMENT_SUBROUTINE_UNIFORM
@@ -3791,6 +3927,8 @@ public:
 #endif
       fragment_subroutine_uniform;
 
+    /// @var compute_subroutine_uniform
+    /// @glconstwrap{COMPUTE_SUBROUTINE_UNIFORM}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_COMPUTE_SUBROUTINE_UNIFORM
@@ -3800,6 +3938,8 @@ public:
 #endif
       compute_subroutine_uniform;
 
+    /// @var transform_feedback_varying
+    /// @glconstwrap{TRANSFORM_FEEDBACK_VARYING}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_TRANSFORM_FEEDBACK_VARYING
@@ -3809,6 +3949,8 @@ public:
 #endif
       transform_feedback_varying;
 
+    /// @var buffer_variable
+    /// @glconstwrap{BUFFER_VARIABLE}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_BUFFER_VARIABLE
@@ -3818,6 +3960,8 @@ public:
 #endif
       buffer_variable;
 
+    /// @var buffer_storage_block
+    /// @glconstwrap{BUFFER_STORAGE_BLOCK}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_BUFFER_STORAGE_BLOCK
@@ -3827,6 +3971,8 @@ public:
 #endif
       buffer_storage_block;
 
+    /// @var fragment_input_nv
+    /// @glconstwrap{FRAGMENT_INPUT_NV}
     opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_FRAGMENT_INPUT_NV
@@ -3836,6 +3982,8 @@ public:
 #endif
       fragment_input_nv;
 
+    /// @var active_variables
+    /// @glconstwrap{ACTIVE_VARIABLES}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_ACTIVE_VARIABLES
@@ -3845,6 +3993,8 @@ public:
 #endif
       active_variables;
 
+    /// @var num_active_variables
+    /// @glconstwrap{NUM_ACTIVE_VARIABLES}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_NUM_ACTIVE_VARIABLES
@@ -3854,6 +4004,8 @@ public:
 #endif
       num_active_variables;
 
+    /// @var array_size
+    /// @glconstwrap{ARRAY_SIZE}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_ARRAY_SIZE
@@ -3863,6 +4015,8 @@ public:
 #endif
       array_size;
 
+    /// @var array_stride
+    /// @glconstwrap{ARRAY_STRIDE}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_ARRAY_STRIDE
@@ -3872,6 +4026,8 @@ public:
 #endif
       array_stride;
 
+    /// @var block_index
+    /// @glconstwrap{BLOCK_INDEX}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_BLOCK_INDEX
@@ -3881,6 +4037,8 @@ public:
 #endif
       block_index;
 
+    /// @var is_row_major
+    /// @glconstwrap{IS_ROW_MAJOR}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_IS_ROW_MAJOR
@@ -3890,6 +4048,8 @@ public:
 #endif
       is_row_major;
 
+    /// @var matrix_stride
+    /// @glconstwrap{MATRIX_STRIDE}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_MATRIX_STRIDE
@@ -3899,6 +4059,8 @@ public:
 #endif
       matrix_stride;
 
+    /// @var atomic_counter_buffer_index
+    /// @glconstwrap{ATOMIC_COUNTER_BUFFER_INDEX}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_ATOMIC_COUNTER_BUFFER_INDEX
@@ -3908,6 +4070,8 @@ public:
 #endif
       atomic_counter_buffer_index;
 
+    /// @var buffer_data_size
+    /// @glconstwrap{BUFFER_DATA_SIZE}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_BUFFER_DATA_SIZE
@@ -3917,6 +4081,8 @@ public:
 #endif
       buffer_data_size;
 
+    /// @var num_compatible_subroutines
+    /// @glconstwrap{NUM_COMPATIBLE_SUBROUTINES}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_NUM_COMPATIBLE_SUBROUTINES
@@ -3926,6 +4092,8 @@ public:
 #endif
       num_compatible_subroutines;
 
+    /// @var compatible_subroutines
+    /// @glconstwrap{COMPATIBLE_SUBROUTINES}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_COMPATIBLE_SUBROUTINES
@@ -3935,6 +4103,8 @@ public:
 #endif
       compatible_subroutines;
 
+    /// @var is_per_patch
+    /// @glconstwrap{IS_PER_PATCH}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_IS_PER_PATCH
@@ -3944,6 +4114,8 @@ public:
 #endif
       is_per_patch;
 
+    /// @var location
+    /// @glconstwrap{LOCATION}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_LOCATION
@@ -3953,6 +4125,8 @@ public:
 #endif
       location;
 
+    /// @var location_component
+    /// @glconstwrap{LOCATION_COMPONENT}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_LOCATION_COMPONENT
@@ -3962,6 +4136,8 @@ public:
 #endif
       location_component;
 
+    /// @var location_index
+    /// @glconstwrap{LOCATION_INDEX}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_LOCATION_INDEX
@@ -3971,6 +4147,8 @@ public:
 #endif
       location_index;
 
+    /// @var name_lenght
+    /// @glconstwrap{NAME_LENGHT}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_NAME_LENGTH
@@ -3980,6 +4158,8 @@ public:
 #endif
       name_length;
 
+    /// @var offset
+    /// @glconstwrap{OFFSET}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_OFFSET
@@ -3989,6 +4169,8 @@ public:
 #endif
       offset;
 
+    /// @var referenced_by_vertex_shader
+    /// @glconstwrap{REFERENCED_BY_VERTEX_SHADER}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_REFERENCED_BY_VERTEX_SHADER
@@ -3998,6 +4180,8 @@ public:
 #endif
       referenced_by_vertex_shader;
 
+    /// @var referenced_by_tess_control_shader
+    /// @glconstwrap{REFERENCED_BY_TESS_CONTROL_SHADER}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_REFERENCED_BY_TESS_CONTROL_SHADER
@@ -4007,6 +4191,8 @@ public:
 #endif
       referenced_by_tess_control_shader;
 
+    /// @var referenced_by_tess_evaluation_shader
+    /// @glconstwrap{REFERENCED_BY_TESS_EVALUATION_SHADER}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_REFERENCED_BY_TESS_EVALUATION_SHADER
@@ -4016,6 +4202,8 @@ public:
 #endif
       referenced_by_tess_evaluation_shader;
 
+    /// @var referenced_by_geometry_shader
+    /// @glconstwrap{REFERENCED_BY_GEOMETRY_SHADER}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_REFERENCED_BY_GEOMETRY_SHADER
@@ -4025,6 +4213,8 @@ public:
 #endif
       referenced_by_geometry_shader;
 
+    /// @var referenced_by_fragment_shader
+    /// @glconstwrap{REFERENCED_BY_FRAGMENT_SHADER}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_REFERENCED_BY_FRAGMENT_SHADER
@@ -4034,6 +4224,8 @@ public:
 #endif
       referenced_by_fragment_shader;
 
+    /// @var referenced_by_compute_shader
+    /// @glconstwrap{REFERENCED_BY_COMPUTE_SHADER}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_REFERENCED_BY_COMPUTE_SHADER
@@ -4043,6 +4235,8 @@ public:
 #endif
       referenced_by_compute_shader;
 
+    /// @var transform_feedback_buffer_index
+    /// @glconstwrap{TRANSFORM_FEEDBACK_BUFFER_INDEX}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_INDEX
@@ -4052,6 +4246,8 @@ public:
 #endif
       transform_feedback_buffer_index;
 
+    /// @var transform_feedback_buffer_start
+    /// @glconstwrap{TRANSFORM_FEEDBACK_BUFFER_START}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
@@ -4061,6 +4257,8 @@ public:
 #endif
       transform_feedback_buffer_stride;
 
+    /// @var top_level_array_size
+    /// @glconstwrap{TOP_LEVEL_ARRAY_SIZE}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_TOP_LEVEL_ARRAY_SIZE
@@ -4070,6 +4268,8 @@ public:
 #endif
       top_level_array_size;
 
+    /// @var top_level_array_stride
+    /// @glconstwrap{TOP_LEVEL_ARRAY_STRIDE}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_TOP_LEVEL_ARRAY_STRIDE
@@ -4079,6 +4279,8 @@ public:
 #endif
       top_level_array_stride;
 
+    /// @var type
+    /// @glconstwrap{TYPE}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_TYPE
@@ -4088,6 +4290,8 @@ public:
 #endif
       type;
 
+    /// @var path_gen_mode_nv
+    /// @glconstwrap{PATH_GEN_MODE_NV}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_PATH_GEN_MODE_NV
@@ -4097,6 +4301,8 @@ public:
 #endif
       path_gen_mode_nv;
 
+    /// @var path_gen_components_nv
+    /// @glconstwrap{PATH_GEN_COMPONENTS_NV}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_PATH_GEN_COMPONENTS_NV
@@ -4106,6 +4312,8 @@ public:
 #endif
       path_gen_components_nv;
 
+    /// @var path_gen_coeff_nv
+    /// @glconstwrap{PATH_GEN_COEFF_NV}
     opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_PATH_GEN_COEFF_NV
@@ -4115,6 +4323,8 @@ public:
 #endif
       path_gen_coeff_nv;
 
+    /// @var blend
+    /// @glconstwrap{BLEND}
     opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_BLEND
@@ -4124,6 +4334,8 @@ public:
 #endif
       blend;
 
+    /// @var primitive_restart
+    /// @glconstwrap{PRIMITIVE_RESTART}
     opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_PRIMITIVE_RESTART
@@ -4133,6 +4345,8 @@ public:
 #endif
       primitive_restart;
 
+    /// @var clip_distance0
+    /// @glconstwrap{CLIP_DISTANCE0}
     opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_CLIP_DISTANCE0
@@ -4144,6 +4358,8 @@ public:
       true>
       clip_distance0;
 
+    /// @var cull_face
+    /// @glconstwrap{CULL_FACE}
     opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_CULL_FACE
@@ -4153,6 +4369,8 @@ public:
 #endif
       cull_face;
 
+    /// @var depth_clamp
+    /// @glconstwrap{DEPTH_CLAMP}
     opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_DEPTH_CLAMP
@@ -4162,6 +4380,8 @@ public:
 #endif
       depth_clamp;
 
+    /// @var depth_test
+    /// @glconstwrap{DEPTH_TEST}
     opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_DEPTH_TEST
@@ -4171,6 +4391,8 @@ public:
 #endif
       depth_test;
 
+    /// @var scissor_test
+    /// @glconstwrap{SCISSOR_TEST}
     opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_SCISSOR_TEST
@@ -4180,6 +4402,8 @@ public:
 #endif
       scissor_test;
 
+    /// @var stencil_test
+    /// @glconstwrap{STENCIL_TEST}
     opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_STENCIL_TEST
@@ -4189,6 +4413,8 @@ public:
 #endif
       stencil_test;
 
+    /// @var multisample
+    /// @glconstwrap{MULTISAMPLE}
     opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_MULTISAMPLE
@@ -4198,6 +4424,8 @@ public:
 #endif
       multisample;
 
+    /// @var debug_output
+    /// @glconstwrap{DEBUG_OUTPUT}
     opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_DEBUG_OUTPUT
@@ -4209,6 +4437,8 @@ public:
 #endif
       debug_output;
 
+    /// @var debug_output_synchronous
+    /// @glconstwrap{DEBUG_OUTPUT_SYNCHRONOUS}
     opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
@@ -4220,6 +4450,8 @@ public:
 #endif
       debug_output_synchronous;
 
+    /// @var color_array
+    /// @glconstwrap{COLOR_ARRAY}
     opt_c_api_constant<
       mp_list<client_capability>,
 #ifdef GL_COLOR_ARRAY
@@ -4229,6 +4461,8 @@ public:
 #endif
       color_array;
 
+    /// @var edge_flag_array
+    /// @glconstwrap{EDGE_FLAG_ARRAY}
     opt_c_api_constant<
       mp_list<client_capability>,
 #ifdef GL_EDGE_FLAG_ARRAY
@@ -4238,6 +4472,8 @@ public:
 #endif
       edge_flag_array;
 
+    /// @var fog_coord_array
+    /// @glconstwrap{FOG_COORD_ARRAY}
     opt_c_api_constant<
       mp_list<client_capability>,
 #ifdef GL_FOG_COORD_ARRAY
@@ -4247,6 +4483,8 @@ public:
 #endif
       fog_coord_array;
 
+    /// @var index_array
+    /// @glconstwrap{INDEX_ARRAY}
     opt_c_api_constant<
       mp_list<client_capability>,
 #ifdef GL_INDEX_ARRAY
@@ -4256,6 +4494,8 @@ public:
 #endif
       index_array;
 
+    /// @var normal_array
+    /// @glconstwrap{NORMAL_ARRAY}
     opt_c_api_constant<
       mp_list<client_capability>,
 #ifdef GL_NORMAL_ARRAY
@@ -4265,6 +4505,8 @@ public:
 #endif
       normal_array;
 
+    /// @var secondary_color_array
+    /// @glconstwrap{SECONDARY_COLOR_ARRAY}
     opt_c_api_constant<
       mp_list<client_capability>,
 #ifdef GL_SECONDARY_COLOR_ARRAY
@@ -4274,6 +4516,8 @@ public:
 #endif
       secondary_color_array;
 
+    /// @var texture_coord_array
+    /// @glconstwrap{TEXTURE_COORD_ARRAY}
     opt_c_api_constant<
       mp_list<client_capability>,
 #ifdef GL_TEXTURE_COORD_ARRAY
@@ -4283,6 +4527,8 @@ public:
 #endif
       texture_coord_array;
 
+    /// @var vertex_attrib_array_unified_nv
+    /// @glconstwrap{VERTEX_ATTRIB_ARRAY_UNIFIED_NV}
     opt_c_api_constant<
       mp_list<client_capability>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_UNIFIED_NV
@@ -4292,6 +4538,8 @@ public:
 #endif
       vertex_attrib_array_unified_nv;
 
+    /// @var element_array_unified_nv
+    /// @glconstwrap{ELEMENT_ARRAY_UNIFIED_NV}
     opt_c_api_constant<
       mp_list<client_capability>,
 #ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
@@ -4301,6 +4549,8 @@ public:
 #endif
       element_array_unified_nv;
 
+    /// @var uniform_buffer_unified_nv
+    /// @glconstwrap{UNIFORM_BUFFER_UNIFIED_NV}
     opt_c_api_constant<
       mp_list<client_capability>,
 #ifdef GL_UNIFORM_BUFFER_UNIFIED_NV
