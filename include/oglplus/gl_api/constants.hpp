@@ -1901,6 +1901,8 @@ public:
 #endif
       stencil;
 
+    /// @var array_buffer
+    /// @glconstwrap{ARRAY_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_ARRAY_BUFFER
@@ -1910,6 +1912,8 @@ public:
 #endif
       array_buffer;
 
+    /// @var atomic_counter_buffer
+    /// @glconstwrap{ATOMIC_COUNTER_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target, program_interface>,
 #ifdef GL_ATOMIC_COUNTER_BUFFER
@@ -1919,6 +1923,8 @@ public:
 #endif
       atomic_counter_buffer;
 
+    /// @var copy_read_buffer
+    /// @glconstwrap{COPY_READ_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_COPY_READ_BUFFER
@@ -1928,6 +1934,8 @@ public:
 #endif
       copy_read_buffer;
 
+    /// @var copy_write_buffer
+    /// @glconstwrap{COPY_WRITE_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_COPY_WRITE_BUFFER
@@ -1937,6 +1945,8 @@ public:
 #endif
       copy_write_buffer;
 
+    /// @var dispatch_indirect_buffer
+    /// @glconstwrap{DISPATCH_INDIRECT_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_DISPATCH_INDIRECT_BUFFER
@@ -1946,6 +1956,8 @@ public:
 #endif
       dispatch_indirect_buffer;
 
+    /// @var draw_indirect_buffer
+    /// @glconstwrap{DRAW_INDIRECT_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_DRAW_INDIRECT_BUFFER
@@ -1955,6 +1967,8 @@ public:
 #endif
       draw_indirect_buffer;
 
+    /// @var element_array_buffer
+    /// @glconstwrap{ELEMENT_ARRAY_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_ELEMENT_ARRAY_BUFFER
@@ -1964,6 +1978,8 @@ public:
 #endif
       element_array_buffer;
 
+    /// @var parameter_buffer
+    /// @glconstwrap{PARAMETER_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_PARAMETER_BUFFER
@@ -1973,6 +1989,8 @@ public:
 #endif
       parameter_buffer;
 
+    /// @var pixel_pack_buffer
+    /// @glconstwrap{PIXEL_PACK_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_PIXEL_PACK_BUFFER
@@ -1982,6 +2000,8 @@ public:
 #endif
       pixel_pack_buffer;
 
+    /// @var pixel_unpack_buffer
+    /// @glconstwrap{PIXEL_UNPACK_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_PIXEL_UNPACK_BUFFER
@@ -1991,6 +2011,8 @@ public:
 #endif
       pixel_unpack_buffer;
 
+    /// @var query_buffer
+    /// @glconstwrap{QUERY_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_QUERY_BUFFER
@@ -2000,6 +2022,8 @@ public:
 #endif
       query_buffer;
 
+    /// @var shader_storage_buffer
+    /// @glconstwrap{SHADER_STORAGE_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_SHADER_STORAGE_BUFFER
@@ -2009,6 +2033,8 @@ public:
 #endif
       shader_storage_buffer;
 
+    /// @var texture_buffer
+    /// @glconstwrap{TEXTURE_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_TEXTURE_BUFFER
@@ -2018,6 +2044,8 @@ public:
 #endif
       texture_buffer;
 
+    /// @var transform_feedback_buffer
+    /// @glconstwrap{TRANSFORM_FEEDBACK_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target, program_interface>,
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER
@@ -2027,6 +2055,8 @@ public:
 #endif
       transform_feedback_buffer;
 
+    /// @var uniform_buffer
+    /// @glconstwrap{UNIFORM_BUFFER}
     opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_UNIFORM_BUFFER
@@ -2036,6 +2066,8 @@ public:
 #endif
       uniform_buffer;
 
+    /// @var buffer_access
+    /// @glconstwrap{BUFFER_ACCESS}
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_ACCESS
@@ -2046,6 +2078,8 @@ public:
       access_specifier>
       buffer_access;
 
+    /// @var buffer_access_flags
+    /// @glconstwrap{BUFFER_ACCESS_FLAGS}
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_ACCESS_FLAGS
@@ -2056,6 +2090,8 @@ public:
       enum_bitfield<buffer_map_access_bit>>
       buffer_access_flags;
 
+    /// @var buffer_immutable_storage
+    /// @glconstwrap{BUFFER_IMMUTABLE_STORAGE}
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_IMMUTABLE_STORAGE
@@ -2066,6 +2102,8 @@ public:
       true_false>
       buffer_immutable_storage;
 
+    /// @var buffer_mapped
+    /// @glconstwrap{BUFFER_MAPPED}
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_MAPPED
@@ -2076,6 +2114,8 @@ public:
       true_false>
       buffer_mapped;
 
+    /// @var buffer_map_length
+    /// @glconstwrap{buffer_map_length}
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_MAP_LENGTH
@@ -2085,6 +2125,8 @@ public:
 #endif
       buffer_map_length;
 
+    /// @var buffer_map_offset
+    /// @glconstwrap{BUFFER_MAP_OFFSET}
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_MAP_OFFSET
@@ -2094,6 +2136,8 @@ public:
 #endif
       buffer_map_offset;
 
+    /// @var buffer_size
+    /// @glconstwrap{BUFFER_SIZE}
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_SIZE
@@ -2103,6 +2147,8 @@ public:
 #endif
       buffer_size;
 
+    /// @var buffer_storage_flags
+    /// @glconstwrap{BUFFER_STORAGE_FLAGS}
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_STORAGE_FLAGS
@@ -2113,6 +2159,8 @@ public:
       enum_bitfield<buffer_storage_bit>>
       buffer_storage_flags;
 
+    /// @var buffer_usage
+    /// @glconstwrap{BUFFER_USAGE}
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_USAGE
@@ -2123,6 +2171,8 @@ public:
       oglp::buffer_usage>
       buffer_usage;
 
+    /// @var stream_draw
+    /// @glconstwrap{STREAM_DRAW}
     opt_c_api_constant<
       mp_list<oglp::buffer_usage>,
 #ifdef GL_STREAM_DRAW
@@ -2132,6 +2182,8 @@ public:
 #endif
       stream_draw;
 
+    /// @var stream_read
+    /// @glconstwrap{STREAM_READ}
     opt_c_api_constant<
       mp_list<oglp::buffer_usage>,
 #ifdef GL_STREAM_READ
@@ -2141,6 +2193,8 @@ public:
 #endif
       stream_read;
 
+    /// @var stream_copy
+    /// @glconstwrap{STREAM_COPY}
     opt_c_api_constant<
       mp_list<oglp::buffer_usage>,
 #ifdef GL_STREAM_COPY
@@ -2150,6 +2204,8 @@ public:
 #endif
       stream_copy;
 
+    /// @var static_draw
+    /// @glconstwrap{STATIC_DRAW}
     opt_c_api_constant<
       mp_list<oglp::buffer_usage>,
 #ifdef GL_STATIC_DRAW
@@ -2159,6 +2215,8 @@ public:
 #endif
       static_draw;
 
+    /// @var static_read
+    /// @glconstwrap{STATIC_READ}
     opt_c_api_constant<
       mp_list<oglp::buffer_usage>,
 #ifdef GL_STATIC_READ
@@ -2168,6 +2226,8 @@ public:
 #endif
       static_read;
 
+    /// @var static_copy
+    /// @glconstwrap{STATIC_COPY}
     opt_c_api_constant<
       mp_list<oglp::buffer_usage>,
 #ifdef GL_STATIC_COPY
@@ -2177,6 +2237,8 @@ public:
 #endif
       static_copy;
 
+    /// @var dynamic_draw
+    /// @glconstwrap{DYNAMIC_DRAW}
     opt_c_api_constant<
       mp_list<oglp::buffer_usage>,
 #ifdef GL_DYNAMIC_DRAW
@@ -2186,6 +2248,8 @@ public:
 #endif
       dynamic_draw;
 
+    /// @var dynamic_read
+    /// @glconstwrap{DYNAMIC_READ}
     opt_c_api_constant<
       mp_list<oglp::buffer_usage>,
 #ifdef GL_DYNAMIC_READ
@@ -2195,6 +2259,8 @@ public:
 #endif
       dynamic_read;
 
+    /// @var dynamic_copy
+    /// @glconstwrap{DYNAMIC_COPY}
     opt_c_api_constant<
       mp_list<oglp::buffer_usage>,
 #ifdef GL_DYNAMIC_COPY
@@ -2204,6 +2270,8 @@ public:
 #endif
       dynamic_copy;
 
+    /// @var map_read_bit
+    /// @glconstwrap{MAP_READ_BIT}
     opt_c_api_constant<
       mp_list<buffer_map_access_bit, buffer_storage_bit>,
 #ifdef GL_MAP_READ_BIT
@@ -2213,6 +2281,8 @@ public:
 #endif
       map_read_bit;
 
+    /// @var map_write_bit
+    /// @glconstwrap{MAP_WRITE_BIT}
     opt_c_api_constant<
       mp_list<buffer_map_access_bit, buffer_storage_bit>,
 #ifdef GL_MAP_WRITE_BIT
@@ -2222,6 +2292,8 @@ public:
 #endif
       map_write_bit;
 
+    /// @var map_persistent_bit
+    /// @glconstwrap{MAP_PERSISTENT_BIT}
     opt_c_api_constant<
       mp_list<buffer_map_access_bit, buffer_storage_bit>,
 #ifdef GL_MAP_PERSISTENT_BIT
@@ -2231,6 +2303,8 @@ public:
 #endif
       map_persistent_bit;
 
+    /// @var map_coherent_bit
+    /// @glconstwrap{MAP_COHERENT_BIT}
     opt_c_api_constant<
       mp_list<buffer_map_access_bit, buffer_storage_bit>,
 #ifdef GL_MAP_COHERENT_BIT
@@ -2240,6 +2314,8 @@ public:
 #endif
       map_coherent_bit;
 
+    /// @var map_invalidate_range_bit
+    /// @glconstwrap{MAP_INVALIDATE_RANGE_BIT}
     opt_c_api_constant<
       mp_list<buffer_map_access_bit>,
 #ifdef GL_MAP_INVALIDATE_RANGE_BIT
@@ -2249,6 +2325,8 @@ public:
 #endif
       map_invalidate_range_bit;
 
+    /// @var map_invalidate_buffer_bit
+    /// @glconstwrap{MAP_INVALIDATE_BUFFER_BIT}
     opt_c_api_constant<
       mp_list<buffer_map_access_bit>,
 #ifdef GL_MAP_INVALIDATE_BUFFER_BIT
@@ -2258,6 +2336,8 @@ public:
 #endif
       map_invalidate_buffer_bit;
 
+    /// @var map_flush_explicit_bit
+    /// @glconstwrap{MAP_FLUSH_EXPLICIT_BIT}
     opt_c_api_constant<
       mp_list<buffer_map_access_bit>,
 #ifdef GL_MAP_FLUSH_EXPLICIT_BIT
@@ -2267,6 +2347,8 @@ public:
 #endif
       map_flush_explicit_bit;
 
+    /// @var map_unsynchronized_bit
+    /// @glconstwrap{MAP_UNSYNCHRONIZED_BIT}
     opt_c_api_constant<
       mp_list<buffer_map_access_bit>,
 #ifdef GL_MAP_UNSYNCHRONIZED_BIT
@@ -2276,6 +2358,8 @@ public:
 #endif
       map_unsynchronized_bit;
 
+    /// @var dynamic_storage_bit
+    /// @glconstwrap{DYNAMIC_STORAGE_BIT}
     opt_c_api_constant<
       mp_list<buffer_storage_bit>,
 #ifdef GL_DYNAMIC_STORAGE_BIT
@@ -2285,6 +2369,8 @@ public:
 #endif
       dynamic_storage_bit;
 
+    /// @var client_storage_bit
+    /// @glconstwrap{CLIENT_STORAGE_BIT}
     opt_c_api_constant<
       mp_list<buffer_storage_bit>,
 #ifdef GL_CLIENT_STORAGE_BIT
@@ -2294,6 +2380,8 @@ public:
 #endif
       client_storage_bit;
 
+    /// @var sparse_storage_bit
+    /// @glconstwrap{SPARSE_STORAGE_BIT}
     opt_c_api_constant<
       mp_list<buffer_storage_bit>,
 #ifdef GL_SPARSE_STORAGE_BIT_ARB
@@ -2303,6 +2391,8 @@ public:
 #endif
       sparse_storage_bit;
 
+    /// @var texture0
+    /// @glconstwrap{TEXTURE0}
     opt_c_api_constant<
       mp_list<oglp::texture_unit>,
 #ifdef GL_TEXTURE0
@@ -2314,6 +2404,8 @@ public:
       true>
       texture0;
 
+    /// @var texture_3d
+    /// @glconstwrap{TEXTURE_3D}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_3D
@@ -2323,6 +2415,8 @@ public:
 #endif
       texture_3d;
 
+    /// @var texture_2d
+    /// @glconstwrap{TEXTURE_2D}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_2D
@@ -2332,6 +2426,8 @@ public:
 #endif
       texture_2d;
 
+    /// @var texture_1d
+    /// @glconstwrap{TEXTURE_1D}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_1D
@@ -2341,6 +2437,8 @@ public:
 #endif
       texture_1d;
 
+    /// @var texture_2d_array
+    /// @glconstwrap{TEXTURE_2D_ARRAY}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_2D_ARRAY
@@ -2350,6 +2448,8 @@ public:
 #endif
       texture_2d_array;
 
+    /// @var texture_1d_array
+    /// @glconstwrap{TEXTURE_1D_ARRAY}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_1D_ARRAY
@@ -2359,6 +2459,8 @@ public:
 #endif
       texture_1d_array;
 
+    /// @var texture_rectangle
+    /// @glconstwrap{TEXTURE_RECTANGLE}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_RECTANGLE
@@ -2368,6 +2470,8 @@ public:
 #endif
       texture_rectangle;
 
+    /// @var texture_cube_map
+    /// @glconstwrap{TEXTURE_CUBE_MAP}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_CUBE_MAP
@@ -2377,6 +2481,8 @@ public:
 #endif
       texture_cube_map;
 
+    /// @var texture_cube_map_array
+    /// @glconstwrap{TEXTURE_CUBE_MAP_ARRAY}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_CUBE_MAP_ARRAY
@@ -2386,6 +2492,8 @@ public:
 #endif
       texture_cube_map_array;
 
+    /// @var texture_2d_multisample
+    /// @glconstwrap{TEXTURE_2D_MULTISAMPLE}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_2D_MULTISAMPLE
@@ -2395,6 +2503,8 @@ public:
 #endif
       texture_2d_multisample;
 
+    /// @var texture_2d_multisample_array
+    /// @glconstwrap{TEXTURE_2D_MULTISAMPLE_ARRAY}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
@@ -2404,6 +2514,8 @@ public:
 #endif
       texture_2d_multisample_array;
 
+    /// @var texture_cube_map_positive_x
+    /// @glconstwrap{TEXTURE_CUBE_MAP_POSITIVE_X}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_X
@@ -2413,6 +2525,8 @@ public:
 #endif
       texture_cube_map_positive_x;
 
+    /// @var texture_cube_map_negative_x
+    /// @glconstwrap{TEXTURE_CUBE_MAP_NEGATIVE_X}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_X
@@ -2422,6 +2536,8 @@ public:
 #endif
       texture_cube_map_negative_x;
 
+    /// @var texture_cube_map_positive_y
+    /// @glconstwrap{TEXTURE_CUBE_MAP_POSITIVE_Y}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Y
@@ -2431,6 +2547,8 @@ public:
 #endif
       texture_cube_map_positive_y;
 
+    /// @var texture_cube_map_negative_y
+    /// @glconstwrap{TEXTURE_CUBE_MAP_NEGATIVE_Y}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
@@ -2440,6 +2558,8 @@ public:
 #endif
       texture_cube_map_negative_y;
 
+    /// @var texture_cube_map_positive_z
+    /// @glconstwrap{TEXTURE_CUBE_MAP_POSITIVE_Z}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Z
@@ -2449,6 +2569,8 @@ public:
 #endif
       texture_cube_map_positive_z;
 
+    /// @var texture_cube_map_negative_z
+    /// @glconstwrap{TEXTURE_CUBE_MAP_NEGATIVE_Z}
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
@@ -2458,9 +2580,13 @@ public:
 #endif
       texture_cube_map_negative_z;
 
+    /// @var texture_external
+    /// @glconstwrap{TEXTURE_EXTERNAL}
     opt_c_api_constant<mp_list<oglp::texture_target>, enum_type_c<0x8D65>>
       texture_external;
 
+    /// @var compare_ref_to_texture
+    /// @glconstwrap{COMPARE_REF_TO_TEXTURE}
     opt_c_api_constant<
       mp_list<oglp::texture_compare_mode>,
 #ifdef GL_COMPARE_REF_TO_TEXTURE
@@ -2470,6 +2596,8 @@ public:
 #endif
       compare_ref_to_texture;
 
+    /// @var nearest
+    /// @glconstwrap{NEAREST}
     opt_c_api_constant<
       mp_list<
         oglp::texture_min_filter,
@@ -2483,6 +2611,8 @@ public:
 #endif
       nearest;
 
+    /// @var linear
+    /// @glconstwrap{LINEAR}
     opt_c_api_constant<
       mp_list<
         oglp::texture_min_filter,
@@ -2496,6 +2626,8 @@ public:
 #endif
       linear;
 
+    /// @var nearest_mipmap_linear
+    /// @glconstwrap{NEAREST_MIPMAP_LINEAR}
     opt_c_api_constant<
       mp_list<oglp::texture_min_filter>,
 #ifdef GL_NEAREST_MIPMAP_NEAREST
@@ -2505,6 +2637,8 @@ public:
 #endif
       nearest_mipmap_nearest;
 
+    /// @var nearest_mipmap_linear
+    /// @glconstwrap{NEAREST_MIPMAP_LINEAR}
     opt_c_api_constant<
       mp_list<oglp::texture_min_filter>,
 #ifdef GL_NEAREST_MIPMAP_LINEAR
@@ -2514,6 +2648,8 @@ public:
 #endif
       nearest_mipmap_linear;
 
+    /// @var linear_mipmap_nearest
+    /// @glconstwrap{LINEAR_MIPMAP_NEAREST}
     opt_c_api_constant<
       mp_list<oglp::texture_min_filter>,
 #ifdef GL_LINEAR_MIPMAP_NEAREST
@@ -2523,6 +2659,8 @@ public:
 #endif
       linear_mipmap_nearest;
 
+    /// @var linear_mipmap_linear
+    /// @glconstwrap{LINEAR_MIPMAP_LINEAR}
     opt_c_api_constant<
       mp_list<oglp::texture_min_filter>,
 #ifdef GL_LINEAR_MIPMAP_LINEAR
@@ -2532,6 +2670,8 @@ public:
 #endif
       linear_mipmap_linear;
 
+    /// @var texture_width
+    /// @glconstwrap{TEXTURE_WIDTH}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_WIDTH
@@ -2541,6 +2681,8 @@ public:
 #endif
       texture_width;
 
+    /// @var texture_height
+    /// @glconstwrap{TEXTURE_HEIGHT}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_HEIGHT
@@ -2550,6 +2692,8 @@ public:
 #endif
       texture_height;
 
+    /// @var texture_depth
+    /// @glconstwrap{TEXTURE_DEPTH}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_DEPTH
@@ -2559,6 +2703,8 @@ public:
 #endif
       texture_depth;
 
+    /// @var texture_red_size
+    /// @glconstwrap{TEXTURE_RED_SIZE}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_RED_SIZE
@@ -2568,6 +2714,8 @@ public:
 #endif
       texture_red_size;
 
+    /// @var texture_green_type
+    /// @glconstwrap{TEXTURE_GREEN_TYPE}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_GREEN_SIZE
@@ -2577,6 +2725,8 @@ public:
 #endif
       texture_green_size;
 
+    /// @var texture_blue_size
+    /// @glconstwrap{TEXTURE_BLUE_SIZE}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_BLUE_SIZE
@@ -2586,6 +2736,8 @@ public:
 #endif
       texture_blue_size;
 
+    /// @var texture_alpha_size
+    /// @glconstwrap{TEXTURE_ALPHA_SIZE}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_ALPHA_SIZE
@@ -2595,6 +2747,8 @@ public:
 #endif
       texture_alpha_size;
 
+    /// @var texture_depth_size
+    /// @glconstwrap{TEXTURE_DEPTH_SIZE}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_DEPTH_SIZE
@@ -2613,6 +2767,8 @@ public:
 #endif
       texture_stencil_size;
 
+    /// @var texture_shared_size
+    /// @glconstwrap{TEXTURE_SHARED_SIZE}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_SHARED_SIZE
@@ -2622,56 +2778,68 @@ public:
 #endif
       texture_shared_size;
 
+    /// @var texture_red_type
+    /// @glconstwrap{texture_red_type}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
-#ifdef GL_TEXTURE_RED_SIZE
-      enum_type_c<GL_TEXTURE_RED_SIZE>,
+#ifdef GL_TEXTURE_RED_TYPE
+      enum_type_c<GL_TEXTURE_RED_TYPE>,
 #else
       enum_type_i,
 #endif
       pixel_data_type>
       texture_red_type;
 
+    /// @var texture_green_type
+    /// @glconstwrap{TEXTURE_GREEN_TYPE}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
-#ifdef GL_TEXTURE_GREEN_SIZE
-      enum_type_c<GL_TEXTURE_GREEN_SIZE>,
+#ifdef GL_TEXTURE_GREEN_TYPE
+      enum_type_c<GL_TEXTURE_GREEN_TYPE>,
 #else
       enum_type_i,
 #endif
       pixel_data_type>
       texture_green_type;
 
+    /// @var texture_blue_type
+    /// @glconstwrap{TEXTURE_BLUE_TYPE}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
-#ifdef GL_TEXTURE_BLUE_SIZE
-      enum_type_c<GL_TEXTURE_BLUE_SIZE>,
+#ifdef GL_TEXTURE_BLUE_TYPE
+      enum_type_c<GL_TEXTURE_BLUE_TYPE>,
 #else
       enum_type_i,
 #endif
       pixel_data_type>
       texture_blue_type;
 
+    /// @var texture_alpha_type
+    /// @glconstwrap{TEXTURE_ALPHA_TYPE}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
-#ifdef GL_TEXTURE_ALPHA_SIZE
-      enum_type_c<GL_TEXTURE_ALPHA_SIZE>,
+#ifdef GL_TEXTURE_ALPHA_TYPE
+      enum_type_c<GL_TEXTURE_ALPHA_TYPE>,
 #else
       enum_type_i,
 #endif
       pixel_data_type>
       texture_alpha_type;
 
+    /// @var texture_depth_type
+    /// @glconstwrap{TEXTURE_DEPTH_TYPE}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
-#ifdef GL_TEXTURE_DEPTH_SIZE
-      enum_type_c<GL_TEXTURE_DEPTH_SIZE>,
+#ifdef GL_TEXTURE_DEPTH_TYPE
+      enum_type_c<GL_TEXTURE_DEPTH_TYPE>,
 #else
       enum_type_i,
 #endif
       pixel_data_type>
       texture_depth_type;
 
+    /// @var depth_stencil_texture_mode
+    /// @glconstwrap{DEPTH_STENCIL_TEXTURE_MODE}
     opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
@@ -2681,6 +2849,8 @@ public:
 #endif
       depth_stencil_texture_mode;
 
+    /// @var image_format_compatibility_type
+    /// @glconstwrap{IMAGE_FORMAT_COMPATIBILITY_TYPE}
     opt_c_api_constant<
       mp_list<texture_parameter, internal_format_parameter>,
 #ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
@@ -2690,6 +2860,8 @@ public:
 #endif
       image_format_compatibility_type;
 
+    /// @var texture_base_level
+    /// @glconstwrap{TEXTURE_BASE_LEVEL}
     opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_TEXTURE_BASE_LEVEL
@@ -2699,6 +2871,8 @@ public:
 #endif
       texture_base_level;
 
+    /// @var texture_border_color
+    /// @glconstwrap{TEXTURE_BORDER_COLOR}
     opt_c_api_constant<
       mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_BORDER_COLOR
@@ -2708,6 +2882,8 @@ public:
 #endif
       texture_border_color;
 
+    /// @var texture_compare_mode
+    /// @glconstwrap{TEXTURE_COMPARE_MODE}
     opt_c_api_constant<
       mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_COMPARE_MODE
@@ -2718,6 +2894,8 @@ public:
       oglp::texture_compare_mode>
       texture_compare_mode;
 
+    /// @var texture_compare_func
+    /// @glconstwrap{TEXTURE_COMPARE_FUNC}
     opt_c_api_constant<
       mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_COMPARE_FUNC
@@ -2728,6 +2906,8 @@ public:
       oglp::compare_function>
       texture_compare_func;
 
+    /// @var texture_internal_format
+    /// @glconstwrap{TEXTURE_INTERNAL_FORMAT}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_INTERNAL_FORMAT
@@ -2738,6 +2918,8 @@ public:
       pixel_internal_format>
       texture_internal_format;
 
+    /// @var texture_immutable_format
+    /// @glconstwrap{TEXTURE_IMMUTABLE_FORMAT}
     opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_TEXTURE_IMMUTABLE_FORMAT
@@ -2748,6 +2930,8 @@ public:
       true_false>
       texture_immutable_format;
 
+    /// @var texture_immutable_levels
+    /// @glconstwrap{TEXTURE_IMMUTABLE_LEVELS}
     opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_TEXTURE_IMMUTABLE_LEVELS
@@ -2757,6 +2941,8 @@ public:
 #endif
       texture_immutable_levels;
 
+    /// @var texture_lod_bias
+    /// @glconstwrap{TEXTURE_LOD_BIAS}
     opt_c_api_constant<
       mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_LOD_BIAS
@@ -2766,6 +2952,8 @@ public:
 #endif
       texture_lod_bias;
 
+    /// @var texture_mag_filter
+    /// @glconstwrap{TEXTURE_MAG_FILTER}
     opt_c_api_constant<
       mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_MAG_FILTER
@@ -2776,6 +2964,8 @@ public:
       oglp::texture_mag_filter>
       texture_mag_filter;
 
+    /// @var texture_max_level
+    /// @glconstwrap{TEXTURE_MAX_LEVEL}
     opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_TEXTURE_MAX_LEVEL
@@ -2785,6 +2975,8 @@ public:
 #endif
       texture_max_level;
 
+    /// @var texture_max_lod
+    /// @glconstwrap{TEXTURE_MAX_LOD}
     opt_c_api_constant<
       mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_MAX_LOD
@@ -2794,6 +2986,8 @@ public:
 #endif
       texture_max_lod;
 
+    /// @var texture_min_filter
+    /// @glconstwrap{TEXTURE_MIN_FILTER}
     opt_c_api_constant<
       mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_MIN_FILTER
@@ -2804,6 +2998,8 @@ public:
       oglp::texture_min_filter>
       texture_min_filter;
 
+    /// @var texture_min_lod
+    /// @glconstwrap{TEXTURE_MIN_LOD}
     opt_c_api_constant<
       mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_MIN_LOD
@@ -2813,6 +3009,8 @@ public:
 #endif
       texture_min_lod;
 
+    /// @var texture_swizzle_r
+    /// @glconstwrap{TEXTURE_SWIZZLE_R}
     opt_c_api_constant<
       mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_R
@@ -2823,6 +3021,8 @@ public:
       texture_swizzle_mode>
       texture_swizzle_r;
 
+    /// @var texture_swizzle_g
+    /// @glconstwrap{TEXTURE_SWIZZLE_G}
     opt_c_api_constant<
       mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_G
@@ -2833,6 +3033,8 @@ public:
       texture_swizzle_mode>
       texture_swizzle_g;
 
+    /// @var texture_swizzle_b
+    /// @glconstwrap{TEXTURE_SWIZZLE_B}
     opt_c_api_constant<
       mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_B
@@ -2843,6 +3045,8 @@ public:
       texture_swizzle_mode>
       texture_swizzle_b;
 
+    /// @var texture_swizzle_a
+    /// @glconstwrap{TEXTURE_SWIZZLE_A}
     opt_c_api_constant<
       mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_A
@@ -2853,6 +3057,8 @@ public:
       texture_swizzle_mode>
       texture_swizzle_a;
 
+    /// @var texture_swizzle_rgba
+    /// @glconstwrap{TEXTURE_SWIZZLE_RGBA}
     opt_c_api_constant<
       mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_RGBA
@@ -2862,6 +3068,8 @@ public:
 #endif
       texture_swizzle_rgba;
 
+    /// @var texture_target
+    /// @glconstwrap{TEXTURE_TARGET}
     opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_TEXTURE_TARGET
@@ -2872,6 +3080,8 @@ public:
       oglp::texture_target>
       texture_target;
 
+    /// @var texture_view_min_layer
+    /// @glconstwrap{TEXTURE_VIEW_MIN_LAYER}
     opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_TEXTURE_VIEW_MIN_LAYER
@@ -2881,6 +3091,8 @@ public:
 #endif
       texture_view_min_layer;
 
+    /// @var texture_view_min_level
+    /// @glconstwrap{TEXTURE_VIEW_MIN_LEVEL}
     opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_TEXTURE_VIEW_MIN_LEVEL
@@ -2890,6 +3102,8 @@ public:
 #endif
       texture_view_min_level;
 
+    /// @var texture_view_num_layers
+    /// @glconstwrap{TEXTURE_VIEW_NUM_LAYERS}
     opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_TEXTURE_VIEW_NUM_LAYERS
@@ -2899,6 +3113,8 @@ public:
 #endif
       texture_view_num_layers;
 
+    /// @var texture_view_num_levels
+    /// @glconstwrap{TEXTURE_VIEW_NUM_LEVELS}
     opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_TEXTURE_VIEW_NUM_LEVELS
@@ -2908,6 +3124,8 @@ public:
 #endif
       texture_view_num_levels;
 
+    /// @var texture_fixed_sample_locations
+    /// @glconstwrap{TEXTURE_FIXED_SAMPLE_LOCATIONS}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_FIXED_SAMPLE_LOCATIONS
@@ -2918,6 +3136,8 @@ public:
       true_false>
       texture_fixed_sample_locations;
 
+    /// @var texture_wrap_s
+    /// @glconstwrap{TEXTURE_WRAP_S}
     opt_c_api_constant<
       mp_list<texture_parameter, texture_wrap_coord, sampler_parameter>,
 #ifdef GL_TEXTURE_WRAP_S
@@ -2928,6 +3148,8 @@ public:
       oglp::texture_wrap_mode>
       texture_wrap_s;
 
+    /// @var texture_wrap_t
+    /// @glconstwrap{TEXTURE_WRAP_T}
     opt_c_api_constant<
       mp_list<texture_parameter, texture_wrap_coord, sampler_parameter>,
 #ifdef GL_TEXTURE_WRAP_T
@@ -2938,6 +3160,8 @@ public:
       oglp::texture_wrap_mode>
       texture_wrap_t;
 
+    /// @var texture_wrap_r
+    /// @glconstwrap{TEXTURE_WRAP_R}
     opt_c_api_constant<
       mp_list<texture_parameter, texture_wrap_coord, sampler_parameter>,
 #ifdef GL_TEXTURE_WRAP_R
