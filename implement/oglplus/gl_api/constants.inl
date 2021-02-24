@@ -151,7 +151,7 @@ basic_gl_constants<ApiTraits>::basic_gl_constants(
   , geometry_input_type("GEOMETRY_INPUT_TYPE", traits, api)
   , geometry_output_type("GEOMETRY_OUTPUT_TYPE", traits, api)
   , tess_gen_point_mode("TESS_GEN_POINT_MODE", traits, api)
-  , gl_program_binary_format_mesa("PROGRAM_BINARY_FORMAT_MESA", traits, api)
+  , program_binary_format_mesa("PROGRAM_BINARY_FORMAT_MESA", traits, api)
   , active_program("ACTIVE_PROGRAM", traits, api)
   , renderbuffer_width("RENDERBUFFER_WIDTH", traits, api)
   , renderbuffer_height("RENDERBUFFER_HEIGHT", traits, api)
