@@ -4560,6 +4560,8 @@ public:
 #endif
       uniform_buffer_unified_nv;
 
+    /// @var front_left
+    /// @glconstwrap{FRONT_LEFT}
     opt_c_api_constant<
       mp_list<surface_buffer, framebuffer_attachment>,
 #ifdef GL_FRONT_LEFT
@@ -4569,6 +4571,8 @@ public:
 #endif
       front_left;
 
+    /// @var front_right
+    /// @glconstwrap{FRONT_RIGHT}
     opt_c_api_constant<
       mp_list<surface_buffer, framebuffer_attachment>,
 #ifdef GL_FRONT_RIGHT
@@ -4578,6 +4582,8 @@ public:
 #endif
       front_right;
 
+    /// @var back_left
+    /// @glconstwrap{BACK_LEFT}
     opt_c_api_constant<
       mp_list<surface_buffer, framebuffer_attachment>,
 #ifdef GL_BACK_LEFT
@@ -4587,6 +4593,8 @@ public:
 #endif
       back_left;
 
+    /// @var back_right
+    /// @glconstwrap{BACK_RIGHT}
     opt_c_api_constant<
       mp_list<surface_buffer, framebuffer_attachment>,
 #ifdef GL_BACK_RIGHT
@@ -4596,6 +4604,8 @@ public:
 #endif
       back_right;
 
+    /// @var front
+    /// @glconstwrap{FRONT}
     opt_c_api_constant<
       mp_list<surface_buffer, face_mode, framebuffer_attachment>,
 #ifdef GL_FRONT
@@ -4605,6 +4615,8 @@ public:
 #endif
       front;
 
+    /// @var back
+    /// @glconstwrap{BACK}
     opt_c_api_constant<
       mp_list<surface_buffer, face_mode, framebuffer_attachment>,
 #ifdef GL_BACK
@@ -4614,6 +4626,8 @@ public:
 #endif
       back;
 
+    /// @var left
+    /// @glconstwrap{LEFT}
     opt_c_api_constant<
       mp_list<surface_buffer>,
 #ifdef GL_LEFT
@@ -4623,6 +4637,8 @@ public:
 #endif
       left;
 
+    /// @var right
+    /// @glconstwrap{RIGHT}
     opt_c_api_constant<
       mp_list<surface_buffer>,
 #ifdef GL_RIGHT
@@ -4632,6 +4648,8 @@ public:
 #endif
       right;
 
+    /// @var front_and_back
+    /// @glconstwrap{FRONT_AND_BACK}
     opt_c_api_constant<
       mp_list<surface_buffer, face_mode>,
 #ifdef GL_FRONT_AND_BACK
@@ -4641,6 +4659,8 @@ public:
 #endif
       front_and_back;
 
+    /// @var array_buffer_binding
+    /// @glconstwrap{ARRAY_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query, program_property>,
 #ifdef GL_ARRAY_BUFFER_BINDING
@@ -4651,6 +4671,8 @@ public:
       buffer_name>
       array_buffer_binding;
 
+    /// @var atomic_counter_buffer_binding
+    /// @glconstwrap{ATOMIC_COUNTER_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_ATOMIC_COUNTER_BUFFER_BINDING
@@ -4661,6 +4683,8 @@ public:
       buffer_name>
       atomic_counter_buffer_binding;
 
+    /// @var copy_read_buffer_binding
+    /// @glconstwrap{COPY_READ_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_COPY_READ_BUFFER_BINDING
@@ -4671,6 +4695,8 @@ public:
       buffer_name>
       copy_read_buffer_binding;
 
+    /// @var copy_write_buffer_binding
+    /// @glconstwrap{COPY_WRITE_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_COPY_WRITE_BUFFER_BINDING
@@ -4681,6 +4707,8 @@ public:
       buffer_name>
       copy_write_buffer_binding;
 
+    /// @var dispatch_indirect_buffer_binding
+    /// @glconstwrap{DISPATCH_INDIRECT_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
@@ -4691,6 +4719,8 @@ public:
       buffer_name>
       dispatch_indirect_buffer_binding;
 
+    /// @var draw_indirect_buffer_binding
+    /// @glconstwrap{DRAW_INDIRECT_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_DRAW_INDIRECT_BUFFER_BINDING
@@ -4701,6 +4731,8 @@ public:
       buffer_name>
       draw_indirect_buffer_binding;
 
+    /// @var element_array_buffer_binding
+    /// @glconstwrap{ELEMENT_ARRAY_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_ELEMENT_ARRAY_BUFFER_BINDING
@@ -4711,6 +4743,8 @@ public:
       buffer_name>
       element_array_buffer_binding;
 
+    /// @var pixel_pack_buffer_binding
+    /// @glconstwrap{PIXEL_PACK_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_PIXEL_PACK_BUFFER_BINDING
@@ -4721,6 +4755,8 @@ public:
       buffer_name>
       pixel_pack_buffer_binding;
 
+    /// @var pixel_unpack_buffer_binding
+    /// @glconstwrap{PIXEL_UNPACK_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_PIXEL_UNPACK_BUFFER_BINDING
@@ -4731,6 +4767,8 @@ public:
       buffer_name>
       pixel_unpack_buffer_binding;
 
+    /// @var shader_storage_buffer_binding
+    /// @glconstwrap{SHADER_STORAGE_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_SHADER_STORAGE_BUFFER_BINDING
@@ -4741,6 +4779,8 @@ public:
       buffer_name>
       shader_storage_buffer_binding;
 
+    /// @var texture_buffer_binding
+    /// @glconstwrap{TEXTURE_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BUFFER_BINDING
@@ -4751,6 +4791,8 @@ public:
       buffer_name>
       texture_buffer_binding;
 
+    /// @var transform_feedback_buffer_binding
+    /// @glconstwrap{TRANSFORM_FEEDBACK_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query, transform_feedback_parameter>,
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
@@ -4761,6 +4803,8 @@ public:
       buffer_name>
       transform_feedback_buffer_binding;
 
+    /// @var uniform_buffer_binding
+    /// @glconstwrap{UNIFORM_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_UNIFORM_BUFFER_BINDING
@@ -4771,6 +4815,8 @@ public:
       buffer_name>
       uniform_buffer_binding;
 
+    /// @var query_buffer_binding
+    /// @glconstwrap{QUERY_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_QUERY_BUFFER_BINDING
@@ -4781,6 +4827,8 @@ public:
       buffer_name>
       query_buffer_binding;
 
+    /// @var parameter_buffer_binding
+    /// @glconstwrap{PARAMETER_BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_PARAMETER_BUFFER_BINDING_ARB
@@ -4791,6 +4839,8 @@ public:
       buffer_name>
       parameter_buffer_binding;
 
+    /// @var buffer_binding
+    /// @glconstwrap{BUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_BUFFER_BINDING
@@ -4800,6 +4850,8 @@ public:
 #endif
       buffer_binding;
 
+    /// @var draw_framebuffer_binding
+    /// @glconstwrap{DRAW_FRAMEBUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_DRAW_FRAMEBUFFER_BINDING
@@ -4810,6 +4862,8 @@ public:
       framebuffer_name>
       draw_framebuffer_binding;
 
+    /// @var renderbuffer_binding
+    /// @glconstwrap{RENDERBUFFER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_RENDERBUFFER_BINDING
@@ -4820,6 +4874,8 @@ public:
       renderbuffer_name>
       renderbuffer_binding;
 
+    /// @var sampler_binding
+    /// @glconstwrap{SAMPLER_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_SAMPLER_BINDING
@@ -4830,6 +4886,8 @@ public:
       sampler_name>
       sampler_binding;
 
+    /// @var texture_binding_1d
+    /// @glconstwrap{TEXTURE_BINDING_1D}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_1D
@@ -4840,6 +4898,8 @@ public:
       texture_name>
       texture_binding_1d;
 
+    /// @var texture_binding_2d
+    /// @glconstwrap{TEXTURE_BINDING_2D}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_2D
@@ -4850,6 +4910,8 @@ public:
       texture_name>
       texture_binding_2d;
 
+    /// @var texture_binding_3d
+    /// @glconstwrap{TEXTURE_BINDING_3D}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_3D
@@ -4860,6 +4922,8 @@ public:
       texture_name>
       texture_binding_3d;
 
+    /// @var texture_binding_1d_array
+    /// @glconstwrap{TEXTURE_BINDING_1D_ARRAY}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_1D_ARRAY
@@ -4870,6 +4934,8 @@ public:
       texture_name>
       texture_binding_1d_array;
 
+    /// @var texture_binding_2d_array
+    /// @glconstwrap{TEXTURE_BINDING_2D_ARRAY}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_2D_ARRAY
@@ -4880,6 +4946,8 @@ public:
       texture_name>
       texture_binding_2d_array;
 
+    /// @var texture_binding_rectangle
+    /// @glconstwrap{TEXTURE_BINDING_RECTANGLE}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_RECTANGLE
@@ -4890,6 +4958,8 @@ public:
       texture_name>
       texture_binding_rectangle;
 
+    /// @var texture_binding_buffer
+    /// @glconstwrap{TEXTURE_BINDING_BUFFER}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_BUFFER
@@ -4900,6 +4970,8 @@ public:
       texture_name>
       texture_binding_buffer;
 
+    /// @var texture_binding_cube_map
+    /// @glconstwrap{TEXTURE_BINDING_CUBE_MAP}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_CUBE_MAP
@@ -4910,6 +4982,8 @@ public:
       texture_name>
       texture_binding_cube_map;
 
+    /// @var texture_binding_cube_map_array
+    /// @glconstwrap{TEXTURE_BINDING_CUBE_MAP_ARRAY}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_CUBE_MAP_ARRAY
@@ -4920,6 +4994,8 @@ public:
       texture_name>
       texture_binding_cube_map_array;
 
+    /// @var texture_binding_2d_multisample
+    /// @glconstwrap{TEXTURE_BINDING_2D_MULTISAMPLE}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE
@@ -4930,6 +5006,8 @@ public:
       texture_name>
       texture_binding_2d_multisample;
 
+    /// @var texture_binding_2d_multisample_array
+    /// @glconstwrap{TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY
@@ -4940,9 +5018,13 @@ public:
       texture_name>
       texture_binding_2d_multisample_array;
 
+    /// @var texture_binding_external
+    /// @glconstwrap{TEXTURE_BINDING_EXTERNAL}
     opt_c_api_constant<mp_list<binding_query>, enum_type_c<0x8D67>, texture_name>
       texture_binding_external;
 
+    /// @var transform_feedback_binding
+    /// @glconstwrap{TRANSFORM_FEEDBACK_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TRANSFORM_FEEDBACK_BINDING
@@ -4953,6 +5035,8 @@ public:
       transform_feedback_name>
       transform_feedback_binding;
 
+    /// @var vertex_array_binding
+    /// @glconstwrap{VERTEX_ARRAY_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_VERTEX_ARRAY_BINDING
@@ -4963,6 +5047,8 @@ public:
       vertex_array_name>
       vertex_array_binding;
 
+    /// @var program_pipeline_binding
+    /// @glconstwrap{PROGRAM_PIPELINE_BINDING}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_PROGRAM_PIPELINE_BINDING
@@ -4973,6 +5059,8 @@ public:
       program_pipeline_name>
       program_pipeline_binding;
 
+    /// @var current_program
+    /// @glconstwrap{CURRENT_PROGRAM}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_CURRENT_PROGRAM
@@ -4983,6 +5071,8 @@ public:
       program_name>
       current_program;
 
+    /// @var draw_buffer0
+    /// @glconstwrap{DRAW_BUFFER0}
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_DRAW_BUFFER0
@@ -4994,7 +5084,8 @@ public:
       true>
       draw_buffer0;
 
-    // integer query
+    /// @var major_version
+    /// @glconstwrap{MAJOR_VERSION}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_MAJOR_VERSION
@@ -5004,6 +5095,8 @@ public:
 #endif
       major_version;
 
+    /// @var minor_version
+    /// @glconstwrap{MINOR_VERSION}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_MINOR_VERSION
@@ -5013,6 +5106,8 @@ public:
 #endif
       minor_version;
 
+    /// @var reset_notification_strategy
+    /// @glconstwrap{RESET_NOTIFICATION_STRATEGY}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_RESET_NOTIFICATION_STRATEGY
@@ -5023,6 +5118,8 @@ public:
       oglp::reset_notification_strategy>
       reset_notification_strategy;
 
+    /// @var num_shading_language_versions
+    /// @glconstwrap{NUM_SHADING_LANGUAGE_VERSIONS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_NUM_SHADING_LANGUAGE_VERSIONS
@@ -5032,6 +5129,8 @@ public:
 #endif
       num_shading_language_versions;
 
+    /// @var num_extensions
+    /// @glconstwrap{NUM_EXTENSIONS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_NUM_EXTENSIONS
@@ -5041,6 +5140,8 @@ public:
 #endif
       num_extensions;
 
+    /// @var num_spir_v_extensions
+    /// @glconstwrap{NUM_SPIR_V_EXTENSIONS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_NUM_SPIR_V_EXTENSIONS
@@ -5050,6 +5151,8 @@ public:
 #endif
       num_spir_v_extensions;
 
+    /// @var context_flags
+    /// @glconstwrap{CONTEXT_FLAGS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_CONTEXT_FLAGS
@@ -5060,6 +5163,8 @@ public:
       enum_bitfield<context_flag_bit>>
       context_flags;
 
+    /// @var context_profile_mask
+    /// @glconstwrap{CONTEXT_PROFILE_MASK}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_CONTEXT_PROFILE_MASK
@@ -5070,6 +5175,8 @@ public:
       enum_bitfield<context_profile_bit>>
       context_profile_mask;
 
+    /// @var doublebuffer
+    /// @glconstwrap{DOUBLEBUFFER}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_DOUBLEBUFFER
@@ -5079,6 +5186,8 @@ public:
 #endif
       doublebuffer;
 
+    /// @var stereo
+    /// @glconstwrap{STEREO}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STEREO
@@ -5088,6 +5197,8 @@ public:
 #endif
       stereo;
 
+    /// @var clip_origin
+    /// @glconstwrap{CLIP_ORIGIN}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_CLIP_ORIGIN
@@ -5097,6 +5208,8 @@ public:
 #endif
       clip_origin;
 
+    /// @var clip_depth_mode
+    /// @glconstwrap{CLIP_DEPTH_MODE}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_CLIP_DEPTH_MODE
@@ -5106,6 +5219,8 @@ public:
 #endif
       clip_depth_mode;
 
+    /// @var clamp_read_color
+    /// @glconstwrap{CLAMP_READ_COLOR}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_CLAMP_READ_COLOR
@@ -5115,6 +5230,8 @@ public:
 #endif
       clamp_read_color;
 
+    /// @var provoking_vertex
+    /// @glconstwrap{PROVOKING_VERTEX}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_PROVOKING_VERTEX
@@ -5125,6 +5242,8 @@ public:
       provoke_mode>
       provoking_vertex;
 
+    /// @var layer_provoking_vertex
+    /// @glconstwrap{LAYER_PROVOKING_VERTEX}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_LAYER_PROVOKING_VERTEX
@@ -5135,6 +5254,8 @@ public:
       provoke_mode>
       layer_provoking_vertex;
 
+    /// @var viewport_index_provoking_vertex
+    /// @glconstwrap{VIEWPORT_INDEX_PROVOKING_VERTEX}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_VIEWPORT_INDEX_PROVOKING_VERTEX
@@ -5145,6 +5266,8 @@ public:
       provoke_mode>
       viewport_index_provoking_vertex;
 
+    /// @var cull_face_mode
+    /// @glconstwrap{CULL_FACE_MODE}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_CULL_FACE_MODE
@@ -5155,6 +5278,8 @@ public:
       face_mode>
       cull_face_mode;
 
+    /// @var front_face
+    /// @glconstwrap{FRONT_FACE}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_FRONT_FACE
@@ -5165,6 +5290,8 @@ public:
       face_orientation>
       front_face;
 
+    /// @var polygon_mode
+    /// @glconstwrap{POLYGON_MODE}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_POLYGON_MODE
@@ -5175,6 +5302,8 @@ public:
       oglp::polygon_mode>
       polygon_mode;
 
+    /// @var active_texture
+    /// @glconstwrap{ACTIVE_TEXTURE}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_ACTIVE_TEXTURE
@@ -5185,6 +5314,8 @@ public:
       texture_unit>
       active_texture;
 
+    /// @var stencil_func
+    /// @glconstwrap{STENCIL_FUNC}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_FUNC
@@ -5194,6 +5325,8 @@ public:
 #endif
       stencil_func;
 
+    /// @var stencil_value_mask
+    /// @glconstwrap{STENCIL_VALUE_MASK}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_VALUE_MASK
@@ -5203,6 +5336,8 @@ public:
 #endif
       stencil_value_mask;
 
+    /// @var stencil_ref
+    /// @glconstwrap{STENCIL_REF}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_REF
@@ -5212,6 +5347,8 @@ public:
 #endif
       stencil_ref;
 
+    /// @var stencil_fail
+    /// @glconstwrap{STENCIL_FAIL}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_FAIL
@@ -5221,6 +5358,8 @@ public:
 #endif
       stencil_fail;
 
+    /// @var stencil_pass_depth_pass
+    /// @glconstwrap{STENCIL_PASS_DEPTH_PASS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_PASS_DEPTH_FAIL
@@ -5230,6 +5369,8 @@ public:
 #endif
       stencil_pass_depth_fail;
 
+    /// @var stencil_pass_depth_pass
+    /// @glconstwrap{STENCIL_PASS_DEPTH_PASS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_PASS_DEPTH_PASS
@@ -5239,6 +5380,8 @@ public:
 #endif
       stencil_pass_depth_pass;
 
+    /// @var stencil_back_func
+    /// @glconstwrap{STENCIL_BACK_FUNC}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_BACK_FUNC
@@ -5248,6 +5391,8 @@ public:
 #endif
       stencil_back_func;
 
+    /// @var stencil_back_value_mask
+    /// @glconstwrap{STENCIL_BACK_VALUE_MASK}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_BACK_VALUE_MASK
@@ -5257,6 +5402,8 @@ public:
 #endif
       stencil_back_value_mask;
 
+    /// @var stencil_back_ref
+    /// @glconstwrap{STENCIL_BACK_REF}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_BACK_REF
@@ -5266,6 +5413,8 @@ public:
 #endif
       stencil_back_ref;
 
+    /// @var stencil_back_fail
+    /// @glconstwrap{STENCIL_BACK_FAIL}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_BACK_FAIL
@@ -5275,6 +5424,8 @@ public:
 #endif
       stencil_back_fail;
 
+    /// @var stencil_back_pass_depth_fail
+    /// @glconstwrap{STENCIL_BACK_PASS_DEPTH_FAIL}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_BACK_PASS_DEPTH_FAIL
@@ -5284,6 +5435,8 @@ public:
 #endif
       stencil_back_pass_depth_fail;
 
+    /// @var stencil_back_pass_depth_pass
+    /// @glconstwrap{STENCIL_BACK_PASS_DEPTH_PASS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_BACK_PASS_DEPTH_PASS
@@ -5293,6 +5446,8 @@ public:
 #endif
       stencil_back_pass_depth_pass;
 
+    /// @var stencil_writemask
+    /// @glconstwrap{STENCIL_WRITEMASK}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_WRITEMASK
@@ -5302,6 +5457,8 @@ public:
 #endif
       stencil_writemask;
 
+    /// @var stencil_back_writemask
+    /// @glconstwrap{STENCIL_BACK_WRITEMASK}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_BACK_WRITEMASK
@@ -5311,6 +5468,8 @@ public:
 #endif
       stencil_back_writemask;
 
+    /// @var stencil_clear_value
+    /// @glconstwrap{STENCIL_CLEAR_VALUE}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_STENCIL_CLEAR_VALUE
@@ -5320,6 +5479,8 @@ public:
 #endif
       stencil_clear_value;
 
+    /// @var depth_func
+    /// @glconstwrap{DEPTH_FUNC}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_DEPTH_FUNC
@@ -5329,6 +5490,8 @@ public:
 #endif
       depth_func;
 
+    /// @var logic_op_mode
+    /// @glconstwrap{LOGIC_OP_MODE}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_LOGIC_OP_MODE
@@ -5338,6 +5501,8 @@ public:
 #endif
       logic_op_mode;
 
+    /// @var sample_buffers
+    /// @glconstwrap{SAMPLE_BUFFERS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_SAMPLE_BUFFERS
@@ -5347,6 +5512,8 @@ public:
 #endif
       sample_buffers;
 
+    /// @var subpixel_bits
+    /// @glconstwrap{SUBPIXEL_BITS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_SUBPIXEL_BITS
@@ -5356,6 +5523,8 @@ public:
 #endif
       subpixel_bits;
 
+    /// @var viewport_subpixel_bits
+    /// @glconstwrap{VIEWPORT_SUBPIXEL_BITS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_VIEWPORT_SUBPIXEL_BITS
@@ -5365,6 +5534,8 @@ public:
 #endif
       viewport_subpixel_bits;
 
+    /// @var num_compressed_texture_formats
+    /// @glconstwrap{NUM_COMPRESSED_TEXTURE_FORMATS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_NUM_COMPRESSED_TEXTURE_FORMATS
@@ -5374,6 +5545,8 @@ public:
 #endif
       num_compressed_texture_formats;
 
+    /// @var compressed_texture_formats
+    /// @glconstwrap{COMPRESSED_TEXTURE_FORMATS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_COMPRESSED_TEXTURE_FORMATS
@@ -5383,6 +5556,8 @@ public:
 #endif
       compressed_texture_formats;
 
+    /// @var num_program_binary_formats
+    /// @glconstwrap{NUM_PROGRAM_BINARY_FORMATS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_NUM_PROGRAM_BINARY_FORMATS
@@ -5392,6 +5567,8 @@ public:
 #endif
       num_program_binary_formats;
 
+    /// @var program_binary_formats
+    /// @glconstwrap{PROGRAM_BINARY_FORMATS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_PROGRAM_BINARY_FORMATS
@@ -5401,6 +5578,8 @@ public:
 #endif
       program_binary_formats;
 
+    /// @var num_shader_binary_formats
+    /// @glconstwrap{NUM_SHADER_BINARY_FORMATS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_NUM_SHADER_BINARY_FORMATS
@@ -5410,6 +5589,8 @@ public:
 #endif
       num_shader_binary_formats;
 
+    /// @var shader_binary_formats
+    /// @glconstwrap{SHADER_BINARY_FORMATS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_SHADER_BINARY_FORMATS
@@ -5419,6 +5600,8 @@ public:
 #endif
       shader_binary_formats;
 
+    /// @var texture_buffer_offset_alignment
+    /// @glconstwrap{TEXTURE_BUFFER_OFFSET_ALIGNMENT}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT
@@ -5428,6 +5611,8 @@ public:
 #endif
       texture_buffer_offset_alignment;
 
+    /// @var max_vertex_uniform_blocks
+    /// @glconstwrap{MAX_VERTEX_UNIFORM_BLOCKS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_MAX_VERTEX_UNIFORM_BLOCKS
@@ -5437,6 +5622,8 @@ public:
 #endif
       max_vertex_uniform_blocks;
 
+    /// @var max_tess_control_uniform_blocks
+    /// @glconstwrap{MAX_TESS_CONTROL_UNIFORM_BLOCKS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS
@@ -5446,6 +5633,8 @@ public:
 #endif
       max_tess_control_uniform_blocks;
 
+    /// @var max_tess_evaluation_uniform_blocks
+    /// @glconstwrap{MAX_TESS_EVALUATION_UNIFORM_BLOCKS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS
@@ -5455,6 +5644,8 @@ public:
 #endif
       max_tess_evaluation_uniform_blocks;
 
+    /// @var max_geometry_uniform_blocks
+    /// @glconstwrap{MAX_GEOMETRY_UNIFORM_BLOCKS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_MAX_GEOMETRY_UNIFORM_BLOCKS
@@ -5464,6 +5655,8 @@ public:
 #endif
       max_geometry_uniform_blocks;
 
+    /// @var max_fragment_uniform_blocks
+    /// @glconstwrap{MAX_FRAGMENT_UNIFORM_BLOCKS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_MAX_FRAGMENT_UNIFORM_BLOCKS
@@ -5473,6 +5666,8 @@ public:
 #endif
       max_fragment_uniform_blocks;
 
+    /// @var max_compute_uniform_blocks
+    /// @glconstwrap{MAX_COMPUTE_UNIFORM_BLOCKS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_MAX_COMPUTE_UNIFORM_BLOCKS
@@ -5482,6 +5677,8 @@ public:
 #endif
       max_compute_uniform_blocks;
 
+    /// @var max_combined_uniform_blocks
+    /// @glconstwrap{MAX_COMBINED_UNIFORM_BLOCKS}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_MAX_COMBINED_UNIFORM_BLOCKS
@@ -5491,6 +5688,8 @@ public:
 #endif
       max_combined_uniform_blocks;
 
+    /// @var max_uniform_block_size
+    /// @glconstwrap{MAX_UNIFORM_BLOCK_SIZE}
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_MAX_UNIFORM_BLOCK_SIZE
