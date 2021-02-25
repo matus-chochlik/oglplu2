@@ -9,6 +9,7 @@
 #ifndef EAGINE_SERIALIZE_DATA_SINK_HPP
 #define EAGINE_SERIALIZE_DATA_SINK_HPP
 
+#include "../interface.hpp"
 #include "../memory/split_block.hpp"
 #include "../span.hpp"
 #include "../string_span.hpp"
@@ -16,14 +17,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-struct serializer_data_sink {
-    serializer_data_sink() noexcept = default;
-    serializer_data_sink(serializer_data_sink&&) noexcept = default;
-    serializer_data_sink(const serializer_data_sink&) = delete;
-    auto operator=(serializer_data_sink&&) noexcept
-      -> serializer_data_sink& = default;
-    auto operator=(const serializer_data_sink&) = delete;
-    virtual ~serializer_data_sink() noexcept = default;
+struct serializer_data_sink : abstract<serializer_data_sink> {
 
     using result = serialization_errors;
 

@@ -11,6 +11,7 @@
 #include "assert.hpp"
 #include "from_string.hpp"
 #include "integer_range.hpp"
+#include "interface.hpp"
 #include "memory/block.hpp"
 #include "memory/span_algo.hpp"
 #include "range_types.hpp"
@@ -880,14 +881,7 @@ private:
 //------------------------------------------------------------------------------
 class program_parameters {
 private:
-    struct _intf {
-        _intf() noexcept = default;
-        _intf(_intf&&) noexcept = delete;
-        _intf(const _intf&) noexcept = delete;
-        auto operator=(_intf&&) noexcept = delete;
-        auto operator=(const _intf&) noexcept = delete;
-        virtual ~_intf() = default;
-
+    struct _intf : interface<_intf> {
         virtual auto parse(program_arg&, std::ostream&) -> bool = 0;
 
         virtual auto has_valid_value() const -> bool = 0;

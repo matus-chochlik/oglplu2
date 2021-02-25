@@ -10,6 +10,7 @@
 
 #include "../assert.hpp"
 #include "../callable_ref.hpp"
+#include "../interface.hpp"
 #include "entity_traits.hpp"
 #include "manipulator.hpp"
 #include "storage_caps.hpp"
@@ -18,14 +19,8 @@
 namespace eagine::ecs {
 
 template <typename Entity>
-struct storage_iterator_intf<Entity, true> {
-    storage_iterator_intf() noexcept = default;
-    storage_iterator_intf(storage_iterator_intf&&) noexcept = default;
-    storage_iterator_intf(const storage_iterator_intf&) = delete;
-    auto operator=(storage_iterator_intf&&) = delete;
-    auto operator=(const storage_iterator_intf&) = delete;
-
-    virtual ~storage_iterator_intf() noexcept = default;
+struct storage_iterator_intf<Entity, true>
+  : interface<storage_iterator_intf<Entity, true>> {
 
     virtual auto reset() -> void = 0;
 
@@ -96,17 +91,9 @@ public:
 };
 
 template <typename Entity>
-struct base_storage<Entity, true> {
+struct base_storage<Entity, true> : interface<base_storage<Entity, true>> {
     using entity_param = entity_param_t<Entity>;
     using iterator_t = storage_iterator<Entity, true>;
-
-    base_storage() noexcept = default;
-    base_storage(base_storage&&) noexcept = default;
-    base_storage(const base_storage&) = delete;
-    auto operator=(base_storage&&) = delete;
-    auto operator=(const base_storage&) = delete;
-
-    virtual ~base_storage() noexcept = default;
 
     virtual auto capabilities() -> storage_caps = 0;
 

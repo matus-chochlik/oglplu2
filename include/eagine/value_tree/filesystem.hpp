@@ -10,20 +10,14 @@
 #define EAGINE_VALUE_TREE_FILESYSTEM_HPP
 
 #include "../config/basic.hpp"
+#include "../interface.hpp"
 #include "../main_ctx_fwd.hpp"
 #include "wrappers.hpp"
 #include <memory>
 
 namespace eagine::valtree {
 //------------------------------------------------------------------------------
-struct file_compound_factory {
-    file_compound_factory() noexcept = default;
-    file_compound_factory(file_compound_factory&&) noexcept = default;
-    file_compound_factory(const file_compound_factory&) = delete;
-    auto operator=(file_compound_factory&&) = delete;
-    auto operator=(const file_compound_factory&) = delete;
-    virtual ~file_compound_factory() noexcept = default;
-
+struct file_compound_factory : interface<file_compound_factory> {
     virtual auto make_compound(string_view path, logger&) -> compound = 0;
 };
 //------------------------------------------------------------------------------

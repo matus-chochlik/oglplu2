@@ -10,6 +10,7 @@
 #define EAGINE_MESSAGE_BUS_CONNECTION_HPP
 
 #include "../callable_ref.hpp"
+#include "../interface.hpp"
 #include "../message_id.hpp"
 #include "../type_identity.hpp"
 #include "../valid_if/positive.hpp"
@@ -56,13 +57,7 @@ using stream_protocol_tag =
 using datagram_protocol_tag =
   connection_protocol_tag<connection_protocol::datagram>;
 //------------------------------------------------------------------------------
-struct connection_info {
-    virtual ~connection_info() noexcept = default;
-    connection_info() noexcept = default;
-    connection_info(connection_info&&) noexcept = default;
-    connection_info(const connection_info&) = delete;
-    auto operator=(connection_info&&) = delete;
-    auto operator=(const connection_info&) = delete;
+struct connection_info : interface<connection_info> {
 
     virtual auto kind() -> connection_kind = 0;
 
@@ -95,13 +90,7 @@ struct connection : connection_info {
     virtual auto fetch_messages(fetch_handler handler) -> bool = 0;
 };
 //------------------------------------------------------------------------------
-struct connection_user {
-    virtual ~connection_user() noexcept = default;
-    connection_user() noexcept = default;
-    connection_user(connection_user&&) noexcept = default;
-    connection_user(const connection_user&) = delete;
-    auto operator=(connection_user&&) = delete;
-    auto operator=(const connection_user&) = delete;
+struct connection_user : interface<connection_user> {
 
     virtual auto add_connection(std::unique_ptr<connection>) -> bool = 0;
 };

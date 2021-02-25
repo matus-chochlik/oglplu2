@@ -12,6 +12,7 @@
 #include "../assert.hpp"
 #include "../compare.hpp"
 #include "../integer_range.hpp"
+#include "../interface.hpp"
 #include "../math/primitives.hpp"
 #include "../span.hpp"
 #include "../types.hpp"
@@ -31,14 +32,7 @@ using drawing_variant = span_size_t;
 //------------------------------------------------------------------------------
 /// @brief Interface for shape loaders or generators.
 /// @ingroup shapes
-struct generator_intf {
-
-    generator_intf() = default;
-    generator_intf(generator_intf&&) noexcept = default;
-    generator_intf(const generator_intf&) = default;
-    auto operator=(generator_intf&&) = delete;
-    auto operator=(const generator_intf&) = delete;
-    virtual ~generator_intf() = default;
+struct generator_intf : interface<generator_intf> {
 
     /// @brief Returns the set of vertex attributes supported by this generator.
     virtual auto attrib_bits() noexcept -> vertex_attrib_bits = 0;

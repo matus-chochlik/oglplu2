@@ -9,6 +9,7 @@
 #ifndef EAGINE_LOGGING_BACKEND_HPP
 #define EAGINE_LOGGING_BACKEND_HPP
 
+#include "../interface.hpp"
 #include "../memory/block.hpp"
 #include "../memory/shared_alloc.hpp"
 #include "../message_id.hpp"
@@ -55,14 +56,7 @@ using logger_instance_id = std::uintptr_t;
 
 /// @brief Interface for logging backend implementations.
 /// @ingroup logging
-struct logger_backend {
-
-    logger_backend() noexcept = default;
-    logger_backend(logger_backend&&) noexcept = default;
-    logger_backend(const logger_backend&) noexcept = default;
-    auto operator=(logger_backend&&) noexcept -> logger_backend& = default;
-    auto operator=(const logger_backend&) noexcept -> logger_backend& = default;
-    virtual ~logger_backend() noexcept = default;
+struct logger_backend : interface<logger_backend> {
 
     /// @brief The memory allocator used by the logger backend.
     virtual auto allocator() noexcept -> memory::shared_byte_allocator = 0;

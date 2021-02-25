@@ -11,6 +11,7 @@
 #include "data_type.hpp"
 #include "render_params.hpp"
 #include <eagine/assert.hpp>
+#include <eagine/interface.hpp>
 #include <eagine/optional_ref.hpp>
 #include <eagine/types.hpp>
 #include <eagine/valid_if/between.hpp>
@@ -55,13 +56,7 @@ public:
     bool remembers_output(const output_intf&) const noexcept;
 };
 
-struct constant_intf {
-    constant_intf() noexcept = default;
-    constant_intf(constant_intf&&) noexcept = default;
-    constant_intf(const constant_intf&) = default;
-    constant_intf& operator=(constant_intf&&) = delete;
-    constant_intf& operator=(const constant_intf&) = default;
-    virtual ~constant_intf() noexcept = default;
+struct constant_intf : interface<constant_intf> {
 
     virtual string_view name() const noexcept = 0;
 
@@ -72,14 +67,7 @@ struct constant_intf {
     virtual std::ostream& expression(std::ostream&, compile_context&) = 0;
 };
 
-struct input_intf {
-    input_intf() noexcept = default;
-    input_intf(input_intf&&) noexcept = default;
-    input_intf(const input_intf&) = default;
-    input_intf& operator=(input_intf&&) = delete;
-    input_intf& operator=(const input_intf&) = delete;
-
-    virtual ~input_intf() noexcept = default;
+struct input_intf : interface<input_intf> {
 
     virtual string_view name() noexcept = 0;
 
@@ -131,14 +119,7 @@ struct input_intf {
     virtual bool render_connected(const render_params&) = 0;
 };
 
-struct output_intf {
-    output_intf() noexcept = default;
-    output_intf(output_intf&&) noexcept = default;
-    output_intf(const output_intf&) = default;
-    output_intf& operator=(output_intf&&) = delete;
-    output_intf& operator=(const output_intf&) = delete;
-
-    virtual ~output_intf() noexcept = default;
+struct output_intf : interface<output_intf> {
 
     virtual string_view name() noexcept = 0;
 
@@ -172,13 +153,7 @@ struct output_intf {
 bool connect_output_to_input(output_intf& output, input_intf& input);
 bool disconnect_output_from_input(output_intf& output, input_intf& input);
 
-struct node_intf {
-    node_intf() noexcept = default;
-    node_intf(node_intf&&) noexcept = default;
-    node_intf(const node_intf&) = default;
-    node_intf& operator=(node_intf&&) = delete;
-    node_intf& operator=(const node_intf&) = default;
-    virtual ~node_intf() noexcept = default;
+struct node_intf : interface<node_intf> {
 
     virtual span_size_t input_count() = 0;
 

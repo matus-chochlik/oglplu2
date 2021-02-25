@@ -9,6 +9,7 @@
 #ifndef EAGINE_MESSAGE_BUS_SUBSCRIBER_HPP
 #define EAGINE_MESSAGE_BUS_SUBSCRIBER_HPP
 
+#include "../interface.hpp"
 #include "../maybe_unused.hpp"
 #include "../span.hpp"
 #include "endpoint.hpp"
@@ -290,20 +291,16 @@ private:
     std::array<handler_entry, N> _msg_handlers;
 };
 //------------------------------------------------------------------------------
-class subscriber : public subscriber_base {
+class subscriber
+  : public interface<subscriber>
+  , public subscriber_base {
 public:
     using handler_entry = subscriber_base::handler_entry;
     using method_handler =
       callable_ref<bool(const message_context&, stored_message&)>;
 
-    virtual ~subscriber() noexcept = default;
-    subscriber() noexcept = default;
     subscriber(endpoint& bus) noexcept
       : subscriber_base{bus} {}
-    subscriber(subscriber&&) noexcept = default;
-    subscriber(const subscriber&) = delete;
-    auto operator=(subscriber&&) = delete;
-    auto operator=(const subscriber&) = delete;
 
     template <
       typename Class,
