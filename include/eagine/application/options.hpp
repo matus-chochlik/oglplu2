@@ -26,16 +26,34 @@ namespace eagine::application {
 class video_options {
 public:
     video_options(
-      main_ctx_object&,
+      application_config&,
+      video_context_kind kind,
+      string_view instance);
+
+    video_options(
+      main_ctx_object& obj,
       video_context_kind kind,
       identifier instance);
 
-    auto video_kind() const noexcept {
+    auto video_kind() const noexcept -> video_context_kind {
         return _video_kind;
+    }
+
+    auto set_provider(std::string name) -> auto& {
+        _provider_name = std::move(name);
+        return *this;
+    }
+
+    auto has_provider() const noexcept -> bool {
+        return !extract(_provider_name).empty();
     }
 
     auto has_provider(string_view name) const noexcept -> bool {
         return are_equal(string_view(_provider_name), name);
+    }
+
+    auto provider() const noexcept -> valid_if_not_empty<string_view> {
+        return {_provider_name};
     }
 
     auto display_name() const noexcept -> valid_if_not_empty<string_view> {
@@ -52,7 +70,7 @@ public:
 
     auto device_kind() const noexcept
       -> valid_if_not<video_device_kind, video_device_kind::dont_care> {
-        return _device_kind;
+        return {_device_kind};
     }
 
     auto device_index() const noexcept -> valid_if_nonnegative<span_size_t> {
@@ -114,7 +132,7 @@ public:
     }
 
     auto samples() const noexcept -> valid_if_positive<int> {
-        return _samples;
+        return {_samples};
     }
 
     using valid_color_bits = valid_if_between<int, 0, 16>;
@@ -124,7 +142,7 @@ public:
     }
 
     auto color_bits() const noexcept -> valid_if_positive<int> {
-        return _color_bits;
+        return {_color_bits};
     }
 
     using valid_alpha_bits = valid_if_between<int, 0, 16>;
@@ -139,7 +157,7 @@ public:
     }
 
     auto alpha_bits() const noexcept -> valid_if_positive<int> {
-        return _alpha_bits;
+        return {_alpha_bits};
     }
 
     using valid_depth_bits = valid_if_between<int, 0, 32>;
@@ -154,7 +172,7 @@ public:
     }
 
     auto depth_bits() const noexcept -> valid_if_positive<int> {
-        return _depth_bits;
+        return {_depth_bits};
     }
 
     using valid_stencil_bits = valid_if_one_of<int, 0, 8>;
@@ -169,7 +187,7 @@ public:
     }
 
     auto stencil_bits() const noexcept -> valid_if_positive<int> {
-        return _stencil_bits;
+        return {_stencil_bits};
     }
 
     auto offscreen(bool value) noexcept -> auto& {
@@ -223,40 +241,39 @@ public:
     }
 
 private:
-    friend class execution_context;
-
     video_context_kind _video_kind;
-    std::string _provider_name;
-    std::string _display_name;
-    std::string _driver_name;
-    std::string _device_path;
-    std::string _framedump_prefix;
 
-    valid_if_nonnegative<span_size_t> _device_idx{-1};
+    application_config_value<std::string, string_view> _provider_name;
+    application_config_value<std::string, string_view> _display_name;
+    application_config_value<std::string, string_view> _driver_name;
+    application_config_value<std::string, string_view> _device_path;
+    application_config_value<std::string, string_view> _framedump_prefix;
 
-    int _gl_version_major{-1};
-    int _gl_version_minor{-1};
+    application_config_value<valid_if_nonnegative<span_size_t>> _device_idx;
 
-    int _surface_width{1280};
-    int _surface_height{800};
+    application_config_value<int> _gl_version_major;
+    application_config_value<int> _gl_version_minor;
 
-    int _samples{0};
-    int _color_bits{8};
-    int _alpha_bits{0};
-    int _depth_bits{24};
-    int _stencil_bits{0};
+    application_config_value<int> _surface_width;
+    application_config_value<int> _surface_height;
 
-    video_device_kind _device_kind{video_device_kind::dont_care};
-    bool _prefer_gles{false};
-    bool _gl_debug_context{false};
-    bool _gl_robust_access{false};
-    bool _gl_compat_context{false};
-    bool _fullscreen{false};
-    bool _offscreen{false};
-    bool _offscreen_framebuffer{false};
-    framedump_data_type _framedump_color{framedump_data_type::none};
-    framedump_data_type _framedump_depth{framedump_data_type::none};
-    framedump_data_type _framedump_stencil{framedump_data_type::none};
+    application_config_value<int> _samples;
+    application_config_value<int> _color_bits;
+    application_config_value<int> _alpha_bits;
+    application_config_value<int> _depth_bits;
+    application_config_value<int> _stencil_bits;
+
+    application_config_value<bool> _prefer_gles;
+    application_config_value<bool> _gl_debug_context;
+    application_config_value<bool> _gl_robust_access;
+    application_config_value<bool> _gl_compat_context;
+    application_config_value<bool> _fullscreen;
+    application_config_value<bool> _offscreen;
+    application_config_value<bool> _offscreen_framebuffer;
+    application_config_value<video_device_kind> _device_kind;
+    application_config_value<framedump_data_type> _framedump_color;
+    application_config_value<framedump_data_type> _framedump_depth;
+    application_config_value<framedump_data_type> _framedump_stencil;
 };
 //------------------------------------------------------------------------------
 class audio_options {
