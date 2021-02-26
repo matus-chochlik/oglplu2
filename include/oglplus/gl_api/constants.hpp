@@ -7484,6 +7484,8 @@ public:
 #endif
       unsigned_int_atomic_counter;
 
+    /// @var points
+    /// @glconstwrap{POINTS}
     opt_c_api_constant<
       mp_list<primitive_type, transform_feedback_primitive_type, old_primitive_type>,
 #ifdef GL_POINTS
@@ -7493,6 +7495,8 @@ public:
 #endif
       points;
 
+    /// @var line_strip
+    /// @glconstwrap{LINE_STRIP}
     opt_c_api_constant<
       mp_list<primitive_type, old_primitive_type>,
 #ifdef GL_LINE_STRIP
@@ -7502,6 +7506,8 @@ public:
 #endif
       line_strip;
 
+    /// @var line_loop
+    /// @glconstwrap{LINE_LOOP}
     opt_c_api_constant<
       mp_list<primitive_type, old_primitive_type>,
 #ifdef GL_LINE_LOOP
@@ -7511,6 +7517,8 @@ public:
 #endif
       line_loop;
 
+    /// @var lines
+    /// @glconstwrap{LINES}
     opt_c_api_constant<
       mp_list<primitive_type, old_primitive_type, transform_feedback_primitive_type>,
 #ifdef GL_LINES
@@ -7520,6 +7528,8 @@ public:
 #endif
       lines;
 
+    /// @var triangle_strip
+    /// @glconstwrap{triangle_strip}
     opt_c_api_constant<
       mp_list<primitive_type, old_primitive_type>,
 #ifdef GL_TRIANGLE_STRIP
@@ -7529,6 +7539,8 @@ public:
 #endif
       triangle_strip;
 
+    /// @var triangle_fan
+    /// @glconstwrap{TRIANGLE_FAN}
     opt_c_api_constant<
       mp_list<primitive_type, old_primitive_type>,
 #ifdef GL_TRIANGLE_FAN
@@ -7538,6 +7550,8 @@ public:
 #endif
       triangle_fan;
 
+    /// @var triangles
+    /// @glconstwrap{TRIANGLES}
     opt_c_api_constant<
       mp_list<
         primitive_type,
@@ -7551,6 +7565,8 @@ public:
 #endif
       triangles;
 
+    /// @var quads
+    /// @glconstwrap{QUADS}
     opt_c_api_constant<
       mp_list<old_primitive_type, tess_gen_primitive_type>,
 #ifdef GL_QUADS
@@ -7560,6 +7576,8 @@ public:
 #endif
       quads;
 
+    /// @var quad_strip
+    /// @glconstwrap{QUAD_STRIP}
     opt_c_api_constant<
       mp_list<old_primitive_type>,
 #ifdef GL_QUAD_STRIP
@@ -7569,6 +7587,8 @@ public:
 #endif
       quad_strip;
 
+    /// @var polygon
+    /// @glconstwrap{POLYGON}
     opt_c_api_constant<
       mp_list<old_primitive_type>,
 #ifdef GL_POLYGON
@@ -7578,6 +7598,8 @@ public:
 #endif
       polygon;
 
+    /// @var lines_adjacency
+    /// @glconstwrap{LINES_ADJACENCY}
     opt_c_api_constant<
       mp_list<primitive_type>,
 #ifdef GL_LINES_ADJACENCY
@@ -7587,6 +7609,8 @@ public:
 #endif
       lines_adjacency;
 
+    /// @var line_strip_adjacency
+    /// @glconstwrap{LINE_STRIP_ADJACENCY}
     opt_c_api_constant<
       mp_list<primitive_type>,
 #ifdef GL_LINE_STRIP_ADJACENCY
@@ -7596,6 +7620,8 @@ public:
 #endif
       line_strip_adjacency;
 
+    /// @var triangles_adjacency
+    /// @glconstwrap{TRIANGLES_ADJACENCY}
     opt_c_api_constant<
       mp_list<primitive_type>,
 #ifdef GL_TRIANGLES_ADJACENCY
@@ -7605,6 +7631,8 @@ public:
 #endif
       triangles_adjacency;
 
+    /// @var triangle_strip_adjacency
+    /// @glconstwrap{TRIANGLE_STRIP_ADJACENCY}
     opt_c_api_constant<
       mp_list<primitive_type>,
 #ifdef GL_TRIANGLE_STRIP_ADJACENCY
@@ -7614,6 +7642,8 @@ public:
 #endif
       triangle_strip_adjacency;
 
+    /// @var patches
+    /// @glconstwrap{PATCHES}
     opt_c_api_constant<
       mp_list<primitive_type>,
 #ifdef GL_PATCHES
@@ -7623,6 +7653,8 @@ public:
 #endif
       patches;
 
+    /// @var isolines
+    /// @glconstwrap{ISOLINES}
     opt_c_api_constant<
       mp_list<tess_gen_primitive_type>,
 #ifdef GL_ISOLINES
@@ -7632,6 +7664,8 @@ public:
 #endif
       isolines;
 
+    /// @var fractional_even
+    /// @glconstwrap{FRACTIONAL_EVEN}
     opt_c_api_constant<
       mp_list<tess_gen_primitive_spacing>,
 #ifdef GL_FRACTIONAL_EVEN
@@ -7641,6 +7675,8 @@ public:
 #endif
       fractional_even;
 
+    /// @var fractional_odd
+    /// @glconstwrap{FRACTIONAL_ODD}
     opt_c_api_constant<
       mp_list<tess_gen_primitive_spacing>,
 #ifdef GL_FRACTIONAL_ODD
@@ -7650,6 +7686,8 @@ public:
 #endif
       fractional_odd;
 
+    /// @var patch_vertices
+    /// @glconstwrap{PATCH_VERTICES}
     opt_c_api_constant<
       mp_list<patch_parameter, integer_query>,
 #ifdef GL_PATCH_VERTICES
@@ -7659,6 +7697,8 @@ public:
 #endif
       patch_vertices;
 
+    /// @var patch_default_outer_level
+    /// @glconstwrap{PATCH_DEFAULT_OUTER_LEVEL}
     opt_c_api_constant<
       mp_list<patch_parameter, float_query>,
 #ifdef GL_PATCH_DEFAULT_OUTER_LEVEL
@@ -7668,6 +7708,8 @@ public:
 #endif
       patch_default_outer_level;
 
+    /// @var patch_default_inner_level
+    /// @glconstwrap{PATCH_DEFAULT_INNER_LEVEL}
     opt_c_api_constant<
       mp_list<patch_parameter, float_query>,
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
@@ -7677,6 +7719,8 @@ public:
 #endif
       patch_default_inner_level;
 
+    /// @var cw
+    /// @glconstwrap{CW}
     opt_c_api_constant<
       mp_list<face_orientation>,
 #ifdef GL_CW
@@ -7686,6 +7730,8 @@ public:
 #endif
       cw;
 
+    /// @var ccw
+    /// @glconstwrap{CCW}
     opt_c_api_constant<
       mp_list<face_orientation>,
 #ifdef GL_CCW
@@ -7695,6 +7741,8 @@ public:
 #endif
       ccw;
 
+    /// @var first_vertex_convention
+    /// @glconstwrap{FIRST_VERTEX_CONVENTION}
     opt_c_api_constant<
       mp_list<provoke_mode>,
 #ifdef GL_FIRST_VERTEX_CONVENTION
@@ -7704,6 +7752,8 @@ public:
 #endif
       first_vertex_convention;
 
+    /// @var last_vertex_convention
+    /// @glconstwrap{LAST_VERTEX_CONVENTION}
     opt_c_api_constant<
       mp_list<provoke_mode>,
 #ifdef GL_LAST_VERTEX_CONVENTION
@@ -7713,6 +7763,8 @@ public:
 #endif
       last_vertex_convention;
 
+    /// @var query_wait
+    /// @glconstwrap{QUERY_WAIT}
     opt_c_api_constant<
       mp_list<conditional_render_mode>,
 #ifdef GL_QUERY_WAIT
@@ -7722,6 +7774,8 @@ public:
 #endif
       query_wait;
 
+    /// @var query_no_wait
+    /// @glconstwrap{QUERY_NO_WAIT}
     opt_c_api_constant<
       mp_list<conditional_render_mode>,
 #ifdef GL_QUERY_NO_WAIT
@@ -7731,6 +7785,8 @@ public:
 #endif
       query_no_wait;
 
+    /// @var query_by_region_wait
+    /// @glconstwrap{QUERY_BY_REGION_WAIT}
     opt_c_api_constant<
       mp_list<conditional_render_mode>,
 #ifdef GL_QUERY_BY_REGION_WAIT
@@ -7740,6 +7796,8 @@ public:
 #endif
       query_by_region_wait;
 
+    /// @var query_by_region_no_wait
+    /// @glconstwrap{QUERY_BY_REGION_NO_WAIT}
     opt_c_api_constant<
       mp_list<conditional_render_mode>,
 #ifdef GL_QUERY_BY_REGION_NO_WAIT
@@ -7749,6 +7807,8 @@ public:
 #endif
       query_by_region_no_wait;
 
+    /// @var query_wait_inverted
+    /// @glconstwrap{QUERY_WAIT_INVERTED}
     opt_c_api_constant<
       mp_list<conditional_render_mode>,
 #ifdef GL_QUERY_WAIT_INVERTED
@@ -7758,6 +7818,8 @@ public:
 #endif
       query_wait_inverted;
 
+    /// @var query_no_wait_inverted
+    /// @glconstwrap{QUERY_NO_WAIT_INVERTED}
     opt_c_api_constant<
       mp_list<conditional_render_mode>,
 #ifdef GL_QUERY_NO_WAIT_INVERTED
@@ -7767,6 +7829,8 @@ public:
 #endif
       query_no_wait_inverted;
 
+    /// @var query_by_region_wait_inverted
+    /// @glconstwrap{QUERY_BY_REGION_WAIT_INVERTED}
     opt_c_api_constant<
       mp_list<conditional_render_mode>,
 #ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
@@ -7776,6 +7840,8 @@ public:
 #endif
       query_by_region_wait_inverted;
 
+    /// @var query_by_region_no_wait_inverted
+    /// @glconstwrap{QUERY_BY_REGION_NO_WAIT_INVERTED}
     opt_c_api_constant<
       mp_list<conditional_render_mode>,
 #ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
@@ -7785,6 +7851,8 @@ public:
 #endif
       query_by_region_no_wait_inverted;
 
+    /// @var point_size_min
+    /// @glconstwrap{POINT_SIZE_MIN}
     opt_c_api_constant<
       mp_list<point_parameter>,
 #ifdef GL_POINT_SIZE_MIN
@@ -7794,6 +7862,8 @@ public:
 #endif
       point_size_min;
 
+    /// @var point_size_max
+    /// @glconstwrap{POINT_SIZE_MAX}
     opt_c_api_constant<
       mp_list<point_parameter>,
 #ifdef GL_POINT_SIZE_MAX
@@ -7803,6 +7873,8 @@ public:
 #endif
       point_size_max;
 
+    /// @var point_fade_threshold_size
+    /// @glconstwrap{POINT_FADE_THRESHOLD_SIZE}
     opt_c_api_constant<
       mp_list<point_parameter, float_query>,
 #ifdef GL_POINT_FADE_THRESHOLD_SIZE
@@ -7812,6 +7884,8 @@ public:
 #endif
       point_fade_threshold_size;
 
+    /// @var point_sprite_coord_origin
+    /// @glconstwrap{POINT_SPRITE_COORD_ORIGIN}
     opt_c_api_constant<
       mp_list<point_parameter, integer_query>,
 #ifdef GL_POINT_SPRITE_COORD_ORIGIN
@@ -7822,6 +7896,8 @@ public:
       oglp::point_sprite_coord_origin>
       point_sprite_coord_origin;
 
+    /// @var lower_left
+    /// @glconstwrap{LOWER_LEFT}
     opt_c_api_constant<
       mp_list<oglp::point_sprite_coord_origin>,
 #ifdef GL_LOWER_LEFT
@@ -7831,6 +7907,8 @@ public:
 #endif
       lower_left;
 
+    /// @var upper_left
+    /// @glconstwrap{UPPER_LEFT}
     opt_c_api_constant<
       mp_list<oglp::point_sprite_coord_origin>,
 #ifdef GL_UPPER_LEFT
@@ -7840,6 +7918,8 @@ public:
 #endif
       upper_left;
 
+    /// @var point
+    /// @glconstwrap{POINT}
     opt_c_api_constant<
       mp_list<oglp::polygon_mode>,
 #ifdef GL_POINT
@@ -7849,6 +7929,8 @@ public:
 #endif
       point;
 
+    /// @var line
+    /// @glconstwrap{LINE}
     opt_c_api_constant<
       mp_list<oglp::polygon_mode>,
 #ifdef GL_LINE
@@ -7858,6 +7940,8 @@ public:
 #endif
       line;
 
+    /// @var fill
+    /// @glconstwrap{FILL}
     opt_c_api_constant<
       mp_list<oglp::polygon_mode>,
 #ifdef GL_FILL
@@ -7867,6 +7951,8 @@ public:
 #endif
       fill;
 
+    /// @var fill_rectangle_nv
+    /// @glconstwrap{FILL_RECTANGLE_NV}
     opt_c_api_constant<
       mp_list<oglp::polygon_mode>,
 #ifdef GL_FILL_RECTANGLE_NV
@@ -7876,6 +7962,8 @@ public:
 #endif
       fill_rectangle_nv;
 
+    /// @var keep
+    /// @glconstwrap{KEEP}
     opt_c_api_constant<
       mp_list<stencil_operation>,
 #ifdef GL_KEEP
@@ -7885,6 +7973,8 @@ public:
 #endif
       keep;
 
+    /// @var replace
+    /// @glconstwrap{REPLACE}
     opt_c_api_constant<
       mp_list<stencil_operation>,
 #ifdef GL_REPLACE
@@ -7894,6 +7984,8 @@ public:
 #endif
       replace;
 
+    /// @var incr
+    /// @glconstwrap{INCR}
     opt_c_api_constant<
       mp_list<stencil_operation>,
 #ifdef GL_INCR
@@ -7903,6 +7995,8 @@ public:
 #endif
       incr;
 
+    /// @var decr
+    /// @glconstwrap{DECR}
     opt_c_api_constant<
       mp_list<stencil_operation>,
 #ifdef GL_DECR
@@ -7912,6 +8006,8 @@ public:
 #endif
       decr;
 
+    /// @var invert
+    /// @glconstwrap{INVERT}
     opt_c_api_constant<
       mp_list<stencil_operation, logic_operation, oglp::path_fill_mode_nv>,
 #ifdef GL_INVERT
@@ -7921,6 +8017,8 @@ public:
 #endif
       invert;
 
+    /// @var incr_wrap
+    /// @glconstwrap{INCR_WRAP}
     opt_c_api_constant<
       mp_list<stencil_operation>,
 #ifdef GL_INCR_WRAP
@@ -7930,6 +8028,8 @@ public:
 #endif
       incr_wrap;
 
+    /// @var decr_wrap
+    /// @glconstwrap{DECR_WRAP}
     opt_c_api_constant<
       mp_list<stencil_operation>,
 #ifdef GL_DECR_WRAP
@@ -7939,6 +8039,8 @@ public:
 #endif
       decr_wrap;
 
+    /// @var clear
+    /// @glconstwrap{CLEAR}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_CLEAR
@@ -7948,6 +8050,8 @@ public:
 #endif
       clear;
 
+    /// @var and_
+    /// @glconstwrap{AND}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_AND
@@ -7957,6 +8061,8 @@ public:
 #endif
       and_;
 
+    /// @var and_reverse
+    /// @glconstwrap{AND_REVERSE}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_AND_REVERSE
@@ -7966,6 +8072,8 @@ public:
 #endif
       and_reverse;
 
+    /// @var copy
+    /// @glconstwrap{COPY}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_COPY
@@ -7975,6 +8083,8 @@ public:
 #endif
       copy;
 
+    /// @var and_inverted
+    /// @glconstwrap{AND_INVERTED}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_AND_INVERTED
@@ -7984,6 +8094,8 @@ public:
 #endif
       and_inverted;
 
+    /// @var noop
+    /// @glconstwrap{NOOP}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_NOOP
@@ -7993,6 +8105,8 @@ public:
 #endif
       noop;
 
+    /// @var xor_
+    /// @glconstwrap{XOR}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_XOR
@@ -8002,6 +8116,8 @@ public:
 #endif
       xor_;
 
+    /// @var or_
+    /// @glconstwrap{OR}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_OR
@@ -8011,6 +8127,8 @@ public:
 #endif
       or_;
 
+    /// @var nor
+    /// @glconstwrap{NOR}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_NOR
@@ -8020,6 +8138,8 @@ public:
 #endif
       nor;
 
+    /// @var equiv
+    /// @glconstwrap{EQUIV}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_EQUIV
@@ -8029,6 +8149,8 @@ public:
 #endif
       equiv;
 
+    /// @var or_reverse
+    /// @glconstwrap{OR_REVERSE}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_OR_REVERSE
@@ -8038,6 +8160,8 @@ public:
 #endif
       or_reverse;
 
+    /// @var copy_inverted
+    /// @glconstwrap{COPY_INVERTED}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_COPY_INVERTED
@@ -8047,6 +8171,8 @@ public:
 #endif
       copy_inverted;
 
+    /// @var or_inverted
+    /// @glconstwrap{OR_INVERTED}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_OR_INVERTED
@@ -8056,6 +8182,8 @@ public:
 #endif
       or_inverted;
 
+    /// @var nand
+    /// @glconstwrap{NAND}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_NAND
@@ -8065,6 +8193,8 @@ public:
 #endif
       nand;
 
+    /// @var set
+    /// @glconstwrap{SET}
     opt_c_api_constant<
       mp_list<logic_operation>,
 #ifdef GL_SET
@@ -8074,6 +8204,8 @@ public:
 #endif
       set;
 
+    /// @var func_add
+    /// @glconstwrap{FUNC_ADD}
     opt_c_api_constant<
       mp_list<blend_equation>,
 #ifdef GL_FUNC_ADD
@@ -8083,6 +8215,8 @@ public:
 #endif
       func_add;
 
+    /// @var func_subtract
+    /// @glconstwrap{FUNC_SUBTRACT}
     opt_c_api_constant<
       mp_list<blend_equation>,
 #ifdef GL_FUNC_SUBTRACT
@@ -8092,6 +8226,8 @@ public:
 #endif
       func_subtract;
 
+    /// @var func_reverse_subtract
+    /// @glconstwrap{FUNC_REVERSE_SUBTRACT}
     opt_c_api_constant<
       mp_list<blend_equation>,
 #ifdef GL_FUNC_REVERSE_SUBTRACT
@@ -8101,6 +8237,8 @@ public:
 #endif
       func_reverse_subtract;
 
+    /// @var min
+    /// @glconstwrap{MIN}
     opt_c_api_constant<
       mp_list<blend_equation>,
 #ifdef GL_MIN
@@ -8110,6 +8248,8 @@ public:
 #endif
       min;
 
+    /// @var max
+    /// @glconstwrap{MAX}
     opt_c_api_constant<
       mp_list<blend_equation>,
 #ifdef GL_MAX
@@ -8119,6 +8259,8 @@ public:
 #endif
       max;
 
+    /// @var multiply_khr
+    /// @glconstwrap{MULTIPLY_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_MULTIPLY_KHR
@@ -8128,6 +8270,8 @@ public:
 #endif
       multiply_khr;
 
+    /// @var screen_khr
+    /// @glconstwrap{SCREEN_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_SCREEN_KHR
@@ -8137,6 +8281,8 @@ public:
 #endif
       screen_khr;
 
+    /// @var overlay_khr
+    /// @glconstwrap{OVERLAY_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_OVERLAY_KHR
@@ -8146,6 +8292,8 @@ public:
 #endif
       overlay_khr;
 
+    /// @var darken_khr
+    /// @glconstwrap{DARKEN_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_DARKEN_KHR
@@ -8155,6 +8303,8 @@ public:
 #endif
       darken_khr;
 
+    /// @var lighten_khr
+    /// @glconstwrap{LIGHTEN_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_LIGHTEN_KHR
@@ -8164,6 +8314,8 @@ public:
 #endif
       lighten_khr;
 
+    /// @var colordodge_khr
+    /// @glconstwrap{COLORDODGE_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_COLORDODGE_KHR
@@ -8173,6 +8325,8 @@ public:
 #endif
       colordodge_khr;
 
+    /// @var colorburn_khr
+    /// @glconstwrap{COLORBURN_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_COLORBURN_KHR
@@ -8182,6 +8336,8 @@ public:
 #endif
       colorburn_khr;
 
+    /// @var hardlight_khr
+    /// @glconstwrap{HARDLIGHT_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_HARDLIGHT_KHR
@@ -8191,6 +8347,8 @@ public:
 #endif
       hardlight_khr;
 
+    /// @var softlight_khr
+    /// @glconstwrap{SOFTLIGHT_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_SOFTLIGHT_KHR
@@ -8200,6 +8358,8 @@ public:
 #endif
       softlight_khr;
 
+    /// @var difference_khr
+    /// @glconstwrap{DIFFERENCE_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_DIFFERENCE_KHR
@@ -8209,6 +8369,8 @@ public:
 #endif
       difference_khr;
 
+    /// @var exclusion_khr
+    /// @glconstwrap{EXCLUSION_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_EXCLUSION_KHR
@@ -8218,6 +8380,8 @@ public:
 #endif
       exclusion_khr;
 
+    /// @var hsl_hue_khr
+    /// @glconstwrap{HSL_HUE_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_HSL_HUE_KHR
@@ -8227,6 +8391,8 @@ public:
 #endif
       hsl_hue_khr;
 
+    /// @var hsl_saturation_khr
+    /// @glconstwrap{HSL_SATURATION_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_HSL_SATURATION_KHR
@@ -8236,6 +8402,8 @@ public:
 #endif
       hsl_saturation_khr;
 
+    /// @var hsl_color_khr
+    /// @glconstwrap{HSL_COLOR_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_HSL_COLOR_KHR
@@ -8245,6 +8413,8 @@ public:
 #endif
       hsl_color_khr;
 
+    /// @var hsl_luminosity_khr
+    /// @glconstwrap{HSL_LUMINOSITY_KHR}
     opt_c_api_constant<
       mp_list<blend_equation_advanced>,
 #ifdef GL_HSL_LUMINOSITY_KHR
@@ -8254,6 +8424,8 @@ public:
 #endif
       hsl_luminosity_khr;
 
+    /// @var src_color
+    /// @glconstwrap{SRC_COLOR}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_SRC_COLOR
@@ -8263,6 +8435,8 @@ public:
 #endif
       src_color;
 
+    /// @var one_minus_src_color
+    /// @glconstwrap{ONE_MINUS_SRC_COLOR}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_ONE_MINUS_SRC_COLOR
@@ -8272,6 +8446,8 @@ public:
 #endif
       one_minus_src_color;
 
+    /// @var dst_color
+    /// @glconstwrap{DST_COLOR}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_DST_COLOR
@@ -8281,6 +8457,8 @@ public:
 #endif
       dst_color;
 
+    /// @var one_minus_dst_color
+    /// @glconstwrap{ONE_MINUS_DST_COLOR}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_ONE_MINUS_DST_COLOR
@@ -8290,6 +8468,8 @@ public:
 #endif
       one_minus_dst_color;
 
+    /// @var src_alpha
+    /// @glconstwrap{SRC_ALPHA}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_SRC_ALPHA
@@ -8299,6 +8479,8 @@ public:
 #endif
       src_alpha;
 
+    /// @var one_minus_src_alpha
+    /// @glconstwrap{ONE_MINUS_SRC_ALPHA}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_ONE_MINUS_SRC_ALPHA
@@ -8308,6 +8490,8 @@ public:
 #endif
       one_minus_src_alpha;
 
+    /// @var dst_alpha
+    /// @glconstwrap{DST_ALPHA}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_DST_ALPHA
@@ -8317,6 +8501,8 @@ public:
 #endif
       dst_alpha;
 
+    /// @var one_minus_dst_alpha
+    /// @glconstwrap{ONE_MINUS_DST_ALPHA}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_ONE_MINUS_DST_ALPHA
@@ -8326,6 +8512,8 @@ public:
 #endif
       one_minus_dst_alpha;
 
+    /// @var constant_color
+    /// @glconstwrap{CONSTANT_COLOR}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_CONSTANT_COLOR
@@ -8335,6 +8523,8 @@ public:
 #endif
       constant_color;
 
+    /// @var one_minus_constant_color
+    /// @glconstwrap{ONE_MINUS_CONSTANT_COLOR}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_ONE_MINUS_CONSTANT_COLOR
@@ -8344,6 +8534,8 @@ public:
 #endif
       one_minus_constant_color;
 
+    /// @var constant_alpha
+    /// @glconstwrap{CONSTANT_ALPHA}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_CONSTANT_ALPHA
@@ -8353,6 +8545,8 @@ public:
 #endif
       constant_alpha;
 
+    /// @var one_minus_constant_alpha
+    /// @glconstwrap{ONE_MINUS_CONSTANT_ALPHA}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_ONE_MINUS_CONSTANT_ALPHA
@@ -8362,6 +8556,8 @@ public:
 #endif
       one_minus_constant_alpha;
 
+    /// @var src_alpha_saturate
+    /// @glconstwrap{SRC_ALPHA_SATURATE}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_SRC_ALPHA_SATURATE
@@ -8371,6 +8567,8 @@ public:
 #endif
       src_alpha_saturate;
 
+    /// @var src1_color
+    /// @glconstwrap{SRC1_COLOR}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_SRC1_COLOR
@@ -8380,6 +8578,8 @@ public:
 #endif
       src1_color;
 
+    /// @var one_minus_src1_color
+    /// @glconstwrap{ONE_MINUS_SRC1_COLOR}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_ONE_MINUS_SRC1_COLOR
@@ -8389,6 +8589,8 @@ public:
 #endif
       one_minus_src1_color;
 
+    /// @var src1_alpha
+    /// @glconstwrap{SRC1_ALPHA}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_SRC1_ALPHA
@@ -8398,6 +8600,8 @@ public:
 #endif
       src1_alpha;
 
+    /// @var one_minus_src1_color
+    /// @glconstwrap{ONE_MINUS_SRC1_COLOR}
     opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_ONE_MINUS_SRC1_ALPHA
@@ -8430,6 +8634,8 @@ public:
 #endif
       byte_;
 
+    /// @var unsigned_short_
+    /// @glconstwrap{UNSIGNED_SHORT}
     opt_c_api_constant<
       mp_list<pixel_data_type, data_type, index_data_type>,
 #ifdef GL_UNSIGNED_SHORT
@@ -8439,6 +8645,8 @@ public:
 #endif
       unsigned_short_;
 
+    /// @var short_
+    /// @glconstwrap{SHORT}
     type_constructor_constant<opt_c_api_constant<
       mp_list<pixel_data_type, data_type>,
 #ifdef GL_SHORT
@@ -8449,6 +8657,8 @@ public:
       typename gl_types::short_type>>
       short_;
 
+    /// @var half_float_
+    /// @glconstwrap{HALF_FLOAT}
     opt_c_api_constant<
       mp_list<pixel_data_type>,
 #ifdef GL_HALF_FLOAT
