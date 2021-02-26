@@ -15,9 +15,9 @@ body {
 
 div#oglplus-frame {
     position: absolute;
-    left: 48px;
+    left: 3%;
     top: 24px;
-    width: 920px;
+    width: 94%;
     background-color: white;
     border: solid black 5px;
     box-shadow: 3px 3px 5px 2px #202020;
@@ -33,7 +33,7 @@ div#oglplus-bar {
 div#oglplus-icon {
     position: absolute;
     top: 0px;
-    left: 782px;
+    right: 0px;
     width: 128px;
     height : 128px;
     border: solid black 5px;
@@ -41,7 +41,6 @@ div#oglplus-icon {
 }
 
 div#oglplus-top {
-    width: 772px;
     height : 128px;
     border: solid black 5px;
     background-color: #D8D8F0;
