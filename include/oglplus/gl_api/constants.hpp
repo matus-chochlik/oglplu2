@@ -6703,6 +6703,8 @@ public:
       typename gl_types::double_type[4][3]>>
       double_mat4x3;
 
+    /// @var sampler_1d
+    /// @glconstwrap{SAMPLER_1D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_1D
@@ -6712,6 +6714,8 @@ public:
 #endif
       sampler_1d;
 
+    /// @var sampler_2d
+    /// @glconstwrap{SAMPLER_2D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_2D
@@ -6721,6 +6725,8 @@ public:
 #endif
       sampler_2d;
 
+    /// @var sampler_3d
+    /// @glconstwrap{SAMPLER_3D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_3D
@@ -6730,6 +6736,8 @@ public:
 #endif
       sampler_3d;
 
+    /// @var sampler_cube
+    /// @glconstwrap{SAMPLER_CUBE}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_CUBE
@@ -6739,6 +6747,8 @@ public:
 #endif
       sampler_cube;
 
+    /// @var sampler_1d_shadow
+    /// @glconstwrap{SAMPLER_1D_SHADOW}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_1D_SHADOW
@@ -6748,6 +6758,8 @@ public:
 #endif
       sampler_1d_shadow;
 
+    /// @var sampler_2d_shadow
+    /// @glconstwrap{SAMPLER_2D_SHADOW}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_2D_SHADOW
@@ -6757,6 +6769,8 @@ public:
 #endif
       sampler_2d_shadow;
 
+    /// @var sampler_1d_array
+    /// @glconstwrap{SAMPLER_1D_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_1D_ARRAY
@@ -6766,6 +6780,8 @@ public:
 #endif
       sampler_1d_array;
 
+    /// @var sampler_2d_array
+    /// @glconstwrap{SAMPLER_2D_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_2D_ARRAY
@@ -6775,6 +6791,8 @@ public:
 #endif
       sampler_2d_array;
 
+    /// @var sampler_cube_map_array
+    /// @glconstwrap{SAMPLER_CUBE_MAP_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_CUBE_MAP_ARRAY
@@ -6784,6 +6802,8 @@ public:
 #endif
       sampler_cube_map_array;
 
+    /// @var sampler_1d_array_shadow
+    /// @glconstwrap{SAMPLER_1D_ARRAY_SHADOW}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_1D_ARRAY_SHADOW
@@ -6793,6 +6813,8 @@ public:
 #endif
       sampler_1d_array_shadow;
 
+    /// @var sampler_2d_array_shadow
+    /// @glconstwrap{SAMPLER_2D_ARRAY_SHADOW}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_2D_ARRAY_SHADOW
@@ -6802,6 +6824,8 @@ public:
 #endif
       sampler_2d_array_shadow;
 
+    /// @var sampler_2d_multisample
+    /// @glconstwrap{SAMPLER_2D_MULTISAMPLE}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_2D_MULTISAMPLE
@@ -6811,6 +6835,8 @@ public:
 #endif
       sampler_2d_multisample;
 
+    /// @var sampler_2d_multisample_array
+    /// @glconstwrap{SAMPLER_2D_MULTISAMPLE_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_2D_MULTISAMPLE_ARRAY
@@ -6820,6 +6846,8 @@ public:
 #endif
       sampler_2d_multisample_array;
 
+    /// @var sampler_cube_shadow
+    /// @glconstwrap{SAMPLER_CUBE_SHADOW}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_CUBE_SHADOW
@@ -6829,6 +6857,8 @@ public:
 #endif
       sampler_cube_shadow;
 
+    /// @var sampler_cube_map_array_shadow
+    /// @glconstwrap{SAMPLER_CUBE_MAP_ARRAY_SHADOW}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW
@@ -6838,6 +6868,8 @@ public:
 #endif
       sampler_cube_map_array_shadow;
 
+    /// @var sampler_buffer
+    /// @glconstwrap{SAMPLER_BUFFER}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_BUFFER
@@ -6847,6 +6879,8 @@ public:
 #endif
       sampler_buffer;
 
+    /// @var sampler_2d_rect
+    /// @glconstwrap{SAMPLER_2D_RECT}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_2D_RECT
@@ -6856,6 +6890,8 @@ public:
 #endif
       sampler_2d_rect;
 
+    /// @var sampler_2d_rect_shadow
+    /// @glconstwrap{SAMPLER_2D_RECT_SHADOW}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_SAMPLER_2D_RECT_SHADOW
@@ -6865,6 +6901,8 @@ public:
 #endif
       sampler_2d_rect_shadow;
 
+    /// @var int_sampler_1d
+    /// @glconstwrap{INT_SAMPLER_1D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_SAMPLER_1D
@@ -6874,6 +6912,8 @@ public:
 #endif
       int_sampler_1d;
 
+    /// @var int_sampler_2d
+    /// @glconstwrap{INT_SAMPLER_2D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_SAMPLER_2D
@@ -6883,6 +6923,8 @@ public:
 #endif
       int_sampler_2d;
 
+    /// @var int_sampler_3d
+    /// @glconstwrap{INT_SAMPLER_3D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_SAMPLER_3D
@@ -6892,6 +6934,8 @@ public:
 #endif
       int_sampler_3d;
 
+    /// @var int_sampler_cube
+    /// @glconstwrap{INT_SAMPLER_CUBE}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_SAMPLER_CUBE
@@ -6901,6 +6945,8 @@ public:
 #endif
       int_sampler_cube;
 
+    /// @var int_sampler_1d_array
+    /// @glconstwrap{INT_SAMPLER_1D_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_SAMPLER_1D_ARRAY
@@ -6910,6 +6956,8 @@ public:
 #endif
       int_sampler_1d_array;
 
+    /// @var int_sampler_2d_array
+    /// @glconstwrap{INT_SAMPLER_2D_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_SAMPLER_2D_ARRAY
@@ -6919,6 +6967,8 @@ public:
 #endif
       int_sampler_2d_array;
 
+    /// @var int_sampler_cube_map_array
+    /// @glconstwrap{INT_SAMPLER_CUBE_MAP_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_SAMPLER_CUBE_MAP_ARRAY
@@ -6928,6 +6978,8 @@ public:
 #endif
       int_sampler_cube_map_array;
 
+    /// @var int_sampler_2d_multisample
+    /// @glconstwrap{INT_SAMPLER_2D_MULTISAMPLE}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_SAMPLER_2D_MULTISAMPLE
@@ -6937,6 +6989,8 @@ public:
 #endif
       int_sampler_2d_multisample;
 
+    /// @var int_sampler_2d_multisample_array
+    /// @glconstwrap{INT_SAMPLER_2D_MULTISAMPLE_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
@@ -6946,6 +7000,8 @@ public:
 #endif
       int_sampler_2d_multisample_array;
 
+    /// @var int_sampler_buffer
+    /// @glconstwrap{INT_SAMPLER_BUFFER}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_SAMPLER_BUFFER
@@ -6955,6 +7011,8 @@ public:
 #endif
       int_sampler_buffer;
 
+    /// @var int_sampler_2d_rect
+    /// @glconstwrap{INT_SAMPLER_2D_RECT}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_SAMPLER_2D_RECT
@@ -6964,6 +7022,8 @@ public:
 #endif
       int_sampler_2d_rect;
 
+    /// @var unsigned_int_sampler_1d
+    /// @glconstwrap{UNSIGNED_INT_SAMPLER_1D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_SAMPLER_1D
@@ -6973,6 +7033,8 @@ public:
 #endif
       unsigned_int_sampler_1d;
 
+    /// @var unsigned_int_sampler_2d
+    /// @glconstwrap{UNSIGNED_INT_SAMPLER_2D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D
@@ -6982,6 +7044,8 @@ public:
 #endif
       unsigned_int_sampler_2d;
 
+    /// @var unsigned_int_sampler_3d
+    /// @glconstwrap{UNSIGNED_INT_SAMPLER_3D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_SAMPLER_3D
@@ -6991,6 +7055,8 @@ public:
 #endif
       unsigned_int_sampler_3d;
 
+    /// @var unsigned_int_sampler_cube
+    /// @glconstwrap{UNSIGNED_INT_SAMPLER_CUBE}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_SAMPLER_CUBE
@@ -7000,6 +7066,8 @@ public:
 #endif
       unsigned_int_sampler_cube;
 
+    /// @var unsigned_int_sampler_1d_array
+    /// @glconstwrap{UNSIGNED_INT_SAMPLER_1D_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_SAMPLER_1D_ARRAY
@@ -7009,6 +7077,8 @@ public:
 #endif
       unsigned_int_sampler_1d_array;
 
+    /// @var unsigned_int_sampler_2d_array
+    /// @glconstwrap{UNSIGNED_INT_SAMPLER_2D_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_ARRAY
@@ -7018,6 +7088,8 @@ public:
 #endif
       unsigned_int_sampler_2d_array;
 
+    /// @var unsigned_int_sampler_cube_map_array
+    /// @glconstwrap{UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY
@@ -7027,6 +7099,8 @@ public:
 #endif
       unsigned_int_sampler_cube_map_array;
 
+    /// @var unsigned_int_sampler_2d_multisample
+    /// @glconstwrap{UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE
@@ -7036,6 +7110,8 @@ public:
 #endif
       unsigned_int_sampler_2d_multisample;
 
+    /// @var unsigned_int_sampler_2d_multisample_array
+    /// @glconstwrap{UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
@@ -7045,6 +7121,8 @@ public:
 #endif
       unsigned_int_sampler_2d_multisample_array;
 
+    /// @var unsigned_int_sampler_buffer
+    /// @glconstwrap{UNSIGNED_INT_SAMPLER_BUFFER}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_SAMPLER_BUFFER
@@ -7054,6 +7132,8 @@ public:
 #endif
       unsigned_int_sampler_buffer;
 
+    /// @var unsigned_int_sampler_2d_rect
+    /// @glconstwrap{UNSIGNED_INT_SAMPLER_2D_RECT}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_RECT
@@ -7063,6 +7143,8 @@ public:
 #endif
       unsigned_int_sampler_2d_rect;
 
+    /// @var image_1d
+    /// @glconstwrap{IMAGE_1D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_IMAGE_1D
@@ -7072,6 +7154,8 @@ public:
 #endif
       image_1d;
 
+    /// @var image_2d
+    /// @glconstwrap{IMAGE_2D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_IMAGE_2D
@@ -7081,6 +7165,8 @@ public:
 #endif
       image_2d;
 
+    /// @var image_3d
+    /// @glconstwrap{IMAGE_3D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_IMAGE_3D
@@ -7090,6 +7176,8 @@ public:
 #endif
       image_3d;
 
+    /// @var image_2d_rect
+    /// @glconstwrap{IMAGE_2D_RECT}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_IMAGE_2D_RECT
@@ -7099,6 +7187,8 @@ public:
 #endif
       image_2d_rect;
 
+    /// @var image_cube
+    /// @glconstwrap{IMAGE_CUBE}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_IMAGE_CUBE
@@ -7108,6 +7198,8 @@ public:
 #endif
       image_cube;
 
+    /// @var image_buffer
+    /// @glconstwrap{IMAGE_BUFFER}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_IMAGE_BUFFER
@@ -7117,6 +7209,8 @@ public:
 #endif
       image_buffer;
 
+    /// @var image_1d_array
+    /// @glconstwrap{IMAGE_1D_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_IMAGE_1D_ARRAY
@@ -7126,6 +7220,8 @@ public:
 #endif
       image_1d_array;
 
+    /// @var image_2d_array
+    /// @glconstwrap{IMAGE_2D_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_IMAGE_2D_ARRAY
@@ -7135,6 +7231,8 @@ public:
 #endif
       image_2d_array;
 
+    /// @var image_2d_multisample
+    /// @glconstwrap{IMAGE_2D_MULTISAMPLE}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_IMAGE_2D_MULTISAMPLE
@@ -7144,6 +7242,8 @@ public:
 #endif
       image_2d_multisample;
 
+    /// @var image_2d_multisample_array
+    /// @glconstwrap{IMAGE_2D_MULTISAMPLE_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_IMAGE_2D_MULTISAMPLE_ARRAY
@@ -7153,6 +7253,8 @@ public:
 #endif
       image_2d_multisample_array;
 
+    /// @var int_image_1d
+    /// @glconstwrap{INT_IMAGE_1D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_IMAGE_1D
@@ -7162,6 +7264,8 @@ public:
 #endif
       int_image_1d;
 
+    /// @var int_image_2d
+    /// @glconstwrap{INT_IMAGE_2D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_IMAGE_2D
@@ -7171,6 +7275,8 @@ public:
 #endif
       int_image_2d;
 
+    /// @var int_image_3d
+    /// @glconstwrap{INT_IMAGE_3D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_IMAGE_3D
@@ -7180,6 +7286,8 @@ public:
 #endif
       int_image_3d;
 
+    /// @var int_image_2d_rect
+    /// @glconstwrap{INT_IMAGE_2D_RECT}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_IMAGE_2D_RECT
@@ -7189,6 +7297,8 @@ public:
 #endif
       int_image_2d_rect;
 
+    /// @var int_image_cube
+    /// @glconstwrap{INT_IMAGE_CUBE}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_IMAGE_CUBE
@@ -7198,6 +7308,8 @@ public:
 #endif
       int_image_cube;
 
+    /// @var int_image_buffer
+    /// @glconstwrap{INT_IMAGE_BUFFER}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_IMAGE_BUFFER
@@ -7207,6 +7319,8 @@ public:
 #endif
       int_image_buffer;
 
+    /// @var int_image_1d_array
+    /// @glconstwrap{INT_IMAGE_1D_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_IMAGE_1D_ARRAY
@@ -7216,6 +7330,8 @@ public:
 #endif
       int_image_1d_array;
 
+    /// @var int_image_2d_array
+    /// @glconstwrap{INT_IMAGE_2D_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_IMAGE_2D_ARRAY
@@ -7225,6 +7341,8 @@ public:
 #endif
       int_image_2d_array;
 
+    /// @var int_image_2d_multisample
+    /// @glconstwrap{INT_IMAGE_2D_multisample}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_IMAGE_2D_MULTISAMPLE
@@ -7234,6 +7352,8 @@ public:
 #endif
       int_image_2d_multisample;
 
+    /// @var int_image_2d_multisample_array
+    /// @glconstwrap{INT_IMAGE_2D_multisample_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY
@@ -7243,6 +7363,8 @@ public:
 #endif
       int_image_2d_multisample_array;
 
+    /// @var unsigned_int_image_1d
+    /// @glconstwrap{UNSIGNED_INT_IMAGE_1D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_IMAGE_1D
@@ -7252,6 +7374,8 @@ public:
 #endif
       unsigned_int_image_1d;
 
+    /// @var unsigned_int_image_2d
+    /// @glconstwrap{UNSIGNED_INT_IMAGE_2D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_IMAGE_2D
@@ -7261,6 +7385,8 @@ public:
 #endif
       unsigned_int_image_2d;
 
+    /// @var unsigned_int_image_3d
+    /// @glconstwrap{UNSIGNED_INT_IMAGE_3D}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_IMAGE_3D
@@ -7270,6 +7396,8 @@ public:
 #endif
       unsigned_int_image_3d;
 
+    /// @var unsigned_int_image_2d_rect
+    /// @glconstwrap{UNSIGNED_INT_IMAGE_2D_RECT}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_RECT
@@ -7279,6 +7407,8 @@ public:
 #endif
       unsigned_int_image_2d_rect;
 
+    /// @var unsigned_int_image_cube
+    /// @glconstwrap{UNSIGNED_INT_IMAGE_CUBE}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_IMAGE_CUBE
@@ -7288,6 +7418,8 @@ public:
 #endif
       unsigned_int_image_cube;
 
+    /// @var unsigned_int_image_buffer
+    /// @glconstwrap{UNSIGNED_INT_IMAGE_BUFFER}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_IMAGE_BUFFER
@@ -7297,6 +7429,8 @@ public:
 #endif
       unsigned_int_image_buffer;
 
+    /// @var unsigned_int_image_1d_array
+    /// @glconstwrap{UNSIGNED_INT_IMAGE_1D_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_IMAGE_1D_ARRAY
@@ -7306,6 +7440,8 @@ public:
 #endif
       unsigned_int_image_1d_array;
 
+    /// @var unsigned_int_image_2d_array
+    /// @glconstwrap{UNSIGNED_INT_IMAGE_2D_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_ARRAY
@@ -7315,6 +7451,8 @@ public:
 #endif
       unsigned_int_image_2d_array;
 
+    /// @var unsigned_int_image_2d_multisample
+    /// @glconstwrap{UNSIGNED_INT_IMAGE_2D_MULTISAMPLE}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE
@@ -7324,6 +7462,8 @@ public:
 #endif
       unsigned_int_image_2d_multisample;
 
+    /// @var unsigned_int_image_2d_multisample_array
+    /// @glconstwrap{UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY
@@ -7333,6 +7473,8 @@ public:
 #endif
       unsigned_int_image_2d_multisample_array;
 
+    /// @var unsigned_int_atomic_counter
+    /// @glconstwrap{UNSIGNED_INT_ATOMIC_COUNTER}
     opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_ATOMIC_COUNTER
