@@ -9680,6 +9680,8 @@ public:
 #endif
       compressed_srgb_alpha_bptc_unorm;
 
+    /// @var pack_swap_bytes
+    /// @glconstwrap{PACK_SWAP_BYTES}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_SWAP_BYTES
@@ -9690,6 +9692,8 @@ public:
       true_false>
       pack_swap_bytes;
 
+    /// @var pack_lsb_first
+    /// @glconstwrap{PACK_LSB_FIRST}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_LSB_FIRST
@@ -9700,6 +9704,8 @@ public:
       true_false>
       pack_lsb_first;
 
+    /// @var pack_row_length
+    /// @glconstwrap{PACK_ROW_LENGTH}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_ROW_LENGTH
@@ -9709,6 +9715,8 @@ public:
 #endif
       pack_row_length;
 
+    /// @var pack_skip_rows
+    /// @glconstwrap{PACK_SKIP_ROWS}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_SKIP_ROWS
@@ -9718,6 +9726,8 @@ public:
 #endif
       pack_skip_rows;
 
+    /// @var pack_skip_pixels
+    /// @glconstwrap{PACK_SKIP_PIXELS}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_SKIP_PIXELS
@@ -9727,6 +9737,8 @@ public:
 #endif
       pack_skip_pixels;
 
+    /// @var pack_alignment
+    /// @glconstwrap{PACK_ALIGNMENT}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_ALIGNMENT
@@ -9736,6 +9748,8 @@ public:
 #endif
       pack_alignment;
 
+    /// @var pack_image_height
+    /// @glconstwrap{PACK_IMAGE_HEIGHT}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_IMAGE_HEIGHT
@@ -9745,6 +9759,8 @@ public:
 #endif
       pack_image_height;
 
+    /// @var pack_skip_images
+    /// @glconstwrap{PACK_SKIP_IMAGES}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_SKIP_IMAGES
@@ -9754,6 +9770,8 @@ public:
 #endif
       pack_skip_images;
 
+    /// @var pack_compressed_block_width
+    /// @glconstwrap{PACK_COMPRESSED_BLOCK_WIDTH}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
@@ -9763,6 +9781,8 @@ public:
 #endif
       pack_compressed_block_width;
 
+    /// @var pack_compressed_block_height
+    /// @glconstwrap{PACK_COMPRESSED_BLOCK_HEIGHT}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
@@ -9772,6 +9792,8 @@ public:
 #endif
       pack_compressed_block_height;
 
+    /// @var pack_compressed_block_depth
+    /// @glconstwrap{PACK_COMPRESSED_BLOCK_DEPTH}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
@@ -9781,6 +9803,8 @@ public:
 #endif
       pack_compressed_block_depth;
 
+    /// @var pack_compressed_block_size
+    /// @glconstwrap{PACK_COMPRESSED_BLOCK_SIZE}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
@@ -9790,6 +9814,8 @@ public:
 #endif
       pack_compressed_block_size;
 
+    /// @var unpack_swap_bytes
+    /// @glconstwrap{UNPACK_SWAP_BYTES}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_SWAP_BYTES
@@ -9800,6 +9826,8 @@ public:
       true_false>
       unpack_swap_bytes;
 
+    /// @var unpack_lsb_first
+    /// @glconstwrap{UNPACK_LSB_FIRST}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_LSB_FIRST
@@ -9810,6 +9838,8 @@ public:
       true_false>
       unpack_lsb_first;
 
+    /// @var unpack_row_length
+    /// @glconstwrap{UNPACK_ROW_LENGTH}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_ROW_LENGTH
@@ -9819,6 +9849,8 @@ public:
 #endif
       unpack_row_length;
 
+    /// @var unpack_skip_rows
+    /// @glconstwrap{UNPACK_SKIP_ROWS}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_SKIP_ROWS
@@ -9828,6 +9860,8 @@ public:
 #endif
       unpack_skip_rows;
 
+    /// @var unpack_skip_pixels
+    /// @glconstwrap{UNPACK_SKIP_PIXELS}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_SKIP_PIXELS
@@ -9837,6 +9871,8 @@ public:
 #endif
       unpack_skip_pixels;
 
+    /// @var unpack_alignment
+    /// @glconstwrap{UNPACK_ALIGNMENT}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_ALIGNMENT
@@ -9846,6 +9882,8 @@ public:
 #endif
       unpack_alignment;
 
+    /// @var unpack_image_height
+    /// @glconstwrap{UNPACK_IMAGE_HEIGHT}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_IMAGE_HEIGHT
@@ -9855,6 +9893,8 @@ public:
 #endif
       unpack_image_height;
 
+    /// @var unpack_skip_images
+    /// @glconstwrap{UNPACK_SKIP_IMAGES}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_SKIP_IMAGES
@@ -9864,6 +9904,8 @@ public:
 #endif
       unpack_skip_images;
 
+    /// @var unpack_compressed_block_width
+    /// @glconstwrap{UNPACK_COMPRESSED_BLOCK_WIDTH}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
@@ -9873,6 +9915,8 @@ public:
 #endif
       unpack_compressed_block_width;
 
+    /// @var unpack_compressed_block_height
+    /// @glconstwrap{UNPACK_COMPRESSED_BLOCK_HEIGHT}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
@@ -9882,6 +9926,8 @@ public:
 #endif
       unpack_compressed_block_height;
 
+    /// @var unpack_compressed_block_depth
+    /// @glconstwrap{UNPACK_COMPRESSED_BLOCK_DEPTH}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
@@ -9891,6 +9937,8 @@ public:
 #endif
       unpack_compressed_block_depth;
 
+    /// @var unpack_compressed_block_size
+    /// @glconstwrap{UNPACK_COMPRESSED_BLOCK_SIZE}
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE

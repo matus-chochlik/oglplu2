@@ -15,9 +15,9 @@ body {
 
 div#oglplus-frame {
     position: absolute;
-    left: 3%;
+    left: 5%;
     top: 24px;
-    width: 94%;
+    width: 90%;
     background-color: white;
     border: solid black 5px;
     box-shadow: 3px 3px 5px 2px #202020;
