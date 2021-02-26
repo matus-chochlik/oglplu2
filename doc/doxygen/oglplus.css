@@ -223,6 +223,10 @@ div.fragment {
         background-color: #404040;
 }
 
+.memItemLeft, .memTemplItemLeft {
+        white-space: wrap;
+}
+
 .paramname {
     color: #F0F0F0;
 }
@@ -608,10 +612,6 @@ table.memberdecls {
         line-height: 1px;
         margin: 0px;
         padding: 0px;
-}
-
-.memItemLeft, .memTemplItemLeft {
-        white-space: nowrap;
 }
 
 .memItemRight, .memTemplItemRight {
