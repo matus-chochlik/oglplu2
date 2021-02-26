@@ -863,6 +863,8 @@ class dynamic_c_api_function;
 template <typename Api, typename ApiTraits, typename Tag>
 class derived_c_api_function;
 //------------------------------------------------------------------------------
+/// @brief Policy class customizing C-API constant value loading and function linking.
+/// @ingroup c_api_wrap
 struct default_c_api_traits {
     template <typename Tag, typename Signature>
     using function_pointer = std::add_pointer<Signature>;
@@ -917,7 +919,7 @@ struct default_c_api_traits {
     using result = always_valid<RV>;
 };
 //------------------------------------------------------------------------------
-template <typename ApiTraits, bool IsAvailable>
+template <bool IsAvailable>
 class c_api_function_base : public bool_constant<IsAvailable> {
 public:
     constexpr c_api_function_base(string_view name) noexcept
@@ -937,8 +939,8 @@ private:
 //------------------------------------------------------------------------------
 template <typename ApiTraits, typename Tag, typename RV, typename... Params>
 class unimplemented_c_api_function<ApiTraits, Tag, RV(Params...)>
-  : public c_api_function_base<ApiTraits, false> {
-    using base = c_api_function_base<ApiTraits, false>;
+  : public c_api_function_base<false> {
+    using base = c_api_function_base<false>;
 
 public:
     using signature = RV(Params...);
@@ -964,8 +966,8 @@ template <
   typename... Params,
   c_api_function_ptr<ApiTraits, Tag, RV(Params...)> function>
 class static_c_api_function<ApiTraits, Tag, RV(Params...), function>
-  : public c_api_function_base<ApiTraits, true> {
-    using base = c_api_function_base<ApiTraits, true>;
+  : public c_api_function_base<true> {
+    using base = c_api_function_base<true>;
 
 public:
     using signature = RV(Params...);
@@ -984,9 +986,9 @@ public:
 //------------------------------------------------------------------------------
 template <typename ApiTraits, typename Tag, typename RV, typename... Params>
 class dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>
-  : public c_api_function_base<ApiTraits, true> {
+  : public c_api_function_base<true> {
 
-    using base = c_api_function_base<ApiTraits, true>;
+    using base = c_api_function_base<true>;
     using function_pointer = c_api_function_ptr<ApiTraits, Tag, RV(Params...)>;
 
 public:
