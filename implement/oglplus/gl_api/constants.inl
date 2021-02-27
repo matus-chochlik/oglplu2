@@ -1275,7 +1275,7 @@ basic_gl_constants<ApiTraits>::basic_gl_constants(
   , luminance_alpha("LUMINANCE_ALPHA", traits, api)
   , primary_color_nv("PRIMARY_COLOR_NV", traits, api)
   , secondary_color_nv("SECONDARY_COLOR_NV", traits, api)
-  , move_to_reset_nv("MOVE_TO_RESET_NV", traits, api)
+  , move_to_resets_nv("MOVE_TO_RESETS_NV", traits, api)
   , move_to_continues_nv("MOVE_TO_CONTINUES_NV", traits, api)
   , convex_hull_nv("CONVEX_HULL_NV", traits, api)
   , bounding_box_nv("BOUNDING_BOX_NV", traits, api)

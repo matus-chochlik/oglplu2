@@ -11425,6 +11425,8 @@ public:
 #endif
       dont_care;
 
+    /// @var full_support
+    /// @glconstwrap{FULL_SUPPORT}
     opt_c_api_constant<
       mp_list<support_level>,
 #ifdef GL_FULL_SUPPORT
@@ -11434,6 +11436,8 @@ public:
 #endif
       full_support;
 
+    /// @var caveat_support
+    /// @glconstwrap{CAVEAT_SUPPORT}
     opt_c_api_constant<
       mp_list<support_level>,
 #ifdef GL_CAVEAT_SUPPORT
@@ -11443,7 +11447,8 @@ public:
 #endif
       caveat_support;
 
-    // path command
+    /// @var close_path_nv
+    /// @glconstwrap{CLOSE_PATH_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_CLOSE_PATH_NV
@@ -11453,6 +11458,8 @@ public:
 #endif
       close_path_nv;
 
+    /// @var move_to_nv
+    /// @glconstwrap{MOVE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_MOVE_TO_NV
@@ -11462,6 +11469,8 @@ public:
 #endif
       move_to_nv;
 
+    /// @var relative_move_to_nv
+    /// @glconstwrap{RELATIVE_MOVE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_MOVE_TO_NV
@@ -11471,6 +11480,8 @@ public:
 #endif
       relative_move_to_nv;
 
+    /// @var line_to_nv
+    /// @glconstwrap{LINE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_LINE_TO_NV
@@ -11480,6 +11491,8 @@ public:
 #endif
       line_to_nv;
 
+    /// @var relative_line_to_nv
+    /// @glconstwrap{RELATIVE_LINE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_LINE_TO_NV
@@ -11489,6 +11502,8 @@ public:
 #endif
       relative_line_to_nv;
 
+    /// @var horizontal_line_to_nv
+    /// @glconstwrap{HORIZONTAL_LINE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_HORIZONTAL_LINE_TO_NV
@@ -11498,6 +11513,8 @@ public:
 #endif
       horizontal_line_to_nv;
 
+    /// @var relative_horizontal_line_to_nv
+    /// @glconstwrap{RELATIVE_HORIZONTAL_LINE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
@@ -11507,6 +11524,8 @@ public:
 #endif
       relative_horizontal_line_to_nv;
 
+    /// @var vertical_line_to_nv
+    /// @glconstwrap{VERTICAL_LINE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_VERTICAL_LINE_TO_NV
@@ -11516,6 +11535,8 @@ public:
 #endif
       vertical_line_to_nv;
 
+    /// @var relative_vertical_line_to_nv
+    /// @glconstwrap{RELATIVE_VERTICAL_LINE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
@@ -11525,6 +11546,8 @@ public:
 #endif
       relative_vertical_line_to_nv;
 
+    /// @var quadratic_curve_to_nv
+    /// @glconstwrap{QUADRATIC_CURVE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_QUADRATIC_CURVE_TO_NV
@@ -11534,6 +11557,8 @@ public:
 #endif
       quadratic_curve_to_nv;
 
+    /// @var relative_quadratic_curve_to_nv
+    /// @glconstwrap{RELATIVE_QUADRATIC_CURVE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
@@ -11543,6 +11568,8 @@ public:
 #endif
       relative_quadratic_curve_to_nv;
 
+    /// @var cubic_curve_to_nv
+    /// @glconstwrap{CUBIC_CURVE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_CUBIC_CURVE_TO_NV
@@ -11552,6 +11579,8 @@ public:
 #endif
       cubic_curve_to_nv;
 
+    /// @var relative_cubic_curve_to_nv
+    /// @glconstwrap{RELATIVE_CUBIC_CURVE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
@@ -11561,6 +11590,8 @@ public:
 #endif
       relative_cubic_curve_to_nv;
 
+    /// @var smooth_quadratic_curve_to_nv
+    /// @glconstwrap{SMOOTH_QUADRATIC_CURVE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_SMOOTH_QUADRATIC_CURVE_TO_NV
@@ -11570,6 +11601,8 @@ public:
 #endif
       smooth_quadratic_curve_to_nv;
 
+    /// @var relative_smooth_quadratic_curve_to_nv
+    /// @glconstwrap{RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
@@ -11579,6 +11612,8 @@ public:
 #endif
       relative_smooth_quadratic_curve_to_nv;
 
+    /// @var smooth_cubic_curve_to_nv
+    /// @glconstwrap{SMOOTH_CUBIC_CURVE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_SMOOTH_CUBIC_CURVE_TO_NV
@@ -11588,6 +11623,8 @@ public:
 #endif
       smooth_cubic_curve_to_nv;
 
+    /// @var relative_smooth_cubic_curve_to_nv
+    /// @glconstwrap{RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
@@ -11597,6 +11634,8 @@ public:
 #endif
       relative_smooth_cubic_curve_to_nv;
 
+    /// @var small_ccw_arc_to_nv
+    /// @glconstwrap{SMALL_CCW_ARC_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_SMALL_CCW_ARC_TO_NV
@@ -11606,6 +11645,8 @@ public:
 #endif
       small_ccw_arc_to_nv;
 
+    /// @var relative_small_ccw_arc_to_nv
+    /// @glconstwrap{RELATIVE_SMALL_CCW_ARC_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
@@ -11615,6 +11656,8 @@ public:
 #endif
       relative_small_ccw_arc_to_nv;
 
+    /// @var small_cw_arc_to_nv
+    /// @glconstwrap{SMALL_CW_ARC_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_SMALL_CW_ARC_TO_NV
@@ -11624,6 +11667,8 @@ public:
 #endif
       small_cw_arc_to_nv;
 
+    /// @var relative_small_cw_arc_to_nv
+    /// @glconstwrap{RELATIVE_SMALL_CW_ARC_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
@@ -11633,6 +11678,8 @@ public:
 #endif
       relative_small_cw_arc_to_nv;
 
+    /// @var large_ccw_arc_to_nv
+    /// @glconstwrap{LARGE_CCW_ARC_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_LARGE_CCW_ARC_TO_NV
@@ -11642,6 +11689,8 @@ public:
 #endif
       large_ccw_arc_to_nv;
 
+    /// @var relative_large_ccw_arc_to_nv
+    /// @glconstwrap{RELATIVE_LARGE_CCW_ARC_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
@@ -11651,6 +11700,8 @@ public:
 #endif
       relative_large_ccw_arc_to_nv;
 
+    /// @var large_cw_arc_to_nv
+    /// @glconstwrap{LARGE_CW_ARC_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_LARGE_CW_ARC_TO_NV
@@ -11660,6 +11711,8 @@ public:
 #endif
       large_cw_arc_to_nv;
 
+    /// @var relative_large_ccw_arc_to_nv
+    /// @glconstwrap{RELATIVE_LARGE_CCW_ARC_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
@@ -11669,6 +11722,8 @@ public:
 #endif
       relative_large_cw_arc_to_nv;
 
+    /// @var restart_path_nv
+    /// @glconstwrap{RESTART_PATH_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RESTART_PATH_NV
@@ -11678,6 +11733,8 @@ public:
 #endif
       restart_path_nv;
 
+    /// @var dup_first_cubic_curve_to_nv
+    /// @glconstwrap{DUP_FIRST_CUBIC_CURVE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
@@ -11687,6 +11744,8 @@ public:
 #endif
       dup_first_cubic_curve_to_nv;
 
+    /// @var dup_last_cubic_curve_to_nv
+    /// @glconstwrap{DUP_LAST_CUBIC_CURVE_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
@@ -11696,6 +11755,8 @@ public:
 #endif
       dup_last_cubic_curve_to_nv;
 
+    /// @var rect_nv
+    /// @glconstwrap{RECT_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RECT_NV
@@ -11705,6 +11766,8 @@ public:
 #endif
       rect_nv;
 
+    /// @var circular_ccw_arc_to_nv
+    /// @glconstwrap{CIRCULAR_CCW_ARC_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_CIRCULAR_CCW_ARC_TO_NV
@@ -11714,6 +11777,8 @@ public:
 #endif
       circular_ccw_arc_to_nv;
 
+    /// @var circular_cw_arc_to_nv
+    /// @glconstwrap{circular_cw_arc_to_nv}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_CIRCULAR_CW_ARC_TO_NV
@@ -11723,6 +11788,8 @@ public:
 #endif
       circular_cw_arc_to_nv;
 
+    /// @var circular_tangent_arc_to_nv
+    /// @glconstwrap{CIRCULAR_TANGENT_ARC_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
@@ -11732,6 +11799,8 @@ public:
 #endif
       circular_tangent_arc_to_nv;
 
+    /// @var arc_to_nv
+    /// @glconstwrap{ARC_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_ARC_TO_NV
@@ -11741,6 +11810,8 @@ public:
 #endif
       arc_to_nv;
 
+    /// @var relative_arc_to_nv
+    /// @glconstwrap{RELATIVE_ARC_TO_NV}
     opt_c_api_constant<
       mp_list<path_command_nv>,
 #ifdef GL_RELATIVE_ARC_TO_NV
@@ -11750,6 +11821,8 @@ public:
 #endif
       relative_arc_to_nv;
 
+    /// @var flat
+    /// @glconstwrap{FLAT}
     opt_c_api_constant<
       mp_list<path_cap_style_nv>,
 #ifdef GL_FLAT
@@ -11759,6 +11832,8 @@ public:
 #endif
       flat;
 
+    /// @var square_nv
+    /// @glconstwrap{SQUARE_NV}
     opt_c_api_constant<
       mp_list<path_cap_style_nv>,
 #ifdef GL_SQUARE_NV
@@ -11768,6 +11843,8 @@ public:
 #endif
       square_nv;
 
+    /// @var round_nv
+    /// @glconstwrap{ROUND_NV}
     opt_c_api_constant<
       mp_list<path_cap_style_nv, oglp::path_join_style_nv>,
 #ifdef GL_ROUND_NV
@@ -11777,6 +11854,8 @@ public:
 #endif
       round_nv;
 
+    /// @var triangular_nv
+    /// @glconstwrap{TRIANGULAR_NV}
     opt_c_api_constant<
       mp_list<path_cap_style_nv>,
 #ifdef GL_TRIANGULAR_NV
@@ -11786,6 +11865,8 @@ public:
 #endif
       triangular_nv;
 
+    /// @var luminance
+    /// @glconstwrap{LUMINANCE}
     opt_c_api_constant<
       mp_list<path_color_format_nv>,
 #ifdef GL_LUMINANCE
@@ -11795,6 +11876,8 @@ public:
 #endif
       luminance;
 
+    /// @var intensity
+    /// @glconstwrap{INTENSITY}
     opt_c_api_constant<
       mp_list<path_color_format_nv>,
 #ifdef GL_INTENSITY
@@ -11804,6 +11887,8 @@ public:
 #endif
       intensity;
 
+    /// @var luminance_alpha
+    /// @glconstwrap{LUMINANCE_ALPHA}
     opt_c_api_constant<
       mp_list<path_color_format_nv>,
 #ifdef GL_LUMINANCE_ALPHA
@@ -11813,6 +11898,8 @@ public:
 #endif
       luminance_alpha;
 
+    /// @var primary_color_nv
+    /// @glconstwrap{PRIMARY_COLOR_NV}
     opt_c_api_constant<
       mp_list<path_color_nv>,
 #ifdef GL_PRIMARY_COLOR_NV
@@ -11822,6 +11909,8 @@ public:
 #endif
       primary_color_nv;
 
+    /// @var secondary_color_nv
+    /// @glconstwrap{SECONDARY_COLOR_NV}
     opt_c_api_constant<
       mp_list<path_color_nv>,
 #ifdef GL_SECONDARY_COLOR_NV
@@ -11831,15 +11920,19 @@ public:
 #endif
       secondary_color_nv;
 
+    /// @var move_to_resets_nv
+    /// @glconstwrap{MOVE_TO_RESETS_NV}
     opt_c_api_constant<
       mp_list<oglp::path_dash_offset_reset_nv>,
-#ifdef GL_MOVE_TO_RESET_NV
-      enum_type_c<GL_MOVE_TO_RESET_NV>>
+#ifdef GL_MOVE_TO_RESETS_NV
+      enum_type_c<GL_MOVE_TO_RESETS_NV>>
 #else
       enum_type_i>
 #endif
-      move_to_reset_nv;
+      move_to_resets_nv;
 
+    /// @var move_to_continues_nv
+    /// @glconstwrap{MOVE_TO_CONTINUES_NV}
     opt_c_api_constant<
       mp_list<oglp::path_dash_offset_reset_nv>,
 #ifdef GL_MOVE_TO_CONTINUES_NV
@@ -11849,6 +11942,8 @@ public:
 #endif
       move_to_continues_nv;
 
+    /// @var convex_hull_nv
+    /// @glconstwrap{CONVEX_HULL_NV}
     opt_c_api_constant<
       mp_list<oglp::path_stroke_cover_mode_nv, oglp::path_fill_cover_mode_nv>,
 #ifdef GL_CONVEX_HULL_NV
@@ -11858,6 +11953,8 @@ public:
 #endif
       convex_hull_nv;
 
+    /// @var bounding_box_nv
+    /// @glconstwrap{BOUNDING_BOX_NV}
     opt_c_api_constant<
       mp_list<oglp::path_stroke_cover_mode_nv, oglp::path_fill_cover_mode_nv>,
 #ifdef GL_BOUNDING_BOX_NV
@@ -11867,6 +11964,8 @@ public:
 #endif
       bounding_box_nv;
 
+    /// @var bounding_box_of_bounding_boxes_nv
+    /// @glconstwrap{BOUNDING_BOX_OF_BOUNDING_BOXES_NV}
     opt_c_api_constant<
       mp_list<oglp::path_stroke_cover_mode_nv, oglp::path_fill_cover_mode_nv>,
 #ifdef GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV
@@ -11876,6 +11975,8 @@ public:
 #endif
       bounding_box_of_bounding_boxes_nv;
 
+    /// @var count_up_nv
+    /// @glconstwrap{COUNT_UP_NV}
     opt_c_api_constant<
       mp_list<oglp::path_fill_mode_nv>,
 #ifdef GL_COUNT_UP_NV
@@ -11885,6 +11986,8 @@ public:
 #endif
       count_up_nv;
 
+    /// @var count_down_nv
+    /// @glconstwrap{COUNT_DOWN_NV}
     opt_c_api_constant<
       mp_list<oglp::path_fill_mode_nv>,
 #ifdef GL_COUNT_DOWN_NV
@@ -11894,6 +11997,8 @@ public:
 #endif
       count_down_nv;
 
+    /// @var bevel_nv
+    /// @glconstwrap{BEVEL_NV}
     opt_c_api_constant<
       mp_list<oglp::path_join_style_nv>,
 #ifdef GL_BEVEL_NV
@@ -11903,6 +12008,8 @@ public:
 #endif
       bevel_nv;
 
+    /// @var miter_revert_nv
+    /// @glconstwrap{MITER_REVERT_NV}
     opt_c_api_constant<
       mp_list<oglp::path_join_style_nv>,
 #ifdef GL_MITER_REVERT_NV
@@ -11912,6 +12019,8 @@ public:
 #endif
       miter_revert_nv;
 
+    /// @var miter_truncate_nv
+    /// @glconstwrap{MITER_TRUNCATE_NV}
     opt_c_api_constant<
       mp_list<oglp::path_join_style_nv>,
 #ifdef GL_MITER_TRUNCATE_NV
@@ -11921,6 +12030,8 @@ public:
 #endif
       miter_truncate_nv;
 
+    /// @var bold_bit_nv
+    /// @glconstwrap{BOLD_BIT_NV}
     opt_c_api_constant<
       mp_list<path_font_style_nv>,
 #ifdef GL_BOLD_BIT_NV
@@ -11930,6 +12041,8 @@ public:
 #endif
       bold_bit_nv;
 
+    /// @var italic_bit_nv
+    /// @glconstwrap{ITALIC_BIT_NV}
     opt_c_api_constant<
       mp_list<path_font_style_nv>,
 #ifdef GL_ITALIC_BIT_NV
@@ -11939,6 +12052,8 @@ public:
 #endif
       italic_bit_nv;
 
+    /// @var standard_font_name_nv
+    /// @glconstwrap{STANDARD_FONT_NAME_NV}
     opt_c_api_constant<
       mp_list<path_font_target_nv>,
 #ifdef GL_STANDARD_FONT_NAME_NV
@@ -11948,6 +12063,8 @@ public:
 #endif
       standard_font_name_nv;
 
+    /// @var system_font_name_nv
+    /// @glconstwrap{SYSTEM_FONT_NAME_NV}
     opt_c_api_constant<
       mp_list<path_font_target_nv>,
 #ifdef GL_SYSTEM_FONT_NAME_NV
@@ -11957,6 +12074,8 @@ public:
 #endif
       system_font_name_nv;
 
+    /// @var file_name_nv
+    /// @glconstwrap{file_name_nv}
     opt_c_api_constant<
       mp_list<path_font_target_nv>,
 #ifdef GL_FILE_NAME_NV
@@ -11966,6 +12085,8 @@ public:
 #endif
       file_name_nv;
 
+    /// @var path_format_svg_nv
+    /// @glconstwrap{PATH_FORMAT_SVG_NV}
     opt_c_api_constant<
       mp_list<path_format_nv>,
 #ifdef GL_PATH_FORMAT_SVG_NV
@@ -11975,6 +12096,8 @@ public:
 #endif
       path_format_svg_nv;
 
+    /// @var path_format_ps_nv
+    /// @glconstwrap{PATH_FORMAT_PS_NV}
     opt_c_api_constant<
       mp_list<path_format_nv>,
 #ifdef GL_PATH_FORMAT_PS_NV
@@ -11984,6 +12107,8 @@ public:
 #endif
       path_format_ps_nv;
 
+    /// @var eye_linear
+    /// @glconstwrap{EYE_LINEAR}
     opt_c_api_constant<
       mp_list<oglp::path_gen_mode_nv>,
 #ifdef GL_EYE_LINEAR
@@ -11993,6 +12118,8 @@ public:
 #endif
       eye_linear;
 
+    /// @var object_linear
+    /// @glconstwrap{OBJECT_LINEAR}
     opt_c_api_constant<
       mp_list<oglp::path_gen_mode_nv>,
 #ifdef GL_OBJECT_LINEAR
@@ -12002,6 +12129,8 @@ public:
 #endif
       object_linear;
 
+    /// @var path_object_bounding_box_nv
+    /// @glconstwrap{PATH_OBJECT_BOUNDING_BOX_NV}
     opt_c_api_constant<
       mp_list<oglp::path_gen_mode_nv, path_parameter_nv>,
 #ifdef GL_PATH_OBJECT_BOUNDING_BOX_NV
@@ -12011,6 +12140,8 @@ public:
 #endif
       path_object_bounding_box_nv;
 
+    /// @var accum_adjacent_pairs_nv
+    /// @glconstwrap{ACCUM_ADJACENT_PAIRS_NV}
     opt_c_api_constant<
       mp_list<path_list_mode_nv>,
 #ifdef GL_ACCUM_ADJACENT_PAIRS_NV
@@ -12020,6 +12151,8 @@ public:
 #endif
       accum_adjacent_pairs_nv;
 
+    /// @var adjacent_pairs_nv
+    /// @glconstwrap{ADJACENT_PAIRS_NV}
     opt_c_api_constant<
       mp_list<path_list_mode_nv>,
 #ifdef GL_ADJACENT_PAIRS_NV
@@ -12029,6 +12162,8 @@ public:
 #endif
       adjacent_pairs_nv;
 
+    /// @var first_to_rest_nv
+    /// @glconstwrap{FIRST_TO_REST_NV}
     opt_c_api_constant<
       mp_list<path_list_mode_nv>,
 #ifdef GL_FIRST_TO_REST_NV
@@ -12038,6 +12173,8 @@ public:
 #endif
       first_to_rest_nv;
 
+    /// @var glyph_width_bit_nv
+    /// @glconstwrap{GLYPH_WIDTH_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_GLYPH_WIDTH_BIT_NV
@@ -12047,6 +12184,8 @@ public:
 #endif
       glyph_width_bit_nv;
 
+    /// @var glyph_height_bit_nv
+    /// @glconstwrap{GLYPH_HEIGHT_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_GLYPH_HEIGHT_BIT_NV
@@ -12056,6 +12195,8 @@ public:
 #endif
       glyph_height_bit_nv;
 
+    /// @var glyph_horizontal_bearing_x_bit_nv
+    /// @glconstwrap{GLYPH_HORIZONTAL_BEARING_X_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_GLYPH_HORIZONTAL_BEARING_X_BIT_NV
@@ -12065,6 +12206,8 @@ public:
 #endif
       glyph_horizontal_bearing_x_bit_nv;
 
+    /// @var glyph_horizontal_bearing_y_bit_nv
+    /// @glconstwrap{GLYPH_HORIZONTAL_BEARING_Y_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_GLYPH_HORIZONTAL_BEARING_Y_BIT_NV
@@ -12074,6 +12217,8 @@ public:
 #endif
       glyph_horizontal_bearing_y_bit_nv;
 
+    /// @var glyph_horizontal_bearing_advance_bit_nv
+    /// @glconstwrap{GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV
@@ -12083,6 +12228,8 @@ public:
 #endif
       glyph_horizontal_bearing_advance_bit_nv;
 
+    /// @var glyph_vertical_bearing_x_bit_nv
+    /// @glconstwrap{GLYPH_VERTICAL_BEARING_X_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_GLYPH_VERTICAL_BEARING_X_BIT_NV
@@ -12092,6 +12239,8 @@ public:
 #endif
       glyph_vertical_bearing_x_bit_nv;
 
+    /// @var glyph_vertical_bearing_y_bit_nv
+    /// @glconstwrap{GLYPH_VERTICAL_BEARING_Y_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_GLYPH_VERTICAL_BEARING_Y_BIT_NV
@@ -12101,6 +12250,8 @@ public:
 #endif
       glyph_vertical_bearing_y_bit_nv;
 
+    /// @var glyph_vertical_bearing_advance_bit_nv
+    /// @glconstwrap{GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV
@@ -12110,6 +12261,8 @@ public:
 #endif
       glyph_vertical_bearing_advance_bit_nv;
 
+    /// @var glyph_has_kerning_bit_nv
+    /// @glconstwrap{GLYPH_HAS_KERNING_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_GLYPH_HAS_KERNING_BIT_NV
@@ -12119,6 +12272,8 @@ public:
 #endif
       glyph_has_kerning_bit_nv;
 
+    /// @var font_x_max_bounds_bit_nv
+    /// @glconstwrap{FONT_X_MAX_BOUNDS_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_X_MIN_BOUNDS_BIT_NV
@@ -12128,6 +12283,8 @@ public:
 #endif
       font_x_min_bounds_bit_nv;
 
+    /// @var font_y_min_bounds_bit_nv
+    /// @glconstwrap{FONT_Y_MIN_BOUNDS_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_Y_MIN_BOUNDS_BIT_NV
@@ -12137,6 +12294,8 @@ public:
 #endif
       font_y_min_bounds_bit_nv;
 
+    /// @var font_x_max_bounds_bit_nv
+    /// @glconstwrap{FONT_X_MAX_BOUNDS_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_X_MAX_BOUNDS_BIT_NV
@@ -12146,6 +12305,8 @@ public:
 #endif
       font_x_max_bounds_bit_nv;
 
+    /// @var font_y_max_bounds_bit_nv
+    /// @glconstwrap{FONT_Y_MAX_BOUNDS_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_Y_MAX_BOUNDS_BIT_NV
@@ -12155,6 +12316,8 @@ public:
 #endif
       font_y_max_bounds_bit_nv;
 
+    /// @var font_units_per_em_bit_nv
+    /// @glconstwrap{FONT_UNITS_PER_EM_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_UNITS_PER_EM_BIT_NV
@@ -12164,6 +12327,8 @@ public:
 #endif
       font_units_per_em_bit_nv;
 
+    /// @var font_ascender_bit_nv
+    /// @glconstwrap{FONT_ASCENDER_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_ASCENDER_BIT_NV
@@ -12173,6 +12338,8 @@ public:
 #endif
       font_ascender_bit_nv;
 
+    /// @var font_descender_bit_nv
+    /// @glconstwrap{FONT_DESCENDER_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_DESCENDER_BIT_NV
@@ -12182,6 +12349,8 @@ public:
 #endif
       font_descender_bit_nv;
 
+    /// @var font_height_bit_nv
+    /// @glconstwrap{FONT_HEIGHT_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_HEIGHT_BIT_NV
@@ -12191,6 +12360,8 @@ public:
 #endif
       font_height_bit_nv;
 
+    /// @var font_max_advance_width_bit_nv
+    /// @glconstwrap{FONT_MAX_ADVANCE_WIDTH_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_MAX_ADVANCE_WIDTH_BIT_NV
@@ -12200,6 +12371,8 @@ public:
 #endif
       font_max_advance_width_bit_nv;
 
+    /// @var font_max_advance_height_bit_nv
+    /// @glconstwrap{FONT_MAX_ADVANCE_HEIGHT_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_MAX_ADVANCE_HEIGHT_BIT_NV
@@ -12209,6 +12382,8 @@ public:
 #endif
       font_max_advance_height_bit_nv;
 
+    /// @var font_underline_position_bit_nv
+    /// @glconstwrap{FONT_UNDERLINE_POSITION_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_UNDERLINE_POSITION_BIT_NV
@@ -12218,6 +12393,8 @@ public:
 #endif
       font_underline_position_bit_nv;
 
+    /// @var font_underline_thickness_bit_nv
+    /// @glconstwrap{font_underline_thickness_bit_nv}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_UNDERLINE_THICKNESS_BIT_NV
@@ -12227,6 +12404,8 @@ public:
 #endif
       font_underline_thickness_bit_nv;
 
+    /// @var font_has_kerning_bit_nv
+    /// @glconstwrap{FONT_HAS_KERNING_BIT_NV}
     opt_c_api_constant<
       mp_list<path_metric_query_nv>,
 #ifdef GL_FONT_HAS_KERNING_BIT_NV
@@ -12236,6 +12415,8 @@ public:
 #endif
       font_has_kerning_bit_nv;
 
+    /// @var skip_missing_glyph_nv
+    /// @glconstwrap{SKIP_MISSING_GLYPH_NV}
     opt_c_api_constant<
       mp_list<path_missing_glyph_nv>,
 #ifdef GL_SKIP_MISSING_GLYPH_NV
@@ -12245,6 +12426,8 @@ public:
 #endif
       skip_missing_glyph_nv;
 
+    /// @var use_missing_glyph_nv
+    /// @glconstwrap{USE_MISSING_GLYPH_NV}
     opt_c_api_constant<
       mp_list<path_missing_glyph_nv>,
 #ifdef GL_USE_MISSING_GLYPH_NV
@@ -12254,6 +12437,8 @@ public:
 #endif
       use_missing_glyph_nv;
 
+    /// @var path_command_count_nv
+    /// @glconstwrap{PATH_COMMAND_COUNT_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_COMMAND_COUNT_NV
@@ -12263,6 +12448,8 @@ public:
 #endif
       path_command_count_nv;
 
+    /// @var path_coord_count_nv
+    /// @glconstwrap{PATH_COORD_COUNT_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_COORD_COUNT_NV
@@ -12272,6 +12459,8 @@ public:
 #endif
       path_coord_count_nv;
 
+    /// @var path_computed_length_nv
+    /// @glconstwrap{PATH_COMPUTED_LENGTH_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_COMPUTED_LENGTH_NV
@@ -12281,6 +12470,8 @@ public:
 #endif
       path_computed_length_nv;
 
+    /// @var path_stroke_width_nv
+    /// @glconstwrap{PATH_STROKE_WIDTH_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_STROKE_WIDTH_NV
@@ -12290,6 +12481,8 @@ public:
 #endif
       path_stroke_width_nv;
 
+    /// @var path_initial_end_cap_nv
+    /// @glconstwrap{PATH_INITIAL_END_CAP_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_INITIAL_END_CAP_NV
@@ -12299,6 +12492,8 @@ public:
 #endif
       path_initial_end_cap_nv;
 
+    /// @var path_terminal_end_cap_nv
+    /// @glconstwrap{PATH_TERMINAL_END_CAP_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_TERMINAL_END_CAP_NV
@@ -12308,6 +12503,8 @@ public:
 #endif
       path_terminal_end_cap_nv;
 
+    /// @var path_join_style_nv
+    /// @glconstwrap{PATH_JOIN_STYLE_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_JOIN_STYLE_NV
@@ -12317,6 +12514,8 @@ public:
 #endif
       path_join_style_nv;
 
+    /// @var path_miter_limit_nv
+    /// @glconstwrap{PATH_MITER_LIMIT_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_MITER_LIMIT_NV
@@ -12326,6 +12525,8 @@ public:
 #endif
       path_miter_limit_nv;
 
+    /// @var path_dash_array_count_nv
+    /// @glconstwrap{PATH_DASH_ARRAY_COUNT_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_DASH_ARRAY_COUNT_NV
@@ -12335,6 +12536,8 @@ public:
 #endif
       path_dash_array_count_nv;
 
+    /// @var path_dash_offset_nv
+    /// @glconstwrap{PATH_DASH_OFFSET_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_DASH_OFFSET_NV
@@ -12344,6 +12547,8 @@ public:
 #endif
       path_dash_offset_nv;
 
+    /// @var path_dash_offset_reset_nv
+    /// @glconstwrap{PATH_DASH_OFFSET_RESET_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_DASH_OFFSET_RESET_NV
@@ -12353,6 +12558,8 @@ public:
 #endif
       path_dash_offset_reset_nv;
 
+    /// @var path_client_length_nv
+    /// @glconstwrap{PATH_CLIENT_LENGTH_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_CLIENT_LENGTH_NV
@@ -12362,6 +12569,8 @@ public:
 #endif
       path_client_length_nv;
 
+    /// @var path_initial_dash_cap_nv
+    /// @glconstwrap{PATH_INITIAL_DASH_CAP_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_INITIAL_DASH_CAP_NV
@@ -12371,6 +12580,8 @@ public:
 #endif
       path_initial_dash_cap_nv;
 
+    /// @var path_terminal_dash_cap_nv
+    /// @glconstwrap{PATH_TERMINAL_DASH_CAP_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_TERMINAL_DASH_CAP_NV
@@ -12380,6 +12591,8 @@ public:
 #endif
       path_terminal_dash_cap_nv;
 
+    /// @var path_fill_mode_nv
+    /// @glconstwrap{PATH_FILL_MODE_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_FILL_MODE_NV
@@ -12389,6 +12602,8 @@ public:
 #endif
       path_fill_mode_nv;
 
+    /// @var path_fill_mask_nv
+    /// @glconstwrap{PATH_FILL_MASK_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_FILL_MASK_NV
@@ -12398,6 +12613,8 @@ public:
 #endif
       path_fill_mask_nv;
 
+    /// @var path_fill_cover_mode_nv
+    /// @glconstwrap{PATH_FILL_COVER_MODE_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_FILL_COVER_MODE_NV
@@ -12407,6 +12624,8 @@ public:
 #endif
       path_fill_cover_mode_nv;
 
+    /// @var path_stroke_cover_mode_nv
+    /// @glconstwrap{PATH_STROKE_COVER_MODE_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_STROKE_COVER_MODE_NV
@@ -12416,6 +12635,8 @@ public:
 #endif
       path_stroke_cover_mode_nv;
 
+    /// @var path_stroke_mask_nv
+    /// @glconstwrap{PATH_STROKE_MASK_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_STROKE_MASK_NV
@@ -12425,6 +12646,8 @@ public:
 #endif
       path_stroke_mask_nv;
 
+    /// @var path_stroke_bound_nv
+    /// @glconstwrap{PATH_STROKE_BOUND_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_STROKE_BOUND_NV
@@ -12434,6 +12657,8 @@ public:
 #endif
       path_stroke_bound_nv;
 
+    /// @var path_fill_bounding_box_nv
+    /// @glconstwrap{PATH_FILL_BOUNDING_BOX_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_FILL_BOUNDING_BOX_NV
@@ -12443,6 +12668,8 @@ public:
 #endif
       path_fill_bounding_box_nv;
 
+    /// @var path_stroke_bounding_box_nv
+    /// @glconstwrap{PATH_STROKE_BOUNDING_BOX_NV}
     opt_c_api_constant<
       mp_list<path_parameter_nv>,
 #ifdef GL_PATH_STROKE_BOUNDING_BOX_NV
@@ -12452,6 +12679,8 @@ public:
 #endif
       path_stroke_bounding_box_nv;
 
+    /// @var translate_x_nv
+    /// @glconstwrap{TRANSLATE_X_NV}
     opt_c_api_constant<
       mp_list<path_transform_type_nv>,
 #ifdef GL_TRANSLATE_X_NV
@@ -12461,6 +12690,8 @@ public:
 #endif
       translate_x_nv;
 
+    /// @var translate_y_nv
+    /// @glconstwrap{TRANSLATE_Y_NV}
     opt_c_api_constant<
       mp_list<path_transform_type_nv>,
 #ifdef GL_TRANSLATE_Y_NV
@@ -12470,6 +12701,8 @@ public:
 #endif
       translate_y_nv;
 
+    /// @var translate_2d_nv
+    /// @glconstwrap{TRANSLATE_2D_NV}
     opt_c_api_constant<
       mp_list<path_transform_type_nv>,
 #ifdef GL_TRANSLATE_2D_NV
@@ -12479,6 +12712,8 @@ public:
 #endif
       translate_2d_nv;
 
+    /// @var translate_3d_nv
+    /// @glconstwrap{TRANSLATE_3D_NV}
     opt_c_api_constant<
       mp_list<path_transform_type_nv>,
 #ifdef GL_TRANSLATE_3D_NV
@@ -12488,6 +12723,8 @@ public:
 #endif
       translate_3d_nv;
 
+    /// @var affine_2d_nv
+    /// @glconstwrap{AFFINE_2D_NV}
     opt_c_api_constant<
       mp_list<path_transform_type_nv>,
 #ifdef GL_AFFINE_2D_NV
@@ -12497,6 +12734,8 @@ public:
 #endif
       affine_2d_nv;
 
+    /// @var affine_3d_nv
+    /// @glconstwrap{AFFINE_3D_NV}
     opt_c_api_constant<
       mp_list<path_transform_type_nv>,
 #ifdef GL_AFFINE_3D_NV
@@ -12506,6 +12745,8 @@ public:
 #endif
       affine_3d_nv;
 
+    /// @var transpose_affine_2d_nv
+    /// @glconstwrap{TRANSPOSE_AFFINE_2D_NV}
     opt_c_api_constant<
       mp_list<path_transform_type_nv>,
 #ifdef GL_TRANSPOSE_AFFINE_2D_NV
@@ -12515,6 +12756,8 @@ public:
 #endif
       transpose_affine_2d_nv;
 
+    /// @var transpose_affine_3d_nv
+    /// @glconstwrap{TRANSPOSE_AFFINE_3D_NV}
     opt_c_api_constant<
       mp_list<path_transform_type_nv>,
 #ifdef GL_TRANSPOSE_AFFINE_3D_NV
@@ -12524,6 +12767,8 @@ public:
 #endif
       transpose_affine_3d_nv;
 
+    /// @var utf8_nv
+    /// @glconstwrap{UTF8_NV}
     opt_c_api_constant<
       mp_list<path_text_encoding_nv>,
 #ifdef GL_UTF8_NV
@@ -12533,6 +12778,8 @@ public:
 #endif
       utf8_nv;
 
+    /// @var utf16_nv
+    /// @glconstwrap{UTF16_NV}
     opt_c_api_constant<
       mp_list<path_text_encoding_nv>,
 #ifdef GL_UTF16_NV
@@ -12542,7 +12789,8 @@ public:
 #endif
       utf16_nv;
 
-    // none
+    /// @var none
+    /// @glconstwrap{NONE}
     opt_c_api_constant<
       mp_list<
         support_level,
