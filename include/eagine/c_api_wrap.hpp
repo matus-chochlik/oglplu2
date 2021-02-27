@@ -147,11 +147,25 @@ template <typename ClassList, typename T, typename Tag, bool is_indexed>
 struct get_opt_c_api_constant<ClassList, type_identity<T>, Tag, is_indexed>
   : type_identity<dynamic_c_api_constant<ClassList, T, Tag, is_indexed>> {};
 
-/// @brief Template used for switching between static and dynamic constant.
+/// @brief Template alias used for switching between static and dynamic constants.
+/// @tparam ClassList a list of enum_class types into which the constant can
+///         be converted.
+/// @tparam Constant integral constant specifying the value or a placeholder.
+/// @tparam Tag a tag type that can be used in custiomization of some operations
+///         on the constant.
+/// @tparam is_indexed indicates if the constant is indexed, which enables
+///         additional operations on the constants.
 /// @ingroup c_api_wrap
+///
 /// @see no_c_api_constant
 /// @see static_c_api_constant
 /// @see dynamic_c_api_constant
+/// @see enum_class
+/// @see enum_value
+/// @see mp_list
+///
+/// C-API constants can be either known at compile time or loaded dynamically
+/// by using some API function(s).
 template <
   typename ClassList,
   typename Constant,

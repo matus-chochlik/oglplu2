@@ -9948,6 +9948,8 @@ public:
 #endif
       unpack_compressed_block_size;
 
+    /// @var image_class_4_x_32
+    /// @glconstwrap{IMAGE_CLASS_4_X_32}
     opt_c_api_constant<
       mp_list<oglp::image_compatibility_class>,
 #ifdef GL_IMAGE_CLASS_4_X_32
@@ -9957,6 +9959,8 @@ public:
 #endif
       image_class_4_x_32;
 
+    /// @var image_class_2_x_32
+    /// @glconstwrap{IMAGE_CLASS_2_X_32}
     opt_c_api_constant<
       mp_list<oglp::image_compatibility_class>,
 #ifdef GL_IMAGE_CLASS_2_X_32
