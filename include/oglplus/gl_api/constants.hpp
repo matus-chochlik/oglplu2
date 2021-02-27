@@ -9970,6 +9970,8 @@ public:
 #endif
       image_class_2_x_32;
 
+    /// @var image_class_1_x_32
+    /// @glconstwrap{IMAGE_CLASS_1_X_32}
     opt_c_api_constant<
       mp_list<oglp::image_compatibility_class>,
 #ifdef GL_IMAGE_CLASS_1_X_32
@@ -9979,6 +9981,8 @@ public:
 #endif
       image_class_1_x_32;
 
+    /// @var image_class_4_x_16
+    /// @glconstwrap{IMAGE_CLASS_4_X_16}
     opt_c_api_constant<
       mp_list<oglp::image_compatibility_class>,
 #ifdef GL_IMAGE_CLASS_4_X_16
@@ -9988,6 +9992,8 @@ public:
 #endif
       image_class_4_x_16;
 
+    /// @var image_class_2_x_16
+    /// @glconstwrap{IMAGE_CLASS_2_X_16}
     opt_c_api_constant<
       mp_list<oglp::image_compatibility_class>,
 #ifdef GL_IMAGE_CLASS_2_X_16
@@ -9997,6 +10003,8 @@ public:
 #endif
       image_class_2_x_16;
 
+    /// @var image_class_1_x_16
+    /// @glconstwrap{IMAGE_CLASS_1_X_16}
     opt_c_api_constant<
       mp_list<oglp::image_compatibility_class>,
 #ifdef GL_IMAGE_CLASS_1_X_16
@@ -10006,6 +10014,8 @@ public:
 #endif
       image_class_1_x_16;
 
+    /// @var image_class_4_x_8
+    /// @glconstwrap{IMAGE_CLASS_4_X_8}
     opt_c_api_constant<
       mp_list<oglp::image_compatibility_class>,
 #ifdef GL_IMAGE_CLASS_4_X_8
@@ -10015,6 +10025,8 @@ public:
 #endif
       image_class_4_x_8;
 
+    /// @var image_class_2_x_8
+    /// @glconstwrap{IMAGE_CLASS_2_X_8}
     opt_c_api_constant<
       mp_list<oglp::image_compatibility_class>,
 #ifdef GL_IMAGE_CLASS_2_X_8
@@ -10024,6 +10036,8 @@ public:
 #endif
       image_class_2_x_8;
 
+    /// @var image_class_1_x_8
+    /// @glconstwrap{IMAGE_CLASS_1_X_8}
     opt_c_api_constant<
       mp_list<oglp::image_compatibility_class>,
 #ifdef GL_IMAGE_CLASS_1_X_8
@@ -10033,6 +10047,8 @@ public:
 #endif
       image_class_1_x_8;
 
+    /// @var image_class_11_11_10
+    /// @glconstwrap{IMAGE_CLASS_11_11_10}
     opt_c_api_constant<
       mp_list<oglp::image_compatibility_class>,
 #ifdef GL_IMAGE_CLASS_11_11_10
@@ -10042,6 +10058,8 @@ public:
 #endif
       image_class_11_11_10;
 
+    /// @var image_class_10_10_10_2
+    /// @glconstwrap{IMAGE_CLASS_10_10_10_2}
     opt_c_api_constant<
       mp_list<oglp::image_compatibility_class>,
 #ifdef GL_IMAGE_CLASS_10_10_10_2
@@ -10051,6 +10069,8 @@ public:
 #endif
       image_class_10_10_10_2;
 
+    /// @var view_class_128_bits
+    /// @glconstwrap{VIEW_CLASS_128_BITS}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_128_BITS
@@ -10060,6 +10080,8 @@ public:
 #endif
       view_class_128_bits;
 
+    /// @var view_class_96_bits
+    /// @glconstwrap{VIEW_CLASS_96_BITS}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_96_BITS
@@ -10069,6 +10091,8 @@ public:
 #endif
       view_class_96_bits;
 
+    /// @var view_class_64_bits
+    /// @glconstwrap{VIEW_CLASS_64_BITS}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_64_BITS
@@ -10078,6 +10102,8 @@ public:
 #endif
       view_class_64_bits;
 
+    /// @var view_class_48_bits
+    /// @glconstwrap{VIEW_CLASS_48_BITS}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_48_BITS
@@ -10087,6 +10113,8 @@ public:
 #endif
       view_class_48_bits;
 
+    /// @var view_class_32_bits
+    /// @glconstwrap{VIEW_CLASS_32_BITS}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_32_BITS
@@ -10096,6 +10124,8 @@ public:
 #endif
       view_class_32_bits;
 
+    /// @var view_class_24_bits
+    /// @glconstwrap{VIEW_CLASS_24_BITS}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_24_BITS
@@ -10105,6 +10135,8 @@ public:
 #endif
       view_class_24_bits;
 
+    /// @var view_class_16_bits
+    /// @glconstwrap{VIEW_CLASS_16_BITS}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_16_BITS
@@ -10114,6 +10146,8 @@ public:
 #endif
       view_class_16_bits;
 
+    /// @var view_class_8_bits
+    /// @glconstwrap{VIEW_CLASS_8_BITS}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_8_BITS
@@ -10123,6 +10157,8 @@ public:
 #endif
       view_class_8_bits;
 
+    /// @var view_class_s3tc_dxt1_rgb
+    /// @glconstwrap{VIEW_CLASS_S3TC_DXT1_RGB}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_S3TC_DXT1_RGB
@@ -10132,6 +10168,8 @@ public:
 #endif
       view_class_s3tc_dxt1_rgb;
 
+    /// @var view_class_s3tc_dxt1_rgba
+    /// @glconstwrap{VIEW_CLASS_S3TC_DXT1_RGBA}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_S3TC_DXT1_RGBA
@@ -10141,6 +10179,8 @@ public:
 #endif
       view_class_s3tc_dxt1_rgba;
 
+    /// @var view_class_s3tc_dxt3_rgba
+    /// @glconstwrap{VIEW_CLASS_S3TC_DXT3_RGBA}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_S3TC_DXT3_RGBA
@@ -10150,6 +10190,8 @@ public:
 #endif
       view_class_s3tc_dxt3_rgba;
 
+    /// @var view_class_s3tc_dxt5_rgba
+    /// @glconstwrap{VIEW_CLASS_S3TC_DXT5_RGBA}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_S3TC_DXT5_RGBA
@@ -10159,6 +10201,8 @@ public:
 #endif
       view_class_s3tc_dxt5_rgba;
 
+    /// @var view_class_rgtc1_red
+    /// @glconstwrap{VIEW_CLASS_RGTC1_RED}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_RGTC1_RED
@@ -10168,6 +10212,8 @@ public:
 #endif
       view_class_rgtc1_red;
 
+    /// @var view_class_rgtc2_rg
+    /// @glconstwrap{VIEW_CLASS_RGTC2_RG}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_RGTC2_RG
@@ -10177,6 +10223,8 @@ public:
 #endif
       view_class_rgtc2_rg;
 
+    /// @var view_class_bptc_unorm
+    /// @glconstwrap{VIEW_CLASS_BPTC_UNORM}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_BPTC_UNORM
@@ -10186,6 +10234,8 @@ public:
 #endif
       view_class_bptc_unorm;
 
+    /// @var view_class_bptc_float
+    /// @glconstwrap{VIEW_CLASS_BPTC_FLOAT}
     opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_BPTC_FLOAT
@@ -10195,6 +10245,8 @@ public:
 #endif
       view_class_bptc_float;
 
+    /// @var num_sample_counts
+    /// @glconstwrap{NUM_SAMPLE_COUNTS}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_NUM_SAMPLE_COUNTS
@@ -10204,6 +10256,8 @@ public:
 #endif
       num_sample_counts;
 
+    /// @var samples
+    /// @glconstwrap{SAMPLES}
     opt_c_api_constant<
       mp_list<internal_format_parameter, integer_query>,
 #ifdef GL_SAMPLES
@@ -10213,6 +10267,8 @@ public:
 #endif
       samples;
 
+    /// @var internalformat_supported
+    /// @glconstwrap{INTERNALFORMAT_SUPPORTED}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_SUPPORTED
@@ -10222,6 +10278,8 @@ public:
 #endif
       internalformat_supported;
 
+    /// @var internalformat_preferred
+    /// @glconstwrap{INTERNALFORMAT_PREFERRED}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_PREFERRED
@@ -10231,6 +10289,8 @@ public:
 #endif
       internalformat_preferred;
 
+    /// @var internalformat_red_size
+    /// @glconstwrap{INTERNALFORMAT_RED_SIZE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_RED_SIZE
@@ -10240,6 +10300,8 @@ public:
 #endif
       internalformat_red_size;
 
+    /// @var internalformat_green_size
+    /// @glconstwrap{INTERNALFORMAT_GREEN_SIZE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_GREEN_SIZE
@@ -10249,6 +10311,8 @@ public:
 #endif
       internalformat_green_size;
 
+    /// @var internalformat_blue_size
+    /// @glconstwrap{INTERNALFORMAT_BLUE_SIZE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_BLUE_SIZE
@@ -10258,6 +10322,8 @@ public:
 #endif
       internalformat_blue_size;
 
+    /// @var internalformat_alpha_size
+    /// @glconstwrap{INTERNALFORMAT_ALPHA_SIZE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_ALPHA_SIZE
@@ -10267,6 +10333,8 @@ public:
 #endif
       internalformat_alpha_size;
 
+    /// @var internalformat_depth_size
+    /// @glconstwrap{INTERNALFORMAT_DEPTH_SIZE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_DEPTH_SIZE
@@ -10276,6 +10344,8 @@ public:
 #endif
       internalformat_depth_size;
 
+    /// @var internalformat_stencil_size
+    /// @glconstwrap{INTERNALFORMAT_STENCIL_SIZE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_STENCIL_SIZE
@@ -10285,6 +10355,8 @@ public:
 #endif
       internalformat_stencil_size;
 
+    /// @var internalformat_shared_size
+    /// @glconstwrap{INTERNALFORMAT_SHARED_SIZE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_SHARED_SIZE
@@ -10294,6 +10366,8 @@ public:
 #endif
       internalformat_shared_size;
 
+    /// @var internalformat_red_type
+    /// @glconstwrap{INTERNALFORMAT_RED_TYPE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_RED_TYPE
@@ -10303,6 +10377,8 @@ public:
 #endif
       internalformat_red_type;
 
+    /// @var internalformat_green_type
+    /// @glconstwrap{INTERNALFORMAT_GREEN_TYPE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_GREEN_TYPE
@@ -10312,6 +10388,8 @@ public:
 #endif
       internalformat_green_type;
 
+    /// @var internalformat_blue_type
+    /// @glconstwrap{INTERNALFORMAT_BLUE_TYPE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_BLUE_TYPE
@@ -10321,6 +10399,8 @@ public:
 #endif
       internalformat_blue_type;
 
+    /// @var internalformat_alpha_type
+    /// @glconstwrap{INTERNALFORMAT_ALPHA_TYPE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_ALPHA_TYPE
@@ -10330,6 +10410,8 @@ public:
 #endif
       internalformat_alpha_type;
 
+    /// @var internalformat_depth_type
+    /// @glconstwrap{INTERNALFORMAT_DEPTH_TYPE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_DEPTH_TYPE
@@ -10339,6 +10421,8 @@ public:
 #endif
       internalformat_depth_type;
 
+    /// @var internalformat_stencil_type
+    /// @glconstwrap{INTERNALFORMAT_STENCIL_TYPE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_INTERNALFORMAT_STENCIL_TYPE
@@ -10348,6 +10432,8 @@ public:
 #endif
       internalformat_stencil_type;
 
+    /// @var max_width
+    /// @glconstwrap{MAX_WIDTH}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_MAX_WIDTH
@@ -10357,6 +10443,8 @@ public:
 #endif
       max_width;
 
+    /// @var max_height
+    /// @glconstwrap{MAX_HEIGHT}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_MAX_HEIGHT
@@ -10366,6 +10454,8 @@ public:
 #endif
       max_height;
 
+    /// @var max_depth
+    /// @glconstwrap{MAX_DEPTH}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_MAX_DEPTH
@@ -10375,6 +10465,8 @@ public:
 #endif
       max_depth;
 
+    /// @var max_layers
+    /// @glconstwrap{MAX_LAYERS}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_MAX_LAYERS
@@ -10384,6 +10476,8 @@ public:
 #endif
       max_layers;
 
+    /// @var max_combined_dimensions
+    /// @glconstwrap{MAX_COMBINED_DIMENSIONS}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_MAX_COMBINED_DIMENSIONS
@@ -10393,6 +10487,8 @@ public:
 #endif
       max_combined_dimensions;
 
+    /// @var color_components
+    /// @glconstwrap{COLOR_COMPONENTS}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_COLOR_COMPONENTS
@@ -10402,6 +10498,8 @@ public:
 #endif
       color_components;
 
+    /// @var depth_components
+    /// @glconstwrap{DEPTH_COMPONENTS}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_DEPTH_COMPONENTS
@@ -10411,6 +10509,8 @@ public:
 #endif
       depth_components;
 
+    /// @var stencil_components
+    /// @glconstwrap{STENCIL_COMPONENTS}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_STENCIL_COMPONENTS
@@ -10420,6 +10520,8 @@ public:
 #endif
       stencil_components;
 
+    /// @var color_renderable
+    /// @glconstwrap{COLOR_RENDERABLE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_COLOR_RENDERABLE
@@ -10429,6 +10531,8 @@ public:
 #endif
       color_renderable;
 
+    /// @var depth_renderable
+    /// @glconstwrap{DEPTH_RENDERABLE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_DEPTH_RENDERABLE
@@ -10438,6 +10542,8 @@ public:
 #endif
       depth_renderable;
 
+    /// @var stencil_renderable
+    /// @glconstwrap{STENCIL_RENDERABLE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_STENCIL_RENDERABLE
@@ -10447,6 +10553,8 @@ public:
 #endif
       stencil_renderable;
 
+    /// @var framebuffer_renderable
+    /// @glconstwrap{FRAMEBUFFER_RENDERABLE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_FRAMEBUFFER_RENDERABLE
@@ -10456,6 +10564,8 @@ public:
 #endif
       framebuffer_renderable;
 
+    /// @var framebuffer_renderable_layered
+    /// @glconstwrap{FRAMEBUFFER_RENDERABLE_LAYERED}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_FRAMEBUFFER_RENDERABLE_LAYERED
@@ -10465,6 +10575,8 @@ public:
 #endif
       framebuffer_renderable_layered;
 
+    /// @var framebuffer_buffer
+    /// @glconstwrap{FRAMEBUFFER_BUFFER}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_FRAMEBUFFER_BLEND
@@ -10474,6 +10586,8 @@ public:
 #endif
       framebuffer_blend;
 
+    /// @var read_pixels
+    /// @glconstwrap{READ_PIXELS}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_READ_PIXELS
@@ -10483,6 +10597,8 @@ public:
 #endif
       read_pixels;
 
+    /// @var read_pixels_format
+    /// @glconstwrap{READ_PIXELS_FORMAT}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_READ_PIXELS_FORMAT
@@ -10492,6 +10608,8 @@ public:
 #endif
       read_pixels_format;
 
+    /// @var read_pixels_type
+    /// @glconstwrap{READ_PIXELS_TYPE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_READ_PIXELS_TYPE
@@ -10501,6 +10619,8 @@ public:
 #endif
       read_pixels_type;
 
+    /// @var texture_image_format
+    /// @glconstwrap{TEXTURE_IMAGE_FORMAT}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_TEXTURE_IMAGE_FORMAT
@@ -10510,6 +10630,8 @@ public:
 #endif
       texture_image_format;
 
+    /// @var texture_image_type
+    /// @glconstwrap{TEXTURE_IMAGE_TYPE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_TEXTURE_IMAGE_TYPE
@@ -10519,6 +10641,8 @@ public:
 #endif
       texture_image_type;
 
+    /// @var texture_image_format
+    /// @glconstwrap{TEXTURE_IMAGE_FORMAT}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_GET_TEXTURE_IMAGE_FORMAT
@@ -10528,6 +10652,8 @@ public:
 #endif
       get_texture_image_format;
 
+    /// @var get_texture_image_type
+    /// @glconstwrap{GET_TEXTURE_IMAGE_TYPE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_GET_TEXTURE_IMAGE_TYPE
@@ -10537,6 +10663,8 @@ public:
 #endif
       get_texture_image_type;
 
+    /// @var mipmap
+    /// @glconstwrap{MIPMAP}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_MIPMAP
@@ -10546,6 +10674,8 @@ public:
 #endif
       mipmap;
 
+    /// @var generate_mipmap
+    /// @glconstwrap{GENERATE_MIPMAP}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_GENERATE_MIPMAP
@@ -10555,6 +10685,8 @@ public:
 #endif
       generate_mipmap;
 
+    /// @var auto_generate_mipmap
+    /// @glconstwrap{AUTO_GENERATE_MIPMAP}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_AUTO_GENERATE_MIPMAP
@@ -10564,6 +10696,8 @@ public:
 #endif
       auto_generate_mipmap;
 
+    /// @var color_encoding
+    /// @glconstwrap{COLOR_ENCODING}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_COLOR_ENCODING
@@ -10573,6 +10707,8 @@ public:
 #endif
       color_encoding;
 
+    /// @var srgb_read
+    /// @glconstwrap{SRGB_READ}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_SRGB_READ
@@ -10582,6 +10718,8 @@ public:
 #endif
       srgb_read;
 
+    /// @var srgb_write
+    /// @glconstwrap{SRGB_WRITE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_SRGB_WRITE
@@ -10591,6 +10729,8 @@ public:
 #endif
       srgb_write;
 
+    /// @var filter
+    /// @glconstwrap{FILTER}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_FILTER
@@ -10600,6 +10740,8 @@ public:
 #endif
       filter;
 
+    /// @var vertex_texture
+    /// @glconstwrap{VERTEX_TEXTURE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_VERTEX_TEXTURE
@@ -10609,6 +10751,8 @@ public:
 #endif
       vertex_texture;
 
+    /// @var tess_control_texture
+    /// @glconstwrap{TESS_CONTROL_TEXTURE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_TESS_CONTROL_TEXTURE
@@ -10618,6 +10762,8 @@ public:
 #endif
       tess_control_texture;
 
+    /// @var tess_evaluation_texture
+    /// @glconstwrap{TESS_EVALUATION_TEXTURE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_TESS_EVALUATION_TEXTURE
@@ -10627,6 +10773,8 @@ public:
 #endif
       tess_evaluation_texture;
 
+    /// @var geometry_texture
+    /// @glconstwrap{GEOMETRY_TEXTURE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_GEOMETRY_TEXTURE
@@ -10636,6 +10784,8 @@ public:
 #endif
       geometry_texture;
 
+    /// @var fragment_texture
+    /// @glconstwrap{FRAGMENT_TEXTURE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_FRAGMENT_TEXTURE
@@ -10645,6 +10795,8 @@ public:
 #endif
       fragment_texture;
 
+    /// @var compute_texture
+    /// @glconstwrap{COMPUTE_TEXTURE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_COMPUTE_TEXTURE
