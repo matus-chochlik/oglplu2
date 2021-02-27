@@ -585,68 +585,95 @@ public:
       OGLPLUS_GL_STATIC_FUNC(GetNamedBufferSubData)>
       GetNamedBufferSubData;
 
-    // texture
+    /// @var GenTextures
+    /// @glfuncwrap{GenTextures}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenTextures)>
       GenTextures;
 
+    /// @var CreateTextures
+    /// @glfuncwrap{CreateTextures}
     gl_api_function<
       void(enum_type, sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(CreateTextures)>
       CreateTextures;
 
+    /// @var DeleteTextures
+    /// @glfuncwrap{DeleteTextures}
     gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteTextures)>
       DeleteTextures;
 
+    /// @var IsTexture
+    /// @glfuncwrap{IsTexture}
     gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsTexture)>
       IsTexture;
 
+    /// @var ActiveTexture
+    /// @glfuncwrap{ActiveTexture}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(ActiveTexture)>
       ActiveTexture;
 
+    /// @var BindTexture
+    /// @glfuncwrap{BindTexture}
     gl_api_function<
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindTexture)>
       BindTexture;
 
+    /// @var BindTextures
+    /// @glfuncwrap{BindTextures}
     gl_api_function<
       void(uint_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(BindTextures)>
       BindTextures;
 
+    /// @var BindTextureUnit
+    /// @glfuncwrap{BindTextureUnit}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindTextureUnit)>
       BindTextureUnit;
 
+    /// @var BindImageTexture
+    /// @glfuncwrap{BindImageTexture}
     gl_api_function<
       void(uint_type, uint_type, int_type, bool_type, int_type, enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(BindImageTexture)>
       BindImageTexture;
 
+    /// @var BindImageTextures
+    /// @glfuncwrap{BindImageTextures}
     gl_api_function<
       void(uint_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(BindImageTextures)>
       BindImageTextures;
 
+    /// @var TexStorage3D
+    /// @glfuncwrap{TexStorage3D}
     gl_api_function<
       void(enum_type, sizei_type, enum_type, sizei_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(TexStorage3D)>
       TexStorage3D;
 
+    /// @var TexStorage2D
+    /// @glfuncwrap{TexStorage2D}
     gl_api_function<
       void(enum_type, sizei_type, enum_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(TexStorage2D)>
       TexStorage2D;
 
+    /// @var TexStorage1D
+    /// @glfuncwrap{TexStorage1D}
     gl_api_function<
       void(enum_type, sizei_type, enum_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(TexStorage1D)>
       TexStorage1D;
 
+    /// @var TexStorage3DMultisample
+    /// @glfuncwrap{TexStorage3DMultisample}
     gl_api_function<
       void(
         enum_type,
@@ -659,11 +686,15 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TexStorage3DMultisample)>
       TexStorage3DMultisample;
 
+    /// @var TexStorage2DMultisample
+    /// @glfuncwrap{TexStorage2DMultisample}
     gl_api_function<
       void(enum_type, sizei_type, enum_type, sizei_type, sizei_type, bool_type),
       OGLPLUS_GL_STATIC_FUNC(TexStorage2DMultisample)>
       TexStorage2DMultisample;
 
+    /// @var TexImage3D
+    /// @glfuncwrap{TexImage3D}
     gl_api_function<
       void(
         enum_type,
@@ -679,6 +710,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TexImage3D)>
       TexImage3D;
 
+    /// @var TexImage2D
+    /// @glfuncwrap{TexImage2D}
     gl_api_function<
       void(
         enum_type,
@@ -693,6 +726,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TexImage2D)>
       TexImage2D;
 
+    /// @var TexImage1D
+    /// @glfuncwrap{TexImage1D}
     gl_api_function<
       void(
         enum_type,
@@ -706,6 +741,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TexImage1D)>
       TexImage1D;
 
+    /// @var CopyTexImage2D
+    /// @glfuncwrap{CopyTexImage2D}
     gl_api_function<
       void(
         enum_type,
@@ -719,11 +756,15 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CopyTexImage2D)>
       CopyTexImage2D;
 
+    /// @var CopyTexImage1D
+    /// @glfuncwrap{CopyTexImage1D}
     gl_api_function<
       void(enum_type, int_type, enum_type, int_type, int_type, sizei_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(CopyTexImage1D)>
       CopyTexImage1D;
 
+    /// @var TexSubImage3D
+    /// @glfuncwrap{TexSubImage3D}
     gl_api_function<
       void(
         enum_type,
@@ -740,6 +781,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TexSubImage3D)>
       TexSubImage3D;
 
+    /// @var TexSubImage2D
+    /// @glfuncwrap{TexSubImage2D}
     gl_api_function<
       void(
         enum_type,
@@ -754,6 +797,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TexSubImage2D)>
       TexSubImage2D;
 
+    /// @var TexSubImage1D
+    /// @glfuncwrap{TexSubImage1D}
     gl_api_function<
       void(
         enum_type,
@@ -766,6 +811,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TexSubImage1D)>
       TexSubImage1D;
 
+    /// @var CopyTexSubImage3D
+    /// @glfuncwrap{CopyTexSubImage3D}
     gl_api_function<
       void(
         enum_type,
@@ -780,6 +827,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CopyTexSubImage3D)>
       CopyTexSubImage3D;
 
+    /// @var CopyTexSubImage2D
+    /// @glfuncwrap{CopyTexSubImage2D}
     gl_api_function<
       void(
         enum_type,
@@ -793,27 +842,36 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CopyTexSubImage2D)>
       CopyTexSubImage2D;
 
+    /// @var CopyTexSubImage1D
+    /// @glfuncwrap{CopyTexSubImage1D}
     gl_api_function<
       void(enum_type, int_type, int_type, int_type, int_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(CopyTexSubImage1D)>
       CopyTexSubImage1D;
 
-    // dsa texture
+    /// @var TextureStorage3D
+    /// @glfuncwrap{TextureStorage3D}
     gl_api_function<
       void(uint_type, sizei_type, enum_type, sizei_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(TextureStorage3D)>
       TextureStorage3D;
 
+    /// @var TextureStorage2D
+    /// @glfuncwrap{TextureStorage2D}
     gl_api_function<
       void(uint_type, sizei_type, enum_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(TextureStorage2D)>
       TextureStorage2D;
 
+    /// @var TextureStorage1D
+    /// @glfuncwrap{TextureStorage1D}
     gl_api_function<
       void(uint_type, sizei_type, enum_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(TextureStorage1D)>
       TextureStorage1D;
 
+    /// @var TextureStorage3DMultisample
+    /// @glfuncwrap{TextureStorage3DMultisample}
     gl_api_function<
       void(
         uint_type,
@@ -826,11 +884,15 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TextureStorage3DMultisample)>
       TextureStorage3DMultisample;
 
+    /// @var TextureStorage2DMultisample
+    /// @glfuncwrap{TextureStorage2DMultisample}
     gl_api_function<
       void(uint_type, sizei_type, enum_type, sizei_type, sizei_type, bool_type),
       OGLPLUS_GL_STATIC_FUNC(TextureStorage2DMultisample)>
       TextureStorage2DMultisample;
 
+    /// @var TextureSubImage3D
+    /// @glfuncwrap{TextureSubImage3D}
     gl_api_function<
       void(
         uint_type,
@@ -847,6 +909,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TextureSubImage3D)>
       TextureSubImage3D;
 
+    /// @var TextureSubImage2D
+    /// @glfuncwrap{TextureSubImage2D}
     gl_api_function<
       void(
         uint_type,
@@ -861,6 +925,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TextureSubImage2D)>
       TextureSubImage2D;
 
+    /// @var TextureSubImage1D
+    /// @glfuncwrap{TextureSubImage1D}
     gl_api_function<
       void(
         uint_type,
@@ -873,6 +939,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TextureSubImage1D)>
       TextureSubImage1D;
 
+    /// @var CopyTextureSubImage3D
+    /// @glfuncwrap{CopyTextureSubImage3D}
     gl_api_function<
       void(
         uint_type,
@@ -887,6 +955,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CopyTextureSubImage3D)>
       CopyTextureSubImage3D;
 
+    /// @var CopyTextureSubImage2D
+    /// @glfuncwrap{CopyTextureSubImage2D}
     gl_api_function<
       void(
         uint_type,
@@ -900,11 +970,15 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CopyTextureSubImage2D)>
       CopyTextureSubImage2D;
 
+    /// @var CopyTextureSubImage1D
+    /// @glfuncwrap{CopyTextureSubImage1D}
     gl_api_function<
       void(uint_type, int_type, int_type, int_type, int_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(CopyTextureSubImage1D)>
       CopyTextureSubImage1D;
 
+    /// @var CompressedTexImage3D
+    /// @glfuncwrap{CompressedTexImage3D}
     gl_api_function<
       void(
         enum_type,
@@ -919,6 +993,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CompressedTexImage3D)>
       CompressedTexImage3D;
 
+    /// @var CompressedTexImage2D
+    /// @glfuncwrap{CompressedTexImage2D}
     gl_api_function<
       void(
         enum_type,
@@ -932,6 +1008,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CompressedTexImage2D)>
       CompressedTexImage2D;
 
+    /// @var CompressedTexImage1D
+    /// @glfuncwrap{CompressedTexImage1D}
     gl_api_function<
       void(
         enum_type,
@@ -944,6 +1022,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CompressedTexImage1D)>
       CompressedTexImage1D;
 
+    /// @var CompressedTexSubImage3D
+    /// @glfuncwrap{CompressedTexSubImage3D}
     gl_api_function<
       void(
         enum_type,
@@ -960,6 +1040,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CompressedTexSubImage3D)>
       CompressedTexSubImage3D;
 
+    /// @var CompressedTexSubImage2D
+    /// @glfuncwrap{CompressedTexSubImage2D}
     gl_api_function<
       void(
         enum_type,
@@ -974,6 +1056,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CompressedTexSubImage2D)>
       CompressedTexSubImage2D;
 
+    /// @var CompressedTexSubImage1D
+    /// @glfuncwrap{CompressedTexSubImage1D}
     gl_api_function<
       void(
         enum_type,
@@ -986,6 +1070,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CompressedTexSubImage1D)>
       CompressedTexSubImage1D;
 
+    /// @var CompressedTextureSubImage3D
+    /// @glfuncwrap{CompressedTextureSubImage3D}
     gl_api_function<
       void(
         uint_type,
@@ -1002,6 +1088,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CompressedTextureSubImage3D)>
       CompressedTextureSubImage3D;
 
+    /// @var CompressedTextureSubImage2D
+    /// @glfuncwrap{CompressedTextureSubImage2D}
     gl_api_function<
       void(
         uint_type,
@@ -1016,6 +1104,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CompressedTextureSubImage2D)>
       CompressedTextureSubImage2D;
 
+    /// @var CompressedTextureSubImage1D
+    /// @glfuncwrap{CompressedTextureSubImage1D}
     gl_api_function<
       void(
         uint_type,
@@ -1028,6 +1118,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CompressedTextureSubImage1D)>
       CompressedTextureSubImage1D;
 
+    /// @var TexImage3DMultisample
+    /// @glfuncwrap{TexImage3DMultisample}
     gl_api_function<
       void(
         enum_type,
@@ -1040,176 +1132,246 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TexImage3DMultisample)>
       TexImage3DMultisample;
 
+    /// @var TexImage2DMultisample
+    /// @glfuncwrap{TexImage2DMultisample}
     gl_api_function<
       void(enum_type, sizei_type, enum_type, sizei_type, sizei_type, bool_type),
       OGLPLUS_GL_STATIC_FUNC(TexImage2DMultisample)>
       TexImage2DMultisample;
 
+    /// @var TexBuffer
+    /// @glfuncwrap{TexBuffer}
     gl_api_function<
       void(enum_type, enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(TexBuffer)>
       TexBuffer;
 
+    /// @var TexBufferRange
+    /// @glfuncwrap{TexBufferRange}
     gl_api_function<
       void(enum_type, enum_type, uint_type, intptr_type, sizeiptr_type),
       OGLPLUS_GL_STATIC_FUNC(TexBufferRange)>
       TexBufferRange;
 
+    /// @var TextureBuffer
+    /// @glfuncwrap{TextureBuffer}
     gl_api_function<
       void(uint_type, enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(TextureBuffer)>
       TextureBuffer;
 
+    /// @var TextureBufferRange
+    /// @glfuncwrap{TextureBufferRange}
     gl_api_function<
       void(uint_type, enum_type, uint_type, intptr_type, sizeiptr_type),
       OGLPLUS_GL_STATIC_FUNC(TextureBufferRange)>
       TextureBufferRange;
 
+    /// @var TexParameterf
+    /// @glfuncwrap{TexParameterf}
     gl_api_function<
       void(enum_type, enum_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(TexParameterf)>
       TexParameterf;
 
+    /// @var TexParameteri
+    /// @glfuncwrap{TexParameteri}
     gl_api_function<
       void(enum_type, enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(TexParameteri)>
       TexParameteri;
 
+    /// @var TexParameterfv
+    /// @glfuncwrap{TexParameterfv}
     gl_api_function<
       void(enum_type, enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(TexParameterfv)>
       TexParameterfv;
 
+    /// @var TexParameteriv
+    /// @glfuncwrap{TexParameteriv}
     gl_api_function<
       void(enum_type, enum_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(TexParameteriv)>
       TexParameteriv;
 
+    /// @var TexParameterIiv
+    /// @glfuncwrap{TexParameterIiv}
     gl_api_function<
       void(enum_type, enum_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(TexParameterIiv)>
       TexParameterIiv;
 
+    /// @var TexParameterIuiv
+    /// @glfuncwrap{TexParameterIuiv}
     gl_api_function<
       void(enum_type, enum_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(TexParameterIuiv)>
       TexParameterIuiv;
 
+    /// @var TextureParameterf
+    /// @glfuncwrap{TextureParameterf}
     gl_api_function<
       void(uint_type, enum_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(TextureParameterf)>
       TextureParameterf;
 
+    /// @var TextureParameteri
+    /// @glfuncwrap{TextureParameteri}
     gl_api_function<
       void(uint_type, enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(TextureParameteri)>
       TextureParameteri;
 
+    /// @var TextureParameterfv
+    /// @glfuncwrap{TextureParameterfv}
     gl_api_function<
       void(uint_type, enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(TextureParameterfv)>
       TextureParameterfv;
 
+    /// @var TextureParameteriv
+    /// @glfuncwrap{TextureParameteriv}
     gl_api_function<
       void(uint_type, enum_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(TextureParameteriv)>
       TextureParameteriv;
 
+    /// @var TextureParameterIiv
+    /// @glfuncwrap{TextureParameterIiv}
     gl_api_function<
       void(uint_type, enum_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(TextureParameterIiv)>
       TextureParameterIiv;
 
+    /// @var TextureParameterIuiv
+    /// @glfuncwrap{TextureParameterIuiv}
     gl_api_function<
       void(uint_type, enum_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(TextureParameterIuiv)>
       TextureParameterIuiv;
 
+    /// @var GetTexParameterfv
+    /// @glfuncwrap{GetTexParameterfv}
     gl_api_function<
       void(enum_type, enum_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTexParameterfv)>
       GetTexParameterfv;
 
+    /// @var GetTexParameteriv
+    /// @glfuncwrap{GetTexParameteriv}
     gl_api_function<
       void(enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTexParameteriv)>
       GetTexParameteriv;
 
+    /// @var GetTexParameterIiv
+    /// @glfuncwrap{GetTexParameterIiv}
     gl_api_function<
       void(enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTexParameterIiv)>
       GetTexParameterIiv;
 
+    /// @var GetTexParameterIuiv
+    /// @glfuncwrap{GetTexParameterIuiv}
     gl_api_function<
       void(enum_type, enum_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTexParameterIuiv)>
       GetTexParameterIuiv;
 
+    /// @var GetTexLevelParameterfv
+    /// @glfuncwrap{GetTexLevelParameterfv}
     gl_api_function<
       void(enum_type, int_type, enum_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTexLevelParameterfv)>
       GetTexLevelParameterfv;
 
+    /// @var GetTexLevelParameteriv
+    /// @glfuncwrap{GetTexLevelParameteriv}
     gl_api_function<
       void(enum_type, int_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTexLevelParameteriv)>
       GetTexLevelParameteriv;
 
+    /// @var GetTexImage
+    /// @glfuncwrap{GetTexImage}
     gl_api_function<
       void(enum_type, int_type, enum_type, enum_type, void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetTexImage)>
       GetTexImage;
 
+    /// @var GetnTexImage
+    /// @glfuncwrap{GetnTexImage}
     gl_api_function<
       void(enum_type, int_type, enum_type, enum_type, sizei_type, void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetnTexImage)>
       GetnTexImage;
 
+    /// @var GetCompressedTexImage
+    /// @glfuncwrap{GetCompressedTexImage}
     gl_api_function<
       void(enum_type, int_type, void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetCompressedTexImage)>
       GetCompressedTexImage;
 
+    /// @var GetnCompressedTexImage
+    /// @glfuncwrap{GetnCompressedTexImage}
     gl_api_function<
       void(enum_type, int_type, sizei_type, void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetnCompressedTexImage)>
       GetnCompressedTexImage;
 
+    /// @var GetTextureParameterfv
+    /// @glfuncwrap{GetTextureParameterfv}
     gl_api_function<
       void(uint_type, enum_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTextureParameterfv)>
       GetTextureParameterfv;
 
+    /// @var GetTextureParameteriv
+    /// @glfuncwrap{GetTextureParameteriv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTextureParameteriv)>
       GetTextureParameteriv;
 
+    /// @var GetTextureParameterIiv
+    /// @glfuncwrap{GetTextureParameterIiv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTextureParameterIiv)>
       GetTextureParameterIiv;
 
+    /// @var GetTextureParameterIuiv
+    /// @glfuncwrap{GetTextureParameterIuiv}
     gl_api_function<
       void(uint_type, enum_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTextureParameterIuiv)>
       GetTextureParameterIuiv;
 
+    /// @var GetTextureLevelParameterfv
+    /// @glfuncwrap{GetTextureLevelParameterfv}
     gl_api_function<
       void(uint_type, int_type, enum_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTextureLevelParameterfv)>
       GetTextureLevelParameterfv;
 
+    /// @var GetTextureLevelParameteriv
+    /// @glfuncwrap{GetTextureLevelParameteriv}
     gl_api_function<
       void(uint_type, int_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTextureLevelParameteriv)>
       GetTextureLevelParameteriv;
 
+    /// @var GetTextureImage
+    /// @glfuncwrap{GetTextureImage}
     gl_api_function<
       void(uint_type, int_type, enum_type, enum_type, sizei_type, void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetTextureImage)>
       GetTextureImage;
 
+    /// @var GetTextureSubImage
+    /// @glfuncwrap{GetTextureSubImage}
     gl_api_function<
       void(
         uint_type,
@@ -1227,11 +1389,15 @@ public:
       OGLPLUS_GL_STATIC_FUNC(GetTextureSubImage)>
       GetTextureSubImage;
 
+    /// @var GetCompressedTextureImage
+    /// @glfuncwrap{GetCompressedTextureImage}
     gl_api_function<
       void(uint_type, int_type, sizei_type, void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetCompressedTextureImage)>
       GetCompressedTextureImage;
 
+    /// @var GetCompressedTextureSubImage
+    /// @glfuncwrap{GetCompressedTextureSubImage}
     gl_api_function<
       void(
         uint_type,
@@ -1247,14 +1413,20 @@ public:
       OGLPLUS_GL_STATIC_FUNC(GetCompressedTextureSubImage)>
       GetCompressedTextureSubImage;
 
+    /// @var GenerateMipmap
+    /// @glfuncwrap{GenerateMipmap}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(GenerateMipmap)>
       GenerateMipmap;
 
+    /// @var GenerateTextureMipmap
+    /// @glfuncwrap{GenerateTextureMipmap}
     gl_api_function<
       void(uint_type),
       OGLPLUS_GL_STATIC_FUNC(GenerateTextureMipmap)>
       GenerateTextureMipmap;
 
+    /// @var TextureView
+    /// @glfuncwrap{TextureView}
     gl_api_function<
       void(
         uint_type,
@@ -1268,6 +1440,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(TextureView)>
       TextureView;
 
+    /// @var InvalidateTexSubImage
+    /// @glfuncwrap{InvalidateTexSubImage}
     gl_api_function<
       void(
         uint_type,
@@ -1281,11 +1455,15 @@ public:
       OGLPLUS_GL_STATIC_FUNC(InvalidateTexSubImage)>
       InvalidateTexSubImage;
 
+    /// @var InvalidateTexImage
+    /// @glfuncwrap{InvalidateTexImage}
     gl_api_function<
       void(uint_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(InvalidateTexImage)>
       InvalidateTexImage;
 
+    /// @var ClearTexSubImage
+    /// @glfuncwrap{ClearTexSubImage}
     gl_api_function<
       void(
         uint_type,
@@ -1302,11 +1480,15 @@ public:
       OGLPLUS_GL_STATIC_FUNC(ClearTexSubImage)>
       ClearTexSubImage;
 
+    /// @var ClearTexImage
+    /// @glfuncwrap{ClearTexImage}
     gl_api_function<
       void(uint_type, int_type, enum_type, enum_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(ClearTexImage)>
       ClearTexImage;
 
+    /// @var TextureBarrier
+    /// @glfuncwrap{TextureBarrier}
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(TextureBarrier)>
       TextureBarrier;
 
