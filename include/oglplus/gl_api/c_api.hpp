@@ -2023,253 +2023,356 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CopyImageSubData)>
       CopyImageSubData;
 
-    // transform feedback objects
+    /// @var GenTransformFeedbacks
+    /// @glfuncwrap{GenTransformFeedbacks}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenTransformFeedbacks)>
       GenTransformFeedbacks;
 
+    /// @var CreateTransformFeedbacks
+    /// @glfuncwrap{CreateTransformFeedbacks}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(CreateTransformFeedbacks)>
       CreateTransformFeedbacks;
 
+    /// @var DeleteTransformFeedbacks
+    /// @glfuncwrap{DeleteTransformFeedbacks}
     gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteTransformFeedbacks)>
       DeleteTransformFeedbacks;
 
+    /// @var IsTransformFeedback
+    /// @glfuncwrap{IsTransformFeedback}
     gl_api_function<
       bool_type(uint_type),
       OGLPLUS_GL_STATIC_FUNC(IsTransformFeedback)>
       IsTransformFeedback;
 
+    /// @var BindTransformFeedback
+    /// @glfuncwrap{BindTransformFeedback}
     gl_api_function<
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindTransformFeedback)>
       BindTransformFeedback;
 
+    /// @var BeginTransformFeedback
+    /// @glfuncwrap{BeginTransformFeedback}
     gl_api_function<
       void(enum_type),
       OGLPLUS_GL_STATIC_FUNC(BeginTransformFeedback)>
       BeginTransformFeedback;
 
+    /// @var PauseTransformFeedback
+    /// @glfuncwrap{PauseTransformFeedback}
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(PauseTransformFeedback)>
       PauseTransformFeedback;
 
+    /// @var ResumeTransformFeedback
+    /// @glfuncwrap{ResumeTransformFeedback}
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(ResumeTransformFeedback)>
       ResumeTransformFeedback;
 
+    /// @var EndTransformFeedback
+    /// @glfuncwrap{EndTransformFeedback}
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(EndTransformFeedback)>
       EndTransformFeedback;
 
+    /// @var TransformFeedbackBufferBase
+    /// @glfuncwrap{TransformFeedbackBufferBase}
     gl_api_function<
       void(uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(TransformFeedbackBufferBase)>
       TransformFeedbackBufferBase;
 
+    /// @var TransformFeedbackBufferRange
+    /// @glfuncwrap{TransformFeedbackBufferRange}
     gl_api_function<
       void(uint_type, uint_type, uint_type, intptr_type, sizeiptr_type),
       OGLPLUS_GL_STATIC_FUNC(TransformFeedbackBufferRange)>
       TransformFeedbackBufferRange;
 
+    /// @var GetTransformFeedbackiv
+    /// @glfuncwrap{GetTransformFeedbackiv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTransformFeedbackiv)>
       GetTransformFeedbackiv;
 
+    /// @var GetTransformFeedbacki_v
+    /// @glfuncwrap{GetTransformFeedbacki_v}
     gl_api_function<
       void(uint_type, enum_type, uint_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTransformFeedbacki_v)>
       GetTransformFeedbacki_v;
 
+    /// @var GetTransformFeedbacki64_v
+    /// @glfuncwrap{GetTransformFeedbacki64_v}
     gl_api_function<
       void(uint_type, enum_type, uint_type, int64_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTransformFeedbacki64_v)>
       GetTransformFeedbacki64_v;
 
-    // query objects
+    /// @var GenQueries
+    /// @glfuncwrap{GenQueries}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenQueries)>
       GenQueries;
 
+    /// @var CreateQueries
+    /// @glfuncwrap{CreateQueries}
     gl_api_function<
       void(enum_type, sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(CreateQueries)>
       CreateQueries;
 
+    /// @var DeleteQueries
+    /// @glfuncwrap{DeleteQueries}
     gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteQueries)>
       DeleteQueries;
 
+    /// @var IsQuery
+    /// @glfuncwrap{IsQuery}
     gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsQuery)>
       IsQuery;
 
+    /// @var GetQueryiv
+    /// @glfuncwrap{GetQueryiv}
     gl_api_function<
       void(enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetQueryiv)>
       GetQueryiv;
 
+    /// @var GetQueryIndexediv
+    /// @glfuncwrap{GetQueryIndexediv}
     gl_api_function<
       void(enum_type, uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetQueryIndexediv)>
       GetQueryIndexediv;
 
+    /// @var GetQueryObjectiv
+    /// @glfuncwrap{GetQueryObjectiv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetQueryObjectiv)>
       GetQueryObjectiv;
 
+    /// @var GetQueryObjectuiv
+    /// @glfuncwrap{GetQueryObjectuiv}
     gl_api_function<
       void(uint_type, enum_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GetQueryObjectuiv)>
       GetQueryObjectuiv;
 
+    /// @var GetQueryObjecti64v
+    /// @glfuncwrap{GetQueryObjecti64v}
     gl_api_function<
       void(uint_type, enum_type, int64_type*),
       OGLPLUS_GL_STATIC_FUNC(GetQueryObjecti64v)>
       GetQueryObjecti64v;
 
+    /// @var GetQueryObjectui64v
+    /// @glfuncwrap{GetQueryObjectui64v}
     gl_api_function<
       void(uint_type, enum_type, uint64_type*),
       OGLPLUS_GL_STATIC_FUNC(GetQueryObjectui64v)>
       GetQueryObjectui64v;
 
+    /// @var GetQueryBufferObjectiv
+    /// @glfuncwrap{GetQueryBufferObjectiv}
     gl_api_function<
       void(uint_type, uint_type, enum_type, intptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetQueryBufferObjectiv)>
       GetQueryBufferObjectiv;
 
+    /// @var GetQueryBufferObjectuiv
+    /// @glfuncwrap{GetQueryBufferObjectuiv}
     gl_api_function<
       void(uint_type, uint_type, enum_type, intptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetQueryBufferObjectuiv)>
       GetQueryBufferObjectuiv;
 
+    /// @var GetQueryBufferObjecti64v
+    /// @glfuncwrap{GetQueryBufferObjecti64v}
     gl_api_function<
       void(uint_type, uint_type, enum_type, intptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetQueryBufferObjecti64v)>
       GetQueryBufferObjecti64v;
 
+    /// @var GetQueryBufferObjectui64v
+    /// @glfuncwrap{GetQueryBufferObjectui64v}
     gl_api_function<
       void(uint_type, uint_type, enum_type, intptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetQueryBufferObjectui64v)>
       GetQueryBufferObjectui64v;
 
+    /// @var BeginQuery
+    /// @glfuncwrap{BeginQuery}
     gl_api_function<
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BeginQuery)>
       BeginQuery;
 
+    /// @var BeginQueryIndexed
+    /// @glfuncwrap{BeginQueryIndexed}
     gl_api_function<
       void(enum_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BeginQueryIndexed)>
       BeginQueryIndexed;
 
+    /// @var EndQuery
+    /// @glfuncwrap{EndQuery}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(EndQuery)> EndQuery;
 
+    /// @var EndQueryIndexed
+    /// @glfuncwrap{EndQueryIndexed}
     gl_api_function<
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(EndQueryIndexed)>
       EndQueryIndexed;
 
+    /// @var QueryCounter
+    /// @glfuncwrap{QueryCounter}
     gl_api_function<
       void(uint_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(QueryCounter)>
       QueryCounter;
 
-    // conditional rendering
+    /// @var BeginConditionalRender
+    /// @glfuncwrap{BeginConditionalRender}
     gl_api_function<
       void(uint_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(BeginConditionalRender)>
       BeginConditionalRender;
 
+    /// @var EndConditionalRender
+    /// @glfuncwrap{EndConditionalRender}
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(EndConditionalRender)>
       EndConditionalRender;
 
-    // program pipelines
+    /// @var GenProgramPipelines
+    /// @glfuncwrap{GenProgramPipelines}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenProgramPipelines)>
       GenProgramPipelines;
 
+    /// @var CreateProgramPipelines
+    /// @glfuncwrap{CreateProgramPipelines}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(CreateProgramPipelines)>
       CreateProgramPipelines;
 
+    /// @var DeleteProgramPipelines
+    /// @glfuncwrap{DeleteProgramPipelines}
     gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteProgramPipelines)>
       DeleteProgramPipelines;
 
+    /// @var IsProgramPipeline
+    /// @glfuncwrap{IsProgramPipeline}
     gl_api_function<
       bool_type(uint_type),
       OGLPLUS_GL_STATIC_FUNC(IsProgramPipeline)>
       IsProgramPipeline;
 
+    /// @var BindProgramPipeline
+    /// @glfuncwrap{BindProgramPipeline}
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(BindProgramPipeline)>
       BindProgramPipeline;
 
+    /// @var ValidateProgramPipeline
+    /// @glfuncwrap{ValidateProgramPipeline}
     gl_api_function<
       void(uint_type),
       OGLPLUS_GL_STATIC_FUNC(ValidateProgramPipeline)>
       ValidateProgramPipeline;
 
+    /// @var UseProgramStages
+    /// @glfuncwrap{UseProgramStages}
     gl_api_function<
       void(uint_type, bitfield_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(UseProgramStages)>
       UseProgramStages;
 
+    /// @var GetProgramStageiv
+    /// @glfuncwrap{GetProgramStageiv}
     gl_api_function<
       void(uint_type, enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramStageiv)>
       GetProgramStageiv;
 
+    /// @var GetProgramPipelineiv
+    /// @glfuncwrap{GetProgramPipelineiv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramPipelineiv)>
       GetProgramPipelineiv;
 
+    /// @var GetProgramPipelineInfoLog
+    /// @glfuncwrap{GetProgramPipelineInfoLog}
     gl_api_function<
       void(uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramPipelineInfoLog)>
       GetProgramPipelineInfoLog;
 
+    /// @var ActiveShaderProgram
+    /// @glfuncwrap{ActiveShaderProgram}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(ActiveShaderProgram)>
       ActiveShaderProgram;
 
-    //
+    /// @var CreateShader
+    /// @glfuncwrap{CreateShader}
     gl_api_function<uint_type(enum_type), OGLPLUS_GL_STATIC_FUNC(CreateShader)>
       CreateShader;
 
+    /// @var DeleteShader
+    /// @glfuncwrap{DeleteShader}
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(DeleteShader)>
       DeleteShader;
 
+    /// @var IsShader
+    /// @glfuncwrap{IsShader}
     gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsShader)>
       IsShader;
 
+    /// @var ShaderSource
+    /// @glfuncwrap{ShaderSource}
     gl_api_function<
       void(uint_type, sizei_type, const char_type* const*, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(ShaderSource)>
       ShaderSource;
 
+    /// @var CompileShader
+    /// @glfuncwrap{CompileShader}
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(CompileShader)>
       CompileShader;
 
+    /// @var CompileShaderInclude
+    /// @glfuncwrap{CompileShaderInclude}
     gl_api_function<
       void(uint_type, sizei_type, const char_type* const*, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(nullptr)>
       CompileShaderInclude;
 
+    /// @var ShaderBinary
+    /// @glfuncwrap{ShaderBinary}
     gl_api_function<
       void(sizei_type, const uint_type*, enum_type, const_void_ptr_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(ShaderBinary)>
       ShaderBinary;
 
+    /// @var SpecializeShader
+    /// @glfuncwrap{SpecializeShader}
     gl_api_function<
       void(
         uint_type,
@@ -2280,26 +2383,36 @@ public:
       OGLPLUS_GL_STATIC_FUNC(SpecializeShader)>
       SpecializeShader;
 
+    /// @var GetShaderiv
+    /// @glfuncwrap{GetShaderiv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetShaderiv)>
       GetShaderiv;
 
+    /// @var GetShaderInfoLog
+    /// @glfuncwrap{GetShaderInfoLog}
     gl_api_function<
       void(uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetShaderInfoLog)>
       GetShaderInfoLog;
 
+    /// @var GetShaderSource
+    /// @glfuncwrap{GetShaderSource}
     gl_api_function<
       void(uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetShaderSource)>
       GetShaderSource;
 
+    /// @var GetShaderPrecisionFormat
+    /// @glfuncwrap{GetShaderPrecisionFormat}
     gl_api_function<
       void(enum_type, enum_type, int_type*, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetShaderPrecisionFormat)>
       GetShaderPrecisionFormat;
 
+    /// @var ReleaseShaderCompiler
+    /// @glfuncwrap{ReleaseShaderCompiler}
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(ReleaseShaderCompiler)>
       ReleaseShaderCompiler;
 
