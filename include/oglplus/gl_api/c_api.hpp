@@ -1492,226 +1492,315 @@ public:
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(TextureBarrier)>
       TextureBarrier;
 
-    // samplers
+    /// @var GenSamplers
+    /// @glfuncwrap{GenSamplers}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenSamplers)>
       GenSamplers;
 
+    /// @var CreateSamplers
+    /// @glfuncwrap{CreateSamplers}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(CreateSamplers)>
       CreateSamplers;
 
+    /// @var DeleteSamplers
+    /// @glfuncwrap{DeleteSamplers}
     gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteSamplers)>
       DeleteSamplers;
 
+    /// @var IsSampler
+    /// @glfuncwrap{IsSampler}
     gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsSampler)>
       IsSampler;
 
+    /// @var BindSampler
+    /// @glfuncwrap{BindSampler}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindSampler)>
       BindSampler;
 
+    /// @var BindSamplers
+    /// @glfuncwrap{BindSamplers}
     gl_api_function<
       void(uint_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(BindSamplers)>
       BindSamplers;
 
+    /// @var SamplerParameterf
+    /// @glfuncwrap{SamplerParameterf}
     gl_api_function<
       void(uint_type, enum_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(SamplerParameterf)>
       SamplerParameterf;
 
+    /// @var SamplerParameteri
+    /// @glfuncwrap{SamplerParameteri}
     gl_api_function<
       void(uint_type, enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(SamplerParameteri)>
       SamplerParameteri;
 
+    /// @var SamplerParameterfv
+    /// @glfuncwrap{SamplerParameterfv}
     gl_api_function<
       void(uint_type, enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(SamplerParameterfv)>
       SamplerParameterfv;
 
+    /// @var SamplerParameteriv
+    /// @glfuncwrap{SamplerParameteriv}
     gl_api_function<
       void(uint_type, enum_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(SamplerParameteriv)>
       SamplerParameteriv;
 
+    /// @var SamplerParameterIiv
+    /// @glfuncwrap{SamplerParameterIiv}
     gl_api_function<
       void(uint_type, enum_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(SamplerParameterIiv)>
       SamplerParameterIiv;
 
+    /// @var SamplerParameterIuiv
+    /// @glfuncwrap{SamplerParameterIuiv}
     gl_api_function<
       void(uint_type, enum_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(SamplerParameterIuiv)>
       SamplerParameterIuiv;
 
+    /// @var GetSamplerParameterfv
+    /// @glfuncwrap{GetSamplerParameterfv}
     gl_api_function<
       void(uint_type, enum_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetSamplerParameterfv)>
       GetSamplerParameterfv;
 
+    /// @var GetSamplerParameteriv
+    /// @glfuncwrap{GetSamplerParameteriv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetSamplerParameteriv)>
       GetSamplerParameteriv;
 
+    /// @var GetSamplerParameterIiv
+    /// @glfuncwrap{GetSamplerParameterIiv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetSamplerParameterIiv)>
       GetSamplerParameterIiv;
 
+    /// @var GetSamplerParameterIuiv
+    /// @glfuncwrap{GetSamplerParameterIuiv}
     gl_api_function<
       void(uint_type, enum_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GetSamplerParameterIuiv)>
       GetSamplerParameterIuiv;
 
-    // renderbuffer object
+    /// @var GenRenderbuffers
+    /// @glfuncwrap{GenRenderbuffers}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenRenderbuffers)>
       GenRenderbuffers;
 
+    /// @var CreateRenderbuffers
+    /// @glfuncwrap{CreateRenderbuffers}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(CreateRenderbuffers)>
       CreateRenderbuffers;
 
+    /// @var DeleteRenderbuffers
+    /// @glfuncwrap{DeleteRenderbuffers}
     gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteRenderbuffers)>
       DeleteRenderbuffers;
 
+    /// @var IsRenderbuffer
+    /// @glfuncwrap{IsRenderbuffer}
     gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsRenderbuffer)>
       IsRenderbuffer;
 
+    /// @var BindRenderbuffer
+    /// @glfuncwrap{BindRenderbuffer}
     gl_api_function<
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindRenderbuffer)>
       BindRenderbuffer;
 
+    /// @var RenderbufferStorage
+    /// @glfuncwrap{RenderbufferStorage}
     gl_api_function<
       void(enum_type, enum_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(RenderbufferStorage)>
       RenderbufferStorage;
 
+    /// @var NamedRenderbufferStorage
+    /// @glfuncwrap{NamedRenderbufferStorage}
     gl_api_function<
       void(uint_type, enum_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(NamedRenderbufferStorage)>
       NamedRenderbufferStorage;
 
+    /// @var RenderbufferStorageMultisample
+    /// @glfuncwrap{RenderbufferStorageMultisample}
     gl_api_function<
       void(enum_type, sizei_type, enum_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(RenderbufferStorageMultisample)>
       RenderbufferStorageMultisample;
 
+    /// @var NamedRenderbufferStorageMultisample
+    /// @glfuncwrap{NamedRenderbufferStorageMultisample}
     gl_api_function<
       void(uint_type, sizei_type, enum_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(NamedRenderbufferStorageMultisample)>
       NamedRenderbufferStorageMultisample;
 
+    /// @var GetRenderbufferParameteriv
+    /// @glfuncwrap{GetRenderbufferParameteriv}
     gl_api_function<
       void(enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetRenderbufferParameteriv)>
       GetRenderbufferParameteriv;
 
+    /// @var GetNamedRenderbufferParameteriv
+    /// @glfuncwrap{GetNamedRenderbufferParameteriv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetNamedRenderbufferParameteriv)>
       GetNamedRenderbufferParameteriv;
 
-    // framebuffer objects
+    /// @var GenFramebuffers
+    /// @glfuncwrap{GenFramebuffers}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenFramebuffers)>
       GenFramebuffers;
 
+    /// @var CreateFramebuffers
+    /// @glfuncwrap{CreateFramebuffers}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(CreateFramebuffers)>
       CreateFramebuffers;
 
+    /// @var DeleteFramebuffers
+    /// @glfuncwrap{DeleteFramebuffers}
     gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteFramebuffers)>
       DeleteFramebuffers;
 
+    /// @var IsFramebuffer
+    /// @glfuncwrap{IsFramebuffer}
     gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsFramebuffer)>
       IsFramebuffer;
 
+    /// @var BindFramebuffer
+    /// @glfuncwrap{BindFramebuffer}
     gl_api_function<
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindFramebuffer)>
       BindFramebuffer;
 
+    /// @var DrawBuffers
+    /// @glfuncwrap{DrawBuffers}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(DrawBuffer)>
       DrawBuffer;
 
+    /// @var NamedFramebufferDrawBuffer
+    /// @glfuncwrap{NamedFramebufferDrawBuffer}
     gl_api_function<
       void(uint_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(NamedFramebufferDrawBuffer)>
       NamedFramebufferDrawBuffer;
 
+    /// @var DrawBuffers
+    /// @glfuncwrap{DrawBuffers}
     gl_api_function<
       void(sizei_type, const enum_type*),
       OGLPLUS_GL_STATIC_FUNC(DrawBuffers)>
       DrawBuffers;
 
+    /// @var NamedFramebufferDrawBuffer
+    /// @glfuncwrap{NamedFramebufferDrawBuffer}
     gl_api_function<
       void(uint_type, sizei_type, const enum_type*),
       OGLPLUS_GL_STATIC_FUNC(NamedFramebufferDrawBuffers)>
       NamedFramebufferDrawBuffers;
 
+    /// @var ClearBufferfv
+    /// @glfuncwrap{ClearBufferfv}
     gl_api_function<
       void(enum_type, int_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ClearBufferfv)>
       ClearBufferfv;
 
+    /// @var ClearBufferiv
+    /// @glfuncwrap{ClearBufferiv}
     gl_api_function<
       void(enum_type, int_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(ClearBufferiv)>
       ClearBufferiv;
 
+    /// @var ClearBufferuiv
+    /// @glfuncwrap{ClearBufferuiv}
     gl_api_function<
       void(enum_type, int_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(ClearBufferuiv)>
       ClearBufferuiv;
 
+    /// @var ClearBufferfi
+    /// @glfuncwrap{ClearBufferfi}
     gl_api_function<
       void(enum_type, int_type, float_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(ClearBufferfi)>
       ClearBufferfi;
 
+    /// @var ClearNamedFramebufferfv
+    /// @glfuncwrap{ClearNamedFramebufferfv}
     gl_api_function<
       void(uint_type, enum_type, int_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ClearNamedFramebufferfv)>
       ClearNamedFramebufferfv;
 
+    /// @var ClearNamedFramebufferiv
+    /// @glfuncwrap{ClearNamedFramebufferiv}
     gl_api_function<
       void(uint_type, enum_type, int_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(ClearNamedFramebufferiv)>
       ClearNamedFramebufferiv;
 
+    /// @var ClearNamedFramebufferuiv
+    /// @glfuncwrap{ClearNamedFramebufferuiv}
     gl_api_function<
       void(uint_type, enum_type, int_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(ClearNamedFramebufferuiv)>
       ClearNamedFramebufferuiv;
 
+    /// @var ClearNamedFramebufferfi
+    /// @glfuncwrap{ClearNamedFramebufferfi}
     gl_api_function<
       void(uint_type, enum_type, int_type, float_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(ClearNamedFramebufferfi)>
       ClearNamedFramebufferfi;
 
+    /// @var InvalidateFramebuffer
+    /// @glfuncwrap{InvalidateFramebuffer}
     gl_api_function<
       void(enum_type, sizei_type, const enum_type*),
       OGLPLUS_GL_STATIC_FUNC(InvalidateFramebuffer)>
       InvalidateFramebuffer;
 
+    /// @var InvalidateSubFramebuffer
+    /// @glfuncwrap{InvalidateSubFramebuffer}
     gl_api_function<
       void(
         enum_type,
@@ -1724,11 +1813,15 @@ public:
       OGLPLUS_GL_STATIC_FUNC(InvalidateSubFramebuffer)>
       InvalidateSubFramebuffer;
 
+    /// @var InvalidateNamedFramebufferData
+    /// @glfuncwrap{InvalidateNamedFramebufferData}
     gl_api_function<
       void(uint_type, sizei_type, const enum_type*),
       OGLPLUS_GL_STATIC_FUNC(InvalidateFramebuffer)>
       InvalidateNamedFramebufferData;
 
+    /// @var InvalidateNamedFramebufferSubData
+    /// @glfuncwrap{InvalidateNamedFramebufferSubData}
     gl_api_function<
       void(
         uint_type,
@@ -1741,99 +1834,139 @@ public:
       OGLPLUS_GL_STATIC_FUNC(InvalidateNamedFramebufferSubData)>
       InvalidateNamedFramebufferSubData;
 
+    /// @var FramebufferParameteri
+    /// @glfuncwrap{FramebufferParameteri}
     gl_api_function<
       void(enum_type, enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(FramebufferParameteri)>
       FramebufferParameteri;
 
+    /// @var NamedFramebufferParameteri
+    /// @glfuncwrap{NamedFramebufferParameteri}
     gl_api_function<
       void(uint_type, enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(NamedFramebufferParameteri)>
       NamedFramebufferParameteri;
 
+    /// @var GetFramebufferParameteriv
+    /// @glfuncwrap{GetFramebufferParameteriv}
     gl_api_function<
       void(enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetFramebufferParameteriv)>
       GetFramebufferParameteriv;
 
+    /// @var GetNamedFramebufferParameteriv
+    /// @glfuncwrap{GetNamedFramebufferParameteriv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetNamedFramebufferParameteriv)>
       GetNamedFramebufferParameteriv;
 
+    /// @var GetFramebufferAttachmentParameteriv
+    /// @glfuncwrap{GetFramebufferAttachmentParameteriv}
     gl_api_function<
       void(enum_type, enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetFramebufferAttachmentParameteriv)>
       GetFramebufferAttachmentParameteriv;
 
+    /// @var GetNamedFramebufferAttachmentParameteriv
+    /// @glfuncwrap{GetNamedFramebufferAttachmentParameteriv}
     gl_api_function<
       void(uint_type, enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetNamedFramebufferAttachmentParameteriv)>
       GetNamedFramebufferAttachmentParameteriv;
 
+    /// @var FramebufferRenderbuffer
+    /// @glfuncwrap{FramebufferRenderbuffer}
     gl_api_function<
       void(enum_type, enum_type, enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(FramebufferRenderbuffer)>
       FramebufferRenderbuffer;
 
+    /// @var NamedFramebufferRenderbuffer
+    /// @glfuncwrap{NamedFramebufferRenderbuffer}
     gl_api_function<
       void(uint_type, enum_type, enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(NamedFramebufferRenderbuffer)>
       NamedFramebufferRenderbuffer;
 
+    /// @var FramebufferTexture
+    /// @glfuncwrap{FramebufferTexture}
     gl_api_function<
       void(enum_type, enum_type, uint_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(FramebufferTexture)>
       FramebufferTexture;
 
+    /// @var NamedFramebufferTexture
+    /// @glfuncwrap{NamedFramebufferTexture}
     gl_api_function<
       void(uint_type, enum_type, uint_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(NamedFramebufferTexture)>
       NamedFramebufferTexture;
 
+    /// @var FramebufferTexture1D
+    /// @glfuncwrap{FramebufferTexture1D}
     gl_api_function<
       void(enum_type, enum_type, enum_type, uint_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(FramebufferTexture1D)>
       FramebufferTexture1D;
 
+    /// @var FramebufferTexture2D
+    /// @glfuncwrap{FramebufferTexture2D}
     gl_api_function<
       void(enum_type, enum_type, enum_type, uint_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(FramebufferTexture2D)>
       FramebufferTexture2D;
 
+    /// @var FramebufferTexture3D
+    /// @glfuncwrap{FramebufferTexture3D}
     gl_api_function<
       void(enum_type, enum_type, enum_type, uint_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(FramebufferTexture3D)>
       FramebufferTexture3D;
 
+    /// @var FramebufferTextureLayer
+    /// @glfuncwrap{FramebufferTextureLayer}
     gl_api_function<
       void(enum_type, enum_type, uint_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(FramebufferTextureLayer)>
       FramebufferTextureLayer;
 
+    /// @var NamedFramebufferTextureLayer
+    /// @glfuncwrap{NamedFramebufferTextureLayer}
     gl_api_function<
       void(uint_type, enum_type, uint_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(NamedFramebufferTextureLayer)>
       NamedFramebufferTextureLayer;
 
+    /// @var CheckFramebufferStatus
+    /// @glfuncwrap{CheckFramebufferStatus}
     gl_api_function<
       enum_type(enum_type),
       OGLPLUS_GL_STATIC_FUNC(CheckFramebufferStatus)>
       CheckFramebufferStatus;
 
+    /// @var CheckNamedFramebufferStatus
+    /// @glfuncwrap{CheckNamedFramebufferStatus}
     gl_api_function<
       enum_type(uint_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(CheckNamedFramebufferStatus)>
       CheckNamedFramebufferStatus;
 
+    /// @var ReadBuffer
+    /// @glfuncwrap{ReadBuffer}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(ReadBuffer)>
       ReadBuffer;
 
+    /// @var NamedFramebufferReadBuffer
+    /// @glfuncwrap{NamedFramebufferReadBuffer}
     gl_api_function<
       void(uint_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(NamedFramebufferReadBuffer)>
       NamedFramebufferReadBuffer;
 
+    /// @var BlitFramebuffer
+    /// @glfuncwrap{BlitFramebuffer}
     gl_api_function<
       void(
         int_type,
@@ -1849,6 +1982,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(BlitFramebuffer)>
       BlitFramebuffer;
 
+    /// @var BlitNamedFramebuffer
+    /// @glfuncwrap{BlitNamedFramebuffer}
     gl_api_function<
       void(
         uint_type,
@@ -1866,6 +2001,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(BlitNamedFramebuffer)>
       BlitNamedFramebuffer;
 
+    /// @var CopyImageSubData
+    /// @glfuncwrap{CopyImageSubData}
     gl_api_function<
       void(
         uint_type,
