@@ -141,76 +141,111 @@ public:
       OGLPLUS_GL_STATIC_FUNC(IsEnabledi)>
       IsEnabledi;
 
+    /// @var MemoryBarrier
+    /// @glfuncwrap{MemoryBarrier}
     gl_api_function<void(bitfield_type), OGLPLUS_GL_STATIC_FUNC(MemoryBarrier)>
       MemoryBarrier;
 
+    /// @var MemoryBarrierByRegion
+    /// @glfuncwrap{MemoryBarrierByRegion}
     gl_api_function<
       void(bitfield_type),
       OGLPLUS_GL_STATIC_FUNC(MemoryBarrierByRegion)>
       MemoryBarrierByRegion;
 
     // object ops
+
+    /// @var FenceSync
+    /// @glfuncwrap{FenceSync}
     gl_api_function<
       sync_type(enum_type, bitfield_type),
       OGLPLUS_GL_STATIC_FUNC(FenceSync)>
       FenceSync;
 
+    /// @var DeleteSync
+    /// @glfuncwrap{DeleteSync}
     gl_api_function<void(sync_type), OGLPLUS_GL_STATIC_FUNC(DeleteSync)>
       DeleteSync;
 
+    /// @var IsSync
+    /// @glfuncwrap{IsSync}
     gl_api_function<bool_type(sync_type), OGLPLUS_GL_STATIC_FUNC(IsSync)> IsSync;
 
+    /// @var GetSynciv
+    /// @glfuncwrap{GetSynciv}
     gl_api_function<
       void(sync_type, enum_type, sizei_type, sizei_type*, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetSynciv)>
       GetSynciv;
 
+    /// @var WaitSync
+    /// @glfuncwrap{WaitSync}
     gl_api_function<
       void(sync_type, bitfield_type, uint64_type),
       OGLPLUS_GL_STATIC_FUNC(WaitSync)>
       WaitSync;
 
+    /// @var ClientWaitSync
+    /// @glfuncwrap{ClientWaitSync}
     gl_api_function<
       enum_type(sync_type, bitfield_type, uint64_type),
       OGLPLUS_GL_STATIC_FUNC(ClientWaitSync)>
       ClientWaitSync;
 
+    /// @var GenVertexArrays
+    /// @glfuncwrap{GenVertexArrays}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenVertexArrays)>
       GenVertexArrays;
 
+    /// @var CreateVertexArrays
+    /// @glfuncwrap{CreateVertexArrays}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(CreateVertexArrays)>
       CreateVertexArrays;
 
+    /// @var DeleteVertexArrays
+    /// @glfuncwrap{DeleteVertexArrays}
     gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteVertexArrays)>
       DeleteVertexArrays;
 
+    /// @var IsVertexArray
+    /// @glfuncwrap{IsVertexArray}
     gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsVertexArray)>
       IsVertexArray;
 
+    /// @var BindVertexArray
+    /// @glfuncwrap{BindVertexArray}
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(BindVertexArray)>
       BindVertexArray;
 
+    /// @var VertexArrayElementBuffer
+    /// @glfuncwrap{VertexArrayElementBuffer}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexArrayElementBuffer)>
       VertexArrayElementBuffer;
 
+    /// @var BindVertexBuffer
+    /// @glfuncwrap{BindVertexBuffer}
     gl_api_function<
       void(uint_type, uint_type, intptr_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(BindVertexBuffer)>
       BindVertexBuffer;
 
+    /// @var VertexArrayVertexBuffer
+    /// @glfuncwrap{VertexArrayVertexBuffer}
     gl_api_function<
       void(uint_type, uint_type, uint_type, intptr_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(VertexArrayVertexBuffer)>
       VertexArrayVertexBuffer;
 
+    /// @var BindVertexBuffers
+    /// @glfuncwrap{BindVertexBuffers}
     gl_api_function<
       void(
         uint_type,
@@ -221,6 +256,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(BindVertexBuffers)>
       BindVertexBuffers;
 
+    /// @var VertexArrayVertexBuffers
+    /// @glfuncwrap{VertexArrayVertexBuffers}
     gl_api_function<
       void(
         uint_type,
@@ -232,124 +269,174 @@ public:
       OGLPLUS_GL_STATIC_FUNC(VertexArrayVertexBuffers)>
       VertexArrayVertexBuffers;
 
+    /// @var VertexAttribBinding
+    /// @glfuncwrap{VertexAttribBinding}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribBinding)>
       VertexAttribBinding;
 
+    /// @var VertexArrayAttribBinding
+    /// @glfuncwrap{VertexArrayAttribBinding}
     gl_api_function<
       void(uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexArrayAttribBinding)>
       VertexArrayAttribBinding;
 
+    /// @var EnableVertexAttribArray
+    /// @glfuncwrap{EnableVertexAttribArray}
     gl_api_function<
       void(uint_type),
       OGLPLUS_GL_STATIC_FUNC(EnableVertexAttribArray)>
       EnableVertexAttribArray;
 
+    /// @var EnableVertexArrayAttrib
+    /// @glfuncwrap{EnableVertexArrayAttrib}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(EnableVertexArrayAttrib)>
       EnableVertexArrayAttrib;
 
+    /// @var DisableVertexAttribArray
+    /// @glfuncwrap{DisableVertexAttribArray}
     gl_api_function<
       void(uint_type),
       OGLPLUS_GL_STATIC_FUNC(DisableVertexAttribArray)>
       DisableVertexAttribArray;
 
+    /// @var DisableVertexArrayAttrib
+    /// @glfuncwrap{GetError}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(DisableVertexArrayAttrib)>
       DisableVertexArrayAttrib;
 
+    /// @var VertexBindingDivisor
+    /// @glfuncwrap{VertexBindingDivisor}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexBindingDivisor)>
       VertexBindingDivisor;
 
+    /// @var VertexArrayBindingDivisor
+    /// @glfuncwrap{VertexArrayBindingDivisor}
     gl_api_function<
       void(uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexArrayBindingDivisor)>
       VertexArrayBindingDivisor;
 
+    /// @var VertexAttribDivisor
+    /// @glfuncwrap{VertexAttribDivisor}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribDivisor)>
       VertexAttribDivisor;
 
+    /// @var GenBuffers
+    /// @glfuncwrap{GenBuffers}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenBuffers)>
       GenBuffers;
 
+    /// @var CreateBuffers
+    /// @glfuncwrap{CreateBuffers}
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(CreateBuffers)>
       CreateBuffers;
 
+    /// @var DeleteBuffers
+    /// @glfuncwrap{DeleteBuffers}
     gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteBuffers)>
       DeleteBuffers;
 
+    /// @var IsBuffer
+    /// @glfuncwrap{IsBuffer}
     gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsBuffer)>
       IsBuffer;
 
+    /// @var BindBuffer
+    /// @glfuncwrap{BindBuffer}
     gl_api_function<
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindBuffer)>
       BindBuffer;
 
+    /// @var BindBufferBase
+    /// @glfuncwrap{BindBufferBase}
     gl_api_function<
       void(enum_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindBufferBase)>
       BindBufferBase;
 
+    /// @var BindBufferRange
+    /// @glfuncwrap{BindBufferRange}
     gl_api_function<
       void(enum_type, uint_type, uint_type, intptr_type, sizeiptr_type),
       OGLPLUS_GL_STATIC_FUNC(BindBufferRange)>
       BindBufferRange;
 
+    /// @var BufferStorage
+    /// @glfuncwrap{BufferStorage}
     gl_api_function<
       void(enum_type, sizeiptr_type, const_void_ptr_type, bitfield_type),
       OGLPLUS_GL_STATIC_FUNC(BufferStorage)>
       BufferStorage;
 
+    /// @var NamedBufferStorage
+    /// @glfuncwrap{NamedBufferStorage}
     gl_api_function<
       void(uint_type, sizeiptr_type, const_void_ptr_type, bitfield_type),
       OGLPLUS_GL_STATIC_FUNC(BufferStorage)>
       NamedBufferStorage;
 
+    /// @var BufferData
+    /// @glfuncwrap{BufferData}
     gl_api_function<
       void(enum_type, sizeiptr_type, const_void_ptr_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(BufferData)>
       BufferData;
 
+    /// @var NamedBufferData
+    /// @glfuncwrap{NamedBufferData}
     gl_api_function<
       void(uint_type, sizeiptr_type, const_void_ptr_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(NamedBufferData)>
       NamedBufferData;
 
+    /// @var BufferSubData
+    /// @glfuncwrap{BufferSubData}
     gl_api_function<
       void(enum_type, intptr_type, sizeiptr_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(BufferSubData)>
       BufferSubData;
 
+    /// @var NamedBufferSubData
+    /// @glfuncwrap{NamedBufferSubData}
     gl_api_function<
       void(uint_type, intptr_type, sizeiptr_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(NamedBufferSubData)>
       NamedBufferSubData;
 
+    /// @var ClearBufferSubData
+    /// @glfuncwrap{ClearBufferSubData}
     gl_api_function<
       void(enum_type, enum_type, enum_type, enum_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(ClearBufferData)>
       ClearBufferData;
 
+    /// @var ClearNamedBufferData
+    /// @glfuncwrap{ClearNamedBufferData}
     gl_api_function<
       void(uint_type, enum_type, enum_type, enum_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(ClearNamedBufferData)>
       ClearNamedBufferData;
 
+    /// @var ClearBufferSubData
+    /// @glfuncwrap{ClearBufferSubData}
     gl_api_function<
       void(
         enum_type,
@@ -362,6 +449,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(ClearBufferSubData)>
       ClearBufferSubData;
 
+    /// @var ClearNamedBufferSubData
+    /// @glfuncwrap{ClearNamedBufferSubData}
     gl_api_function<
       void(
         uint_type,
@@ -374,87 +463,123 @@ public:
       OGLPLUS_GL_STATIC_FUNC(ClearNamedBufferSubData)>
       ClearNamedBufferSubData;
 
+    /// @var MapBuffer
+    /// @glfuncwrap{MapBuffer}
     gl_api_function<
       void_ptr_type(enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(MapBuffer)>
       MapBuffer;
 
+    /// @var MapNamedBuffer
+    /// @glfuncwrap{MapNamedBuffer}
     gl_api_function<
       void_ptr_type(uint_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(MapNamedBuffer)>
       MapNamedBuffer;
 
+    /// @var MapBufferRange
+    /// @glfuncwrap{MapBufferRange}
     gl_api_function<
       void_ptr_type(enum_type, intptr_type, sizeiptr_type, bitfield_type),
       OGLPLUS_GL_STATIC_FUNC(MapBufferRange)>
       MapBufferRange;
 
+    /// @var MapNamedBufferRange
+    /// @glfuncwrap{MapNamedBufferRange}
     gl_api_function<
       void_ptr_type(uint_type, intptr_type, sizeiptr_type, bitfield_type),
       OGLPLUS_GL_STATIC_FUNC(MapNamedBufferRange)>
       MapNamedBufferRange;
 
+    /// @var FlushMappedBufferRange
+    /// @glfuncwrap{FlushMappedBufferRange}
     gl_api_function<
       void(enum_type, intptr_type, sizeiptr_type),
       OGLPLUS_GL_STATIC_FUNC(FlushMappedBufferRange)>
       FlushMappedBufferRange;
 
+    /// @var FlushMappedNamedBufferRange
+    /// @glfuncwrap{FlushMappedNamedBufferRange}
     gl_api_function<
       void(uint_type, intptr_type, sizeiptr_type),
       OGLPLUS_GL_STATIC_FUNC(FlushMappedNamedBufferRange)>
       FlushMappedNamedBufferRange;
 
+    /// @var UnmapBuffer
+    /// @glfuncwrap{UnmapBuffer}
     gl_api_function<bool_type(enum_type), OGLPLUS_GL_STATIC_FUNC(UnmapBuffer)>
       UnmapBuffer;
 
+    /// @var UnmapNamedBuffer
+    /// @glfuncwrap{UnmapNamedBuffer}
     gl_api_function<
       bool_type(uint_type),
       OGLPLUS_GL_STATIC_FUNC(UnmapNamedBuffer)>
       UnmapNamedBuffer;
 
+    /// @var InvalidateBufferData
+    /// @glfuncwrap{InvalidateBufferData}
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(InvalidateBufferData)>
       InvalidateBufferData;
 
+    /// @var InvalidateBufferSubData
+    /// @glfuncwrap{InvalidateBufferSubData}
     gl_api_function<
       void(uint_type, intptr_type, sizeiptr_type),
       OGLPLUS_GL_STATIC_FUNC(InvalidateBufferSubData)>
       InvalidateBufferSubData;
 
+    /// @var CopyBufferSubData
+    /// @glfuncwrap{CopyBufferSubData}
     gl_api_function<
       void(enum_type, enum_type, intptr_type, intptr_type, sizeiptr_type),
       OGLPLUS_GL_STATIC_FUNC(CopyBufferSubData)>
       CopyBufferSubData;
 
+    /// @var CopyNamedBufferSubData
+    /// @glfuncwrap{CopyNamedBufferSubData}
     gl_api_function<
       void(uint_type, uint_type, intptr_type, intptr_type, sizeiptr_type),
       OGLPLUS_GL_STATIC_FUNC(CopyNamedBufferSubData)>
       CopyNamedBufferSubData;
 
+    /// @var GetBufferParameteriv
+    /// @glfuncwrap{GetBufferParameteriv}
     gl_api_function<
       void(enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetBufferParameteriv)>
       GetBufferParameteriv;
 
+    /// @var GetBufferParameteri64v
+    /// @glfuncwrap{GetBufferParameteri64v}
     gl_api_function<
       void(enum_type, enum_type, int64_type*),
       OGLPLUS_GL_STATIC_FUNC(GetBufferParameteri64v)>
       GetBufferParameteri64v;
 
+    /// @var GetNamedBufferParameteriv
+    /// @glfuncwrap{GetNamedBufferParameteriv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetNamedBufferParameteriv)>
       GetNamedBufferParameteriv;
 
+    /// @var GetNamedBufferParameteri64v
+    /// @glfuncwrap{GetNamedBufferParameteri64v}
     gl_api_function<
       void(uint_type, enum_type, int64_type*),
       OGLPLUS_GL_STATIC_FUNC(GetNamedBufferParameteri64v)>
       GetNamedBufferParameteri64v;
 
+    /// @var GetBufferSubData
+    /// @glfuncwrap{GetBufferSubData}
     gl_api_function<
       void(enum_type, intptr_type, sizeiptr_type, void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetBufferSubData)>
       GetBufferSubData;
 
+    /// @var GetNamedBufferSubData
+    /// @glfuncwrap{GetNamedBufferSubData}
     gl_api_function<
       void(uint_type, intptr_type, sizeiptr_type, void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetNamedBufferSubData)>
