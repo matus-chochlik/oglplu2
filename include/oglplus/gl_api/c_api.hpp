@@ -2416,90 +2416,129 @@ public:
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(ReleaseShaderCompiler)>
       ReleaseShaderCompiler;
 
-    //
+    /// @var CreateProgram
+    /// @glfuncwrap{CreateProgram}
     gl_api_function<uint_type(), OGLPLUS_GL_STATIC_FUNC(CreateProgram)>
       CreateProgram;
 
+    /// @var CreateShaderProgramv
+    /// @glfuncwrap{CreateShaderProgramv}
     gl_api_function<
       uint_type(enum_type, sizei_type, const char_type* const*),
       OGLPLUS_GL_STATIC_FUNC(CreateShaderProgramv)>
       CreateShaderProgramv;
 
+    /// @var DeleteProgram
+    /// @glfuncwrap{DeleteProgram}
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(DeleteProgram)>
       DeleteProgram;
 
+    /// @var IsProgram
+    /// @glfuncwrap{IsProgram}
     gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsProgram)>
       IsProgram;
 
+    /// @var AttachShader
+    /// @glfuncwrap{AttachShader}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(AttachShader)>
       AttachShader;
 
+    /// @var DetachShader
+    /// @glfuncwrap{DetachShader}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(DetachShader)>
       DetachShader;
 
+    /// @var GetAttachedShaders
+    /// @glfuncwrap{GetAttachedShaders}
     gl_api_function<
       void(uint_type, sizei_type, sizei_type*, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GetAttachedShaders)>
       GetAttachedShaders;
 
+    /// @var ValidateProgram
+    /// @glfuncwrap{ValidateProgram}
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(ValidateProgram)>
       ValidateProgram;
 
+    /// @var LinkProgram
+    /// @glfuncwrap{LinkProgram}
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(LinkProgram)>
       LinkProgram;
 
+    /// @var UseProgram
+    /// @glfuncwrap{UseProgram}
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(UseProgram)>
       UseProgram;
 
+    /// @var ProgramBinary
+    /// @glfuncwrap{ProgramBinary}
     gl_api_function<
       void(uint_type, enum_type, const_void_ptr_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramBinary)>
       ProgramBinary;
 
+    /// @var GetProgramBinary
+    /// @glfuncwrap{GetProgramBinary}
     gl_api_function<
       void(uint_type, sizei_type, sizei_type*, enum_type*, void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetProgramBinary)>
       GetProgramBinary;
 
+    /// @var GetProgramiv
+    /// @glfuncwrap{GetProgramiv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramiv)>
       GetProgramiv;
 
+    /// @var GetProgramInfoLog
+    /// @glfuncwrap{GetProgramInfoLog}
     gl_api_function<
       void(uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramInfoLog)>
       GetProgramInfoLog;
 
+    /// @var GetProgramInterfaceiv
+    /// @glfuncwrap{GetProgramInterfaceiv}
     gl_api_function<
       void(uint_type, enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramInterfaceiv)>
       GetProgramInterfaceiv;
 
+    /// @var GetProgramResourceIndex
+    /// @glfuncwrap{GetProgramResourceIndex}
     gl_api_function<
       uint_type(uint_type, enum_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramResourceIndex)>
       GetProgramResourceIndex;
 
+    /// @var GetProgramResourceName
+    /// @glfuncwrap{GetProgramResourceName}
     gl_api_function<
       void(uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramResourceName)>
       GetProgramResourceName;
 
+    /// @var GetProgramResourceLocation
+    /// @glfuncwrap{GetProgramResourceLocation}
     gl_api_function<
       int_type(uint_type, enum_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramResourceLocation)>
       GetProgramResourceLocation;
 
+    /// @var GetProgramResourceLocationIndex
+    /// @glfuncwrap{GetProgramResourceLocationIndex}
     gl_api_function<
       int_type(uint_type, enum_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramResourceLocationIndex)>
       GetProgramResourceLocationIndex;
 
+    /// @var GetProgramResourceiv
+    /// @glfuncwrap{GetProgramResourceiv}
     gl_api_function<
       void(
         uint_type,
@@ -2513,6 +2552,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(GetProgramResourceiv)>
       GetProgramResourceiv;
 
+    /// @var GetProgramResourcefvNV
+    /// @glfuncwrap{GetProgramResourcefvNV}
     gl_api_function<
       void(
         uint_type,
@@ -2526,16 +2567,22 @@ public:
       OGLPLUS_GL_STATIC_FUNC(GetProgramResourcefvNV)>
       GetProgramResourcefvNV;
 
+    /// @var BindAttribLocation
+    /// @glfuncwrap{BindAttribLocation}
     gl_api_function<
       void(uint_type, uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(BindAttribLocation)>
       BindAttribLocation;
 
+    /// @var GetAttribLocation
+    /// @glfuncwrap{GetAttribLocation}
     gl_api_function<
       int_type(uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetAttribLocation)>
       GetAttribLocation;
 
+    /// @var GetActiveAttrib
+    /// @glfuncwrap{GetActiveAttrib}
     gl_api_function<
       void(
         uint_type,
@@ -2548,51 +2595,71 @@ public:
       OGLPLUS_GL_STATIC_FUNC(GetActiveAttrib)>
       GetActiveAttrib;
 
+    /// @var GetActiveUniformLocation
+    /// @glfuncwrap{GetActiveUniformLocation}
     gl_api_function<
       int_type(uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetUniformLocation)>
       GetUniformLocation;
 
+    /// @var GetUniformBlockIndex
+    /// @glfuncwrap{GetUniformBlockIndex}
     gl_api_function<
       int_type(uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetUniformBlockIndex)>
       GetUniformBlockIndex;
 
+    /// @var GetActiveUniformName
+    /// @glfuncwrap{GetActiveUniformName}
     gl_api_function<
       void(uint_type, uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetActiveUniformName)>
       GetActiveUniformName;
 
+    /// @var GetSubroutineIndex
+    /// @glfuncwrap{GetSubroutineIndex}
     gl_api_function<
       uint_type(uint_type, enum_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetSubroutineIndex)>
       GetSubroutineIndex;
 
+    /// @var GetActiveSubroutineName
+    /// @glfuncwrap{GetActiveSubroutineName}
     gl_api_function<
       void(uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetActiveSubroutineName)>
       GetActiveSubroutineName;
 
+    /// @var GetActiveSubroutineUniformName
+    /// @glfuncwrap{GetActiveSubroutineUniformName}
     gl_api_function<
       void(uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetActiveSubroutineUniformName)>
       GetActiveSubroutineUniformName;
 
+    /// @var GetSubroutineUniformLocation
+    /// @glfuncwrap{GetSubroutineUniformLocation}
     gl_api_function<
       int_type(uint_type, enum_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetSubroutineUniformLocation)>
       GetSubroutineUniformLocation;
 
+    /// @var GetActiveSubroutineUniformiv
+    /// @glfuncwrap{GetActiveSubroutineUniformiv}
     gl_api_function<
       void(uint_type, enum_type, uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetActiveSubroutineUniformiv)>
       GetActiveSubroutineUniformiv;
 
+    /// @var TransformFeedbackVaryings
+    /// @glfuncwrap{TransformFeedbackVaryings}
     gl_api_function<
       void(uint_type, sizei_type, const char_type* const*, enum_type),
       OGLPLUS_GL_STATIC_FUNC(TransformFeedbackVaryings)>
       TransformFeedbackVaryings;
 
+    /// @var GetTransformFeedbackVarying
+    /// @glfuncwrap{GetTransformFeedbackVarying}
     gl_api_function<
       void(
         uint_type,
@@ -2605,147 +2672,205 @@ public:
       OGLPLUS_GL_STATIC_FUNC(GetTransformFeedbackVarying)>
       GetTransformFeedbackVarying;
 
+    /// @var BindFragDataLocation
+    /// @glfuncwrap{BindFragDataLocation}
     gl_api_function<
       void(uint_type, uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(BindFragDataLocation)>
       BindFragDataLocation;
 
+    /// @var BindFragDataLocationIndexed
+    /// @glfuncwrap{BindFragDataLocationIndexed}
     gl_api_function<
       void(uint_type, uint_type, uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(BindFragDataLocationIndexed)>
       BindFragDataLocationIndexed;
 
+    /// @var GetFragDataLocation
+    /// @glfuncwrap{GetFragDataLocation}
     gl_api_function<
       int_type(uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetFragDataLocation)>
       GetFragDataLocation;
 
+    /// @var GetFragDataIndex
+    /// @glfuncwrap{GetFragDataIndex}
     gl_api_function<
       int_type(uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetFragDataIndex)>
       GetFragDataIndex;
 
-    // uniform subroutine
+    /// @var UniformSubroutinesuiv
+    /// @glfuncwrap{UniformSubroutinesuiv}
     gl_api_function<
       void(enum_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(UniformSubroutinesuiv)>
       UniformSubroutinesuiv;
 
+    /// @var GetUniformSubroutineuiv
+    /// @glfuncwrap{GetUniformSubroutineuiv}
     gl_api_function<
       void(enum_type, int_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GetUniformSubroutineuiv)>
       GetUniformSubroutineuiv;
 
-    // uniform
+    /// @var Uniform1i
+    /// @glfuncwrap{Uniform1i}
     gl_api_function<void(int_type, int_type), OGLPLUS_GL_STATIC_FUNC(Uniform1i)>
       Uniform1i;
 
+    /// @var Uniform2i
+    /// @glfuncwrap{Uniform2i}
     gl_api_function<
       void(int_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(Uniform2i)>
       Uniform2i;
 
+    /// @var Uniform3i
+    /// @glfuncwrap{Uniform3i}
     gl_api_function<
       void(int_type, int_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(Uniform3i)>
       Uniform3i;
 
+    /// @var Uniform4i
+    /// @glfuncwrap{Uniform4i}
     gl_api_function<
       void(int_type, int_type, int_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(Uniform4i)>
       Uniform4i;
 
+    /// @var Uniform1iv
+    /// @glfuncwrap{Uniform1iv}
     gl_api_function<
       void(int_type, sizei_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(Uniform1iv)>
       Uniform1iv;
 
+    /// @var Uniform2iv
+    /// @glfuncwrap{Uniform2iv}
     gl_api_function<
       void(int_type, sizei_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(Uniform2iv)>
       Uniform2iv;
 
+    /// @var Uniform3iv
+    /// @glfuncwrap{Uniform3iv}
     gl_api_function<
       void(int_type, sizei_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(Uniform3iv)>
       Uniform3iv;
 
+    /// @var Uniform4iv
+    /// @glfuncwrap{Uniform4iv}
     gl_api_function<
       void(int_type, sizei_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(Uniform4iv)>
       Uniform4iv;
 
+    /// @var Uniform1ui
+    /// @glfuncwrap{Uniform1ui}
     gl_api_function<void(int_type, uint_type), OGLPLUS_GL_STATIC_FUNC(Uniform1ui)>
       Uniform1ui;
 
+    /// @var Uniform2ui
+    /// @glfuncwrap{Uniform2ui}
     gl_api_function<
       void(int_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(Uniform2ui)>
       Uniform2ui;
 
+    /// @var Uniform3ui
+    /// @glfuncwrap{Uniform3ui}
     gl_api_function<
       void(int_type, uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(Uniform3ui)>
       Uniform3ui;
 
+    /// @var Uniform4ui
+    /// @glfuncwrap{Uniform4ui}
     gl_api_function<
       void(int_type, uint_type, uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(Uniform4ui)>
       Uniform4ui;
 
+    /// @var Uniform1uiv
+    /// @glfuncwrap{Uniform1uiv}
     gl_api_function<
       void(int_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(Uniform1uiv)>
       Uniform1uiv;
 
+    /// @var Uniform2uiv
+    /// @glfuncwrap{Uniform2uiv}
     gl_api_function<
       void(int_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(Uniform2uiv)>
       Uniform2uiv;
 
+    /// @var Uniform3uiv
+    /// @glfuncwrap{Uniform3uiv}
     gl_api_function<
       void(int_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(Uniform3uiv)>
       Uniform3uiv;
 
+    /// @var Uniform4uiv
+    /// @glfuncwrap{Uniform4uiv}
     gl_api_function<
       void(int_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(Uniform4uiv)>
       Uniform4uiv;
 
+    /// @var Uniform1f
+    /// @glfuncwrap{Uniform1f}
     gl_api_function<void(int_type, float_type), OGLPLUS_GL_STATIC_FUNC(Uniform1f)>
       Uniform1f;
 
+    /// @var Uniform2f
+    /// @glfuncwrap{Uniform2f}
     gl_api_function<
       void(int_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(Uniform2f)>
       Uniform2f;
 
+    /// @var Uniform3f
+    /// @glfuncwrap{Uniform3f}
     gl_api_function<
       void(int_type, float_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(Uniform3f)>
       Uniform3f;
 
+    /// @var Uniform4f
+    /// @glfuncwrap{Uniform4f}
     gl_api_function<
       void(int_type, float_type, float_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(Uniform4f)>
       Uniform4f;
 
+    /// @var Uniform1fv
+    /// @glfuncwrap{Uniform1fv}
     gl_api_function<
       void(int_type, sizei_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(Uniform1fv)>
       Uniform1fv;
 
+    /// @var Uniform2fv
+    /// @glfuncwrap{Uniform2fv}
     gl_api_function<
       void(int_type, sizei_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(Uniform2fv)>
       Uniform2fv;
 
+    /// @var Uniform3fv
+    /// @glfuncwrap{Uniform3fv}
     gl_api_function<
       void(int_type, sizei_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(Uniform3fv)>
       Uniform3fv;
 
+    /// @var Uniform4fv
+    /// @glfuncwrap{Uniform4fv}
     gl_api_function<
       void(int_type, sizei_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(Uniform4fv)>
