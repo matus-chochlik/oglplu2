@@ -49,7 +49,7 @@ private:
 //------------------------------------------------------------------------------
 /// @brief Class wrapping a constant with missing or unknown value.
 /// @ingroup c_api_wrap
-template <typename T, typename Tag = nothing_t, bool is_indexed = false>
+template <typename T, typename Tag = nothing_t, bool IsIndexed = false>
 struct no_c_api_constant
   : c_api_constant_base
   , no_enum_value<T, Tag> {
@@ -58,10 +58,10 @@ public:
     constexpr no_c_api_constant(string_view name, ApiTraits&, Api&) noexcept
       : c_api_constant_base{name} {}
 
-    /// @brief Adds the specified value to the constant (it it is_indexed).
+    /// @brief Adds the specified value to the constant (it it IsIndexed).
     template <typename I>
     constexpr auto operator+(I) const noexcept -> std::
-      enable_if_t<(is_indexed && std::is_integral_v<I>), no_enum_value<T, Tag>> {
+      enable_if_t<(IsIndexed && std::is_integral_v<I>), no_enum_value<T, Tag>> {
         return {};
     }
 };
@@ -73,7 +73,7 @@ template <
   typename T,
   T value,
   typename Tag = nothing_t,
-  bool is_indexed = false>
+  bool IsIndexed = false>
 struct static_c_api_constant
   : c_api_constant_base
   , enum_value<T, ClassList, Tag> {
@@ -83,10 +83,10 @@ public:
       : c_api_constant_base{name}
       , enum_value<T, ClassList, Tag>{value} {}
 
-    /// @brief Adds the specified value to the constant (it it is_indexed).
+    /// @brief Adds the specified value to the constant (it it IsIndexed).
     template <typename I>
     constexpr auto operator+(I index) const noexcept -> std::enable_if_t<
-      (is_indexed && std::is_integral_v<I>),
+      (IsIndexed && std::is_integral_v<I>),
       enum_value<T, ClassList, Tag>> {
         using O = std::conditional_t<
           std::is_signed_v<T>,
@@ -102,7 +102,7 @@ template <
   typename ClassList,
   typename T,
   typename Tag = nothing_t,
-  bool is_indexed = false>
+  bool IsIndexed = false>
 struct dynamic_c_api_constant
   : c_api_constant_base
   , opt_enum_value<T, ClassList, Tag> {
@@ -118,10 +118,10 @@ public:
       , opt_enum_value<T, ClassList, Tag>{
           traits.load_constant(api, name, type_identity<T>())} {}
 
-    /// @brief Adds the specified value to the constant (it it is_indexed).
+    /// @brief Adds the specified value to the constant (it it IsIndexed).
     template <typename I>
     constexpr auto operator+(I index) const noexcept -> std::enable_if_t<
-      (is_indexed && std::is_integral_v<I>),
+      (IsIndexed && std::is_integral_v<I>),
       opt_enum_value<T, ClassList, Tag>> {
         using O = std::conditional_t<
           std::is_signed_v<T>,
@@ -131,21 +131,21 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-template <typename ClassList, typename Constant, typename Tag, bool is_indexed>
+template <typename ClassList, typename Constant, typename Tag, bool IsIndexed>
 struct get_opt_c_api_constant;
 
-template <typename ClassList, typename T, T value, typename Tag, bool is_indexed>
+template <typename ClassList, typename T, T value, typename Tag, bool IsIndexed>
 struct get_opt_c_api_constant<
   ClassList,
   std::integral_constant<T, value>,
   Tag,
-  is_indexed>
-  : type_identity<static_c_api_constant<ClassList, T, value, Tag, is_indexed>> {
+  IsIndexed>
+  : type_identity<static_c_api_constant<ClassList, T, value, Tag, IsIndexed>> {
 };
 
-template <typename ClassList, typename T, typename Tag, bool is_indexed>
-struct get_opt_c_api_constant<ClassList, type_identity<T>, Tag, is_indexed>
-  : type_identity<dynamic_c_api_constant<ClassList, T, Tag, is_indexed>> {};
+template <typename ClassList, typename T, typename Tag, bool IsIndexed>
+struct get_opt_c_api_constant<ClassList, type_identity<T>, Tag, IsIndexed>
+  : type_identity<dynamic_c_api_constant<ClassList, T, Tag, IsIndexed>> {};
 
 /// @brief Template alias used for switching between static and dynamic constants.
 /// @tparam ClassList a list of enum_class types into which the constant can
@@ -153,7 +153,7 @@ struct get_opt_c_api_constant<ClassList, type_identity<T>, Tag, is_indexed>
 /// @tparam Constant integral constant specifying the value or a placeholder.
 /// @tparam Tag a tag type that can be used in custiomization of some operations
 ///         on the constant.
-/// @tparam is_indexed indicates if the constant is indexed, which enables
+/// @tparam IsIndexed indicates if the constant is indexed, which enables
 ///         additional operations on the constants.
 /// @ingroup c_api_wrap
 ///
@@ -170,9 +170,9 @@ template <
   typename ClassList,
   typename Constant,
   typename Tag = nothing_t,
-  bool is_indexed = false>
+  bool IsIndexed = false>
 using opt_c_api_constant =
-  typename get_opt_c_api_constant<ClassList, Constant, Tag, is_indexed>::type;
+  typename get_opt_c_api_constant<ClassList, Constant, Tag, IsIndexed>::type;
 //------------------------------------------------------------------------------
 /// @brief Exception wrapping information about failed C-API function call result.
 /// @ingroup c_api_wrap
@@ -864,6 +864,14 @@ using c_api_function_ptr =
 template <typename ApiTraits, typename Tag, typename Signature>
 class unimplemented_c_api_function;
 //------------------------------------------------------------------------------
+/// @brief Wrapper for statically-linked C-API functions.
+/// @tparam ApiTraits a policy class that customizes the linking of functions.
+/// @tparam Tag a tag type that can be used in custiomization of some operations
+///         on the function.
+/// @tparam Signature the wrapped C-API function signature.
+/// @ingroup c_api_wrap
+/// @see dynamic_c_api_function
+/// @see opt_c_api_function
 template <
   typename ApiTraits,
   typename Tag,
@@ -871,6 +879,14 @@ template <
   c_api_function_ptr<ApiTraits, Tag, Signature> function>
 class static_c_api_function;
 //------------------------------------------------------------------------------
+/// @brief Wrapper for dynamically-linked C-API functions.
+/// @tparam ApiTraits a policy class that customizes the linking of functions.
+/// @tparam Tag a tag type that can be used in custiomization of some operations
+///         on the function.
+/// @tparam Signature the wrapped C-API function signature.
+/// @ingroup c_api_wrap
+/// @see static_c_api_function
+/// @see opt_c_api_function
 template <typename ApiTraits, typename Tag, typename Signature>
 class dynamic_c_api_function;
 //------------------------------------------------------------------------------
@@ -973,6 +989,10 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Wrapper for statically-linked C-API functions.
+/// @ingroup c_api_wrap
+/// @see dynamic_c_api_function
+/// @see opt_c_api_function
 template <
   typename ApiTraits,
   typename Tag,
@@ -984,12 +1004,14 @@ class static_c_api_function<ApiTraits, Tag, RV(Params...), function>
     using base = c_api_function_base<true>;
 
 public:
+    /// @brief Alias for the wrapped function type.
     using signature = RV(Params...);
 
     template <typename Api>
     constexpr static_c_api_function(string_view name, const ApiTraits&, Api&)
       : base(name) {}
 
+    /// @brief Calls the wrapped function.
     template <typename... Args>
     constexpr auto operator()(Args&&... args) const noexcept
       -> std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV> {
@@ -998,6 +1020,10 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Wrapper for dynamically -linked C-API functions.
+/// @ingroup c_api_wrap
+/// @see static_c_api_function
+/// @see opt_c_api_function
 template <typename ApiTraits, typename Tag, typename RV, typename... Params>
 class dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>
   : public c_api_function_base<true> {
@@ -1006,6 +1032,7 @@ class dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>
     using function_pointer = c_api_function_ptr<ApiTraits, Tag, RV(Params...)>;
 
 public:
+    /// @brief Alias for the wrapped function type.
     using signature = RV(Params...);
 
     template <typename Api>
@@ -1020,10 +1047,12 @@ public:
           name,
           type_identity<RV(Params...)>())} {}
 
+    /// @brief Indicates if the function is linked (and can be used).
     constexpr explicit operator bool() const noexcept {
         return bool(_function);
     }
 
+    /// @brief Calls the wrapped function.
     template <typename... Args>
     constexpr auto operator()(Args&&... args) const noexcept
       -> std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV> {
@@ -1035,6 +1064,19 @@ private:
     function_pointer _function{nullptr};
 };
 //------------------------------------------------------------------------------
+/// @brief Template alias used for switching between static and dynamic function.
+/// @tparam ApiTraits a policy class that customizes the linking of functions.
+/// @tparam Tag a tag type that can be used in custiomization of some operations
+///         on the function.
+/// @tparam Signature the wrapped C-API function signature.
+/// @ingroup c_api_wrap
+///
+/// @see static_c_api_function
+/// @see dynamic_c_api_function
+/// @see mp_list
+///
+/// C-API constants can be either known at compile time or loaded dynamically
+/// by using some API function(s).
 template <
   typename ApiTraits,
   typename Tag,

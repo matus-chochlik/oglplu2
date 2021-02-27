@@ -224,7 +224,7 @@ div.fragment {
 }
 
 .memItemLeft, .memTemplItemLeft {
-        white-space: wrap;
+        white-space: pre-line;
 }
 
 .paramname {

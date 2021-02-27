@@ -35,29 +35,52 @@ template <typename ApiTraits>
 class basic_gl_c_api {
 public:
     using this_api = basic_gl_c_api;
+
+    /// @brief Alias for the API traits policy type passed as template argument.
     using api_traits = ApiTraits;
 
+    /// @brief Untyped non-const pointer type.
     using void_ptr_type = typename gl_types::void_ptr_type;
+    /// @brief Untyped const pointer type.
     using const_void_ptr_type = typename gl_types::const_void_ptr_type;
+    /// @brief Size integer type.
     using sizei_type = typename gl_types::sizei_type;
+    /// @brief Size integer type.
     using sizeiptr_type = typename gl_types::sizeiptr_type;
+    /// @brief Integer type that can represent pointer.
     using intptr_type = typename gl_types::intptr_type;
+    /// @brief Boolean type.
     using bool_type = typename gl_types::bool_type;
+    /// @brief String character type.
     using char_type = typename gl_types::char_type;
+    /// @brief Byte type.
     using byte_type = typename gl_types::byte_type;
+    /// @brief Unsigned byte type.
     using ubyte_type = typename gl_types::ubyte_type;
+    /// @brief Signed short integer type.
     using short_type = typename gl_types::short_type;
+    /// @brief Unsigned short integer type.
     using ushort_type = typename gl_types::ushort_type;
+    /// @brief Signed integer type.
     using int_type = typename gl_types::int_type;
+    /// @brief Unsigned integer type.
     using uint_type = typename gl_types::uint_type;
+    /// @brief Signed 64-bit integer type.
     using int64_type = typename gl_types::int64_type;
+    /// @brief Unsigned 64-bit integer type.
     using uint64_type = typename gl_types::uint64_type;
+    /// @brief Enumerator value type.
     using enum_type = typename gl_types::enum_type;
+    /// @brief Floating-point type.
     using float_type = typename gl_types::float_type;
+    /// @brief Double-precision floating-point type.
     using double_type = typename gl_types::double_type;
+    /// @brief Bitfield/bitset value types.
     using bitfield_type = typename gl_types::bitfield_type;
+    /// @brief Sync handler type.
     using sync_type = typename gl_types::sync_type;
 
+    /// @brief Alias for the debug callback function type.
     using debug_callback_type = void(
       enum_type,
       enum_type,
@@ -67,6 +90,7 @@ public:
       const char_type*,
       const_void_ptr_type);
 
+    /// @brief Alias for GL C-API function wrapper template.
     template <
       typename Signature,
       c_api_function_ptr<api_traits, nothing_t, Signature> Function>
@@ -78,24 +102,40 @@ public:
       gl_types::has_api,
       gl_types::has_static_api>;
 
+    /// @var GetError
+    /// @glfuncwrap{GetError}
     gl_api_function<enum_type(), OGLPLUS_GL_STATIC_FUNC(GetError)> GetError;
 
+    /// @var GetGraphicsResetStatus
+    /// @glfuncwrap{GetGraphicsResetStatus}
     gl_api_function<enum_type(), OGLPLUS_GL_STATIC_FUNC(GetGraphicsResetStatus)>
       GetGraphicsResetStatus;
 
+    /// @var Enable
+    /// @glfuncwrap{Enable}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(Enable)> Enable;
 
+    /// @var Enablei
+    /// @glfuncwrap{Enablei}
     gl_api_function<void(enum_type, uint_type), OGLPLUS_GL_STATIC_FUNC(Enablei)>
       Enablei;
 
+    /// @var Disable
+    /// @glfuncwrap{Disable}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(Disable)> Disable;
 
+    /// @var Disablei
+    /// @glfuncwrap{Disablei}
     gl_api_function<void(enum_type, uint_type), OGLPLUS_GL_STATIC_FUNC(Disablei)>
       Disablei;
 
+    /// @var IsEnabled
+    /// @glfuncwrap{IsEnabled}
     gl_api_function<bool_type(enum_type), OGLPLUS_GL_STATIC_FUNC(IsEnabled)>
       IsEnabled;
 
+    /// @var IsEnabledi
+    /// @glfuncwrap{IsEnabledi}
     gl_api_function<
       bool_type(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(IsEnabledi)>
