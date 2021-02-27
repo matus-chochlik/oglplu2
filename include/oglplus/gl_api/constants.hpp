@@ -10806,6 +10806,8 @@ public:
 #endif
       compute_texture;
 
+    /// @var texture_shadow
+    /// @glconstwrap{TEXTURE_SHADOW}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_TEXTURE_SHADOW
@@ -10815,6 +10817,8 @@ public:
 #endif
       texture_shadow;
 
+    /// @var texture_gather
+    /// @glconstwrap{TEXTURE_GATHER}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_TEXTURE_GATHER
@@ -10824,6 +10828,8 @@ public:
 #endif
       texture_gather;
 
+    /// @var texture_gather_shadow
+    /// @glconstwrap{TEXTURE_GATHER_SHADOW}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_TEXTURE_GATHER_SHADOW
@@ -10833,6 +10839,8 @@ public:
 #endif
       texture_gather_shadow;
 
+    /// @var shader_image_load
+    /// @glconstwrap{SHADER_IMAGE_LOAD}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_SHADER_IMAGE_LOAD
@@ -10842,6 +10850,8 @@ public:
 #endif
       shader_image_load;
 
+    /// @var shader_image_store
+    /// @glconstwrap{SHADER_IMAGE_STORE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_SHADER_IMAGE_STORE
@@ -10851,6 +10861,8 @@ public:
 #endif
       shader_image_store;
 
+    /// @var shader_image_atomic
+    /// @glconstwrap{SHADER_IMAGE_ATOMIC}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_SHADER_IMAGE_ATOMIC
@@ -10860,6 +10872,8 @@ public:
 #endif
       shader_image_atomic;
 
+    /// @var image_texel_size
+    /// @glconstwrap{IMAGE_TEXEL_SIZE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_IMAGE_TEXEL_SIZE
@@ -10869,6 +10883,8 @@ public:
 #endif
       image_texel_size;
 
+    /// @var image_compatibility_class
+    /// @glconstwrap{IMAGE_COMPATIBILITY_CLASS}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_IMAGE_COMPATIBILITY_CLASS
@@ -10878,6 +10894,8 @@ public:
 #endif
       image_compatibility_class;
 
+    /// @var image_pixel_format
+    /// @glconstwrap{IMAGE_PIXEL_FORMAT}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_IMAGE_PIXEL_FORMAT
@@ -10887,6 +10905,8 @@ public:
 #endif
       image_pixel_format;
 
+    /// @var image_pixel_type
+    /// @glconstwrap{IMAGE_PIXEL_TYPE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_IMAGE_PIXEL_TYPE
@@ -10896,6 +10916,8 @@ public:
 #endif
       image_pixel_type;
 
+    /// @var simultaneous_texture_and_depth_test
+    /// @glconstwrap{SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST
@@ -10905,6 +10927,8 @@ public:
 #endif
       simultaneous_texture_and_depth_test;
 
+    /// @var simultaneous_texture_and_stencil_test
+    /// @glconstwrap{SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST
@@ -10914,6 +10938,8 @@ public:
 #endif
       simultaneous_texture_and_stencil_test;
 
+    /// @var simultaneous_texture_and_depth_write
+    /// @glconstwrap{SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE
@@ -10923,6 +10949,8 @@ public:
 #endif
       simultaneous_texture_and_depth_write;
 
+    /// @var simultaneous_texture_and_stencil_write
+    /// @glconstwrap{SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE
@@ -10932,6 +10960,8 @@ public:
 #endif
       simultaneous_texture_and_stencil_write;
 
+    /// @var texture_compressed
+    /// @glconstwrap{TEXTURE_COMPRESSED}
     opt_c_api_constant<
       mp_list<internal_format_parameter, texture_level_parameter>,
 #ifdef GL_TEXTURE_COMPRESSED
@@ -10942,6 +10972,8 @@ public:
       true_false>
       texture_compressed;
 
+    /// @var texture_compressed_image_size
+    /// @glconstwrap{TEXTURE_COMPRESSED_IMAGE_SIZE}
     opt_c_api_constant<
       mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_COMPRESSED_IMAGE_SIZE
@@ -10951,6 +10983,8 @@ public:
 #endif
       texture_compressed_image_size;
 
+    /// @var texture_compressed_block_width
+    /// @glconstwrap{TEXTURE_COMPRESSED_BLOCK_WIDTH}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_TEXTURE_COMPRESSED_BLOCK_WIDTH
@@ -10960,6 +10994,8 @@ public:
 #endif
       texture_compressed_block_width;
 
+    /// @var texture_compressed_block_height
+    /// @glconstwrap{TEXTURE_COMPRESSED_BLOCK_HEIGHT}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_TEXTURE_COMPRESSED_BLOCK_HEIGHT
@@ -10969,6 +11005,8 @@ public:
 #endif
       texture_compressed_block_height;
 
+    /// @var texture_compressed_block_size
+    /// @glconstwrap{TEXTURE_COMPRESSED_BLOCK_SIZE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_TEXTURE_COMPRESSED_BLOCK_SIZE
@@ -10978,6 +11016,8 @@ public:
 #endif
       texture_compressed_block_size;
 
+    /// @var clear_buffer
+    /// @glconstwrap{CLEAR_BUFFER}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_CLEAR_BUFFER
@@ -10987,6 +11027,8 @@ public:
 #endif
       clear_buffer;
 
+    /// @var clear_texture
+    /// @glconstwrap{CLEAR_TEXTURE}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_CLEAR_TEXTURE
@@ -10996,6 +11038,8 @@ public:
 #endif
       clear_texture;
 
+    /// @var texture_view
+    /// @glconstwrap{TEXTURE_VIEW}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_TEXTURE_VIEW
@@ -11005,6 +11049,8 @@ public:
 #endif
       texture_view;
 
+    /// @var view_compatibility_class
+    /// @glconstwrap{VIEW_COMPATIBILITY_CLASS}
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_VIEW_COMPATIBILITY_CLASS
@@ -11014,6 +11060,8 @@ public:
 #endif
       view_compatibility_class;
 
+    /// @var sample_position
+    /// @glconstwrap{SAMPLE_POSITION}
     opt_c_api_constant<
       mp_list<sample_parameter>,
 #ifdef GL_SAMPLE_POSITION
@@ -11023,6 +11071,8 @@ public:
 #endif
       sample_position;
 
+    /// @var projection
+    /// @glconstwrap{PROJECTION}
     opt_c_api_constant<
       mp_list<matrix_mode>,
 #ifdef GL_PROJECTION
@@ -11032,6 +11082,8 @@ public:
 #endif
       projection;
 
+    /// @var modelview
+    /// @glconstwrap{MODELVIEW}
     opt_c_api_constant<
       mp_list<matrix_mode>,
 #ifdef GL_MODELVIEW
@@ -11041,6 +11093,8 @@ public:
 #endif
       modelview;
 
+    /// @var debug_severity_high
+    /// @glconstwrap{DEBUG_SEVERITY_HIGH}
     opt_c_api_constant<
       mp_list<debug_output_severity>,
 #ifdef GL_DEBUG_SEVERITY_HIGH
@@ -11052,6 +11106,8 @@ public:
 #endif
       debug_severity_high;
 
+    /// @var debug_severity_medium
+    /// @glconstwrap{DEBUG_SEVERITY_MEDIUM}
     opt_c_api_constant<
       mp_list<debug_output_severity>,
 #ifdef GL_DEBUG_SEVERITY_MEDIUM
@@ -11063,6 +11119,8 @@ public:
 #endif
       debug_severity_medium;
 
+    /// @var debug_severity_low
+    /// @glconstwrap{DEBUG_SEVERITY_LOW}
     opt_c_api_constant<
       mp_list<debug_output_severity>,
 #ifdef GL_DEBUG_SEVERITY_LOW
@@ -11074,6 +11132,8 @@ public:
 #endif
       debug_severity_low;
 
+    /// @var debug_severity_notification
+    /// @glconstwrap{DEBUG_SEVERITY_NOTIFICATION}
     opt_c_api_constant<
       mp_list<debug_output_severity>,
 #ifdef GL_DEBUG_SEVERITY_NOTIFICATION
@@ -11085,6 +11145,8 @@ public:
 #endif
       debug_severity_notification;
 
+    /// @var debug_source_api
+    /// @glconstwrap{DEBUG_SOURCE_API}
     opt_c_api_constant<
       mp_list<debug_output_source>,
 #ifdef GL_DEBUG_SOURCE_API
@@ -11096,6 +11158,8 @@ public:
 #endif
       debug_source_api;
 
+    /// @var debug_source_window_system
+    /// @glconstwrap{DEBUG_SOURCE_WINDOW_SYSTEM}
     opt_c_api_constant<
       mp_list<debug_output_source>,
 #ifdef GL_DEBUG_SOURCE_WINDOW_SYSTEM
@@ -11107,6 +11171,8 @@ public:
 #endif
       debug_source_window_system;
 
+    /// @var debug_source_shader_compiler
+    /// @glconstwrap{DEBUG_SOURCE_SHADER_COMPILER}
     opt_c_api_constant<
       mp_list<debug_output_source>,
 #ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
@@ -11118,6 +11184,8 @@ public:
 #endif
       debug_source_shader_compiler;
 
+    /// @var debug_source_third_party
+    /// @glconstwrap{DEBUG_SOURCE_THIRD_PARTY}
     opt_c_api_constant<
       mp_list<debug_output_source>,
 #ifdef GL_DEBUG_SOURCE_THIRD_PARTY
@@ -11129,6 +11197,8 @@ public:
 #endif
       debug_source_third_party;
 
+    /// @var debug_source_application
+    /// @glconstwrap{DEBUG_SOURCE_APPLICATION}
     opt_c_api_constant<
       mp_list<debug_output_source>,
 #ifdef GL_DEBUG_SOURCE_APPLICATION
@@ -11140,6 +11210,8 @@ public:
 #endif
       debug_source_application;
 
+    /// @var debug_source_other
+    /// @glconstwrap{DEBUG_SOURCE_OTHER}
     opt_c_api_constant<
       mp_list<debug_output_source>,
 #ifdef GL_DEBUG_SOURCE_OTHER
@@ -11151,6 +11223,8 @@ public:
 #endif
       debug_source_other;
 
+    /// @var debug_type_error
+    /// @glconstwrap{DEBUG_TYPE_ERROR}
     opt_c_api_constant<
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_ERROR
@@ -11162,6 +11236,8 @@ public:
 #endif
       debug_type_error;
 
+    /// @var debug_type_deprecated_behavior
+    /// @glconstwrap{DEBUG_TYPE_DEPRECATED_BEHAVIOR}
     opt_c_api_constant<
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
@@ -11173,6 +11249,8 @@ public:
 #endif
       debug_type_deprecated_behavior;
 
+    /// @var debug_type_undefined_behavior
+    /// @glconstwrap{DEBUG_TYPE_UNDEFINED_BEHAVIOR}
     opt_c_api_constant<
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR
@@ -11184,6 +11262,8 @@ public:
 #endif
       debug_type_undefined_behavior;
 
+    /// @var debug_type_portability
+    /// @glconstwrap{DEBUG_TYPE_PORTABILITY}
     opt_c_api_constant<
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_PORTABILITY
@@ -11195,6 +11275,8 @@ public:
 #endif
       debug_type_portability;
 
+    /// @var debug_type_performance
+    /// @glconstwrap{DEBUG_TYPE_PERFORMANCE}
     opt_c_api_constant<
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_PERFORMANCE
@@ -11206,6 +11288,8 @@ public:
 #endif
       debug_type_performance;
 
+    /// @var debug_type_marker
+    /// @glconstwrap{DEBUG_TYPE_MARKER}
     opt_c_api_constant<
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_MARKER
@@ -11217,6 +11301,8 @@ public:
 #endif
       debug_type_marker;
 
+    /// @var debug_type_push_group
+    /// @glconstwrap{DEBUG_TYPE_PUSH_GROUP}
     opt_c_api_constant<
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_PUSH_GROUP
@@ -11228,6 +11314,8 @@ public:
 #endif
       debug_type_push_group;
 
+    /// @var debug_type_pop_group
+    /// @glconstwrap{DEBUG_TYPE_POP_GROUP}
     opt_c_api_constant<
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_POP_GROUP
@@ -11239,6 +11327,8 @@ public:
 #endif
       debug_type_pop_group;
 
+    /// @var debug_type_other
+    /// @glconstwrap{DEBUG_TYPE_OTHER}
     opt_c_api_constant<
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_OTHER
@@ -11250,7 +11340,8 @@ public:
 #endif
       debug_type_other;
 
-    // hint target
+    /// @var line_smooth_hint
+    /// @glconstwrap{LINE_SMOOTH_HINT}
     opt_c_api_constant<
       mp_list<hint_target>,
 #ifdef GL_LINE_SMOOTH_HINT
@@ -11261,6 +11352,8 @@ public:
       hint_option>
       line_smooth_hint;
 
+    /// @var polygon_smooth_hint
+    /// @glconstwrap{POLYGON_SMOOTH_HINT}
     opt_c_api_constant<
       mp_list<hint_target>,
 #ifdef GL_POLYGON_SMOOTH_HINT
@@ -11271,6 +11364,8 @@ public:
       hint_option>
       polygon_smooth_hint;
 
+    /// @var texture_compression_hint
+    /// @glconstwrap{TEXTURE_COMPRESSION_HINT}
     opt_c_api_constant<
       mp_list<hint_target>,
 #ifdef GL_TEXTURE_COMPRESSION_HINT
@@ -11281,6 +11376,8 @@ public:
       hint_option>
       texture_compression_hint;
 
+    /// @var fragment_shader_derivative_hint
+    /// @glconstwrap{FRAGMENT_SHADER_DERIVATIVE_HINT}
     opt_c_api_constant<
       mp_list<hint_target>,
 #ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
@@ -11291,7 +11388,8 @@ public:
       hint_option>
       fragment_shader_derivative_hint;
 
-    // hint option
+    /// @var fastest
+    /// @glconstwrap{FASTEST}
     opt_c_api_constant<
       mp_list<hint_option>,
 #ifdef GL_FASTEST
@@ -11301,6 +11399,8 @@ public:
 #endif
       fastest;
 
+    /// @var nicest
+    /// @glconstwrap{NICEST}
     opt_c_api_constant<
       mp_list<hint_option>,
 #ifdef GL_NICEST
@@ -11310,6 +11410,8 @@ public:
 #endif
       nicest;
 
+    /// @var dont_care
+    /// @glconstwrap{DONT_CARE}
     opt_c_api_constant<
       mp_list<
         debug_output_severity,
