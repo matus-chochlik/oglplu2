@@ -4654,49 +4654,68 @@ public:
       OGLPLUS_GL_STATIC_FUNC(nullptr)>
       GetNamedString;
 
-    // debugging
+    /// @var DebugMessageCallback
+    /// @glfuncwrap{DebugMessageCallback}
     gl_api_function<
       void(debug_callback_type*, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(DebugMessageCallback)>
       DebugMessageCallback;
 
+    /// @var DebugMessageControl
+    /// @glfuncwrap{DebugMessageControl}
     gl_api_function<
       void(enum_type, enum_type, enum_type, sizei_type, const uint_type*, bool_type),
       OGLPLUS_GL_STATIC_FUNC(DebugMessageControl)>
       DebugMessageControl;
 
+    /// @var DebugMessageInsert
+    /// @glfuncwrap{DebugMessageInsert}
     gl_api_function<
       void(enum_type, enum_type, uint_type, enum_type, int_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(DebugMessageInsert)>
       DebugMessageInsert;
 
+    /// @var PushDebugGroup
+    /// @glfuncwrap{PushDebugGroup}
     gl_api_function<
       void(enum_type, uint_type, sizei_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(PushDebugGroup)>
       PushDebugGroup;
 
+    /// @var PopDebugGroup
+    /// @glfuncwrap{PopDebugGroup}
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(PopDebugGroup)> PopDebugGroup;
 
+    /// @var ObjectLabel
+    /// @glfuncwrap{ObjectLabel}
     gl_api_function<
       void(enum_type, uint_type, sizei_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(ObjectLabel)>
       ObjectLabel;
 
+    /// @var ObjectPtrLabel
+    /// @glfuncwrap{ObjectPtrLabel}
     gl_api_function<
       void(const_void_ptr_type, sizei_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(ObjectPtrLabel)>
       ObjectPtrLabel;
 
+    /// @var GetObjectLabel
+    /// @glfuncwrap{GetObjectLabel}
     gl_api_function<
       void(enum_type, uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetObjectLabel)>
       GetObjectLabel;
 
+    /// @var GetObjectPtrLabel
+    /// @glfuncwrap{GetObjectPtrLabel}
     gl_api_function<
       void(const_void_ptr_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetObjectPtrLabel)>
       GetObjectPtrLabel;
 
+    /// @var GetDebugMessageLog
+    /// @glfuncwrap{GetDebugMessageLog}
     gl_api_function<
       uint_type(
         uint_type,
@@ -4710,131 +4729,253 @@ public:
       OGLPLUS_GL_STATIC_FUNC(GetDebugMessageLog)>
       GetDebugMessageLog;
 
-    // arb compatibility
+    /// @var Begin
+    /// @glfuncwrap{Begin}
     gl_api_function<void(enum_type), nullptr> Begin;
+
+    /// @var End
+    /// @glfuncwrap{End}
     gl_api_function<void(), nullptr> End;
 
-    // vertex position
+    /// @var Vertex2i
+    /// @glfuncwrap{Vertex2i}
     gl_api_function<void(int_type, int_type), nullptr> Vertex2i;
+
+    /// @var Vertex3i
+    /// @glfuncwrap{Vertex3i}
     gl_api_function<void(int_type, int_type, int_type), nullptr> Vertex3i;
+
+    /// @var Vertex4i
+    /// @glfuncwrap{Vertex4i}
     gl_api_function<void(int_type, int_type, int_type, int_type), nullptr>
       Vertex4i;
 
+    /// @var Vertex2f
+    /// @glfuncwrap{Vertex2f}
     gl_api_function<void(float_type, float_type), nullptr> Vertex2f;
+
+    /// @var Vertex3f
+    /// @glfuncwrap{Vertex3f}
     gl_api_function<void(float_type, float_type, float_type), nullptr> Vertex3f;
+
+    /// @var Vertex4f
+    /// @glfuncwrap{Vertex4f}
     gl_api_function<void(float_type, float_type, float_type, float_type), nullptr>
       Vertex4f;
 
-    // vertex color
+    /// @var Color3i
+    /// @glfuncwrap{Color3i}
     gl_api_function<void(int_type, int_type, int_type), nullptr> Color3i;
+
+    /// @var Color4i
+    /// @glfuncwrap{Color4i}
     gl_api_function<void(int_type, int_type, int_type, int_type), nullptr>
       Color4i;
 
+    /// @var Color3f
+    /// @glfuncwrap{Color3f}
     gl_api_function<void(float_type, float_type, float_type), nullptr> Color3f;
+
+    /// @var Color4f
+    /// @glfuncwrap{Color4f}
     gl_api_function<void(float_type, float_type, float_type, float_type), nullptr>
       Color4f;
 
+    /// @var SecondaryColor3i
+    /// @glfuncwrap{SecondaryColor3i}
     gl_api_function<void(int_type, int_type, int_type), nullptr>
       SecondaryColor3i;
+
+    /// @var SecondaryColor4i
+    /// @glfuncwrap{SecondaryColor4i}
     gl_api_function<void(int_type, int_type, int_type, int_type), nullptr>
       SecondaryColor4i;
 
+    /// @var SecondaryColor3f
+    /// @glfuncwrap{SecondaryColor3f}
     gl_api_function<void(float_type, float_type, float_type), nullptr>
       SecondaryColor3f;
+
+    /// @var SecondaryColor4f
+    /// @glfuncwrap{SecondaryColor4f}
     gl_api_function<void(float_type, float_type, float_type, float_type), nullptr>
       SecondaryColor4f;
 
-    // vertex texture coord
+    /// @var TexCoord1i
+    /// @glfuncwrap{TexCoord1i}
     gl_api_function<void(int_type), nullptr> TexCoord1i;
+
+    /// @var TexCoord2i
+    /// @glfuncwrap{TexCoord2i}
     gl_api_function<void(int_type, int_type), nullptr> TexCoord2i;
+
+    /// @var TexCoord3i
+    /// @glfuncwrap{TexCoord3i}
     gl_api_function<void(int_type, int_type, int_type), nullptr> TexCoord3i;
+
+    /// @var TexCoord4i
+    /// @glfuncwrap{TexCoord4i}
     gl_api_function<void(int_type, int_type, int_type, int_type), nullptr>
       TexCoord4i;
 
+    /// @var TexCoord1f
+    /// @glfuncwrap{TexCoord1f}
     gl_api_function<void(float_type), nullptr> TexCoord1f;
+
+    /// @var TexCoord2f
+    /// @glfuncwrap{TexCoord2f}
     gl_api_function<void(float_type, float_type), nullptr> TexCoord2f;
+
+    /// @var TexCoord3f
+    /// @glfuncwrap{TexCoord3f}
     gl_api_function<void(float_type, float_type, float_type), nullptr>
       TexCoord3f;
+
+    /// @var TexCoord4f
+    /// @glfuncwrap{TexCoord4f}
     gl_api_function<void(float_type, float_type, float_type, float_type), nullptr>
       TexCoord4f;
 
-    // vertex multi texture coord
+    /// @var MultiTexCoord1i
+    /// @glfuncwrap{MultiTexCoord1i}
     gl_api_function<void(enum_type, int_type), nullptr> MultiTexCoord1i;
+
+    /// @var MultiTexCoord2i
+    /// @glfuncwrap{MultiTexCoord2i}
     gl_api_function<void(enum_type, int_type, int_type), nullptr>
       MultiTexCoord2i;
+
+    /// @var MultiTexCoord3i
+    /// @glfuncwrap{MultiTexCoord3i}
     gl_api_function<void(enum_type, int_type, int_type, int_type), nullptr>
       MultiTexCoord3i;
+
+    /// @var MultiTexCoord4i
+    /// @glfuncwrap{MultiTexCoord4i}
     gl_api_function<
       void(enum_type, int_type, int_type, int_type, int_type),
       nullptr>
       MultiTexCoord4i;
 
+    /// @var MultiTexCoord1f
+    /// @glfuncwrap{MultiTexCoord1f}
     gl_api_function<void(enum_type, float_type), nullptr> MultiTexCoord1f;
+
+    /// @var MultiTexCoord2f
+    /// @glfuncwrap{MultiTexCoord2f}
     gl_api_function<void(enum_type, float_type, float_type), nullptr>
       MultiTexCoord2f;
+
+    /// @var MultiTexCoord3f
+    /// @glfuncwrap{MultiTexCoord3f}
     gl_api_function<void(enum_type, float_type, float_type, float_type), nullptr>
       MultiTexCoord3f;
+
+    /// @var MultiTexCoord4f
+    /// @glfuncwrap{MultiTexCoord4f}
     gl_api_function<
       void(enum_type, float_type, float_type, float_type, float_type),
       nullptr>
       MultiTexCoord4f;
 
-    // matrix compatibility
+    /// @var MatrixMode
+    /// @glfuncwrap{MatrixMode}
     gl_api_function<void(enum_type), nullptr> MatrixMode;
 
+    /// @var PushMatrix
+    /// @glfuncwrap{PushMatrix}
     gl_api_function<void(void), nullptr> PushMatrix;
+
+    /// @var PopMatrix
+    /// @glfuncwrap{PopMatrix}
     gl_api_function<void(void), nullptr> PopMatrix;
 
+    /// @var MatrixPushEXT
+    /// @glfuncwrap{MatrixPushEXT}
     gl_api_function<void(enum_type), nullptr> MatrixPushEXT;
+
+    /// @var MatrixPopEXT
+    /// @glfuncwrap{MatrixPopEXT}
     gl_api_function<void(enum_type), nullptr> MatrixPopEXT;
 
+    /// @var LoadIdentity
+    /// @glfuncwrap{LoadIdentity}
     gl_api_function<void(), nullptr> LoadIdentity;
+
+    /// @var MatrixLoadIdentityEXT
+    /// @glfuncwrap{MatrixLoadIdentityEXT}
     gl_api_function<void(enum_type), nullptr> MatrixLoadIdentityEXT;
 
+    /// @var Translatef
+    /// @glfuncwrap{Translatef}
     gl_api_function<void(float_type, float_type, float_type), nullptr>
       Translatef;
 
+    /// @var Translated
+    /// @glfuncwrap{Translated}
     gl_api_function<void(double_type, double_type, double_type), nullptr>
       Translated;
 
+    /// @var MatrixTranslatefEXT
+    /// @glfuncwrap{MatrixTranslatefEXT}
     gl_api_function<void(enum_type, float_type, float_type, float_type), nullptr>
       MatrixTranslatefEXT;
 
+    /// @var MatrixTranslatedEXT
+    /// @glfuncwrap{MatrixTranslatedEXT}
     gl_api_function<
       void(enum_type, double_type, double_type, double_type),
       nullptr>
       MatrixTranslatedEXT;
 
+    /// @var Rotatef
+    /// @glfuncwrap{Rotatef}
     gl_api_function<void(float_type, float_type, float_type, float_type), nullptr>
       Rotatef;
 
+    /// @var Rotated
+    /// @glfuncwrap{Rotated}
     gl_api_function<
       void(double_type, double_type, double_type, double_type),
       nullptr>
       Rotated;
 
+    /// @var MatrixRotatefEXT
+    /// @glfuncwrap{MatrixRotatefEXT}
     gl_api_function<
       void(enum_type, float_type, float_type, float_type, float_type),
       nullptr>
       MatrixRotatefEXT;
 
+    /// @var MatrixRotatedEXT
+    /// @glfuncwrap{MatrixRotatedEXT}
     gl_api_function<
       void(enum_type, double_type, double_type, double_type, double_type),
       nullptr>
       MatrixRotatedEXT;
 
+    /// @var Scalef
+    /// @glfuncwrap{Scalef}
     gl_api_function<void(float_type, float_type, float_type), nullptr> Scalef;
 
+    /// @var Scaled
+    /// @glfuncwrap{Scaled}
     gl_api_function<void(double_type, double_type, double_type), nullptr> Scaled;
 
+    /// @var MatrixScalefEXT
+    /// @glfuncwrap{MatrixScalefEXT}
     gl_api_function<void(enum_type, float_type, float_type, float_type), nullptr>
       MatrixScalefEXT;
 
+    /// @var MatrixScaledEXT
+    /// @glfuncwrap{MatrixScaledEXT}
     gl_api_function<
       void(enum_type, double_type, double_type, double_type),
       nullptr>
       MatrixScaledEXT;
 
+    /// @var Frustum
+    /// @glfuncwrap{Frustum}
     gl_api_function<
       void(
         double_type,
@@ -4846,6 +4987,8 @@ public:
       nullptr>
       Frustum;
 
+    /// @var Ortho
+    /// @glfuncwrap{Ortho}
     gl_api_function<
       void(
         double_type,
@@ -4857,6 +5000,8 @@ public:
       nullptr>
       Ortho;
 
+    /// @var MatrixFrustumEXT
+    /// @glfuncwrap{MatrixFrustumEXT}
     gl_api_function<
       void(
         enum_type,
@@ -4868,6 +5013,8 @@ public:
       nullptr>
       MatrixFrustumEXT;
 
+    /// @var MatrixOrthoEXT
+    /// @glfuncwrap{MatrixOrthoEXT}
     gl_api_function<
       void(
         enum_type,
@@ -4879,64 +5026,115 @@ public:
       nullptr>
       MatrixOrthoEXT;
 
+    /// @var LoadMatrixf
+    /// @glfuncwrap{LoadMatrixf}
     gl_api_function<void(const float_type[16]), nullptr> LoadMatrixf;
+
+    /// @var LoadMatrixd
+    /// @glfuncwrap{LoadMatrixd}
     gl_api_function<void(const double_type[16]), nullptr> LoadMatrixd;
 
+    /// @var MatrixLoadfEXT
+    /// @glfuncwrap{MatrixLoadfEXT}
     gl_api_function<void(enum_type, const float_type[16]), nullptr>
       MatrixLoadfEXT;
+
+    /// @var MatrixLoaddEXT
+    /// @glfuncwrap{MatrixLoaddEXT}
     gl_api_function<void(enum_type, const double_type[16]), nullptr>
       MatrixLoaddEXT;
 
+    /// @var MultMatrixf
+    /// @glfuncwrap{MultMatrixf}
     gl_api_function<void(const float_type[16]), nullptr> MultMatrixf;
+
+    /// @var MultMatrixd
+    /// @glfuncwrap{MultMatrixd}
     gl_api_function<void(const double_type[16]), nullptr> MultMatrixd;
 
+    /// @var MatrixMultfEXT
+    /// @glfuncwrap{MatrixMultfEXT}
     gl_api_function<void(enum_type, const float_type[16]), nullptr>
       MatrixMultfEXT;
+
+    /// @var MatrixMultdEXT
+    /// @glfuncwrap{MatrixMultdEXT}
     gl_api_function<void(enum_type, const double_type[16]), nullptr>
       MatrixMultdEXT;
 
+    /// @var LoadTransposeMatrixf
+    /// @glfuncwrap{LoadTransposeMatrixf}
     gl_api_function<void(const float_type[16]), nullptr> LoadTransposeMatrixf;
+
+    /// @var LoadTransposeMatrixd
+    /// @glfuncwrap{LoadTransposeMatrixd}
     gl_api_function<void(const double_type[16]), nullptr> LoadTransposeMatrixd;
 
+    /// @var MatrixLoadTransposefEXT
+    /// @glfuncwrap{MatrixLoadTransposefEXT}
     gl_api_function<void(enum_type, const float_type[16]), nullptr>
       MatrixLoadTransposefEXT;
+
+    /// @var MatrixLoadTransposedEXT
+    /// @glfuncwrap{MatrixLoadTransposedEXT}
     gl_api_function<void(enum_type, const double_type[16]), nullptr>
       MatrixLoadTransposedEXT;
 
+    /// @var MultTransposeMatrixf
+    /// @glfuncwrap{MultTransposeMatrixf}
     gl_api_function<void(const float_type[16]), nullptr> MultTransposeMatrixf;
+
+    /// @var MultTransposeMatrixd
+    /// @glfuncwrap{MultTransposeMatrixd}
     gl_api_function<void(const double_type[16]), nullptr> MultTransposeMatrixd;
 
+    /// @var MatrixMultTransposefEXT
+    /// @glfuncwrap{MatrixMultTransposefEXT}
     gl_api_function<void(enum_type, const float_type[16]), nullptr>
       MatrixMultTransposefEXT;
+
+    /// @var MatrixMultTransposedEXT
+    /// @glfuncwrap{MatrixMultTransposedEXT}
     gl_api_function<void(enum_type, const double_type[16]), nullptr>
       MatrixMultTransposedEXT;
 
-    // nv path rendering
+    /// @var MatrixLoad3x3fNV
+    /// @glfuncwrap{MatrixLoad3x3fNV}
     gl_api_function<
       void(enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(MatrixLoad3x2fNV)>
       MatrixLoad3x2fNV;
 
+    /// @var MatrixLoad3x3fNV
+    /// @glfuncwrap{MatrixLoad3x3fNV}
     gl_api_function<
       void(enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(MatrixLoad3x3fNV)>
       MatrixLoad3x3fNV;
 
+    /// @var MatrixLoadTranspose3x3fNV
+    /// @glfuncwrap{MatrixLoadTranspose3x3fNV}
     gl_api_function<
       void(enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(MatrixLoadTranspose3x3fNV)>
       MatrixLoadTranspose3x3fNV;
 
+    /// @var MatrixMult3x2fNV
+    /// @glfuncwrap{MatrixMult3x2fNV}
     gl_api_function<
       void(enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(MatrixMult3x2fNV)>
       MatrixMult3x2fNV;
 
+    /// @var MatrixMult3x3fNV
+    /// @glfuncwrap{MatrixMult3x3fNV}
     gl_api_function<
       void(enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(MatrixMult3x3fNV)>
       MatrixMult3x3fNV;
 
+    /// @var MatrixMultTranspose3x3fNV
+    /// @glfuncwrap{MatrixMultTranspose3x3fNV}
     gl_api_function<
       void(enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(MatrixMultTranspose3x3fNV)>
