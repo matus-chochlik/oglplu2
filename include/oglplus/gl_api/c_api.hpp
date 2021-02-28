@@ -5140,37 +5140,53 @@ public:
       OGLPLUS_GL_STATIC_FUNC(MatrixMultTranspose3x3fNV)>
       MatrixMultTranspose3x3fNV;
 
+    /// @var GenPathsNV
+    /// @glfuncwrap{GenPathsNV}
     gl_api_function<uint_type(sizei_type), OGLPLUS_GL_STATIC_FUNC(GenPathsNV)>
       GenPathsNV;
 
+    /// @var DeletePathsNV
+    /// @glfuncwrap{DeletePathsNV}
     gl_api_function<
       void(uint_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(DeletePathsNV)>
       DeletePathsNV;
 
+    /// @var IsPathNV
+    /// @glfuncwrap{IsPathNV}
     gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsPathNV)>
       IsPathNV;
 
+    /// @var PathParameterivNV
+    /// @glfuncwrap{PathParameterivNV}
     gl_api_function<
       void(uint_type, enum_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(PathParameterivNV)>
       PathParameterivNV;
 
+    /// @var PathParameteriNV
+    /// @glfuncwrap{PathParameteriNV}
     gl_api_function<
       void(uint_type, enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(PathParameteriNV)>
       PathParameteriNV;
 
+    /// @var PathParameterfvNV
+    /// @glfuncwrap{PathParameterfvNV}
     gl_api_function<
       void(uint_type, enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(PathParameterfvNV)>
       PathParameterfvNV;
 
+    /// @var PathParameterfNV
+    /// @glfuncwrap{PathParameterfNV}
     gl_api_function<
       void(uint_type, enum_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(PathParameterfNV)>
       PathParameterfNV;
 
+    /// @var PathCommandsNV
+    /// @glfuncwrap{PathCommandsNV}
     gl_api_function<
       void(
         uint_type,
@@ -5182,6 +5198,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(PathCommandsNV)>
       PathCommandsNV;
 
+    /// @var PathSubCommandsNV
+    /// @glfuncwrap{PathSubCommandsNV}
     gl_api_function<
       void(
         uint_type,
@@ -5195,21 +5213,29 @@ public:
       OGLPLUS_GL_STATIC_FUNC(PathSubCommandsNV)>
       PathSubCommandsNV;
 
+    /// @var PathCoordsNV
+    /// @glfuncwrap{PathCoordsNV}
     gl_api_function<
       void(uint_type, sizei_type, enum_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(PathCoordsNV)>
       PathCoordsNV;
 
+    /// @var PathSubCoordsNV
+    /// @glfuncwrap{PathSubCoordsNV}
     gl_api_function<
       void(uint_type, sizei_type, sizei_type, enum_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(PathSubCoordsNV)>
       PathSubCoordsNV;
 
+    /// @var PathStringNV
+    /// @glfuncwrap{PathStringNV}
     gl_api_function<
       void(uint_type, enum_type, sizei_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(PathStringNV)>
       PathStringNV;
 
+    /// @var PathGlyphsNV
+    /// @glfuncwrap{PathGlyphsNV}
     gl_api_function<
       void(
         uint_type,
@@ -5225,6 +5251,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(PathGlyphsNV)>
       PathGlyphsNV;
 
+    /// @var PathGlyphRangeNV
+    /// @glfuncwrap{PathGlyphRangeNV}
     gl_api_function<
       void(
         uint_type,
@@ -5239,6 +5267,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(PathGlyphRangeNV)>
       PathGlyphRangeNV;
 
+    /// @var PathGlyphIndexArrayNV
+    /// @glfuncwrap{PathGlyphIndexArrayNV}
     gl_api_function<
       enum_type(
         uint_type,
@@ -5252,6 +5282,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(PathGlyphIndexArrayNV)>
       PathGlyphIndexArrayNV;
 
+    /// @var PathMemoryGlyphIndexArrayNV
+    /// @glfuncwrap{PathMemoryGlyphIndexArrayNV}
     gl_api_function<
       enum_type(
         uint_type,
@@ -5266,6 +5298,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(PathMemoryGlyphIndexArrayNV)>
       PathMemoryGlyphIndexArrayNV;
 
+    /// @var PathGlyphIndexRangeNV
+    /// @glfuncwrap{PathGlyphIndexRangeNV}
     gl_api_function<
       enum_type(
         enum_type,
@@ -5277,46 +5311,64 @@ public:
       OGLPLUS_GL_STATIC_FUNC(PathGlyphIndexRangeNV)>
       PathGlyphIndexRangeNV;
 
+    /// @var CopyPathNV
+    /// @glfuncwrap{CopyPathNV}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(CopyPathNV)>
       CopyPathNV;
 
+    /// @var InterpolatePathsNV
+    /// @glfuncwrap{InterpolatePathsNV}
     gl_api_function<
       void(uint_type, uint_type, uint_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(InterpolatePathsNV)>
       InterpolatePathsNV;
 
+    /// @var WeightPathsNV
+    /// @glfuncwrap{WeightPathsNV}
     gl_api_function<
       void(uint_type, sizei_type, const uint_type[], const float_type[]),
       OGLPLUS_GL_STATIC_FUNC(WeightPathsNV)>
       WeightPathsNV;
 
+    /// @var TransformPathNV
+    /// @glfuncwrap{TransformPathNV}
     gl_api_function<
       void(uint_type, uint_type, enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(TransformPathNV)>
       TransformPathNV;
 
+    /// @var PathStencilFuncNV
+    /// @glfuncwrap{PathStencilFuncNV}
     gl_api_function<
       void(enum_type, int_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(PathStencilFuncNV)>
       PathStencilFuncNV;
 
+    /// @var PathStencilDepthOffsetNV
+    /// @glfuncwrap{PathStencilDepthOffsetNV}
     gl_api_function<
       void(float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(PathStencilDepthOffsetNV)>
       PathStencilDepthOffsetNV;
 
+    /// @var StencilFillPathNV
+    /// @glfuncwrap{StencilFillPathNV}
     gl_api_function<
       void(uint_type, enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(StencilFillPathNV)>
       StencilFillPathNV;
 
+    /// @var StencilStrokePathNV
+    /// @glfuncwrap{StencilStrokePathNV}
     gl_api_function<
       void(uint_type, int_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(StencilStrokePathNV)>
       StencilStrokePathNV;
 
+    /// @var StencilFillPathInstancedNV
+    /// @glfuncwrap{StencilFillPathInstancedNV}
     gl_api_function<
       void(
         sizei_type,
@@ -5330,6 +5382,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(StencilFillPathInstancedNV)>
       StencilFillPathInstancedNV;
 
+    /// @var StencilStrokePathInstancedNV
+    /// @glfuncwrap{StencilStrokePathInstancedNV}
     gl_api_function<
       void(
         sizei_type,
@@ -5343,37 +5397,53 @@ public:
       OGLPLUS_GL_STATIC_FUNC(StencilStrokePathInstancedNV)>
       StencilStrokePathInstancedNV;
 
+    /// @var PathCoverDepthFuncNV
+    /// @glfuncwrap{PathCoverDepthFuncNV}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(PathCoverDepthFuncNV)>
       PathCoverDepthFuncNV;
 
+    /// @var PathColorGenNV
+    /// @glfuncwrap{PathColorGenNV}
     gl_api_function<
       void(enum_type, enum_type, enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(PathColorGenNV)>
       PathColorGenNV;
 
+    /// @var PathTexGenNV
+    /// @glfuncwrap{PathTexGenNV}
     gl_api_function<
       void(enum_type, enum_type, int_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(PathTexGenNV)>
       PathTexGenNV;
 
+    /// @var PathFogGenNV
+    /// @glfuncwrap{PathFogGenNV}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(PathFogGenNV)>
       PathFogGenNV;
 
+    /// @var ProgramPathFragmentInputGenNV
+    /// @glfuncwrap{ProgramPathFragmentInputGenNV}
     gl_api_function<
       void(uint_type, int_type, enum_type, int_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramPathFragmentInputGenNV)>
       ProgramPathFragmentInputGenNV;
 
+    /// @var CoverFillPathNV
+    /// @glfuncwrap{CoverFillPathNV}
     gl_api_function<
       void(uint_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(CoverFillPathNV)>
       CoverFillPathNV;
 
+    /// @var CoverStrokePathNV
+    /// @glfuncwrap{CoverStrokePathNV}
     gl_api_function<
       void(uint_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(CoverStrokePathNV)>
       CoverStrokePathNV;
 
+    /// @var CoverFillPathInstancedNV
+    /// @glfuncwrap{CoverFillPathInstancedNV}
     gl_api_function<
       void(
         sizei_type,
@@ -5386,6 +5456,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CoverFillPathInstancedNV)>
       CoverFillPathInstancedNV;
 
+    /// @var CoverStrokePathInstancedNV
+    /// @glfuncwrap{CoverStrokePathInstancedNV}
     gl_api_function<
       void(
         sizei_type,
@@ -5398,16 +5470,22 @@ public:
       OGLPLUS_GL_STATIC_FUNC(CoverStrokePathInstancedNV)>
       CoverStrokePathInstancedNV;
 
+    /// @var StencilThenCoverFillPathNV
+    /// @glfuncwrap{StencilThenCoverFillPathNV}
     gl_api_function<
       void(uint_type, enum_type, uint_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(StencilThenCoverFillPathNV)>
       StencilThenCoverFillPathNV;
 
+    /// @var StencilThenCoverStrokePathNV
+    /// @glfuncwrap{StencilThenCoverStrokePathNV}
     gl_api_function<
       void(uint_type, int_type, uint_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(StencilThenCoverStrokePathNV)>
       StencilThenCoverStrokePathNV;
 
+    /// @var StencilThenCoverFillPathInstancedNV
+    /// @glfuncwrap{StencilThenCoverFillPathInstancedNV}
     gl_api_function<
       void(
         sizei_type,
@@ -5422,6 +5500,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(StencilThenCoverFillPathInstancedNV)>
       StencilThenCoverFillPathInstancedNV;
 
+    /// @var StencilThenCoverStrokePathInstancedNV
+    /// @glfuncwrap{StencilThenCoverStrokePathInstancedNV}
     gl_api_function<
       void(
         sizei_type,
@@ -5436,31 +5516,43 @@ public:
       OGLPLUS_GL_STATIC_FUNC(StencilThenCoverStrokePathInstancedNV)>
       StencilThenCoverStrokePathInstancedNV;
 
+    /// @var GetPathParameterivNV
+    /// @glfuncwrap{GetPathParameterivNV}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetPathParameterivNV)>
       GetPathParameterivNV;
 
+    /// @var GetPathParameterfvNV
+    /// @glfuncwrap{GetPathParameterfvNV}
     gl_api_function<
       void(uint_type, enum_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetPathParameterfvNV)>
       GetPathParameterfvNV;
 
+    /// @var GetPathCommandsNV
+    /// @glfuncwrap{GetPathCommandsNV}
     gl_api_function<
       void(uint_type, ubyte_type*),
       OGLPLUS_GL_STATIC_FUNC(GetPathCommandsNV)>
       GetPathCommandsNV;
 
+    /// @var GetPathCoordsNV
+    /// @glfuncwrap{GetPathCoordsNV}
     gl_api_function<
       void(uint_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetPathCoordsNV)>
       GetPathCoordsNV;
 
+    /// @var GetPathDashArrayNV
+    /// @glfuncwrap{GetPathDashArrayNV}
     gl_api_function<
       void(uint_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetPathDashArrayNV)>
       GetPathDashArrayNV;
 
+    /// @var GetPathMetricsNV
+    /// @glfuncwrap{GetPathMetricsNV}
     gl_api_function<
       void(
         bitfield_type,
@@ -5473,11 +5565,15 @@ public:
       OGLPLUS_GL_STATIC_FUNC(GetPathMetricsNV)>
       GetPathMetricsNV;
 
+    /// @var GetPathMetricRangeNV
+    /// @glfuncwrap{GetPathMetricRangeNV}
     gl_api_function<
       void(bitfield_type, uint_type, sizei_type, sizei_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetPathMetricRangeNV)>
       GetPathMetricRangeNV;
 
+    /// @var GetPathSpacingNV
+    /// @glfuncwrap{GetPathSpacingNV}
     gl_api_function<
       void(
         enum_type,
@@ -5492,41 +5588,57 @@ public:
       OGLPLUS_GL_STATIC_FUNC(GetPathSpacingNV)>
       GetPathSpacingNV;
 
+    /// @var GetPathColorGenivNV
+    /// @glfuncwrap{GetPathColorGenivNV}
     gl_api_function<
       void(enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetPathColorGenivNV)>
       GetPathColorGenivNV;
 
+    /// @var GetPathColorGenfvNV
+    /// @glfuncwrap{GetPathColorGenfvNV}
     gl_api_function<
       void(enum_type, enum_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetPathColorGenfvNV)>
       GetPathColorGenfvNV;
 
+    /// @var GetPathTexGenivNV
+    /// @glfuncwrap{GetPathTexGenivNV}
     gl_api_function<
       void(enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetPathTexGenivNV)>
       GetPathTexGenivNV;
 
+    /// @var GetPathTexGenfvNV
+    /// @glfuncwrap{GetPathTexGenfvNV}
     gl_api_function<
       void(enum_type, enum_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetPathTexGenfvNV)>
       GetPathTexGenfvNV;
 
+    /// @var GetPathLengthNV
+    /// @glfuncwrap{GetPathLengthNV}
     gl_api_function<
       float_type(uint_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(GetPathLengthNV)>
       GetPathLengthNV;
 
+    /// @var IsPointInFillPathNV
+    /// @glfuncwrap{IsPointInFillPathNV}
     gl_api_function<
       bool_type(uint_type, uint_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(IsPointInFillPathNV)>
       IsPointInFillPathNV;
 
+    /// @var IsPointInStrokePathNV
+    /// @glfuncwrap{IsPointInStrokePathNV}
     gl_api_function<
       bool_type(uint_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(IsPointInStrokePathNV)>
       IsPointInStrokePathNV;
 
+    /// @var PointAlongPathNV
+    /// @glfuncwrap{PointAlongPathNV}
     gl_api_function<
       bool_type(
         uint_type,
@@ -5540,17 +5652,24 @@ public:
       OGLPLUS_GL_STATIC_FUNC(PointAlongPathNV)>
       PointAlongPathNV;
 
-    // hints
+    /// @var MaxShaderCompilerThreadsARB
+    /// @glfuncwrap{MaxShaderCompilerThreadsARB}
     gl_api_function<
       void(uint_type),
       OGLPLUS_GL_STATIC_FUNC(MaxShaderCompilerThreadsARB)>
       MaxShaderCompilerThreadsARB;
 
+    /// @var Hint
+    /// @glfuncwrap{Hint}
     gl_api_function<void(enum_type, enum_type), OGLPLUS_GL_STATIC_FUNC(Hint)>
       Hint;
 
-    // flush/finish
+    /// @var Flush
+    /// @glfuncwrap{Flush}
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(Flush)> Flush;
+
+    /// @var Finish
+    /// @glfuncwrap{Finish}
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(Finish)> Finish;
 
     basic_gl_c_api(api_traits& traits);
