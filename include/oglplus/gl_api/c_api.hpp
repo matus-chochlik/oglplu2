@@ -4184,93 +4184,127 @@ public:
       OGLPLUS_GL_STATIC_FUNC(GetMultisamplefv)>
       GetMultisamplefv;
 
-    // blending
+    /// @var BlendEquation
+    /// @glfuncwrap{BlendEquation}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(BlendEquation)>
       BlendEquation;
 
+    /// @var BlendEquationSeparate
+    /// @glfuncwrap{BlendEquationSeparate}
     gl_api_function<
       void(enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(BlendEquationSeparate)>
       BlendEquationSeparate;
 
+    /// @var BlendEquationi
+    /// @glfuncwrap{BlendEquationi}
     gl_api_function<
       void(uint_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(BlendEquationi)>
       BlendEquationi;
 
+    /// @var BlendEquationSeparatei
+    /// @glfuncwrap{BlendEquationSeparatei}
     gl_api_function<
       void(uint_type, enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(BlendEquationSeparatei)>
       BlendEquationSeparatei;
 
+    /// @var BlendFunc
+    /// @glfuncwrap{BlendFunc}
     gl_api_function<void(enum_type, enum_type), OGLPLUS_GL_STATIC_FUNC(BlendFunc)>
       BlendFunc;
 
+    /// @var BlendFuncSeparate
+    /// @glfuncwrap{BlendFuncSeparate}
     gl_api_function<
       void(enum_type, enum_type, enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(BlendFuncSeparate)>
       BlendFuncSeparate;
 
+    /// @var BlendFunci
+    /// @glfuncwrap{BlendFunci}
     gl_api_function<
       void(uint_type, enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(BlendFunci)>
       BlendFunci;
 
+    /// @var BlendFuncSeparatei
+    /// @glfuncwrap{BlendFuncSeparatei}
     gl_api_function<
       void(uint_type, enum_type, enum_type, enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(BlendFuncSeparatei)>
       BlendFuncSeparatei;
 
+    /// @var BlendColor
+    /// @glfuncwrap{BlendColor}
     gl_api_function<
       void(float_type, float_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(BlendColor)>
       BlendColor;
 
-    // logic operation
+    /// @var LogicOp
+    /// @glfuncwrap{LogicOp}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(LogicOp)> LogicOp;
 
-    // draw arrays
+    /// @var DrawArrays
+    /// @glfuncwrap{DrawArrays}
     gl_api_function<
       void(enum_type, int_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(DrawArrays)>
       DrawArrays;
 
+    /// @var DrawArraysInstancedBaseInstance
+    /// @glfuncwrap{DrawArraysInstancedBaseInstance}
     gl_api_function<
       void(enum_type, int_type, sizei_type, sizei_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(DrawArraysInstancedBaseInstance)>
       DrawArraysInstancedBaseInstance;
 
+    /// @var DrawArraysInstanced
+    /// @glfuncwrap{DrawArraysInstanced}
     gl_api_function<
       void(enum_type, int_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(DrawArraysInstanced)>
       DrawArraysInstanced;
 
+    /// @var DrawArraysIndirect
+    /// @glfuncwrap{DrawArraysIndirect}
     gl_api_function<
       void(enum_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(DrawArraysIndirect)>
       DrawArraysIndirect;
 
+    /// @var MultiDrawArrays
+    /// @glfuncwrap{MultiDrawArrays}
     gl_api_function<
       void(enum_type, const int_type*, const sizei_type*, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(MultiDrawArrays)>
       MultiDrawArrays;
 
+    /// @var MultiDrawArraysIndirect
+    /// @glfuncwrap{MultiDrawArraysIndirect}
     gl_api_function<
       void(enum_type, const_void_ptr_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(MultiDrawArraysIndirect)>
       MultiDrawArraysIndirect;
 
+    /// @var MultiDrawArraysIndirectCount
+    /// @glfuncwrap{MultiDrawArraysIndirectCount}
     gl_api_function<
       void(enum_type, const_void_ptr_type, intptr_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(MultiDrawArraysIndirectCount)>
       MultiDrawArraysIndirectCount;
 
-    // draw elements
+    /// @var DrawElements
+    /// @glfuncwrap{DrawElements}
     gl_api_function<
       void(enum_type, sizei_type, enum_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(DrawElements)>
       DrawElements;
 
+    /// @var DrawRangeElements
+    /// @glfuncwrap{DrawRangeElements}
     gl_api_function<
       void(
         enum_type,
@@ -4282,6 +4316,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(DrawRangeElements)>
       DrawRangeElements;
 
+    /// @var DrawElementsInstancedBaseInstance
+    /// @glfuncwrap{DrawElementsInstancedBaseInstance}
     gl_api_function<
       void(
         enum_type,
@@ -4293,16 +4329,22 @@ public:
       OGLPLUS_GL_STATIC_FUNC(DrawElementsInstancedBaseInstance)>
       DrawElementsInstancedBaseInstance;
 
+    /// @var DrawElementsInstanced
+    /// @glfuncwrap{DrawElementsInstanced}
     gl_api_function<
       void(enum_type, sizei_type, enum_type, const_void_ptr_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(DrawElementsInstanced)>
       DrawElementsInstanced;
 
+    /// @var DrawElementsBaseVertex
+    /// @glfuncwrap{DrawElementsBaseVertex}
     gl_api_function<
       void(enum_type, sizei_type, enum_type, const_void_ptr_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(DrawElementsBaseVertex)>
       DrawElementsBaseVertex;
 
+    /// @var DrawRangeElementsBaseVertex
+    /// @glfuncwrap{DrawRangeElementsBaseVertex}
     gl_api_function<
       void(
         enum_type,
@@ -4315,6 +4357,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(DrawRangeElementsBaseVertex)>
       DrawRangeElementsBaseVertex;
 
+    /// @var DrawElementsInstancedBaseVertex
+    /// @glfuncwrap{DrawElementsInstancedBaseVertex}
     gl_api_function<
       void(
         enum_type,
@@ -4326,6 +4370,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(DrawElementsInstancedBaseVertex)>
       DrawElementsInstancedBaseVertex;
 
+    /// @var DrawElementsInstancedBaseVertexBaseInstance
+    /// @glfuncwrap{DrawElementsInstancedBaseVertexBaseInstance}
     gl_api_function<
       void(
         enum_type,
@@ -4338,11 +4384,15 @@ public:
       OGLPLUS_GL_STATIC_FUNC(DrawElementsInstancedBaseVertexBaseInstance)>
       DrawElementsInstancedBaseVertexBaseInstance;
 
+    /// @var DrawElementsIndirect
+    /// @glfuncwrap{DrawElementsIndirect}
     gl_api_function<
       void(enum_type, enum_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(DrawElementsIndirect)>
       DrawElementsIndirect;
 
+    /// @var MultiDrawElements
+    /// @glfuncwrap{MultiDrawElements}
     gl_api_function<
       void(
         enum_type,
@@ -4353,11 +4403,15 @@ public:
       OGLPLUS_GL_STATIC_FUNC(MultiDrawElements)>
       MultiDrawElements;
 
+    /// @var MultiDrawElementsIndirect
+    /// @glfuncwrap{MultiDrawElementsIndirect}
     gl_api_function<
       void(enum_type, enum_type, const_void_ptr_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(MultiDrawElementsIndirect)>
       MultiDrawElementsIndirect;
 
+    /// @var MultiDrawElementsIndirectCount
+    /// @glfuncwrap{MultiDrawElementsIndirectCount}
     gl_api_function<
       void(
         enum_type,
@@ -4369,6 +4423,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(MultiDrawElementsIndirectCount)>
       MultiDrawElementsIndirectCount;
 
+    /// @var MultiDrawElementsBaseVertex
+    /// @glfuncwrap{MultiDrawElementsBaseVertex}
     gl_api_function<
       void(
         enum_type,
@@ -4380,44 +4436,57 @@ public:
       OGLPLUS_GL_STATIC_FUNC(MultiDrawElementsBaseVertex)>
       MultiDrawElementsBaseVertex;
 
-    // draw transform feedback
+    /// @var DrawTransformFeedback
+    /// @glfuncwrap{DrawTransformFeedback}
     gl_api_function<
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(DrawTransformFeedback)>
       DrawTransformFeedback;
 
+    /// @var DrawTransformFeedbackInstanced
+    /// @glfuncwrap{DrawTransformFeedbackInstanced}
     gl_api_function<
       void(enum_type, uint_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(DrawTransformFeedbackInstanced)>
       DrawTransformFeedbackInstanced;
 
+    /// @var DrawTransformFeedbackStream
+    /// @glfuncwrap{DrawTransformFeedbackStream}
     gl_api_function<
       void(enum_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(DrawTransformFeedbackStream)>
       DrawTransformFeedbackStream;
 
+    /// @var DrawTransformFeedbackStreamInstanced
+    /// @glfuncwrap{DrawTransformFeedbackStreamInstanced}
     gl_api_function<
       void(enum_type, uint_type, uint_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(DrawTransformFeedbackStreamInstanced)>
       DrawTransformFeedbackStreamInstanced;
 
-    // compute
+    /// @var DispatchCompute
+    /// @glfuncwrap{DispatchCompute}
     gl_api_function<
       void(uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(DispatchCompute)>
       DispatchCompute;
 
+    /// @var DispatchComputeIndirect
+    /// @glfuncwrap{DispatchComputeIndirect}
     gl_api_function<
       void(intptr_type),
       OGLPLUS_GL_STATIC_FUNC(DispatchComputeIndirect)>
       DispatchComputeIndirect;
 
-    // framebufer reads/writes
+    /// @var ClampColor
+    /// @glfuncwrap{ClampColor}
     gl_api_function<
       void(enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(ClampColor)>
       ClampColor;
 
+    /// @var ReadPixels
+    /// @glfuncwrap{ReadPixels}
     gl_api_function<
       void(
         int_type,
@@ -4430,6 +4499,8 @@ public:
       OGLPLUS_GL_STATIC_FUNC(ReadPixels)>
       ReadPixels;
 
+    /// @var ReadnPixels
+    /// @glfuncwrap{ReadnPixels}
     gl_api_function<
       void(
         int_type,
@@ -4443,103 +4514,141 @@ public:
       OGLPLUS_GL_STATIC_FUNC(ReadnPixels)>
       ReadnPixels;
 
-    // state queries
+    /// @var GetBooleanv
+    /// @glfuncwrap{GetBooleanv}
     gl_api_function<
       void(enum_type, bool_type*),
       OGLPLUS_GL_STATIC_FUNC(GetBooleanv)>
       GetBooleanv;
 
+    /// @var GetBooleani_v
+    /// @glfuncwrap{GetBooleani_v}
     gl_api_function<
       void(enum_type, uint_type, bool_type*),
       OGLPLUS_GL_STATIC_FUNC(GetBooleani_v)>
       GetBooleani_v;
 
+    /// @var GetIntegerv
+    /// @glfuncwrap{GetIntegerv}
     gl_api_function<
       void(enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetIntegerv)>
       GetIntegerv;
 
+    /// @var GetIntegeri_v
+    /// @glfuncwrap{GetIntegeri_v}
     gl_api_function<
       void(enum_type, uint_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetIntegeri_v)>
       GetIntegeri_v;
 
+    /// @var GetInteger64v
+    /// @glfuncwrap{GetInteger64v}
     gl_api_function<
       void(enum_type, int64_type*),
       OGLPLUS_GL_STATIC_FUNC(GetInteger64v)>
       GetInteger64v;
 
+    /// @var GetInteger64i_v
+    /// @glfuncwrap{GetInteger64i_v}
     gl_api_function<
       void(enum_type, uint_type, int64_type*),
       OGLPLUS_GL_STATIC_FUNC(GetInteger64i_v)>
       GetInteger64i_v;
 
+    /// @var GetFloatv
+    /// @glfuncwrap{GetFloatv}
     gl_api_function<
       void(enum_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetFloatv)>
       GetFloatv;
 
+    /// @var GetFloati_v
+    /// @glfuncwrap{GetFloati_v}
     gl_api_function<
       void(enum_type, uint_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetFloati_v)>
       GetFloati_v;
 
+    /// @var GetDoublev
+    /// @glfuncwrap{GetDoublev}
     gl_api_function<
       void(enum_type, double_type*),
       OGLPLUS_GL_STATIC_FUNC(GetDoublev)>
       GetDoublev;
 
+    /// @var GetDoublei_v
+    /// @glfuncwrap{GetDoublei_v}
     gl_api_function<
       void(enum_type, uint_type, double_type*),
       OGLPLUS_GL_STATIC_FUNC(GetDoublei_v)>
       GetDoublei_v;
 
+    /// @var GetInternalformativ
+    /// @glfuncwrap{GetInternalformativ}
     gl_api_function<
       void(enum_type, enum_type, enum_type, sizei_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetInternalformativ)>
       GetInternalformativ;
 
+    /// @var GetInternalformati64v
+    /// @glfuncwrap{GetInternalformati64v}
     gl_api_function<
       void(enum_type, enum_type, enum_type, sizei_type, int64_type*),
       OGLPLUS_GL_STATIC_FUNC(GetInternalformati64v)>
       GetInternalformati64v;
 
+    /// @var GetPointerv
+    /// @glfuncwrap{GetPointerv}
     gl_api_function<
       void(enum_type, void_ptr_type*),
       OGLPLUS_GL_STATIC_FUNC(GetPointerv)>
       GetPointerv;
 
+    /// @var GetStringi
+    /// @glfuncwrap{GetStringi}
     gl_api_function<
       const ubyte_type*(enum_type),
       OGLPLUS_GL_STATIC_FUNC(GetString)>
       GetString;
 
+    /// @var GetStringi
+    /// @glfuncwrap{GetStringi}
     gl_api_function<
       const ubyte_type*(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(GetStringi)>
       GetStringi;
 
-    // named strings
+    /// @var NamedString
+    /// @glfuncwrap{NamedString}
     gl_api_function<
       void(enum_type, int_type, const char_type*, int_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(nullptr)>
       NamedString;
 
+    /// @var DeleteNamedString
+    /// @glfuncwrap{DeleteNamedString}
     gl_api_function<
       void(int_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(nullptr)>
       DeleteNamedString;
 
+    /// @var IsNamedString
+    /// @glfuncwrap{IsNamedString}
     gl_api_function<
       bool_type(int_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(nullptr)>
       IsNamedString;
 
+    /// @var GetNamedStringiv
+    /// @glfuncwrap{GetNamedStringiv}
     gl_api_function<
       void(int_type, const char_type*, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(nullptr)>
       GetNamedStringiv;
 
+    /// @var GetNamedString
+    /// @glfuncwrap{GetNamedString}
     gl_api_function<
       void(int_type, const char_type*, sizei_type, int_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(nullptr)>
