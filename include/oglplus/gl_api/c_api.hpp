@@ -3744,37 +3744,50 @@ public:
       OGLPLUS_GL_STATIC_FUNC(VertexAttribP4uiv)>
       VertexAttribP4uiv;
 
-    // vertex attrib format
+    /// @var VertexAttribFormat
+    /// @glfuncwrap{VertexAttribFormat}
     gl_api_function<
       void(uint_type, int_type, enum_type, bool_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribFormat)>
       VertexAttribFormat;
 
+    /// @var VertexAttribIFormat
+    /// @glfuncwrap{VertexAttribIFormat}
     gl_api_function<
       void(uint_type, int_type, enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribIFormat)>
       VertexAttribIFormat;
 
+    /// @var VertexAttribLFormat
+    /// @glfuncwrap{VertexAttribLFormat}
     gl_api_function<
       void(uint_type, int_type, enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribLFormat)>
       VertexAttribLFormat;
 
+    /// @var VertexArrayAttribFormat
+    /// @glfuncwrap{VertexArrayAttribFormat}
     gl_api_function<
       void(uint_type, uint_type, int_type, enum_type, bool_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexArrayAttribFormat)>
       VertexArrayAttribFormat;
 
+    /// @var VertexArrayAttribIFormat
+    /// @glfuncwrap{VertexArrayAttribIFormat}
     gl_api_function<
       void(uint_type, uint_type, int_type, enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexArrayAttribIFormat)>
       VertexArrayAttribIFormat;
 
+    /// @var VertexArrayAttribLFormat
+    /// @glfuncwrap{VertexArrayAttribLFormat}
     gl_api_function<
       void(uint_type, uint_type, int_type, enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexArrayAttribLFormat)>
       VertexArrayAttribLFormat;
 
+    /// @var VertexAttribPointer
+    /// @glfuncwrap{VertexAttribPointer}
     gl_api_function<
       void(
         uint_type,
@@ -3786,275 +3799,386 @@ public:
       OGLPLUS_GL_STATIC_FUNC(VertexAttribPointer)>
       VertexAttribPointer;
 
+    /// @var VertexAttribIPointer
+    /// @glfuncwrap{VertexAttribIPointer}
     gl_api_function<
       void(uint_type, int_type, enum_type, sizei_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribIPointer)>
       VertexAttribIPointer;
 
+    /// @var VertexAttribLPointer
+    /// @glfuncwrap{VertexAttribLPointer}
     gl_api_function<
       void(uint_type, int_type, enum_type, sizei_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribLPointer)>
       VertexAttribLPointer;
 
+    /// @var GetVertexArrayiv
+    /// @glfuncwrap{GetVertexArrayiv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetVertexArrayiv)>
       GetVertexArrayiv;
 
+    /// @var GetVertexArrayIndexediv
+    /// @glfuncwrap{GetVertexArrayIndexediv}
     gl_api_function<
       void(uint_type, uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetVertexArrayIndexediv)>
       GetVertexArrayIndexediv;
 
+    /// @var GetVertexArrayIndexed64iv
+    /// @glfuncwrap{GetVertexArrayIndexed64iv}
     gl_api_function<
       void(uint_type, uint_type, enum_type, int64_type*),
       OGLPLUS_GL_STATIC_FUNC(GetVertexArrayIndexed64iv)>
       GetVertexArrayIndexed64iv;
 
+    /// @var GetVertexAttribdv
+    /// @glfuncwrap{GetVertexAttribdv}
     gl_api_function<
       void(uint_type, enum_type, double_type*),
       OGLPLUS_GL_STATIC_FUNC(GetVertexAttribdv)>
       GetVertexAttribdv;
 
+    /// @var GetVertexAttribfv
+    /// @glfuncwrap{GetVertexAttribfv}
     gl_api_function<
       void(uint_type, enum_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetVertexAttribfv)>
       GetVertexAttribfv;
 
+    /// @var GetVertexAttribiv
+    /// @glfuncwrap{GetVertexAttribiv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetVertexAttribiv)>
       GetVertexAttribiv;
 
+    /// @var GetVertexAttribIiv
+    /// @glfuncwrap{GetVertexAttribIiv}
     gl_api_function<
       void(uint_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetVertexAttribIiv)>
       GetVertexAttribIiv;
 
+    /// @var GetVertexAttribIuiv
+    /// @glfuncwrap{GetVertexAttribIuiv}
     gl_api_function<
       void(uint_type, enum_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GetVertexAttribIuiv)>
       GetVertexAttribIuiv;
 
+    /// @var GetVertexAttribLdv
+    /// @glfuncwrap{GetVertexAttribLdv}
     gl_api_function<
       void(uint_type, enum_type, double_type*),
       OGLPLUS_GL_STATIC_FUNC(GetVertexAttribLdv)>
       GetVertexAttribLdv;
 
+    /// @var GetVertexAttribPointerv
+    /// @glfuncwrap{GetVertexAttribPointerv}
     gl_api_function<
       void(uint_type, enum_type, void_ptr_type*),
       OGLPLUS_GL_STATIC_FUNC(GetVertexAttribPointerv)>
       GetVertexAttribPointerv;
 
-    // viewport
+    /// @var ClipControl
+    /// @glfuncwrap{ClipControl}
     gl_api_function<
       void(enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(ClipControl)>
       ClipControl;
 
+    /// @var DepthRange
+    /// @glfuncwrap{DepthRange}
     gl_api_function<
       void(double_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(DepthRange)>
       DepthRange;
 
+    /// @var DepthRangef
+    /// @glfuncwrap{DepthRangef}
     gl_api_function<
       void(float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(DepthRangef)>
       DepthRangef;
 
+    /// @var DepthRangeArrayv
+    /// @glfuncwrap{DepthRangeArrayv}
     gl_api_function<
       void(uint_type, sizei_type, const double_type*),
       OGLPLUS_GL_STATIC_FUNC(DepthRangeArrayv)>
       DepthRangeArrayv;
 
+    /// @var DepthRangeIndexed
+    /// @glfuncwrap{DepthRangeIndexed}
     gl_api_function<
       void(uint_type, double_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(DepthRangeIndexed)>
       DepthRangeIndexed;
 
+    /// @var Viewport
+    /// @glfuncwrap{Viewport}
     gl_api_function<
       void(int_type, int_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(Viewport)>
       Viewport;
 
+    /// @var ViewportArrayv
+    /// @glfuncwrap{ViewportArrayv}
     gl_api_function<
       void(uint_type, sizei_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ViewportArrayv)>
       ViewportArrayv;
 
+    /// @var ViewportIndexedf
+    /// @glfuncwrap{ViewportIndexedf}
     gl_api_function<
       void(uint_type, float_type, float_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(ViewportIndexedf)>
       ViewportIndexedf;
 
+    /// @var ViewportIndexedfv
+    /// @glfuncwrap{ViewportIndexedfv}
     gl_api_function<
       void(uint_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ViewportIndexedfv)>
       ViewportIndexedfv;
 
-    // scissor test
+    /// @var Scissor
+    /// @glfuncwrap{Scissor}
     gl_api_function<
       void(int_type, int_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(Scissor)>
       Scissor;
 
+    /// @var ScissorArrayv
+    /// @glfuncwrap{ScissorArrayv}
     gl_api_function<
       void(uint_type, sizei_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(ScissorArrayv)>
       ScissorArrayv;
 
+    /// @var ScissorIndexed
+    /// @glfuncwrap{ScissorIndexed}
     gl_api_function<
       void(uint_type, int_type, int_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(ScissorIndexed)>
       ScissorIndexed;
 
+    /// @var ScissorIndexedv
+    /// @glfuncwrap{ScissorIndexedv}
     gl_api_function<
       void(uint_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(ScissorIndexedv)>
       ScissorIndexedv;
 
-    // stencil test
+    /// @var StencilFunc
+    /// @glfuncwrap{StencilFunc}
     gl_api_function<
       void(enum_type, int_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(StencilFunc)>
       StencilFunc;
 
+    /// @var StencilFuncSeparate
+    /// @glfuncwrap{StencilFuncSeparate}
     gl_api_function<
       void(enum_type, enum_type, int_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(StencilFuncSeparate)>
       StencilFuncSeparate;
 
+    /// @var StencilOp
+    /// @glfuncwrap{StencilOp}
     gl_api_function<
       void(enum_type, enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(StencilOp)>
       StencilOp;
 
+    /// @var StencilOpSeparate
+    /// @glfuncwrap{StencilOpSeparate}
     gl_api_function<
       void(enum_type, enum_type, enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(StencilOpSeparate)>
       StencilOpSeparate;
 
-    // depth test
+    /// @var DepthFunc
+    /// @glfuncwrap{DepthFunc}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(DepthFunc)>
       DepthFunc;
 
-    // buffer masking
+    /// @var ColorMask
+    /// @glfuncwrap{ColorMask}
     gl_api_function<
       void(bool_type, bool_type, bool_type, bool_type),
       OGLPLUS_GL_STATIC_FUNC(ColorMask)>
       ColorMask;
 
+    /// @var ColorMaski
+    /// @glfuncwrap{ColorMaski}
     gl_api_function<
       void(uint_type, bool_type, bool_type, bool_type, bool_type),
       OGLPLUS_GL_STATIC_FUNC(ColorMaski)>
       ColorMaski;
 
+    /// @var DepthMask
+    /// @glfuncwrap{DepthMask}
     gl_api_function<void(bool_type), OGLPLUS_GL_STATIC_FUNC(DepthMask)>
       DepthMask;
 
+    /// @var StencilMask
+    /// @glfuncwrap{StencilMask}
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(StencilMask)>
       StencilMask;
 
+    /// @var StencilMaskSeparate
+    /// @glfuncwrap{StencilMaskSeparate}
     gl_api_function<
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(StencilMaskSeparate)>
       StencilMaskSeparate;
 
-    // draw buffer clearing
+    /// @var ClearColor
+    /// @glfuncwrap{ClearColor}
     gl_api_function<
       void(float_type, float_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(ClearColor)>
       ClearColor;
 
+    /// @var ClearDepthf
+    /// @glfuncwrap{ClearDepthf}
     gl_api_function<void(float_type), OGLPLUS_GL_STATIC_FUNC(ClearDepthf)>
       ClearDepthf;
 
+    /// @var ClearDepth
+    /// @glfuncwrap{ClearDepth}
     gl_api_function<void(double_type), OGLPLUS_GL_STATIC_FUNC(ClearDepth)>
       ClearDepth;
 
+    /// @var ClearStencil
+    /// @glfuncwrap{ClearStencil}
     gl_api_function<void(int_type), OGLPLUS_GL_STATIC_FUNC(ClearStencil)>
       ClearStencil;
 
+    /// @var Clear
+    /// @glfuncwrap{Clear}
     gl_api_function<void(bitfield_type), OGLPLUS_GL_STATIC_FUNC(Clear)> Clear;
 
-    // draw parameters
+    /// @var PrimitiveRestartIndex
+    /// @glfuncwrap{PrimitiveRestartIndex}
     gl_api_function<
       void(uint_type),
       OGLPLUS_GL_STATIC_FUNC(PrimitiveRestartIndex)>
       PrimitiveRestartIndex;
 
+    /// @var ProvokingVertex
+    /// @glfuncwrap{ProvokingVertex}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(ProvokingVertex)>
       ProvokingVertex;
 
+    /// @var LineWidth
+    /// @glfuncwrap{LineWidth}
     gl_api_function<void(float_type), OGLPLUS_GL_STATIC_FUNC(LineWidth)>
       LineWidth;
 
+    /// @var PointSize
+    /// @glfuncwrap{PointSize}
     gl_api_function<void(float_type), OGLPLUS_GL_STATIC_FUNC(PointSize)>
       PointSize;
 
+    /// @var PointParameteri
+    /// @glfuncwrap{PointParameteri}
     gl_api_function<
       void(enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(PointParameteri)>
       PointParameteri;
 
+    /// @var PointParameterf
+    /// @glfuncwrap{PointParameterf}
     gl_api_function<
       void(enum_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(PointParameterf)>
       PointParameterf;
 
+    /// @var PointParameteriv
+    /// @glfuncwrap{PointParameteriv}
     gl_api_function<
       void(enum_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(PointParameteriv)>
       PointParameteriv;
 
+    /// @var PointParameterfv
+    /// @glfuncwrap{PointParameterfv}
     gl_api_function<
       void(enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(PointParameterfv)>
       PointParameterfv;
 
+    /// @var PatchParameteri
+    /// @glfuncwrap{PatchParameteri}
     gl_api_function<
       void(enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(PatchParameteri)>
       PatchParameteri;
 
+    /// @var PatchParameterfv
+    /// @glfuncwrap{PatchParameterfv}
     gl_api_function<
       void(enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(PatchParameterfv)>
       PatchParameterfv;
 
+    /// @var FrontFace
+    /// @glfuncwrap{FrontFace}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(FrontFace)>
       FrontFace;
 
+    /// @var CullFace
+    /// @glfuncwrap{CullFace}
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(CullFace)> CullFace;
 
+    /// @var PolygonMode
+    /// @glfuncwrap{PolygonMode}
     gl_api_function<
       void(enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(PolygonMode)>
       PolygonMode;
 
+    /// @var PolygonOffset
+    /// @glfuncwrap{PolygonOffset}
     gl_api_function<
       void(float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(PolygonOffset)>
       PolygonOffset;
 
+    /// @var PolygonOffsetClamp
+    /// @glfuncwrap{PolygonOffsetClamp}
     gl_api_function<
       void(float_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(PolygonOffsetClamp)>
       PolygonOffsetClamp;
 
+    /// @var SampleCoverage
+    /// @glfuncwrap{SampleCoverage}
     gl_api_function<
       void(float_type, bool_type),
       OGLPLUS_GL_STATIC_FUNC(SampleCoverage)>
       SampleCoverage;
 
+    /// @var SampleMaski
+    /// @glfuncwrap{SampleMaski}
     gl_api_function<
       void(uint_type, bitfield_type),
       OGLPLUS_GL_STATIC_FUNC(SampleMaski)>
       SampleMaski;
 
+    /// @var MinSampleShading
+    /// @glfuncwrap{MinSampleShading}
     gl_api_function<void(float_type), OGLPLUS_GL_STATIC_FUNC(MinSampleShading)>
       MinSampleShading;
 
+    /// @var GetMultisamplefv
+    /// @glfuncwrap{GetMultisamplefv}
     gl_api_function<
       void(enum_type, uint_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetMultisamplefv)>
