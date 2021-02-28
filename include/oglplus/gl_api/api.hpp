@@ -31,7 +31,10 @@ template <typename ApiTraits>
 class basic_gl_operations : public basic_gl_c_api<ApiTraits> {
 
 public:
+    /// @brief Alias for the traits policy class.
     using api_traits = ApiTraits;
+
+    /// @brief Alias for the basic GL API wrapper.
     using c_api = basic_gl_c_api<ApiTraits>;
 
     using sizei_type = typename gl_types::sizei_type;
@@ -58,12 +61,23 @@ public:
 
     using debug_callback_type = typename c_api::debug_callback_type;
 
-    // extensions
+    /// @brief Alias for GL extension info getter.
     using extension = basic_gl_extension<ApiTraits>;
 
+    /// @var ARB_debug_output
+    /// @glextwrap{ARB_debug_output}
     extension ARB_debug_output;
+
+    /// @var ARB_compatibility
+    /// @glextwrap{ARB_compatibility}
     extension ARB_compatibility;
+
+    /// @var ARB_robustness
+    /// @glextwrap{ARB_robustness}
     extension ARB_robustness;
+
+    /// @var ARB_shading_language_include
+    /// @glextwrap{ARB_shading_language_include}
     extension ARB_shading_language_include;
 
     // utilities
