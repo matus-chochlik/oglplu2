@@ -2876,624 +2876,869 @@ public:
       OGLPLUS_GL_STATIC_FUNC(Uniform4fv)>
       Uniform4fv;
 
+    /// @var UniformMatrix2fv
+    /// @glfuncwrap{UniformMatrix2fv}
     gl_api_function<
       void(int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(UniformMatrix2fv)>
       UniformMatrix2fv;
 
+    /// @var UniformMatrix3fv
+    /// @glfuncwrap{UniformMatrix3fv}
     gl_api_function<
       void(int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(UniformMatrix3fv)>
       UniformMatrix3fv;
 
+    /// @var UniformMatrix4fv
+    /// @glfuncwrap{UniformMatrix4fv}
     gl_api_function<
       void(int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(UniformMatrix4fv)>
       UniformMatrix4fv;
 
+    /// @var UniformMatrix2x3fv
+    /// @glfuncwrap{UniformMatrix2x3fv}
     gl_api_function<
       void(int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(UniformMatrix2x3fv)>
       UniformMatrix2x3fv;
 
+    /// @var UniformMatrix3x2fv
+    /// @glfuncwrap{UniformMatrix3x2fv}
     gl_api_function<
       void(int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(UniformMatrix3x2fv)>
       UniformMatrix3x2fv;
 
+    /// @var UniformMatrix2x4fv
+    /// @glfuncwrap{UniformMatrix2x4fv}
     gl_api_function<
       void(int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(UniformMatrix2x4fv)>
       UniformMatrix2x4fv;
 
+    /// @var UniformMatrix4x2fv
+    /// @glfuncwrap{UniformMatrix4x2fv}
     gl_api_function<
       void(int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(UniformMatrix4x2fv)>
       UniformMatrix4x2fv;
 
+    /// @var UniformMatrix3x4fv
+    /// @glfuncwrap{UniformMatrix3x4fv}
     gl_api_function<
       void(int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(UniformMatrix3x4fv)>
       UniformMatrix3x4fv;
 
+    /// @var UniformMatrix4x3fv
+    /// @glfuncwrap{UniformMatrix4x3fv}
     gl_api_function<
       void(int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(UniformMatrix4x3fv)>
       UniformMatrix4x3fv;
 
+    /// @var GetUniformfv
+    /// @glfuncwrap{GetUniformfv}
     gl_api_function<
       void(uint_type, int_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetUniformfv)>
       GetUniformfv;
 
+    /// @var GetUniformdv
+    /// @glfuncwrap{GetUniformdv}
     gl_api_function<
       void(uint_type, int_type, double_type*),
       OGLPLUS_GL_STATIC_FUNC(GetUniformdv)>
       GetUniformdv;
 
+    /// @var GetUniformiv
+    /// @glfuncwrap{GetUniformiv}
     gl_api_function<
       void(uint_type, int_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetUniformiv)>
       GetUniformiv;
 
+    /// @var GetUniformuiv
+    /// @glfuncwrap{GetUniformuiv}
     gl_api_function<
       void(uint_type, int_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GetUniformuiv)>
       GetUniformuiv;
 
+    /// @var GetnUniformfv
+    /// @glfuncwrap{GetnUniformfv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetnUniformfv)>
       GetnUniformfv;
 
+    /// @var GetnUniformdv
+    /// @glfuncwrap{GetnUniformdv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, double_type*),
       OGLPLUS_GL_STATIC_FUNC(GetnUniformdv)>
       GetnUniformdv;
 
+    /// @var GetnUniformiv
+    /// @glfuncwrap{GetnUniformiv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetnUniformiv)>
       GetnUniformiv;
 
+    /// @var GetnUniformuiv
+    /// @glfuncwrap{GetnUniformuiv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GetnUniformuiv)>
       GetnUniformuiv;
 
-    // program uniform
+    /// @var ProgramUniform1i
+    /// @glfuncwrap{ProgramUniform1i}
     gl_api_function<
       void(uint_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform1i)>
       ProgramUniform1i;
 
+    /// @var ProgramUniform2i
+    /// @glfuncwrap{ProgramUniform2i}
     gl_api_function<
       void(uint_type, int_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform2i)>
       ProgramUniform2i;
 
+    /// @var ProgramUniform3i
+    /// @glfuncwrap{ProgramUniform3i}
     gl_api_function<
       void(uint_type, int_type, int_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform3i)>
       ProgramUniform3i;
 
+    /// @var ProgramUniform4i
+    /// @glfuncwrap{ProgramUniform4i}
     gl_api_function<
       void(uint_type, int_type, int_type, int_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform4i)>
       ProgramUniform4i;
 
+    /// @var ProgramUniform1iv
+    /// @glfuncwrap{ProgramUniform1iv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform1iv)>
       ProgramUniform1iv;
 
+    /// @var ProgramUniform2iv
+    /// @glfuncwrap{ProgramUniform2iv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform2iv)>
       ProgramUniform2iv;
 
+    /// @var ProgramUniform3iv
+    /// @glfuncwrap{ProgramUniform3iv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform3iv)>
       ProgramUniform3iv;
 
+    /// @var ProgramUniform4iv
+    /// @glfuncwrap{ProgramUniform4iv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform4iv)>
       ProgramUniform4iv;
 
+    /// @var ProgramUniform1ui
+    /// @glfuncwrap{ProgramUniform1ui}
     gl_api_function<
       void(uint_type, int_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform1ui)>
       ProgramUniform1ui;
 
+    /// @var ProgramUniform2ui
+    /// @glfuncwrap{ProgramUniform2ui}
     gl_api_function<
       void(uint_type, int_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform2ui)>
       ProgramUniform2ui;
 
+    /// @var ProgramUniform3ui
+    /// @glfuncwrap{ProgramUniform3ui}
     gl_api_function<
       void(uint_type, int_type, uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform3ui)>
       ProgramUniform3ui;
 
+    /// @var ProgramUniform4ui
+    /// @glfuncwrap{ProgramUniform4ui}
     gl_api_function<
       void(uint_type, int_type, uint_type, uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform4ui)>
       ProgramUniform4ui;
 
+    /// @var ProgramUniform1uiv
+    /// @glfuncwrap{ProgramUniform1uiv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform1uiv)>
       ProgramUniform1uiv;
 
+    /// @var ProgramUniform2uiv
+    /// @glfuncwrap{ProgramUniform2uiv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform2uiv)>
       ProgramUniform2uiv;
 
+    /// @var ProgramUniform3uiv
+    /// @glfuncwrap{ProgramUniform3uiv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform3uiv)>
       ProgramUniform3uiv;
 
+    /// @var ProgramUniform4uiv
+    /// @glfuncwrap{ProgramUniform4uiv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform4uiv)>
       ProgramUniform4uiv;
 
+    /// @var ProgramUniform1f
+    /// @glfuncwrap{ProgramUniform1f}
     gl_api_function<
       void(uint_type, int_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform1f)>
       ProgramUniform1f;
 
+    /// @var ProgramUniform2f
+    /// @glfuncwrap{ProgramUniform2f}
     gl_api_function<
       void(uint_type, int_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform2f)>
       ProgramUniform2f;
 
+    /// @var ProgramUniform3f
+    /// @glfuncwrap{ProgramUniform3f}
     gl_api_function<
       void(uint_type, int_type, float_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform3f)>
       ProgramUniform3f;
 
+    /// @var ProgramUniform4f
+    /// @glfuncwrap{ProgramUniform4f}
     gl_api_function<
       void(uint_type, int_type, float_type, float_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform4f)>
       ProgramUniform4f;
 
+    /// @var ProgramUniform1fv
+    /// @glfuncwrap{ProgramUniform1fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform1fv)>
       ProgramUniform1fv;
 
+    /// @var ProgramUniform2fv
+    /// @glfuncwrap{ProgramUniform2fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform2fv)>
       ProgramUniform2fv;
 
+    /// @var ProgramUniform3fv
+    /// @glfuncwrap{ProgramUniform3fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform3fv)>
       ProgramUniform3fv;
 
+    /// @var ProgramUniform4fv
+    /// @glfuncwrap{ProgramUniform4fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniform4fv)>
       ProgramUniform4fv;
 
+    /// @var ProgramUniformMatrix2fv
+    /// @glfuncwrap{ProgramUniformMatrix2fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix2fv)>
       ProgramUniformMatrix2fv;
 
+    /// @var ProgramUniformMatrix3fv
+    /// @glfuncwrap{ProgramUniformMatrix3fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix3fv)>
       ProgramUniformMatrix3fv;
 
+    /// @var ProgramUniformMatrix4fv
+    /// @glfuncwrap{ProgramUniformMatrix4fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix4fv)>
       ProgramUniformMatrix4fv;
 
+    /// @var ProgramUniformMatrix2x3fv
+    /// @glfuncwrap{ProgramUniformMatrix2x3fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix2x3fv)>
       ProgramUniformMatrix2x3fv;
 
+    /// @var ProgramUniformMatrix3x2fv
+    /// @glfuncwrap{ProgramUniformMatrix3x2fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix3x2fv)>
       ProgramUniformMatrix3x2fv;
 
+    /// @var ProgramUniformMatrix2x4fv
+    /// @glfuncwrap{ProgramUniformMatrix2x4fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix2x4fv)>
       ProgramUniformMatrix2x4fv;
 
+    /// @var ProgramUniformMatrix4x2fv
+    /// @glfuncwrap{ProgramUniformMatrix4x2fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix4x2fv)>
       ProgramUniformMatrix4x2fv;
 
+    /// @var ProgramUniformMatrix3x4fv
+    /// @glfuncwrap{ProgramUniformMatrix3x4fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix3x4fv)>
       ProgramUniformMatrix3x4fv;
 
+    /// @var ProgramUniformMatrix4x3fv
+    /// @glfuncwrap{ProgramUniformMatrix4x3fv}
     gl_api_function<
       void(uint_type, int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix4x3fv)>
       ProgramUniformMatrix4x3fv;
 
-    // uniform blocks
+    /// @var UniformBlockBinding
+    /// @glfuncwrap{UniformBlockBinding}
     gl_api_function<
       void(uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(UniformBlockBinding)>
       UniformBlockBinding;
 
+    /// @var ShaderStorageBlockBinding
+    /// @glfuncwrap{ShaderStorageBlockBinding}
     gl_api_function<
       void(uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(ShaderStorageBlockBinding)>
       ShaderStorageBlockBinding;
 
-    // vertex attrib
+    /// @var VertexAttrib1f
+    /// @glfuncwrap{VertexAttrib1f}
     gl_api_function<
       void(uint_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib1f)>
       VertexAttrib1f;
 
+    /// @var VertexAttrib2f
+    /// @glfuncwrap{VertexAttrib2f}
     gl_api_function<
       void(uint_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib2f)>
       VertexAttrib2f;
 
+    /// @var VertexAttrib3f
+    /// @glfuncwrap{VertexAttrib3f}
     gl_api_function<
       void(uint_type, float_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib3f)>
       VertexAttrib3f;
 
+    /// @var VertexAttrib4f
+    /// @glfuncwrap{VertexAttrib4f}
     gl_api_function<
       void(uint_type, float_type, float_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4f)>
       VertexAttrib4f;
 
+    /// @var VertexAttrib1fv
+    /// @glfuncwrap{VertexAttrib1fv}
     gl_api_function<
       void(uint_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib1fv)>
       VertexAttrib1fv;
 
+    /// @var VertexAttrib2fv
+    /// @glfuncwrap{VertexAttrib2fv}
     gl_api_function<
       void(uint_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib2fv)>
       VertexAttrib2fv;
 
+    /// @var VertexAttrib3fv
+    /// @glfuncwrap{VertexAttrib3fv}
     gl_api_function<
       void(uint_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib3fv)>
       VertexAttrib3fv;
 
+    /// @var VertexAttrib4fv
+    /// @glfuncwrap{VertexAttrib4fv}
     gl_api_function<
       void(uint_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4fv)>
       VertexAttrib4fv;
 
+    /// @var VertexAttrib1d
+    /// @glfuncwrap{VertexAttrib1d}
     gl_api_function<
       void(uint_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib1d)>
       VertexAttrib1d;
 
+    /// @var VertexAttrib2d
+    /// @glfuncwrap{VertexAttrib2d}
     gl_api_function<
       void(uint_type, double_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib2d)>
       VertexAttrib2d;
 
+    /// @var VertexAttrib3d
+    /// @glfuncwrap{VertexAttrib3d}
     gl_api_function<
       void(uint_type, double_type, double_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib3d)>
       VertexAttrib3d;
 
+    /// @var VertexAttrib4d
+    /// @glfuncwrap{VertexAttrib4d}
     gl_api_function<
       void(uint_type, double_type, double_type, double_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4d)>
       VertexAttrib4d;
 
+    /// @var VertexAttrib1dv
+    /// @glfuncwrap{VertexAttrib1dv}
     gl_api_function<
       void(uint_type, const double_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib1dv)>
       VertexAttrib1dv;
 
+    /// @var VertexAttrib2dv
+    /// @glfuncwrap{VertexAttrib2dv}
     gl_api_function<
       void(uint_type, const double_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib2dv)>
       VertexAttrib2dv;
 
+    /// @var VertexAttrib3dv
+    /// @glfuncwrap{VertexAttrib3dv}
     gl_api_function<
       void(uint_type, const double_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib3dv)>
       VertexAttrib3dv;
 
+    /// @var VertexAttrib4dv
+    /// @glfuncwrap{VertexAttrib4dv}
     gl_api_function<
       void(uint_type, const double_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4dv)>
       VertexAttrib4dv;
 
+    /// @var VertexAttrib1s
+    /// @glfuncwrap{VertexAttrib1s}
     gl_api_function<
       void(uint_type, short_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib1s)>
       VertexAttrib1s;
 
+    /// @var VertexAttrib2s
+    /// @glfuncwrap{VertexAttrib2s}
     gl_api_function<
       void(uint_type, short_type, short_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib2s)>
       VertexAttrib2s;
 
+    /// @var VertexAttrib3s
+    /// @glfuncwrap{VertexAttrib3s}
     gl_api_function<
       void(uint_type, short_type, short_type, short_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib3s)>
       VertexAttrib3s;
 
+    /// @var VertexAttrib4s
+    /// @glfuncwrap{VertexAttrib4s}
     gl_api_function<
       void(uint_type, short_type, short_type, short_type, short_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4s)>
       VertexAttrib4s;
 
+    /// @var VertexAttrib1sv
+    /// @glfuncwrap{VertexAttrib1sv}
     gl_api_function<
       void(uint_type, const short_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib1sv)>
       VertexAttrib1sv;
 
+    /// @var VertexAttrib2sv
+    /// @glfuncwrap{VertexAttrib2sv}
     gl_api_function<
       void(uint_type, const short_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib2sv)>
       VertexAttrib2sv;
 
+    /// @var VertexAttrib3sv
+    /// @glfuncwrap{VertexAttrib3sv}
     gl_api_function<
       void(uint_type, const short_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib3sv)>
       VertexAttrib3sv;
 
+    /// @var VertexAttrib4sv
+    /// @glfuncwrap{VertexAttrib4sv}
     gl_api_function<
       void(uint_type, const short_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4sv)>
       VertexAttrib4sv;
 
+    /// @var VertexAttribI1i
+    /// @glfuncwrap{VertexAttribI1i}
     gl_api_function<
       void(uint_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI1i)>
       VertexAttribI1i;
 
+    /// @var VertexAttribI2i
+    /// @glfuncwrap{VertexAttribI2i}
     gl_api_function<
       void(uint_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI2i)>
       VertexAttribI2i;
 
+    /// @var VertexAttribI3i
+    /// @glfuncwrap{VertexAttribI3i}
     gl_api_function<
       void(uint_type, int_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI3i)>
       VertexAttribI3i;
 
+    /// @var VertexAttribI4i
+    /// @glfuncwrap{VertexAttribI4i}
     gl_api_function<
       void(uint_type, int_type, int_type, int_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI4i)>
       VertexAttribI4i;
 
+    /// @var VertexAttribI1iv
+    /// @glfuncwrap{VertexAttribI1iv}
     gl_api_function<
       void(uint_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI1iv)>
       VertexAttribI1iv;
 
+    /// @var VertexAttribI2iv
+    /// @glfuncwrap{VertexAttribI2iv}
     gl_api_function<
       void(uint_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI2iv)>
       VertexAttribI2iv;
 
+    /// @var VertexAttribI3iv
+    /// @glfuncwrap{VertexAttribI3iv}
     gl_api_function<
       void(uint_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI3iv)>
       VertexAttribI3iv;
 
+    /// @var VertexAttribI4iv
+    /// @glfuncwrap{VertexAttribI4iv}
     gl_api_function<
       void(uint_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI4iv)>
       VertexAttribI4iv;
 
+    /// @var VertexAttribI1ui
+    /// @glfuncwrap{VertexAttribI1ui}
     gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI1ui)>
       VertexAttribI1ui;
 
+    /// @var VertexAttribI2ui
+    /// @glfuncwrap{VertexAttribI2ui}
     gl_api_function<
       void(uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI2ui)>
       VertexAttribI2ui;
 
+    /// @var VertexAttribI3ui
+    /// @glfuncwrap{VertexAttribI3ui}
     gl_api_function<
       void(uint_type, uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI3ui)>
       VertexAttribI3ui;
 
+    /// @var VertexAttribI4ui
+    /// @glfuncwrap{VertexAttribI4ui}
     gl_api_function<
       void(uint_type, uint_type, uint_type, uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI4ui)>
       VertexAttribI4ui;
 
+    /// @var VertexAttribI1uiv
+    /// @glfuncwrap{VertexAttribI1uiv}
     gl_api_function<
       void(uint_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI1uiv)>
       VertexAttribI1uiv;
 
+    /// @var VertexAttribI2uiv
+    /// @glfuncwrap{VertexAttribI2uiv}
     gl_api_function<
       void(uint_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI2uiv)>
       VertexAttribI2uiv;
 
+    /// @var VertexAttribI3uiv
+    /// @glfuncwrap{VertexAttribI3uiv}
     gl_api_function<
       void(uint_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI3uiv)>
       VertexAttribI3uiv;
 
+    /// @var VertexAttribI4uiv
+    /// @glfuncwrap{VertexAttribI4uiv}
     gl_api_function<
       void(uint_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI4uiv)>
       VertexAttribI4uiv;
 
+    /// @var VertexAttribI4bv
+    /// @glfuncwrap{VertexAttribI4bv}
     gl_api_function<
       void(uint_type, const byte_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI4bv)>
       VertexAttribI4bv;
 
+    /// @var VertexAttribI4ubv
+    /// @glfuncwrap{VertexAttribI4ubv}
     gl_api_function<
       void(uint_type, const ubyte_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI4ubv)>
       VertexAttribI4ubv;
 
+    /// @var VertexAttribI4sv
+    /// @glfuncwrap{VertexAttribI4sv}
     gl_api_function<
       void(uint_type, const short_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI4sv)>
       VertexAttribI4sv;
 
+    /// @var VertexAttribI4usv
+    /// @glfuncwrap{VertexAttribI4usv}
     gl_api_function<
       void(uint_type, const ushort_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI4usv)>
       VertexAttribI4usv;
 
+    /// @var VertexAttrib4bv
+    /// @glfuncwrap{VertexAttrib4bv}
     gl_api_function<
       void(uint_type, const byte_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4bv)>
       VertexAttrib4bv;
 
+    /// @var VertexAttrib4ubv
+    /// @glfuncwrap{VertexAttrib4ubv}
     gl_api_function<
       void(uint_type, const ubyte_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4ubv)>
       VertexAttrib4ubv;
 
+    /// @var VertexAttrib4usv
+    /// @glfuncwrap{VertexAttrib4usv}
     gl_api_function<
       void(uint_type, const ushort_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4usv)>
       VertexAttrib4usv;
 
+    /// @var VertexAttrib4iv
+    /// @glfuncwrap{VertexAttrib4iv}
     gl_api_function<
       void(uint_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4iv)>
       VertexAttrib4iv;
 
+    /// @var VertexAttrib4uiv
+    /// @glfuncwrap{VertexAttrib4uiv}
     gl_api_function<
       void(uint_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4uiv)>
       VertexAttrib4uiv;
 
+    /// @var VertexAttrib4Nub
+    /// @glfuncwrap{VertexAttrib4Nub}
     gl_api_function<
       void(uint_type, ubyte_type, ubyte_type, ubyte_type, ubyte_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Nub)>
       VertexAttrib4Nub;
 
+    /// @var VertexAttrib4Nbv
+    /// @glfuncwrap{VertexAttrib4Nbv}
     gl_api_function<
       void(uint_type, const byte_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Nbv)>
       VertexAttrib4Nbv;
 
+    /// @var VertexAttrib4Nubv
+    /// @glfuncwrap{VertexAttrib4Nubv}
     gl_api_function<
       void(uint_type, const ubyte_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Nubv)>
       VertexAttrib4Nubv;
 
+    /// @var VertexAttrib4Nsv
+    /// @glfuncwrap{VertexAttrib4Nsv}
     gl_api_function<
       void(uint_type, const short_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Nsv)>
       VertexAttrib4Nsv;
 
+    /// @var VertexAttrib4Nusv
+    /// @glfuncwrap{VertexAttrib4Nusv}
     gl_api_function<
       void(uint_type, const ushort_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Nusv)>
       VertexAttrib4Nusv;
 
+    /// @var VertexAttrib4Niv
+    /// @glfuncwrap{VertexAttrib4Niv}
     gl_api_function<
       void(uint_type, const int_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Niv)>
       VertexAttrib4Niv;
 
+    /// @var VertexAttrib4Nuiv
+    /// @glfuncwrap{VertexAttrib4Nuiv}
     gl_api_function<
       void(uint_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Nuiv)>
       VertexAttrib4Nuiv;
 
+    /// @var VertexAttribL1d
+    /// @glfuncwrap{VertexAttribL1d}
     gl_api_function<
       void(uint_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribL1d)>
       VertexAttribL1d;
 
+    /// @var VertexAttribL2d
+    /// @glfuncwrap{VertexAttribL2d}
     gl_api_function<
       void(uint_type, double_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribL2d)>
       VertexAttribL2d;
 
+    /// @var VertexAttribL3d
+    /// @glfuncwrap{VertexAttribL3d}
     gl_api_function<
       void(uint_type, double_type, double_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribL3d)>
       VertexAttribL3d;
 
+    /// @var VertexAttribL4d
+    /// @glfuncwrap{VertexAttribL4d}
     gl_api_function<
       void(uint_type, double_type, double_type, double_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribL4d)>
       VertexAttribL4d;
 
+    /// @var VertexAttribL1dv
+    /// @glfuncwrap{VertexAttribL1dv}
     gl_api_function<
       void(uint_type, const double_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribL1dv)>
       VertexAttribL1dv;
 
+    /// @var VertexAttribL2dv
+    /// @glfuncwrap{VertexAttribL2dv}
     gl_api_function<
       void(uint_type, const double_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribL2dv)>
       VertexAttribL2dv;
 
+    /// @var VertexAttribL3dv
+    /// @glfuncwrap{VertexAttribL3dv}
     gl_api_function<
       void(uint_type, const double_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribL3dv)>
       VertexAttribL3dv;
 
+    /// @var VertexAttribL4dv
+    /// @glfuncwrap{VertexAttribL4dv}
     gl_api_function<
       void(uint_type, const double_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribL4dv)>
       VertexAttribL4dv;
 
+    /// @var VertexAttrib4P1ui
+    /// @glfuncwrap{VertexAttrib4P1ui}
     gl_api_function<
       void(uint_type, enum_type, bool_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribP1ui)>
       VertexAttribP1ui;
 
+    /// @var VertexAttribP2ui
+    /// @glfuncwrap{VertexAttribP2ui}
     gl_api_function<
       void(uint_type, enum_type, bool_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribP2ui)>
       VertexAttribP2ui;
 
+    /// @var VertexAttribP3ui
+    /// @glfuncwrap{VertexAttribP3ui}
     gl_api_function<
       void(uint_type, enum_type, bool_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribP3ui)>
       VertexAttribP3ui;
 
+    /// @var VertexAttribP4ui
+    /// @glfuncwrap{VertexAttribP4ui}
     gl_api_function<
       void(uint_type, enum_type, bool_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribP4ui)>
       VertexAttribP4ui;
 
+    /// @var VertexAttribP1uiv
+    /// @glfuncwrap{VertexAttribP1uiv}
     gl_api_function<
       void(uint_type, enum_type, bool_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribP1uiv)>
       VertexAttribP1uiv;
 
+    /// @var VertexAttribP2uiv
+    /// @glfuncwrap{VertexAttribP2uiv}
     gl_api_function<
       void(uint_type, enum_type, bool_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribP2uiv)>
       VertexAttribP2uiv;
 
+    /// @var VertexAttribP3uiv
+    /// @glfuncwrap{VertexAttribP3uiv}
     gl_api_function<
       void(uint_type, enum_type, bool_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribP3uiv)>
       VertexAttribP3uiv;
 
+    /// @var VertexAttribP4uiv
+    /// @glfuncwrap{VertexAttribP4uiv}
     gl_api_function<
       void(uint_type, enum_type, bool_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(VertexAttribP4uiv)>
