@@ -245,39 +245,54 @@ public:
         return nullptr;
     }
 
+    /// @brief Connect the specified logical input to a callable handler reference.
     auto connect_input(message_id input_id, input_handler handler)
       -> execution_context&;
 
+    /// @brief Connect the specified input slot.
+    /// @see input_slot
     auto connect_input(const input_slot& input) -> auto& {
         return connect_input(input.id(), input.handler());
     }
 
+    /// @brief Connect generic, reusable application logical input slots.
     auto connect_inputs() -> execution_context&;
 
+    /// @brief Map a specified logical input to a physical input signal.
     auto map_input(
       message_id input_id,
       identifier mapping_id,
       message_id signal_id,
       input_setup setup) -> execution_context&;
 
+    /// @brief Map a specified logical input to a physical input signal.
     auto map_input(message_id input_id, message_id signal_id, input_setup setup)
       -> execution_context& {
         return map_input(input_id, {}, signal_id, setup);
     }
 
+    /// @brief Binds generic application inputs to default physical input signals.
     auto map_inputs(identifier mapping_id) -> execution_context&;
+
+    /// @brief Binds generic application inputs to default physical input signals.
     auto map_inputs() -> execution_context& {
         return map_inputs({});
     }
 
+    /// @brief Sets-up (connects handlers and binds to signals) default inputs.
     auto setup_inputs(identifier mapping_id) -> execution_context& {
         return connect_inputs().map_inputs(mapping_id);
     }
+
+    /// @brief Sets-up (connects handlers and binds to signals) default inputs.
     auto setup_inputs() -> execution_context& {
         return setup_inputs({});
     }
 
+    /// @brief Switches to the input mapping with the specified id.
     auto switch_input_mapping(identifier mapping_id) -> execution_context&;
+
+    /// @brief Switches to the default input mapping.
     auto switch_input_mapping() -> auto& {
         return switch_input_mapping({});
     }
@@ -288,8 +303,13 @@ public:
           {this, EAGINE_THIS_MEM_FUNC_C(_handle_stop_running)}};
     }
 
+    /// @brief Generates random uniformly-distributed bytes into @p dest.
     void random_uniform(span<byte> dest);
+
+    /// @brief Generates random uniformly-distributed floats in <0, 1> into @p dest.
     void random_uniform_01(span<float> dest);
+
+    /// @brief Generates random normally-distributed floats into @p dest.
     void random_normal(span<float> dest);
 
 private:
