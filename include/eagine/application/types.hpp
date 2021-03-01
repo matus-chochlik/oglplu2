@@ -15,7 +15,14 @@
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
-enum class video_context_kind : std::uint8_t { opengl, openvg };
+/// @brief Video / graphics rendering context kind.
+/// @ingroup application
+enum class video_context_kind : std::uint8_t {
+    /// @brief OpenGL© (or OpenGL|ES) context.
+    opengl,
+    /// @brief OpenVG© context.
+    openvg
+};
 
 template <typename Selector>
 constexpr auto
@@ -25,7 +32,12 @@ enumerator_mapping(type_identity<video_context_kind>, Selector) noexcept {
        {"openvg", video_context_kind::openvg}}};
 }
 //------------------------------------------------------------------------------
-enum class audio_context_kind : std::uint8_t { openal };
+/// @brief Audio / sound playback and recodring context kind.
+/// @ingroup application
+enum class audio_context_kind : std::uint8_t {
+    /// @brief OpenAL© context.
+    openal
+};
 
 template <typename Selector>
 constexpr auto
@@ -34,7 +46,16 @@ enumerator_mapping(type_identity<audio_context_kind>, Selector) noexcept {
       {{"openal", audio_context_kind::openal}}};
 }
 //------------------------------------------------------------------------------
-enum class video_device_kind : std::uint8_t { dont_care, hardware, software };
+/// @brief Video rendering device kind.
+/// @ingroup application
+enum class video_device_kind : std::uint8_t {
+    /// @brief No preferrence.
+    dont_care,
+    /// @brief Hardware rendering device.
+    hardware,
+    /// @brief Software rendering device.
+    software
+};
 
 template <typename Selector>
 constexpr auto
@@ -45,7 +66,17 @@ enumerator_mapping(type_identity<video_device_kind>, Selector) noexcept {
        {"software", video_device_kind::software}}};
 }
 //------------------------------------------------------------------------------
-enum class framedump_data_type : std::uint8_t { none, float_type, byte_type };
+/// @brief Pixel data type used to store frame dump image data.
+/// @ingroup application
+/// @see framedump_pixel_format
+enum class framedump_data_type : std::uint8_t {
+    /// @brief None, not doing frame dump render run.
+    none,
+    /// @brief Floating-point pixel data.
+    float_type,
+    /// @brief Byte pixel data.
+    byte_type
+};
 
 template <typename Selector>
 constexpr auto
@@ -65,7 +96,19 @@ constexpr auto enumerator_mapping(
        {"byte", framedump_data_type::byte_type}}};
 }
 //------------------------------------------------------------------------------
-enum class framedump_pixel_format : std::uint8_t { none, rgba, depth, stencil };
+/// @brief Pixel data format of frame dump image data.
+/// @ingroup application
+/// @see framedump_data_type
+enum class framedump_pixel_format : std::uint8_t {
+    /// @brief None.
+    none,
+    /// @brief Red, green, blue, alpha color channel data.
+    rgba,
+    /// @brief Depth buffer data.
+    depth,
+    /// @brief Stencil buffer data.
+    stencil
+};
 
 template <typename Selector>
 constexpr auto

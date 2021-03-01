@@ -54,4 +54,9 @@ namespace shapes {
 
 /// @defgroup c_api_wrap C-API wrappers
 
+/// @brief Application harness / wrapper code is placed in this namespace.
+namespace application {
+/// @defgroup application Application wrapper
+}
+
 } // namespace eagine
