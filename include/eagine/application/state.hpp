@@ -16,6 +16,9 @@
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
+/// @brief Class managing application context variables.
+/// @ingroup application
+/// @note Do not use directly. Use context_state_view instead.
 class context_state
   : public main_ctx_object
   , public context_state_view {
@@ -23,6 +26,7 @@ class context_state
 public:
     context_state(main_ctx_parent parent);
 
+    /// @brief Advances the simulation time.
     auto advance_time() noexcept -> auto& {
         if(EAGINE_UNLIKELY(_fixed_fps)) {
             _frame_time.advance(1.F / extract(_fixed_fps));
@@ -33,21 +37,26 @@ public:
         return *this;
     }
 
+    /// @brief Updates the user activity tracking.
     auto update_activity() noexcept -> context_state&;
 
+    /// @brief Notice that the user generated some input.
     auto notice_user_active() noexcept -> auto& {
         _new_user_idle = false;
         return *this;
     }
 
+    /// @brief Generates random uniformly-distributed bytes.
     void random_uniform(span<byte> dest) {
         generate(dest, [this] { return _dist_uniform_byte(_rand_eng); });
     }
 
+    /// @brief Generates random uniformly-distributed floats in range <0, 1>.
     void random_uniform_01(span<float> dest) {
         generate(dest, [this] { return _dist_uniform_float_01(_rand_eng); });
     }
 
+    /// @brief Generates random normally-distributed floats.
     void random_normal(span<float> dest) {
         generate(dest, [this] { return _dist_normal_float(_rand_eng); });
     }
