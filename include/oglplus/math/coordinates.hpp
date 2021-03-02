@@ -14,6 +14,8 @@
 
 namespace eagine::oglp {
 
+/// @brief Alias for math::unit_spherical_coordinate instantiation.
+/// @ingroup gl_utils
 using unit_spherical_coordinate =
   math::unit_spherical_coordinate<gl_types::float_type, math_use_simd>;
 

@@ -22,6 +22,7 @@ namespace eagine::oglp {
 /// @brief Combined wrapper for the GL API operations and constants.
 /// @ingroup gl_api_wrap
 /// @see gl_api_traits
+/// @see gl_api
 template <typename ApiTraits>
 class basic_gl_api
   : protected ApiTraits

@@ -12,7 +12,12 @@
 
 namespace eagine::oglp {
 
+/// @brief Alias for math::smooth_lerp.
+/// @ingroup gl_utils
 using math::smooth_lerp;
+
+/// @brief Alias for math::smooth_oscillate.
+/// @ingroup gl_utils
 using math::smooth_oscillate;
 
 } // namespace eagine::oglp
