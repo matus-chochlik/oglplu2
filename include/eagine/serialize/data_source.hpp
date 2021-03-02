@@ -9,6 +9,7 @@
 #ifndef EAGINE_SERIALIZE_DATA_SOURCE_HPP
 #define EAGINE_SERIALIZE_DATA_SOURCE_HPP
 
+#include "../interface.hpp"
 #include "../memory/buffer.hpp"
 #include "../memory/span_algo.hpp"
 #include "../string_span.hpp"
@@ -17,13 +18,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-struct deserializer_data_source {
-    deserializer_data_source() noexcept = default;
-    deserializer_data_source(deserializer_data_source&&) noexcept = default;
-    deserializer_data_source(const deserializer_data_source&) = delete;
-    auto operator=(deserializer_data_source&&) = delete;
-    auto operator=(const deserializer_data_source&) = delete;
-    virtual ~deserializer_data_source() noexcept = default;
+struct deserializer_data_source : interface<deserializer_data_source> {
 
     virtual auto top(span_size_t size) -> memory::const_block = 0;
 

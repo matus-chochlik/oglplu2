@@ -10,6 +10,7 @@
 #define EAGINE_SERIALIZE_WRITE_BACKEND_HPP
 
 #include "../identifier.hpp"
+#include "../interface.hpp"
 #include "../reflect/decl_name.hpp"
 #include "data_sink.hpp"
 #include "result.hpp"
@@ -17,14 +18,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-struct serializer_backend {
-    serializer_backend() noexcept = default;
-    serializer_backend(serializer_backend&&) noexcept = default;
-    serializer_backend(const serializer_backend&) = delete;
-    auto operator=(serializer_backend&&) = delete;
-    auto operator=(const serializer_backend&) = delete;
-
-    virtual ~serializer_backend() noexcept = default;
+struct serializer_backend : interface<serializer_backend> {
 
     using result = serialization_errors;
 

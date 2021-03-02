@@ -15,48 +15,82 @@
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
+/// @brief Alias for application state value with history.
+/// @ingroup application
+/// @see state_variable
+/// @see context_state_view
 template <typename T>
 using state_value = value_with_history<T, 3>;
 
+/// @brief Alias for application state variable with history.
+/// @ingroup application
+/// @see state_value
+/// @see context_state_view
 template <typename T>
 using state_variable = variable_with_history<T, 3>;
 //------------------------------------------------------------------------------
+/// @brief Read-only view of application context state values.
+/// @ingroup application
 class context_state_view {
 public:
+    /// @brief The clock type for run-time duration measurements.
     using clock_type = std::chrono::steady_clock;
 
-    auto run_time() const noexcept {
+    /// @brief Returns the application run time duration.
+    auto run_time() const noexcept -> clock_type::duration {
         return clock_type::now() - _start_time;
     }
 
-    auto user_idle_time() const noexcept {
+    /// @brief Returns for how long was the user idle.
+    /// @see user_is_idle
+    /// @see user_became_active
+    /// @see user_idle_too_long
+    auto user_idle_time() const noexcept -> clock_type::duration {
         return clock_type::now() - _user_active_time;
     }
 
+    /// @brief Returns the simulation time of the current frame.
+    /// @see frame_duration
     auto frame_time() const noexcept -> seconds_t<float> {
         return seconds_(_frame_time.value());
     }
 
+    /// @brief Returns the duration of the previos frame.
+    /// @see frame_time
     auto frame_duration() const noexcept -> seconds_t<float> {
         return seconds_(_frame_time.delta());
     }
 
+    /// @brief Indicates if the example or the user is active in some way.
+    /// @see user_idle_time
     auto is_active() const noexcept -> bool {
         return !_new_user_idle || _has_activity;
     }
 
-    auto user_is_idle() const noexcept -> state_value<bool> {
+    /// @brief Indicates if the user is idle (does not generate input events).
+    /// @see user_became_active
+    /// @see user_idle_time
+    /// @see user_idle_too_long
+    /// @see is_active
+    auto user_is_idle() const noexcept -> value_with_history<bool, 2> {
         return {_new_user_idle, _old_user_idle};
     }
 
+    /// @brief Indicates that the used became idle.
+    /// @see user_is_idle
+    /// @see user_became_active
     auto user_became_idle() const noexcept -> bool {
         return user_is_idle().delta() > 0;
     }
 
+    /// @brief Indicates that the used became active (generated input events).
+    /// @see user_is_idle
+    /// @see user_became_idle
     auto user_became_active() const noexcept -> bool {
         return user_is_idle().delta() < 0;
     }
 
+    /// @brief Indicates that the user became idle for too long (may depend on config).
     auto user_idle_too_long() const noexcept -> bool {
         // TODO: configurable interval?
         return user_idle_time() > std::chrono::seconds{1};

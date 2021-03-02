@@ -51,10 +51,11 @@ private:
 //------------------------------------------------------------------------------
 /// @brief Constructs instances of unit_screen_gen.
 /// @ingroup shapes
-/// see unit_cube
-/// see unit_sphere
-/// see unit_icosphere
-/// see unit_torus
+/// @see from_value_tree
+/// @see unit_cube
+/// @see unit_sphere
+/// @see unit_icosahedron
+/// @see unit_torus
 static inline auto unit_screen(vertex_attrib_bits attr_bits) {
     return std::make_unique<unit_screen_gen>(attr_bits);
 }

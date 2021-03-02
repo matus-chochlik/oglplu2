@@ -18,22 +18,16 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+/// @brief Loader that fetches shape data from a value tree (JSON, YAML, etc.)
+/// @ingroup shapes
+/// @see from_value_tree
+/// @see valtree::compound
+/// @see valtree::attribute
+/// @see valtree::from_json_text
+/// @see valtree::from_yaml_text
 class value_tree_loader
   : public main_ctx_object
   , public centered_unit_shape_generator_base {
-private:
-    using _base = centered_unit_shape_generator_base;
-
-    valtree::compound _source{};
-    std::string _temp{};
-    std::map<vertex_attrib_variant, std::string> _variant_names{};
-
-    static auto _attr_mask(const valtree::compound&) noexcept
-      -> vertex_attrib_bits;
-
-    template <typename T>
-    void _attrib_values(vertex_attrib_variant, span<T>);
-
 public:
     value_tree_loader(valtree::compound source, main_ctx_parent) noexcept;
 
@@ -66,8 +60,28 @@ public:
     auto operation_count(drawing_variant) -> span_size_t override;
 
     void instructions(drawing_variant, span<draw_operation> ops) override;
+
+private:
+    using _base = centered_unit_shape_generator_base;
+
+    valtree::compound _source{};
+    std::string _temp{};
+    std::map<vertex_attrib_variant, std::string> _variant_names{};
+
+    static auto _attr_mask(const valtree::compound&) noexcept
+      -> vertex_attrib_bits;
+
+    template <typename T>
+    void _attrib_values(vertex_attrib_variant, span<T>);
 };
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of value_tree_loader.
+/// @ingroup shapes
+/// @see unit_cube
+/// @see unit_sphere
+/// @see unit_icosahedron
+/// @see unit_screen
+/// @see unit_torus
 static inline auto
 from_value_tree(valtree::compound source, main_ctx_parent parent) {
     return std::make_unique<value_tree_loader>(std::move(source), parent);

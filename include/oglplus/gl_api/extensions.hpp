@@ -15,6 +15,8 @@ namespace eagine::oglp {
 template <typename ApiTraits>
 class basic_gl_operations;
 
+/// @brief Wrapper for GL extension information getter.
+/// @ingroup gl_api_wrap
 template <typename ApiTraits>
 class basic_gl_extension {
 public:
@@ -25,10 +27,12 @@ public:
       : _api{api}
       , _name{name} {}
 
+    /// @brief Tests if this extension is available.
     explicit operator bool() const noexcept {
         return _api.has_extension(_name);
     }
 
+    /// @brief Tests if this extension is available.
     auto operator()() const noexcept -> bool {
         return _api.has_extension(_name);
     }

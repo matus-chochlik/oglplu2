@@ -11,6 +11,7 @@
 
 #include "assert.hpp"
 #include "deep_copy_ptr.hpp"
+#include "interface.hpp"
 #include <iterator>
 
 namespace eagine {
@@ -19,14 +20,7 @@ namespace eagine {
 template <typename VT, typename RT, typename PT, typename DT>
 class any_forward_iterator {
 private:
-    struct _intf {
-        _intf() = default;
-        _intf(_intf&&) noexcept = default;
-        _intf(const _intf&) = default;
-        _intf& operator=(_intf&&) = delete;
-        _intf& operator=(const _intf&) = delete;
-        virtual ~_intf() = default;
-
+    struct _intf : interface<_intf> {
         virtual std::unique_ptr<_intf> copy() = 0;
         virtual RT _deref() = 0;
         virtual void _advance() = 0;

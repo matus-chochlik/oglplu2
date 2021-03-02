@@ -35,6 +35,8 @@ namespace eagine {
 
 /// @defgroup valid_if Conditionally valid values
 
+/// @defgroup value_history Values and variables with history
+
 /// @brief Math-related code is placed in this namespace.
 namespace math {
 /// @defgroup math Math utilities
@@ -53,5 +55,10 @@ namespace shapes {
 /// @defgroup main_context Program utilities and main context
 
 /// @defgroup c_api_wrap C-API wrappers
+
+/// @brief Application harness / wrapper code is placed in this namespace.
+namespace application {
+/// @defgroup application Application wrapper
+}
 
 } // namespace eagine

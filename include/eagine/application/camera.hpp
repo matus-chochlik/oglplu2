@@ -15,28 +15,46 @@
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
+/// @brief Extension of orbiting camera wrapper.
+/// @ingroup application
 class orbiting_camera : public oglp::orbiting_camera {
-    using base = oglp::orbiting_camera;
 
 public:
+    using base = oglp::orbiting_camera;
     using base::matrix;
+
+    /// @brief Construction from a reference to a video context.
     auto matrix(video_context& vc) const noexcept {
         return base::matrix(vc.surface_aspect());
     }
 
+    /// @brief Inddicates if the camera has changed and resets the flag.
     auto has_changed() noexcept {
         return std::exchange(_changed, false);
     }
 
+    /// @brief Does a generic orbit update with given increment.
     auto update_orbit(float inc) noexcept -> orbiting_camera&;
+
+    /// @brief Does a generic azimuth update with given increment.
     auto update_turns(float inc) noexcept -> orbiting_camera&;
+
+    /// @brief Does a generic elevation update with given increment.
     auto update_pitch(float inc) noexcept -> orbiting_camera&;
 
+    /// @brief Does a generic combined update when the user does not provide input.
+    /// @see update_orbit
+    /// @see update_turns
+    /// @see update_pitch
     auto idle_update(
       const context_state_view&,
       const valid_if_positive<float>& divisor = 2.F) noexcept
       -> orbiting_camera&;
 
+    /// @brief Does a generic combined update when the user does not provide input.
+    /// @see update_orbit
+    /// @see update_turns
+    /// @see update_pitch
     auto idle_update(
       const execution_context&,
       const valid_if_positive<float>& divisor = 2.F) noexcept
@@ -45,6 +63,11 @@ public:
     constexpr auto pressure_input_id() const noexcept -> message_id {
         return EAGINE_MSG_ID(Camera, Pressure);
     }
+
+    /// @brief Returns the input slot for handling cursor pressure input signals.
+    /// This can be bound for example to mouse button press input signal.
+    /// @see connect_inputs
+    /// @see basic_input_mapping
     auto pressure_input() noexcept -> input_slot {
         return {
           pressure_input_id(),
@@ -54,6 +77,11 @@ public:
     constexpr auto dampening_input_id() const noexcept -> message_id {
         return EAGINE_MSG_ID(Camera, Dampening);
     }
+
+    /// @brief Returns the input slot for handling motion dampening input signals.
+    /// This can be bound for example to control or shift key press input signal.
+    /// @see connect_inputs
+    /// @see basic_input_mapping
     auto dampening_input() noexcept -> input_slot {
         return {
           dampening_input_id(),
@@ -63,6 +91,11 @@ public:
     constexpr auto altitude_change_input_id() const noexcept -> message_id {
         return EAGINE_MSG_ID(Camera, Altitude);
     }
+
+    /// @brief Returns the input slot for handling orbit change input signals.
+    /// This can be bound for example to mouse wheel scroll input signal.
+    /// @see connect_inputs
+    /// @see basic_input_mapping
     auto altitude_change_input() noexcept -> input_slot {
         return {
           altitude_change_input_id(),
@@ -72,6 +105,11 @@ public:
     constexpr auto longitude_change_input_id() const noexcept -> message_id {
         return EAGINE_MSG_ID(Camera, Longitude);
     }
+
+    /// @brief Returns the input slot for handling azimuth change input signals.
+    /// This can be bound for example to left/right arrow key press input signals.
+    /// @see connect_inputs
+    /// @see basic_input_mapping
     auto longitude_change_input() noexcept -> input_slot {
         return {
           longitude_change_input_id(),
@@ -81,17 +119,28 @@ public:
     constexpr auto latitude_change_input_id() const noexcept -> message_id {
         return EAGINE_MSG_ID(Camera, Latitude);
     }
+
+    /// @brief Returns the input slot for handling elevation change input signals.
+    /// This can be bound for example to up/down arrow key press input signals.
+    /// @see connect_inputs
+    /// @see basic_input_mapping
     auto latitude_change_input() noexcept -> input_slot {
         return {
           latitude_change_input_id(),
           {this, EAGINE_THIS_MEM_FUNC_C(_change_latitude)}};
     }
 
+    /// @brief Connects the camera input slots to the execution context.
+    /// @see basic_input_mapping
     auto connect_inputs(execution_context& ec) -> orbiting_camera&;
 
+    /// @brief Specifies a named key binding for the camera input slots.
+    /// @see connect_inputs
     auto basic_input_mapping(execution_context& ec, identifier mapping_id)
       -> orbiting_camera&;
 
+    /// @brief Specifies the default key binding for the camera input slots.
+    /// @see connect_inputs
     auto basic_input_mapping(execution_context& ec) -> auto& {
         return basic_input_mapping(ec, {});
     }

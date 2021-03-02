@@ -10,6 +10,7 @@
 #define EAGINE_MEMORY_BYTE_ALLOC_HPP
 
 #include "../assert.hpp"
+#include "../interface.hpp"
 #include "../tribool.hpp"
 #include "../types.hpp"
 #include "block.hpp"
@@ -18,17 +19,11 @@
 namespace eagine::memory {
 
 // byte_allocator
-struct byte_allocator : block_owner {
+struct byte_allocator
+  : interface<byte_allocator>
+  , block_owner {
     using value_type = byte;
     using size_type = span_size_t;
-
-    byte_allocator() = default;
-    byte_allocator(byte_allocator&&) noexcept = default;
-    byte_allocator(const byte_allocator&) = default;
-    auto operator=(byte_allocator&&) noexcept -> byte_allocator& = default;
-    auto operator=(const byte_allocator&) -> byte_allocator& = default;
-
-    virtual ~byte_allocator() noexcept = default;
 
     virtual auto duplicate() noexcept -> byte_allocator* = 0;
 

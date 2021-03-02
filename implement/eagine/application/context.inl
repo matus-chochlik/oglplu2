@@ -375,8 +375,8 @@ inline auto execution_context::_setup_providers() -> bool {
 
     for(auto& video_opts : _options._video_opts) {
         // TODO: proper provider selection
-        if(video_opts.second._provider_name.empty()) {
-            video_opts.second._provider_name = "glfw3";
+        if(!video_opts.second.has_provider()) {
+            video_opts.second.set_provider("glfw3");
         }
     }
 

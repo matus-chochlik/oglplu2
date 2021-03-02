@@ -13,69 +13,47 @@ namespace eagine::application {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 video_options::video_options(
-  main_ctx_object& o,
+  main_ctx_object& obj,
   video_context_kind kind,
   identifier instance)
-  : _video_kind{kind} {
-    const auto instname = instance.name();
-    _provider_name =
-      o.cfg_init("application.video.provider", std::string(), instname);
-    _display_name =
-      o.cfg_init("application.video.display", std::string(), instname);
-    _device_idx =
-      o.cfg_init("application.video.device.index", _device_idx, instname);
-    _device_kind =
-      o.cfg_init("application.video.device.kind", _device_kind, instname);
-    _device_path =
-      o.cfg_init("application.video.device.path", _device_path, instname);
-    _driver_name =
-      o.cfg_init("application.video.driver", std::string(), instname);
-
-    _gl_version_major = o.cfg_extr<valid_gl_major_version>(
-      "application.opengl.version.major", _gl_version_major, instname);
-    _gl_version_minor = o.cfg_extr<valid_gl_minor_version>(
-      "application.opengl.version.minor", _gl_version_minor, instname);
-
-    _surface_width = o.cfg_extr<valid_surface_size>(
-      "application.video.surface.width", _surface_width, instname);
-    _surface_height = o.cfg_extr<valid_surface_size>(
-      "application.video.surface.height", _surface_height, instname);
-
-    _samples = o.cfg_extr<valid_samples>(
-      "application.video.samples", _samples, instname);
-    _color_bits = o.cfg_extr<valid_color_bits>(
-      "application.video.color_bits", _color_bits, instname);
-    _alpha_bits = o.cfg_extr<valid_alpha_bits>(
-      "application.video.alpha_bits", _alpha_bits, instname);
-    _depth_bits = o.cfg_extr<valid_depth_bits>(
-      "application.video.depth_bits", _depth_bits, instname);
-    _stencil_bits = o.cfg_extr<valid_stencil_bits>(
-      "application.video.0.stencil_bits", _stencil_bits, instname);
-
-    _prefer_gles =
-      o.cfg_init("application.opengl.prefer_es", _prefer_gles, instname);
-    _gl_debug_context = o.cfg_init(
-      "application.opengl.debug_context", _gl_debug_context, instname);
-    _gl_robust_access = o.cfg_init(
-      "application.opengl.robust_access", _gl_robust_access, instname);
-    _gl_compat_context = o.cfg_init(
-      "application.opengl.compatibility", _gl_compat_context, instname);
-
-    _fullscreen = o.cfg_init("application.video.fullscreen", false, instname);
-    _offscreen = o.cfg_init("application.video.offscreen", false, instname);
-
-    _offscreen_framebuffer =
-      o.cfg_init("application.video.offscreen_frambuffer", false, instname);
-
-    _framedump_prefix =
-      o.cfg_init("application.video.framedump.prefix", std::string(), instname);
-    _framedump_color = o.cfg_init(
-      "application.video.framedump.color", _framedump_color, instname);
-    _framedump_depth = o.cfg_init(
-      "application.video.framedump.depth", _framedump_depth, instname);
-    _framedump_stencil = o.cfg_init(
-      "application.video.framedump.stencil", _framedump_stencil, instname);
-}
+  : video_options{obj.main_context().config(), kind, instance.name()} {}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+video_options::video_options(
+  application_config& c,
+  video_context_kind kind,
+  string_view instance)
+  : _video_kind{kind}
+  , _provider_name{c, "application.video.provider", instance}
+  , _display_name{c, "application.video.display", instance}
+  , _driver_name{c, "application.video.driver", instance}
+  , _device_path{c, "application.video.device.path", instance}
+  , _framedump_prefix{c, "application.video.framedump.prefix", instance}
+  , _device_idx{c, "application.video.device.index", instance, -1}
+  , _gl_version_major{c, "application.opengl.version.major", instance, -1}
+  , _gl_version_minor{c, "application.opengl.version.minor", instance, -1}
+  , _surface_width{c, "application.video.surface.width", instance, 1280}
+  , _surface_height{c, "application.video.surface.height", instance, 800}
+  , _samples{c, "application.video.samples", instance, 0}
+  , _color_bits{c, "application.video.color_bits", instance, 8}
+  , _alpha_bits{c, "application.video.alpha_bits", instance, 0}
+  , _depth_bits{c, "application.video.depth_bits", instance, 24}
+  , _stencil_bits{c, "application.video.stencil_bits", instance, 0}
+  , _prefer_gles{c, "application.opengl.prefer_es", instance, false}
+  , _gl_debug_context{c, "application.opengl.debug_context", instance, false}
+  , _gl_robust_access{c, "application.opengl.robust_access", instance, false}
+  , _gl_compat_context{c, "application.opengl.compatibility", instance, false}
+  , _fullscreen{c, "application.video.fullscreen", instance, false}
+  , _offscreen{c, "application.video.offscreen", instance, false}
+  , _offscreen_framebuffer{c, "application.video.frambuffer", instance, false}
+  , _device_kind{c, "application.video.device.kind", instance, video_device_kind::dont_care}
+  , _framedump_color{c, "application.video.framedump.color", instance, framedump_data_type::none}
+  , _framedump_depth{c, "application.video.framedump.depth", instance, framedump_data_type::none}
+  , _framedump_stencil{
+      c,
+      "application.video.framedump.stencil",
+      instance,
+      framedump_data_type::none} {}
 //------------------------------------------------------------------------------
 // audio_options
 //------------------------------------------------------------------------------

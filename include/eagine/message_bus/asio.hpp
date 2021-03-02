@@ -160,13 +160,7 @@ private:
 };
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind, connection_protocol Proto>
-struct asio_connection_group {
-    asio_connection_group() noexcept = default;
-    asio_connection_group(asio_connection_group&&) = delete;
-    asio_connection_group(const asio_connection_group&) = delete;
-    auto operator=(asio_connection_group&&) = delete;
-    auto operator=(const asio_connection_group&) = delete;
-    virtual ~asio_connection_group() noexcept = default;
+struct asio_connection_group : interface<asio_connection_group<Kind, Proto>> {
 
     using bit_set = typename serialized_message_storage::bit_set;
     using endpoint_type = asio_endpoint_type<Kind, Proto>;

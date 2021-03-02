@@ -10,6 +10,7 @@
 #define EAGINE_SERIALIZE_READ_BACKEND_HPP
 
 #include "../identifier.hpp"
+#include "../interface.hpp"
 #include "../reflect/decl_name.hpp"
 #include "data_source.hpp"
 #include "result.hpp"
@@ -17,14 +18,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-struct deserializer_backend {
-    deserializer_backend() noexcept = default;
-    deserializer_backend(deserializer_backend&&) noexcept = default;
-    deserializer_backend(const deserializer_backend&) = delete;
-    auto operator=(deserializer_backend&&) = delete;
-    auto operator=(const deserializer_backend&) = delete;
-
-    virtual ~deserializer_backend() noexcept = default;
+struct deserializer_backend : interface<deserializer_backend> {
 
     using result = deserialization_errors;
 

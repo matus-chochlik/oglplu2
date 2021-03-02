@@ -118,10 +118,11 @@ static inline auto unit_torus(
 //------------------------------------------------------------------------------
 /// @brief Constructs instances of unit_torus_gen.
 /// @ingroup shapes
-/// see unit_cube
-/// see unit_sphere
-/// see unit_icosphere
-/// see unit_screen
+/// @see from_value_tree
+/// @see unit_cube
+/// @see unit_sphere
+/// @see unit_icosahedron
+/// @see unit_screen
 static inline auto unit_torus(vertex_attrib_bits attr_bits) {
     return unit_torus(attr_bits, 18, 36, 0.5F);
 }

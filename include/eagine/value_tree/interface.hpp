@@ -10,6 +10,7 @@
 #define EAGINE_VALUE_TREE_INTERFACE_HPP
 
 #include "../identifier_t.hpp"
+#include "../interface.hpp"
 #include "../reflect/map_enumerators.hpp"
 #include "../string_path.hpp"
 #include "../string_span.hpp"
@@ -68,13 +69,7 @@ struct compound_interface;
 /// @note Do not use directly in client code, use attribute instead.
 /// @see attribute
 /// @see compound_interface
-struct attribute_interface {
-    attribute_interface() noexcept = default;
-    attribute_interface(attribute_interface&&) noexcept = default;
-    attribute_interface(const attribute_interface&) = default;
-    auto operator=(attribute_interface&&) = delete;
-    auto operator=(const attribute_interface&) = delete;
-    virtual ~attribute_interface() noexcept = default;
+struct attribute_interface : interface<attribute_interface> {
 
     /// @brief Returns the implementation type identifier of this attribute.
     virtual auto type_id() const noexcept -> identifier_t = 0;
@@ -85,13 +80,7 @@ struct attribute_interface {
 /// @note Do not use directly in client code, use compound instead.
 /// @see compound
 /// @see attribute_interface
-struct compound_interface {
-    compound_interface() noexcept = default;
-    compound_interface(compound_interface&&) = delete;
-    compound_interface(const compound_interface&) = delete;
-    auto operator=(compound_interface&&) = delete;
-    auto operator=(const compound_interface&) = delete;
-    virtual ~compound_interface() noexcept = default;
+struct compound_interface : interface<compound_interface> {
 
     /// @brief Returns the implementation type identifier of this compound.
     virtual auto type_id() const noexcept -> identifier_t = 0;

@@ -191,6 +191,50 @@ inline auto application_config_initial(
     return initial;
 }
 //------------------------------------------------------------------------------
+/// @brief Class wrapping values that can be loaded from application_config.
+/// @ingroup main_context
+template <typename T, typename As = std::add_const_t<T>&>
+class application_config_value {
+public:
+    /// @brief Initialization from key, tag and optional initial value.
+    application_config_value(
+      application_config& config,
+      string_view key,
+      string_view tag,
+      T initial = {}) noexcept
+      : _value{application_config_initial(config, key, initial, tag)} {}
+
+    /// @brief Initialization from key and optional initial value.
+    application_config_value(
+      application_config& config,
+      string_view key,
+      T initial = {}) noexcept
+      : application_config_value{config, key, {}, initial} {}
+
+    auto operator=(T new_value) -> auto& {
+        _value = std::move(new_value);
+        return *this;
+    }
+
+    /// @brief Returns the stored value converted to the @p As type.
+    auto value() const noexcept -> As {
+        return _value;
+    }
+
+    /// @brief Implicit conversion of the stored value to the @p As type.
+    /// @see value
+    operator As() const noexcept {
+        return value();
+    }
+
+    friend auto extract(const application_config_value& that) noexcept -> As {
+        return that.value();
+    }
+
+private:
+    T _value{};
+};
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)

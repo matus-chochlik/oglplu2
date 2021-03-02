@@ -12,6 +12,7 @@
 #include "branch_predict.hpp"
 #include "extract.hpp"
 #include "integer_range.hpp"
+#include "interface.hpp"
 #include "types.hpp"
 #include <condition_variable>
 #include <memory>
@@ -23,14 +24,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-struct work_unit {
-    work_unit() noexcept = default;
-    work_unit(work_unit&&) noexcept = default;
-    work_unit(const work_unit&) noexcept = default;
-    auto operator=(work_unit&&) noexcept -> work_unit& = default;
-    auto operator=(const work_unit&) noexcept -> work_unit& = default;
-    virtual ~work_unit() noexcept = default;
-
+struct work_unit : interface<work_unit> {
     virtual auto do_it() -> bool = 0;
     virtual void deliver() = 0;
 };

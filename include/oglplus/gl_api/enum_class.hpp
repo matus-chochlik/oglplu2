@@ -16,23 +16,70 @@
 
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
+/// @brief Typed wrapper class for GLenum constants/values.
+/// @ingroup gl_api_wrap
+/// @see gl_bitfield_class
+/// @see gl_ubyte_class
+/// @see gl_bool_class
+/// @see gl_any_enum_class
+///
+/// This wrapper uses the specified Id to group various GL constants logically
+/// belonging together and prevents accidental mismatches and use of GL constanst
+/// from unrelated groups. For example using a shader type constant in place
+/// of texture type constants. Such mismatches result in compilation errors.
 template <typename Self, identifier_t Id>
 using gl_enum_class =
   enum_class<Self, gl_types::enum_type, EAGINE_ID_V(GL), Id>;
 
+/// @brief Typed wrapper class for GLbitfield constants/values.
+/// @ingroup gl_api_wrap
+/// @see gl_enum_class
+/// @see gl_ubyte_class
+/// @see gl_bool_class
+/// @see gl_any_enum_class
+///
+/// This wrapper uses the specified Id to group various GL constants logically
+/// belonging together and prevents accidental mismatches and use of GL constanst
+/// from unrelated groups. For example using a context attribute bits in place
+/// of memory barrier bit constants. Such mismatches result in compilation errors.
 template <typename Self, identifier_t Id>
 using gl_bitfield_class =
   enum_class<Self, gl_types::bitfield_type, EAGINE_ID_V(GL), Id>;
 
+/// @brief Typed wrapper class for GLubyte constants/values.
+/// @ingroup gl_api_wrap
+/// @see gl_enum_class
+/// @see gl_bitfield_class
+/// @see gl_bool_class
+/// @see gl_any_enum_class
+///
+/// This wrapper uses the specified Id to group various GL constants logically
+/// belonging together and prevents accidental mismatches and use of GL constanst
+/// from unrelated groups. Such mismatches result in compilation errors.
 template <typename Self, identifier_t Id>
 using gl_ubyte_class =
   enum_class<Self, gl_types::ubyte_type, EAGINE_ID_V(GL), Id>;
 
+/// @brief Typed wrapper class for GLboolean constants/values.
+/// @ingroup gl_api_wrap
+/// @see gl_enum_class
+/// @see gl_bitfield_class
+/// @see gl_ubyte_class
+/// @see gl_any_enum_class
 template <typename Self, identifier_t Id>
 using gl_bool_class =
   enum_class<Self, gl_types::bool_type, EAGINE_ID_V(GL), Id>;
 
+/// @brief Type erasure alias for GL enum classes.
+/// @ingroup gl_api_wrap
+/// @see gl_enum_class
+/// @see gl_bitfield_class
+/// @see gl_ubyte_class
+/// @see gl_bool_class
 using gl_any_enum_class = any_enum_class<EAGINE_ID_V(GL)>;
+
+/// @brief Type erasure alias for GL enum values.
+/// @ingroup gl_api_wrap
 using gl_any_enum_value = any_enum_value<EAGINE_ID_V(GL)>;
 
 static constexpr auto

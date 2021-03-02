@@ -12,6 +12,8 @@
 
 namespace eagine::oglp {
 
+/// @brief Alias for math::sign.
+/// @ingroup gl_utils
 using sign = math::sign<float>;
 
 } // namespace eagine::oglp

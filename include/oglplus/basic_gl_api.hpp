@@ -19,6 +19,10 @@
 
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
+/// @brief Combined wrapper for the GL API operations and constants.
+/// @ingroup gl_api_wrap
+/// @see gl_api_traits
+/// @see gl_api
 template <typename ApiTraits>
 class basic_gl_api
   : protected ApiTraits
@@ -32,6 +36,7 @@ public:
     using int_type = typename gl_types::int_type;
     using float_type = typename gl_types::float_type;
 
+    /// @brief Constructor using API traits..
     basic_gl_api(ApiTraits traits)
       : ApiTraits{std::move(traits)}
       , basic_gl_operations<ApiTraits>{*static_cast<ApiTraits*>(this)}
@@ -39,37 +44,46 @@ public:
           *static_cast<ApiTraits*>(this),
           *static_cast<basic_gl_operations<ApiTraits>*>(this)} {}
 
+    /// @brief Default constructor.
     basic_gl_api()
       : basic_gl_api{ApiTraits{}} {}
 
+    /// @brief Returns a reference to the wrapped operations.
     auto operations() noexcept -> basic_gl_operations<ApiTraits>& {
         return *this;
     }
 
+    /// @brief Returns a reference to the wrapped operations.
     auto operations() const noexcept -> const basic_gl_operations<ApiTraits>& {
         return *this;
     }
 
+    /// @brief Returns a reference to the wrapped operations.
     auto operator()() noexcept -> basic_gl_operations<ApiTraits>& {
         return *this;
     }
 
+    /// @brief Returns a reference to the wrapped operations.
     auto operator()() const noexcept -> const basic_gl_operations<ApiTraits>& {
         return *this;
     }
 
+    /// @brief Returns a reference to the wrapped constants.
     auto constants() noexcept -> basic_gl_constants<ApiTraits>& {
         return *this;
     }
 
+    /// @brief Returns a reference to the wrapped constants.
     auto constants() const noexcept -> const basic_gl_constants<ApiTraits>& {
         return *this;
     }
 
+    /// @brief Returns a reference to the wrapped constants.
     auto operator~() noexcept -> basic_gl_constants<ApiTraits>& {
         return *this;
     }
 
+    /// @brief Returns a reference to the wrapped constants.
     auto operator~() const noexcept -> const basic_gl_constants<ApiTraits>& {
         return *this;
     }
@@ -79,7 +93,7 @@ public:
         return b ? true_false(this->true_) : true_false(this->false_);
     }
 
-    // build program
+    /// @brief Builds a shader program from the specified sources.
     auto build_program(
       program_name prog,
       const program_source_block& prog_src_blk) const -> combined_result<void> {
@@ -98,6 +112,7 @@ public:
         return this->link_program(prog);
     }
 
+    /// @brief Builds a shader program from the sources in a baked memory block.
     auto build_program(program_name prog, memory::const_block prog_src_blk) const
       -> combined_result<void> {
         return build_program(prog, program_source_block(prog_src_blk));

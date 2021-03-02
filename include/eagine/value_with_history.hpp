@@ -40,43 +40,61 @@ value_with_history_distance(const T& new_value, const T& old_value) noexcept {
     return abs(value_with_history_delta(new_value, old_value));
 }
 //------------------------------------------------------------------------------
+/// @brief Base storage class for values and variables with history.
+/// @tparam T the type of the value
+/// @tparam N the number of latest historical revisions of the stored value.
+/// @ingroup value_history
+/// @see value_with_history
+/// @note Do not use this class directly.
+///       Use value_with_history or variable_with_history.
 template <typename T, std::size_t N>
 class value_with_history_storage {
-private:
-    T _values[N] = {};
-
 public:
+    /// @brief Default constructor.
     constexpr value_with_history_storage() = default;
 
-    template <typename... I>
+    /// @brief Initializes the individual revisions of the value.
+    template <typename... I, typename = std::enable_if_t<sizeof...(I) == N>>
     constexpr value_with_history_storage(I&&... initial)
       : _values{T(initial)...} {}
 
-    value_with_history_storage(const T& initial) noexcept {
+    /// @brief Initializes all revisions with the same initial value.
+    constexpr value_with_history_storage(const T& initial) noexcept {
         for(std::size_t i = 0; i < N; ++i) {
             _values[i] = initial;
         }
     }
 
+    /// @brief Returns the i-th revision of the stored value (0 = current value).
     constexpr auto get(std::size_t i) const noexcept -> const T& {
+        EAGINE_ASSERT(i < N);
         return _values[i];
     }
 
-    inline void set(std::size_t i, const T& value) noexcept {
+    /// @brief Sets the i-th revision of the stored value (0 = current value).
+    void set(std::size_t i, const T& value) noexcept {
+        EAGINE_ASSERT(i < N);
         _values[i] = value;
     }
 
+    /// @brief Move the stored revisions by one, to make place for new value.
+    /// @see sync
     void make_history() noexcept {
         for(std::size_t i = 1; i < N; ++i) {
             _values[N - i] = _values[N - i - 1];
         }
     }
 
+    /// @brief Synchronize the historic revisions to the current value.
+    /// @see make_history
     void sync() noexcept {
         for(std::size_t i = 1; i < N; ++i) {
             _values[i] = _values[0];
         }
     }
+
+private:
+    T _values[N]{};
 };
 //------------------------------------------------------------------------------
 template <typename Transform, typename... T, std::size_t N>
@@ -115,11 +133,100 @@ convert_stored_values(const value_with_history_storage<T, N>& storage) {
     return transform_stored_values([](const T& v) { return U(v); }, storage);
 }
 //------------------------------------------------------------------------------
+/// @brief Class for read-only values with history.
+/// @tparam T the type of the value
+/// @tparam N the number of latest historical revisions of the stored value.
+/// @ingroup value_history
 template <typename T, std::size_t N>
 class value_with_history {
-private:
-    static_assert(N >= 2, "at least two values are required");
-    value_with_history_storage<T, N> _values;
+public:
+    explicit value_with_history(const value_with_history_storage<T, N>& storage)
+      : _values{storage} {}
+
+    /// @brief Initialized the individual revisions of this value.
+    template <typename... I>
+    constexpr value_with_history(I&&... initial)
+      : _values{std::forward<I>(initial)...} {}
+
+    /// @brief Returns a reference to the value storage.
+    auto values() const noexcept -> const value_with_history_storage<T, N>& {
+        return _values;
+    }
+
+    /// @brief Returns the current revision of the value.
+    /// @see value
+    auto get() const noexcept {
+        return values().get(0);
+    }
+
+    /// @brief Returns the current revision of the value.
+    /// @see get
+    /// @see old_value
+    auto value() const noexcept {
+        return values().get(0);
+    }
+
+    /// @brief Returns the previous revision of the value.
+    /// @see get
+    /// @see value
+    auto old_value() const noexcept {
+        return values().get(1);
+    }
+
+    /// @brief Returns the current or previous revision of the value.
+    /// @see value
+    /// @see old_value
+    auto value(bool old) const noexcept {
+        return old ? old_value() : value();
+    }
+
+    /// @brief Returns the current revision of the value.
+    /// @see value
+    operator T() const noexcept {
+        return value();
+    }
+
+    template <typename U, typename... P>
+    operator valid_if<U, P...>() const noexcept {
+        return {U(value())};
+    }
+
+    /// @brief Returns the difference between the current and the previous revision.
+    auto delta() const noexcept {
+        return value_with_history_delta(value(), old_value());
+    }
+
+    /// @brief Returns the differences between the adjacent revisions.
+    auto deltas() const noexcept {
+        return value_with_history<decltype(delta()), N - 1>(
+          differentiate_stored_values(
+            [](const T& n, const T& o) {
+                return value_with_history_delta(n, o);
+            },
+            values()));
+    }
+
+    /// @brief Returns the distance between the current and the previous revisions.
+    auto distance() const noexcept {
+        return value_with_history_distance(value(), old_value());
+    }
+
+    /// @brief Indicates if the current and previous revisions differ.
+    auto changed() const noexcept -> bool {
+        return value_with_history_changed(old_value(), value());
+    }
+
+    /// @brief Returns this with the values cast to new type @p U.
+    template <typename U>
+    auto as() const {
+        return value_with_history<U, N>(convert_stored_values<U>(values()));
+    }
+
+    /// @brief Synchronize the historic revisions to the current value.
+    /// @see make_history
+    void sync() {
+        this->values().sync();
+    }
 
 protected:
     auto values() noexcept -> value_with_history_storage<T, N>& {
@@ -147,72 +254,9 @@ protected:
     explicit value_with_history(const T& initial) noexcept
       : _values(initial) {}
 
-public:
-    explicit value_with_history(const value_with_history_storage<T, N>& storage)
-      : _values(storage) {}
-
-    template <typename... I>
-    constexpr value_with_history(I&&... initial)
-      : _values{std::forward<I>(initial)...} {}
-
-    auto values() const noexcept -> const value_with_history_storage<T, N>& {
-        return _values;
-    }
-
-    auto get() const noexcept {
-        return values().get(0);
-    }
-
-    auto value() const noexcept {
-        return values().get(0);
-    }
-
-    auto old_value() const noexcept {
-        return values().get(1);
-    }
-
-    auto value(bool old) const noexcept {
-        return old ? old_value() : value();
-    }
-
-    operator T() const noexcept {
-        return value();
-    }
-
-    template <typename U, typename... P>
-    operator valid_if<U, P...>() const noexcept {
-        return {U(value())};
-    }
-
-    auto delta() const noexcept {
-        return value_with_history_delta(value(), old_value());
-    }
-
-    auto deltas() const noexcept {
-        return value_with_history<decltype(delta()), N - 1>(
-          differentiate_stored_values(
-            [](const T& n, const T& o) {
-                return value_with_history_delta(n, o);
-            },
-            values()));
-    }
-
-    auto distance() const noexcept {
-        return value_with_history_distance(value(), old_value());
-    }
-
-    auto changed() const noexcept -> bool {
-        return value_with_history_changed(old_value(), value());
-    }
-
-    template <typename U>
-    auto as() const {
-        return value_with_history<U, N>(convert_stored_values<U>(values()));
-    }
-
-    void sync() {
-        this->values().sync();
-    }
+private:
+    static_assert(N >= 2, "at least two values are required");
+    value_with_history_storage<T, N> _values;
 };
 //------------------------------------------------------------------------------
 template <typename Transform, typename... T, std::size_t N>
@@ -239,18 +283,26 @@ static inline auto operator/(
       [](const T1& t1, const T2& t2) { return t1 / t2; }, v1, v2);
 }
 //------------------------------------------------------------------------------
+/// @brief Class for mutable variables with history.
+/// @tparam T the type of the value
+/// @tparam N the number of latest historical revisions of the stored value.
+/// @ingroup value_history
 template <typename T, std::size_t N>
 class variable_with_history : public value_with_history<T, N> {
 public:
+    /// @brief Default constructor.
     constexpr variable_with_history() noexcept = default;
 
+    /// @brief Initialize the all revisions to the initial value.
     constexpr variable_with_history(const T& initial) noexcept
       : value_with_history<T, N>(initial) {}
 
+    /// @brief Shifts the revisions and assigns a new value.
     auto assign(const T& new_value) -> bool {
         return this->_update_value(new_value);
     }
 
+    /// @brief Shifts the revisions and advanced the current value by given delta.
     auto advance(const T& delta_value) -> bool {
         return this->_advance_value(delta_value);
     }

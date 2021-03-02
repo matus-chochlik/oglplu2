@@ -20,6 +20,9 @@
 
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
+/// @brief Class wrapping a generic shape loader/generator, adapting it for GL.
+/// @ingroup shapes
+/// @see shapes::generator_intf
 class shape_generator {
 private:
     using generator_intf = shapes::generator_intf;

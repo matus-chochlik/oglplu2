@@ -9,18 +9,13 @@
 #ifndef EAGINE_MESSAGE_BUS_SERVICE_INTERFACE_HPP
 #define EAGINE_MESSAGE_BUS_SERVICE_INTERFACE_HPP
 
+#include "../interface.hpp"
 #include "../types.hpp"
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
-struct service_interface {
-    service_interface() noexcept = default;
-    service_interface(service_interface&&) noexcept = default;
-    service_interface(const service_interface&) = delete;
-    auto operator=(service_interface&&) = delete;
-    auto operator=(const service_interface&) = delete;
+struct service_interface : interface<service_interface> {
 
-    virtual ~service_interface() noexcept = default;
     virtual auto update_and_process_all() -> bool = 0;
 };
 //------------------------------------------------------------------------------

@@ -11,6 +11,7 @@
 
 #include "branch_predict.hpp"
 #include "config/basic.hpp"
+#include "interface.hpp"
 #include "protected_member.hpp"
 #include "string_span.hpp"
 #include "struct_memory_block.hpp"
@@ -18,14 +19,7 @@
 
 namespace eagine {
 
-struct file_contents_intf {
-    file_contents_intf() = default;
-    file_contents_intf(file_contents_intf&&) noexcept = default;
-    file_contents_intf(const file_contents_intf&) = delete;
-    auto operator=(file_contents_intf&&) = delete;
-    auto operator=(const file_contents_intf&) = delete;
-    virtual ~file_contents_intf() = default;
-
+struct file_contents_intf : interface<file_contents_intf> {
     virtual auto block() noexcept -> memory::const_block = 0;
 };
 

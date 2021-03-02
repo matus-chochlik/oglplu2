@@ -9,6 +9,7 @@
 #ifndef EAGINE_APPLICATION_INTERFACE_HPP
 #define EAGINE_APPLICATION_INTERFACE_HPP
 
+#include "../interface.hpp"
 #include "../memory/block.hpp"
 #include "../string_span.hpp"
 #include "../tribool.hpp"
@@ -19,13 +20,7 @@
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
-struct input_sink {
-    input_sink() noexcept = default;
-    input_sink(input_sink&&) = delete;
-    input_sink(const input_sink&) = delete;
-    auto operator=(input_sink&&) = delete;
-    auto operator=(const input_sink&) = delete;
-    virtual ~input_sink() noexcept = default;
+struct input_sink : interface<input_sink> {
 
     virtual void
     consume(const input_info&, const input_value<bool>&) noexcept = 0;
@@ -37,13 +32,7 @@ struct input_sink {
     consume(const input_info&, const input_value<double>&) noexcept = 0;
 };
 //------------------------------------------------------------------------------
-struct input_provider {
-    input_provider() noexcept = default;
-    input_provider(input_provider&&) = delete;
-    input_provider(const input_provider&) = delete;
-    auto operator=(input_provider&&) = delete;
-    auto operator=(const input_provider&) = delete;
-    virtual ~input_provider() noexcept = default;
+struct input_provider : interface<input_provider> {
 
     virtual auto instance_id() const noexcept -> identifier = 0;
 
@@ -58,13 +47,7 @@ struct input_provider {
     virtual void mapping_commit(identifier setup_id) = 0;
 };
 //------------------------------------------------------------------------------
-struct video_provider {
-    video_provider() noexcept = default;
-    video_provider(video_provider&&) = delete;
-    video_provider(const video_provider&) = delete;
-    auto operator=(video_provider&&) = delete;
-    auto operator=(const video_provider&) = delete;
-    virtual ~video_provider() noexcept = default;
+struct video_provider : interface<video_provider> {
 
     virtual auto video_kind() const noexcept -> video_context_kind = 0;
     virtual auto instance_id() const noexcept -> identifier = 0;
@@ -79,25 +62,13 @@ struct video_provider {
     virtual void video_commit(execution_context&) = 0;
 };
 //------------------------------------------------------------------------------
-struct audio_provider {
-    audio_provider() noexcept = default;
-    audio_provider(audio_provider&&) = delete;
-    audio_provider(const audio_provider&) = delete;
-    auto operator=(audio_provider&&) = delete;
-    auto operator=(const audio_provider&) = delete;
-    virtual ~audio_provider() noexcept = default;
+struct audio_provider : interface<audio_provider> {
 
     virtual auto audio_kind() const noexcept -> audio_context_kind = 0;
     virtual auto instance_id() const noexcept -> identifier = 0;
 };
 //------------------------------------------------------------------------------
-struct hmi_provider {
-    hmi_provider() noexcept = default;
-    hmi_provider(hmi_provider&&) = delete;
-    hmi_provider(const hmi_provider&) = delete;
-    auto operator=(hmi_provider&&) = delete;
-    auto operator=(const hmi_provider&) = delete;
-    virtual ~hmi_provider() noexcept = default;
+struct hmi_provider : interface<hmi_provider> {
 
     virtual auto is_implemented() const noexcept -> bool = 0;
     virtual auto implementation_name() const noexcept -> string_view = 0;
@@ -116,13 +87,7 @@ struct hmi_provider {
       audio_enumerate(callable_ref<void(std::shared_ptr<audio_provider>)>) = 0;
 };
 //------------------------------------------------------------------------------
-struct framedump {
-    framedump() noexcept = default;
-    framedump(framedump&&) = delete;
-    framedump(const framedump&) = delete;
-    auto operator=(framedump&&) = delete;
-    auto operator=(const framedump&) = delete;
-    virtual ~framedump() noexcept = default;
+struct framedump : interface<framedump> {
 
     virtual auto initialize(execution_context&, const video_options&)
       -> bool = 0;
@@ -140,13 +105,7 @@ struct framedump {
       memory::block data) -> bool = 0;
 };
 //------------------------------------------------------------------------------
-struct application {
-    application() noexcept = default;
-    application(application&&) = delete;
-    application(const application&) = delete;
-    auto operator=(application&&) = delete;
-    auto operator=(const application&) = delete;
-    virtual ~application() noexcept = default;
+struct application : interface<application> {
 
     virtual auto is_done() noexcept -> bool = 0;
     virtual void on_video_resize() noexcept = 0;
@@ -154,13 +113,7 @@ struct application {
     virtual void clean_up() noexcept = 0;
 };
 //------------------------------------------------------------------------------
-struct launchpad {
-    launchpad() noexcept = default;
-    launchpad(launchpad&&) = delete;
-    launchpad(const launchpad&) = delete;
-    auto operator=(launchpad&&) = delete;
-    auto operator=(const launchpad&) = delete;
-    virtual ~launchpad() noexcept = default;
+struct launchpad : interface<launchpad> {
 
     virtual auto setup(main_ctx&, launch_options&) -> bool {
         return true;

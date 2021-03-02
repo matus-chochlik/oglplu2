@@ -24,13 +24,7 @@ struct acceptor : connection_info {
     virtual auto process_accepted(const accept_handler& handler) -> bool = 0;
 };
 //------------------------------------------------------------------------------
-struct acceptor_user {
-    virtual ~acceptor_user() noexcept = default;
-    acceptor_user() noexcept = default;
-    acceptor_user(acceptor_user&&) noexcept = default;
-    acceptor_user(const acceptor_user&) = delete;
-    auto operator=(acceptor_user&&) = delete;
-    auto operator=(const acceptor_user&) = delete;
+struct acceptor_user : interface<acceptor_user> {
 
     virtual auto add_acceptor(std::shared_ptr<acceptor> an_acceptor)
       -> bool = 0;

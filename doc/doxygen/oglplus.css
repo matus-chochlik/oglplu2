@@ -15,9 +15,9 @@ body {
 
 div#oglplus-frame {
     position: absolute;
-    left: 48px;
+    left: 5%;
     top: 24px;
-    width: 920px;
+    width: 90%;
     background-color: white;
     border: solid black 5px;
     box-shadow: 3px 3px 5px 2px #202020;
@@ -33,7 +33,7 @@ div#oglplus-bar {
 div#oglplus-icon {
     position: absolute;
     top: 0px;
-    left: 782px;
+    right: 0px;
     width: 128px;
     height : 128px;
     border: solid black 5px;
@@ -41,7 +41,6 @@ div#oglplus-icon {
 }
 
 div#oglplus-top {
-    width: 772px;
     height : 128px;
     border: solid black 5px;
     background-color: #D8D8F0;
@@ -224,6 +223,10 @@ div.fragment {
         background-color: #404040;
 }
 
+.memItemLeft, .memTemplItemLeft {
+        white-space: pre-line;
+}
+
 .paramname {
     color: #F0F0F0;
 }
@@ -356,11 +359,11 @@ a.elRef {
 }
 
 a.code, a.code:visited, a.line, a.line:visited {
-    color: #4665A2;
+    color: #7695D2;
 }
 
 a.codeRef, a.codeRef:visited, a.lineRef, a.lineRef:visited {
-    color: #4665A2;
+    color: #7695D2;
 }
 
 dl.el {
@@ -609,10 +612,6 @@ table.memberdecls {
         line-height: 1px;
         margin: 0px;
         padding: 0px;
-}
-
-.memItemLeft, .memTemplItemLeft {
-        white-space: nowrap;
 }
 
 .memItemRight, .memTemplItemRight {

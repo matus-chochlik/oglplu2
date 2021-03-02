@@ -26,6 +26,8 @@
 
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
+/// @brief Collection of aliases to GL types.
+/// @ingroup gl_api_wrap
 struct gl_types {
 #if OGLPLUS_HAS_GL
     static constexpr bool has_api = true;
@@ -34,25 +36,64 @@ struct gl_types {
 #else
     static constexpr bool has_static_api = true;
 #endif
+    /// @brief Untyped pointer type.
     using void_ptr_type = GLvoid*;
+
+    /// @brief Untyped const pointer type.
     using const_void_ptr_type = const GLvoid*;
+
+    /// @brief Character type.
     using char_type = GLchar;
+
+    /// @brief Boolean type.
     using bool_type = GLboolean;
+
+    /// @brief Enumeration type.
     using enum_type = GLenum;
+
+    /// @brief Bit-field type.
     using bitfield_type = GLbitfield;
+
+    /// @brief Byte type.
     using byte_type = GLbyte;
+
+    /// @brief Unsigned-byte type.
     using ubyte_type = GLubyte;
+
+    /// @brief Signed short integer type.
     using short_type = GLshort;
+
+    /// @brief Unsigned short integer type.
     using ushort_type = GLushort;
+
+    /// @brief Signed integer type.
     using int_type = GLint;
+
+    /// @brief Unsigned integer type.
     using uint_type = GLuint;
+
+    /// @brief Signed 64-bit integer type.
     using int64_type = GLint64;
+
+    /// @brief Unsigned 64-bit integer type.
     using uint64_type = GLuint64;
+
+    /// @brief Floating-point type.
     using float_type = GLfloat;
+
+    /// @brief Double-precision floating-point type.
     using double_type = GLdouble;
+
+    /// @brief Signed integer size type.
     using sizei_type = GLsizei;
+
+    /// @brief Signed integer size type.
     using sizeiptr_type = GLsizeiptr;
+
+    /// @brief Signed integer size type.
     using intptr_type = GLintptr;
+
+    /// @brief Sync handle type.
     using sync_type = GLsync;
 #else
     static constexpr bool has_api = false;
@@ -81,6 +122,7 @@ struct gl_types {
 
     using name_type = uint_type;
 
+    /// @brief Converts bool_type value to native bool,
     static constexpr auto bool_true(bool_type b) noexcept -> bool {
 #if OGLPLUS_HAS_GL
         return b == GL_TRUE;
@@ -89,6 +131,7 @@ struct gl_types {
 #endif
     }
 
+    /// @brief Tests if the specified error code represents no-error value.
     static constexpr auto error_code_no_error(enum_type ec) noexcept -> bool {
 #if OGLPLUS_HAS_GL
         return ec == GL_NO_ERROR;
