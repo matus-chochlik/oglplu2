@@ -25,6 +25,7 @@ void particles::init(example& e) {
     auto& [gl, GL] = e.video().gl_api();
 
     // vao
+    gl.delete_vertex_arrays.later_by(e, _vao);
     gl.gen_vertex_arrays() >> _vao;
     gl.bind_vertex_array(_vao);
 
