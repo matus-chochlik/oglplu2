@@ -14,8 +14,11 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Interface for message bus services
+/// @ingroup msgbus
 struct service_interface : interface<service_interface> {
 
+    /// @brief Does an iteration update and processes all received messages.
     virtual auto update_and_process_all() -> bool = 0;
 };
 //------------------------------------------------------------------------------

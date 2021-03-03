@@ -15,10 +15,17 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Message bus connection kind bits enumeration.
+/// @ingroup msgbus
+/// @see connection_kinds
 enum class connection_kind : std::uint8_t {
+    /// @brief Unknown connection kind.
     unknown = 0U,
+    /// @brief In-process connection (cannot be used for inter-process communication).
     in_process = 1U << 0U,
+    /// @brief Inter-process connection for local communication.
     local_interprocess = 1U << 1U,
+    /// @brief Inter-process connection for remote communucation
     remote_interprocess = 1U << 2U
 };
 //------------------------------------------------------------------------------
@@ -32,6 +39,8 @@ enumerator_mapping(type_identity<connection_kind>, Selector) noexcept {
        {"remote_interprocess", connection_kind::remote_interprocess}}};
 }
 //------------------------------------------------------------------------------
+/// @brief Alias for connection kind bitfield.
+/// @ingroup msgbus
 using connection_kinds = bitfield<connection_kind>;
 
 static inline auto operator|(connection_kind l, connection_kind r) noexcept

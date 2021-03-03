@@ -47,6 +47,11 @@ namespace valtree {
 /// @defgroup valtree Value trees
 }
 
+/// @brief Message bus code is placed in this namespace.
+namespace msgbus {
+/// @defgroup msgbus Message bus
+}
+
 /// @brief Shape generator and loader code is placed in this namespace.
 namespace shapes {
 /// @defgroup shapes Shape generators and loaders

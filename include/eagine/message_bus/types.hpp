@@ -17,12 +17,23 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Alias for message sequence number type.
+/// @ingroup msgbus
 using message_sequence_t = std::uint32_t;
 //------------------------------------------------------------------------------
+/// @brief Structure holding part of router connection topology information.
+/// @ingroup msgbus
 struct router_topology_info {
+    /// @brief The router message bus id.
     identifier_t router_id{0};
+
+    /// @brief The remote node message bus id.
     identifier_t remote_id{0};
+
+    /// @brief The router process instance id.
     process_instance_id_t instance_id{0U};
+
+    /// @brief The connection kind.
     connection_kind connect_kind{0U};
 };
 
@@ -42,9 +53,16 @@ data_member_mapping(type_identity<router_topology_info>, Selector) noexcept {
       {"connect_kind", &S::connect_kind});
 }
 //------------------------------------------------------------------------------
+/// @brief Structure holding part of bridge connection topology information.
+/// @ingroup msgbus
 struct bridge_topology_info {
+    /// @brief The bridge message bus id.
     identifier_t bridge_id{0};
+
+    /// @brief The remote node message bus id.
     identifier_t opposite_id{0};
+
+    /// @brief The bridge process instance id.
     process_instance_id_t instance_id{0U};
 };
 
@@ -62,8 +80,13 @@ data_member_mapping(type_identity<bridge_topology_info>, Selector) noexcept {
       {"instance_id", &S::instance_id});
 }
 //------------------------------------------------------------------------------
+/// @brief Structure holding part of endpoint connection topology information.
+/// @ingroup msgbus
 struct endpoint_topology_info {
+    /// @brief The endpoint message bus id.
     identifier_t endpoint_id{0U};
+
+    /// @brief The endpoint process instance id.
     process_instance_id_t instance_id{0U};
 };
 
@@ -75,11 +98,21 @@ data_member_mapping(type_identity<endpoint_topology_info>, Selector) noexcept {
       {"endpoint_id", &S::endpoint_id}, {"instance_id", &S::instance_id});
 }
 //------------------------------------------------------------------------------
+/// @brief Message bus endpoint information.
 struct endpoint_info {
+    /// @brief The application name.
     std::string app_name;
+
+    /// @brief User-readable display name of the endpoint.
     std::string display_name;
+
+    /// @brief User-readable description of the endpoint.
     std::string description;
+
+    /// @brief Indicates if the endpoint is a router control node.
     bool is_router_node{false};
+
+    /// @brief Indicates if the endpoint is a bridge control node.
     bool is_bridge_node{false};
 
     auto tie() const noexcept {
