@@ -167,6 +167,7 @@ public:
     /// @brief Enqueues a message with the specified id/type for sending.
     /// @see post_signed
     /// @see post_value
+    /// @see post_blob
     auto post(message_id msg_id, message_view message) -> bool {
         if(EAGINE_LIKELY(has_id())) {
             return _do_send(msg_id, message);
@@ -183,6 +184,7 @@ public:
     /// @brief Serializes the specified value and enqueues it for sending in message.
     /// @see post
     /// @see post_signed
+    /// @see default_serialize
     template <typename T>
     auto post_value(message_id msg_id, T& value, const message_info& info = {})
       -> bool {
@@ -203,6 +205,11 @@ public:
         return false;
     }
 
+    /// @brief Enqueues a BLOB that is larger than max_data_size for sending.
+    /// @see post
+    /// @see post_signed
+    /// @see post_value
+    /// @see max_data_size
     auto post_blob(
       message_id msg_id,
       identifier_t target_id,
@@ -214,6 +221,11 @@ public:
         return true;
     }
 
+    /// @brief Enqueues a BLOB that is larger than max_data_size for broadcast.
+    /// @see post
+    /// @see post_signed
+    /// @see post_value
+    /// @see max_data_size
     auto broadcast_blob(
       message_id msg_id,
       memory::const_block blob,
@@ -223,6 +235,11 @@ public:
           msg_id, broadcast_endpoint_id(), blob, max_time, priority);
     }
 
+    /// @brief Enqueues a BLOB that is larger than max_data_size for broadcast.
+    /// @see post
+    /// @see post_signed
+    /// @see post_value
+    /// @see max_data_size
     auto broadcast_blob(
       message_id msg_id,
       memory::const_block blob,
@@ -230,15 +247,28 @@ public:
         return broadcast_blob(msg_id, blob, max_time, message_priority::normal);
     }
 
+    /// @brief Posts the certificate of this enpoint to the specified remote.
     auto post_certificate(identifier_t target_id) -> bool;
+
+    /// @brief Broadcasts the certificate of this enpoint to the whole bus.
     auto broadcast_certificate() -> bool;
 
     auto broadcast(message_id msg_id) -> bool {
         return post(msg_id, {});
     }
 
+    /// @brief Posts a message saying that this is not a router bus node.
+    /// @see post
     auto say_not_a_router() -> bool;
+
+    /// @brief Posts a message saying that this endpoint is alive.
+    /// @see post
+    /// @see say_bye
     auto say_still_alive() -> bool;
+
+    /// @brief Posts a message saying that this endpoint is about to disconnect.
+    /// @see post
+    /// @see say_still_alive
     auto say_bye() -> bool;
 
     void post_meta_message(message_id meta_msg_id, message_id msg_id);

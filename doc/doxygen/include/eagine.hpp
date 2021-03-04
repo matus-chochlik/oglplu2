@@ -37,6 +37,8 @@ namespace eagine {
 
 /// @defgroup value_history Values and variables with history
 
+/// @defgroup serialization Serialization and deserialization
+
 /// @brief Math-related code is placed in this namespace.
 namespace math {
 /// @defgroup math Math utilities
