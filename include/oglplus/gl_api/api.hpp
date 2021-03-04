@@ -1567,23 +1567,40 @@ public:
       void(buffer_target, uint_type, buffer_name, intptr_type, sizeiptr_type)>
       bind_buffer_range;
 
-    func<
-      OGLPAFP(BufferStorage),
-      void(
-        buffer_target,
-        sizeiptr_type,
-        const_void_ptr_type,
-        enum_bitfield<buffer_storage_bit>)>
-      buffer_storage;
+    struct : func<OGLPAFP(BufferStorage)> {
+        using func<OGLPAFP(BufferStorage)>::func;
 
-    func<
-      OGLPAFP(NamedBufferStorage),
-      void(
-        buffer_name,
-        sizeiptr_type,
-        const_void_ptr_type,
-        enum_bitfield<buffer_storage_bit>)>
-      named_buffer_storage;
+        constexpr auto operator()(
+          buffer_target tgt,
+          sizeiptr_type size,
+          const_void_ptr_type data,
+          enum_bitfield<buffer_storage_bit> flags) const noexcept {
+            return this->_cnvchkcall(tgt, size, data, flags);
+        }
+
+        constexpr auto
+        operator()(buffer_target tgt, sizeiptr_type size) const noexcept {
+            return (*this)(tgt, size, nullptr, {});
+        }
+
+    } buffer_storage;
+
+    struct : func<OGLPAFP(NamedBufferStorage)> {
+        using func<OGLPAFP(NamedBufferStorage)>::func;
+
+        constexpr auto operator()(
+          buffer_name buf,
+          sizeiptr_type size,
+          const_void_ptr_type data,
+          enum_bitfield<buffer_storage_bit> flags) const noexcept {
+            return this->_cnvchkcall(buf, size, data, flags);
+        }
+
+        constexpr auto
+        operator()(buffer_name buf, sizeiptr_type size) const noexcept {
+            return (*this)(buf, size, nullptr, {});
+        }
+    } named_buffer_storage;
 
     struct : func<OGLPAFP(BufferData)> {
         using func<OGLPAFP(BufferData)>::func;
