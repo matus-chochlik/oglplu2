@@ -21,24 +21,33 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Base class for message bus subscribers.
+/// @ingroup msgbus
+/// @see static_subscriber
+/// @see subscriber
+/// @see endpoint
 class subscriber_base {
-    endpoint* _endpoint{nullptr};
-
 public:
+    /// @brief Tests if this subscribes has an associated endpoint and is usable.
     explicit operator bool() noexcept {
         return _endpoint != nullptr;
     }
 
+    /// @brief Returns a reference to the associated endpoint.
+    /// @pre bool(*this)
     auto bus() noexcept -> auto& {
         EAGINE_ASSERT(_endpoint != nullptr);
         return *_endpoint;
     }
 
+    /// @brief Returns a const reference to the associated endpoint.
+    /// @pre bool(*this)
     auto bus() const noexcept -> auto& {
         EAGINE_ASSERT(_endpoint != nullptr);
         return *_endpoint;
     }
 
+    /// @brief Updates the internal endpoint state (should be called repeatedly).
     auto update() const noexcept -> bool {
         if(EAGINE_LIKELY(_endpoint)) {
             return _endpoint->update();
@@ -46,6 +55,7 @@ public:
         return false;
     }
 
+    /// @brief Uses the associated endpoint to verify the specified message.
     auto verify_bits(const stored_message& message) noexcept
       -> verification_bits {
         if(EAGINE_LIKELY(_endpoint)) {
@@ -54,20 +64,29 @@ public:
         return {};
     }
 
+    /// @brief Queries the subscriptions of the remote endpoint with the specified id.
+    /// @see query_subscribers_of
     void query_subscriptions_of(identifier_t target_id) {
         if(EAGINE_LIKELY(_endpoint)) {
             _endpoint->query_subscriptions_of(target_id);
         }
     }
 
+    /// @brief Queries remote nodes subscribing to the specified message.
+    /// @see query_subscriptions_of
     void query_subscribers_of(message_id sub_msg) {
         if(EAGINE_LIKELY(_endpoint)) {
             _endpoint->query_subscribers_of(sub_msg);
         }
     }
 
+    /// @brief Not copy assignable.
     subscriber_base(const subscriber_base&) = delete;
+
+    /// @brief Not move assignable.
     auto operator=(subscriber_base&&) = delete;
+
+    /// @brief Not copy constructible.
     auto operator=(const subscriber_base&) = delete;
 
 protected:
@@ -220,17 +239,21 @@ protected:
             }
         }
     }
+
+private:
+    endpoint* _endpoint{nullptr};
 };
 //------------------------------------------------------------------------------
+/// @brief Template for subscribers with predefined count of handled message types.
+/// @ingroup msgbus
 template <std::size_t N>
 class static_subscriber : public subscriber_base {
 public:
+    /// @brief Alias for the method/message handler callable reference.
     using method_handler = typename endpoint::method_handler;
 
-protected:
     using handler_entry = typename subscriber_base::handler_entry;
 
-public:
     template <
       typename... MsgHandlers,
       typename = std::enable_if_t<sizeof...(MsgHandlers) == N>>
@@ -240,6 +263,7 @@ public:
         this->_subscribe_to(view(_msg_handlers));
     }
 
+    /// @brief Construction from a reference to endpoint and some message maps.
     template <
       typename Class,
       typename... MsgMaps,
@@ -247,23 +271,35 @@ public:
     static_subscriber(endpoint& bus, Class* instance, MsgMaps... msg_maps)
       : static_subscriber(bus, handler_entry(instance, msg_maps)...) {}
 
+    /// @brief Not move constructible.
     static_subscriber(static_subscriber&& temp) = delete;
+
+    /// @brief Not copy constructible.
     static_subscriber(const static_subscriber&) = delete;
+
+    /// @brief Not move assignable.
     auto operator=(static_subscriber&&) = delete;
+
+    /// @brief Not copy assignable.
     auto operator=(const static_subscriber&) = delete;
 
     ~static_subscriber() noexcept {
         this->_unsubscribe_from(view(_msg_handlers));
     }
 
+    /// @brief Processes one pending enqueued message.
     auto process_one() -> bool {
         return this->_process_one(view(_msg_handlers));
     }
 
+    /// @brief Processes all pending enqueued messages.
     auto process_all() -> span_size_t {
         return this->_process_all(view(_msg_handlers));
     }
 
+    /// @brief Sends messages to the bus saying which messages this can handle.
+    /// @see retract_subscriptions
+    /// @see respond_to_subscription_query
     void announce_subscriptions() const {
         this->_announce_subscriptions(view(_msg_handlers));
     }
@@ -272,14 +308,23 @@ public:
         this->_allow_subscriptions(view(_msg_handlers));
     }
 
+    /// @brief Sends messages to the bus saying which messages this cannot handle.
+    /// @see announce_subscriptions
+    /// @see respond_to_subscription_query
     void retract_subscriptions() const noexcept {
         this->_retract_subscriptions(view(_msg_handlers));
     }
 
+    /// @brief Sends messages responding to a subscription query.
+    /// @see retract_subscriptions
+    /// @see announce_subscriptions
     void respond_to_subscription_query(identifier_t source_id) const noexcept {
         this->_respond_to_subscription_query(source_id, view(_msg_handlers));
     }
 
+    /// @brief Sends messages responding to a subscription query.
+    /// @see retract_subscriptions
+    /// @see announce_subscriptions
     void respond_to_subscription_query(
       identifier_t source_id,
       message_id sub_msg) const noexcept {

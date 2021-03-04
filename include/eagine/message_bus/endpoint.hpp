@@ -23,6 +23,10 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class friend_of_endpoint;
 //------------------------------------------------------------------------------
+/// @brief Message bus client endpoint that can send and receive messages.
+/// @ingroup msgbus
+/// @see static_subscriber
+/// @see subscriber
 class endpoint
   : public connection_user
   , public main_ctx_object {
@@ -31,120 +35,22 @@ public:
         return 0U;
     }
 
+    /// @brief Tests if the specified id is a valid endpoint id.
     static constexpr auto is_valid_id(identifier_t id) noexcept -> bool {
         return id != invalid_id();
     }
 
+    /// @brief Alias for message fetch handler callable reference.
     using fetch_handler = connection::fetch_handler;
+
+    /// @brief Alias for blob message type filter callable reference.
     using blob_filter_function = blob_manipulator::filter_function;
 
-private:
-    friend class friend_of_endpoint;
-
-    shared_context _context{make_context(*this)};
-
-    const process_instance_id_t _instance_id{process_instance_id()};
-    identifier_t _preconfd_id{invalid_id()};
-    identifier_t _endpoint_id{invalid_id()};
-    timeout _no_id_timeout{
-      cfg_init("msg_bus.endpoint.no_id_timeout", std::chrono::seconds{2}),
-      nothing};
-    resetting_timeout _should_notify_alive{
-      cfg_init("msg_bus.endpoint.alive_notify_period", std::chrono::seconds{30}),
-      nothing};
-
-    std::unique_ptr<connection> _connection{};
-
-    message_storage _outgoing{};
-
-    flat_map<message_id, std::tuple<span_size_t, message_priority_queue>>
-      _incoming{};
-
-    template <typename Entry>
-    static inline auto _get_counter(Entry& entry) -> auto& {
-        return std::get<0>(std::get<1>(entry));
-    }
-
-    template <typename Entry>
-    static inline auto _get_queue(Entry& entry) -> auto& {
-        return std::get<1>(std::get<1>(entry));
-    }
-
-    blob_manipulator _blobs{*this};
-    blob_manipulator::filter_function _allow_blob{};
-
-    auto _cleanup_blobs() -> bool;
-    auto _process_blobs() -> bool;
-    auto _do_allow_blob(message_id) -> bool;
-
-    auto _default_store_handler() noexcept -> fetch_handler {
-        return fetch_handler{this, EAGINE_THIS_MEM_FUNC_C(_store_message)};
-    }
-
-    fetch_handler _store_handler{_default_store_handler()};
-
-    auto _do_send(message_id msg_id, message_view) -> bool;
-
-    auto
-    _handle_send(message_id msg_id, message_age, const message_view& message)
-      -> bool {
-        // TODO: use message age
-        return _do_send(msg_id, message);
-    }
-
-    auto _handle_post(message_id msg_id, const message_view& message) -> bool {
-        return post(msg_id, message);
-    }
-
-    auto _handle_special(message_id msg_id, const message_view&) noexcept
-      -> bool;
-
-    auto _store_message(message_id msg_id, message_age, const message_view&)
-      -> bool;
-
-    auto _accept_message(message_id msg_id, const message_view&) -> bool;
-
-    explicit endpoint(main_ctx_object obj, fetch_handler store_message) noexcept
-      : main_ctx_object{std::move(obj)}
-      , _store_handler{std::move(store_message)} {}
-
-    explicit endpoint(
-      main_ctx_object obj,
-      blob_filter_function allow_blob,
-      fetch_handler store_message) noexcept
-      : main_ctx_object{std::move(obj)}
-      , _allow_blob{std::move(allow_blob)}
-      , _store_handler{std::move(store_message)} {}
-
-    endpoint(endpoint&& temp) noexcept
-      : main_ctx_object{static_cast<main_ctx_object&&>(temp)}
-      , _context{std::move(temp._context)}
-      , _preconfd_id{std::exchange(temp._preconfd_id, invalid_id())}
-      , _endpoint_id{std::exchange(temp._endpoint_id, invalid_id())}
-      , _connection{std::move(temp._connection)}
-      , _outgoing{std::move(temp._outgoing)}
-      , _incoming{std::move(temp._incoming)}
-      , _blobs{std::move(temp._blobs)} {}
-
-    endpoint(
-      endpoint&& temp,
-      blob_filter_function allow_blob,
-      fetch_handler store_message) noexcept
-      : main_ctx_object{static_cast<main_ctx_object&&>(temp)}
-      , _context{std::move(temp._context)}
-      , _preconfd_id{std::exchange(temp._preconfd_id, invalid_id())}
-      , _endpoint_id{std::exchange(temp._endpoint_id, invalid_id())}
-      , _connection{std::move(temp._connection)}
-      , _outgoing{std::move(temp._outgoing)}
-      , _incoming{std::move(temp._incoming)}
-      , _blobs{std::move(temp._blobs)}
-      , _allow_blob{std::move(allow_blob)}
-      , _store_handler{std::move(store_message)} {}
-
-public:
+    /// @brief Construction with a reference to parent main context object.
     endpoint(main_ctx_object obj) noexcept
       : main_ctx_object{std::move(obj)} {}
 
+    /// @brief Construction with an enpoint id and parent main context object.
     endpoint(identifier id, main_ctx_parent parent) noexcept
       : main_ctx_object{id, parent} {}
 
@@ -154,10 +60,15 @@ public:
       : main_ctx_object{std::move(obj)}
       , _allow_blob{std::move(allow_blob)} {}
 
+    /// @brief Not copy constructible.
     endpoint(const endpoint&) = delete;
+    /// @brief Not move assignable.
     auto operator=(endpoint&&) = delete;
+    /// @brief Not copy assignable.
     auto operator=(const endpoint&) = delete;
 
+    /// @brief Returns a reference to the message bus context.
+    /// @see msgbus::context
     auto ctx() noexcept -> context& {
         EAGINE_ASSERT(_context);
         return *_context;
@@ -165,55 +76,97 @@ public:
 
     ~endpoint() noexcept override = default;
 
+    /// @brief Assigns the unique id of this endpoint.
+    /// @see preconfigure_id
+    /// @see has_id
+    /// @see get_id
+    /// @note Do not set manually, use preconfigure_id instead.
     auto set_id(identifier id) -> auto& {
         _endpoint_id = id.value();
         return *this;
     }
 
+    /// @brief Preconfigures the unique id of this endpoint.
+    /// @see set_id
+    /// @see has_preconfigured_id
+    /// @see get_preconfigured_id
     auto preconfigure_id(identifier_t id) -> auto& {
         _preconfd_id = id;
         return *this;
     }
 
+    /// @brief Indicates if this endpoint has a preconfigured id (or should request one).
+    /// @see preconfigure_id
+    /// @see get_preconfigured_id
+    /// @see is_valid_id
     auto has_preconfigured_id() const noexcept -> bool {
         return is_valid_id(_preconfd_id);
     }
 
+    /// @brief Indicates if this endpoint has valid id (set manually or from the bus).
+    /// @see set_id
+    /// @see get_id
+    /// @see is_valid_id
     auto has_id() const noexcept -> bool {
         return is_valid_id(_endpoint_id);
     }
 
+    /// @brief Returns the preconfigured id of this endpoint.
+    /// @see preconfigure_id
+    /// @see has_preconfigured_id
+    /// @see is_valid_id
     auto get_preconfigured_id() const noexcept {
         return _preconfd_id;
     }
 
+    /// @brief Returns the unique id of this endpoint.
+    /// @see set_id
+    /// @see has_id
+    /// @see is_valid_id
     auto get_id() const noexcept {
         return _endpoint_id;
     }
 
+    /// @brief Adds endpoint certificate in a PEM-encoded memory block.
+    /// @see add_ca_certificate_pem
     void add_certificate_pem(memory::const_block blk);
+
+    /// @brief Adds CA certificate in a PEM-encoded memory block.
+    /// @see add_certificate_pem
     void add_ca_certificate_pem(memory::const_block blk);
 
+    /// @brief Adds a connection for communication with a message bus router.
     auto add_connection(std::unique_ptr<connection> conn) -> bool final;
 
+    /// @brief Tests if this has all prerequisites for sending and receiving messages.
     auto is_usable() const -> bool;
 
+    /// @brief Returns the maximum data block size that the endpoint can send.
     auto max_data_size() const -> valid_if_positive<span_size_t>;
 
+    /// @brief Sends any pending outgoing messages if possible.
     void flush_outbox();
 
+    /// @brief Updates the internal state, sends and receives pending messages.
     auto update() -> bool;
 
+    /// @brief Says to the message bus that this endpoint is disconnecting.
     void finish() {
         say_bye();
         flush_outbox();
     }
 
+    /// @brief Subscribes to messages with the specified id/type.
     void subscribe(message_id);
+
+    /// @brief Unsubscribes from messages with the specified id/type.
     void unsubscribe(message_id);
 
     auto set_next_sequence_id(message_id, message_info&) -> bool;
 
+    /// @brief Enqueues a message with the specified id/type for sending.
+    /// @see post_signed
+    /// @see post_value
     auto post(message_id msg_id, message_view message) -> bool {
         if(EAGINE_LIKELY(has_id())) {
             return _do_send(msg_id, message);
@@ -222,8 +175,14 @@ public:
         return true;
     }
 
+    /// @brief Signs and enqueues a message with the specified id/type for sending.
+    /// @see post
+    /// @see post_value
     auto post_signed(message_id, message_view message) -> bool;
 
+    /// @brief Serializes the specified value and enqueues it for sending in message.
+    /// @see post
+    /// @see post_signed
     template <typename T>
     auto post_value(message_id msg_id, T& value, const message_info& info = {})
       -> bool {
@@ -335,6 +294,109 @@ public:
     auto process_all(message_id msg_id, method_handler handler) -> span_size_t;
 
     auto process_everything(method_handler handler) -> span_size_t;
+
+private:
+    friend class friend_of_endpoint;
+
+    shared_context _context{make_context(*this)};
+
+    const process_instance_id_t _instance_id{process_instance_id()};
+    identifier_t _preconfd_id{invalid_id()};
+    identifier_t _endpoint_id{invalid_id()};
+    timeout _no_id_timeout{
+      cfg_init("msg_bus.endpoint.no_id_timeout", std::chrono::seconds{2}),
+      nothing};
+    resetting_timeout _should_notify_alive{
+      cfg_init("msg_bus.endpoint.alive_notify_period", std::chrono::seconds{30}),
+      nothing};
+
+    std::unique_ptr<connection> _connection{};
+
+    message_storage _outgoing{};
+
+    flat_map<message_id, std::tuple<span_size_t, message_priority_queue>>
+      _incoming{};
+
+    template <typename Entry>
+    static inline auto _get_counter(Entry& entry) -> auto& {
+        return std::get<0>(std::get<1>(entry));
+    }
+
+    template <typename Entry>
+    static inline auto _get_queue(Entry& entry) -> auto& {
+        return std::get<1>(std::get<1>(entry));
+    }
+
+    blob_manipulator _blobs{*this};
+    blob_manipulator::filter_function _allow_blob{};
+
+    auto _cleanup_blobs() -> bool;
+    auto _process_blobs() -> bool;
+    auto _do_allow_blob(message_id) -> bool;
+
+    auto _default_store_handler() noexcept -> fetch_handler {
+        return fetch_handler{this, EAGINE_THIS_MEM_FUNC_C(_store_message)};
+    }
+
+    fetch_handler _store_handler{_default_store_handler()};
+
+    auto _do_send(message_id msg_id, message_view) -> bool;
+
+    auto
+    _handle_send(message_id msg_id, message_age, const message_view& message)
+      -> bool {
+        // TODO: use message age
+        return _do_send(msg_id, message);
+    }
+
+    auto _handle_post(message_id msg_id, const message_view& message) -> bool {
+        return post(msg_id, message);
+    }
+
+    auto _handle_special(message_id msg_id, const message_view&) noexcept
+      -> bool;
+
+    auto _store_message(message_id msg_id, message_age, const message_view&)
+      -> bool;
+
+    auto _accept_message(message_id msg_id, const message_view&) -> bool;
+
+    explicit endpoint(main_ctx_object obj, fetch_handler store_message) noexcept
+      : main_ctx_object{std::move(obj)}
+      , _store_handler{std::move(store_message)} {}
+
+    explicit endpoint(
+      main_ctx_object obj,
+      blob_filter_function allow_blob,
+      fetch_handler store_message) noexcept
+      : main_ctx_object{std::move(obj)}
+      , _allow_blob{std::move(allow_blob)}
+      , _store_handler{std::move(store_message)} {}
+
+    endpoint(endpoint&& temp) noexcept
+      : main_ctx_object{static_cast<main_ctx_object&&>(temp)}
+      , _context{std::move(temp._context)}
+      , _preconfd_id{std::exchange(temp._preconfd_id, invalid_id())}
+      , _endpoint_id{std::exchange(temp._endpoint_id, invalid_id())}
+      , _connection{std::move(temp._connection)}
+      , _outgoing{std::move(temp._outgoing)}
+      , _incoming{std::move(temp._incoming)}
+      , _blobs{std::move(temp._blobs)} {}
+
+    endpoint(
+      endpoint&& temp,
+      blob_filter_function allow_blob,
+      fetch_handler store_message) noexcept
+      : main_ctx_object{static_cast<main_ctx_object&&>(temp)}
+      , _context{std::move(temp._context)}
+      , _preconfd_id{std::exchange(temp._preconfd_id, invalid_id())}
+      , _endpoint_id{std::exchange(temp._endpoint_id, invalid_id())}
+      , _connection{std::move(temp._connection)}
+      , _outgoing{std::move(temp._outgoing)}
+      , _incoming{std::move(temp._incoming)}
+      , _blobs{std::move(temp._blobs)}
+      , _allow_blob{std::move(allow_blob)}
+      , _store_handler{std::move(store_message)} {}
 };
 //------------------------------------------------------------------------------
 class friend_of_endpoint {
