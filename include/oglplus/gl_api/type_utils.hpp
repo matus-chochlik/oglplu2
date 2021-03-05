@@ -455,6 +455,11 @@ internal_format_of(type_identity<vector<gl_types::float_type, 4, V>>) noexcept
 #endif
 }
 //------------------------------------------------------------------------------
+template <typename T, int N, bool V>
+constexpr auto internal_format_of(type_identity<tvec<T, N, V>>) noexcept {
+    return internal_format_of(type_identity<vector<T, N, V>>{});
+}
+//------------------------------------------------------------------------------
 /// @brief Returns the default pixel internal format for the specified C++ type T.
 /// @ingroup gl_api_wrap
 /// @see pixel_data_type_of

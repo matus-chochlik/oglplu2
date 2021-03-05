@@ -1651,47 +1651,173 @@ public:
         }
     } named_buffer_sub_data;
 
-    func<
-      OGLPAFP(ClearBufferData),
-      void(
-        buffer_target,
-        pixel_internal_format,
-        pixel_format,
-        pixel_data_type,
-        const_void_ptr_type)>
-      clear_buffer_data;
+    struct : func<OGLPAFP(ClearBufferData)> {
+        using func<OGLPAFP(ClearBufferData)>::func;
 
-    func<
-      OGLPAFP(ClearNamedBufferData),
-      void(
-        buffer_name,
-        pixel_internal_format,
-        pixel_format,
-        pixel_data_type,
-        const_void_ptr_type)>
-      clear_named_buffer_data;
+        constexpr auto operator()(
+          buffer_target tgt,
+          pixel_internal_format ifmt,
+          pixel_format fmt,
+          pixel_data_type type,
+          const_void_ptr_type data) const noexcept {
+            return this->_cnvchkcall(tgt, ifmt, fmt, type, data);
+        }
 
-    func<
-      OGLPAFP(ClearBufferSubData),
-      void(
-        buffer_target,
-        pixel_internal_format,
-        intptr_type,
-        sizeiptr_type pixel_format,
-        pixel_data_type,
-        const_void_ptr_type)>
-      clear_buffer_sub_data;
+        template <typename T>
+        constexpr auto operator()(
+          buffer_target tgt,
+          pixel_internal_format ifmt,
+          const T& value) const noexcept {
+            return (*this)(
+              tgt, ifmt, pixel_format_of<T>(), pixel_data_type_of<T>(), &value);
+        }
 
-    func<
-      OGLPAFP(ClearNamedBufferSubData),
-      void(
-        buffer_name,
-        pixel_internal_format,
-        intptr_type,
-        sizeiptr_type pixel_format,
-        pixel_data_type,
-        const_void_ptr_type)>
-      clear_named_buffer_sub_data;
+        template <typename T>
+        constexpr auto
+        operator()(buffer_target tgt, const T& value) const noexcept {
+            return (*this)(tgt, internal_format_of<T>(), &value);
+        }
+
+        template <typename T>
+        constexpr auto operator()(
+          buffer_target tgt,
+          pixel_internal_format ifmt,
+          type_identity<T>) const noexcept {
+            return (*this)(
+              tgt, ifmt, pixel_format_of<T>(), pixel_data_type_of<T>(), nullptr);
+        }
+
+        template <typename T>
+        constexpr auto
+        operator()(buffer_target tgt, type_identity<T> tid) const noexcept {
+            return (*this)(tgt, internal_format_of<T>(), tid);
+        }
+    } clear_buffer_data;
+
+    struct : func<OGLPAFP(ClearNamedBufferData)> {
+        using func<OGLPAFP(ClearNamedBufferData)>::func;
+
+        constexpr auto operator()(
+          buffer_name buf,
+          pixel_internal_format ifmt,
+          pixel_format fmt,
+          pixel_data_type type,
+          const_void_ptr_type data) const noexcept {
+            return this->_cnvchkcall(buf, ifmt, fmt, type, data);
+        }
+
+        template <typename T>
+        constexpr auto operator()(
+          buffer_name buf,
+          pixel_internal_format ifmt,
+          const T& value) const noexcept {
+            return (*this)(
+              buf, ifmt, pixel_format_of<T>(), pixel_data_type_of<T>(), &value);
+        }
+
+        template <typename T>
+        constexpr auto
+        operator()(buffer_name buf, const T& value) const noexcept {
+            return (*this)(buf, internal_format_of<T>(), &value);
+        }
+
+        template <typename T>
+        constexpr auto operator()(
+          buffer_name buf,
+          pixel_internal_format ifmt,
+          pixel_format fmt,
+          type_identity<T>) const noexcept {
+            return (*this)(buf, ifmt, fmt, pixel_data_type_of<T>(), nullptr);
+        }
+
+        template <typename T>
+        constexpr auto
+        operator()(buffer_name buf, type_identity<T> tid) const noexcept {
+            return (*this)(buf, internal_format_of<T>(), tid);
+        }
+    } clear_named_buffer_data;
+
+    struct : func<OGLPAFP(ClearBufferSubData)> {
+        using func<OGLPAFP(ClearBufferSubData)>::func;
+
+        constexpr auto operator()(
+          buffer_target tgt,
+          pixel_internal_format ifmt,
+          intptr_type offs,
+          sizeiptr_type size,
+          pixel_format fmt,
+          pixel_data_type type,
+          const_void_ptr_type data) const noexcept {
+            return this->_cnvchkcall(tgt, ifmt, offs, size, fmt, type, data);
+        }
+
+        template <typename T>
+        constexpr auto operator()(
+          buffer_target tgt,
+          intptr_type offs,
+          sizeiptr_type count,
+          pixel_internal_format ifmt,
+          const T& value) const noexcept {
+            return (*this)(
+              tgt,
+              ifmt,
+              offs,
+              count * span_size_of<T>(),
+              pixel_format_of<T>(),
+              pixel_data_type_of<T>(),
+              &value);
+        }
+
+        template <typename T>
+        constexpr auto operator()(
+          buffer_target tgt,
+          intptr_type offs,
+          sizeiptr_type count,
+          const T& value) const noexcept {
+            return (*this)(tgt, internal_format_of<T>(), offs, count, value);
+        }
+    } clear_buffer_sub_data;
+
+    struct : func<OGLPAFP(ClearNamedBufferSubData)> {
+        using func<OGLPAFP(ClearNamedBufferSubData)>::func;
+
+        constexpr auto operator()(
+          buffer_name buf,
+          pixel_internal_format ifmt,
+          intptr_type offs,
+          sizeiptr_type size,
+          pixel_format fmt,
+          pixel_data_type type,
+          const_void_ptr_type data) const noexcept {
+            return this->_cnvchkcall(buf, ifmt, offs, size, fmt, type, data);
+        }
+
+        template <typename T>
+        constexpr auto operator()(
+          buffer_name buf,
+          intptr_type offs,
+          sizeiptr_type count,
+          pixel_internal_format ifmt,
+          const T& value) const noexcept {
+            return (*this)(
+              buf,
+              ifmt,
+              offs,
+              count * span_size_of<T>(),
+              pixel_format_of<T>(),
+              pixel_data_type_of<T>(),
+              &value);
+        }
+
+        template <typename T>
+        constexpr auto operator()(
+          buffer_name buf,
+          intptr_type offs,
+          sizeiptr_type count,
+          const T& value) const noexcept {
+            return (*this)(buf, internal_format_of<T>(), offs, count, value);
+        }
+    } clear_named_buffer_sub_data;
 
     func<
       OGLPAFP(MapBuffer),
