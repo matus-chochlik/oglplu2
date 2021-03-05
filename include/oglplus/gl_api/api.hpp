@@ -1774,7 +1774,7 @@ public:
           intptr_type offs,
           sizeiptr_type count,
           const T& value) const noexcept {
-            return (*this)(tgt, internal_format_of<T>(), offs, count, value);
+            return (*this)(tgt, offs, count, internal_format_of<T>(), value);
         }
     } clear_buffer_sub_data;
 
@@ -1815,7 +1815,7 @@ public:
           intptr_type offs,
           sizeiptr_type count,
           const T& value) const noexcept {
-            return (*this)(buf, internal_format_of<T>(), offs, count, value);
+            return (*this)(buf, offs, count, internal_format_of<T>(), value);
         }
     } clear_named_buffer_sub_data;
 
