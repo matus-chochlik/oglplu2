@@ -19,7 +19,7 @@ namespace eagine::oglp {
 /// @brief Trait indicating that T is one of GL basic (pixel) data types.
 /// @ingroup gl_api_wrap
 template <typename T>
-constexpr const auto is_gl_data_type_v =
+constexpr const bool is_gl_data_type_v =
   (std::is_same_v<T, gl_types::ubyte_type> ||
    std::is_same_v<T, gl_types::byte_type> ||
    std::is_same_v<T, gl_types::ushort_type> ||
@@ -144,9 +144,21 @@ constexpr auto sl_data_type_of() noexcept -> sl_data_type {
 //------------------------------------------------------------------------------
 // pixel_format_of
 //------------------------------------------------------------------------------
-template <typename T, typename = std::enable_if_t<is_gl_data_type_v<T>>>
-constexpr auto pixel_format_of(type_identity<T>) noexcept
-  -> gl_types::enum_type {
+template <typename T>
+constexpr auto pixel_format_of(type_identity<T>) noexcept -> std::enable_if_t<
+  is_gl_data_type_v<T> && std::is_integral_v<T>,
+  gl_types::enum_type> {
+#ifdef GL_RED_INTEGER
+    return GL_RED_INTEGER;
+#else
+    return 0;
+#endif
+}
+//------------------------------------------------------------------------------
+template <typename T>
+constexpr auto pixel_format_of(type_identity<T>) noexcept -> std::enable_if_t<
+  is_gl_data_type_v<T> && !std::is_integral_v<T>,
+  gl_types::enum_type> {
 #ifdef GL_RED
     return GL_RED;
 #else
@@ -154,9 +166,23 @@ constexpr auto pixel_format_of(type_identity<T>) noexcept
 #endif
 }
 //------------------------------------------------------------------------------
-template <typename T, bool V, typename = std::enable_if_t<is_gl_data_type_v<T>>>
+template <typename T, bool V>
 constexpr auto pixel_format_of(type_identity<vector<T, 2, V>>) noexcept
-  -> gl_types::enum_type {
+  -> std::enable_if_t<
+    is_gl_data_type_v<T> && std::is_integral_v<T>,
+    gl_types::enum_type> {
+#ifdef GL_RG_INTEGER
+    return GL_RG_INTEGER;
+#else
+    return 0;
+#endif
+}
+//------------------------------------------------------------------------------
+template <typename T, bool V>
+constexpr auto pixel_format_of(type_identity<vector<T, 2, V>>) noexcept
+  -> std::enable_if_t<
+    is_gl_data_type_v<T> && !std::is_integral_v<T>,
+    gl_types::enum_type> {
 #ifdef GL_RG
     return GL_RG;
 #else
@@ -164,9 +190,23 @@ constexpr auto pixel_format_of(type_identity<vector<T, 2, V>>) noexcept
 #endif
 }
 //------------------------------------------------------------------------------
-template <typename T, bool V, typename = std::enable_if_t<is_gl_data_type_v<T>>>
+template <typename T, bool V>
 constexpr auto pixel_format_of(type_identity<vector<T, 3, V>>) noexcept
-  -> gl_types::enum_type {
+  -> std::enable_if_t<
+    is_gl_data_type_v<T> && std::is_integral_v<T>,
+    gl_types::enum_type> {
+#ifdef GL_RGB_INTEGER
+    return GL_RGB_INTEGER;
+#else
+    return 0;
+#endif
+}
+//------------------------------------------------------------------------------
+template <typename T, bool V>
+constexpr auto pixel_format_of(type_identity<vector<T, 3, V>>) noexcept
+  -> std::enable_if_t<
+    is_gl_data_type_v<T> && !std::is_integral_v<T>,
+    gl_types::enum_type> {
 #ifdef GL_RGB
     return GL_RGB;
 #else
@@ -174,9 +214,23 @@ constexpr auto pixel_format_of(type_identity<vector<T, 3, V>>) noexcept
 #endif
 }
 //------------------------------------------------------------------------------
-template <typename T, bool V, typename = std::enable_if_t<is_gl_data_type_v<T>>>
+template <typename T, bool V>
 constexpr auto pixel_format_of(type_identity<vector<T, 4, V>>) noexcept
-  -> gl_types::enum_type {
+  -> std::enable_if_t<
+    is_gl_data_type_v<T> && std::is_integral_v<T>,
+    gl_types::enum_type> {
+#ifdef GL_RGBA_INTEGER
+    return GL_RGBA_INTEGER;
+#else
+    return 0;
+#endif
+}
+//------------------------------------------------------------------------------
+template <typename T, bool V>
+constexpr auto pixel_format_of(type_identity<vector<T, 4, V>>) noexcept
+  -> std::enable_if_t<
+    is_gl_data_type_v<T> && !std::is_integral_v<T>,
+    gl_types::enum_type> {
 #ifdef GL_RGBA
     return GL_RGBA;
 #else
