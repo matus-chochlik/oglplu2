@@ -271,27 +271,79 @@ public:
     /// @see say_still_alive
     auto say_bye() -> bool;
 
+    /// @brief Post a message with another message type as its content.
+    /// @see post
+    /// @see post_meta_message_to
+    /// @see default_serialize
     void post_meta_message(message_id meta_msg_id, message_id msg_id);
+
+    /// @brief Post a message with another message type as its content to target.
+    /// @see post
+    /// @see post_meta_message
+    /// @see default_serialize
     void post_meta_message_to(
       identifier_t target_id,
       message_id meta_msg_id,
       message_id msg_id);
 
+    /// @brief Broadcasts a message that this subscribes to message with given id.
+    /// @see post_meta_message
+    /// @see say_unsubscribes_from
+    /// @see say_not_subscribed_to
     void say_subscribes_to(message_id);
+
+    /// @brief Posts a message that this subscribes to message with given id.
+    /// @see post_meta_message_to
+    /// @see say_unsubscribes_from
+    /// @see say_not_subscribed_to
     void say_subscribes_to(identifier_t target_id, message_id);
+
+    /// @brief Broadcasts a message that this unsubscribes from message with given type.
+    /// @see post_meta_message
+    /// @see say_subscribes_to
+    /// @see say_not_subscribed_to
     void say_unsubscribes_from(message_id);
+
+    /// @brief Posts a message that this is not subscribed to message with given type.
+    /// @see post_meta_message
+    /// @see say_subscribes_to
+    /// @see say_not_subscribed_to
     void say_not_subscribed_to(identifier_t target_id, message_id);
+
+    /// @brief Posts a message requesting all subscriptions of a target node.
+    /// @see query_subscribers_of
+    /// @see say_subscribes_to
     void query_subscriptions_of(identifier_t target_id);
+
+    /// @brief Posts a message requesting all subscribers of a given message type.
+    /// @see query_subscribers_of
+    /// @see say_subscribes_to
     void query_subscribers_of(message_id);
 
+    /// @brief Sends a message to router to clear its block filter for this endpoint.
+    /// @see block_message_type
+    /// @see clear_allow_list
     void clear_block_list();
+
+    /// @brief Sends a message to router to start blocking message type for this endpoint.
+    /// @see clear_block_list
+    /// @see allow_message_type
     void block_message_type(message_id);
 
+    /// @brief Sends a message to router to clear its allow filter for this endpoint.
+    /// @see allow_message_type
+    /// @see clear_block_list
     void clear_allow_list();
+
+    /// @brief Sends a message to router to start blocking message type for this endpoint.
+    /// @see clear_allow_list
+    /// @see block_message_type
     void allow_message_type(message_id);
 
+    /// @brief Sends a message requesting remote endpoint certificate.
     void query_certificate_of(identifier_t endpoint_id);
 
+    /// @brief Posts a message as a response to another received message.
     auto respond_to(
       const message_info& info,
       message_id msg_id,
@@ -300,15 +352,25 @@ public:
         return post(msg_id, message);
     }
 
+    /// @brief Posts a message as a response to another received message.
     auto respond_to(const message_info& info, message_id msg_id) -> bool {
         return respond_to(info, msg_id, {});
     }
 
+    /// @brief Alias for callable handling received messages.
+    /// @see process_one
+    /// @see process_all
     using method_handler =
       callable_ref<bool(const message_context&, stored_message&)>;
 
+    /// @brief Processes a single received message of specified type with a handler.
+    /// @see process_all
+    /// @see process_everything
     auto process_one(message_id msg_id, method_handler handler) -> bool;
 
+    /// @brief Processes a single received message of specified type with a method.
+    /// @see process_all
+    /// @see process_everything
     template <
       typename Class,
       bool (Class::*MemFnPtr)(const message_context&, stored_message&)>
@@ -321,8 +383,12 @@ public:
         return process_one(msg_id, {instance, method});
     }
 
+    /// @brief Processes all received messages of specified type with a handler.
+    /// @see process_one
+    /// @see process_everything
     auto process_all(message_id msg_id, method_handler handler) -> span_size_t;
 
+    /// @brief Processes all received messages regardles of type with a handler.
     auto process_everything(method_handler handler) -> span_size_t;
 
 private:
