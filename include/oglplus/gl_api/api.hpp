@@ -14,6 +14,7 @@
 #include "extensions.hpp"
 #include "object_name.hpp"
 #include "prog_var_loc.hpp"
+#include "type_utils.hpp"
 #include <eagine/quantities.hpp>
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
