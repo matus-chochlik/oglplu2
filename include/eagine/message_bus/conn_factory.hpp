@@ -15,26 +15,40 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Interface for message bus connection and acceptor factories.
+/// @ingroup msgbus
 struct connection_factory : connection_info {
 
+    /// @brief Make a new acceptor listening on the specified address.
+    /// @see make_connector
     virtual auto make_acceptor(string_view address)
       -> std::unique_ptr<acceptor> = 0;
 
+    /// @brief Make a new connector connecting to the specified address.
+    /// @see make_acceptor
     virtual auto make_connector(string_view address)
       -> std::unique_ptr<connection> = 0;
 
+    /// @brief Make a new acceptor listening on a default address.
+    /// @see make_connector
     auto make_acceptor() {
         return make_acceptor(string_view{});
     }
 
+    /// @brief Make a new connector connecting to the specified address.
+    /// @see make_acceptor
     auto make_connector() {
         return make_connector(string_view{});
     }
 
+    /// @brief Make a new acceptor listening on the specified address.
+    /// @see make_connector
     auto make_acceptor(identifier id) {
         return make_acceptor(id.name());
     }
 
+    /// @brief Make a new connector connecting to the specified address.
+    /// @see make_acceptor
     auto make_connector(identifier id) {
         return make_connector(id.name());
     }

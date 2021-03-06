@@ -495,6 +495,8 @@ private:
       , _store_handler{std::move(store_message)} {}
 };
 //------------------------------------------------------------------------------
+/// @brief Base for classes that need access to enpoint internal functionality
+/// @ingroup msgbus
 class friend_of_endpoint {
 protected:
     static auto _make_endpoint(

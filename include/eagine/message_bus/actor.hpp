@@ -13,6 +13,11 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Base class for message bus actors with fixed number of message handlers.
+/// @ingroup msgbus
+/// @see static_subscriber
+/// @see subscriber
+/// @see endpoint
 template <
   std::size_t N,
   template <std::size_t> class Subscriber = static_subscriber>
@@ -22,6 +27,47 @@ class actor
     using friend_of_endpoint::_accept_message;
     using friend_of_endpoint::_make_endpoint;
     using friend_of_endpoint::_move_endpoint;
+
+public:
+    /// @brief Not move constructible.
+    actor(actor&&) = delete;
+
+    /// @brief Not copy constructible.
+    actor(const actor&) = delete;
+
+    /// @brief Not moved assignable.
+    auto operator=(actor&&) = delete;
+
+    /// @brief Not copy assignable.
+    auto operator=(const actor&) = delete;
+
+    /// @brief Returns a reference to the associated endpoint.
+    auto bus() noexcept -> endpoint& {
+        return _endpoint;
+    }
+
+    /// @brief Adds a connection to the associated endpoint.
+    auto add_connection(std::unique_ptr<connection> conn) -> bool final {
+        return _endpoint.add_connection(std::move(conn));
+    }
+
+    void allow_subscriptions() {
+        _subscriber.allow_subscriptions();
+    }
+
+    /// @brief Processes a single enqueued message for which there is a handler.
+    /// @see process_all
+    void process_one() {
+        _endpoint.update();
+        _subscriber.process_one();
+    }
+
+    /// @brief Processes all enqueued messages for which there are handlers.
+    /// @see process_one
+    void process_all() {
+        _endpoint.update();
+        _subscriber.process_all();
+    }
 
 protected:
     auto _process_message(
@@ -37,6 +83,7 @@ protected:
         return true;
     }
 
+    /// @brief Constructor usable from derived classes
     template <
       typename Class,
       typename... MsgMaps,
@@ -49,6 +96,7 @@ protected:
         _subscriber.announce_subscriptions();
     }
 
+    /// @brief Constructor usable from derived classes
     template <
       typename Derived,
       typename Class,
@@ -67,34 +115,6 @@ protected:
             _endpoint.finish();
         } catch(...) {
         }
-    }
-
-public:
-    actor(actor&&) = delete;
-    actor(const actor&) = delete;
-    auto operator=(actor&&) = delete;
-    auto operator=(const actor&) = delete;
-
-    auto bus() noexcept -> endpoint& {
-        return _endpoint;
-    }
-
-    auto add_connection(std::unique_ptr<connection> conn) -> bool final {
-        return _endpoint.add_connection(std::move(conn));
-    }
-
-    void allow_subscriptions() {
-        _subscriber.allow_subscriptions();
-    }
-
-    void process_one() {
-        _endpoint.update();
-        _subscriber.process_one();
-    }
-
-    void process_all() {
-        _endpoint.update();
-        _subscriber.process_all();
     }
 
 private:
