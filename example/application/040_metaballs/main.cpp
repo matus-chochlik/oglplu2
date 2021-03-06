@@ -46,10 +46,10 @@ example::example(execution_context& ec, video_context& vc)
     _camera.set_near(0.1F)
       .set_far(50.F)
       .set_orbit_min(7.0F)
-      .set_orbit_max(11.0F)
+      .set_orbit_max(8.0F)
       .set_fov(degrees_(65.F));
 
-    gl.clear_color(0.15F, 0.15F, 0.15F, 0.0F);
+    gl.clear_color(0.25F, 0.25F, 0.25F, 0.0F);
     gl.clear_depth(1.0F);
 
     gl.enable(GL.depth_test);

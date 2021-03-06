@@ -11,9 +11,11 @@ layout (std430) buffer ConfigsBlock {
 
 in vec3 vertColor[];
 in float vertValue[];
+in vec3 vertGradient[];
 in int vertInside[];
 
 out vec3 geomColor;
+out vec3 geomNormal;
 
 float findParam(uint i0, uint i1) {
 	float d =  vertValue[i1] - vertValue[i0];
@@ -27,7 +29,8 @@ void makeVertex(uint i0, uint i1) {
 		gl_in[i1].gl_Position,
 		param);
 
-	geomColor = mix(vertColor[i0], vertColor[i1], param);
+	geomColor = normalize(mix(vertColor[i0], vertColor[i1], param));
+	geomNormal = mix(vertGradient[i0], vertGradient[i1], param);
 	EmitVertex();
 }
 

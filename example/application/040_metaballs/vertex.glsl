@@ -7,6 +7,7 @@ uniform int DivCount;
 struct FieldSample {
 	vec3 color;
 	float value;
+	vec3 gradient;
 };
 
 layout (std430) buffer FieldBlock {
@@ -16,6 +17,7 @@ layout (std430) buffer FieldBlock {
 in ivec3 Corner;
 out vec3 vertColor;
 out float vertValue;
+out vec3 vertGradient;
 out int vertInside;
 
 ivec3 cornerCoord() {
@@ -40,5 +42,6 @@ void main() {
 	FieldSample point = field.point[fieldIndex(coord)];
 	vertColor = point.color;
 	vertValue = point.value;
+	vertGradient = point.gradient;
 	vertInside = (vertValue  >= 0.0) ? 1 : 0;
 }
