@@ -47,8 +47,8 @@ vec3 randomVec() {
 
 void init() {
 	if(metaballs.count < MB_COUNT) {
-		metaballs.cursor = float(gl_LocalInvocationIndex) / 3.1415;
 		if(gl_LocalInvocationIndex == 0u) {
+			metaballs.cursor = 123.456;
 			while(metaballs.count < MB_COUNT) {
 				int i = metaballs.count++;
 				metaballs.param[i].majorAxis = normalize(randomVec()) * 0.5;
