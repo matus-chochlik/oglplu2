@@ -53,7 +53,7 @@ example::example(execution_context& ec, video_context& vc)
     gl.clear_depth(1.0F);
 
     gl.enable(GL.depth_test);
-    gl.disable(GL.cull_face);
+    gl.enable(GL.cull_face);
 
     _camera.connect_inputs(ec).basic_input_mapping(ec);
     ec.setup_inputs().switch_input_mapping();
