@@ -13,7 +13,18 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
-enum class node_kind : std::uint8_t { unknown, endpoint, bridge, router };
+/// @brief Message bus node kind enumeration.
+/// @ingroup msgbus
+enum class node_kind : std::uint8_t {
+    /// @brief Unknown node kind.
+    unknown,
+    /// @brief Message bus client endpoint.
+    endpoint,
+    /// @brief Message bus bridge.
+    bridge,
+    /// @brief Message bus router.
+    router
+};
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto enumerator_mapping(type_identity<node_kind>, Selector) noexcept {

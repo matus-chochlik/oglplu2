@@ -30,12 +30,12 @@ struct get_serialize_buffer_size<Sid, message_id, Selector>
 //------------------------------------------------------------------------------
 namespace msgbus {
 
-/// @brief Aloas for default serialization backend for bus messages.
+/// @brief Alias for default serialization backend for bus messages.
 /// @ingroup msgbus
 /// @see default_deserializer_backend
 using default_serializer_backend = string_serializer_backend;
 
-/// @brief Aloas for default deserialization backend for bus messages.
+/// @brief Alias for default deserialization backend for bus messages.
 /// @ingroup msgbus
 /// @see default_serializer_backend
 using default_deserializer_backend = string_deserializer_backend;

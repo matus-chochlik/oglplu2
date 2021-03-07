@@ -17,8 +17,12 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 // IPv4
 //------------------------------------------------------------------------------
+/// @brief Alias for IPv4 port number value type.
+/// @ingroup msgbus
 using ipv4_port = unsigned short int;
 
+/// @brief Parses a IPv4 hostname:port pair,
+/// @ingroup msgbus
 static inline auto parse_ipv4_addr(string_view addr_str)
   -> std::tuple<std::string, ipv4_port> {
     auto [hostname, port_str] = split_by_last(
