@@ -17,8 +17,12 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Serialization data sink backed by an output stream.
+/// @ingroup serialization
+/// @see istream_data_source
 class ostream_data_sink : public serializer_data_sink {
 public:
+    /// @brief Constructor setting the target stream.
     ostream_data_sink(std::ostream& out) noexcept
       : _out{out} {}
 

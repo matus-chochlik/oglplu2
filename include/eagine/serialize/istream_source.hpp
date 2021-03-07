@@ -17,8 +17,12 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Deserialization data source backed by an input stream.
+/// @ingroup serialization
+/// @see ostream_data_sink
 class istream_data_source : public deserializer_data_source {
 public:
+    /// @brief Constructor setting the source stream.
     istream_data_source(std::istream& in) noexcept
       : _in{in} {}
 

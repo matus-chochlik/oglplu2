@@ -279,6 +279,10 @@ private:
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Base class partially implementing serializer and deserialized backends.
+/// @ingroup serialization
+/// @see serializer_backend
+/// @see deserializer_backend
 template <typename Base, identifier_t Id>
 class serializer_backend_id : public Base {
 public:
