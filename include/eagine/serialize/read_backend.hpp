@@ -18,50 +18,121 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Interface for deserialization read backends.
+/// @ingroup serialization
+/// @see serializer_backend
+/// @see deserializer_data_source
 struct deserializer_backend : interface<deserializer_backend> {
 
+    /// @brief Alias for the deserialization operations result type.
     using result = deserialization_errors;
 
+    /// @brief Returns a descriptive identifier of the implementation.
     virtual auto type_id() -> identifier = 0;
+
+    /// @brief Returns a pointer to the associated data source, if any.
     virtual auto source() -> deserializer_data_source* = 0;
+
+    /// @brie Indicates if the backed stores enumerators as strings (or numeric values).
     virtual auto enum_as_string() -> bool = 0;
 
+    /// @brief Starts the deserialization of a potentially complex structured value.
     virtual auto begin() -> result = 0;
+
+    /// @brief Reads boolean values, returns how many were done through second argument.
     virtual auto read(span<bool>, span_size_t&) -> result = 0;
+
+    /// @brief Reads character values, returns how many were done through second argument.
     virtual auto read(span<char>, span_size_t&) -> result = 0;
+
+    /// @brief Reads 8-bit int values, returns how many were done through second argument.
     virtual auto read(span<std::int8_t>, span_size_t&) -> result = 0;
+
+    /// @brief Reads short values, returns how many were done through second argument.
     virtual auto read(span<short>, span_size_t&) -> result = 0;
+
+    /// @brief Reads int values, returns how many were done through second argument.
     virtual auto read(span<int>, span_size_t&) -> result = 0;
+
+    /// @brief Reads long values, returns how many were done through second argument.
     virtual auto read(span<long>, span_size_t&) -> result = 0;
+
+    /// @brief Reads long long values, returns how many were done through second argument.
     virtual auto read(span<long long>, span_size_t&) -> result = 0;
+
+    /// @brief Reads 8-bit uint values, returns how many were done through second argument.
     virtual auto read(span<std::uint8_t>, span_size_t&) -> result = 0;
+
+    /// @brief Reads ushort values, returns how many were done through second argument.
     virtual auto read(span<unsigned short>, span_size_t&) -> result = 0;
+
+    /// @brief Reads uint values, returns how many were done through second argument.
     virtual auto read(span<unsigned>, span_size_t&) -> result = 0;
+
+    /// @brief Reads ulong values, returns how many were done through second argument.
     virtual auto read(span<unsigned long>, span_size_t&) -> result = 0;
+
+    /// @brief Reads ulong long values, returns how many were done through second argument.
     virtual auto read(span<unsigned long long>, span_size_t&) -> result = 0;
+
+    /// @brief Reads float values, returns how many were done through second argument.
     virtual auto read(span<float>, span_size_t&) -> result = 0;
+
+    /// @brief Reads double values, returns how many were done through second argument.
     virtual auto read(span<double>, span_size_t&) -> result = 0;
+
+    /// @brief Reads identifier values, returns how many were done through second argument.
     virtual auto read(span<identifier>, span_size_t&) -> result = 0;
+
+    /// @brief Reads decl_name values, returns how many were done through second argument.
     virtual auto read(span<decl_name_storage>, span_size_t&) -> result = 0;
+
+    /// @brief Reads string values, returns how many were done through second argument.
     virtual auto read(span<std::string>, span_size_t&) -> result = 0;
+
+    /// @brief Begins the deserialization of a structure instance.
     virtual auto begin_struct(span_size_t& member_count) -> result = 0;
+
+    /// @brief Begins the deserialization of a structure data member.
     virtual auto begin_member(string_view name) -> result = 0;
+
+    /// @brief Finishes the deserialization of a structure data member.
     virtual auto finish_member(string_view name) -> result = 0;
+
+    /// @brief Finishes the deserialization of a structure instance.
     virtual auto finish_struct() -> result = 0;
+
+    /// @brief Begins the deserialization of a container instance.
     virtual auto begin_list(span_size_t& element_count) -> result = 0;
+
+    /// @brief Begins the deserialization of a container element.
     virtual auto begin_element(span_size_t index) -> result = 0;
+
+    /// @brief Finishes the deserialization of a container element.
     virtual auto finish_element(span_size_t index) -> result = 0;
+
+    /// @brief Finishes the deserialization of a container instance.
     virtual auto finish_list() -> result = 0;
+
+    /// @brief Finishes the deserialization of a potentially complex structured value.
     virtual auto finish() -> result = 0;
 };
 //------------------------------------------------------------------------------
+/// @brief CRTP mixin implementing the common parts of deserializer backends.
+/// @ingroup serialization
+/// @tparam Derived the derived backend implementation
+/// @tparam Source the data source type.
 template <typename Derived, typename Source = deserializer_data_source>
 class common_deserializer_backend : public deserializer_backend {
 public:
+    /// @brief Default constructor.
     common_deserializer_backend() noexcept = default;
+
+    /// @brief Construction from a reference to a Source.
     common_deserializer_backend(Source& source) noexcept
       : _source{&source} {}
 
+    /// @brief Sets a reference to a new Source object.
     auto set_source(Source& s) noexcept -> Derived& {
         _source = &s;
         return derived();
