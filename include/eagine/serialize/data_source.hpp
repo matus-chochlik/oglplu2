@@ -18,12 +18,27 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Abstract base class for deserialization data sources.
+/// @ingroup serialization
+/// @see data_sink
+/// @see deserializer_backend
 struct deserializer_data_source : interface<deserializer_data_source> {
 
+    /// @brief Returns a block covering the specified amount of data of the top.
+    /// @see pop
+    /// @see scan_until
+    /// @see scan_for
     virtual auto top(span_size_t size) -> memory::const_block = 0;
 
+    /// @brief Returns the specified amount of data of the top of the source.
+    /// @see top
     virtual void pop(span_size_t size) = 0;
 
+    /// @brief Returns the position of the first byte where predicate is true.
+    /// @see scan_for
+    /// @param predicate the function indicating where to stop the scan.
+    /// @param max the maximum number of bytes from the top to scan.
+    /// @param step how much data should be fetched per scan iteration.
     template <typename Function>
     auto scan_until(
       Function predicate,
@@ -49,6 +64,11 @@ struct deserializer_data_source : interface<deserializer_data_source> {
         return {-1};
     }
 
+    /// @brief Returns the position of the first occurrence of the specified byte.
+    /// @see scan_until
+    /// @param what the searched value.
+    /// @param max the maximum number of bytes from the top to scan.
+    /// @param step how much data should be fetched per scan iteration.
     auto scan_for(
       byte what,
       const valid_if_positive<span_size_t>& max,
@@ -57,6 +77,7 @@ struct deserializer_data_source : interface<deserializer_data_source> {
         return scan_until([what](byte b) { return b == what; }, max, step);
     }
 
+    /// @brief Fetches all the remaining data into a buffer.
     void fetch_all(
       memory::buffer& dst,
       valid_if_positive<span_size_t> step = {256}) {

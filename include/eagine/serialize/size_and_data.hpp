@@ -16,6 +16,9 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Encodes the size of the source block into destination, copies data afterwards.
+/// @ingroup serialization
+/// @see get_data_with_size
 static inline auto
 store_data_with_size(memory::const_block src, memory::block dst) noexcept
   -> memory::block {
@@ -40,6 +43,10 @@ store_data_with_size(memory::const_block src, memory::block dst) noexcept
     return {};
 }
 //------------------------------------------------------------------------------
+/// @brief In a block starting with sub-block with size returns the size of the sub-block.
+/// @ingroup serialization
+/// @see store_data_with_size
+/// @see get_data_with_size
 static inline auto skip_data_with_size(memory::const_block src) noexcept
   -> span_size_t {
     const auto opt_skip_len = mbs::decode_sequence_length(src);
@@ -49,6 +56,9 @@ static inline auto skip_data_with_size(memory::const_block src) noexcept
     return 0;
 }
 //------------------------------------------------------------------------------
+/// @brief Extracts a sub-block from a larger mutable block with encoded sub-block size.
+/// @ingroup serialization
+/// @see store_data_with_size
 static inline auto get_data_with_size(memory::block src) noexcept
   -> memory::block {
     const memory::const_block tmp{src};
@@ -61,6 +71,9 @@ static inline auto get_data_with_size(memory::block src) noexcept
     return {};
 }
 //------------------------------------------------------------------------------
+/// @brief Extracts a sub-block from a larger const block with encoded sub-block size.
+/// @ingroup serialization
+/// @see store_data_with_size
 static inline auto get_data_with_size(memory::const_block src) noexcept
   -> memory::const_block {
     const auto opt_skip_len = mbs::decode_sequence_length(src);
@@ -72,6 +85,10 @@ static inline auto get_data_with_size(memory::const_block src) noexcept
     return {};
 }
 //------------------------------------------------------------------------------
+/// @brief In a larger block with sub-blocks with size, calls function on each sub-block.
+/// @ingroup serialization
+/// @see store_data_with_size
+/// @see get_data_with_size
 template <typename Function>
 static inline void
 for_each_data_with_size(memory::const_block src, Function function) noexcept {
