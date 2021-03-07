@@ -39,6 +39,8 @@ namespace eagine {
 
 /// @defgroup serialization Serialization and deserialization
 
+/// @defgroup units Unit system
+
 /// @brief Math-related code is placed in this namespace.
 namespace math {
 /// @defgroup math Math utilities
