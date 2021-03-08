@@ -12,12 +12,20 @@
 
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
+/// @brief Policy customizing the generic C-API wrappers for the ALUT API
+/// @ingroup al_api_wrap
+/// @see default_c_api_traits
 class alut_api_traits : public default_c_api_traits {
 public:
+    /// @brief Alias for result type of currently unavailable functions.
     template <typename R>
     using no_result = alut_no_result<R>;
+
+    /// @brief Alias for result type of functions.
     template <typename R>
     using result = alut_result<R>;
+
+    /// @brief Alias for result type of optionally available functions.
     template <typename R>
     using opt_result = alut_opt_result<R>;
 

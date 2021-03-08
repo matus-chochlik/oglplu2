@@ -47,29 +47,72 @@
 
 namespace eagine::eglp {
 //------------------------------------------------------------------------------
+/// @brief Collection of aliases for EGL types.
+/// @ingroup egl_api_wrap
 struct egl_types {
-    using char_type = char;
+    /// @brief Untyped non-const pointer type.
     using void_ptr_type = void*;
+
+    /// @brief String character type.
+    using char_type = char;
+
+    /// @brief Untyped pointer type.
     using device_type = void*;
+
+    /// @brief Stream handle type.
     using stream_type = void*;
+
+    /// @brief Output layer handle type.
     using output_layer_type = void*;
+
+    /// @brief Output port handle type.
     using output_port_type = void*;
 #if EGLPLUS_HAS_EGL
     static constexpr bool has_api = true;
+
+    /// @brief Native display handle type.
     using native_display_type = EGLNativeDisplayType;
+
+    /// @brief Native window handle type.
     using native_window_type = EGLNativeWindowType;
+
+    /// @brief Native pixmap handle type.
     using native_pixmap_type = EGLNativePixmapType;
+
+    /// @brief Client buffer handle type.
     using client_buffer_type = EGLClientBuffer;
+
+    /// @brief EGL display handle type.
     using display_type = EGLDisplay;
+
+    /// @brief Config handle type.
     using config_type = EGLConfig;
+
+    /// @brief Config attribute handle type.
     using attrib_type = EGLAttrib;
+
+    /// @brief Rendering context handle type.
     using context_type = EGLContext;
+
+    /// @brief Rendering surface handle type.
     using surface_type = EGLSurface;
+
+    /// @brief EGL image type.
     using image_type = EGLImage;
+
+    /// @brief Sync object handle type.
     using sync_type = EGLSync;
+
+    /// @brief Time type.
     using time_type = EGLTime;
+
+    /// @brief Boolean type.
     using bool_type = EGLBoolean;
+
+    /// @brief Enumeration type.
     using enum_type = EGLenum;
+
+    /// @brief Signed integer type.
     using int_type = EGLint;
 #else
     static constexpr bool has_api = false;

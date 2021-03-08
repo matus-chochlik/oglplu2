@@ -26,7 +26,7 @@
 
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
-/// @brief Collection of aliases to GL types.
+/// @brief Collection of aliases for GL types.
 /// @ingroup gl_api_wrap
 struct gl_types {
 #if OGLPLUS_HAS_GL
@@ -42,7 +42,7 @@ struct gl_types {
     /// @brief Untyped const pointer type.
     using const_void_ptr_type = const GLvoid*;
 
-    /// @brief Character type.
+    /// @brief String character type.
     using char_type = GLchar;
 
     /// @brief Boolean type.

@@ -26,17 +26,38 @@
 
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
+/// @brief Collection of aliases for ALUT types.
+/// @ingroup al_api_wrap
 struct alut_types {
 
-    using int_type = al_types::int_type;
+    /// @brief Boolean type.
     using bool_type = al_types::bool_type;
+
+    /// @brief String character type.
     using char_type = al_types::char_type;
+
+    /// @brief Enum type.
     using enum_type = al_types::enum_type;
+
+    /// @brief Integer type.
+    using int_type = al_types::int_type;
+
+    /// @brief Unsigned integer type.
     using uint_type = al_types::uint_type;
+
+    /// @brief AL object handle type.
     using name_type = al_types::name_type;
+
+    /// @brief Integer type used to store sizes and counts.
     using size_type = al_types::size_type;
+
+    /// @brief Floating-point type.
     using float_type = al_types::float_type;
+
+    /// @brief Untyped pointer type.
     using void_ptr_type = al_types::void_ptr_type;
+
+    /// @brief Untyped const pointer type.
     using const_void_ptr_type = al_types::const_void_ptr_type;
 #if OALPLUS_HAS_ALUT
     static constexpr bool has_api = true;

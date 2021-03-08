@@ -26,17 +26,36 @@
 
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
+/// @brief Collection of aliases for ALC types.
+/// @ingroup al_api_wrap
 struct alc_types {
+    /// @brief Untyped pointer type.
     using void_ptr_type = void*;
 #if OALPLUS_HAS_ALC
     static constexpr bool has_api = true;
+
+    /// @brief Device handle type.
     using device_type = ALCdevice;
+
+    /// @brief Audio context type.
     using context_type = ALCcontext;
+
+    /// @brief Enumeration type.
     using enum_type = ALCenum;
+
+    /// @brief String character type.
     using char_type = ALCchar;
+
+    /// @brief Boolean type.
     using bool_type = ALCboolean;
+
+    /// @brief Integer type.
     using int_type = ALCint;
+
+    /// @brief Unsigned integer type.
     using uint_type = ALCuint;
+
+    /// @brief Integer type used to store sizes and counts.
     using size_type = ALCsizei;
 #else
     static constexpr bool has_api = false;
