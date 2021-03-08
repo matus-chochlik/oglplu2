@@ -7,6 +7,8 @@
 ///
 
 namespace eagine {
-/// @brief OGLplus code is placed in this namespace.
-namespace oglp {}
+/// @brief AL-related code is placed in this namespace.
+namespace oalp {
+/// @defgroup al_api_wrap AL API wrappers
+}
 } // namespace eagine

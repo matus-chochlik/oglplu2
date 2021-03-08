@@ -15,12 +15,17 @@
 
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
+/// @brief Class storing information about call result for unavailable GL functions.
+/// @ingroup gl_api_wrap
+/// @see gl_no_result
+/// @see gl_result_info
 class gl_no_result_info {
 public:
     constexpr auto error_code(anything) noexcept -> auto& {
         return *this;
     }
 
+    /// @brief Returns a message associated with the result.
     constexpr auto message() const noexcept -> string_view {
         return {"GL function not available"};
     }
@@ -28,8 +33,13 @@ public:
 private:
 };
 //------------------------------------------------------------------------------
+/// @brief Class storing information about a GL function call result.
+/// @ingroup gl_api_wrap
+/// @see gl_result
+/// @see gl_no_result_info
 class gl_result_info {
 public:
+    /// @brief Indicates if the call finished without error.
     explicit constexpr operator bool() const noexcept {
         return gl_types::error_code_no_error(_error_code);
     }
@@ -39,6 +49,7 @@ public:
         return *this;
     }
 
+    /// @brief Returns a message associated with the result.
     auto message() const noexcept -> string_view {
 #ifdef GL_INVALID_ENUM
         if(_error_code == GL_INVALID_ENUM) {
@@ -101,15 +112,32 @@ private:
     };
 };
 //------------------------------------------------------------------------------
+/// @brief Alias for always-invalid result of a missing GL API function call.
+/// @ingroup gl_api_wrap
+/// @see gl_result
+/// @see gl_opt_result
 template <typename Result>
 using gl_no_result = api_no_result<Result, gl_no_result_info>;
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the result of a GL API function call.
+/// @ingroup gl_api_wrap
+/// @see gl_no_result
+/// @see gl_opt_result
 template <typename Result>
 using gl_result = api_result<Result, gl_result_info>;
 //------------------------------------------------------------------------------
+/// @brief Alias for conditionally-valid result of a GL API function call.
+/// @ingroup gl_api_wrap
+/// @see gl_result
+/// @see gl_opt_result
 template <typename Result>
 using gl_opt_result = api_opt_result<Result, gl_result_info>;
 //------------------------------------------------------------------------------
+/// @brief Alias for a result that may come from mutiple difference GL API functions.
+/// @ingroup gl_api_wrap
+/// @see gl_result
+/// @see gl_no_result
+/// @see gl_opt_result
 template <typename Result>
 using gl_combined_result = api_combined_result<Result, gl_result_info>;
 //------------------------------------------------------------------------------

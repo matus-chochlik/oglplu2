@@ -7,6 +7,8 @@
 ///
 
 namespace eagine {
-/// @brief EGLplus code is placed in this namespace.
-namespace eglp {}
+/// @brief EGL-related code is placed in this namespace.
+namespace eglp {
+/// @defgroup egl_api_wrap EGL API wrappers
+}
 } // namespace eagine

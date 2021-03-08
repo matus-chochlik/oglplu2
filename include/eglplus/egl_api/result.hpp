@@ -15,12 +15,17 @@
 
 namespace eagine::eglp {
 //------------------------------------------------------------------------------
+/// @brief Class storing information about call result for unavailable EGL functions.
+/// @ingroup egl_api_wrap
+/// @see egl_no_result
+/// @see egl_result_info
 class egl_no_result_info {
 public:
     constexpr auto error_code(anything) noexcept -> auto& {
         return *this;
     }
 
+    /// @brief Returns a message associated with the result.
     constexpr auto message() const noexcept -> string_view {
         return {"EGL function not available"};
     }
@@ -28,8 +33,13 @@ public:
 private:
 };
 //------------------------------------------------------------------------------
+/// @brief Class storing information about an EGL function call result.
+/// @ingroup egl_api_wrap
+/// @see egl_result
+/// @see egl_no_result_info
 class egl_result_info {
 public:
+    /// @brief Indicates if the call finished without error.
     explicit constexpr operator bool() const noexcept {
         return egl_types::error_code_no_error(_error_code);
     }
@@ -39,6 +49,7 @@ public:
         return *this;
     }
 
+    /// @brief Returns a message associated with the result.
     auto message() const noexcept -> string_view {
 #ifdef EGL_BAD_SURFACE
         if(_error_code == EGL_BAD_SURFACE) {
@@ -146,12 +157,24 @@ private:
     };
 };
 //------------------------------------------------------------------------------
+/// @brief Alias for always-invalid result of a missing EGL API function call.
+/// @ingroup egl_api_wrap
+/// @see egl_result
+/// @see egl_opt_result
 template <typename Result>
 using egl_no_result = api_no_result<Result, egl_no_result_info>;
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the result of a EGL API function call.
+/// @ingroup egl_api_wrap
+/// @see egl_no_result
+/// @see egl_opt_result
 template <typename Result>
 using egl_result = api_result<Result, egl_result_info>;
 //------------------------------------------------------------------------------
+/// @brief Alias for conditionally-valid result of a EGL API function call.
+/// @ingroup gl_api_wrap
+/// @see egl_result
+/// @see egl_no_result
 template <typename Result>
 using egl_opt_result = api_opt_result<Result, egl_result_info>;
 //------------------------------------------------------------------------------
