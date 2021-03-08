@@ -24,7 +24,7 @@ namespace eagine::oglp {
 /// @see gl_any_enum_class
 ///
 /// This wrapper uses the specified Id to group various GL constants logically
-/// belonging together and prevents accidental mismatches and use of GL constanst
+/// belonging together and prevents accidental mismatches and use of GL constants
 /// from unrelated groups. For example using a shader type constant in place
 /// of texture type constants. Such mismatches result in compilation errors.
 template <typename Self, identifier_t Id>
