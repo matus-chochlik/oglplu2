@@ -27,7 +27,7 @@ uint hash(uint u) {
     return u;
 }
 
-shared float cursor = 123.456;
+shared float cursor = 345.678;
 
 float random() {
 	const uint mant = 0x007FFFFFu;
@@ -57,7 +57,7 @@ void init() {
 				metaballs.param[i].majorAxis = axis * 0.5;
 				metaballs.param[i].time = 0.0;
 				metaballs.param[i].minorAxis = axis.yxz * 0.25;
-				metaballs.param[i].speed = 0.2 + random() * 0.1;
+				metaballs.param[i].speed = 0.2 + random() * 0.15;
 				metaballs.param[i].center = vec3(0.0);
 				metaballs.param[i].radius = 0.1 + random() * 0.1;
 				vec3 color = randomVec();
