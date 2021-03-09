@@ -23,6 +23,10 @@
 
 namespace eagine::eglp {
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the C-functions from the EGL API.
+/// @ingroup egl_api_wrap
+/// @see basic_egl_constants
+/// @see basic_egl_operations
 template <typename ApiTraits>
 class basic_egl_c_api {
 public:

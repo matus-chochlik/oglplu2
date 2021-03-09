@@ -23,6 +23,10 @@
 
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the C-functions from the ALUT API.
+/// @ingroup al_api_wrap
+/// @see basic_alut_constants
+/// @see basic_alut_operations
 template <typename ApiTraits>
 class basic_alut_c_api {
 public:

@@ -15,6 +15,8 @@ class egl_api_traits;
 template <typename ApiTraits>
 class basic_egl_api;
 
+/// @brief Alias for the default instantation of basic_egl_api.
+/// @ingroup egl_api_wrap
 using egl_api = basic_egl_api<egl_api_traits>;
 //------------------------------------------------------------------------------
 } // namespace eagine::eglp

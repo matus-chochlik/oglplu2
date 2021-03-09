@@ -14,9 +14,13 @@
 
 namespace eagine::eglp {
 
+/// @brief Traits for EGL context attribute key/value list traits.
+/// @ingroup egl_api_wrap
 struct context_attrib_traits {
+    /// @brief Alias for the key type.
     using key_type = context_attribute;
     using conv_type = egl_types::int_type;
+    /// @brief Alias for the value type.
     using value_type = egl_types::int_type;
 
     static constexpr auto terminator() noexcept -> egl_types::int_type {
@@ -28,19 +32,34 @@ struct context_attrib_traits {
     }
 };
 
+/// @brief Alias for EGL context attribute key/value list head.
+/// @ingroup egl_api_wrap
+/// @see context_attributes
 using context_attribute_base = key_value_list<context_attrib_traits, 0U>;
 
+/// @brief Alias for EGL context attribute key/value list.
+/// @ingroup egl_api_wrap
+/// @see context_attribute_base
 template <std::size_t N>
 using context_attributes = key_value_list<context_attrib_traits, N>;
 
+/// @brief Alias for EGL context attribute list key/value pair.
+/// @ingroup egl_api_wrap
+/// @see context_attributes
 using context_attribute_value = key_value_list_element<context_attrib_traits>;
 
+/// @brief Concatenation operator for context attribute list key and value.
+/// @ingroup egl_api_wrap
+/// @relates context_attributes
 static constexpr auto
 operator|(context_attribute key, egl_types::int_type value) noexcept
   -> context_attribute_value {
     return {key, value};
 }
 
+/// @brief Concatenation operator for context attribute list key and value.
+/// @ingroup egl_api_wrap
+/// @relates context_attributes
 static constexpr auto operator|(
   context_attribute key,
   enum_bitfield<context_opengl_profile_bit> value) noexcept
@@ -48,6 +67,9 @@ static constexpr auto operator|(
     return {key, egl_types::int_type(value)};
 }
 
+/// @brief Concatenation operator for context attribute list key and value.
+/// @ingroup egl_api_wrap
+/// @relates context_attributes
 static constexpr auto operator|(context_attribute key, bool value) noexcept
   -> context_attribute_value {
 #if defined(EGL_TRUE) && defined(EGL_FALSE)

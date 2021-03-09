@@ -14,9 +14,13 @@
 
 namespace eagine::eglp {
 
+/// @brief Traits for EGL output port key/value list traits.
+/// @ingroup egl_api_wrap
 struct output_port_attrib_traits {
+    /// @brief Alias for the key type.
     using key_type = output_port_attribute;
     using conv_type = egl_types::int_type;
+    /// @brief Alias for the value type.
     using value_type = egl_types::int_type;
 
     static constexpr auto terminator() noexcept -> egl_types::int_type {
@@ -28,18 +32,29 @@ struct output_port_attrib_traits {
     }
 };
 
+/// @brief Alias for EGL output port attribute key/value list.
+/// @ingroup egl_api_wrap
 template <std::size_t N>
 using output_port_attributes = key_value_list<output_port_attrib_traits, N>;
 
+/// @brief Alias for EGL output port attribute list key/value pair.
+/// @ingroup egl_api_wrap
+/// @see output_port_attributes
 using output_port_attribute_value =
   key_value_list_element<output_port_attrib_traits>;
 
+/// @brief Concatenation operator for output port attribute list key and value.
+/// @ingroup egl_api_wrap
+/// @relates output_port_attributes
 static constexpr auto
 operator|(output_port_attribute key, egl_types::int_type value) noexcept
   -> output_port_attribute_value {
     return {key, value};
 }
 
+/// @brief Concatenation operator for output port attribute list key and value.
+/// @ingroup egl_api_wrap
+/// @relates output_port_attributes
 static constexpr auto operator|(output_port_attribute key, bool value) noexcept
   -> output_port_attribute_value {
 #if defined(EGL_TRUE) && defined(EGL_FALSE)

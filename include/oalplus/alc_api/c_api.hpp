@@ -23,6 +23,10 @@
 
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the C-functions from the ALC API.
+/// @ingroup al_api_wrap
+/// @see basic_alc_constants
+/// @see basic_alc_operations
 template <typename ApiTraits>
 class basic_alc_c_api {
 public:
