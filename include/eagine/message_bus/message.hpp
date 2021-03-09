@@ -31,21 +31,33 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 #define EAGINE_MSGBUS_ID(METHOD) EAGINE_MSG_ID(eagiMsgBus, METHOD)
 //------------------------------------------------------------------------------
+/// @brief Indicates if the specified message id denotes a special message bus message.
+/// @ingroup msgbus
 static constexpr auto is_special_message(message_id msg_id) noexcept {
     return msg_id.has_class(EAGINE_ID(eagiMsgBus));
 }
 //------------------------------------------------------------------------------
+/// @brief Returns the special broadcase message bus endpoint id.
+/// @ingroup msgbus
 static constexpr auto broadcast_endpoint_id() noexcept -> identifier_t {
     return 0U;
 }
 //------------------------------------------------------------------------------
+/// @brief Alias for message age type.
+/// @ingroup msgbus
 using message_age = std::chrono::duration<float>;
 //------------------------------------------------------------------------------
+/// @brief Message priority enumeration.
 enum class message_priority : std::uint8_t {
+    /// @brief Idle, sent only when no messages with higher priority are enqueued.
     idle,
+    /// @brief Low message priority.
     low,
+    /// @brief Normal, default message priority.
     normal,
+    /// @brief High, sent before messages with lower priority.
     high,
+    /// @brief Critical, sent as soon as possible.
     critical
 };
 //------------------------------------------------------------------------------
@@ -60,11 +72,19 @@ enumerator_mapping(type_identity<message_priority>, Selector) noexcept {
        {"idle", message_priority::idle}}};
 }
 //------------------------------------------------------------------------------
+/// @brief Message cryptography-related flag bits enumeration.
+/// @ingroup msgbus
+/// @see message_crypto_flags
 enum class message_crypto_flag : std::uint8_t {
-    asymmetric,
-    signed_header,
-    signed_content
+    /// @brief Assymetric cipher is used (symmetric otherwise).
+    asymmetric = 1U << 0U,
+    /// @brief The message header is signed.
+    signed_header = 1U << 1U,
+    /// @brief The message content is signed.
+    signed_content = 1U << 2U
 };
+/// @brief  Alias for message crypto flags bitfield.
+/// @ingroup msgbus
 using message_crypto_flags = bitfield<message_crypto_flag>;
 //------------------------------------------------------------------------------
 template <typename Selector>
@@ -76,68 +96,118 @@ enumerator_mapping(type_identity<message_crypto_flag>, Selector) noexcept {
        {"signed_content", message_crypto_flag::signed_content}}};
 }
 //------------------------------------------------------------------------------
+/// @brief Structure storing information about a sigle message bus message
+/// @ingroup msgbus
+/// @see message_view
+/// @see stored_message
 struct message_info {
     static constexpr auto invalid_id() noexcept -> identifier_t {
         return 0U;
     }
 
-    identifier_t source_id{invalid_id()};
-    identifier_t target_id{invalid_id()};
+    /// @brief Returns the source endpoint identifier.
+    /// @see target_id
+    /// @see set_source_id
+    identifier_t source_id{broadcast_endpoint_id()};
+
+    /// @brief Returns the target endpoint identifier.
+    /// @see source_id
+    /// @see set_target_id
+    identifier_t target_id{broadcast_endpoint_id()};
+
+    /// @brief Returns the identifier of the used serializer.
+    /// @see set_serializer_id
+    /// @see has_serializer_id
     identifier_t serializer_id{invalid_id()};
 
+    /// @brief Alias for the sequence number type.
+    /// @see set_sequence_no
     using sequence_t = message_sequence_t;
+
+    /// @brief The message sequence number.
+    /// @see set_sequence_no
     sequence_t sequence_no{0U};
 
+    /// @brief Alias for type used to store the message hop count.
     using hop_count_t = std::int8_t;
+
+    /// @brief The message hop counter.
+    /// @see add_hop
+    /// @see too_many_hops
+    /// Counts how many times the message passed through a rounter or a bridge.
     hop_count_t hop_count{0};
 
+    /// @brief The message priority.
+    /// @see set_priority
     message_priority priority{message_priority::normal};
 
+    /// @brief The message cryptography flags.
     message_crypto_flags crypto_flags{};
 
     auto assign(const message_info& that) noexcept -> auto& {
         return *this = that;
     }
 
+    /// @brief Indicates that the message made too many hops.
+    /// @see hop_count
+    /// @see add_hop
     auto too_many_hops() const noexcept -> bool {
         return hop_count >= hop_count_t(64);
     }
 
+    /// @brief Increments the hop counter.
+    /// @see hop_count
+    /// @see too_many_hops
     auto add_hop() noexcept -> auto& {
         EAGINE_ASSERT(hop_count < std::numeric_limits<hop_count_t>::max());
         ++hop_count;
         return *this;
     }
 
+    /// @brief Sets the priority of this message.
     auto set_priority(message_priority new_priority) noexcept -> auto& {
         priority = new_priority;
         return *this;
     }
 
+    /// @brief Sets the source endpoint identifier.
     auto set_source_id(identifier_t id) noexcept -> auto& {
         source_id = id;
         return *this;
     }
 
+    /// @brief Sets the target endpoint identifier.
     auto set_target_id(identifier_t id) noexcept -> auto& {
         target_id = id;
         return *this;
     }
 
+    /// @brief Tests if a data serializer with the specified id was used.
+    /// @see serializer_id
+    /// @see set_serializer_id
     auto has_serializer_id(identifier id) const noexcept -> bool {
         return serializer_id == id.value();
     }
 
+    /// @brief Sets the id of the used data content serializer.
+    /// @see serializer_id
+    /// @see has_serializer_id
     auto set_serializer_id(identifier id) noexcept -> auto& {
         serializer_id = id.value();
         return *this;
     }
 
+    /// @brief Sets the sequence number of this message (has message-type specific meaning).
+    /// @see sequence_no
     auto set_sequence_no(message_sequence_t no) noexcept -> auto& {
         sequence_no = no;
         return *this;
     }
 
+    /// @brief Sets the target id to be the source id from info, copies sequence number.
+    /// @see source_id
+    /// @see target_id
+    /// @see sequence_no
     auto setup_response(const message_info& info) noexcept -> auto& {
         target_id = info.source_id;
         sequence_no = info.sequence_no;
@@ -145,44 +215,62 @@ struct message_info {
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Combines message information and a non-owning view to message content.
+/// @ingroup msgbus
 struct message_view : message_info {
+
+    /// @brief View of the message data content.
     memory::const_block data;
 
+    /// @brief Default constructor.
     constexpr message_view() noexcept = default;
+
+    /// @brief Construction from a const memory block.
     constexpr message_view(memory::const_block init) noexcept
       : data{init} {}
+
+    /// @brief Construction from a mutable memory block.
     constexpr message_view(memory::block init) noexcept
       : data{init} {}
+
+    /// @brief Construction from a string view.
     constexpr message_view(string_view init) noexcept
       : data{as_bytes(init)} {}
+
+    /// @brief Construction from a message info and a const memory block.
     constexpr message_view(message_info info, memory::const_block init) noexcept
       : message_info{info}
       , data{init} {}
 };
 //------------------------------------------------------------------------------
+/// @brief Combines message information and an owned message content buffer.
+/// @ingroup msgbus
 class stored_message : public message_info {
-private:
-    memory::buffer _buffer{};
-
 public:
+    /// @brief Default constructor.
     stored_message() = default;
 
+    /// @brief Construction from a message view and storage buffer.
+    /// Adopts the buffer and copies the content from the message view into it.
     stored_message(message_view message, memory::buffer buf) noexcept
       : message_info{message}
       , _buffer{std::move(buf)} {
         memory::copy_into(view(message.data), _buffer);
     }
 
+    /// @brief Conversion to message view.
     operator message_view() const {
         return {*this, data()};
     }
 
+    /// @brief Copies the remaining data from the specified serialization source.
     template <typename Source>
     void fetch_all_from(Source& source) {
         _buffer.clear();
         source.fetch_all(_buffer);
     }
 
+    /// @brief Copies the content from the given block into the internal buffer.
     void store_content(memory::const_block blk) {
         memory::copy_into(blk, _buffer);
     }
@@ -190,28 +278,37 @@ public:
     template <typename Backend, typename Value>
     auto do_store_value(const Value& value, span_size_t max_size) -> bool;
 
+    /// @brief Serializes and stores the specified value (up to max_size).
     template <typename Value>
     auto store_value(const Value& value, span_size_t max_size) -> bool;
 
     template <typename Backend, typename Value>
     auto do_fetch_value(Value& value) -> bool;
 
+    /// @brief Deserializes the stored content into the specified value.
     template <typename Value>
     auto fetch_value(Value& value) -> bool;
 
+    /// @brief Returns a mutable view of the storage buffer.
     auto storage() noexcept -> memory::block {
         return cover(_buffer);
     }
 
+    /// @brief Returns a const view of the storage buffer.
     auto data() const noexcept -> memory::const_block {
         return view(_buffer);
     }
 
+    /// @brief Indicates if the header or the content is signed.
+    /// @see signature
     auto is_signed() const noexcept -> bool {
         return crypto_flags.has(message_crypto_flag::signed_content) ||
                crypto_flags.has(message_crypto_flag::signed_header);
     }
 
+    /// @brief Returns the message signature.
+    /// @see is_signed
+    /// @see content
     auto signature() const noexcept -> memory::const_block {
         if(is_signed()) {
             return skip(data(), skip_data_with_size(data()));
@@ -219,6 +316,8 @@ public:
         return {};
     }
 
+    /// @brief Returns a mutable view of the data content of the message.
+    /// @see signature
     auto content() noexcept -> memory::block {
         if(EAGINE_UNLIKELY(is_signed())) {
             return get_data_with_size(storage());
@@ -226,6 +325,9 @@ public:
         return storage();
     }
 
+    /// @brief Returns a const view of the data content of the message.
+    /// @see signature
+    /// @see text_content
     auto content() const noexcept -> memory::const_block {
         if(EAGINE_UNLIKELY(is_signed())) {
             return get_data_with_size(data());
@@ -233,30 +335,41 @@ public:
         return data();
     }
 
+    /// @brief Returns the content as a mutable string view.
+    /// @see content
     auto text_content() noexcept {
         return as_chars(content());
     }
 
+    /// @brief Returns the content as a const string view.
+    /// @see content
     auto text_content() const noexcept {
         return as_chars(content());
     }
 
+    /// @brief Clears the content of the storage buffer.
     void clear_data() noexcept {
         _buffer.clear();
     }
 
+    /// @brief Releases and returns the storage buffer (without clearing it).
     auto release_buffer() noexcept -> memory::buffer {
         return std::move(_buffer);
     }
 
+    /// @brief Stores the specified data and signs it.
     auto store_and_sign(
       memory::const_block data,
       span_size_t max_size,
       context&,
       main_ctx_object&) -> bool;
 
+    /// @brief Verifies the signatures of this message.
     auto verify_bits(context&, main_ctx_object&) const noexcept
       -> verification_bits;
+
+private:
+    memory::buffer _buffer{};
 };
 //------------------------------------------------------------------------------
 class message_storage {

@@ -472,6 +472,10 @@ struct serializer
         struct_serializer<T>,
         nothing_t>> {};
 //------------------------------------------------------------------------------
+/// @brief Serializes a value with the specified serialization backend.
+/// @ingroup serialization
+/// @see deserialize
+/// @see serializer_backend
 template <typename T, typename Backend>
 auto serialize(T& value, Backend& backend) -> std::enable_if_t<
   std::is_base_of_v<serializer_backend, Backend>,

@@ -16,27 +16,44 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Serialization data sink backed by a pre-allocated memory block.
+/// @ingroup serialization
+/// @see block_data_source
+/// @see packed_block_data_sink
 class block_data_sink : public serializer_data_sink {
 public:
+    /// @brief Default constructor.
+    /// @post free().empty()
     constexpr block_data_sink() noexcept = default;
 
+    /// @brief Constructor setting the backing block.
     block_data_sink(memory::block dst) noexcept
       : _dst{dst} {}
 
+    /// @brief Resets the backing block.
+    /// @see replace_with
     void reset(memory::block dst) {
         _dst = dst;
         _done = 0;
         _save_points.clear();
     }
 
+    /// @brief Returns the part of the backing block already written to.
+    /// @see free
     auto done() const noexcept -> memory::block {
         return head(_dst, _done);
     }
 
+    /// @brief Returns the free part of the backing block.
+    /// @see done
+    /// @see remaining_size
     auto free() const noexcept -> memory::block {
         return skip(_dst, _done);
     }
 
+    /// @brief Returns the size of the free part of the backing block.
+    /// @see free
+    /// @see done
     auto remaining_size() -> span_size_t final {
         return free().size();
     }
@@ -55,6 +72,8 @@ public:
         return {};
     }
 
+    /// @brief Replaces the content of the backing block with the content of the argument.
+    /// @see reset
     auto replace_with(memory::const_block blk) -> serialization_errors {
         if(_dst.size() < blk.size()) {
             return {serialization_error_code::too_much_data};

@@ -20,33 +20,63 @@
 
 namespace eagine {
 
-// seconds
+/// @brief Alias for type storing duration values in seconds.
+/// @ingroup units
+/// @see seconds_
 template <typename T>
 using seconds_t = tagged_quantity<T, units::second>;
 
+/// @brief Creates a tagged quantity storing value in seconds.
+/// @ingroup units
 template <typename T>
-static constexpr auto seconds_(T value) noexcept {
+static constexpr auto seconds_(T value) noexcept -> seconds_t<T> {
     return seconds_t<T>{value};
 }
 
-// radians
+/// @brief Alias for type storing angle values in radians.
+/// @ingroup units
+/// @see radians_
 template <typename T>
 using radians_t = tagged_quantity<T, units::radian>;
 
+/// @brief Creates a tagged quantity storing value in radians.
+/// @ingroup units
+/// @see degrees_
+/// @see right_angles_
+/// @see right_angle_
+/// @see turns_
 template <typename T>
-static constexpr auto radians_(T value) noexcept {
+static constexpr auto radians_(T value) noexcept -> radians_t<T> {
     return radians_t<T>{value};
 }
 
+/// @brief Creates a tagged quantity in units of right angle.
+/// @ingroup units
+/// @see radians_
+/// @see degrees_
+/// @see right_angle_
+/// @see turns_
 template <typename T>
 static constexpr auto right_angles_(T value) noexcept {
     return radians_(value * math::pi / 2);
 }
 
+/// @brief Creates a tagged quantity a right angle value.
+/// @ingroup units
+/// @see radians_
+/// @see degrees_
+/// @see right_angles_
+/// @see turns_
 static constexpr auto right_angle_() noexcept {
     return right_angles_(1);
 }
 
+/// @brief Creates a tagged quantity in full turn units.
+/// @ingroup units
+/// @see radians_
+/// @see degrees_
+/// @see right_angle_
+/// @see right_angles_
 template <typename T>
 static constexpr auto turns_(T value) noexcept {
     return radians_(value * math::pi * 2);
@@ -94,21 +124,33 @@ static constexpr auto arctan(T y, T x) {
     return make_tagged_quantity<units::radian>(atan2(y, x));
 }
 
-// degrees
+/// @brief Alias for type storing angle values in degrees.
+/// @ingroup units
+/// @see degrees_
 template <typename T>
 using degrees_t = tagged_quantity<T, units::degree>;
 
+/// @brief Creates a tagged quantity storing value in degrees.
+/// @ingroup units
+/// @see radians_
+/// @see right_angles_
+/// @see right_angle_
+/// @see turns_
 template <typename T>
-static constexpr auto degrees_(T value) noexcept {
+static constexpr auto degrees_(T value) noexcept -> degrees_t<T> {
     return degrees_t<T>{value};
 }
 
-// kelvins
+/// @brief Alias for type storing temperature values in kelvins.
+/// @ingroup units
+/// @see kelvins_
 template <typename T>
 using kelvins_t = tagged_quantity<T, units::kelvin>;
 
+/// @brief Creates a tagged quantity storing value in kelvins.
+/// @ingroup units
 template <typename T>
-static constexpr auto kelvins_(T value) noexcept {
+static constexpr auto kelvins_(T value) noexcept -> kelvins_t<T> {
     return kelvins_t<T>{value};
 }
 

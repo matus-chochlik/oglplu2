@@ -13,6 +13,10 @@
 
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the constants from the ALUT API.
+/// @ingroup al_api_wrap
+/// @see basic_alut_c_api
+/// @see basic_alut_operations
 template <typename ApiTraits>
 class basic_alut_constants {
 public:

@@ -15,8 +15,11 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Class loading and managing message bus router address(es).
+/// @ingroup msgbus
 class router_address : public main_ctx_object {
 public:
+    /// @brief Construction from parent main context object.
     router_address(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(RouterAddr), parent} {
         if(app_config().fetch("msg_bus.router.address", _addrs)) {
@@ -30,10 +33,12 @@ public:
         }
     }
 
+    /// @brief Indicates if this instance contains at least one address.
     explicit operator bool() const noexcept {
         return !_addrs.empty();
     }
 
+    /// @brief Implicit conversion to string_view, returning the first address.
     operator string_view() const noexcept {
         if(_addrs.empty()) {
             return {};
@@ -41,14 +46,17 @@ public:
         return {_addrs.front()};
     }
 
-    auto count() const noexcept {
+    /// @brief Returns the number of addresses stored in this instance.
+    auto count() const noexcept -> span_size_t {
         return span_size(_addrs.size());
     }
 
+    /// @brief Returns a const iterator to the start of the range of addresses.
     auto begin() const noexcept {
         return _addrs.cbegin();
     }
 
+    /// @brief Returns a const iterator past the end of the range of addresses.
     auto end() const noexcept {
         return _addrs.cend();
     }

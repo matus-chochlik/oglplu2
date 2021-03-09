@@ -37,6 +37,10 @@ namespace eagine {
 
 /// @defgroup value_history Values and variables with history
 
+/// @defgroup serialization Serialization and deserialization
+
+/// @defgroup units Unit system
+
 /// @brief Math-related code is placed in this namespace.
 namespace math {
 /// @defgroup math Math utilities
@@ -45,6 +49,11 @@ namespace math {
 /// @brief Value-tree code is placed in this namespace.
 namespace valtree {
 /// @defgroup valtree Value trees
+}
+
+/// @brief Message bus code is placed in this namespace.
+namespace msgbus {
+/// @defgroup msgbus Message bus
 }
 
 /// @brief Shape generator and loader code is placed in this namespace.

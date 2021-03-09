@@ -29,6 +29,10 @@ namespace eagine::eglp {
 //------------------------------------------------------------------------------
 #define EGLPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the functions from the EGL API.
+/// @ingroup egl_api_wrap
+/// @see basic_egl_constants
+/// @see basic_egl_c_api
 template <typename ApiTraits>
 class basic_egl_operations : public basic_egl_c_api<ApiTraits> {
 

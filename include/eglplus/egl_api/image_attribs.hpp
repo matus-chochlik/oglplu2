@@ -14,9 +14,13 @@
 
 namespace eagine::eglp {
 
+/// @brief Traits for EGL image attribute key/value list traits.
+/// @ingroup egl_api_wrap
 struct image_attrib_traits {
+    /// @brief Alias for the key type.
     using key_type = image_attribute;
     using conv_type = egl_types::attrib_type;
+    /// @brief Alias for the value type.
     using value_type = egl_types::attrib_type;
 
     static constexpr auto terminator() noexcept -> value_type {
@@ -28,17 +32,28 @@ struct image_attrib_traits {
     }
 };
 
+/// @brief Alias for EGL image attribute key/value list.
+/// @ingroup egl_api_wrap
 template <std::size_t N>
 using image_attributes = key_value_list<image_attrib_traits, N>;
 
+/// @brief Alias for EGL image attribute list key/value pair.
+/// @ingroup egl_api_wrap
+/// @see image_attributes
 using image_attribute_value = key_value_list_element<image_attrib_traits>;
 
+/// @brief Concatenation operator for image attribute list key and value.
+/// @ingroup egl_api_wrap
+/// @relates image_attributes
 static constexpr auto
 operator|(image_attribute key, egl_types::int_type value) noexcept
   -> image_attribute_value {
     return {key, value};
 }
 
+/// @brief Concatenation operator for image attribute list key and value.
+/// @ingroup egl_api_wrap
+/// @relates image_attributes
 static constexpr auto operator|(image_attribute key, bool value) noexcept
   -> image_attribute_value {
 #if defined(EGL_TRUE) && defined(EGL_FALSE)

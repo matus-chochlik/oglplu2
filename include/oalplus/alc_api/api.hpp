@@ -18,6 +18,10 @@ namespace eagine::oalp {
 //------------------------------------------------------------------------------
 #define OALPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the functions from the ALC API.
+/// @ingroup al_api_wrap
+/// @see basic_alc_constants
+/// @see basic_alc_c_api
 template <typename ApiTraits>
 class basic_alc_operations : public basic_alc_c_api<ApiTraits> {
 

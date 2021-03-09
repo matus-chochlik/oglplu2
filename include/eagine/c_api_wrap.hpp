@@ -211,6 +211,9 @@ class api_result;
 
 /// @brief Alias for conditionally-valid result of a C-API function call.
 /// @ingroup c_api_wrap
+///
+/// Such result may be returned from wrappers of C-API functions that have not
+/// been successfully dynamically-loaded  in the current process.
 template <typename Result, typename Info>
 using api_opt_result = api_result<Result, Info, api_result_validity::maybe>;
 
@@ -218,7 +221,7 @@ using api_opt_result = api_result<Result, Info, api_result_validity::maybe>;
 /// @ingroup c_api_wrap
 ///
 /// Such result may be returned from wrappers of C-API functions that are not
-/// available in the current build. For example dynamically linked functions.
+/// available in the current build. For example API extension functions.
 template <typename Result, typename Info>
 using api_no_result = api_result<Result, Info, api_result_validity::never>;
 //------------------------------------------------------------------------------

@@ -208,6 +208,8 @@ inline auto get_serialize_vector_for(const T& inst, Selector) noexcept
     return result;
 }
 //------------------------------------------------------------------------------
+/// @brief Returns a buffer large enough for the serialization of the specified instance.
+/// @ingroup serialization
 template <
   identifier_t SerializerId,
   typename T,

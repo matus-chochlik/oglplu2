@@ -8965,8 +8965,8 @@ public:
 #endif
       bgra_integer;
 
-    /// @var depth_components
-    /// @glconstwrap{DEPTH_COMPONENTS}
+    /// @var depth_component
+    /// @glconstwrap{DEPTH_COMPONENT}
     opt_c_api_constant<
       mp_list<pixel_internal_format, pixel_format>,
 #ifdef GL_DEPTH_COMPONENT

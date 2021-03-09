@@ -95,6 +95,14 @@ PREDEFINED             += "__SIZEOF_INT128__"
 PREDEFINED             += "EAGINE_HAS_LONG_ID"
 PREDEFINED             += "OGLPLUS_HAS_GL"
 PREDEFINED             += "OGLPLUS_GL_STATIC_FUNC(x)=nullptr"
+PREDEFINED             += "EGLPLUS_HAS_EGL"
+PREDEFINED             += "EGLPLUS_EGL_STATIC_FUNC(x)=nullptr"
+PREDEFINED             += "EGLPLUS_HAS_AL"
+PREDEFINED             += "OALPLUS_AL_STATIC_FUNC(x)=nullptr"
+PREDEFINED             += "EGLPLUS_HAS_ALC"
+PREDEFINED             += "OALPLUS_ALC_STATIC_FUNC(x)=nullptr"
+PREDEFINED             += "EGLPLUS_HAS_ALUT"
+PREDEFINED             += "OALPLUS_ALUT_STATIC_FUNC(x)=nullptr"
 
 QUIET                   = YES
 WARN_IF_DOC_ERROR       = YES

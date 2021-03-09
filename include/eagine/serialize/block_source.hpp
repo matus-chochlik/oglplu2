@@ -16,13 +16,21 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Deserialization data source backed by a pre-allocated memory block.
+/// @ingroup serialization
+/// @see block_data_sink
+/// @see packed_block_data_source
 class block_data_source : public deserializer_data_source {
 public:
+    /// @brief Default constructor.
     block_data_source() noexcept = default;
 
+    /// @brief Constructor setting the backing block.
     block_data_source(memory::const_block src) noexcept
       : _src{src} {}
 
+    /// @brief Resets the backing block.
+    /// @see replace_with
     void reset(memory::const_block src) {
         _src = src;
         _done = 0;

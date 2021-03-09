@@ -14,10 +14,16 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Packing serialization data sink backed by a pre-allocated memory block.
+/// @ingroup serialization
+/// @see packed_block_data_source
+/// @see data_compressor
 class packed_block_data_sink : public block_data_sink {
 public:
+    /// @brief Default constructor.
     packed_block_data_sink() noexcept = default;
 
+    /// @brief Constructor setting the backing block and data compressor.
     packed_block_data_sink(
       data_compressor compressor,
       memory::block dst) noexcept

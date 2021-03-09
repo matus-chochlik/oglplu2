@@ -25,23 +25,54 @@
 
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
+/// @brief Collection of aliases for AL types.
+/// @ingroup al_api_wrap
 struct al_types {
+    /// @brief Untyped pointer type.
     using void_ptr_type = void*;
+
+    /// @brief Untyped const pointer type.
     using const_void_ptr_type = const void*;
 #if OALPLUS_HAS_AL
     static constexpr bool has_api = true;
+
+    /// @brief Enumeration type.
     using enum_type = ALenum;
+
+    /// @brief String character type.
     using char_type = ALchar;
+
+    /// @brief Boolean type.
     using bool_type = ALboolean;
+
+    /// @brief Byte type.
     using byte_type = ALbyte;
+
+    /// @brief Unsigned byte type.
     using ubyte_type = ALubyte;
+
+    /// @brief Short integer type.
     using short_type = ALshort;
+
+    /// @brief Unsigned short integer type.
     using ushort_type = ALushort;
+
+    /// @brief Integer type.
     using int_type = ALint;
+
+    /// @brief Signed integer type.
     using uint_type = ALuint;
+
+    /// @brief AL object handle type.
     using name_type = ALuint;
+
+    /// @brief Integer type used to store sizes and counts.
     using size_type = ALsizei;
+
+    ///  @brief Floating-point type.
     using float_type = ALfloat;
+
+    ///  @brief Double-precision floating-point type.
     using double_type = ALdouble;
 #else
     static constexpr bool has_api = false;

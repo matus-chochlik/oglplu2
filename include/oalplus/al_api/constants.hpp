@@ -13,6 +13,10 @@
 
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the constants from the AL API.
+/// @ingroup al_api_wrap
+/// @see basic_al_c_api
+/// @see basic_al_operations
 template <typename ApiTraits>
 class basic_al_constants {
 public:

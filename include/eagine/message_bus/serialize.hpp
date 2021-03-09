@@ -30,14 +30,27 @@ struct get_serialize_buffer_size<Sid, message_id, Selector>
 //------------------------------------------------------------------------------
 namespace msgbus {
 
+/// @brief Alias for default serialization backend for bus messages.
+/// @ingroup msgbus
+/// @see default_deserializer_backend
 using default_serializer_backend = string_serializer_backend;
+
+/// @brief Alias for default deserialization backend for bus messages.
+/// @ingroup msgbus
+/// @see default_serializer_backend
 using default_deserializer_backend = string_deserializer_backend;
 
+/// @brief Returns a suitable buffer for the serialization of the specified object.
+/// @ingroup msgbus
 template <typename T>
 inline auto default_serialize_buffer_for(const T& inst) {
     return serialize_buffer_for<default_serializer_backend::id_value>(inst);
 }
 //------------------------------------------------------------------------------
+/// @brief Serializes a bus message header with the specified serializer backend.
+/// @ingroup msgbus
+/// @see serialize_message
+/// @see deserialize_message_header
 template <typename Backend>
 auto serialize_message_header(
   message_id msg_id,
@@ -60,6 +73,11 @@ auto serialize_message_header(
     return serialize(message_params, backend);
 }
 //------------------------------------------------------------------------------
+/// @brief Serializes a bus message with the specified serializer backend.
+/// @ingroup msgbus
+/// @see serialize_message_header
+/// @see deserialize_message
+/// @see default_serialize
 template <typename Backend>
 auto serialize_message(
   message_id msg_id,
@@ -82,6 +100,10 @@ auto serialize_message(
     return errors;
 }
 //------------------------------------------------------------------------------
+/// @brief Deserializes a bus message header with the specified deserializer backend.
+/// @ingroup msgbus
+/// @see deserialize_message
+/// @see serialize_message_header
 template <typename Backend>
 auto deserialize_message_header(
   identifier& class_id,
@@ -105,6 +127,11 @@ auto deserialize_message_header(
     return deserialize(message_params, backend);
 }
 //------------------------------------------------------------------------------
+/// @brief Deserializes a bus message with the specified deserializer backend.
+/// @ingroup msgbus
+/// @see deserialize_message_header
+/// @see serialize_message
+/// @see default_deserialize
 template <typename Backend>
 auto deserialize_message(
   identifier& class_id,
@@ -128,6 +155,10 @@ auto deserialize_message(
     return errors;
 }
 //------------------------------------------------------------------------------
+/// @brief Deserializes a bus message with the specified deserializer backend.
+/// @ingroup msgbus
+/// @see deserialize_message_header
+/// @see serialize_message
 template <typename Backend>
 auto deserialize_message(
   message_id& msg_id,
@@ -149,6 +180,11 @@ auto deserialize_message(
 //------------------------------------------------------------------------------
 // default_serialize
 //------------------------------------------------------------------------------
+/// @brief Uses the default backend to serialize a value into a memory block.
+/// @see default_serializer_backend
+/// @see default_serialize_packed
+/// @see default_deserialize
+/// @see serialize
 template <typename T>
 inline auto default_serialize(T& value, memory::block blk)
   -> serialization_result<memory::const_block> {
@@ -158,6 +194,12 @@ inline auto default_serialize(T& value, memory::block blk)
     return {sink.done(), errors};
 }
 //------------------------------------------------------------------------------
+/// @brief Uses backend and compressor to serialize and pack a value into a memory block.
+/// @see default_serializer_backend
+/// @see default_serialize
+/// @see default_deserialize_packed
+/// @see data_compressor
+/// @see serialize
 template <typename T>
 inline auto default_serialize_packed(
   T& value,
@@ -169,6 +211,11 @@ inline auto default_serialize_packed(
     return {sink.done(), errors};
 }
 //------------------------------------------------------------------------------
+/// @brief Default-serializes the specified message id into a memory block.
+/// @ingroup msgbus
+/// @see default_serializer_backend
+/// @see default_serialize
+/// @see message_id
 inline auto
 default_serialize_message_type(message_id msg_id, memory::block blk) {
     const auto value{msg_id.id_tuple()};
@@ -177,6 +224,11 @@ default_serialize_message_type(message_id msg_id, memory::block blk) {
 //------------------------------------------------------------------------------
 // default_deserialize
 //------------------------------------------------------------------------------
+/// @brief Uses the default backend to deserialize a value from a memory block.
+/// @see default_deserializer_backend
+/// @see default_deserialize_packed
+/// @see default_serialize
+/// @see deserialize
 template <typename T>
 inline auto default_deserialize(T& value, memory::const_block blk)
   -> deserialization_result<memory::const_block> {
@@ -186,6 +238,12 @@ inline auto default_deserialize(T& value, memory::const_block blk)
     return {source.remaining(), errors};
 }
 //------------------------------------------------------------------------------
+/// @brief Uses backend and compressor to deserialize and unpack a value from a block.
+/// @see default_deserializer_backend
+/// @see default_deserialize
+/// @see default_serialize_packed
+/// @see data_compressor
+/// @see deserialize
 template <typename T>
 inline auto default_deserialize_packed(
   T& value,
@@ -197,6 +255,11 @@ inline auto default_deserialize_packed(
     return {source.remaining(), errors};
 }
 //------------------------------------------------------------------------------
+/// @brief Default-deserializes the specified message id from a memory block.
+/// @ingroup msgbus
+/// @see default_deserializer_backend
+/// @see default_deserialize
+/// @see message_id
 inline auto
 default_deserialize_message_type(message_id& msg_id, memory::const_block blk) {
     std::tuple<identifier, identifier> value{};

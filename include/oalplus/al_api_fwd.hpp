@@ -15,6 +15,8 @@ class al_api_traits;
 template <typename ApiTraits>
 class basic_al_api;
 
+/// @brief Alias for the default instantation of basic_al_api.
+/// @ingroup al_api_wrap
 using al_api = basic_al_api<al_api_traits>;
 //------------------------------------------------------------------------------
 } // namespace eagine::oalp

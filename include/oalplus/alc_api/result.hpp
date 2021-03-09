@@ -15,12 +15,17 @@
 
 namespace eagine::oalp {
 //------------------------------------------------------------------------------
+/// @brief Class storing information about call result for unavailable ALC functions.
+/// @ingroup al_api_wrap
+/// @see al_no_result
+/// @see al_result_info
 class alc_no_result_info {
 public:
     constexpr auto error_code(anything) noexcept -> auto& {
         return *this;
     }
 
+    /// @brief Returns a message associated with the result.
     constexpr auto message() const noexcept -> string_view {
         return {"ALC function not available"};
     }
@@ -28,10 +33,15 @@ public:
 private:
 };
 //------------------------------------------------------------------------------
+/// @brief Class storing information about an ALC function call result.
+/// @ingroup al_api_wrap
+/// @see al_result
+/// @see al_no_result_info
 class alc_result_info {
 public:
     using enum_type = alc_types::enum_type;
 
+    /// @brief Indicates if the call finished without error.
     explicit constexpr operator bool() const noexcept {
         return alc_types::error_code_no_error(_error_code);
     }
@@ -45,6 +55,7 @@ public:
         return _error_code;
     }
 
+    /// @brief Returns a message associated with the result.
     auto message() const noexcept -> string_view {
 #ifdef ALC_INVALID_ENUM
         if(_error_code == ALC_INVALID_ENUM) {
@@ -87,12 +98,24 @@ private:
     };
 };
 //------------------------------------------------------------------------------
+/// @brief Alias for always-invalid result of a missing ALC API function call.
+/// @ingroup al_api_wrap
+/// @see al_result
+/// @see al_opt_result
 template <typename Result>
 using alc_no_result = api_no_result<Result, alc_no_result_info>;
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the result of a ALC API function call.
+/// @ingroup al_api_wrap
+/// @see al_no_result
+/// @see al_opt_result
 template <typename Result>
 using alc_result = api_result<Result, alc_result_info>;
 //------------------------------------------------------------------------------
+/// @brief Class wrapping the result of a ALC API function call.
+/// @ingroup al_api_wrap
+/// @see al_no_result
+/// @see al_opt_result
 template <typename Result>
 using alc_opt_result = api_opt_result<Result, alc_result_info>;
 //------------------------------------------------------------------------------

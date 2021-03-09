@@ -18,6 +18,8 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Helper mixin class for message bus services composed of several parts.
+/// @ingroup msgbus
 template <typename Base = subscriber>
 class service_composition
   : public Base
@@ -25,6 +27,47 @@ class service_composition
   , public service_interface {
 
     using This = service_composition;
+
+public:
+    /// @brief Construction from a reference to an endpoint.
+    service_composition(endpoint& bus)
+      : Base{bus} {
+        _init();
+    }
+
+    /// @brief Move constructible.
+    // NOLINTNEXTLINE(hicpp-noexcept-move,performance-noexcept-move-constructor)
+    service_composition(service_composition&& that)
+      : Base{static_cast<Base&&>(that)} {
+        _init();
+    }
+
+    /// @brief Not copy constructible.
+    service_composition(const service_composition&) = delete;
+
+    /// @brief Not move assignable.
+    auto operator=(service_composition&&) = delete;
+
+    /// @brief Not copy assignable.
+    auto operator=(const service_composition&) = delete;
+
+    ~service_composition() noexcept override {
+        this->retract_subscriptions();
+        this->finish();
+    }
+
+    /// @brief Adds a connection to the associated endpoint.
+    auto add_connection(std::unique_ptr<connection> conn) -> bool final {
+        return this->bus().add_connection(std::move(conn));
+    }
+
+    /// @brief Updates the associated endpoint and processes all incoming messages.
+    auto update_and_process_all() -> bool final {
+        some_true something_done{};
+        something_done(this->update());
+        something_done(this->process_all());
+        return something_done;
+    }
 
 protected:
     void add_methods() {
@@ -57,37 +100,6 @@ private:
         this->add_methods();
         this->init();
         this->announce_subscriptions();
-    }
-
-public:
-    service_composition(endpoint& bus)
-      : Base{bus} {
-        _init();
-    }
-
-    // NOLINTNEXTLINE(hicpp-noexcept-move,performance-noexcept-move-constructor)
-    service_composition(service_composition&& that)
-      : Base{static_cast<Base&&>(that)} {
-        _init();
-    }
-    service_composition(const service_composition&) = delete;
-    auto operator=(service_composition&&) = delete;
-    auto operator=(const service_composition&) = delete;
-
-    ~service_composition() noexcept override {
-        this->retract_subscriptions();
-        this->finish();
-    }
-
-    auto add_connection(std::unique_ptr<connection> conn) -> bool final {
-        return this->bus().add_connection(std::move(conn));
-    }
-
-    auto update_and_process_all() -> bool final {
-        some_true something_done{};
-        something_done(this->update());
-        something_done(this->process_all());
-        return something_done;
     }
 };
 //------------------------------------------------------------------------------
