@@ -63,3 +63,10 @@ WARN_NO_PARAMDOC        = NO
 ALIASES                += glconstwrap{1}="Wrapper for <code>GL_\1</code>"
 ALIASES                += glfuncwrap{1}="Wrapper for <code>gl\1</code>"
 ALIASES                += glextwrap{1}="Wrapper for <code>GL_\1</code>"
+ALIASES                += alconstwrap{1}="Wrapper for <code>AL_\1</code>"
+ALIASES                += alfuncwrap{1}="Wrapper for <code>al\1</code>"
+ALIASES                += alcconstwrap{1}="Wrapper for <code>ALC_\1</code>"
+ALIASES                += alcfuncwrap{1}="Wrapper for <code>alc\1</code>"
+ALIASES                += alutconstwrap{1}="Wrapper for <code>ALUT_\1</code>"
+ALIASES                += alutfuncwrap{1}="Wrapper for <code>alut\1</code>"
+
