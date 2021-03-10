@@ -69,4 +69,7 @@ ALIASES                += alcconstwrap{1}="Wrapper for <code>ALC_\1</code>"
 ALIASES                += alcfuncwrap{1}="Wrapper for <code>alc\1</code>"
 ALIASES                += alutconstwrap{1}="Wrapper for <code>ALUT_\1</code>"
 ALIASES                += alutfuncwrap{1}="Wrapper for <code>alut\1</code>"
+ALIASES                += eglconstwrap{1}="Wrapper for <code>EGL_\1</code>"
+ALIASES                += eglfuncwrap{1}="Wrapper for <code>egl\1</code>"
+ALIASES                += eglextwrap{1}="Wrapper for <code>EGL_\1</code>"
 

@@ -25,6 +25,8 @@ public:
     template <enum_type value>
     using enum_type_c = std::integral_constant<enum_type, value>;
 
+    /// @var no_error
+    /// @alutconstwrap{NO_ERROR}
     opt_c_api_constant<
       mp_list<alut_error_code>,
 #ifdef ALUT_ERROR_NO_ERROR
@@ -34,6 +36,8 @@ public:
 #endif
       no_error;
 
+    /// @var waveform_sine
+    /// @alutconstwrap{WAVEFORM_SINE}
     opt_c_api_constant<
       mp_list<waveform_function>,
 #ifdef ALUT_WAVEFORM_SINE
@@ -43,6 +47,8 @@ public:
 #endif
       waveform_sine;
 
+    /// @var waveform_square
+    /// @alutconstwrap{WAVEFORM_SQUARE}
     opt_c_api_constant<
       mp_list<waveform_function>,
 #ifdef ALUT_WAVEFORM_SQUARE
@@ -52,6 +58,8 @@ public:
 #endif
       waveform_square;
 
+    /// @var waveform_sawtooth
+    /// @alutconstwrap{WAVEFORM_SAWTOOTH}
     opt_c_api_constant<
       mp_list<waveform_function>,
 #ifdef ALUT_WAVEFORM_SAWTOOTH
@@ -61,6 +69,8 @@ public:
 #endif
       waveform_sawtooth;
 
+    /// @var waveform_whitenoise
+    /// @alutconstwrap{WAVEFORM_WHITENOISE}
     opt_c_api_constant<
       mp_list<waveform_function>,
 #ifdef ALUT_WAVEFORM_WHITENOISE
@@ -70,6 +80,8 @@ public:
 #endif
       waveform_whitenoise;
 
+    /// @var waveform_impulse
+    /// @alutconstwrap{WAVEFORM_IMPULSE}
     opt_c_api_constant<
       mp_list<waveform_function>,
 #ifdef ALUT_WAVEFORM_IMPULSE
