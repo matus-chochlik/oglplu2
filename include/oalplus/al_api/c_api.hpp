@@ -464,94 +464,159 @@ public:
       OALPLUS_AL_STATIC_FUNC(SourceUnqueueBuffers)>
       SourceUnqueueBuffers;
 
-    // Effects
+    /// @var GenEffects
+    /// @alfuncwrap{GenEffects}
     al_api_function<void(size_type, name_type*), nullptr> GenEffects;
 
+    /// @var DeleteEffects
+    /// @alfuncwrap{DeleteEffects}
     al_api_function<void(size_type, const name_type*), nullptr> DeleteEffects;
 
+    /// @var IsEffect
+    /// @alfuncwrap{IsEffect}
     al_api_function<bool_type(name_type), nullptr> IsEffect;
 
+    /// @var Effecti
+    /// @alfuncwrap{Effecti}
     al_api_function<void(name_type, enum_type, int_type), nullptr> Effecti;
 
+    /// @var Effectiv
+    /// @alfuncwrap{Effectiv}
     al_api_function<void(name_type, enum_type, const int_type*), nullptr>
       Effectiv;
 
+    /// @var Effectf
+    /// @alfuncwrap{Effectf}
     al_api_function<void(name_type, enum_type, float_type), nullptr> Effectf;
 
+    /// @var Effectfv
+    /// @alfuncwrap{Effectfv}
     al_api_function<void(name_type, enum_type, const float_type*), nullptr>
       Effectfv;
 
-    al_api_function<void(name_type, enum_type, int_type), nullptr> GetEffecti;
+    /// @var GetEffecti
+    /// @alfuncwrap{GetEffecti}
+    al_api_function<void(name_type, enum_type, int_type*), nullptr> GetEffecti;
 
+    /// @var GetEffectiv
+    /// @alfuncwrap{GetEffectiv}
     al_api_function<void(name_type, enum_type, int_type*), nullptr> GetEffectiv;
 
-    al_api_function<void(name_type, enum_type, float_type), nullptr> GetEffectf;
+    /// @var GetEffectf
+    /// @alfuncwrap{GetEffectf}
+    al_api_function<void(name_type, enum_type, float_type*), nullptr> GetEffectf;
 
+    /// @var GetEffectfv
+    /// @alfuncwrap{GetEffectfv}
     al_api_function<void(name_type, enum_type, float_type*), nullptr>
       GetEffectfv;
 
-    // Filters
+    /// @var GenFilters
+    /// @alfuncwrap{GenFilters}
     al_api_function<void(size_type, name_type*), nullptr> GenFilters;
 
+    /// @var DeleteFilters
+    /// @alfuncwrap{DeleteFilters}
     al_api_function<void(size_type, const name_type*), nullptr> DeleteFilters;
 
+    /// @var IsFilter
+    /// @alfuncwrap{IsFilter}
     al_api_function<bool_type(name_type), nullptr> IsFilter;
 
+    /// @var Filteri
+    /// @alfuncwrap{Filteri}
     al_api_function<void(name_type, enum_type, int_type), nullptr> Filteri;
 
+    /// @var Filteriv
+    /// @alfuncwrap{Filteriv}
     al_api_function<void(name_type, enum_type, const int_type*), nullptr>
       Filteriv;
 
+    /// @var Filterf
+    /// @alfuncwrap{Filterf}
     al_api_function<void(name_type, enum_type, float_type), nullptr> Filterf;
 
+    /// @var Filterfv
+    /// @alfuncwrap{Filterfv}
     al_api_function<void(name_type, enum_type, const float_type*), nullptr>
       Filterfv;
 
-    al_api_function<void(name_type, enum_type, int_type), nullptr> GetFilteri;
+    /// @var GetFilteri
+    /// @alfuncwrap{GetFilteri}
+    al_api_function<void(name_type, enum_type, int_type*), nullptr> GetFilteri;
 
+    /// @var GetFilteriv
+    /// @alfuncwrap{GetFilteriv}
     al_api_function<void(name_type, enum_type, int_type*), nullptr> GetFilteriv;
 
-    al_api_function<void(name_type, enum_type, float_type), nullptr> GetFilterf;
+    /// @var GetFilterf
+    /// @alfuncwrap{GetFilterf}
+    al_api_function<void(name_type, enum_type, float_type*), nullptr> GetFilterf;
 
+    /// @var GetFilterfv
+    /// @alfuncwrap{GetFilterfv}
     al_api_function<void(name_type, enum_type, float_type*), nullptr>
       GetFilterfv;
 
-    // AuxiliaryEffectSlots
+    /// @var GenAuxiliaryEffectSlots
+    /// @alfuncwrap{GenAuxiliaryEffectSlots}
     al_api_function<void(size_type, name_type*), nullptr>
       GenAuxiliaryEffectSlots;
 
+    /// @var DeleteAuxiliaryEffectSlots
+    /// @alfuncwrap{DeleteAuxiliaryEffectSlots}
     al_api_function<void(size_type, const name_type*), nullptr>
       DeleteAuxiliaryEffectSlots;
 
+    /// @var IsAuxiliaryEffectSlot
+    /// @alfuncwrap{IsAuxiliaryEffectSlot}
     al_api_function<bool_type(name_type), nullptr> IsAuxiliaryEffectSlot;
 
+    /// @var AuxiliaryEffectSloti
+    /// @alfuncwrap{AuxiliaryEffectSloti}
     al_api_function<void(name_type, enum_type, int_type), nullptr>
       AuxiliaryEffectSloti;
 
+    /// @var AuxiliaryEffectSlotiv
+    /// @alfuncwrap{AuxiliaryEffectSlotiv}
     al_api_function<void(name_type, enum_type, const int_type*), nullptr>
       AuxiliaryEffectSlotiv;
 
+    /// @var AuxiliaryEffectSlotf
+    /// @alfuncwrap{AuxiliaryEffectSlotf}
     al_api_function<void(name_type, enum_type, float_type), nullptr>
       AuxiliaryEffectSlotf;
 
+    /// @var AuxiliaryEffectSlotfv
+    /// @alfuncwrap{AuxiliaryEffectSlotfv}
     al_api_function<void(name_type, enum_type, const float_type*), nullptr>
       AuxiliaryEffectSlotfv;
 
-    al_api_function<void(name_type, enum_type, int_type), nullptr>
+    /// @var GetAuxiliaryEffectSloti
+    /// @alfuncwrap{GetAuxiliaryEffectSloti}
+    al_api_function<void(name_type, enum_type, int_type*), nullptr>
       GetAuxiliaryEffectSloti;
 
+    /// @var GetAuxiliaryEffectSlotiv
+    /// @alfuncwrap{GetError}
     al_api_function<void(name_type, enum_type, int_type*), nullptr>
       GetAuxiliaryEffectSlotiv;
 
-    al_api_function<void(name_type, enum_type, float_type), nullptr>
+    /// @var GetAuxiliaryEffectSlotf
+    /// @alfuncwrap{GetAuxiliaryEffectSlotf}
+    al_api_function<void(name_type, enum_type, float_type*), nullptr>
       GetAuxiliaryEffectSlotf;
 
+    /// @var GetAuxiliaryEffectSlotfv
+    /// @alfuncwrap{GetAuxiliaryEffectSlotfv}
     al_api_function<void(name_type, enum_type, float_type*), nullptr>
       GetAuxiliaryEffectSlotfv;
 
     basic_al_c_api(api_traits& traits);
 };
 //------------------------------------------------------------------------------
+/// @brief Alias for the default AL operations wrapper instantiation.
+/// @ingroup al_api_wrap
 using al_c_api = basic_al_c_api<al_api_traits>;
 //------------------------------------------------------------------------------
 } // namespace eagine::oalp
