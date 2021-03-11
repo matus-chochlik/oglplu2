@@ -10,6 +10,7 @@
 
 #include "branch_predict.hpp"
 #include "config/basic.hpp"
+#include "diagnostic.hpp"
 #include "maybe_unused.hpp"
 #include <cassert>
 
@@ -25,8 +26,8 @@
 #include <iostream>
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wshadow"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(shadow)
 #endif
 
 #if EAGINE_USE_BACKTRACE
@@ -88,7 +89,7 @@ inline void assertion_failed_msg(
 // clang-format on
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif
 
 #else // EAGINE_USE_STACKTRACE

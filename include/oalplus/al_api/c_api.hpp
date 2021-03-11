@@ -47,8 +47,8 @@ public:
     using const_void_ptr_type = typename al_types::const_void_ptr_type;
 
 #ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Waddress"
+    EAGINE_DIAG_PUSH()
+    EAGINE_DIAG_OFF(address)
 #endif
     template <
       typename Signature,
@@ -61,7 +61,7 @@ public:
       has_api,
       bool(Function)>;
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+    EAGINE_DIAG_POP()
 #endif
 
     al_api_function<enum_type(), OALPLUS_AL_STATIC_FUNC(GetError)> GetError;

@@ -53,8 +53,8 @@ struct basic_ssl_c_api {
     using x509_store_ctx_verify_callback_type = int(int, x509_store_ctx_type*);
 
 #ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Waddress"
+    EAGINE_DIAG_PUSH()
+    EAGINE_DIAG_OFF(address)
 #endif
     template <
       typename Signature,
@@ -67,7 +67,7 @@ struct basic_ssl_c_api {
       has_api,
       bool(Function)>;
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+    EAGINE_DIAG_POP()
 #endif
 
     // error

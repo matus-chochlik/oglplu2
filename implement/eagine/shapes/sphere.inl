@@ -12,8 +12,8 @@
 #include <cmath>
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdouble-promotion"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(double-promotion)
 #endif
 
 namespace eagine {
@@ -309,5 +309,5 @@ void unit_sphere_gen::ray_intersections(
 } // namespace eagine
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif

@@ -5,15 +5,17 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
-#endif
-
 #define BOOST_TEST_DYN_LINK
 #include "../random.hpp"
+#include <eagine/diagnostic.hpp>
 #include <eagine/interop/valgrind.hpp>
 #include <eagine/maybe_unused.hpp>
+
+#ifdef __clang__
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(disabled-macro-expansion)
+#endif
+
 #include <boost/test/tools/floating_point_comparison.hpp>
 #include <boost/test/unit_test.hpp>
 

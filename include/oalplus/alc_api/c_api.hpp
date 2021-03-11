@@ -45,8 +45,8 @@ public:
     using void_ptr_type = typename alc_types::void_ptr_type;
 
 #ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Waddress"
+    EAGINE_DIAG_PUSH()
+    EAGINE_DIAG_OFF(address)
 #endif
     template <
       typename Signature,
@@ -59,7 +59,7 @@ public:
       has_api,
       bool(Function)>;
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+    EAGINE_DIAG_POP()
 #endif
 
     alc_api_function<enum_type(device_type*), OALPLUS_ALC_STATIC_FUNC(GetError)>

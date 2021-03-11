@@ -25,12 +25,12 @@
 #include <thread>
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
-#pragma clang diagnostic ignored "-Wcovered-switch-default"
-#pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
-#pragma clang diagnostic ignored "-Wshorten-64-to-32"
-#pragma clang diagnostic ignored "-Wdeprecated"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(disabled-macro-expansion)
+EAGINE_DIAG_OFF(covered-switch-default)
+EAGINE_DIAG_OFF(zero-as-null-pointer-constant)
+EAGINE_DIAG_OFF(shorten-64-to-32)
+EAGINE_DIAG_OFF(deprecated)
 #endif
 
 #include <asio/connect.hpp>
@@ -44,7 +44,7 @@
 #include <asio/write.hpp>
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif
 
 namespace eagine::msgbus {

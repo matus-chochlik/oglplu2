@@ -10,6 +10,7 @@
 
 #include "api_traits.hpp"
 #include "config.hpp"
+#include <eagine/diagnostic.hpp>
 #include <eagine/nothing.hpp>
 #include <eagine/preprocessor.hpp>
 
@@ -57,8 +58,8 @@ public:
     using image_type = typename egl_types::image_type;
 
 #ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Waddress"
+    EAGINE_DIAG_PUSH()
+    EAGINE_DIAG_OFF(address)
 #endif
     template <
       typename Signature,
@@ -70,8 +71,9 @@ public:
       Function,
       has_api,
       bool(Function)>;
+
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+    EAGINE_DIAG_POP()
 #endif
 
     egl_api_function<int_type(), EGLPLUS_EGL_STATIC_FUNC(GetError)> GetError;

@@ -9,8 +9,8 @@
 #include <eagine/assert.hpp>
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdouble-promotion"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(double-promotion)
 #endif
 
 namespace eagine {
@@ -214,5 +214,5 @@ auto unit_screen_gen::bounding_sphere() -> math::sphere<float, true> {
 } // namespace eagine
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif

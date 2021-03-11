@@ -16,8 +16,8 @@
 #include <utility>
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdouble-promotion"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(double-promotion)
 #endif
 
 namespace eagine::math {
@@ -195,7 +195,7 @@ static inline auto line_triangle_intersection(
 } // namespace eagine::math
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif
 
 #endif // EAGINE_MATH_INTERSECTION_HPP

@@ -26,16 +26,16 @@ protected:
     template <typename Callable, typename... Args>
     static constexpr auto _invoke(Callable& callable, Args&&... args) {
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wconversion"
-#pragma clang diagnostic ignored "-Wsign-conversion"
+        EAGINE_DIAG_PUSH()
+        EAGINE_DIAG_OFF(conversion)
+        EAGINE_DIAG_OFF(sign-conversion)
 #endif
         using ORV = optionally_valid<RV>;
         return args_within_limits_of<Params...>(args...)
                  ? ORV{callable(std::forward<Args>(args)...)}
                  : ORV{};
 #ifdef __clang__
-#pragma clang diagnostic pop
+        EAGINE_DIAG_POP()
 #endif
     }
 };
@@ -46,14 +46,14 @@ protected:
     template <typename Callable, typename... Args>
     static constexpr auto _invoke(Callable& callable, Args&&... args) {
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wconversion"
-#pragma clang diagnostic ignored "-Wsign-conversion"
+        EAGINE_DIAG_PUSH()
+        EAGINE_DIAG_OFF(conversion)
+        EAGINE_DIAG_OFF(sign-conversion)
 #endif
         EAGINE_ASSERT(args_within_limits_of<Params...>(args...));
         return callable(std::forward<Args>(args)...);
 #ifdef __clang__
-#pragma clang diagnostic pop
+        EAGINE_DIAG_POP()
 #endif
     }
 };
