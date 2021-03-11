@@ -56,7 +56,7 @@ struct egl_types {
     /// @brief String character type.
     using char_type = char;
 
-    /// @brief Untyped pointer type.
+    /// @brief Device handle type.
     using device_type = void*;
 
     /// @brief Stream handle type.
