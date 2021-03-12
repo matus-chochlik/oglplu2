@@ -23,6 +23,8 @@ public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
     void set_projection(video_context&, orbiting_camera&);
+    void set_wireframe_color(video_context&);
+    void set_surface_color(video_context&);
 
     void bind_position_location(video_context&, oglp::vertex_attrib_location);
 
@@ -30,6 +32,7 @@ private:
     oglp::owned_program_name prog;
     oglp::uniform_location camera_matrix_loc;
     oglp::uniform_location perspective_matrix_loc;
+    oglp::uniform_location color_loc;
 };
 //------------------------------------------------------------------------------
 // geometry

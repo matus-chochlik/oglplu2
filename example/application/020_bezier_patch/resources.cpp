@@ -26,6 +26,7 @@ void patch_program::init(execution_context& ec, video_context& vc) {
     gl.build_program(prog, prog_src.unpack(ec));
     gl.use_program(prog);
 
+    gl.get_uniform_location(prog, "Color") >> color_loc;
     gl.get_uniform_location(prog, "CameraMatrix") >> camera_matrix_loc;
     gl.get_uniform_location(prog, "PerspectiveMatrix") >>
       perspective_matrix_loc;
@@ -42,6 +43,16 @@ void patch_program::set_projection(video_context& vc, orbiting_camera& camera) {
       prog,
       perspective_matrix_loc,
       camera.perspective_matrix(vc.surface_aspect()));
+}
+//------------------------------------------------------------------------------
+void patch_program::set_wireframe_color(video_context& vc) {
+    vc.gl_api().set_uniform(
+      prog, color_loc, oglp::vec4(0.1F, 0.1F, 0.1F, 1.0F));
+}
+//------------------------------------------------------------------------------
+void patch_program::set_surface_color(video_context& vc) {
+    vc.gl_api().set_uniform(
+      prog, color_loc, oglp::vec4(1.0F, 1.0F, 1.0F, 0.4F));
 }
 //------------------------------------------------------------------------------
 void patch_program::bind_position_location(

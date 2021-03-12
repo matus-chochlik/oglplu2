@@ -59,12 +59,11 @@ example_bpatch::example_bpatch(execution_context& ec, video_context& vc)
       .set_fov(degrees_(70.F));
     prog.set_projection(vc, camera);
 
-    gl.clear_color(0.45F, 0.45F, 0.45F, 0.0F);
-    gl.clear_depth(1.0F);
+    gl.clear_color(0.35F, 0.35F, 0.35F, 0.0F);
 
-    gl.enable(GL.depth_test);
+    gl.disable(GL.depth_test);
     gl.patch_parameter_i(GL.patch_vertices, 16);
-    gl.polygon_mode(GL.front_and_back, GL.line);
+    gl.blend_func(GL.src_alpha, GL.one_minus_src_alpha);
 
     camera.connect_inputs(ec).basic_input_mapping(ec);
     ec.setup_inputs().switch_input_mapping();
@@ -81,15 +80,24 @@ void example_bpatch::update() noexcept {
         _is_done.reset();
     }
     if(state.user_idle_too_long()) {
-        camera.idle_update(state, 7.F);
+        camera.idle_update(state, 8.F);
     }
 
     auto& glapi = _video.gl_api();
     auto& [gl, GL] = glapi;
 
-    gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
+    gl.clear(GL.color_buffer_bit);
 
     prog.set_projection(_video, camera);
+
+    gl.enable(GL.blend);
+    gl.polygon_mode(GL.front_and_back, GL.fill);
+    prog.set_surface_color(_video);
+    shape.draw(_video);
+    gl.disable(GL.blend);
+
+    gl.polygon_mode(GL.front_and_back, GL.line);
+    prog.set_wireframe_color(_video);
     shape.draw(_video);
 
     _video.commit();
