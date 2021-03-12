@@ -115,18 +115,18 @@ public:
         return perspective_matrix_ctr(aspect)();
     }
 
-    auto projection_matrix_ctr() const noexcept {
+    auto transform_matrix_ctr() const noexcept {
         return matrix_orbiting_y_up(_target, orbit(), azimuth(), elevation());
     }
 
-    /// @brief Returns the camera projection matrix.
-    auto projection_matrix() const noexcept {
-        return projection_matrix_ctr()();
+    /// @brief Returns the camera transformation matrix.
+    auto transform_matrix() const noexcept {
+        return transform_matrix_ctr()();
     }
 
     /// @brief Returns the camera matrix (perspective * projection).
     auto matrix(float aspect) const noexcept {
-        return perspective_matrix_ctr(aspect) * projection_matrix_ctr();
+        return perspective_matrix_ctr(aspect) * transform_matrix_ctr();
     }
 
     /// @brief Returns the 3D position of a point (in NDC) on the target plane.

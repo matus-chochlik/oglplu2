@@ -30,7 +30,7 @@ private:
 
 public:
     void init(execution_context&, video_context&, cleanup_group&);
-    void set_projection(video_context& ctx, orbiting_camera& camera);
+    void set_camera(video_context& ctx, orbiting_camera& camera);
     void update(video_context&);
 
     void bind_position_location(video_context&, oglp::vertex_attrib_location);
@@ -49,7 +49,7 @@ private:
 public:
     void init(execution_context&, video_context&, cleanup_group&);
     void set_depth_texture(video_context& ctx, oglp::gl_types::int_type);
-    void set_projection(video_context&, orbiting_camera& camera);
+    void set_camera(video_context&, orbiting_camera& camera);
     void update(execution_context&, video_context&);
 
     void bind_position_location(video_context&, oglp::vertex_attrib_location);

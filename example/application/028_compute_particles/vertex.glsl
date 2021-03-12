@@ -8,7 +8,7 @@ layout (std430) buffer AgeBlock {
     float age[];
 } ageBlock;
 
-uniform mat4 ProjectionMatrix;
+uniform mat4 CameraMatrix;
 
 in vec3 Origin;
 
@@ -17,7 +17,7 @@ out float vertAge;
 
 void main() {
 	vec3 Offset = offsetBlock.offset[gl_InstanceID].xyz;
-    gl_Position = ProjectionMatrix * vec4(Origin+Offset, 1.0);
+    gl_Position = CameraMatrix * vec4(Origin+Offset, 1.0);
 	vertAge = ageBlock.age[gl_InstanceID];
     vertColor = mix(
 		mix(

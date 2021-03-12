@@ -92,7 +92,7 @@ public:
 
 private:
     oglp::owned_program_name _prog;
-    oglp::uniform_location _projection_mat_loc;
+    oglp::uniform_location _camera_mat_loc;
     oglp::uniform_location _perspective_mat_loc;
 };
 //------------------------------------------------------------------------------

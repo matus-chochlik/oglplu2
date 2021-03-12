@@ -206,7 +206,7 @@ void surface_program::init(example& e) {
     gl.build_program(_prog, prog_src.unpack(e.ctx()));
     gl.use_program(_prog);
 
-    gl.get_uniform_location(_prog, "ProjectionMatrix") >> _projection_mat_loc;
+    gl.get_uniform_location(_prog, "CameraMatrix") >> _camera_mat_loc;
     gl.get_uniform_location(_prog, "PerspectiveMatrix") >> _perspective_mat_loc;
     gl.get_uniform_location(_prog, "PlaneCount") >> _plane_count_loc;
     gl.get_uniform_location(_prog, "DivCount") >> _div_count_loc;
@@ -214,7 +214,7 @@ void surface_program::init(example& e) {
 //------------------------------------------------------------------------------
 void surface_program::prepare_frame(example& e) {
     e.video().gl_api().set_uniform(
-      _prog, _projection_mat_loc, e.camera().projection_matrix());
+      _prog, _camera_mat_loc, e.camera().transform_matrix());
     e.video().gl_api().set_uniform(
       _prog,
       _perspective_mat_loc,
