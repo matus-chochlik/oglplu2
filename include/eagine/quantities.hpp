@@ -12,7 +12,7 @@
 #include "diagnostic.hpp"
 #include "math/constants.hpp"
 #include "tagged_quantity.hpp"
-#include "units/trivial.hpp"
+#include "units/common.hpp"
 
 #ifdef __clang__
 EAGINE_DIAG_PUSH()

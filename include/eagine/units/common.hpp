@@ -10,6 +10,7 @@
 #define EAGINE_UNITS_TRIVIAL_HPP
 
 #include "default.hpp"
+#include "unit/si/angle.hpp"
 
 namespace eagine::units {
 namespace scales {

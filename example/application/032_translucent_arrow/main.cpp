@@ -9,8 +9,6 @@
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
-#include <eagine/units/unit/si/angle.hpp>
-//
 #include <eagine/application/camera.hpp>
 #include <eagine/application/main.hpp>
 #include <eagine/cleanup_group.hpp>
