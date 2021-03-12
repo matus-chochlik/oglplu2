@@ -13,7 +13,7 @@
 #include "math/primitives.hpp"
 #include "math/sign.hpp"
 #include "math/vector.hpp"
-#include <eagine/units/trivial.hpp>
+#include <eagine/units/common.hpp>
 #include <eagine/valid_if/positive.hpp>
 
 namespace eagine::oglp {
