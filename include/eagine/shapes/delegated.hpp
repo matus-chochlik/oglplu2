@@ -123,6 +123,11 @@ public:
         return _gen->bounding_sphere();
     }
 
+protected:
+    auto base_generator() const noexcept -> std::shared_ptr<generator> {
+        return _gen;
+    }
+
 private:
     std::shared_ptr<generator> _gen;
 };

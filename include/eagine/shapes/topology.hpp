@@ -102,9 +102,21 @@ public:
     /// @brief Returns opposite vertex index (0,1 or 2) in the v-th adjacent triangle.
     /// @pre v >= 0 && v < 3
     /// @see adjacent_triangle
+    /// @see opposite_index
     auto opposite_vertex(span_size_t v) const noexcept -> unsigned {
         EAGINE_ASSERT(v >= 0 && v < 3);
         return _opposite[std_size(v)];
+    }
+
+    /// @brief Returns the in-mesh index of the v-th adjacent vertex.
+    /// @pre v >= 0 && v < 3
+    /// @see opposite_vertex
+    /// @see adjacent_triangle
+    auto opposite_index(span_size_t v) const noexcept -> unsigned {
+        if(auto tri{adjacent_triangle(v)}) {
+            return extract(tri).vertex_index(opposite_vertex(v));
+        }
+        return _indices[(v + 2) % 3];
     }
 
 private:

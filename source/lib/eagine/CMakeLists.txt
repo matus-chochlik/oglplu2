@@ -41,6 +41,7 @@ set(EAGINE_LIB_SOURCES
 	shapes_icosahedron.cpp
 	shapes_value_tree.cpp
 	shapes_modifiers.cpp
+	shapes_adjacency.cpp
 	shapes_to_quads.cpp
 	shapes_to_patches.cpp
 	random.cpp
