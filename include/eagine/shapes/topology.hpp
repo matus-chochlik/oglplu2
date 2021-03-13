@@ -22,36 +22,46 @@ struct topology_data;
 class mesh_triangle;
 
 /// @brief Class storing information about an edge between two mesh faces.
-/// @see shapes
+/// @ingroup  shapes
+/// @see mesh_triangle
+/// @see topology
 class mesh_edge {
 public:
     mesh_edge(
       mesh_triangle& a,
-      std::uint8_t ae,
+      std::uint8_t aeb,
+      std::uint8_t aee,
       mesh_triangle& b,
-      std::uint8_t be) noexcept
+      std::uint8_t beb,
+      std::uint8_t bee) noexcept
       : _triangles{{&a, &b}}
-      , _edge_indices{{ae, be}} {}
+      , _edge_indices{{aeb, aee, beb, bee}} {}
 
     /// @brief Returns one of the two adjacent triangle faces.
-    /// @pre i < 2
-    auto triangle(std::size_t i) const noexcept -> const mesh_triangle& {
-        EAGINE_ASSERT(i < 2);
-        return *_triangles[i];
+    /// @pre i >= 0 && i < 2
+    auto triangle(span_size_t i) const noexcept -> const mesh_triangle& {
+        EAGINE_ASSERT(i >= 0 && i < 2);
+        return *_triangles[std_size(i)];
     }
 
-    /// @brief Returns the edge index in the i-th adjacent triangles.
-    /// @pre i < 2
-    auto edge_index(std::size_t i) const noexcept -> unsigned {
-        EAGINE_ASSERT(i < 2);
-        return _edge_indices[i];
+    /// @brief Returns a pair of vertex indices (0,1 or 2) defining the i-th edge.
+    /// @pre i >= 0 && i < 2
+    auto edge_vertices(span_size_t i) const noexcept
+      -> std::tuple<unsigned, unsigned> {
+        EAGINE_ASSERT(i >= 0 && i < 2);
+        return {
+          _edge_indices[std_size(2 * i)], _edge_indices[std_size(2 * i + 1)]};
     }
 
 private:
     std::array<mesh_triangle*, 2> _triangles;
-    std::array<std::uint8_t, 2> _edge_indices;
+    std::array<std::uint8_t, 4> _edge_indices;
 };
 //------------------------------------------------------------------------------
+/// @brief Class storing information about a mesh tirangular face.
+/// @ingroup  shapes
+/// @see mesh_edge
+/// @see topology
 class mesh_triangle {
 public:
     mesh_triangle(
@@ -62,25 +72,39 @@ public:
       : _tri_idx{tri_idx}
       , _indices{{a, b, c}} {}
 
-    auto index() const noexcept {
-        return _tri_idx;
+    /// @brief Returns the index of this triangle within the mesh.
+    auto index() const noexcept -> span_size_t {
+        return span_size(_tri_idx);
     }
 
     static auto setup_adjacent(
       mesh_triangle& l,
       mesh_triangle& r,
       const topology_data& d) noexcept
-      -> std::tuple<bool, std::uint8_t, std::uint8_t>;
+      -> std::tuple<bool, std::uint8_t, std::uint8_t, std::uint8_t, std::uint8_t>;
 
-    auto adjacent_triangle(std::size_t v) const noexcept
-      -> const mesh_triangle* {
-        EAGINE_ASSERT(v < 3);
-        return _adjacent[v];
+    /// @brief Returns the v-th vertex index.
+    /// @pre v >= 0 && v < 3
+    auto vertex_index(span_size_t v) const noexcept {
+        EAGINE_ASSERT(v >= 0 && v < 3);
+        return _indices[std_size(v)];
     }
 
-    auto opposite_vertex(std::size_t v) const noexcept -> unsigned {
-        EAGINE_ASSERT(v < 3);
-        return _opposite[v];
+    /// @brief Returns the triangle adjacent through the v-th edge.
+    /// @pre v >= 0 && v < 3
+    /// @see opposite_vertex
+    auto adjacent_triangle(span_size_t v) const noexcept
+      -> const mesh_triangle* {
+        EAGINE_ASSERT(v >= 0 && v < 3);
+        return _adjacent[std_size(v)];
+    }
+
+    /// @brief Returns opposite vertex index (0,1 or 2) in the v-th adjacent triangle.
+    /// @pre v >= 0 && v < 3
+    /// @see adjacent_triangle
+    auto opposite_vertex(span_size_t v) const noexcept -> unsigned {
+        EAGINE_ASSERT(v >= 0 && v < 3);
+        return _opposite[std_size(v)];
     }
 
 private:
@@ -114,8 +138,13 @@ private:
     std::array<std::uint8_t, 3> _opposite{{0, 0, 0}};
 };
 //------------------------------------------------------------------------------
+/// @brief Class holding information about the topology of a generated shape.
+/// @ingroup shapes
+/// @see mesh_edge
+/// @see mesh_triangle
 class topology {
 public:
+    /// @brief Construction from a generator, drawing and attribute variant.
     topology(
       std::shared_ptr<generator_base> gen,
       drawing_variant var,
@@ -124,8 +153,19 @@ public:
         _scan_topology(var, vav);
     }
 
+    /// @brief Construction from a shape generator.
     topology(const std::shared_ptr<generator_base>& gen)
       : topology{gen, gen->draw_variant(0), {vertex_attrib_kind::position}} {}
+
+    /// @brief Returns the number of triangles in the mesh.
+    auto triangle_count() const noexcept -> span_size_t {
+        return span_size(_triangles.size());
+    }
+
+    /// @brief Returns the i-th triangle in the mesh.
+    auto triangle(span_size_t i) const noexcept -> const mesh_triangle& {
+        return _triangles[std_size(i)];
+    }
 
     auto print_dot(std::ostream& out) const -> std::ostream&;
 
@@ -142,7 +182,6 @@ private:
     std::vector<mesh_triangle> _triangles;
     flat_map<std::tuple<unsigned, unsigned>, mesh_edge> _edges;
 };
-
 //------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine

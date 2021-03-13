@@ -34,7 +34,7 @@ auto mesh_triangle::setup_adjacent(
   mesh_triangle& l,
   mesh_triangle& r,
   const topology_data& d) noexcept
-  -> std::tuple<bool, std::uint8_t, std::uint8_t> {
+  -> std::tuple<bool, std::uint8_t, std::uint8_t, std::uint8_t, std::uint8_t> {
     EAGINE_ASSERT(l.index() != r.index());
     for(auto i : integer_range(std_size(3))) {
         for(auto j : integer_range(std_size(3))) {
@@ -44,38 +44,57 @@ auto mesh_triangle::setup_adjacent(
                     l._opposite[prevv(i)] = narrow(nextv(j));
                     r._adjacent[prevv(j)] = &l;
                     r._opposite[prevv(j)] = narrow(nextv(i));
-                    return {true, narrow(prevv(i)), narrow(prevv(j))};
+                    return {
+                      true,
+                      narrow(prevv(i)),
+                      narrow(i),
+                      narrow(prevv(j)),
+                      narrow(j)};
                 } else if(d.is_same_vertex(l.previ(i), r.nexti(j))) {
                     l._adjacent[prevv(i)] = &r;
                     l._opposite[prevv(i)] = narrow(nextv(j));
                     r._adjacent[j] = &l;
                     r._opposite[j] = narrow(nextv(i));
-                    return {true, narrow(prevv(i)), narrow(j)};
+                    return {
+                      true,
+                      narrow(prevv(i)),
+                      narrow(i),
+                      narrow(j),
+                      narrow(nextv(j))};
                 } else if(d.is_same_vertex(l.nexti(i), r.previ(j))) {
                     l._adjacent[i] = &r;
                     l._opposite[i] = narrow(nextv(j));
                     r._adjacent[prevv(j)] = &l;
                     r._opposite[prevv(j)] = narrow(prevv(i));
-                    return {true, narrow(i), narrow(prevv(j))};
+                    return {
+                      true,
+                      narrow(i),
+                      narrow(nextv(i)),
+                      narrow(prevv(j)),
+                      narrow(j)};
                 } else if(d.is_same_vertex(l.nexti(i), r.nexti(j))) {
                     l._adjacent[i] = &r;
                     l._opposite[i] = narrow(prevv(j));
                     r._adjacent[j] = &l;
                     r._opposite[j] = narrow(prevv(i));
-                    return {true, narrow(i), narrow(j)};
+                    return {
+                      true,
+                      narrow(i),
+                      narrow(nextv(i)),
+                      narrow(j),
+                      narrow(nextv(j))};
                 }
             }
         }
     }
-    return {false, 0U, 0U};
+    return {false, 0U, 0U, 0U, 0U};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto topology::print_dot(std::ostream& out) const -> std::ostream& {
     out << "graph MeshTopology {\n";
-    out << "splines=true;\n";
     out << "overlap=voronoi;\n";
-    out << "node [shape=egg];\n";
+    out << "node [shape=triangle];\n";
 
     for(const auto& tri : _triangles) {
         const auto i = tri.index();
@@ -89,9 +108,13 @@ auto topology::print_dot(std::ostream& out) const -> std::ostream& {
         out << "et" << lidx << "t" << ridx << ";\n";
 
         for(auto t : integer_range(std_size(2))) {
+            auto [bi, ei] = edg.edge_vertices(t);
+            auto& tri = edg.triangle(t);
             out << "et" << lidx << "t" << ridx << " -- "
-                << "t" << edg.triangle(t).index()
-                << "[label=" << edg.edge_index(t) << "];\n";
+                << "t" << tri.index() << "[label=\"<" << bi << "," << ei
+                << ">\\n[" << tri.vertex_index(bi) << ","
+                << tri.vertex_index(ei) << "]"
+                << "\"];\n";
         }
     }
     out << "}";
@@ -130,6 +153,34 @@ void topology::_scan_topology(drawing_variant var, vertex_attrib_variant vav) {
                       data.vertex_indices[std_size(operation.first + i + 2)]);
                 }
             }
+        } else if(operation.mode == primitive_type::triangle_strip) {
+            if(operation.idx_type == index_data_type::none) {
+                for(span_size_t i = 2; i < operation.count; i += 2) {
+                    _triangles.emplace_back(
+                      _triangles.size(),
+                      to_index(operation.first + i - 2),
+                      to_index(operation.first + i - 1),
+                      to_index(operation.first + i + 0));
+                    _triangles.emplace_back(
+                      _triangles.size(),
+                      to_index(operation.first + i + 0),
+                      to_index(operation.first + i - 1),
+                      to_index(operation.first + i + 1));
+                }
+            } else {
+                for(span_size_t i = 2; i < operation.count; i += 2) {
+                    _triangles.emplace_back(
+                      _triangles.size(),
+                      data.vertex_indices[std_size(operation.first + i - 2)],
+                      data.vertex_indices[std_size(operation.first + i - 1)],
+                      data.vertex_indices[std_size(operation.first + i + 0)]);
+                    _triangles.emplace_back(
+                      _triangles.size(),
+                      data.vertex_indices[std_size(operation.first + i + 0)],
+                      data.vertex_indices[std_size(operation.first + i - 1)],
+                      data.vertex_indices[std_size(operation.first + i + 1)]);
+                }
+            }
         }
     }
 
@@ -141,11 +192,11 @@ void topology::_scan_topology(drawing_variant var, vertex_attrib_variant vav) {
                 auto key =
                   std::make_tuple(std::min(lidx, ridx), std::max(lidx, ridx));
                 if(_edges.find(key) == _edges.end()) {
-                    auto [should_add, leidx, reidx] =
+                    auto [should_add, leb, lee, reb, ree] =
                       mesh_triangle::setup_adjacent(ltri, rtri, data);
                     if(should_add) {
                         _edges.emplace(
-                          key, mesh_edge{ltri, leidx, rtri, reidx});
+                          key, mesh_edge{ltri, leb, lee, rtri, reb, ree});
                     }
                 }
             }
