@@ -21,7 +21,7 @@ namespace shapes {
 class to_patches_gen : public delegated_gen {
 
 public:
-    to_patches_gen(std::unique_ptr<generator_intf>&& gen) noexcept
+    to_patches_gen(std::unique_ptr<generator>&& gen) noexcept
       : delegated_gen(std::move(gen)) {}
 
     void instructions(drawing_variant, span<draw_operation> ops) override;
@@ -29,7 +29,7 @@ public:
 //------------------------------------------------------------------------------
 /// @brief Constructs instances of to_patches_gen modifier.
 /// @ingroup shapes
-static inline auto to_patches(std::unique_ptr<generator_intf>&& gen) noexcept {
+static inline auto to_patches(std::unique_ptr<generator>&& gen) noexcept {
     return std::make_unique<to_patches_gen>(std::move(gen));
 }
 //------------------------------------------------------------------------------

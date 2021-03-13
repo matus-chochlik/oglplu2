@@ -18,9 +18,9 @@ namespace shapes {
 //------------------------------------------------------------------------------
 /// @brief Base class for delegating shape generators based on other generators.
 /// @ingroup shapes
-class delegated_gen : public generator_intf {
+class delegated_gen : public generator {
 public:
-    delegated_gen(std::unique_ptr<generator_intf>&& gen) noexcept
+    delegated_gen(std::unique_ptr<generator>&& gen) noexcept
       : _gen(std::move(gen)) {}
 
     auto attrib_bits() noexcept -> vertex_attrib_bits final {
@@ -124,7 +124,7 @@ public:
     }
 
 private:
-    std::unique_ptr<generator_intf> _gen;
+    std::unique_ptr<generator> _gen;
 };
 //------------------------------------------------------------------------------
 } // namespace shapes

@@ -22,9 +22,7 @@ namespace shapes {
 class occluded_gen : public delegated_gen {
 
 public:
-    occluded_gen(
-      std::unique_ptr<generator_intf>&& gen,
-      span_size_t samples) noexcept
+    occluded_gen(std::unique_ptr<generator>&& gen, span_size_t samples) noexcept
       : delegated_gen(std::move(gen))
       , _samples{samples} {}
 
@@ -36,9 +34,8 @@ private:
 //------------------------------------------------------------------------------
 /// @brief Constructs instances of occluded_gen modifier.
 /// @ingroup shapes
-static inline auto occlude(
-  std::unique_ptr<generator_intf>&& gen,
-  span_size_t samples = 8) noexcept {
+static inline auto
+occlude(std::unique_ptr<generator>&& gen, span_size_t samples = 8) noexcept {
     return std::make_unique<occluded_gen>(std::move(gen), samples);
 }
 //------------------------------------------------------------------------------

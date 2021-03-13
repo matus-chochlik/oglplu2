@@ -12,8 +12,7 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto combined_gen::add(
-  std::unique_ptr<generator_intf>&& gen) && -> combined_gen&& {
+auto combined_gen::add(std::unique_ptr<generator>&& gen) && -> combined_gen&& {
     _gens.emplace_back(std::move(gen));
     return std::move(*this);
 }

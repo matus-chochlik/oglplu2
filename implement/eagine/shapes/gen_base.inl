@@ -17,10 +17,10 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
-// generator_intf
+// generator
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto generator_intf::bounding_sphere() -> math::sphere<float, true> {
+auto generator::bounding_sphere() -> math::sphere<float, true> {
     std::array<float, 3> min{
       std::numeric_limits<float>::max(),
       std::numeric_limits<float>::max(),
@@ -65,7 +65,7 @@ auto generator_intf::bounding_sphere() -> math::sphere<float, true> {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void generator_intf::ray_intersections(
+void generator::ray_intersections(
   drawing_variant var,
   span<const math::line<float, true>> rays,
   span<optionally_valid<float>> intersections) {
