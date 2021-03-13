@@ -20,8 +20,8 @@ namespace shapes {
 /// @see to_quads
 class to_quads_gen : public delegated_gen {
 public:
-    to_quads_gen(std::unique_ptr<generator>&& gen) noexcept
-      : delegated_gen(std::move(gen)) {}
+    to_quads_gen(std::shared_ptr<generator> gen) noexcept
+      : delegated_gen{std::move(gen)} {}
 
     auto index_count(drawing_variant) -> span_size_t override;
 
@@ -42,7 +42,7 @@ private:
 //------------------------------------------------------------------------------
 /// @brief Constructs instances of to_quads_gen modifier.
 /// @ingroup shapes
-static inline auto to_quads(std::unique_ptr<generator>&& gen) noexcept {
+static inline auto to_quads(std::shared_ptr<generator> gen) noexcept {
     return std::make_unique<to_quads_gen>(std::move(gen));
 }
 //------------------------------------------------------------------------------

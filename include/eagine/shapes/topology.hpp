@@ -146,7 +146,7 @@ class topology {
 public:
     /// @brief Construction from a generator, drawing and attribute variant.
     topology(
-      std::shared_ptr<generator_base> gen,
+      std::shared_ptr<generator> gen,
       drawing_variant var,
       vertex_attrib_variant vav)
       : _gen{std::move(gen)} {
@@ -154,7 +154,7 @@ public:
     }
 
     /// @brief Construction from a shape generator.
-    topology(const std::shared_ptr<generator_base>& gen)
+    topology(const std::shared_ptr<generator>& gen)
       : topology{gen, gen->draw_variant(0), {vertex_attrib_kind::position}} {}
 
     /// @brief Returns the number of triangles in the mesh.
@@ -178,7 +178,7 @@ private:
 
     void _scan_topology(drawing_variant var, vertex_attrib_variant vav);
 
-    std::shared_ptr<generator_base> _gen;
+    std::shared_ptr<generator> _gen;
     std::vector<mesh_triangle> _triangles;
     flat_map<std::tuple<unsigned, unsigned>, mesh_edge> _edges;
 };

@@ -95,6 +95,11 @@ struct generator : interface<generator> {
     /// @brief Returns the number of values per vertex for the specified variant.
     virtual auto values_per_vertex(vertex_attrib_variant) -> span_size_t = 0;
 
+    /// @brief Returns the total number of values for the specified attribute variant.
+    auto value_count(vertex_attrib_variant vav) -> span_size_t {
+        return vertex_count() * values_per_vertex(vav);
+    }
+
     /// @brief Returns the attribute data type for the specified variant.
     virtual auto attrib_type(vertex_attrib_variant vav) -> attrib_data_type = 0;
 
@@ -253,10 +258,6 @@ public:
 
     auto values_per_vertex(vertex_attrib_variant vav) -> span_size_t override {
         return has_variant(vav) ? attrib_values_per_vertex(vav) : 0U;
-    }
-
-    auto value_count(vertex_attrib_variant vav) -> span_size_t {
-        return vertex_count() * values_per_vertex(vav);
     }
 
     auto attrib_type(vertex_attrib_variant) -> attrib_data_type override {

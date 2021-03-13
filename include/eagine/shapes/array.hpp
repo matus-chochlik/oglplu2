@@ -26,10 +26,10 @@ private:
 
 public:
     array_gen(
-      std::unique_ptr<generator>&& gen,
+      std::shared_ptr<generator> gen,
       std::array<float, 3> d,
       span_size_t n) noexcept
-      : delegated_gen(std::move(gen))
+      : delegated_gen{std::move(gen)}
       , _d{d}
       , _copies{n} {}
 
@@ -55,14 +55,14 @@ public:
 };
 //------------------------------------------------------------------------------
 static inline auto array(
-  std::unique_ptr<generator>&& gen,
+  std::shared_ptr<generator> gen,
   std::array<float, 3> d,
   span_size_t count) noexcept {
     return std::make_unique<array_gen>(std::move(gen), d, count);
 }
 //------------------------------------------------------------------------------
 static inline auto ortho_array_xyz(
-  std::unique_ptr<generator>&& gen,
+  std::shared_ptr<generator> gen,
   std::array<float, 3> d,
   std::array<span_size_t, 3> n) noexcept {
     const float z = 0.0F;

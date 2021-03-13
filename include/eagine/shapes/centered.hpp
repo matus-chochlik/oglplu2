@@ -22,8 +22,8 @@ namespace shapes {
 class centered_gen : public delegated_gen {
 
 public:
-    centered_gen(std::unique_ptr<generator>&& gen) noexcept
-      : delegated_gen(std::move(gen)) {}
+    centered_gen(std::shared_ptr<generator> gen) noexcept
+      : delegated_gen{std::move(gen)} {}
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
@@ -32,7 +32,7 @@ public:
 //------------------------------------------------------------------------------
 /// @brief Constructs instances of centered_gen modifier.
 /// @ingroup shapes
-static inline auto center(std::unique_ptr<generator>&& gen) noexcept {
+static inline auto center(std::shared_ptr<generator> gen) noexcept {
     return std::make_unique<centered_gen>(std::move(gen));
 }
 //------------------------------------------------------------------------------

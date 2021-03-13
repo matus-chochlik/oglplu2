@@ -22,15 +22,15 @@ namespace shapes {
 class reboxed_gen : public delegated_gen {
 
 public:
-    reboxed_gen(std::unique_ptr<generator>&& gen) noexcept
-      : delegated_gen(std::move(gen)) {}
+    reboxed_gen(std::shared_ptr<generator> gen) noexcept
+      : delegated_gen{std::move(gen)} {}
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 };
 //------------------------------------------------------------------------------
 /// @brief Constructs instances of reboxed_gen modifier.
 /// @ingroup shapes
-static inline auto rebox(std::unique_ptr<generator>&& gen) noexcept {
+static inline auto rebox(std::shared_ptr<generator> gen) noexcept {
     return std::make_unique<reboxed_gen>(std::move(gen));
 }
 //------------------------------------------------------------------------------

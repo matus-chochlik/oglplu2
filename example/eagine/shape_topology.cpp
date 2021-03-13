@@ -17,7 +17,7 @@ auto main(int argc, const char** argv) -> int {
     using namespace eagine;
     program_args args(argc, argv);
 
-    std::shared_ptr<shapes::generator_base> gen;
+    std::shared_ptr<shapes::generator> gen;
 
     if(args.find("--torus")) {
         gen =

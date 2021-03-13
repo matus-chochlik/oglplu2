@@ -20,8 +20,8 @@ namespace shapes {
 /// @ingroup shapes
 class delegated_gen : public generator {
 public:
-    delegated_gen(std::unique_ptr<generator>&& gen) noexcept
-      : _gen(std::move(gen)) {}
+    delegated_gen(std::shared_ptr<generator> gen) noexcept
+      : _gen{std::move(gen)} {}
 
     auto attrib_bits() noexcept -> vertex_attrib_bits final {
         return _gen->attrib_bits();
@@ -124,7 +124,7 @@ public:
     }
 
 private:
-    std::unique_ptr<generator> _gen;
+    std::shared_ptr<generator> _gen;
 };
 //------------------------------------------------------------------------------
 } // namespace shapes
