@@ -21,13 +21,6 @@ namespace eagine::application {
 // program
 //------------------------------------------------------------------------------
 class cubes_program {
-private:
-    oglp::owned_program_name prog;
-    oglp::uniform_location camera_loc;
-    oglp::uniform_location center_loc;
-    oglp::uniform_location time_loc;
-    oglp::uniform_location edges_loc;
-
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
@@ -40,22 +33,18 @@ public:
 
     void drawing_surface(video_context&);
     void drawing_edges(video_context&);
+
+private:
+    oglp::owned_program_name prog;
+    oglp::uniform_location camera_loc;
+    oglp::uniform_location center_loc;
+    oglp::uniform_location time_loc;
+    oglp::uniform_location edges_loc;
 };
 //------------------------------------------------------------------------------
 // geometry
 //------------------------------------------------------------------------------
 class cubes_geometry {
-private:
-    oglp::owned_vertex_array_name vao;
-
-    oglp::owned_buffer_name positions;
-    oglp::owned_buffer_name pivots;
-    oglp::owned_buffer_name coords;
-    oglp::owned_buffer_name indices;
-
-    std::vector<oglp::shape_draw_operation> ops{};
-    std::array<oglp::shape_draw_subset, 2> subs{};
-
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
@@ -73,6 +62,17 @@ public:
     static auto coord_loc() noexcept {
         return oglp::vertex_attrib_location{2};
     }
+
+private:
+    oglp::owned_vertex_array_name vao;
+
+    oglp::owned_buffer_name positions;
+    oglp::owned_buffer_name pivots;
+    oglp::owned_buffer_name coords;
+    oglp::owned_buffer_name indices;
+
+    std::vector<oglp::shape_draw_operation> ops{};
+    std::array<oglp::shape_draw_subset, 2> subs{};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::application

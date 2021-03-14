@@ -20,30 +20,22 @@ namespace eagine::application {
 // program
 //------------------------------------------------------------------------------
 class edges_program {
-private:
-    oglp::owned_program_name prog;
-    oglp::uniform_location camera_loc;
-    oglp::uniform_location vp_dim_loc;
-
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
     void set_projection(video_context&, orbiting_camera&);
 
     void bind_position_location(video_context&, oglp::vertex_attrib_location);
+
+private:
+    oglp::owned_program_name prog;
+    oglp::uniform_location camera_loc;
+    oglp::uniform_location vp_dim_loc;
 };
 //------------------------------------------------------------------------------
 // geometry
 //------------------------------------------------------------------------------
 class icosahedron_geometry {
-private:
-    oglp::owned_vertex_array_name vao;
-
-    oglp::owned_buffer_name positions;
-    oglp::owned_buffer_name indices;
-
-    std::vector<oglp::shape_draw_operation> ops;
-
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
@@ -52,6 +44,14 @@ public:
     static auto position_loc() noexcept {
         return oglp::vertex_attrib_location{0};
     }
+
+private:
+    oglp::owned_vertex_array_name vao;
+
+    oglp::owned_buffer_name positions;
+    oglp::owned_buffer_name indices;
+
+    std::vector<oglp::shape_draw_operation> ops;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::application

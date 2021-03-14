@@ -20,12 +20,6 @@ namespace eagine::application {
 // program
 //------------------------------------------------------------------------------
 class cel_program {
-private:
-    oglp::owned_program_name prog;
-    oglp::uniform_location projection_loc;
-    oglp::uniform_location modelview_loc;
-    float shp_turns{0.F};
-
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
@@ -33,19 +27,17 @@ public:
     void set_modelview(execution_context&, video_context&);
 
     void bind_position_location(video_context&, oglp::vertex_attrib_location);
+
+private:
+    oglp::owned_program_name prog;
+    oglp::uniform_location projection_loc;
+    oglp::uniform_location modelview_loc;
+    float shp_turns{0.F};
 };
 //------------------------------------------------------------------------------
 // geometry
 //------------------------------------------------------------------------------
 class icosahedron_geometry {
-private:
-    oglp::owned_vertex_array_name vao;
-
-    oglp::owned_buffer_name positions;
-    oglp::owned_buffer_name indices;
-
-    std::vector<oglp::shape_draw_operation> ops;
-
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
@@ -54,6 +46,14 @@ public:
     static auto position_loc() noexcept {
         return oglp::vertex_attrib_location{0};
     }
+
+private:
+    oglp::owned_vertex_array_name vao;
+
+    oglp::owned_buffer_name positions;
+    oglp::owned_buffer_name indices;
+
+    std::vector<oglp::shape_draw_operation> ops;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::application

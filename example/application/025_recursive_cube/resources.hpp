@@ -22,15 +22,6 @@ namespace eagine::application {
 // program
 //------------------------------------------------------------------------------
 class cube_program {
-private:
-    oglp::owned_program_name prog;
-    oglp::uniform_location projection_loc;
-    oglp::uniform_location modelview_loc;
-    oglp::uniform_location light_pos_loc;
-    oglp::uniform_location cube_tex_loc;
-
-    radians_t<float> rad{0.F};
-
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
@@ -41,21 +32,20 @@ public:
     void bind_position_location(video_context&, oglp::vertex_attrib_location);
     void bind_normal_location(video_context&, oglp::vertex_attrib_location);
     void bind_tex_coord_location(video_context&, oglp::vertex_attrib_location);
+
+private:
+    oglp::owned_program_name prog;
+    oglp::uniform_location projection_loc;
+    oglp::uniform_location modelview_loc;
+    oglp::uniform_location light_pos_loc;
+    oglp::uniform_location cube_tex_loc;
+
+    radians_t<float> rad{0.F};
 };
 //------------------------------------------------------------------------------
 // geometry
 //------------------------------------------------------------------------------
 class cube_geometry {
-private:
-    oglp::owned_vertex_array_name vao;
-
-    oglp::owned_buffer_name positions;
-    oglp::owned_buffer_name normals;
-    oglp::owned_buffer_name tex_coords;
-    oglp::owned_buffer_name indices;
-
-    std::vector<oglp::shape_draw_operation> ops;
-
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
@@ -72,23 +62,21 @@ public:
     static auto tex_coord_loc() noexcept {
         return oglp::vertex_attrib_location{2};
     }
+
+private:
+    oglp::owned_vertex_array_name vao;
+
+    oglp::owned_buffer_name positions;
+    oglp::owned_buffer_name normals;
+    oglp::owned_buffer_name tex_coords;
+    oglp::owned_buffer_name indices;
+
+    std::vector<oglp::shape_draw_operation> ops;
 };
 //------------------------------------------------------------------------------
 // draw buffers
 //------------------------------------------------------------------------------
 class cube_draw_buffers {
-private:
-    const oglp::gl_types::sizei_type tex_side{512};
-
-    struct _buffer_objects {
-        oglp::gl_types::int_type tex_unit{};
-        oglp::owned_texture_name tex{};
-        oglp::owned_renderbuffer_name rbo{};
-        oglp::owned_framebuffer_name fbo{};
-    };
-
-    double_buffer<_buffer_objects> objs{};
-
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
@@ -108,6 +96,18 @@ public:
     void swap() {
         objs.swap();
     }
+
+private:
+    const oglp::gl_types::sizei_type tex_side{512};
+
+    struct _buffer_objects {
+        oglp::gl_types::int_type tex_unit{};
+        oglp::owned_texture_name tex{};
+        oglp::owned_renderbuffer_name rbo{};
+        oglp::owned_framebuffer_name fbo{};
+    };
+
+    double_buffer<_buffer_objects> objs{};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::application

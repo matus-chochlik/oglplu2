@@ -20,10 +20,6 @@ namespace eagine::application {
 // program
 //------------------------------------------------------------------------------
 class torus_program {
-private:
-    oglp::owned_program_name prog;
-    oglp::uniform_location camera_loc;
-
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
@@ -32,21 +28,15 @@ public:
     void bind_position_location(video_context&, oglp::vertex_attrib_location);
     void bind_normal_location(video_context&, oglp::vertex_attrib_location);
     void bind_texcoord_location(video_context&, oglp::vertex_attrib_location);
+
+private:
+    oglp::owned_program_name prog;
+    oglp::uniform_location camera_loc;
 };
 //------------------------------------------------------------------------------
 // geometry
 //------------------------------------------------------------------------------
 class torus_geometry {
-private:
-    oglp::owned_vertex_array_name vao;
-
-    oglp::owned_buffer_name positions;
-    oglp::owned_buffer_name normals;
-    oglp::owned_buffer_name texcoords;
-    oglp::owned_buffer_name indices;
-
-    std::vector<oglp::shape_draw_operation> ops;
-
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
@@ -63,6 +53,16 @@ public:
     static auto texcoord_loc() noexcept {
         return oglp::vertex_attrib_location{2};
     }
+
+private:
+    oglp::owned_vertex_array_name vao;
+
+    oglp::owned_buffer_name positions;
+    oglp::owned_buffer_name normals;
+    oglp::owned_buffer_name texcoords;
+    oglp::owned_buffer_name indices;
+
+    std::vector<oglp::shape_draw_operation> ops;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::application
