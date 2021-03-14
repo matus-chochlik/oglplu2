@@ -26,6 +26,7 @@ public:
     auto vertex_count() -> span_size_t override;
 
     void positions(span<float> dest) noexcept;
+    void normals(span<float> dest) noexcept;
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
