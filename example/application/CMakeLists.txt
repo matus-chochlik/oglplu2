@@ -10,6 +10,7 @@ set_target_properties(
 	application-examples
 	PROPERTIES FOLDER "Example/Application"
 )
+add_subdirectory(022_halo)
 
 add_subdirectory(001_clear)
 add_subdirectory(002_spectrum)
