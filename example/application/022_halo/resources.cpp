@@ -121,7 +121,7 @@ void shape_geometry::init(execution_context& ec, video_context& vc) {
       _vao,
       _positions,
       position_loc(),
-      eagine::shapes::vertex_attrib_kind::position / 3,
+      eagine::shapes::vertex_attrib_kind::position,
       ec.buffer());
 
     // normals
@@ -131,7 +131,7 @@ void shape_geometry::init(execution_context& ec, video_context& vc) {
       _vao,
       _normals,
       normal_loc(),
-      eagine::shapes::vertex_attrib_kind::normal / 3,
+      eagine::shapes::vertex_attrib_kind::normal,
       ec.buffer());
 
     // indices

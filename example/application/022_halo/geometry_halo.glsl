@@ -26,7 +26,7 @@ void processEdge(int a, int b, int c, int o) {
 	vec3 ni = triangleNormal(a, b, c);
 	vec3 no = triangleNormal(b, a, o);
 
-	if(no.z > 0.0 && ni.z < 0.0) {
+	if(no.z > 0.0 && ni.z <= 0.0) {
 		float c = exp(ni.z);
 		float k = distance(gl_in[a].gl_Position.xy, gl_in[b].gl_Position.xy);
 		float l = distance(vertPosition[a], vertPosition[b]);

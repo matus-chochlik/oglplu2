@@ -12,6 +12,7 @@
 #include <eagine/application/camera.hpp>
 #include <eagine/application/main.hpp>
 #include <eagine/shapes/adjacency.hpp>
+#include <eagine/shapes/icosahedron.hpp>
 #include <eagine/shapes/torus.hpp>
 #include <eagine/timeout.hpp>
 #include <oglplus/math/matrix.hpp>
@@ -129,12 +130,23 @@ void example_halo::clean_up() noexcept {
 //------------------------------------------------------------------------------
 class example_launchpad : public launchpad {
 public:
-    auto setup(main_ctx&, launch_options& opts) -> bool final {
+    auto setup(main_ctx& ctx, launch_options& opts) -> bool final {
         opts.no_audio().require_input().require_video();
-        _gen = shapes::unit_torus(
-          shapes::vertex_attrib_kind::position |
-          shapes::vertex_attrib_kind::normal);
-        _gen = shapes::add_triangle_adjacency(_gen);
+        std::shared_ptr<shapes::generator> gen;
+
+        if(ctx.args().find("--icosahedron")) {
+            gen = shapes::unit_icosahedron(
+              shapes::vertex_attrib_kind::position |
+              shapes::vertex_attrib_kind::normal);
+        }
+
+        if(!gen) {
+            gen = shapes::unit_torus(
+              shapes::vertex_attrib_kind::position |
+              shapes::vertex_attrib_kind::normal);
+        }
+
+        _gen = shapes::add_triangle_adjacency(std::move(gen));
         return true;
     }
 
@@ -158,8 +170,7 @@ public:
             vc.begin();
             if(vc.init_gl_api()) {
                 if(check_requirements(vc)) {
-                    return {
-                      std::make_unique<example_halo>(ec, vc, std::move(_gen))};
+                    return {std::make_unique<example_halo>(ec, vc, _gen)};
                 }
             }
         }
