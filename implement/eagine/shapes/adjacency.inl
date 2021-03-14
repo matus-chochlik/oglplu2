@@ -110,6 +110,7 @@ void triangle_adjacency_gen::instructions(
     op.phase = 0;
     op.mode = primitive_type::triangles_adjacency;
     op.idx_type = index_type(topo);
+    op.cw_face_winding = true;
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

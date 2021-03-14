@@ -14,7 +14,7 @@ namespace shapes {
 struct topology_data {
     unsigned values_per_vertex{0U};
     std::vector<float> vertex_values;
-    std::vector<unsigned> vertex_indices;
+    std::vector<unsigned> indices;
     std::vector<draw_operation> operations;
 
     auto values_of(unsigned i) const noexcept {
@@ -129,56 +129,57 @@ void topology::_scan_topology(drawing_variant var, vertex_attrib_variant vav) {
     data.vertex_values.resize(std_size(_gen->value_count(vav)));
     _gen->attrib_values(vav, cover(data.vertex_values));
 
-    data.vertex_indices.resize(std_size(_gen->index_count(var)));
-    _gen->indices(var, cover(data.vertex_indices));
+    data.indices.resize(std_size(_gen->index_count(var)));
+    _gen->indices(var, cover(data.indices));
 
     data.operations.resize(std_size(_gen->operation_count(var)));
     _gen->instructions(var, cover(data.operations));
+
     for(auto& operation : data.operations) {
-        if(operation.mode == primitive_type::triangles) {
-            if(operation.idx_type == index_data_type::none) {
-                for(span_size_t i = 0; i < operation.count; i += 3) {
-                    _triangles.emplace_back(
-                      _triangles.size(),
-                      to_index(operation.first + i + 0),
-                      to_index(operation.first + i + 1),
-                      to_index(operation.first + i + 2));
-                }
+        const bool indexed = operation.idx_type != index_data_type::none;
+        span_size_t i;
+
+        auto is_pri = [&]() {
+            return indexed &&
+                   data.indices[i] == operation.primitive_restart_index;
+        };
+
+        auto add_triangle = [&](int a, int b, int c) {
+            if(indexed) {
+                _triangles.emplace_back(
+                  _triangles.size(),
+                  data.indices[std_size(operation.first + i + a)],
+                  data.indices[std_size(operation.first + i + b)],
+                  data.indices[std_size(operation.first + i + c)]);
             } else {
-                for(span_size_t i = 0; i < operation.count; i += 3) {
-                    _triangles.emplace_back(
-                      _triangles.size(),
-                      data.vertex_indices[std_size(operation.first + i + 0)],
-                      data.vertex_indices[std_size(operation.first + i + 1)],
-                      data.vertex_indices[std_size(operation.first + i + 2)]);
+                _triangles.emplace_back(
+                  _triangles.size(),
+                  to_index(operation.first + i + a),
+                  to_index(operation.first + i + b),
+                  to_index(operation.first + i + c));
+            }
+        };
+
+        if(operation.mode == primitive_type::triangles) {
+            for(i = 0; i < operation.count; i += 3) {
+                if(operation.cw_face_winding) {
+                    add_triangle(0, 1, 2);
+                } else {
+                    add_triangle(0, 2, 1);
                 }
             }
         } else if(operation.mode == primitive_type::triangle_strip) {
-            if(operation.idx_type == index_data_type::none) {
-                for(span_size_t i = 2; i < operation.count; i += 2) {
-                    _triangles.emplace_back(
-                      _triangles.size(),
-                      to_index(operation.first + i - 2),
-                      to_index(operation.first + i - 1),
-                      to_index(operation.first + i + 0));
-                    _triangles.emplace_back(
-                      _triangles.size(),
-                      to_index(operation.first + i + 0),
-                      to_index(operation.first + i - 1),
-                      to_index(operation.first + i + 1));
+            for(i = 2; i < operation.count; i += 2) {
+                if(is_pri()) {
+                    ++i;
+                    continue;
                 }
-            } else {
-                for(span_size_t i = 2; i < operation.count; i += 2) {
-                    _triangles.emplace_back(
-                      _triangles.size(),
-                      data.vertex_indices[std_size(operation.first + i - 2)],
-                      data.vertex_indices[std_size(operation.first + i - 1)],
-                      data.vertex_indices[std_size(operation.first + i + 0)]);
-                    _triangles.emplace_back(
-                      _triangles.size(),
-                      data.vertex_indices[std_size(operation.first + i + 0)],
-                      data.vertex_indices[std_size(operation.first + i - 1)],
-                      data.vertex_indices[std_size(operation.first + i + 1)]);
+                if(operation.cw_face_winding) {
+                    add_triangle(-2, -1, 0);
+                    add_triangle(0, -1, 1);
+                } else {
+                    add_triangle(-1, -2, 0);
+                    add_triangle(-1, 0, 1);
                 }
             }
         }
