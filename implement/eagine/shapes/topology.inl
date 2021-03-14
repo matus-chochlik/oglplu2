@@ -52,7 +52,7 @@ auto mesh_triangle::setup_adjacent(
                       narrow(j)};
                 } else if(d.is_same_vertex(l.previ(i), r.nexti(j))) {
                     l._adjacent[prevv(i)] = &r;
-                    l._opposite[prevv(i)] = narrow(nextv(j));
+                    l._opposite[prevv(i)] = narrow(prevv(j));
                     r._adjacent[j] = &l;
                     r._opposite[j] = narrow(nextv(i));
                     return {
