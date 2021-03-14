@@ -21,8 +21,15 @@ namespace shapes {
 /// @see triangle_adjacency
 class triangle_adjacency_gen : public delegated_gen {
 public:
+    triangle_adjacency_gen(
+      std::shared_ptr<generator> gen,
+      drawing_variant var) noexcept
+      : delegated_gen{std::move(gen)} {
+        _topology(var);
+    }
+
     triangle_adjacency_gen(std::shared_ptr<generator> gen) noexcept
-      : delegated_gen{std::move(gen)} {}
+      : triangle_adjacency_gen{std::move(gen), 0} {}
 
     auto index_type(const topology&) -> index_data_type;
     auto index_type(drawing_variant) -> index_data_type override;
@@ -48,6 +55,14 @@ private:
 
     flat_map<drawing_variant, topology> _topologies;
 };
+//------------------------------------------------------------------------------
+/// @brief Constructs instances of triangle_adjacency_gen modifier.
+/// @ingroup shapes
+static inline auto add_triangle_adjacency(
+  std::shared_ptr<generator> gen,
+  drawing_variant var) noexcept {
+    return std::make_unique<triangle_adjacency_gen>(std::move(gen), var);
+}
 //------------------------------------------------------------------------------
 /// @brief Constructs instances of triangle_adjacency_gen modifier.
 /// @ingroup shapes
