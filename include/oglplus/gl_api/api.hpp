@@ -635,6 +635,22 @@ public:
     // depth func
     func<OGLPAFP(DepthFunc), void(compare_function)> depth_func;
 
+    // buffer masks
+    func<OGLPAFP(ColorMask), void(true_false, true_false, true_false, true_false)>
+      color_mask;
+
+    func<
+      OGLPAFP(ColorMaski),
+      void(uint_type, true_false, true_false, true_false, true_false)>
+      color_mask_i;
+
+    func<OGLPAFP(DepthMask), void(true_false)> depth_mask;
+
+    func<OGLPAFP(StencilMask), void(uint_type)> stencil_mask;
+
+    func<OGLPAFP(StencilMaskSeparate), void(face_mode, uint_type)>
+      stencil_mask_separate;
+
     // clear
     func<OGLPAFP(ClearColor)> clear_color;
     func<OGLPAFP(ClearDepth)> clear_depth;
