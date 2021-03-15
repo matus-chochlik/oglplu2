@@ -11,10 +11,13 @@
 
 #include <eagine/application/camera.hpp>
 #include <eagine/application/main.hpp>
+#include <eagine/embed.hpp>
 #include <eagine/shapes/adjacency.hpp>
 #include <eagine/shapes/icosahedron.hpp>
 #include <eagine/shapes/torus.hpp>
+#include <eagine/shapes/value_tree.hpp>
 #include <eagine/timeout.hpp>
+#include <eagine/value_tree/json.hpp>
 #include <oglplus/math/matrix.hpp>
 #include <oglplus/math/vector.hpp>
 
@@ -74,7 +77,7 @@ example_halo::example_halo(
     _camera.set_near(0.1F)
       .set_far(50.F)
       .set_orbit_min(1.4F)
-      .set_orbit_max(4.5F)
+      .set_orbit_max(3.5F)
       .set_fov(right_angle_());
 
     gl.clear_color(0.25F, 0.25F, 0.25F, 0.0F);
@@ -139,12 +142,18 @@ public:
             gen = shapes::unit_icosahedron(
               shapes::vertex_attrib_kind::position |
               shapes::vertex_attrib_kind::normal);
-        }
-
-        if(!gen) {
+        } else if(ctx.args().find("--torus")) {
             gen = shapes::unit_torus(
               shapes::vertex_attrib_kind::position |
               shapes::vertex_attrib_kind::normal);
+        }
+
+        if(!gen) {
+            const auto json_src{
+              embed(EAGINE_ID(SphereJson), "twisted_sphere.json")};
+            gen = shapes::from_value_tree(
+              valtree::from_json_text(as_chars(json_src.unpack(ctx)), ctx),
+              ctx);
         }
 
         _gen = shapes::add_triangle_adjacency(std::move(gen));

@@ -44,6 +44,7 @@ eagine_embed_packed_target_resources(
 	application-022_halo
 	surface.oglpprog
 	halo.oglpprog
+	twisted_sphere.json
 )
 eagine_add_exe_analysis(application-022_halo)
 
