@@ -24,13 +24,14 @@ class surface_program {
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
-    void prepare_frame(video_context&, orbiting_camera& camera);
+    void prepare_frame(video_context&, orbiting_camera& camera, float t);
 
     void bind_position_location(video_context&, oglp::vertex_attrib_location);
     void bind_normal_location(video_context&, oglp::vertex_attrib_location);
 
 private:
     oglp::owned_program_name _prog;
+    oglp::uniform_location _model_loc;
     oglp::uniform_location _view_loc;
     oglp::uniform_location _projection_loc;
 };
@@ -39,15 +40,17 @@ class halo_program {
 public:
     void init(execution_context&, video_context&);
     void clean_up(video_context&);
-    void prepare_frame(video_context&, orbiting_camera& camera);
+    void prepare_frame(video_context&, orbiting_camera& camera, float t);
 
     void bind_position_location(video_context&, oglp::vertex_attrib_location);
     void bind_normal_location(video_context&, oglp::vertex_attrib_location);
 
 private:
     oglp::owned_program_name _prog;
+    oglp::uniform_location _model_loc;
     oglp::uniform_location _view_loc;
     oglp::uniform_location _projection_loc;
+    oglp::uniform_location _camera_pos_loc;
 };
 //------------------------------------------------------------------------------
 // geometry

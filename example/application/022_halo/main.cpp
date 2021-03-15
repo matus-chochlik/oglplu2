@@ -73,8 +73,8 @@ example_halo::example_halo(
     // camera
     _camera.set_near(0.1F)
       .set_far(50.F)
-      .set_orbit_min(1.1F)
-      .set_orbit_max(3.5F)
+      .set_orbit_min(1.4F)
+      .set_orbit_max(4.5F)
       .set_fov(right_angle_());
 
     gl.clear_color(0.25F, 0.25F, 0.25F, 0.0F);
@@ -98,7 +98,7 @@ void example_halo::update() noexcept {
         _is_done.reset();
     }
     if(state.user_idle_too_long()) {
-        _camera.idle_update(state, 9.F);
+        _camera.idle_update(state, 5.F);
     }
 
     auto& glapi = _video.gl_api();
@@ -106,12 +106,13 @@ void example_halo::update() noexcept {
 
     gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
 
-    _surf_prog.prepare_frame(_video, _camera);
+    float t = _ctx.state().frame_time().value();
+    _surf_prog.prepare_frame(_video, _camera, t);
     _shape.draw(_ctx, _video);
 
     gl.depth_mask(GL.false_);
     gl.enable(GL.blend);
-    _halo_prog.prepare_frame(_video, _camera);
+    _halo_prog.prepare_frame(_video, _camera, t);
     _shape.draw(_ctx, _video);
     gl.disable(GL.blend);
     gl.depth_mask(GL.true_);
