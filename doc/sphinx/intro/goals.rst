@@ -26,9 +26,9 @@ OGLplus defines typed wrappers around GL constants and uses the C++ type system
 to check for such mismatches. If a constant is used in a wrong place it results
 in a compilation error, instead of a run-time error.
 
-Additionally, OpenGL identifies objects of various kinds like programs, shaders,
-textures, buffers, etc. by plain integer values which can again be easily
-confused:
+Additionally, OpenGL and OpenAL, etc. identify objects of various kinds
+like programs, shaders, textures, buffers, audio sources, etc. by plain integer
+values which can again be easily confused:
 
 .. code-block:: c++
     :emphasize-lines: 7
@@ -104,6 +104,7 @@ of the function, not for the version:
         }
     }
 
+TODO
 
 .. toctree::
    :hidden:

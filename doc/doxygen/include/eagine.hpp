@@ -10,6 +10,9 @@
 ///
 /// This is the Doxygen-generated reference documentation for the OGLplus project.
 ///
+/// For the structured project documentation see the
+/// <a href="../sphinx/index.html">Sphinx-generated docs</a>.
+///
 /// @note This documentation is work-in-progress and incomplete.
 
 /// @defgroup build_config Build configuration settings

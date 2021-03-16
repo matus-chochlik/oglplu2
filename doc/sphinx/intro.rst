@@ -7,6 +7,7 @@ Introduction
 
    intro/goals
    intro/sources
+   intro/requirements
    intro/building
 
 
