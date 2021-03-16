@@ -92,6 +92,17 @@ static inline auto unit_sphere(
       attr_bits, std::move(rings), std::move(sections));
 }
 //------------------------------------------------------------------------------
+/// @brief Constructs instances of unit_sphere_gen.
+/// @ingroup shapes
+/// @see from_value_tree
+/// @see unit_cube
+/// @see unit_torus
+/// @see unit_icosahedron
+/// @see unit_screen
+static inline auto unit_sphere(vertex_attrib_bits attr_bits) {
+    return unit_sphere(attr_bits, 18, 36);
+}
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
 

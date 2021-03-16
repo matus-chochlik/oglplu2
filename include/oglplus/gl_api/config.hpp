@@ -120,6 +120,7 @@ struct gl_types {
     using sync_type = nothing_t;
 #endif
 
+    /// @brief Object handle type.
     using name_type = uint_type;
 
     /// @brief Converts bool_type value to native bool,

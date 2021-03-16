@@ -25,6 +25,8 @@ public:
     template <enum_type value>
     using enum_type_c = std::integral_constant<enum_type, value>;
 
+    /// @var no_error
+    /// @alcconstwrap{NO_ERROR}
     opt_c_api_constant<
       mp_list<alc_error_code>,
 #ifdef ALC_NO_ERROR
@@ -34,6 +36,8 @@ public:
 #endif
       no_error;
 
+    /// @var invalid_device
+    /// @alcconstwrap{INVALID_DEVICE}
     opt_c_api_constant<
       mp_list<alc_error_code>,
 #ifdef ALC_INVALID_DEVICE
@@ -43,6 +47,8 @@ public:
 #endif
       invalid_device;
 
+    /// @var invalid_context
+    /// @alcconstwrap{INVALID_CONTEXT}
     opt_c_api_constant<
       mp_list<alc_error_code>,
 #ifdef ALC_INVALID_CONTEXT
@@ -52,6 +58,8 @@ public:
 #endif
       invalid_context;
 
+    /// @var invalid_enum
+    /// @alcconstwrap{INVALID_ENUM}
     opt_c_api_constant<
       mp_list<alc_error_code>,
 #ifdef ALC_INVALID_ENUM
@@ -61,6 +69,8 @@ public:
 #endif
       invalid_enum;
 
+    /// @var invalid_value
+    /// @alcconstwrap{INVALID_VALUE}
     opt_c_api_constant<
       mp_list<alc_error_code>,
 #ifdef ALC_INVALID_VALUE
@@ -70,6 +80,8 @@ public:
 #endif
       invalid_value;
 
+    /// @var out_of_memory
+    /// @alcconstwrap{OUT_OF_MEMORY}
     opt_c_api_constant<
       mp_list<alc_error_code>,
 #ifdef ALC_OUT_OF_MEMORY
@@ -79,6 +91,8 @@ public:
 #endif
       out_of_memory;
 
+    /// @var device_specifier
+    /// @alcconstwrap{DEVICE_SPECIFIER}
     opt_c_api_constant<
       mp_list<alc_string_query>,
 #ifdef ALC_DEVICE_SPECIFIER
@@ -88,6 +102,8 @@ public:
 #endif
       device_specifier;
 
+    /// @var capture_device_specifier
+    /// @alcconstwrap{CAPTURE_DEVICE_SPECIFIER}
     opt_c_api_constant<
       mp_list<alc_string_query>,
 #ifdef ALC_CAPTURE_DEVICE_SPECIFIER
@@ -97,6 +113,8 @@ public:
 #endif
       capture_device_specifier;
 
+    /// @var default_device_specifier
+    /// @alcconstwrap{DEFAULT_DEVICE_SPECIFIER}
     opt_c_api_constant<
       mp_list<alc_string_query>,
 #ifdef ALC_DEFAULT_DEVICE_SPECIFIER
@@ -106,6 +124,8 @@ public:
 #endif
       default_device_specifier;
 
+    /// @var capture_default_device_specifier
+    /// @alcconstwrap{CAPTURE_DEFAULT_DEVICE_SPECIFIER}
     opt_c_api_constant<
       mp_list<alc_string_query>,
 #ifdef ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER
@@ -115,12 +135,18 @@ public:
 #endif
       capture_default_device_specifier;
 
+    /// @var all_devices_specifier
+    /// @alcconstwrap{ALL_DEVICES_SPECIFIER}
     const dynamic_c_api_constant<mp_list<alc_string_query>, enum_type>
       all_devices_specifier;
 
+    /// @var default_all_devices_specifier
+    /// @alcconstwrap{DEFAULT_ALL_DEVICES_SPECIFIER}
     const dynamic_c_api_constant<mp_list<alc_string_query>, enum_type>
       default_all_devices_specifier;
 
+    /// @var extensions
+    /// @alcconstwrap{EXTENSIONS}
     opt_c_api_constant<
       mp_list<alc_string_query>,
 #ifdef ALC_EXTENSIONS
@@ -130,6 +156,8 @@ public:
 #endif
       extensions;
 
+    /// @var major_version
+    /// @alcconstwrap{MAJOR_VERSION}
     opt_c_api_constant<
       mp_list<alc_integer_query>,
 #ifdef ALC_MAJOR_VERSION
@@ -139,6 +167,8 @@ public:
 #endif
       major_version;
 
+    /// @var minor_version
+    /// @alcconstwrap{MINOR_VERSION}
     opt_c_api_constant<
       mp_list<alc_integer_query>,
 #ifdef ALC_MINOR_VERSION
@@ -148,6 +178,8 @@ public:
 #endif
       minor_version;
 
+    /// @var capture_samples
+    /// @alcconstwrap{CAPTURE_SAMPLES}
     opt_c_api_constant<
       mp_list<alc_integer_query>,
 #ifdef ALC_CAPTURE_SAMPLES
@@ -157,6 +189,8 @@ public:
 #endif
       capture_samples;
 
+    /// @var frequency
+    /// @alcconstwrap{FREQUENCY}
     opt_c_api_constant<
       mp_list<context_attribute>,
 #ifdef ALC_FREQUENCY
@@ -166,6 +200,8 @@ public:
 #endif
       frequency;
 
+    /// @var refresh
+    /// @alcconstwrap{REFRESH}
     opt_c_api_constant<
       mp_list<context_attribute>,
 #ifdef ALC_REFRESH
@@ -175,6 +211,8 @@ public:
 #endif
       refresh;
 
+    /// @var sync
+    /// @alcconstwrap{SYNC}
     opt_c_api_constant<
       mp_list<context_attribute>,
 #ifdef ALC_SYNC
@@ -184,6 +222,8 @@ public:
 #endif
       sync;
 
+    /// @var mono_sources
+    /// @alcconstwrap{MONO_SOURCES}
     opt_c_api_constant<
       mp_list<context_attribute>,
 #ifdef ALC_MONO_SOURCES
@@ -193,6 +233,8 @@ public:
 #endif
       mono_sources;
 
+    /// @var stereo_sources
+    /// @alcconstwrap{STEREO_SOURCES}
     opt_c_api_constant<
       mp_list<context_attribute>,
 #ifdef ALC_STEREO_SOURCES
@@ -202,12 +244,18 @@ public:
 #endif
       stereo_sources;
 
+    /// @var hrtf_soft
+    /// @alcconstwrap{HRTF_SOFT}
     const dynamic_c_api_constant<mp_list<context_attribute>, enum_type>
       hrtf_soft;
 
+    /// @var hrtf_id_soft
+    /// @alcconstwrap{HRTF_ID_SOFT}
     const dynamic_c_api_constant<mp_list<context_attribute>, enum_type>
       hrtf_id_soft;
 
+    /// @var hrtf_specifier_soft
+    /// @alcconstwrap{HRTF_SPECIFIER_SOFT}
     const dynamic_c_api_constant<mp_list<alc_string_query>, enum_type>
       hrtf_specifier_soft;
 

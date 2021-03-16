@@ -9,13 +9,14 @@
 #ifndef EAGINE_QUANTITIES_HPP
 #define EAGINE_QUANTITIES_HPP
 
+#include "diagnostic.hpp"
 #include "math/constants.hpp"
 #include "tagged_quantity.hpp"
-#include "units/trivial.hpp"
+#include "units/common.hpp"
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdouble-promotion"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(double-promotion)
 #endif
 
 namespace eagine {
@@ -157,7 +158,7 @@ static constexpr auto kelvins_(T value) noexcept -> kelvins_t<T> {
 } // namespace eagine
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif
 
 #endif // EAGINE_QUANTITIES_HPP

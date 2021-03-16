@@ -12,8 +12,8 @@
 #include "functions.hpp"
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdouble-promotion"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(double-promotion)
 #endif
 
 namespace eagine::math {
@@ -54,7 +54,7 @@ static inline auto smooth_oscillate(const T& a, C coef) {
 } // namespace eagine::math
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif
 
 #endif // EAGINE_MATH_INTERPOLATE_HPP

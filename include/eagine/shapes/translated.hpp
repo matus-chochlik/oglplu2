@@ -22,9 +22,9 @@ namespace shapes {
 class translated_gen : public delegated_gen {
 public:
     translated_gen(
-      std::unique_ptr<generator_intf>&& gen,
+      std::shared_ptr<generator> gen,
       std::array<float, 3> d) noexcept
-      : delegated_gen(std::move(gen))
+      : delegated_gen{std::move(gen)}
       , _d{d} {}
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
@@ -37,9 +37,8 @@ private:
 //------------------------------------------------------------------------------
 /// @brief Constructs instances of translated_gen modifier.
 /// @ingroup shapes
-static inline auto translate(
-  std::unique_ptr<generator_intf>&& gen,
-  std::array<float, 3> d) noexcept {
+static inline auto
+translate(std::shared_ptr<generator> gen, std::array<float, 3> d) noexcept {
     return std::make_unique<translated_gen>(std::move(gen), d);
 }
 //------------------------------------------------------------------------------

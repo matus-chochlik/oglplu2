@@ -32,7 +32,7 @@ using drawing_variant = span_size_t;
 //------------------------------------------------------------------------------
 /// @brief Interface for shape loaders or generators.
 /// @ingroup shapes
-struct generator_intf : interface<generator_intf> {
+struct generator : interface<generator> {
 
     /// @brief Returns the set of vertex attributes supported by this generator.
     virtual auto attrib_bits() noexcept -> vertex_attrib_bits = 0;
@@ -94,6 +94,11 @@ struct generator_intf : interface<generator_intf> {
 
     /// @brief Returns the number of values per vertex for the specified variant.
     virtual auto values_per_vertex(vertex_attrib_variant) -> span_size_t = 0;
+
+    /// @brief Returns the total number of values for the specified attribute variant.
+    auto value_count(vertex_attrib_variant vav) -> span_size_t {
+        return vertex_count() * values_per_vertex(vav);
+    }
 
     /// @brief Returns the attribute data type for the specified variant.
     virtual auto attrib_type(vertex_attrib_variant vav) -> attrib_data_type = 0;
@@ -219,7 +224,7 @@ struct generator_intf : interface<generator_intf> {
 //------------------------------------------------------------------------------
 /// @brief Common base implementation of the shape generator interface.
 /// @ingroup shapes
-class generator_base : public generator_intf {
+class generator_base : public generator {
 public:
     auto attrib_bits() noexcept -> vertex_attrib_bits final {
         return _attr_bits;
@@ -253,10 +258,6 @@ public:
 
     auto values_per_vertex(vertex_attrib_variant vav) -> span_size_t override {
         return has_variant(vav) ? attrib_values_per_vertex(vav) : 0U;
-    }
-
-    auto value_count(vertex_attrib_variant vav) -> span_size_t {
-        return vertex_count() * values_per_vertex(vav);
     }
 
     auto attrib_type(vertex_attrib_variant) -> attrib_data_type override {
@@ -326,26 +327,26 @@ protected:
 };
 //------------------------------------------------------------------------------
 static inline auto operator+(
-  std::unique_ptr<generator_intf>&& l,
-  std::unique_ptr<generator_intf>&& r) noexcept
-  -> std::array<std::unique_ptr<generator_intf>, 2> {
+  std::unique_ptr<generator>&& l,
+  std::unique_ptr<generator>&& r) noexcept
+  -> std::array<std::unique_ptr<generator>, 2> {
     return {{std::move(l), std::move(r)}};
 }
 //------------------------------------------------------------------------------
 template <std::size_t N, std::size_t... I>
 static inline auto _add_to_array(
-  std::array<std::unique_ptr<generator_intf>, N>&& l,
-  std::unique_ptr<generator_intf>&& r,
+  std::array<std::unique_ptr<generator>, N>&& l,
+  std::unique_ptr<generator>&& r,
   std::index_sequence<I...>) noexcept
-  -> std::array<std::unique_ptr<generator_intf>, N + 1> {
+  -> std::array<std::unique_ptr<generator>, N + 1> {
     return {{std::move(l[I])..., std::move(r)}};
 }
 //------------------------------------------------------------------------------
 template <std::size_t N>
 static inline auto operator+(
-  std::array<std::unique_ptr<generator_intf>, N>&& l,
-  std::unique_ptr<generator_intf>&& r) noexcept
-  -> std::array<std::unique_ptr<generator_intf>, N + 1> {
+  std::array<std::unique_ptr<generator>, N>&& l,
+  std::unique_ptr<generator>&& r) noexcept
+  -> std::array<std::unique_ptr<generator>, N + 1> {
     return _add_to_array(
       std::move(l), std::move(r), std::make_index_sequence<N>());
 }

@@ -41,10 +41,10 @@ void depth_program::init(
     gl.link_program(prog);
     gl.use_program(prog);
 
-    gl.get_uniform_location(prog, "Projection") >> camera_loc;
+    gl.get_uniform_location(prog, "Camera") >> camera_loc;
 }
 //------------------------------------------------------------------------------
-void depth_program::set_projection(video_context& vc, orbiting_camera& camera) {
+void depth_program::set_camera(video_context& vc, orbiting_camera& camera) {
     const auto& gl = vc.gl_api();
 
     gl.use_program(prog);
@@ -91,7 +91,7 @@ void draw_program::init(
     gl.link_program(prog);
     gl.use_program(prog);
 
-    gl.get_uniform_location(prog, "Projection") >> camera_loc;
+    gl.get_uniform_location(prog, "Camera") >> camera_loc;
     gl.get_uniform_location(prog, "LightPosition") >> light_pos_loc;
     gl.get_uniform_location(prog, "DepthTexture") >> depth_tex_loc;
 }
@@ -105,7 +105,7 @@ void draw_program::set_depth_texture(
     gl.set_uniform(prog, depth_tex_loc, tex_unit);
 }
 //------------------------------------------------------------------------------
-void draw_program::set_projection(video_context& vc, orbiting_camera& camera) {
+void draw_program::set_camera(video_context& vc, orbiting_camera& camera) {
     const auto& gl = vc.gl_api();
 
     gl.use_program(prog);

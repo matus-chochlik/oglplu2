@@ -34,6 +34,8 @@ enum class primitive_type : std::uint8_t {
     triangle_strip,
     /// @brief Triangle fans.
     triangle_fan,
+    /// @brief Individual triangles with adjacency.
+    triangles_adjacency,
     /// @brief Quadrilaterals (represented as lines with adjacency).
     quads,
     /// @brief Tetrahedrons (represented as lines with adjacency).
@@ -45,7 +47,7 @@ enum class primitive_type : std::uint8_t {
 template <typename Selector>
 constexpr auto
 enumerator_mapping(type_identity<primitive_type>, Selector) noexcept {
-    return enumerator_map_type<primitive_type, 10>{
+    return enumerator_map_type<primitive_type, 11>{
       {{"points", primitive_type::points},
        {"lines", primitive_type::lines},
        {"line_strip", primitive_type::line_strip},
@@ -53,6 +55,7 @@ enumerator_mapping(type_identity<primitive_type>, Selector) noexcept {
        {"triangles", primitive_type::triangles},
        {"triangle_strip", primitive_type::triangle_strip},
        {"triangle_fan", primitive_type::triangle_fan},
+       {"triangles_adjacency", primitive_type::triangles_adjacency},
        {"quads", primitive_type::quads},
        {"tetrahedrons", primitive_type::tetrahedrons},
        {"patches", primitive_type::patches}}};

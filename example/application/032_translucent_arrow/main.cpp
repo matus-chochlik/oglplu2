@@ -9,8 +9,6 @@
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
-#include <eagine/units/unit/si/angle.hpp>
-//
 #include <eagine/application/camera.hpp>
 #include <eagine/application/main.hpp>
 #include <eagine/cleanup_group.hpp>
@@ -72,8 +70,8 @@ example_arrow::example_arrow(execution_context& ec, video_context& vc)
       .set_orbit_min(sr * 1.2F)
       .set_orbit_max(sr * 1.7F)
       .set_fov(degrees_(80.F));
-    depth_prog.set_projection(vc, camera);
-    draw_prog.set_projection(vc, camera);
+    depth_prog.set_camera(vc, camera);
+    draw_prog.set_camera(vc, camera);
 
     gl.clear_color(0.45F, 0.45F, 0.45F, 0.0F);
     gl.enable(GL.depth_test);
@@ -106,7 +104,7 @@ void example_arrow::update() noexcept {
     gl.depth_func(GL.greater);
     gl.cull_face(GL.front);
     depth_prog.update(_video);
-    depth_prog.set_projection(_video, camera);
+    depth_prog.set_camera(_video, camera);
     arrow.draw(_video);
 
     depth_tex.copy_from_fb(_video);
@@ -116,7 +114,7 @@ void example_arrow::update() noexcept {
     gl.depth_func(GL.less);
     gl.cull_face(GL.back);
     draw_prog.update(_ctx, _video);
-    draw_prog.set_projection(_video, camera);
+    draw_prog.set_camera(_video, camera);
     arrow.draw(_video);
 
     _video.commit();

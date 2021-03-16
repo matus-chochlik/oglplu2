@@ -13,8 +13,8 @@
 #include "../nothing.hpp"
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdouble-promotion"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(double-promotion)
 #endif
 
 namespace eagine::units {
@@ -345,7 +345,7 @@ struct symbol_of<scales::pi> {
 } // namespace eagine::units
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif
 
 #endif // EAGINE_UNITS_SCALES_HPP

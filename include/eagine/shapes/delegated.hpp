@@ -18,10 +18,10 @@ namespace shapes {
 //------------------------------------------------------------------------------
 /// @brief Base class for delegating shape generators based on other generators.
 /// @ingroup shapes
-class delegated_gen : public generator_intf {
+class delegated_gen : public generator {
 public:
-    delegated_gen(std::unique_ptr<generator_intf>&& gen) noexcept
-      : _gen(std::move(gen)) {}
+    delegated_gen(std::shared_ptr<generator> gen) noexcept
+      : _gen{std::move(gen)} {}
 
     auto attrib_bits() noexcept -> vertex_attrib_bits final {
         return _gen->attrib_bits();
@@ -123,8 +123,13 @@ public:
         return _gen->bounding_sphere();
     }
 
+protected:
+    auto base_generator() const noexcept -> std::shared_ptr<generator> {
+        return _gen;
+    }
+
 private:
-    std::unique_ptr<generator_intf> _gen;
+    std::shared_ptr<generator> _gen;
 };
 //------------------------------------------------------------------------------
 } // namespace shapes

@@ -22,19 +22,19 @@ namespace eagine::oglp {
 //------------------------------------------------------------------------------
 /// @brief Class wrapping a generic shape loader/generator, adapting it for GL.
 /// @ingroup shapes
-/// @see shapes::generator_intf
+/// @see shapes::generator
 class shape_generator {
 private:
-    using generator_intf = shapes::generator_intf;
-    std::unique_ptr<generator_intf> _gen{};
+    using generator = shapes::generator;
+    std::shared_ptr<generator> _gen{};
 
 public:
     template <typename A>
-    shape_generator(const basic_gl_api<A>&, std::unique_ptr<generator_intf>&&);
+    shape_generator(const basic_gl_api<A>&, std::shared_ptr<generator>);
 
     template <typename A, typename Gen>
-    shape_generator(const basic_gl_api<A>& api, std::unique_ptr<Gen>&& gen)
-      : shape_generator(api, std::unique_ptr<generator_intf>(std::move(gen))) {}
+    shape_generator(const basic_gl_api<A>& api, std::shared_ptr<Gen> gen)
+      : shape_generator(api, std::shared_ptr<generator>(std::move(gen))) {}
 
     auto find_variant(shapes::vertex_attrib_kind attrib, string_view name) const
       -> shapes::vertex_attrib_variant {

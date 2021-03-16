@@ -23,20 +23,29 @@ namespace eagine::application {
 // programs
 //------------------------------------------------------------------------------
 class depth_program {
+public:
+    void init(execution_context&, video_context&, cleanup_group&);
+    void set_camera(video_context& ctx, orbiting_camera& camera);
+    void update(video_context&);
+
+    void bind_position_location(video_context&, oglp::vertex_attrib_location);
+
 private:
     oglp::owned_program_name prog;
 
     oglp::uniform_location camera_loc;
-
-public:
-    void init(execution_context&, video_context&, cleanup_group&);
-    void set_projection(video_context& ctx, orbiting_camera& camera);
-    void update(video_context&);
-
-    void bind_position_location(video_context&, oglp::vertex_attrib_location);
 };
 //------------------------------------------------------------------------------
 class draw_program {
+public:
+    void init(execution_context&, video_context&, cleanup_group&);
+    void set_depth_texture(video_context& ctx, oglp::gl_types::int_type);
+    void set_camera(video_context&, orbiting_camera& camera);
+    void update(execution_context&, video_context&);
+
+    void bind_position_location(video_context&, oglp::vertex_attrib_location);
+    void bind_normal_location(video_context& ctx, oglp::vertex_attrib_location);
+
 private:
     oglp::owned_program_name prog;
 
@@ -45,31 +54,11 @@ private:
     oglp::uniform_location depth_tex_loc;
 
     radians_t<float> rad{0.F};
-
-public:
-    void init(execution_context&, video_context&, cleanup_group&);
-    void set_depth_texture(video_context& ctx, oglp::gl_types::int_type);
-    void set_projection(video_context&, orbiting_camera& camera);
-    void update(execution_context&, video_context&);
-
-    void bind_position_location(video_context&, oglp::vertex_attrib_location);
-    void bind_normal_location(video_context& ctx, oglp::vertex_attrib_location);
 };
 //------------------------------------------------------------------------------
 // geometry
 //------------------------------------------------------------------------------
 class arrow_geometry {
-private:
-    oglp::owned_vertex_array_name vao;
-
-    oglp::owned_buffer_name positions;
-    oglp::owned_buffer_name normals;
-    oglp::owned_buffer_name indices;
-
-    std::vector<oglp::shape_draw_operation> ops;
-
-    oglp::sphere bound_sphere;
-
 public:
     void init(execution_context&, video_context&, cleanup_group&);
     void draw(video_context&);
@@ -85,13 +74,20 @@ public:
     static auto normal_loc() noexcept {
         return oglp::vertex_attrib_location{1};
     }
+
+private:
+    oglp::owned_vertex_array_name vao;
+
+    oglp::owned_buffer_name positions;
+    oglp::owned_buffer_name normals;
+    oglp::owned_buffer_name indices;
+
+    std::vector<oglp::shape_draw_operation> ops;
+
+    oglp::sphere bound_sphere;
 };
 //------------------------------------------------------------------------------
 class depth_texture {
-private:
-    oglp::gl_types::int_type tex_unit{0};
-    oglp::owned_texture_name tex{};
-
 public:
     void init(execution_context&, video_context&, cleanup_group&);
     void reshape(video_context&);
@@ -100,6 +96,10 @@ public:
     auto texture_unit() const noexcept {
         return tex_unit;
     }
+
+private:
+    oglp::gl_types::int_type tex_unit{0};
+    oglp::owned_texture_name tex{};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::application

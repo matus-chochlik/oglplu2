@@ -41,6 +41,8 @@ public:
     template <int_type value>
     using int_type_c = std::integral_constant<int_type, value>;
 
+    /// @var success
+    /// @eglconstwrap{SUCCESS}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_SUCCESS
@@ -50,6 +52,8 @@ public:
 #endif
       success;
 
+    /// @var not_initialized
+    /// @eglconstwrap{NOT_INITIALIZED}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_NOT_INITIALIZED
@@ -59,6 +63,8 @@ public:
 #endif
       not_initialized;
 
+    /// @var bad_access
+    /// @eglconstwrap{BAD_ACCESS}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_BAD_ACCESS
@@ -68,6 +74,8 @@ public:
 #endif
       bad_access;
 
+    /// @var bad_alloc
+    /// @eglconstwrap{BAD_ALLOC}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_BAD_ALLOC
@@ -77,6 +85,8 @@ public:
 #endif
       bad_alloc;
 
+    /// @var bad_attribute
+    /// @eglconstwrap{BAD_ATTRIBUTE}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_BAD_ATTRIBUTE
@@ -86,6 +96,8 @@ public:
 #endif
       bad_attribute;
 
+    /// @var bad_context
+    /// @eglconstwrap{BAD_CONTEXT}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_BAD_CONTEXT
@@ -95,6 +107,8 @@ public:
 #endif
       bad_context;
 
+    /// @var bad_config
+    /// @eglconstwrap{BAD_CONFIG}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_BAD_CONFIG
@@ -104,6 +118,8 @@ public:
 #endif
       bad_config;
 
+    /// @var bad_current_surface
+    /// @eglconstwrap{BAD_CURRENT_SURFACE}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_BAD_CURRENT_SURFACE
@@ -113,6 +129,8 @@ public:
 #endif
       bad_current_surface;
 
+    /// @var bad_display
+    /// @eglconstwrap{BAD_DISPLAY}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_BAD_DISPLAY
@@ -122,6 +140,8 @@ public:
 #endif
       bad_display;
 
+    /// @var bad_surface
+    /// @eglconstwrap{BAD_SURFACE}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_BAD_SURFACE
@@ -131,6 +151,8 @@ public:
 #endif
       bad_surface;
 
+    /// @var bad_match
+    /// @eglconstwrap{BAD_MATCH}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_BAD_MATCH
@@ -140,6 +162,8 @@ public:
 #endif
       bad_match;
 
+    /// @var bad_parameter
+    /// @eglconstwrap{BAD_PARAMETER}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_BAD_PARAMETER
@@ -149,6 +173,8 @@ public:
 #endif
       bad_parameter;
 
+    /// @var bad_native_pixmap
+    /// @eglconstwrap{BAD_NATIVE_PIXMAP}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_BAD_NATIVE_PIXMAP
@@ -158,6 +184,8 @@ public:
 #endif
       bad_native_pixmap;
 
+    /// @var bad_native_window
+    /// @eglconstwrap{BAD_NATIVE_WINDOW}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_BAD_NATIVE_WINDOW
@@ -167,6 +195,8 @@ public:
 #endif
       bad_native_window;
 
+    /// @var context_lost
+    /// @eglconstwrap{CONTEXT_LOST}
     opt_c_api_constant<
       mp_list<error_code>,
 #ifdef EGL_CONTEXT_LOST
@@ -176,6 +206,8 @@ public:
 #endif
       context_lost;
 
+    /// @var true_
+    /// @eglconstwrap{TRUE}
     opt_c_api_constant<
       mp_list<eglp::true_false>,
 #ifdef EGL_TRUE
@@ -185,6 +217,8 @@ public:
 #endif
       true_;
 
+    /// @var false_
+    /// @eglconstwrap{FALSE}
     opt_c_api_constant<
       mp_list<eglp::true_false>,
 #ifdef EGL_FALSE
@@ -194,6 +228,8 @@ public:
 #endif
       false_;
 
+    /// @var platform_device
+    /// @eglconstwrap{PLATFORM_DEVICE_EXT}
     opt_c_api_constant<
       mp_list<platform>,
 #ifdef EGL_PLATFORM_DEVICE_EXT
@@ -204,14 +240,33 @@ public:
       >
       platform_device;
 
+    /// @var platform_x11
+    /// @eglconstwrap{PLATFORM_X11_EXT}
     opt_c_api_constant<mp_list<platform>, int_type_c<0x31D5>> platform_x11;
+
+    /// @var platform_xcb
+    /// @eglconstwrap{PLATFORM_XCB_EXT}
     opt_c_api_constant<mp_list<platform>, int_type_c<0x31DC>> platform_xcb;
+
+    /// @var platform_wayland
+    /// @eglconstwrap{PLATFORM_WAYLAND}
     opt_c_api_constant<mp_list<platform>, int_type_c<0x31D8>> platform_wayland;
+
+    /// @var platform_gbm_mesa
+    /// @eglconstwrap{PLATFORM_GBM_MESA}
     opt_c_api_constant<mp_list<platform>, int_type_c<0x31D7>> platform_gbm_mesa;
+
+    /// @var platform_surfaceless
+    /// @eglconstwrap{PLATFORM_SURFACELESS_EXT}
     opt_c_api_constant<mp_list<platform>, int_type_c<0x31DD>>
       platform_surfaceless;
+
+    /// @var platform_android
+    /// @eglconstwrap{PLATFORM_ANDROID_EXT}
     opt_c_api_constant<mp_list<platform>, int_type_c<0x3141>> platform_android;
 
+    /// @var client_apis
+    /// @eglconstwrap{CLIENT_APIS}
     opt_c_api_constant<
       mp_list<string_query>,
 #ifdef EGL_CLIENT_APIS
@@ -221,6 +276,8 @@ public:
 #endif
       client_apis;
 
+    /// @var vendor
+    /// @eglconstwrap{VENDOR}
     opt_c_api_constant<
       mp_list<string_query>,
 #ifdef EGL_VENDOR
@@ -230,6 +287,8 @@ public:
 #endif
       vendor;
 
+    /// @var version
+    /// @eglconstwrap{VERSION}
     opt_c_api_constant<
       mp_list<string_query>,
 #ifdef EGL_VERSION
@@ -239,9 +298,13 @@ public:
 #endif
       version;
 
+    /// @var renderer
+    /// @eglconstwrap{RENDERER}
     opt_c_api_constant<mp_list<device_string_query>, int_type_c<0x335E>>
       renderer;
 
+    /// @var extensions
+    /// @eglconstwrap{EXTENSIONS}
     opt_c_api_constant<
       mp_list<string_query, device_string_query>,
 #ifdef EGL_EXTENSIONS
@@ -251,11 +314,15 @@ public:
 #endif
       extensions;
 
+    /// @var drm_device_file
+    /// @eglconstwrap{DRM_DEVICE_FILE_EXT}
     opt_c_api_constant<
       mp_list<string_query, device_string_query>,
       int_type_c<0x3233>>
       drm_device_file;
 
+    /// @var drm_device_file
+    /// @eglconstwrap{DRM_DEVICE_FILE_EXT}
     opt_c_api_constant<mp_list<platform_attribute>, int_type_c<0x333C>>
       drm_master_fd;
 

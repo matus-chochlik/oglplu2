@@ -8,12 +8,13 @@
 #ifndef OGLPLUS_GL_DEF_HPP
 #define OGLPLUS_GL_DEF_HPP
 
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wreserved-id-macro"
-#endif
-
+#include <eagine/diagnostic.hpp>
 #include <oglplus/config/basic.hpp>
+
+#ifdef __clang__
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(reserved-id-macro)
+#endif
 //------------------------------------------------------------------------------
 #if defined(__gl_glcorearb_h_)
 #define OGLPLUS_GLCOREARB_DETECTED 1
@@ -128,7 +129,7 @@ struct api_initializer {
 #endif // OGLPLUS_NO_GL
 //------------------------------------------------------------------------------
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif
 //------------------------------------------------------------------------------
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)

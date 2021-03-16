@@ -22,10 +22,6 @@ class example;
 // programs
 //------------------------------------------------------------------------------
 class draw_program {
-private:
-    oglp::owned_program_name _prog;
-    oglp::uniform_location _camera_loc;
-
 public:
     void init(example&);
     void set_projection(example&);
@@ -33,14 +29,13 @@ public:
     void bind_position_location(example&, oglp::vertex_attrib_location);
 
     void use(example&);
+
+private:
+    oglp::owned_program_name _prog;
+    oglp::uniform_location _camera_loc;
 };
 //------------------------------------------------------------------------------
 class screen_program {
-private:
-    oglp::owned_program_name _prog;
-    oglp::uniform_location _screen_size_loc;
-    oglp::uniform_location _draw_tex_loc;
-
 public:
     void init(example&);
 
@@ -50,11 +45,24 @@ public:
     void set_screen_size(example&);
 
     void use(example&);
+
+private:
+    oglp::owned_program_name _prog;
+    oglp::uniform_location _screen_size_loc;
+    oglp::uniform_location _draw_tex_loc;
 };
 //------------------------------------------------------------------------------
 // geometry
 //------------------------------------------------------------------------------
 class shape_geometry {
+public:
+    void init(example&);
+    void draw(example&);
+
+    static auto position_loc() noexcept {
+        return oglp::vertex_attrib_location{0};
+    }
+
 private:
     const int count = 8;
 
@@ -66,25 +74,9 @@ private:
     oglp::owned_buffer_name _offsets;
 
     std::vector<oglp::shape_draw_operation> _ops{};
-
-public:
-    void init(example&);
-    void draw(example&);
-
-    static auto position_loc() noexcept {
-        return oglp::vertex_attrib_location{0};
-    }
 };
 //------------------------------------------------------------------------------
 class screen_geometry {
-private:
-    oglp::owned_vertex_array_name _vao;
-
-    oglp::owned_buffer_name _positions;
-    oglp::owned_buffer_name _tex_coords;
-
-    std::vector<oglp::shape_draw_operation> _ops{};
-
 public:
     void init(example&);
     void draw(example&);
@@ -96,24 +88,32 @@ public:
     static auto tex_coord_loc() noexcept {
         return oglp::vertex_attrib_location{1};
     }
+
+private:
+    oglp::owned_vertex_array_name _vao;
+
+    oglp::owned_buffer_name _positions;
+    oglp::owned_buffer_name _tex_coords;
+
+    std::vector<oglp::shape_draw_operation> _ops{};
 };
 //------------------------------------------------------------------------------
 // draw buffers
 //------------------------------------------------------------------------------
 class draw_buffers {
-private:
-    oglp::gl_types::sizei_type _width{0};
-    oglp::gl_types::sizei_type _height{0};
-    oglp::owned_texture_name _tex{};
-    oglp::owned_renderbuffer_name _rbo{};
-    oglp::owned_framebuffer_name _fbo{};
-
 public:
     void init(example&);
     void resize(example&);
 
     void draw_offscreen(example&);
     void draw_onscreen(example&);
+
+private:
+    oglp::gl_types::sizei_type _width{0};
+    oglp::gl_types::sizei_type _height{0};
+    oglp::owned_texture_name _tex{};
+    oglp::owned_renderbuffer_name _rbo{};
+    oglp::owned_framebuffer_name _fbo{};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::application

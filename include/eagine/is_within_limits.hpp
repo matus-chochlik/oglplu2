@@ -9,6 +9,7 @@
 #define EAGINE_IS_WITHIN_LIMITS_HPP
 
 #include "assert.hpp"
+#include "diagnostic.hpp"
 #include "int_constant.hpp"
 #include "valid_if/decl.hpp"
 #include <cstdint>
@@ -16,12 +17,11 @@
 #include <type_traits>
 #include <utility>
 
+EAGINE_DIAG_PUSH()
 #if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wshorten-64-to-32"
+EAGINE_DIAG_OFF(shorten-64-to-32)
 #elif defined(__GNUC__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
+EAGINE_DIAG_OFF(sign-compare)
 #endif
 
 namespace eagine {
@@ -152,10 +152,6 @@ static constexpr auto convert_if_fits(Src value) noexcept
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic push
-#endif
+EAGINE_DIAG_POP()
 
 #endif // EAGINE_IS_WITHIN_LIMITS_HPP

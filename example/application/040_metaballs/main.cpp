@@ -9,8 +9,6 @@
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
-#include <eagine/units/unit/si/angle.hpp>
-//
 #include <eagine/application/camera.hpp>
 #include <eagine/application/main.hpp>
 #include <oglplus/math/matrix.hpp>
@@ -47,7 +45,7 @@ example::example(execution_context& ec, video_context& vc)
       .set_far(50.F)
       .set_orbit_min(7.0F)
       .set_orbit_max(8.0F)
-      .set_fov(degrees_(65.F));
+      .set_fov(degrees_(75.F));
 
     gl.clear_color(0.25F, 0.25F, 0.25F, 0.0F);
     gl.clear_depth(1.0F);

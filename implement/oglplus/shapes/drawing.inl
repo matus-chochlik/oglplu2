@@ -34,6 +34,8 @@ translate(const basic_gl_api<A>& api, shapes::primitive_type mode) noexcept
             return GL.triangle_strip;
         case shapes::primitive_type::triangle_fan:
             return GL.triangle_fan;
+        case shapes::primitive_type::triangles_adjacency:
+            return GL.triangles_adjacency;
         case shapes::primitive_type::patches:
             return GL.patches;
     }

@@ -57,6 +57,10 @@ DerivePointerAlignment: false
 DisableFormat:   false
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
+WhitespaceSensitiveMacros:
+  - EAGINE_DIAG_PUSH
+  - EAGINE_DIAG_POP
+  - EAGINE_DIAG_OFF
 ForEachMacros:
   - foreach
   - Q_FOREACH

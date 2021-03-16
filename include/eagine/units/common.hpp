@@ -6,10 +6,11 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-#ifndef EAGINE_UNITS_TRIVIAL_HPP
-#define EAGINE_UNITS_TRIVIAL_HPP
+#ifndef EAGINE_UNITS_COMMON_HPP
+#define EAGINE_UNITS_COMMON_HPP
 
 #include "default.hpp"
+#include "unit/si/angle.hpp"
 
 namespace eagine::units {
 namespace scales {
@@ -57,4 +58,4 @@ using kelvin = unit<temperature, si>;
 
 } // namespace eagine::units
 
-#endif // EAGINE_UNITS_TRIVIAL_HPP
+#endif // EAGINE_UNITS_COMMON_HPP

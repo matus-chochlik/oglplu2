@@ -14,8 +14,8 @@
 #include <cstdio>
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wformat-nonliteral"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(format-nonliteral)
 #endif
 
 namespace eagine {
@@ -449,7 +449,7 @@ private:
 } // namespace eagine
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif
 
 #endif // EAGINE_SERIALIZE_STRING_BACKEND_HPP

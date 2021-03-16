@@ -6,6 +6,7 @@
 
 configure_file(Doxyfile-common.in Doxyfile-common @ONLY)
 configure_file(Doxyfile-html.in Doxyfile-html @ONLY)
+configure_file(Doxyfile-xml.in Doxyfile-xml @ONLY)
 
 file(
 	GLOB_RECURSE DOC_INPUT_SOURCES
@@ -14,6 +15,20 @@ file(
 	${PROJECT_SOURCE_DIR}/include/*.hpp
 	${PROJECT_SOURCE_DIR}/example/*.hpp
 	${PROJECT_SOURCE_DIR}/example/*.cpp
+)
+
+add_custom_command(
+	OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/xml/index.xml"
+	COMMAND ${DOXYGEN_EXECUTABLE} 
+	ARGS Doxyfile-xml
+	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+	MAIN_DEPENDENCY "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile-xml"
+	DEPENDS ${DOC_INPUT_SOURCES}
+		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-xml.in"
+		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-xml"
+		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-common.in"
+		"${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-common"
+	COMMENT "Generating Doxygen XML output"
 )
 
 add_custom_command(
@@ -31,6 +46,16 @@ add_custom_command(
 		"${CMAKE_CURRENT_SOURCE_DIR}/footer.html"
 		"${CMAKE_CURRENT_SOURCE_DIR}/oglplus.css"
 	COMMENT "Generating Doxygen HTML documentation"
+)
+
+add_custom_target(
+	doc-doxygen-xml
+	DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xml/index.xml"
+)
+
+set_target_properties(
+	doc-doxygen-xml
+	PROPERTIES FOLDER "Documentation"
 )
 
 add_custom_target(

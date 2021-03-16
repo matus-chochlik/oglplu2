@@ -5675,6 +5675,8 @@ public:
     basic_gl_c_api(api_traits& traits);
 };
 //------------------------------------------------------------------------------
+/// @brief Alias for the default GL operations wrapper instantiation.
+/// @ingroup gl_api_wrap
 using gl_c_api = basic_gl_c_api<gl_api_traits>;
 //------------------------------------------------------------------------------
 } // namespace eagine::oglp

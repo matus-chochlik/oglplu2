@@ -6,5 +6,5 @@
  */
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif

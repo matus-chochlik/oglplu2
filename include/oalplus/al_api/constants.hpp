@@ -25,6 +25,8 @@ public:
     template <enum_type value>
     using enum_type_c = std::integral_constant<enum_type, value>;
 
+    /// @var no_error
+    /// @alconstwrap{NO_ERROR}
     opt_c_api_constant<
       mp_list<al_error_code>,
 #ifdef AL_NO_ERROR
@@ -34,6 +36,8 @@ public:
 #endif
       no_error;
 
+    /// @var invalid_name
+    /// @alconstwrap{INVALID_NAME}
     opt_c_api_constant<
       mp_list<al_error_code>,
 #ifdef AL_INVALID_NAME
@@ -43,6 +47,8 @@ public:
 #endif
       invalid_name;
 
+    /// @var invalid_enum
+    /// @alconstwrap{INVALID_ENUM}
     opt_c_api_constant<
       mp_list<al_error_code>,
 #ifdef AL_INVALID_ENUM
@@ -52,6 +58,8 @@ public:
 #endif
       invalid_enum;
 
+    /// @var invalid_operation
+    /// @alconstwrap{INVALID_OPERATION}
     opt_c_api_constant<
       mp_list<al_error_code>,
 #ifdef AL_INVALID_OPERATION
@@ -61,6 +69,8 @@ public:
 #endif
       invalid_operation;
 
+    /// @var out_of_memory
+    /// @alconstwrap{OUT_OF_MEMORY}
     opt_c_api_constant<
       mp_list<al_error_code>,
 #ifdef AL_OUT_OF_MEMORY
@@ -70,6 +80,8 @@ public:
 #endif
       out_of_memory;
 
+    /// @var version
+    /// @alconstwrap{VERSION}
     opt_c_api_constant<
       mp_list<al_string_query>,
 #ifdef AL_VERSION
@@ -79,6 +91,8 @@ public:
 #endif
       version;
 
+    /// @var renderer
+    /// @alconstwrap{RENDERER}
     opt_c_api_constant<
       mp_list<al_string_query>,
 #ifdef AL_RENDERER
@@ -88,6 +102,8 @@ public:
 #endif
       renderer;
 
+    /// @var vendor
+    /// @alconstwrap{VENDOR}
     opt_c_api_constant<
       mp_list<al_string_query>,
 #ifdef AL_VENDOR
@@ -97,6 +113,8 @@ public:
 #endif
       vendor;
 
+    /// @var extensions
+    /// @alconstwrap{EXTENSIONS}
     opt_c_api_constant<
       mp_list<al_string_query>,
 #ifdef AL_EXTENSIONS
@@ -106,6 +124,8 @@ public:
 #endif
       extensions;
 
+    /// @var doppler_factor
+    /// @alconstwrap{DOPPLER_FACTOR}
     opt_c_api_constant<
       mp_list<al_numeric_query>,
 #ifdef AL_DOPPLER_FACTOR
@@ -115,6 +135,8 @@ public:
 #endif
       doppler_factor;
 
+    /// @var speed_of_sound
+    /// @alconstwrap{SPEED_OF_SOUND}
     opt_c_api_constant<
       mp_list<al_numeric_query>,
 #ifdef AL_SPEED_OF_SOUND
@@ -124,6 +146,8 @@ public:
 #endif
       speed_of_sound;
 
+    /// @var distance_model
+    /// @alconstwrap{DISTANCE_MODEL}
     opt_c_api_constant<
       mp_list<al_integer_query>,
 #ifdef AL_DISTANCE_MODEL
@@ -134,6 +158,8 @@ public:
       oalp::distance_model>
       distance_model;
 
+    /// @var inverse_distance
+    /// @alconstwrap{INVERSE_DISTANCE}
     opt_c_api_constant<
       mp_list<oalp::distance_model>,
 #ifdef AL_INVERSE_DISTANCE
@@ -143,6 +169,8 @@ public:
 #endif
       inverse_distance;
 
+    /// @var inverse_distance_clamped
+    /// @alconstwrap{INVERSE_DISTANCE_CLAMPED}
     opt_c_api_constant<
       mp_list<oalp::distance_model>,
 #ifdef AL_INVERSE_DISTANCE_CLAMPED
@@ -152,6 +180,8 @@ public:
 #endif
       inverse_distance_clamped;
 
+    /// @var linear_distance
+    /// @alconstwrap{LINEAR_DISTANCE}
     opt_c_api_constant<
       mp_list<oalp::distance_model>,
 #ifdef AL_LINEAR_DISTANCE
@@ -161,6 +191,8 @@ public:
 #endif
       linear_distance;
 
+    /// @var linear_distance_clamped
+    /// @alconstwrap{LINEAR_DISTANCE_CLAMPED}
     opt_c_api_constant<
       mp_list<oalp::distance_model>,
 #ifdef AL_LINEAR_DISTANCE_CLAMPED
@@ -170,6 +202,8 @@ public:
 #endif
       linear_distance_clamped;
 
+    /// @var exponent_distance
+    /// @alconstwrap{EXPONENT_DISTANCE}
     opt_c_api_constant<
       mp_list<oalp::distance_model>,
 #ifdef AL_EXPONENT_DISTANCE
@@ -179,6 +213,8 @@ public:
 #endif
       exponent_distance;
 
+    /// @var exponent_distance_clamped
+    /// @alconstwrap{EXPONENT_DISTANCE_CLAMPED}
     opt_c_api_constant<
       mp_list<oalp::distance_model>,
 #ifdef AL_EXPONENT_DISTANCE_CLAMPED
@@ -188,6 +224,8 @@ public:
 #endif
       exponent_distance_clamped;
 
+    /// @var source_state
+    /// @alconstwrap{SOURCE_STATE}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_SOURCE_STATE
@@ -197,6 +235,8 @@ public:
 #endif
       source_state;
 
+    /// @var source_type
+    /// @alconstwrap{SOURCE_TYPE}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_SOURCE_TYPE
@@ -206,6 +246,8 @@ public:
 #endif
       source_type;
 
+    /// @var source_relative
+    /// @alconstwrap{SOURCE_RELATIVE}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_SOURCE_RELATIVE
@@ -215,6 +257,8 @@ public:
 #endif
       source_relative;
 
+    /// @var looping
+    /// @alconstwrap{LOOPING}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_LOOPING
@@ -224,6 +268,8 @@ public:
 #endif
       looping;
 
+    /// @var position
+    /// @alconstwrap{POSITION}
     opt_c_api_constant<
       mp_list<listener_attribute, source_attribute>,
 #ifdef AL_POSITION
@@ -233,6 +279,8 @@ public:
 #endif
       position;
 
+    /// @var velocity
+    /// @alconstwrap{VELOCITY}
     opt_c_api_constant<
       mp_list<listener_attribute, source_attribute>,
 #ifdef AL_VELOCITY
@@ -242,6 +290,8 @@ public:
 #endif
       velocity;
 
+    /// @var gain
+    /// @alconstwrap{GAIN}
     opt_c_api_constant<
       mp_list<listener_attribute, source_attribute>,
 #ifdef AL_GAIN
@@ -251,6 +301,8 @@ public:
 #endif
       gain;
 
+    /// @var min_gain
+    /// @alconstwrap{MIN_GAIN}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_MIN_GAIN
@@ -260,6 +312,8 @@ public:
 #endif
       min_gain;
 
+    /// @var max_gain
+    /// @alconstwrap{MAX_GAIN}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_MAX_GAIN
@@ -269,6 +323,8 @@ public:
 #endif
       max_gain;
 
+    /// @var rolloff_factor
+    /// @alconstwrap{ROLLOFF_FACTOR}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_ROLLOFF_FACTOR
@@ -278,6 +334,8 @@ public:
 #endif
       rolloff_factor;
 
+    /// @var reference_distance
+    /// @alconstwrap{REFERENCE_DISTANCE}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_REFERENCE_DISTANCE
@@ -287,6 +345,8 @@ public:
 #endif
       reference_distance;
 
+    /// @var min_distance
+    /// @alconstwrap{MIN_DISTANCE}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_MIN_DISTANCE
@@ -296,6 +356,8 @@ public:
 #endif
       min_distance;
 
+    /// @var max_distance
+    /// @alconstwrap{MAX_DISTANCE}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_MAX_DISTANCE
@@ -305,6 +367,8 @@ public:
 #endif
       max_distance;
 
+    /// @var direction
+    /// @alconstwrap{DIRECTION}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_DIRECTION
@@ -314,6 +378,8 @@ public:
 #endif
       direction;
 
+    /// @var cone_inner_angle
+    /// @alconstwrap{CONE_INNER_ANGLE}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_CONE_INNER_ANGLE
@@ -323,6 +389,8 @@ public:
 #endif
       cone_inner_angle;
 
+    /// @var cone_outer_angle
+    /// @alconstwrap{cone_outer_angle}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_CONE_OUTER_ANGLE
@@ -332,6 +400,8 @@ public:
 #endif
       cone_outer_angle;
 
+    /// @var cone_outer_gain
+    /// @alconstwrap{CONE_OUTER_GAIN}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_CONE_OUTER_GAIN
@@ -341,6 +411,8 @@ public:
 #endif
       cone_outer_gain;
 
+    /// @var sec_offset
+    /// @alconstwrap{SEC_OFFSET}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_SEC_OFFSET
@@ -350,6 +422,8 @@ public:
 #endif
       sec_offset;
 
+    /// @var sample_offset
+    /// @alconstwrap{SAMPLE_OFFSET}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_SAMPLE_OFFSET
@@ -359,6 +433,8 @@ public:
 #endif
       sample_offset;
 
+    /// @var byte_offset
+    /// @alconstwrap{BYTE_OFFSET}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_BYTE_OFFSET
@@ -368,6 +444,8 @@ public:
 #endif
       byte_offset;
 
+    /// @var orientation
+    /// @alconstwrap{ORIENTATION}
     opt_c_api_constant<
       mp_list<listener_attribute>,
 #ifdef AL_ORIENTATION
@@ -377,6 +455,8 @@ public:
 #endif
       orientation;
 
+    /// @var current_buffer
+    /// @alconstwrap{CURRENT_BUFFER}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_BUFFER
@@ -386,6 +466,8 @@ public:
 #endif
       current_buffer;
 
+    /// @var buffers_queued
+    /// @alconstwrap{BUFFERS_QUEUED}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_BUFFERS_QUEUED
@@ -395,6 +477,8 @@ public:
 #endif
       buffers_queued;
 
+    /// @var buffers_processed
+    /// @alconstwrap{BUFFERS_PROCESSED}
     opt_c_api_constant<
       mp_list<source_attribute>,
 #ifdef AL_BUFFERS_PROCESSED
@@ -404,32 +488,52 @@ public:
 #endif
       buffers_processed;
 
+    /// @var meters_per_unit
+    /// @alconstwrap{METERS_PER_UNIT}
     dynamic_c_api_constant<mp_list<listener_attribute>, enum_type>
       meters_per_unit;
 
+    /// @var direct_filter`
+    /// @alconstwrap{DIRECT_FILTER}
     dynamic_c_api_constant<mp_list<source_attribute>, enum_type> direct_filter;
 
+    /// @var auxiliary_send_filter
+    /// @alconstwrap{AUXILIARY_SEND_FILTER}
     dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
       auxiliary_send_filter;
 
+    /// @var air_absorption_factor
+    /// @alconstwrap{AIR_ABSORPTION_FACTOR}
     dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
       air_absorption_factor;
 
+    /// @var room_rolloff_factor
+    /// @alconstwrap{ROOM_ROLLOFF_FACTOR}
     dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
       room_rolloff_factor;
 
+    /// @var cone_outer_gainhf
+    /// @alconstwrap{CONE_OUTER_GAINHF}
     dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
       cone_outer_gainhf;
 
+    /// @var direct_filter_gainhf_auto
+    /// @alconstwrap{DIRECT_FILTER_GAINHF_AUTO}
     dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
       direct_filter_gainhf_auto;
 
+    /// @var auxiliary_send_filter_gain_auto
+    /// @alconstwrap{AUXILIARY_SEND_FILTER_GAIN_AUTO}
     dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
       auxiliary_send_filter_gain_auto;
 
+    /// @var auxiliary_send_filter_gainhf_auto
+    /// @alconstwrap{AUXILIARY_SEND_FILTER_GAINHF_AUTO}
     dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
       auxiliary_send_filter_gainhf_auto;
 
+    /// @var frequency
+    /// @alconstwrap{FREQUENCY}
     opt_c_api_constant<
       mp_list<buffer_attribute>,
 #ifdef AL_FREQUENCY
@@ -439,6 +543,8 @@ public:
 #endif
       frequency;
 
+    /// @var size
+    /// @alconstwrap{SIZE}
     opt_c_api_constant<
       mp_list<buffer_attribute>,
 #ifdef AL_SIZE
@@ -448,6 +554,8 @@ public:
 #endif
       size;
 
+    /// @var bits
+    /// @alconstwrap{BITS}
     opt_c_api_constant<
       mp_list<buffer_attribute>,
 #ifdef AL_BITS
@@ -457,6 +565,8 @@ public:
 #endif
       bits;
 
+    /// @var channels
+    /// @alconstwrap{CHANNELS}
     opt_c_api_constant<
       mp_list<buffer_attribute>,
 #ifdef AL_CHANNELS
@@ -466,6 +576,8 @@ public:
 #endif
       channels;
 
+    /// @var format_mono8
+    /// @alconstwrap{FORMAT_MONO8}
     opt_c_api_constant<
       mp_list<buffer_format>,
 #ifdef AL_FORMAT_MONO8
@@ -475,6 +587,8 @@ public:
 #endif
       format_mono8;
 
+    /// @var format_mono16
+    /// @alconstwrap{FORMAT_MONO16}
     opt_c_api_constant<
       mp_list<buffer_format>,
 #ifdef AL_FORMAT_MONO16
@@ -484,6 +598,8 @@ public:
 #endif
       format_mono16;
 
+    /// @var format_stereo8
+    /// @alconstwrap{FORMAT_STEREO8}
     opt_c_api_constant<
       mp_list<buffer_format>,
 #ifdef AL_FORMAT_STEREO8
@@ -493,6 +609,8 @@ public:
 #endif
       format_stereo8;
 
+    /// @var format_stereo16
+    /// @alconstwrap{FORMAT_STEREO16}
     opt_c_api_constant<
       mp_list<buffer_format>,
 #ifdef AL_FORMAT_STEREO16
@@ -502,6 +620,8 @@ public:
 #endif
       format_stereo16;
 
+    /// @var undetermined
+    /// @alconstwrap{UNDETERMINED}
     opt_c_api_constant<
       mp_list<oalp::source_type>,
 #ifdef AL_UNDETERMINED
@@ -511,6 +631,8 @@ public:
 #endif
       undetermined;
 
+    /// @var static_
+    /// @alconstwrap{STATIC}
     opt_c_api_constant<
       mp_list<oalp::source_type>,
 #ifdef AL_STATIC
@@ -520,6 +642,8 @@ public:
 #endif
       static_;
 
+    /// @var streaming
+    /// @alconstwrap{STREAMING}
     opt_c_api_constant<
       mp_list<oalp::source_type>,
 #ifdef AL_STREAMING
@@ -529,6 +653,8 @@ public:
 #endif
       streaming;
 
+    /// @var initial
+    /// @alconstwrap{INITIAL}
     opt_c_api_constant<
       mp_list<oalp::source_state>,
 #ifdef AL_INITIAL
@@ -538,6 +664,8 @@ public:
 #endif
       initial;
 
+    /// @var playing
+    /// @alconstwrap{PLAYING}
     opt_c_api_constant<
       mp_list<oalp::source_state>,
 #ifdef AL_PLAYING
@@ -547,6 +675,8 @@ public:
 #endif
       playing;
 
+    /// @var paused
+    /// @alconstwrap{PAUSED}
     opt_c_api_constant<
       mp_list<oalp::source_state>,
 #ifdef AL_PAUSED
@@ -556,6 +686,8 @@ public:
 #endif
       paused;
 
+    /// @var stopped
+    /// @alconstwrap{STOPPED}
     opt_c_api_constant<
       mp_list<oalp::source_state>,
 #ifdef AL_STOPPED
@@ -565,6 +697,8 @@ public:
 #endif
       stopped;
 
+    /// @var none
+    /// @alconstwrap{NONE}
     opt_c_api_constant<
       mp_list<oalp::distance_model>,
 #ifdef AL_NONE

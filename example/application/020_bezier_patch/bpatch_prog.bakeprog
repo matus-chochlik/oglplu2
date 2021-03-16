@@ -1,0 +1,4 @@
+--vertex;vertex.glsl;
+--tess-control;tes_ctrl.glsl;
+--tess-evaluation;tes_eval.glsl;
+--fragment;fragment.glsl;

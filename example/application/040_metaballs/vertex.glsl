@@ -1,6 +1,6 @@
 #version 430
 
-uniform mat4 ProjectionMatrix;
+uniform mat4 CameraMatrix;
 uniform int PlaneCount;
 uniform int DivCount;
 
@@ -38,7 +38,7 @@ vec3 cornerPosition(ivec3 coord) {
 
 void main() {
 	ivec3 coord = cornerCoord();
-    gl_Position = ProjectionMatrix * vec4(cornerPosition(coord), 1.0);
+    gl_Position = CameraMatrix * vec4(cornerPosition(coord), 1.0);
 	FieldSample point = field.point[fieldIndex(coord)];
 	vertColor = point.color;
 	vertValue = point.value;

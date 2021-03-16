@@ -34,12 +34,14 @@ set(EAGINE_LIB_SOURCES
 	message_bus_router.cpp
 	message_bus_bridge.cpp
 	shapes_base.cpp
+	shapes_topology.cpp
 	shapes_cube.cpp
 	shapes_torus.cpp
 	shapes_sphere.cpp
 	shapes_icosahedron.cpp
 	shapes_value_tree.cpp
 	shapes_modifiers.cpp
+	shapes_adjacency.cpp
 	shapes_to_quads.cpp
 	shapes_to_patches.cpp
 	random.cpp

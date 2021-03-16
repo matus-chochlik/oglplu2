@@ -4,21 +4,24 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 
+configure_file(conf.py.in conf.py @ONLY)
+
 file(
 	GLOB_RECURSE DOC_INPUT_SOURCES
 	LIST_DIRECTORIES FALSE
+	${CMAKE_CURRENT_SOURCE_DIR}/conf.py
 	${CMAKE_CURRENT_SOURCE_DIR}/*.rst
-	${PROJECT_SOURCE_DIR}/include/*.hpp
-	${PROJECT_SOURCE_DIR}/example/*.hpp
-	${PROJECT_SOURCE_DIR}/example/*.cpp
 )
 
 add_custom_command(
 	OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/sphinx/index.html"
 	COMMAND ${SPHINX_EXECUTABLE}
-	ARGS ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/sphinx
+	ARGS
+		-c ${CMAKE_CURRENT_BINARY_DIR}
+		${CMAKE_CURRENT_SOURCE_DIR}
+		${CMAKE_CURRENT_BINARY_DIR}/sphinx
 	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-	DEPENDS ${DOC_INPUT_SOURCES}
+	DEPENDS ${DOC_INPUT_SOURCES} doc-doxygen-xml
 	COMMENT "Generating Sphinx HTML documentation"
 )
 

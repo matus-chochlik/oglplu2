@@ -13,7 +13,7 @@ namespace eagine::oglp {
 template <typename A>
 inline shape_generator::shape_generator(
   const basic_gl_api<A>& api,
-  std::unique_ptr<shapes::generator_intf>&& gen)
+  std::shared_ptr<shapes::generator> gen)
   : _gen{std::move(gen)} {
     using shapes::generator_capability;
     auto& GL = api.constants();

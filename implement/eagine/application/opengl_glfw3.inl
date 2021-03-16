@@ -7,6 +7,7 @@
 ///
 
 #include <eagine/application/context.hpp>
+#include <eagine/diagnostic.hpp>
 #include <eagine/flat_set.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/config/basic.hpp>
@@ -16,12 +17,12 @@ namespace eagine::application {
 #if OGLPLUS_GLFW3_FOUND
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdocumentation"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(documentation)
 #endif
 #include <GLFW/glfw3.h>
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif
 
 #endif // OGLPLUS_GLFW3_FOUND

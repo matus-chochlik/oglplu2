@@ -10,8 +10,8 @@
 #include <eagine/math/constants.hpp>
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdouble-promotion"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(double-promotion)
 #endif
 
 namespace eagine {
@@ -19,12 +19,14 @@ namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto unit_icosahedron_gen::_attr_mask() noexcept -> vertex_attrib_bits {
-    return vertex_attrib_kind::position | vertex_attrib_kind::box_coord;
+    return vertex_attrib_kind::position | vertex_attrib_kind::normal |
+           vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto unit_icosahedron_gen::_shared_attrs() noexcept -> vertex_attrib_bits {
-    return vertex_attrib_kind::position | vertex_attrib_kind::box_coord;
+    return vertex_attrib_kind::position | vertex_attrib_kind::normal |
+           vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -81,6 +83,15 @@ void unit_icosahedron_gen::positions(span<float> dest) noexcept {
     EAGINE_ASSERT(k == vertex_count() * 3);
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_icosahedron_gen::normals(span<float> dest) noexcept {
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
+    positions(dest);
+    for(auto& x : head(dest, vertex_count() * 3)) {
+        x *= 2.F;
+    }
+}
+//------------------------------------------------------------------------------
 void unit_icosahedron_gen::attrib_values(
   vertex_attrib_variant vav,
   span<float> dest) {
@@ -88,13 +99,15 @@ void unit_icosahedron_gen::attrib_values(
         case vertex_attrib_kind::position:
             positions(dest);
             break;
+        case vertex_attrib_kind::normal:
+            normals(dest);
+            break;
         case vertex_attrib_kind::pivot:
         case vertex_attrib_kind::vertex_pivot:
         case vertex_attrib_kind::pivot_pivot:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::polygon_id:
         case vertex_attrib_kind::material_id:
-        case vertex_attrib_kind::normal:
         case vertex_attrib_kind::tangential:
         case vertex_attrib_kind::bitangential:
         case vertex_attrib_kind::face_coord:
@@ -246,5 +259,5 @@ auto unit_icosahedron_gen::bounding_sphere() -> math::sphere<float, true> {
 } // namespace eagine
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif

@@ -13,8 +13,8 @@
 #include <cmath>
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdouble-promotion"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(double-promotion)
 #endif
 
 namespace eagine::math {
@@ -154,7 +154,7 @@ using matrix_rotation_z =
 } // namespace eagine::math
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif
 
 #endif // EAGINE_MATH_MATRIX_ROTATION_HPP

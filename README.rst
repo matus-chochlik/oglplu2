@@ -77,9 +77,7 @@ between versions of the same distribution so they are not listed here).
 Building
 ========
 
-OGLplus2 uses a CMake-based build/configuration system. The library itself
-is header-only, which means that applications using it do not need to link
-to a compiled library, but need just to include the header files.
+OGLplus2 uses a CMake-based build/configuration system.
 
 The build system handles several important tasks:
 

@@ -10,14 +10,15 @@
 #define EAGINE_TAGGED_QUANTITY_HPP
 
 #include "compare.hpp"
+#include "diagnostic.hpp"
 #include "units/default.hpp"
 #include "units/traits.hpp"
 #include <cmath>
 #include <type_traits>
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdouble-promotion"
+EAGINE_DIAG_PUSH()
+EAGINE_DIAG_OFF(double-promotion)
 #endif
 
 namespace eagine {
@@ -364,7 +365,7 @@ constexpr auto operator/(const tagged_quantity<T1, U1>& a, U2) {
 } // namespace eagine
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+EAGINE_DIAG_POP()
 #endif
 
 #endif // EAGINE_TAGGED_QUANTITY_HPP

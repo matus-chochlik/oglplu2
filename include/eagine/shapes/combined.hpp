@@ -16,9 +16,9 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
-class combined_gen : public generator_intf {
+class combined_gen : public generator {
 private:
-    std::vector<std::unique_ptr<generator_intf>> _gens;
+    std::vector<std::unique_ptr<generator>> _gens;
 
     template <typename T>
     void _indices(drawing_variant, span<T> dest);
@@ -27,10 +27,10 @@ private:
     void _attrib_values(vertex_attrib_variant, span<T>);
 
 public:
-    combined_gen(std::vector<std::unique_ptr<generator_intf>>&& gens) noexcept
+    combined_gen(std::vector<std::unique_ptr<generator>>&& gens) noexcept
       : _gens{std::move(gens)} {}
 
-    auto add(std::unique_ptr<generator_intf>&& gen) && -> combined_gen&&;
+    auto add(std::unique_ptr<generator>&& gen) && -> combined_gen&&;
 
     auto attrib_bits() noexcept -> vertex_attrib_bits final;
 
@@ -79,17 +79,16 @@ public:
       span<optionally_valid<float>> intersections) override;
 };
 //------------------------------------------------------------------------------
-static inline auto combine(std::unique_ptr<generator_intf>&& gen) {
-    std::vector<std::unique_ptr<generator_intf>> v;
+static inline auto combine(std::unique_ptr<generator>&& gen) {
+    std::vector<std::unique_ptr<generator>> v;
     v.reserve(1);
     v.emplace_back(std::move(gen));
     return std::make_unique<combined_gen>(std::move(v));
 }
 //------------------------------------------------------------------------------
 template <std::size_t N>
-static inline auto
-combine(std::array<std::unique_ptr<generator_intf>, N>&& gens) {
-    std::vector<std::unique_ptr<generator_intf>> v;
+static inline auto combine(std::array<std::unique_ptr<generator>, N>&& gens) {
+    std::vector<std::unique_ptr<generator>> v;
     v.reserve(N);
     for(auto& gen : gens) {
         v.emplace_back(std::move(gen));
