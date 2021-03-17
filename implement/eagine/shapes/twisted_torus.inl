@@ -284,26 +284,28 @@ EAGINE_LIB_FUNC
 void unit_twisted_torus_gen::instructions(
   drawing_variant var,
   span<draw_operation> ops) {
-    EAGINE_ASSERT(ops.size() >= operation_count(var));
+    if(var == 0) {
+        EAGINE_ASSERT(ops.size() >= operation_count(var));
 
-    span_size_t strip = 2 * (_rings + 1);
-    span_size_t offs = 0;
+        span_size_t strip = 2 * (_rings + 1);
+        span_size_t offs = 0;
 
-    auto opi = ops.begin();
-    for(auto f : integer_range(4)) {
-        for(auto s : integer_range(_sections)) {
-            EAGINE_ASSERT(opi != ops.end());
-            EAGINE_MAYBE_UNUSED(s);
-            draw_operation& op = *opi++;
+        auto opi = ops.begin();
+        for(auto f : integer_range(4)) {
+            for(auto s : integer_range(_sections)) {
+                EAGINE_ASSERT(opi != ops.end());
+                EAGINE_MAYBE_UNUSED(s);
+                draw_operation& op = *opi++;
 
-            op.mode = primitive_type::triangle_strip;
-            op.idx_type = index_data_type::none;
-            op.first = offs;
-            op.count = strip;
-            op.phase = f;
-            op.primitive_restart = false;
-            op.cw_face_winding = true;
-            offs += strip;
+                op.mode = primitive_type::triangle_strip;
+                op.idx_type = index_data_type::none;
+                op.first = offs;
+                op.count = strip;
+                op.phase = f;
+                op.primitive_restart = false;
+                op.cw_face_winding = true;
+                offs += strip;
+            }
         }
     }
 }
