@@ -95,7 +95,7 @@ static inline auto unit_twisted_torus(
 /// @see unit_icosahedron
 /// @see unit_screen
 static inline auto unit_twisted_torus(vertex_attrib_bits attr_bits) {
-    return unit_twisted_torus(attr_bits, 12, 24, 12, 0.5F);
+    return unit_twisted_torus(attr_bits, 12, 38, 12, 0.5F);
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

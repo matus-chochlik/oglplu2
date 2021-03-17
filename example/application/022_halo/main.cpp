@@ -15,6 +15,7 @@
 #include <eagine/shapes/adjacency.hpp>
 #include <eagine/shapes/icosahedron.hpp>
 #include <eagine/shapes/torus.hpp>
+#include <eagine/shapes/twisted_torus.hpp>
 #include <eagine/shapes/value_tree.hpp>
 #include <eagine/timeout.hpp>
 #include <eagine/value_tree/json.hpp>
@@ -140,6 +141,10 @@ public:
 
         if(ctx.args().find("--icosahedron")) {
             gen = shapes::unit_icosahedron(
+              shapes::vertex_attrib_kind::position |
+              shapes::vertex_attrib_kind::normal);
+        } else if(ctx.args().find("--twisted-torus")) {
+            gen = shapes::unit_twisted_torus(
               shapes::vertex_attrib_kind::position |
               shapes::vertex_attrib_kind::normal);
         } else if(ctx.args().find("--torus")) {
