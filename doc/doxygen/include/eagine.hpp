@@ -73,4 +73,6 @@ namespace application {
 /// @defgroup application Application wrapper
 }
 
+/// @defgroup dyn_lib Dynamically-linked libraries
+
 } // namespace eagine
