@@ -72,10 +72,10 @@ eagine_example_common(make_index)
 eagine_example_common(value_tree)
 eagine_example_common(memoized)
 eagine_example_common(c_api_wrap)
+eagine_example_common(dyn_lib_lookup)
 eagine_example_common(sudoku_solver)
 eagine_example_common(sudoku_tiling)
 eagine_example_common(sudoku_noise)
-
 eagine_example_common(shape_topology)
 #
 eagine_example_common(embed_self)
