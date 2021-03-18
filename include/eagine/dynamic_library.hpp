@@ -9,6 +9,7 @@
 #ifndef EAGINE_DYNAMIC_LIBRARY_HPP
 #define EAGINE_DYNAMIC_LIBRARY_HPP
 
+#include "callable_ref.hpp"
 #include "config/platform.hpp"
 #include "nothing.hpp"
 #include "string_span.hpp"
@@ -34,10 +35,10 @@ public:
     executable_module(executable_module&&) = delete;
 
     /// @brief Not move assignable.
-    executable_module& operator=(const executable_module&) = delete;
+    auto operator=(const executable_module&) = delete;
 
     /// @brief Not copy assignable.
-    executable_module& operator=(executable_module&&) = delete;
+    auto operator=(executable_module&&) = delete;
 
     /// @brief Alias for the handle type.
     using handle_type = void*;
@@ -65,14 +66,14 @@ public:
 
     /// @brief Checks if the module is open.
     /// @see find_symbol
-    bool is_open() const noexcept {
+    auto is_open() const noexcept -> bool {
         return bool(_handle);
     }
 
     /// @brief Returns a pointer to the exported symbol with the specifed name.
     /// @see is_open
     /// @see error_message
-    optionally_valid<void*> find_symbol(string_view name) {
+    auto find_symbol(string_view name) -> optionally_valid<void*> {
         ::dlerror();
         void* result = ::dlsym(_handle, c_str(name));
         if(auto error = ::dlerror()) {
@@ -83,7 +84,7 @@ public:
     }
 
     /// @brief Returns the user-readable error message from the last failed operation.
-    string_view error_message() const noexcept {
+    auto error_message() const noexcept -> string_view {
         return {_message};
     }
 
@@ -113,7 +114,7 @@ public:
     /// @brief Opens the current executable module. Closes the previous one, if any.
     /// @see open
     /// @see is_open
-    shared_executable_module& open_self() {
+    auto open_self() -> auto& {
         _module = _do_open(nothing);
         return *this;
     }
@@ -121,7 +122,7 @@ public:
     /// @brief Opens the specified executable module. Closes the previous one, if any.
     /// @see open_self
     /// @see is_open
-    shared_executable_module& open(string_view filename) {
+    auto open(string_view filename) -> auto& {
         _module = _do_open(filename);
         return *this;
     }
@@ -129,7 +130,7 @@ public:
     /// @brief Indicates if this executable module is open.
     /// @see open
     /// @see open_self
-    bool is_open() const noexcept {
+    auto is_open() const noexcept -> bool {
         return bool(_module) && _module->is_open();
     }
 
@@ -140,19 +141,31 @@ public:
     }
 
     /// @brief Returns a human-readable error message from the last failed operation.
-    string_view error_message() const noexcept {
+    auto error_message() const noexcept -> string_view {
         return bool(_module) ? _module->error_message() : string_view();
+    }
+
+    /// @brief Tests if this executable module exports the specified symbol.
+    /// @see is_open
+    /// @see find
+    auto exports(string_view name) const noexcept -> bool {
+        if(is_open()) {
+            if(auto found{_module->find_symbol(name)}) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /// @brief Finds and returns pointer to exported function with the specified name.
     /// @see is_open
+    /// @see exports
     template <typename Signature>
-    std::enable_if_t<
+    auto find(string_view name) const noexcept -> std::enable_if_t<
       std::is_function_v<std::remove_pointer_t<Signature>>,
-      optionally_valid<std::remove_pointer_t<Signature>*>>
-    find(string_view name) const noexcept {
+      callable_ref<std::remove_pointer_t<Signature>>> {
         if(is_open()) {
-            if(auto found = _module->find_symbol(name)) {
+            if(auto found{_module->find_symbol(name)}) {
                 return {
                   reinterpret_cast<std::remove_pointer_t<Signature>*>(
                     extract(found)),
@@ -165,11 +178,12 @@ public:
 private:
     std::shared_ptr<executable_module> _module{};
 
-    static std::shared_ptr<executable_module> _do_open(string_view filename) {
+    static auto _do_open(string_view filename)
+      -> std::shared_ptr<executable_module> {
         return std::make_shared<executable_module>(filename, RTLD_LAZY);
     }
 
-    static std::shared_ptr<executable_module> _do_open(nothing_t) {
+    static auto _do_open(nothing_t) -> std::shared_ptr<executable_module> {
         return std::make_shared<executable_module>(nothing, RTLD_LAZY);
     }
 };
