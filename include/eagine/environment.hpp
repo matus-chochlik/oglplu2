@@ -16,6 +16,8 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 /// @brief Returns the value in the specified environment variable.
+/// @ingroup main_context
+/// @see application_config
 static inline auto get_environment_variable(string_view variable_name) noexcept
   -> optionally_valid<string_view> {
     if(auto value = ::getenv(c_str(variable_name))) {

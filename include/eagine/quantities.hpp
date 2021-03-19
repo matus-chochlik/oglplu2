@@ -83,6 +83,13 @@ static constexpr auto turns_(T value) noexcept {
     return radians_(value * math::pi * 2);
 }
 
+/// @brief Overload of sine for quantities of angle.
+/// @ingroup units
+/// @see radians_
+/// @see degrees_
+/// @see right_angles_
+/// @see turns_
+/// @relates tagged_quantity
 template <
   typename Qty,
   typename = std::enable_if_t<is_convertible_quantity_v<Qty, units::radian>>>
@@ -91,6 +98,13 @@ static constexpr auto sin(const Qty& qty) {
     return sin(value(convert_to<units::radian>(qty)));
 }
 
+/// @brief Overload of cosine for quantities of angle.
+/// @ingroup units
+/// @see radians_
+/// @see degrees_
+/// @see right_angles_
+/// @see turns_
+/// @relates tagged_quantity
 template <
   typename Qty,
   typename = std::enable_if_t<is_convertible_quantity_v<Qty, units::radian>>>
@@ -99,6 +113,13 @@ static constexpr auto cos(const Qty& qty) {
     return cos(value(convert_to<units::radian>(qty)));
 }
 
+/// @brief Overload of tangens for quantities of angle.
+/// @ingroup units
+/// @see radians_
+/// @see degrees_
+/// @see right_angles_
+/// @see turns_
+/// @relates tagged_quantity
 template <
   typename Qty,
   typename = std::enable_if_t<is_convertible_quantity_v<Qty, units::radian>>>
@@ -107,18 +128,39 @@ static constexpr auto tan(const Qty& qty) {
     return tan(value(convert_to<units::radian>(qty)));
 }
 
+/// @brief Overload of arc sine for quantities of angle.
+/// @ingroup units
+/// @see radians_
+/// @see degrees_
+/// @see right_angles_
+/// @see turns_
+/// @relates tagged_quantity
 template <typename T>
 static constexpr auto arcsin(T x) {
     using std::asin;
     return make_tagged_quantity<units::radian>(asin(x));
 }
 
+/// @brief Overload of arc cosine for quantities of angle.
+/// @ingroup units
+/// @see radians_
+/// @see degrees_
+/// @see right_angles_
+/// @see turns_
+/// @relates tagged_quantity
 template <typename T>
 static constexpr auto arccos(T x) {
     using std::acos;
     return make_tagged_quantity<units::radian>(acos(x));
 }
 
+/// @brief Overload of tangens for quantities of angle.
+/// @ingroup units
+/// @see radians_
+/// @see degrees_
+/// @see right_angles_
+/// @see turns_
+/// @relates tagged_quantity
 template <typename T>
 static constexpr auto arctan(T y, T x) {
     using std::atan2;
