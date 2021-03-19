@@ -11,6 +11,8 @@
 
 #include "default.hpp"
 #include "unit/si/angle.hpp"
+#include "unit/si/temperature.hpp"
+#include "unit/si/time.hpp"
 
 namespace eagine::units {
 namespace scales {
