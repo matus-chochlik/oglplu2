@@ -440,7 +440,7 @@ private:
         message_sequence_t query_sequence{0};
         default_sudoku_board_traits<S> traits;
         timeout search_timeout{std::chrono::seconds(3), nothing};
-        timeout solution_timeout{std::chrono::seconds(S * S * S * S)};
+        timeout solution_timeout{std::chrono::seconds(S * S * S * S * S)};
 
         flat_map<Key, std::vector<basic_sudoku_board<S>>> key_boards;
 
