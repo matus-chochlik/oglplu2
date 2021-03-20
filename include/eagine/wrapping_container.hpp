@@ -16,6 +16,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+/// @brief Template used in implementation of containers with wrapped elements.
 template <
   typename Container,
   typename Wrapper,
@@ -23,30 +24,16 @@ template <
   T initial = T{},
   typename Transform = typename Wrapper::transform>
 class basic_wrapping_container : private Transform {
-private:
-    constexpr auto _transf() const noexcept -> const Transform& {
-        return *this;
-    }
-
-    Container _items{};
-
-    static constexpr void _initialize(Container& items) {
-        using std::begin;
-        using std::end;
-        using std::fill;
-        fill(begin(items), end(items), initial);
-    }
-
-    auto _release_items() noexcept {
-        Container items{std::move(_items)};
-        _intialize(_items);
-        return items;
-    }
-
 public:
     using wrapper_type = Wrapper;
 
-    constexpr basic_wrapping_container() noexcept {
+    constexpr explicit basic_wrapping_container() noexcept {
+        _initialize(_items);
+    }
+
+    constexpr explicit basic_wrapping_container(
+      typename Container::size_type count) {
+        _items.resize(count);
         _initialize(_items);
     }
 
@@ -128,6 +115,26 @@ public:
 
     constexpr auto raw_items() const noexcept {
         return view(_items);
+    }
+
+private:
+    constexpr auto _transf() const noexcept -> const Transform& {
+        return *this;
+    }
+
+    Container _items{};
+
+    static constexpr void _initialize(Container& items) {
+        using std::begin;
+        using std::end;
+        using std::fill;
+        fill(begin(items), end(items), initial);
+    }
+
+    auto _release_items() noexcept {
+        Container items{std::move(_items)};
+        _intialize(_items);
+        return items;
     }
 };
 //------------------------------------------------------------------------------
