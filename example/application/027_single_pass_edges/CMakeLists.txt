@@ -3,11 +3,11 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-oglplus_add_glsl_program(single_pass_edges_prog)
+oglplus_add_glsl_program(single_pass_edges)
 add_executable(application-027_single_pass_edges main.cpp resources.cpp)
 eagine_embed_packed_target_resources(
 	application-027_single_pass_edges
-	single_pass_edges_prog
+	single_pass_edges.oglpprog
 )
 eagine_add_exe_analysis(application-027_single_pass_edges)
 

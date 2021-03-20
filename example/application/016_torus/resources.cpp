@@ -24,7 +24,7 @@ void torus_program::init(execution_context& ec, video_context& vc) {
 
     gl.create_program() >> prog;
 
-    const auto prog_src{embed(EAGINE_ID(prog), "example.oglpprog")};
+    const auto prog_src{embed(EAGINE_ID(prog), "checker_torus.oglpprog")};
     gl.build_program(prog, prog_src.unpack(ec));
     gl.use_program(prog);
 

@@ -24,7 +24,7 @@ void cube_program::init(execution_context& ec, video_context& vc) {
 
     gl.create_program() >> prog;
 
-    const auto prog_src{embed(EAGINE_ID(prog), "recursive_cube_prog")};
+    const auto prog_src{embed(EAGINE_ID(prog), "recursive_cube.oglpprog")};
     gl.build_program(prog, prog_src.unpack(ec));
     gl.use_program(prog);
 

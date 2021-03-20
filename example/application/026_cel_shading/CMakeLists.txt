@@ -3,11 +3,11 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-oglplus_add_glsl_program(cel_shading_prog)
+oglplus_add_glsl_program(cel_shading)
 add_executable(application-026_cel_shading main.cpp resources.cpp)
 eagine_embed_packed_target_resources(
 	application-026_cel_shading
-	cel_shading_prog
+	cel_shading.oglpprog
 )
 eagine_add_exe_analysis(application-026_cel_shading)
 

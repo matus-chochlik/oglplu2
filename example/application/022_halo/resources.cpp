@@ -24,7 +24,7 @@ void surface_program::init(execution_context& ec, video_context& vc) {
 
     gl.create_program() >> _prog;
 
-    const auto prog_src{embed(EAGINE_ID(SurfProg), "surface.oglpprog")};
+    const auto prog_src{embed(EAGINE_ID(SurfProg), "halo_surface.oglpprog")};
     gl.build_program(_prog, prog_src.unpack(ec));
     gl.use_program(_prog);
 
@@ -72,7 +72,7 @@ void halo_program::init(execution_context& ec, video_context& vc) {
 
     gl.create_program() >> _prog;
 
-    const auto prog_src{embed(EAGINE_ID(HaloProg), "halo.oglpprog")};
+    const auto prog_src{embed(EAGINE_ID(HaloProg), "halo_halo.oglpprog")};
     gl.build_program(_prog, prog_src.unpack(ec));
     gl.use_program(_prog);
 

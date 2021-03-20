@@ -133,7 +133,8 @@ void metaball_program::init(example& e) {
     gl.delete_program.later_by(e, _prog);
     gl.create_program() >> _prog;
 
-    const auto prog_src{embed(EAGINE_ID(MBallProg), "metaball_prog.oglpprog")};
+    const auto prog_src{
+      embed(EAGINE_ID(MBallProg), "metaballs_metaball.oglpprog")};
     gl.build_program(_prog, prog_src.unpack(e.ctx()));
     gl.use_program(_prog);
 }
@@ -161,7 +162,8 @@ void field_program::init(example& e) {
     gl.delete_program.later_by(e, _prog);
     gl.create_program() >> _prog;
 
-    const auto prog_src{embed(EAGINE_ID(FieldProg), "field_prog.oglpprog")};
+    const auto prog_src{
+      embed(EAGINE_ID(FieldProg), "metaballs_field.oglpprog")};
     gl.build_program(_prog, prog_src.unpack(e.ctx()));
     gl.use_program(_prog);
 
@@ -202,7 +204,8 @@ void surface_program::init(example& e) {
     gl.delete_program.later_by(e, _prog);
     gl.create_program() >> _prog;
 
-    const auto prog_src{embed(EAGINE_ID(SurfProg), "surface_prog.oglpprog")};
+    const auto prog_src{
+      embed(EAGINE_ID(SurfProg), "metaballs_surface.oglpprog")};
     gl.build_program(_prog, prog_src.unpack(e.ctx()));
     gl.use_program(_prog);
 

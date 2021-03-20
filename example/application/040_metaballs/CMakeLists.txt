@@ -3,16 +3,16 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-oglplus_add_glsl_program(metaball_prog)
-oglplus_add_glsl_program(field_prog)
-oglplus_add_glsl_program(surface_prog)
+oglplus_add_glsl_program(metaballs_metaball)
+oglplus_add_glsl_program(metaballs_field)
+oglplus_add_glsl_program(metaballs_surface)
 
 add_executable(application-040_metaballs main.cpp resources.cpp)
 eagine_embed_packed_target_resources(
 	application-040_metaballs
-	metaball_prog
-	field_prog
-	surface_prog
+	metaballs_metaball
+	metaballs_field
+	metaballs_surface
 )
 eagine_add_exe_analysis(application-040_metaballs)
 
