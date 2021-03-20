@@ -25,41 +25,6 @@ namespace eagine {
 ///
 /// Efficiently stores a sequence of string elements in a single block of memory.
 class basic_string_path {
-private:
-    span_size_t _size{0};
-    std::string _str{};
-
-    template <typename Str>
-    void _init(span<Str> names) {
-        span_size_t len = 2 * names.size();
-        for(const auto& name : names) {
-            len += span_size(name.size());
-        }
-        _str.reserve(std_size(len));
-
-        for(const auto& name : names) {
-            push_back(name);
-        }
-        EAGINE_ASSERT(span_size(_str.size()) == len);
-    }
-
-    static inline auto _fix(string_view str) noexcept -> string_view {
-        while(str.size() > 0) {
-            if(str[str.size() - 1] == '\0') {
-                str = string_view(str.data(), str.size() - 1);
-            } else {
-                break;
-            }
-        }
-        return str;
-    }
-
-    template <typename... Str>
-    static inline auto _pack_names(const Str&... n) noexcept
-      -> std::array<string_view, sizeof...(Str)> {
-        return {{_fix(n)...}};
-    }
-
 public:
     /// @brief The element value type.
     using value_type = string_view;
@@ -309,6 +274,41 @@ public:
     /// @brief Returns a block covering the internal representation of this path.
     auto block() noexcept -> memory::const_block {
         return as_bytes(view(_str));
+    }
+
+private:
+    span_size_t _size{0};
+    std::string _str{};
+
+    template <typename Str>
+    void _init(span<Str> names) {
+        span_size_t len = 2 * names.size();
+        for(const auto& name : names) {
+            len += span_size(name.size());
+        }
+        _str.reserve(std_size(len));
+
+        for(const auto& name : names) {
+            push_back(name);
+        }
+        EAGINE_ASSERT(span_size(_str.size()) == len);
+    }
+
+    static inline auto _fix(string_view str) noexcept -> string_view {
+        while(str.size() > 0) {
+            if(str[str.size() - 1] == '\0') {
+                str = string_view(str.data(), str.size() - 1);
+            } else {
+                break;
+            }
+        }
+        return str;
+    }
+
+    template <typename... Str>
+    static inline auto _pack_names(const Str&... n) noexcept
+      -> std::array<string_view, sizeof...(Str)> {
+        return {{_fix(n)...}};
     }
 };
 //------------------------------------------------------------------------------

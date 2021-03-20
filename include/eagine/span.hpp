@@ -138,7 +138,7 @@ make_span_getter(span_size_t& i, const Src& src, Transform transform) {
     return make_span_getter(i, view(src), std::move(transform));
 }
 //------------------------------------------------------------------------------
-/// @brief Makes a callable setting consecutive elementsof a span starting at i.
+/// @brief Makes a callable setting consecutive elements of a span starting at i.
 /// @ingroup memory
 /// @see make_span_getter
 /// @relates memory::basic_span
@@ -161,9 +161,9 @@ static inline auto make_span_putter(span_size_t& o, Dst& dst) {
     return make_span_putter(o, cover(dst));
 }
 //------------------------------------------------------------------------------
-/// @brief Makes a callable setting consecutive elementsof a span starting at i.
+/// @brief Makes a callable setting consecutive elements of a span starting at i.
 /// @ingroup memory
-/// @param transform transformation operation to the applied
+/// @param transform transformation operation to be applied
 /// @see make_span_getter
 /// @relates memory::basic_span
 /// The constructed callable takes a single value explicitly convertible to the
