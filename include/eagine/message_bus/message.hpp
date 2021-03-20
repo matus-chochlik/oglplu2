@@ -478,7 +478,7 @@ public:
 
     using bit_set = std::uint64_t;
 
-    auto pack_into(memory::block dest) -> bit_set;
+    auto pack_into(memory::block dest) -> std::tuple<bit_set, span_size_t>;
 
     void cleanup(bit_set to_be_removed);
 
@@ -587,7 +587,7 @@ struct connection_outgoing_messages {
       const message_view&,
       memory::block) -> bool;
 
-    auto pack_into(memory::block dest) -> bit_set {
+    auto pack_into(memory::block dest) -> std::tuple<bit_set, span_size_t> {
         return serialized.pack_into(dest);
     }
 

@@ -165,7 +165,8 @@ struct asio_connection_group : interface<asio_connection_group<Kind, Proto>> {
     using bit_set = typename serialized_message_storage::bit_set;
     using endpoint_type = asio_endpoint_type<Kind, Proto>;
 
-    virtual auto pack_into(endpoint_type&, memory::block) -> bit_set = 0;
+    virtual auto pack_into(endpoint_type&, memory::block)
+      -> std::tuple<bit_set, span_size_t> = 0;
 
     virtual void on_sent(const endpoint_type&, bit_set to_be_removed) = 0;
 
@@ -187,6 +188,8 @@ struct asio_connection_state
     memory::buffer push_buffer{};
     memory::buffer read_buffer{};
     memory::buffer write_buffer{};
+    span_size_t total_used_size{0};
+    span_size_t total_sent_size{0};
     bool is_sending{false};
     bool is_recving{false};
 
@@ -236,6 +239,19 @@ struct asio_connection_state
         return false;
     }
 
+    auto log_usage_stats(span_size_t threshold = 0) -> bool {
+        if(EAGINE_UNLIKELY(total_sent_size >= threshold)) {
+            const auto slack =
+              1.F - float(total_used_size) / float(total_sent_size);
+            log_stat("message slack ratio: ${slack}")
+              .arg(EAGINE_ID(usedSize), EAGINE_ID(ByteSize), total_used_size)
+              .arg(EAGINE_ID(sentSize), EAGINE_ID(ByteSize), total_sent_size)
+              .arg(EAGINE_ID(slack), EAGINE_ID(Ratio), slack);
+            return true;
+        }
+        return false;
+    }
+
     template <typename Handler>
     void do_start_send(
       stream_protocol_tag,
@@ -257,34 +273,47 @@ struct asio_connection_state
     }
 
     void do_start_send(asio_connection_group<Kind, Proto>& group) {
+        using std::get;
 
         endpoint_type target_endpoint{conn_endpoint};
-        if(const auto packed_messages{
-             group.pack_into(target_endpoint, cover(write_buffer))}) {
+        const auto packed =
+          group.pack_into(target_endpoint, cover(write_buffer));
+        if(get<0>(packed)) {
             is_sending = true;
             const auto blk = view(write_buffer);
 
-            log_trace("sending data (size: ${size})")
-              .arg(EAGINE_ID(packed), EAGINE_ID(bits), packed_messages)
-              .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size())
+            log_trace("sending data")
+              .arg(EAGINE_ID(packed), EAGINE_ID(bits), get<0>(packed))
+              .arg(EAGINE_ID(usedSize), EAGINE_ID(ByteSize), get<1>(packed))
+              .arg(EAGINE_ID(sentSize), EAGINE_ID(ByteSize), blk.size())
               .arg(EAGINE_ID(block), blk);
 
             do_start_send(
               connection_protocol_tag<Proto>{},
               target_endpoint,
               blk,
-              [this,
-               &group,
-               target_endpoint,
-               packed_messages,
-               selfref{weak_ref()}](std::error_code error, std::size_t length) {
+              [this, &group, target_endpoint, packed, selfref{weak_ref()}](
+                std::error_code error, std::size_t length) {
                   if(const auto self{selfref.lock()}) {
                       if(!error) {
-                          log_trace("sent data (size: ${size})")
-                            .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), length);
+                          log_trace("sent data")
+                            .arg(
+                              EAGINE_ID(usedSize),
+                              EAGINE_ID(ByteSize),
+                              get<1>(packed))
+                            .arg(
+                              EAGINE_ID(sentSize), EAGINE_ID(ByteSize), length);
+
+                          total_used_size += get<1>(packed);
+                          total_sent_size += length;
+
+                          if(this->log_usage_stats(span_size(2U << 27U))) {
+                              total_used_size = 0;
+                              total_sent_size = 0;
+                          }
 
                           this->handle_sent(
-                            group, target_endpoint, packed_messages);
+                            group, target_endpoint, get<0>(packed));
                       } else {
                           log_error("failed to send data: ${error}")
                             .arg(EAGINE_ID(error), error);
@@ -393,6 +422,7 @@ struct asio_connection_state
     }
 
     void cleanup(asio_connection_group<Kind, Proto>& group) {
+        log_usage_stats();
         while(is_usable() && start_send(group)) {
             log_debug("flushing connection outbox");
             update();
@@ -486,7 +516,8 @@ public:
 
     using bit_set = typename connection_outgoing_messages::bit_set;
 
-    auto pack_into(endpoint_type&, memory::block data) -> bit_set final {
+    auto pack_into(endpoint_type&, memory::block data)
+      -> std::tuple<bit_set, span_size_t> final {
         return _outgoing.pack_into(data);
     }
 
@@ -559,7 +590,7 @@ public:
 
     using bit_set = typename connection_outgoing_messages::bit_set;
 
-    auto pack_into(memory::block data) -> bit_set {
+    auto pack_into(memory::block data) -> std::tuple<bit_set, span_size_t> {
         EAGINE_ASSERT(_outgoing);
         return _outgoing->pack_into(data);
     }
@@ -611,7 +642,8 @@ public:
 
     using bit_set = typename connection_outgoing_messages::bit_set;
 
-    auto pack_into(endpoint_type& target, memory::block dest) -> bit_set final {
+    auto pack_into(endpoint_type& target, memory::block dest)
+      -> std::tuple<bit_set, span_size_t> final {
         EAGINE_ASSERT(_index >= 0);
         const auto prev_idx{_index};
         do {
@@ -622,15 +654,16 @@ public:
                 auto& [ep, out_in] = *pos;
                 auto& outgoing = std::get<0>(out_in);
                 EAGINE_ASSERT(outgoing);
-                if(const auto packed{outgoing->pack_into(dest)}) {
+                const auto [packed, size] = outgoing->pack_into(dest);
+                if(packed) {
                     target = ep;
-                    return packed;
+                    return {packed, size};
                 }
             } else {
                 _index = 0;
             }
         } while(_index != prev_idx);
-        return bit_set(0);
+        return {bit_set(0), 0};
     }
 
     void on_sent(const endpoint_type& ep, bit_set to_be_removed) final {

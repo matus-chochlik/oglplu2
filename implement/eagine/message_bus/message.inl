@@ -20,7 +20,7 @@ auto stored_message::store_and_sign(
     if(ok md_type{ctx.default_message_digest()}) {
         auto& ssl = ctx.ssl();
         _buffer.resize(max_size);
-        if(auto used = store_data_with_size(data, storage())) {
+        if(auto used{store_data_with_size(data, storage())}) {
             if(ok md_ctx{ssl.new_message_digest()}) {
                 auto cleanup{ssl.delete_message_digest.raii(md_ctx)};
 
@@ -160,23 +160,26 @@ auto serialized_message_storage::fetch_all(fetch_handler handler) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto serialized_message_storage::pack_into(memory::block dest) -> bit_set {
+auto serialized_message_storage::pack_into(memory::block dest)
+  -> std::tuple<bit_set, span_size_t> {
     bit_set result{0U};
     bit_set current{1U};
+    span_size_t done{0};
 
     for(auto& message : _messages) {
         if(current == 0U) {
             break;
         }
-        if(auto packed = store_data_with_size(view(message), dest)) {
+        if(auto packed{store_data_with_size(view(message), dest)}) {
             dest = skip(dest, packed.size());
+            done += packed.size();
             result |= current;
         }
         current <<= 1U;
     }
     zero(dest);
 
-    return result;
+    return {result, done};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
