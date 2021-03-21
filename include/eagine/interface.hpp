@@ -13,7 +13,7 @@ namespace eagine {
 
 /// @brief Base template for abstract interfaces, implements common functionality.
 /// @ingroup type_utils
-/// @see copyable_interface
+/// @see abstract
 template <typename Derived>
 class interface {
 public:
