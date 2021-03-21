@@ -460,6 +460,16 @@ public:
         return _packed_bits;
     }
 
+    auto count() const noexcept -> span_size_t {
+        span_size_t result = 0;
+        auto bits = _packed_bits;
+        while(bits) {
+            ++result;
+            bits &= (bits - 1U);
+        }
+        return result;
+    }
+
     auto used() const noexcept -> span_size_t {
         return span_size(_packed_size);
     }

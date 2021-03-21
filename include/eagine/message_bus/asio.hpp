@@ -190,6 +190,9 @@ struct asio_connection_state
     memory::buffer write_buffer{};
     span_size_t total_used_size{0};
     span_size_t total_sent_size{0};
+    std::int32_t total_sent_messages{0};
+    std::int32_t total_sent_blocks{0};
+    float send_pack_ratio{1.F};
     bool is_sending{false};
     bool is_recving{false};
 
@@ -243,10 +246,16 @@ struct asio_connection_state
         if(EAGINE_UNLIKELY(total_sent_size >= threshold)) {
             const auto slack =
               1.F - float(total_used_size) / float(total_sent_size);
+            const auto msgs_per_block =
+              total_sent_blocks
+                ? float(total_sent_messages) / float(total_sent_blocks)
+                : 0.F;
+
             log_stat("message slack ratio: ${slack}")
               .arg(EAGINE_ID(usedSize), EAGINE_ID(ByteSize), total_used_size)
               .arg(EAGINE_ID(sentSize), EAGINE_ID(ByteSize), total_sent_size)
-              .arg(EAGINE_ID(slack), EAGINE_ID(Ratio), slack);
+              .arg(EAGINE_ID(slack), EAGINE_ID(Ratio), slack)
+              .arg(EAGINE_ID(msgsPerBlk), msgs_per_block);
             return true;
         }
         return false;
@@ -278,8 +287,9 @@ struct asio_connection_state
         endpoint_type target_endpoint{conn_endpoint};
         const auto packed =
           group.pack_into(target_endpoint, cover(write_buffer));
-        if(!packed.is_empty()) {
+        if(!packed.is_empty() && packed.usage() > send_pack_ratio) {
             is_sending = true;
+            send_pack_ratio = 1.F;
             const auto blk = view(write_buffer);
 
             log_trace("sending data")
@@ -310,6 +320,8 @@ struct asio_connection_state
 
                           total_used_size += packed.used();
                           total_sent_size += packed.total();
+                          total_sent_messages += packed.count();
+                          total_sent_blocks += 1;
 
                           if(this->log_usage_stats(span_size(2U << 27U))) {
                               total_used_size = 0;
@@ -327,6 +339,7 @@ struct asio_connection_state
               });
         } else {
             is_sending = false;
+            send_pack_ratio *= 0.9F;
         }
     }
 
