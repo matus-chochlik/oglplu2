@@ -48,6 +48,7 @@ static constexpr auto broadcast_endpoint_id() noexcept -> identifier_t {
 using message_age = std::chrono::duration<float>;
 //------------------------------------------------------------------------------
 /// @brief Message priority enumeration.
+/// @ingroup msgbus
 enum class message_priority : std::uint8_t {
     /// @brief Idle, sent only when no messages with higher priority are enqueued.
     idle,
@@ -60,6 +61,15 @@ enum class message_priority : std::uint8_t {
     /// @brief Critical, sent as soon as possible.
     critical
 };
+//------------------------------------------------------------------------------
+/// @brief Message priority ordering.
+/// @ingroup msgbus
+/// @relates message_priority
+static inline auto operator<(message_priority l, message_priority r) noexcept
+  -> bool {
+    using U = std::underlying_type_t<message_priority>;
+    return U(l) < U(r);
+}
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
@@ -456,6 +466,10 @@ public:
 
     auto total() const noexcept -> span_size_t {
         return span_size(_total_size);
+    }
+
+    auto usage() const noexcept {
+        return float(used()) / float(total());
     }
 
     void add(span_size_t msg_size, bit_set current_bit) noexcept {
