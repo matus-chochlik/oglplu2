@@ -13,6 +13,7 @@
 #include <eagine/message_bus/service/discovery.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
+#include <eagine/signal_switch.hpp>
 #include <eagine/timeout.hpp>
 #include <algorithm>
 #include <chrono>
@@ -155,7 +156,7 @@ public:
         auto& stats = _targets[pinger_id];
         stats.timeouted++;
         if(EAGINE_UNLIKELY((++_tout % _mod) == 0)) {
-            log_info("${tout} pongs timeouted").arg(EAGINE_ID(tout), _tout);
+            log_info("${tout} pongs expired").arg(EAGINE_ID(tout), _tout);
         }
     }
 
@@ -167,19 +168,19 @@ public:
         some_true something_done{};
         something_done(base::update());
         if(EAGINE_UNLIKELY(_should_query_pingable)) {
-            log_info("searching for pingables");
+            log_info("searching for pingable nodes");
             query_pingables();
         }
         if(!_targets.empty()) {
             for(auto& [pingable_id, entry] : _targets) {
                 if(_rcvd < _max) {
                     const auto lim{
-                      _rcvd + _tout +
-                      static_cast<std::intmax_t>(
-                        _mod * (1 + std::log(float(1 + _targets.size()))))};
+                      _rcvd + static_cast<std::intmax_t>(
+                                float(_mod) * 0.1F *
+                                (1.F + std::log(float(1 + _targets.size()))))};
 
                     if(_sent < lim) {
-                        this->ping(pingable_id, std::chrono::seconds(10));
+                        this->ping(pingable_id, std::chrono::seconds(15));
                         if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
                             log_info("sent ${sent} pings")
                               .arg(EAGINE_ID(sent), _sent);
@@ -232,7 +233,7 @@ public:
     }
 
 private:
-    resetting_timeout _should_query_pingable{std::chrono::seconds(2), nothing};
+    resetting_timeout _should_query_pingable{std::chrono::seconds(3), nothing};
     std::chrono::steady_clock::time_point prev_log{
       std::chrono::steady_clock::now()};
     std::map<identifier_t, ping_stats> _targets{};
@@ -246,6 +247,7 @@ private:
 } // namespace msgbus
 
 auto main(main_ctx& ctx) -> int {
+    signal_switch interrupted;
     ctx.preinitialize();
 
     msgbus::router_address address{ctx};
@@ -263,7 +265,7 @@ auto main(main_ctx& ctx) -> int {
 
     resetting_timeout do_chart_stats{std::chrono::seconds(15), nothing};
 
-    while(!the_pinger.is_done()) {
+    while(!the_pinger.is_done() || interrupted) {
         the_pinger.process_all();
         if(!the_pinger.update()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));

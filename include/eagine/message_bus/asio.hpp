@@ -1346,7 +1346,7 @@ private:
     static constexpr auto _default_block_size(
       connection_addr_kind_tag<K>,
       connection_protocol_tag<P>) noexcept -> span_size_t {
-        return 8 * 1024;
+        return 4 * 1024;
     }
 
     template <connection_addr_kind K>

@@ -47,6 +47,11 @@ do
 		--ssh "${ssh_host}" \
 	&  termpids+=($!)
 done
+${install_prefix}/bin/eagine-message_bus-pinger \
+	"${log_args[@]}" \
+	--ping-count 1M \
+	${conn_type} \
+	& pids+=($!)
 
 for pid in ${pids[@]}
 do wait ${pid}
