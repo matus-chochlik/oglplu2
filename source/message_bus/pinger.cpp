@@ -179,7 +179,7 @@ public:
                         _mod * (1 + std::log(float(1 + _targets.size()))))};
 
                     if(_sent < lim) {
-                        this->ping(pingable_id, std::chrono::seconds(5));
+                        this->ping(pingable_id, std::chrono::seconds(10));
                         if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
                             log_info("sent ${sent} pings")
                               .arg(EAGINE_ID(sent), _sent);

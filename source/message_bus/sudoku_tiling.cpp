@@ -22,8 +22,8 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using sudoku_tiling_base = service_composition<pingable<sudoku_tiling<
-  build_info_provider<host_info_provider<endpoint_info_provider<>>>>>>;
+using sudoku_tiling_base = service_composition<pingable<build_info_provider<
+  host_info_provider<endpoint_info_provider<sudoku_tiling<>>>>>>;
 
 class sudoku_tiling_node
   : public main_ctx_object
