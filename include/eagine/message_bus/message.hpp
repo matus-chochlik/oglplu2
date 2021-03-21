@@ -435,6 +435,40 @@ private:
     std::vector<std::tuple<message_id, stored_message, _timestamp_t>> _messages;
 };
 //------------------------------------------------------------------------------
+class message_pack_info {
+public:
+    using bit_set = std::uint64_t;
+
+    message_pack_info(span_size_t total_size) noexcept
+      : _total_size{limit_cast<std::uint16_t>(total_size)} {}
+
+    auto is_empty() const noexcept {
+        return _packed_bits == 0U;
+    }
+
+    auto bits() const noexcept -> bit_set {
+        return _packed_bits;
+    }
+
+    auto used() const noexcept -> span_size_t {
+        return span_size(_packed_size);
+    }
+
+    auto total() const noexcept -> span_size_t {
+        return span_size(_total_size);
+    }
+
+    void add(span_size_t msg_size, bit_set current_bit) noexcept {
+        _packed_size += limit_cast<std::uint16_t>(msg_size);
+        _packed_bits |= current_bit;
+    }
+
+private:
+    bit_set _packed_bits{0U};
+    std::uint16_t _packed_size{0};
+    const std::uint16_t _total_size{0};
+};
+//------------------------------------------------------------------------------
 class serialized_message_storage {
 public:
     /// The return value indicates if the message is considered handled
@@ -476,11 +510,9 @@ public:
     auto fetch_some(fetch_handler handler, span_size_t n) -> bool;
     auto fetch_all(fetch_handler handler) -> bool;
 
-    using bit_set = std::uint64_t;
+    auto pack_into(memory::block dest) -> message_pack_info;
 
-    auto pack_into(memory::block dest) -> std::tuple<bit_set, span_size_t>;
-
-    void cleanup(bit_set to_be_removed);
+    void cleanup(const message_pack_info& to_be_removed);
 
 private:
     memory::buffer_pool _buffers;
@@ -573,7 +605,6 @@ private:
 };
 //------------------------------------------------------------------------------
 struct connection_outgoing_messages {
-    using bit_set = serialized_message_storage::bit_set;
 
     serialized_message_storage serialized{};
 
@@ -587,12 +618,12 @@ struct connection_outgoing_messages {
       const message_view&,
       memory::block) -> bool;
 
-    auto pack_into(memory::block dest) -> std::tuple<bit_set, span_size_t> {
+    auto pack_into(memory::block dest) -> message_pack_info {
         return serialized.pack_into(dest);
     }
 
-    void cleanup(bit_set to_be_removed) {
-        serialized.cleanup(to_be_removed);
+    void cleanup(const message_pack_info& packed) {
+        serialized.cleanup(packed);
     }
 };
 //------------------------------------------------------------------------------

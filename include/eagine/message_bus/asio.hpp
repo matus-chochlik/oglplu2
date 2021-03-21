@@ -162,13 +162,13 @@ private:
 template <connection_addr_kind Kind, connection_protocol Proto>
 struct asio_connection_group : interface<asio_connection_group<Kind, Proto>> {
 
-    using bit_set = typename serialized_message_storage::bit_set;
     using endpoint_type = asio_endpoint_type<Kind, Proto>;
 
     virtual auto pack_into(endpoint_type&, memory::block)
-      -> std::tuple<bit_set, span_size_t> = 0;
+      -> message_pack_info = 0;
 
-    virtual void on_sent(const endpoint_type&, bit_set to_be_removed) = 0;
+    virtual void
+    on_sent(const endpoint_type&, const message_pack_info& to_be_removed) = 0;
 
     virtual void on_received(const endpoint_type&, memory::const_block) = 0;
 
@@ -278,14 +278,14 @@ struct asio_connection_state
         endpoint_type target_endpoint{conn_endpoint};
         const auto packed =
           group.pack_into(target_endpoint, cover(write_buffer));
-        if(get<0>(packed)) {
+        if(!packed.is_empty()) {
             is_sending = true;
             const auto blk = view(write_buffer);
 
             log_trace("sending data")
-              .arg(EAGINE_ID(packed), EAGINE_ID(bits), get<0>(packed))
-              .arg(EAGINE_ID(usedSize), EAGINE_ID(ByteSize), get<1>(packed))
-              .arg(EAGINE_ID(sentSize), EAGINE_ID(ByteSize), blk.size())
+              .arg(EAGINE_ID(packed), EAGINE_ID(bits), packed.bits())
+              .arg(EAGINE_ID(usedSize), EAGINE_ID(ByteSize), packed.used())
+              .arg(EAGINE_ID(sentSize), EAGINE_ID(ByteSize), packed.total())
               .arg(EAGINE_ID(block), blk);
 
             do_start_send(
@@ -294,26 +294,29 @@ struct asio_connection_state
               blk,
               [this, &group, target_endpoint, packed, selfref{weak_ref()}](
                 std::error_code error, std::size_t length) {
+                  EAGINE_MAYBE_UNUSED(length);
                   if(const auto self{selfref.lock()}) {
                       if(!error) {
+                          EAGINE_ASSERT(span_size(length) == packed.total());
                           log_trace("sent data")
                             .arg(
                               EAGINE_ID(usedSize),
                               EAGINE_ID(ByteSize),
-                              get<1>(packed))
+                              packed.used())
                             .arg(
-                              EAGINE_ID(sentSize), EAGINE_ID(ByteSize), length);
+                              EAGINE_ID(sentSize),
+                              EAGINE_ID(ByteSize),
+                              packed.total());
 
-                          total_used_size += get<1>(packed);
-                          total_sent_size += length;
+                          total_used_size += packed.used();
+                          total_sent_size += packed.total();
 
                           if(this->log_usage_stats(span_size(2U << 27U))) {
                               total_used_size = 0;
                               total_sent_size = 0;
                           }
 
-                          this->handle_sent(
-                            group, target_endpoint, get<0>(packed));
+                          this->handle_sent(group, target_endpoint, packed);
                       } else {
                           log_error("failed to send data: ${error}")
                             .arg(EAGINE_ID(error), error);
@@ -337,7 +340,7 @@ struct asio_connection_state
     void handle_sent(
       asio_connection_group<Kind, Proto>& group,
       const endpoint_type& target_endpoint,
-      serialized_message_storage::bit_set to_be_removed) {
+      const message_pack_info& to_be_removed) {
         group.on_sent(target_endpoint, to_be_removed);
         do_start_send(group);
     }
@@ -438,18 +441,6 @@ template <connection_addr_kind Kind, connection_protocol Proto>
 class asio_connection_base
   : public asio_connection_info<connection, Kind, Proto>
   , public main_ctx_object {
-
-    using bit_set = typename connection_outgoing_messages::bit_set;
-
-protected:
-    std::shared_ptr<asio_connection_state<Kind, Proto>> _state;
-
-    asio_connection_base(
-      main_ctx_parent parent,
-      std::shared_ptr<asio_connection_state<Kind, Proto>> state)
-      : main_ctx_object{EAGINE_ID(AsioConnBs), parent}
-      , _state{std::move(state)} {}
-
 public:
     asio_connection_base(
       main_ctx_parent parent,
@@ -489,6 +480,15 @@ public:
     auto is_usable() -> bool final {
         return conn_state().is_usable();
     }
+
+protected:
+    std::shared_ptr<asio_connection_state<Kind, Proto>> _state;
+
+    asio_connection_base(
+      main_ctx_parent parent,
+      std::shared_ptr<asio_connection_state<Kind, Proto>> state)
+      : main_ctx_object{EAGINE_ID(AsioConnBs), parent}
+      , _state{std::move(state)} {}
 };
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind, connection_protocol Proto>
@@ -514,14 +514,13 @@ public:
         return something_done;
     }
 
-    using bit_set = typename connection_outgoing_messages::bit_set;
-
     auto pack_into(endpoint_type&, memory::block data)
-      -> std::tuple<bit_set, span_size_t> final {
+      -> message_pack_info final {
         return _outgoing.pack_into(data);
     }
 
-    void on_sent(const endpoint_type&, bit_set to_be_removed) final {
+    void on_sent(const endpoint_type&, const message_pack_info& to_be_removed)
+      final {
         return _outgoing.cleanup(to_be_removed);
     }
 
@@ -588,14 +587,12 @@ public:
       , _outgoing{std::move(outgoing)}
       , _incoming{std::move(incoming)} {}
 
-    using bit_set = typename connection_outgoing_messages::bit_set;
-
-    auto pack_into(memory::block data) -> std::tuple<bit_set, span_size_t> {
+    auto pack_into(memory::block data) -> message_pack_info {
         EAGINE_ASSERT(_outgoing);
         return _outgoing->pack_into(data);
     }
 
-    void on_sent(bit_set to_be_removed) {
+    void on_sent(const message_pack_info& to_be_removed) {
         EAGINE_ASSERT(_outgoing);
         return _outgoing->cleanup(to_be_removed);
     }
@@ -640,10 +637,8 @@ public:
     using base::base;
     using base::conn_state;
 
-    using bit_set = typename connection_outgoing_messages::bit_set;
-
     auto pack_into(endpoint_type& target, memory::block dest)
-      -> std::tuple<bit_set, span_size_t> final {
+      -> message_pack_info final {
         EAGINE_ASSERT(_index >= 0);
         const auto prev_idx{_index};
         do {
@@ -654,19 +649,21 @@ public:
                 auto& [ep, out_in] = *pos;
                 auto& outgoing = std::get<0>(out_in);
                 EAGINE_ASSERT(outgoing);
-                const auto [packed, size] = outgoing->pack_into(dest);
-                if(packed) {
+                const auto packed = outgoing->pack_into(dest);
+                if(!packed.is_empty()) {
                     target = ep;
-                    return {packed, size};
+                    return packed;
                 }
             } else {
                 _index = 0;
             }
         } while(_index != prev_idx);
-        return {bit_set(0), 0};
+        return {0};
     }
 
-    void on_sent(const endpoint_type& ep, bit_set to_be_removed) final {
+    void on_sent(
+      const endpoint_type& ep,
+      const message_pack_info& to_be_removed) final {
         _outgoing(ep).cleanup(to_be_removed);
     }
 
