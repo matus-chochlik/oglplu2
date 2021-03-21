@@ -15,6 +15,7 @@ set(
 		eagine-message_bus-router
 		eagine-message_bus-bridge
 		eagine-message_bus-pingable
+		eagine-message_bus-pinger
 		eagine-message_bus-sudoku_helper
 		eagine-message_bus-sudoku_tiling
 		oglplus
