@@ -38,6 +38,7 @@ struct ping_stats {
     std::intmax_t responded{0};
     std::intmax_t timeouted{0};
     resetting_timeout should_check_info{std::chrono::seconds(5), nothing};
+    bool is_active{false};
 
     auto avg_time() const noexcept {
         return sum_time / responded;
@@ -81,7 +82,9 @@ public:
 
     void on_subscribed(const subscriber_info& info, message_id sub_msg) final {
         if(sub_msg == this->ping_msg_id()) {
-            if(_targets.try_emplace(info.endpoint_id, ping_stats{}).second) {
+            auto& stats = _targets[info.endpoint_id];
+            if(!stats.is_active) {
+                stats.is_active = true;
                 log_info("new pingable ${id} appeared")
                   .arg(EAGINE_ID(id), info.endpoint_id);
             }
@@ -90,13 +93,19 @@ public:
 
     void on_unsubscribed(const subscriber_info& info, message_id sub_msg) final {
         if(sub_msg == this->ping_msg_id()) {
-            log_info("pingable ${id} disappeared")
-              .arg(EAGINE_ID(id), info.endpoint_id);
+            auto& stats = _targets[info.endpoint_id];
+            if(stats.is_active) {
+                stats.is_active = false;
+                log_info("pingable ${id} disappeared")
+                  .arg(EAGINE_ID(id), info.endpoint_id);
+            }
         }
     }
 
     void not_subscribed(const subscriber_info& info, message_id sub_msg) final {
         if(sub_msg == this->ping_msg_id()) {
+            auto& stats = _targets[info.endpoint_id];
+            stats.is_active = false;
             log_info("target ${id} is not pingable")
               .arg(EAGINE_ID(id), info.endpoint_id);
         }
@@ -174,27 +183,30 @@ public:
         if(!_targets.empty()) {
             for(auto& [pingable_id, entry] : _targets) {
                 if(_rcvd < _max) {
-                    const auto lim{
-                      _rcvd + static_cast<std::intmax_t>(
-                                float(_mod) * 0.1F *
-                                (1.F + std::log(float(1 + _targets.size()))))};
+                    if(entry.is_active) {
+                        const auto lim{
+                          _rcvd +
+                          static_cast<std::intmax_t>(
+                            float(_mod) * 0.1F *
+                            (1.F + std::log(float(1 + _targets.size()))))};
 
-                    if(_sent < lim) {
-                        this->ping(pingable_id, std::chrono::seconds(15));
-                        if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
-                            log_info("sent ${sent} pings")
-                              .arg(EAGINE_ID(sent), _sent);
-                        }
+                        if(_sent < lim) {
+                            this->ping(pingable_id, std::chrono::seconds(15));
+                            if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
+                                log_info("sent ${sent} pings")
+                                  .arg(EAGINE_ID(sent), _sent);
+                            }
 
-                        if(EAGINE_UNLIKELY(entry.should_check_info)) {
-                            if(!entry.host_id) {
-                                this->query_host_id(pingable_id);
+                            if(EAGINE_UNLIKELY(entry.should_check_info)) {
+                                if(!entry.host_id) {
+                                    this->query_host_id(pingable_id);
+                                }
+                                if(entry.hostname.empty()) {
+                                    this->query_hostname(pingable_id);
+                                }
                             }
-                            if(entry.hostname.empty()) {
-                                this->query_hostname(pingable_id);
-                            }
+                            something_done();
                         }
-                        something_done();
                     }
                 } else {
                     break;

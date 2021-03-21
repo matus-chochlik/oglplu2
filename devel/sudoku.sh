@@ -49,7 +49,7 @@ do
 done
 ${install_prefix}/bin/eagine-message_bus-pinger \
 	"${log_args[@]}" \
-	--ping-count 1M \
+	--ping-count 100k \
 	${conn_type} \
 	& pids+=($!)
 
