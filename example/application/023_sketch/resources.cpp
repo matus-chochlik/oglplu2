@@ -164,7 +164,7 @@ void sketch_texture::init(execution_context& ec, video_context& vc) {
         }
     };
 
-    for(auto i : integer_range(5000)) {
+    for(auto i : integer_range(10000)) {
         std::array<float, 6> rand{};
         ec.random_uniform_01(cover(rand));
 
@@ -174,21 +174,27 @@ void sketch_texture::init(execution_context& ec, video_context& vc) {
         const auto ymax = std::max(rand[2], rand[3]);
         const auto w = int((xmax - xmin) * float(side));
         const auto h = int((ymax - ymin) * float(side));
-        const auto l = (rand[5] - 0.5F) * 0.2F;
+        const auto l = (rand[5] - 0.5F) * 0.3F;
 
-        if(w > h) {
-            const auto layer = rand[4];
-            for(auto x : integer_range(w)) {
-                const float c = l * float(x + 1) / float(w);
-                scratch(
-                  int(x + xmin * side) + i, int(h * c + ymin * side), layer);
-            }
-        } else {
-            const auto layer = rand[4] * 0.75F;
-            for(auto y : integer_range(h)) {
-                const float c = l * float(y + 1) / float(h);
-                scratch(
-                  int(w * c + xmin * side), int(y + ymin * side) + i, layer);
+        for(int t : integer_range(2)) {
+            if(w > h) {
+                const auto layer = rand[4];
+                for(auto x : integer_range(w)) {
+                    const float c = l * float(x + 1) / float(w);
+                    scratch(
+                      int(x + xmin * side) + i,
+                      int(h * c + ymin * side) + t,
+                      layer);
+                }
+            } else {
+                const auto layer = rand[4] * 0.75F;
+                for(auto y : integer_range(h)) {
+                    const float c = l * float(y + 1) / float(h);
+                    scratch(
+                      int(w * c + xmin * side) + t,
+                      int(y + ymin * side) + i,
+                      layer);
+                }
             }
         }
     }
