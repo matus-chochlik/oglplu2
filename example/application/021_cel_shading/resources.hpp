@@ -1,4 +1,4 @@
-/// @example application/026_cel_shading/resources.hpp
+/// @example application/021_cel_shading/resources.hpp
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.

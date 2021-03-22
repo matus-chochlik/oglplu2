@@ -4,26 +4,26 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 oglplus_add_glsl_program(cel_shading)
-add_executable(application-026_cel_shading main.cpp resources.cpp)
+add_executable(application-021_cel_shading main.cpp resources.cpp)
 eagine_embed_packed_target_resources(
-	application-026_cel_shading
+	application-021_cel_shading
 	cel_shading.oglpprog
 )
-eagine_add_exe_analysis(application-026_cel_shading)
+eagine_add_exe_analysis(application-021_cel_shading)
 
-add_dependencies(application-026_cel_shading application-examples)
+add_dependencies(application-021_cel_shading application-examples)
 
 target_link_libraries(
-	application-026_cel_shading
+	application-021_cel_shading
 	PUBLIC eagine eagine-application oglplus
 )
 
 set_target_properties(
-	application-026_cel_shading
+	application-021_cel_shading
 	PROPERTIES FOLDER "Example/Application"
 )
 
 install(
-	TARGETS application-026_cel_shading
+	TARGETS application-021_cel_shading
 	DESTINATION share/oglplus/examples
 )

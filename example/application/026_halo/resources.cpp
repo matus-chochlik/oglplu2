@@ -1,4 +1,4 @@
-/// @example application/022_halo/resources.cpp
+/// @example application/026_halo/resources.cpp
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
