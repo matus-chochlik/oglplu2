@@ -13,12 +13,12 @@ void main() {
     float minDist = min(min(geomDist.x, geomDist.y), geomDist.z);
     float edgeAlpha = exp2(-pow(minDist / edgeWidth, 2.0));
 	float light = clamp(dot(lightDir, geomNormal), 0.0, 1.0);
-	float density = max(sqrt(texture(Tex, geomCoord).r) - light, 0.0);
+	float density = max(texture(Tex, geomCoord).r - light, 0.0);
 
     vec3 faceColor = mix(
-		vec3(0.2),
-		vec3(0.85, 0.85. 0.65) *
-		mix(mix(0.1, 0.9, light), 0.0, density));
+		vec3(0.3),
+		vec3(0.85, 0.84, 0.84),
+		mix(mix(0.3, 1.0, light), 0.0, density));
     vec3 edgeColor = vec3(0.0);
 
     fragColor = mix(faceColor, edgeColor, edgeAlpha);

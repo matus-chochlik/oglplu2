@@ -158,13 +158,14 @@ void sketch_texture::init(execution_context& ec, video_context& vc) {
     std::vector<float> scratches(std_size(side * side));
 
     auto scratch = [&](auto x, auto y, auto layer) {
-        const auto k = std_size((y % side) * side + (x % side));
+        const auto k =
+          std_size(((side + y) % side) * side + ((side + x) % side));
         if(scratches[k] < layer) {
             scratches[k] = layer;
         }
     };
 
-    for(auto i : integer_range(10000)) {
+    for(auto i : integer_range(3500)) {
         std::array<float, 6> rand{};
         ec.random_uniform_01(cover(rand));
 

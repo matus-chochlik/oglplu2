@@ -65,7 +65,7 @@ example_sketch::example_sketch(execution_context& ec, video_context& vc)
       .set_orbit_max(2.5F)
       .set_fov(degrees_(50.F));
 
-    gl.clear_color(0.95F, 0.95F, 0.75F, 0.0F);
+    gl.clear_color(0.85F, 0.85F, 0.85F, 0.0F);
     gl.enable(GL.depth_test);
     gl.enable(GL.cull_face);
     gl.cull_face(GL.back);

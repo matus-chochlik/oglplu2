@@ -15,5 +15,5 @@ void main() {
     gl_Position = Projection * View * Model * vec4(Position, 1.0);
 	vertPosition = Position;
     vertNormal = mat3(View * Model) * Normal;
-	vertCoord = Coord * 3.0;
+	vertCoord = Coord * 4.0;
 }
