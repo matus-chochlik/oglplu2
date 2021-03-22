@@ -199,7 +199,7 @@ void unit_twisted_torus_gen::wrap_coords(span<float> dest) noexcept {
     const double s_step = 1.0 / double(_sections);
     const double s_slip = s_step * _thickness_ratio * 2.0;
 
-    for(auto f : integer_range(2)) {
+    for(auto f : integer_range(4)) {
         const double f_sign = (f == 0) ? 1.0 : -1.0;
 
         for(auto s : integer_range(_sections)) {
@@ -213,26 +213,6 @@ void unit_twisted_torus_gen::wrap_coords(span<float> dest) noexcept {
 
                 for(auto d : integer_range(2)) {
                     const double v = sa[d];
-                    dest[k++] = float(u);
-                    dest[k++] = float(v);
-                }
-            }
-        }
-    }
-
-    for(auto d : integer_range(2)) {
-        const double d_sign = (d == 0) ? 1.0 : -1.0;
-
-        for(auto s : integer_range(_sections)) {
-            const double s_angle = s_step * 0.5 + s * s_step;
-            const double v = s_angle + s_slip * d_sign;
-
-            for(auto r : integer_range(_rings + 1)) {
-                const double r_angle = 2.0 * r * r_step;
-                double u = r_angle;
-
-                for(auto f : integer_range(2)) {
-                    EAGINE_MAYBE_UNUSED(f);
                     dest[k++] = float(u);
                     dest[k++] = float(v);
                 }
