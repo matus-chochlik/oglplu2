@@ -562,12 +562,12 @@ public:
 protected:
     void _log_message_counts() noexcept {
         if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
-            if(_outgoing_count.has_changed(_outgoing.size())) {
+            if(_outgoing_count.has_changed(_outgoing.count())) {
                 this->log_chart_sample(
                   EAGINE_ID(outMsgCnt), float(_outgoing_count.get()));
             }
 
-            if(_incoming_count.has_changed(_incoming.size())) {
+            if(_incoming_count.has_changed(_incoming.count())) {
                 this->log_chart_sample(
                   EAGINE_ID(incMsgCnt), float(_incoming_count.get()));
             }

@@ -382,20 +382,27 @@ private:
     memory::buffer _buffer{};
 };
 //------------------------------------------------------------------------------
+/// @brief Class storing message bus messages.
+/// @ingroup msgbus
+/// @see serialized_message_storage
 class message_storage {
 public:
+    /// @brief Default constructor.
     message_storage() {
         _messages.reserve(64);
     }
 
+    /// @brief Indicates if the storage is empty.
     auto empty() const noexcept -> bool {
         return _messages.empty();
     }
 
-    auto size() const noexcept -> span_size_t {
+    /// @brief Returns the coung of messages in the storage.
+    auto count() const noexcept -> span_size_t {
         return span_size(_messages.size());
     }
 
+    /// @brief Pushes a message into this storage.
     void push(message_id msg_id, const message_view& message) {
         _messages.emplace_back(
           msg_id,
@@ -403,6 +410,9 @@ public:
           _clock_t::now());
     }
 
+    /// @brief Pushes a new message and lets a function to fill it.
+    ///
+    /// The function's Boolean return value indicates if the message should be kept.
     template <typename Function>
     auto push_if(Function function, span_size_t req_size = 0) -> bool {
         _messages.emplace_back(
@@ -427,15 +437,24 @@ public:
         return true;
     }
 
+    /// @brief Alias for the message fetch handler.
+    /// @see fetch_all
+    ///
     /// The return value indicates if the message is considered handled
     /// and should be removed.
     using fetch_handler =
       callable_ref<bool(message_id, message_age, const message_view&)>;
 
+    /// @brief Fetches all currently stored messages and calls handler on them.
     auto fetch_all(fetch_handler handler) -> bool;
 
+    /// @brief Alias for message cleanup callable predicate.
+    /// @see cleanup
+    ///
+    /// The return value indicates if a message should be removed.
     using cleanup_predicate = callable_ref<bool(message_age)>;
 
+    /// @brief Removes messages based on the result of the specified predicate.
     void cleanup(cleanup_predicate predicate);
 
 private:
@@ -507,7 +526,7 @@ public:
         return _messages.empty();
     }
 
-    auto size() const noexcept -> span_size_t {
+    auto count() const noexcept -> span_size_t {
         return span_size(_messages.size());
     }
 
@@ -628,12 +647,10 @@ private:
     std::vector<stored_message> _messages;
 };
 //------------------------------------------------------------------------------
-struct connection_outgoing_messages {
-
-    serialized_message_storage serialized{};
-
-    auto size() const noexcept -> span_size_t {
-        return serialized.size();
+class connection_outgoing_messages {
+public:
+    auto count() const noexcept -> span_size_t {
+        return _serialized.count();
     }
 
     auto enqueue(
@@ -643,37 +660,42 @@ struct connection_outgoing_messages {
       memory::block) -> bool;
 
     auto pack_into(memory::block dest) -> message_pack_info {
-        return serialized.pack_into(dest);
+        return _serialized.pack_into(dest);
     }
 
     void cleanup(const message_pack_info& packed) {
-        serialized.cleanup(packed);
+        _serialized.cleanup(packed);
     }
+
+private:
+    serialized_message_storage _serialized{};
 };
 //------------------------------------------------------------------------------
-struct connection_incoming_messages {
+class connection_incoming_messages {
+public:
     using fetch_handler =
       callable_ref<bool(message_id, message_age, const message_view&)>;
 
-    serialized_message_storage packed{};
-    message_storage unpacked{};
-
     auto empty() const noexcept -> bool {
-        return packed.empty();
+        return _packed.empty();
     }
 
-    auto size() const noexcept -> span_size_t {
-        return packed.size();
+    auto count() const noexcept -> span_size_t {
+        return _packed.count();
     }
 
     void push(memory::const_block data) {
-        packed.push(data);
+        _packed.push(data);
     }
 
     auto fetch_messages(
       main_ctx_object& user,
       fetch_handler handler,
       span_size_t batch = 64) -> bool;
+
+private:
+    serialized_message_storage _packed{};
+    message_storage _unpacked{};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

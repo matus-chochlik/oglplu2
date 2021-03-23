@@ -250,7 +250,7 @@ auto connection_outgoing_messages::enqueue(
     if(!errors) {
         user.log_trace("enqueuing message ${message} to be sent")
           .arg(EAGINE_ID(message), msg_id);
-        serialized.push(sink.done());
+        _serialized.push(sink.done());
         return true;
     }
     user.log_error("failed to serialize message ${message}")
@@ -265,10 +265,10 @@ auto connection_incoming_messages::fetch_messages(
   main_ctx_object& user,
   fetch_handler handler,
   span_size_t batch) -> bool {
-    unpacked.fetch_all(handler);
+    _unpacked.fetch_all(handler);
     auto unpacker = [this, &user, &handler](memory::const_block data) {
         for_each_data_with_size(data, [this, &user](memory::const_block blk) {
-            unpacked.push_if(
+            _unpacked.push_if(
               [&user, blk](message_id& msg_id, stored_message& message) {
                   block_data_source source(blk);
                   string_deserializer_backend backend(source);
@@ -286,11 +286,11 @@ auto connection_incoming_messages::fetch_messages(
                   }
               });
         });
-        unpacked.fetch_all(handler);
+        _unpacked.fetch_all(handler);
         return true;
     };
 
-    return packed.fetch_some({construct_from, unpacker}, batch);
+    return _packed.fetch_some({construct_from, unpacker}, batch);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

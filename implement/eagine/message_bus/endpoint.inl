@@ -329,8 +329,8 @@ auto endpoint::max_data_size() const -> valid_if_positive<span_size_t> {
 EAGINE_LIB_FUNC
 void endpoint::flush_outbox() {
     if(has_id()) {
-        log_debug("flushing outbox (size: ${size})")
-          .arg(EAGINE_ID(size), _outgoing.size());
+        log_debug("flushing outbox (size: ${count})")
+          .arg(EAGINE_ID(count), _outgoing.count());
         _outgoing.fetch_all(message_storage::fetch_handler{
           this, EAGINE_THIS_MEM_FUNC_C(_handle_send)});
         if(EAGINE_LIKELY(_connection)) {
@@ -425,7 +425,7 @@ auto endpoint::update() -> bool {
     // if we have a valid id and we have messages in outbox
     if(EAGINE_UNLIKELY(has_id() && !_outgoing.empty())) {
         log_debug("sending ${count} messages from outbox")
-          .arg(EAGINE_ID(count), _outgoing.size());
+          .arg(EAGINE_ID(count), _outgoing.count());
         something_done(_outgoing.fetch_all(message_storage::fetch_handler{
           this, EAGINE_THIS_MEM_FUNC_C(_handle_send)}));
     }

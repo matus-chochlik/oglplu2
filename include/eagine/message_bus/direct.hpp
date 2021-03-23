@@ -56,7 +56,7 @@ public:
         if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
             {
                 std::unique_lock lock{_s2c_mutex};
-                if(_s2c_count.has_changed(_server_to_client.size())) {
+                if(_s2c_count.has_changed(_server_to_client.count())) {
                     this->log_chart_sample(
                       EAGINE_ID(s2cMsgCnt), float(_s2c_count.get()));
                 }
@@ -64,7 +64,7 @@ public:
 
             {
                 std::unique_lock lock{_c2s_mutex};
-                if(_c2s_count.has_changed(_client_to_server.size())) {
+                if(_c2s_count.has_changed(_client_to_server.count())) {
                     this->log_chart_sample(
                       EAGINE_ID(c2sMsgCnt), float(_c2s_count.get()));
                 }
