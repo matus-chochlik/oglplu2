@@ -28,28 +28,28 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Class wrapping a POSIX message queue
+/// @ingroup msgbus
 class posix_mqueue {
-private:
-    std::string _name{};
-
-    static constexpr auto _invalid_handle() noexcept -> ::mqd_t {
-        return ::mqd_t(-1);
-    }
-
-    ::mqd_t _ihandle{_invalid_handle()};
-    ::mqd_t _ohandle{_invalid_handle()};
-    int _last_errno{0};
-
 public:
+    /// @brief Default constructor.
     constexpr posix_mqueue() noexcept = default;
+
+    /// @brief Move constructible.
     posix_mqueue(posix_mqueue&& temp) noexcept {
         using std::swap;
         swap(_name, temp._name);
         swap(_ihandle, temp._ihandle);
         swap(_ohandle, temp._ohandle);
     }
+
+    /// @brief Not copy constructible.
     posix_mqueue(const posix_mqueue&) = delete;
+
+    /// @brief Not move assignable.
     auto operator=(posix_mqueue&& temp) = delete;
+
+    /// @brief Not copy assignable.
     auto operator=(const posix_mqueue&) = delete;
 
     ~posix_mqueue() noexcept {
@@ -59,10 +59,14 @@ public:
         }
     }
 
+    /// @brief Returns the unique name of this queue.
+    /// @see set_name
     auto get_name() const noexcept -> string_view {
         return {_name};
     }
 
+    /// @brief Sets the unique name of the queue.
+    /// @see get_name
     auto set_name(std::string name) -> auto& {
         _name = std::move(name);
         if(!_name.empty()) {
@@ -80,15 +84,21 @@ public:
         return result;
     }
 
+    /// @brief Sets the unique name of the queue.
+    /// @see get_name
     auto set_name(identifier id) -> auto& {
         return set_name(name_from(id));
     }
 
+    /// @brief Constructs the queue and sets the specified name.
+    /// @see set_name
     posix_mqueue(std::string name) {
         set_name(std::move(name));
     }
 
-    auto last_message() const -> std::string {
+    /// @brief Returns the error message of the last failed operation.
+    /// @see had_error
+    auto error_message() const -> std::string {
         if(_last_errno) {
             char buf[128] = {'\0'};
             ::strerror_r(_last_errno, static_cast<char*>(buf), sizeof(buf));
@@ -97,22 +107,36 @@ public:
         return {};
     }
 
+    /// @brief Indicates if there a previous operation finished with an error.
+    /// @see error_message
+    /// @see needs_retry
     auto had_error() const -> bool {
         return _last_errno != 0;
     }
 
+    /// @brief Indicates if a previous operation on the queue needs to be retried.
+    /// @see had_error
     auto needs_retry() const -> bool {
         return (_last_errno == EAGAIN) || (_last_errno == ETIMEDOUT);
     }
 
+    /// @brief Indicates if this message queue is open.
+    /// @see is_usable
     constexpr auto is_open() const noexcept -> bool {
         return (_ihandle >= 0) && (_ohandle >= 0);
     }
 
+    /// @brief Indicates if this message queue can be used.
+    /// @see is_open
+    /// @see had_error
     constexpr auto is_usable() const noexcept -> bool {
         return is_open() && !(had_error() && !needs_retry());
     }
 
+    /// @brief Unlinks the OS queue objects.
+    /// @see create
+    /// @see open
+    /// @see close
     auto unlink() -> auto& {
         errno = 0;
         ::mq_unlink((_name + "0").c_str());
@@ -121,6 +145,10 @@ public:
         return *this;
     }
 
+    /// @brief Creates new OS queue objects.
+    /// @see unlink
+    /// @see open
+    /// @see close
     auto create() -> auto& {
         errno = 0;
         // NOLINTNEXTLINE(hicpp-vararg)
@@ -146,6 +174,10 @@ public:
         return *this;
     }
 
+    /// @brief Opens existing OS queue objects.
+    /// @see create
+    /// @see unlink
+    /// @see close
     auto open() -> auto& {
         errno = 0;
         // NOLINTNEXTLINE(hicpp-vararg)
@@ -171,6 +203,10 @@ public:
         return *this;
     }
 
+    /// @brief Closes the OS queue objects.
+    /// @see create
+    /// @see open
+    /// @see unlink
     auto close() -> posix_mqueue& {
         if(is_open()) {
             ::mq_close(_ihandle);
@@ -186,6 +222,8 @@ public:
         return 8 * 1024;
     }
 
+    /// @brief Returns the absolute maximum block size that can be sent in a message.
+    /// @see data_size
     auto max_data_size() -> valid_if_positive<span_size_t> {
         if(is_open()) {
             struct ::mq_attr attr {};
@@ -197,10 +235,12 @@ public:
         return {0};
     }
 
+    /// @brief Returns the maximum block size that can be sent in a message.
     auto data_size() noexcept -> span_size_t {
         return extract_or(max_data_size(), default_data_size());
     }
 
+    /// @brief Sents a block of data with the specified priority.
     auto send(unsigned priority, span<const char> blk) -> auto& {
         if(is_open()) {
             errno = 0;
@@ -210,8 +250,11 @@ public:
         return *this;
     }
 
+    /// @brief Alias for received message handler.
+    /// @see receive
     using receive_handler = callable_ref<void(unsigned, span<const char>)>;
 
+    /// @brief Receives messages and calls the specified handler on them.
     auto receive(memory::span<char> blk, receive_handler handler) -> auto& {
         if(is_open()) {
             unsigned priority{0U};
@@ -225,8 +268,22 @@ public:
         }
         return *this;
     }
+
+private:
+    std::string _name{};
+
+    static constexpr auto _invalid_handle() noexcept -> ::mqd_t {
+        return ::mqd_t(-1);
+    }
+
+    ::mqd_t _ihandle{_invalid_handle()};
+    ::mqd_t _ohandle{_invalid_handle()};
+    int _last_errno{0};
 };
 //------------------------------------------------------------------------------
+/// @brief Implementation of the connection_info interface for POSIX queue connection.
+/// @ingroup msgbus
+/// @see connection_info
 template <typename Base>
 class posix_mqueue_connection_info : public Base {
 public:
@@ -245,18 +302,26 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Implementation of connection on top of POSIX message queues.
+/// @ingroup msgbus
+/// @see posix_mqueue
+/// @see posix_mqueue_connector
+/// @see posix_mqueue_acceptor
 class posix_mqueue_connection
   : public posix_mqueue_connection_info<connection>
   , public main_ctx_object {
 
 public:
+    /// @brief Alias for received message fetch handler callable.
     using fetch_handler = connection::fetch_handler;
 
+    /// @brief Construction from parent main context object.
     posix_mqueue_connection(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(MQueConn), parent} {
         _buffer.resize(_data_queue.data_size());
     }
 
+    /// @brief Opens the connection.
     auto open(std::string name) -> bool {
         return !_data_queue.set_name(std::move(name)).open().had_error();
     }
@@ -370,16 +435,23 @@ protected:
     std::default_random_engine _rand_eng{std::random_device{}()};
 };
 //------------------------------------------------------------------------------
+/// @brief Implementation of connection on top of POSIX message queues.
+/// @ingroup msgbus
+/// @see posix_mqueue
+/// @see posix_mqueue_acceptor
 class posix_mqueue_connector : public posix_mqueue_connection {
     using base = posix_mqueue_connection;
 
 public:
+    /// @brief Alias for received message fetch handler callable.
     using fetch_handler = connection::fetch_handler;
 
+    /// @brief Construction from parent main context object and queue name.
     posix_mqueue_connector(main_ctx_parent parent, std::string name) noexcept
       : base{parent}
       , _connect_queue{std::move(name)} {}
 
+    /// @brief Construction from parent main context object and queue identifier.
     posix_mqueue_connector(main_ctx_parent parent, identifier id)
       : base{parent}
       , _connect_queue{posix_mqueue::name_from(id)} {}
@@ -417,19 +489,26 @@ private:
     posix_mqueue _connect_queue{};
 };
 //------------------------------------------------------------------------------
+/// @brief Implementation of acceptor on top of POSIX message queues.
+/// @ingroup msgbus
+/// @see posix_mqueue
+/// @see posix_mqueue_connector
 class posix_mqueue_acceptor
   : public posix_mqueue_connection_info<acceptor>
   , public main_ctx_object {
 
 public:
+    /// @brief Alias for accepted connection handler callable.
     using accept_handler = acceptor::accept_handler;
 
+    /// @brief Construction from parent main context object and queue name.
     posix_mqueue_acceptor(main_ctx_parent parent, std::string name) noexcept
       : main_ctx_object{EAGINE_ID(MQueConnAc), parent}
       , _accept_queue{std::move(name)} {
         _buffer.resize(_accept_queue.data_size());
     }
 
+    /// @brief Construction from parent main context object and queue identifier.
     posix_mqueue_acceptor(main_ctx_parent parent, identifier id)
       : posix_mqueue_acceptor{parent, posix_mqueue::name_from(id)} {}
 
@@ -519,21 +598,28 @@ private:
     posix_mqueue _accept_queue{};
 };
 //------------------------------------------------------------------------------
+/// @brief Implementation of connection_factory for POSIX message queue connections.
+/// @ingroup msgbus
+/// @see posix_mqueue_connector
+/// @see posix_mqueue_acceptor
 class posix_mqueue_connection_factory
   : public posix_mqueue_connection_info<connection_factory>
   , public main_ctx_object {
 public:
+    /// @brief Construction from parent main context object.
     posix_mqueue_connection_factory(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(MQueConnFc), parent} {}
 
     using connection_factory::make_acceptor;
     using connection_factory::make_connector;
 
+    /// @brief Makes an connection acceptor listening at queue with the specified name.
     auto make_acceptor(string_view address) -> std::unique_ptr<acceptor> final {
         return std::make_unique<posix_mqueue_acceptor>(
           *this, to_string(address));
     }
 
+    /// @brief Makes a connector connecting to queue with the specified name.
     auto make_connector(string_view address)
       -> std::unique_ptr<connection> final {
         return std::make_unique<posix_mqueue_connector>(

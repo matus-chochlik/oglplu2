@@ -1,0 +1,88 @@
+@startuml
+
+class VertexArray {
+    element_buffer : Buffer
+}
+
+class VertexBufferBinding {
+    bindingindex: int
+    ---
+    buffer: Buffer
+    offset: int
+    stride: int
+    divisor: int
+}
+
+class VertexArrayAttrib {
+    attribindex: int
+    ---
+    bindingindex: int
+    type: data_type
+    values_per_vertex: int
+    offset: int
+    normalized: bool
+    enabled: bool
+}
+
+
+enum BufferTarget {
+    array
+    element_array
+    uniform
+    shared_storage
+    atomic_counter
+    texture
+    query
+    transform_feedback
+    draw_indirect
+    dispatch_indirect
+    copy_read
+    copy_write
+    pixel_pack
+    pixel_unpack
+}
+
+class Buffer {
+    size
+    flags
+}
+
+class BufferBinding {
+    buffer: Buffer
+    target: BufferTarget
+}
+
+class Program {
+    shaders: Shader[]
+}
+
+class ProgramVertexAttrib{
+    name: string
+    type: data_type
+    attribindex: int
+}
+
+VertexArray *-- VertexArrayAttrib
+note on link: glEnableVertexAttribArray,\nglVertexAttribFormat
+
+VertexArray *-- VertexBufferBinding
+note on link: glBindVertexBuffer
+
+VertexArrayAttrib --> VertexBufferBinding
+note on link: glVertexAttribBinding
+
+VertexBufferBinding --> Buffer: vertex buffer
+
+VertexArray --> Buffer : element buffe
+note on link: glBindBuffer
+
+BufferBinding --> Buffer
+note on link: glBindBuffer
+
+BufferBinding -- BufferTarget
+
+Program *-- ProgramVertexAttrib
+note on link: glBindAttribLocation,\nglGetAttribLocation
+
+ProgramVertexAttrib --> VertexArrayAttrib
+@enduml

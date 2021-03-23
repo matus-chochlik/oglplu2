@@ -56,3 +56,9 @@ add_custom_target(
 	install-doc-sphinx-html
 	DEPENDS "${CMAKE_INSTALL_PREFIX}/share/oglplus/doc/sphinx/sphinx/index.html"
 )
+
+add_dependencies(
+	install-doc
+	install-doc-sphinx-html
+)
+

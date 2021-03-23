@@ -90,3 +90,8 @@ add_custom_target(
 	DEPENDS "${CMAKE_INSTALL_PREFIX}/share/oglplus/doc/doxygen/index.html"
 )
 
+add_dependencies(
+	install-doc
+	install-doc-doxygen-html
+)
+

@@ -36,7 +36,138 @@ static inline auto adapt_log_entry_arg(
     };
 }
 //------------------------------------------------------------------------------
+/// @brief Class setting up connections based from configuration
+/// @ingroup msgbus
+/// @see connection_kind
+/// @see connection
+/// @see acceptor
+/// @see application_config
 class connection_setup : public main_ctx_object {
+public:
+    /// @brief Construction from a parent main context object.
+    connection_setup(main_ctx_parent parent) noexcept
+      : main_ctx_object{EAGINE_ID(ConnSetup), parent} {
+        default_init();
+    }
+
+    /// @brief Sets up acceptors listening on the specified address.
+    void setup_acceptors(acceptor_user& target, string_view address);
+
+    /// @brief Sets up acceptors listening on the specified address.
+    void setup_acceptors(acceptor_user& target, identifier address) {
+        setup_acceptors(target, address.name());
+    }
+
+    /// @brief Sets up acceptors listening on the default address.
+    void setup_acceptors(acceptor_user& target) {
+        setup_acceptors(target, string_view{});
+    }
+
+    /// @brief Sets up acceptors listening on the specified address.
+    void setup_acceptors(
+      acceptor_user& target,
+      connection_kinds kinds,
+      string_view address);
+
+    /// @brief Sets up acceptors listening on the specified address.
+    void setup_acceptors(
+      acceptor_user& target,
+      connection_kinds kinds,
+      identifier address) {
+        setup_acceptors(target, kinds, address.name());
+    }
+
+    /// @brief Sets up acceptors listening on the default address.
+    void setup_acceptors(acceptor_user& target, connection_kinds kinds) {
+        setup_acceptors(target, kinds, string_view{});
+    }
+
+    /// @brief Sets up acceptors listening on the specified address.
+    void setup_acceptors(
+      acceptor_user& target,
+      connection_kind kind,
+      string_view address);
+
+    /// @brief Sets up acceptors listening on the specified address.
+    void setup_acceptors(
+      acceptor_user& target,
+      connection_kind kind,
+      identifier address) {
+        setup_acceptors(target, kind, address.name());
+    }
+
+    /// @brief Sets up acceptors listening on the default address.
+    void setup_acceptors(acceptor_user& target, connection_kind kind) {
+        setup_acceptors(target, kind, string_view{});
+    }
+
+    /// @brief Sets up connectors connecting to the specified address.
+    void setup_connectors(connection_user& target, string_view address);
+
+    /// @brief Sets up connectors connecting to the specified address.
+    void setup_connectors(connection_user& target, identifier address) {
+        setup_connectors(target, address.name());
+    }
+
+    /// @brief Sets up connectors connecting to the default address.
+    void setup_connectors(connection_user& target) {
+        setup_connectors(target, string_view{});
+    }
+
+    /// @brief Sets up connectors connecting to the specified address.
+    void setup_connectors(
+      connection_user& target,
+      connection_kinds kinds,
+      string_view address);
+
+    /// @brief Sets up connectors connecting to the specified address.
+    void setup_connectors(
+      connection_user& target,
+      connection_kinds kinds,
+      identifier address) {
+        setup_connectors(target, kinds, address.name());
+    }
+
+    /// @brief Sets up connectors connecting to the default address.
+    void setup_connectors(connection_user& target, connection_kinds kinds) {
+        setup_connectors(target, kinds, string_view{});
+    }
+
+    /// @brief Sets up connectors connecting to the specified address.
+    void setup_connectors(
+      connection_user& target,
+      connection_kind kind,
+      string_view address);
+
+    /// @brief Sets up connectors connecting to the specified address.
+    void setup_connectors(
+      connection_user& target,
+      connection_kind kind,
+      identifier address) {
+        setup_connectors(target, kind, address.name());
+    }
+
+    /// @brief Sets up connectors connecting to the default address.
+    void setup_connectors(connection_user& target, connection_kind kind) {
+        setup_connectors(target, kind, string_view{});
+    }
+
+    /// @brief Adds a new connection factory.
+    void add_factory(std::unique_ptr<connection_factory> factory);
+
+    template <typename Factory, typename... Args>
+    auto make_factory(Args&&... args)
+      -> std::enable_if_t<std::is_base_of_v<connection_factory, Factory>> {
+        add_factory(
+          std::make_unique<Factory>(*this, std::forward<Args>(args)...));
+    }
+
+    /// @brief Uses the configuration to do initialization of this setup.
+    void default_init() {
+        connection_setup_default_init(*this);
+    }
+
+private:
     std::mutex _mutex{};
 
     using _factory_list = std::vector<std::unique_ptr<connection_factory>>;
@@ -64,109 +195,6 @@ class connection_setup : public main_ctx_object {
 
     auto _make_call_setup_acceptors(acceptor_user&, string_view address);
     auto _make_call_setup_connectors(connection_user&, string_view address);
-
-public:
-    connection_setup(main_ctx_parent parent) noexcept
-      : main_ctx_object{EAGINE_ID(ConnSetup), parent} {
-        default_init();
-    }
-
-    void setup_acceptors(acceptor_user& target, string_view address);
-
-    void setup_acceptors(acceptor_user& target, identifier address) {
-        setup_acceptors(target, address.name());
-    }
-
-    void setup_acceptors(acceptor_user& target) {
-        setup_acceptors(target, string_view{});
-    }
-
-    void setup_acceptors(
-      acceptor_user& target,
-      connection_kinds kinds,
-      string_view address);
-
-    void setup_acceptors(
-      acceptor_user& target,
-      connection_kinds kinds,
-      identifier address) {
-        setup_acceptors(target, kinds, address.name());
-    }
-
-    void setup_acceptors(acceptor_user& target, connection_kinds kinds) {
-        setup_acceptors(target, kinds, string_view{});
-    }
-
-    void setup_acceptors(
-      acceptor_user& target,
-      connection_kind kind,
-      string_view address);
-
-    void setup_acceptors(
-      acceptor_user& target,
-      connection_kind kind,
-      identifier address) {
-        setup_acceptors(target, kind, address.name());
-    }
-
-    void setup_acceptors(acceptor_user& target, connection_kind kind) {
-        setup_acceptors(target, kind, string_view{});
-    }
-
-    void setup_connectors(connection_user& target, string_view address);
-
-    void setup_connectors(connection_user& target, identifier address) {
-        setup_connectors(target, address.name());
-    }
-
-    void setup_connectors(connection_user& target) {
-        setup_connectors(target, string_view{});
-    }
-
-    void setup_connectors(
-      connection_user& target,
-      connection_kinds kinds,
-      string_view address);
-
-    void setup_connectors(
-      connection_user& target,
-      connection_kinds kinds,
-      identifier address) {
-        setup_connectors(target, kinds, address.name());
-    }
-
-    void setup_connectors(connection_user& target, connection_kinds kinds) {
-        setup_connectors(target, kinds, string_view{});
-    }
-
-    void setup_connectors(
-      connection_user& target,
-      connection_kind kind,
-      string_view address);
-
-    void setup_connectors(
-      connection_user& target,
-      connection_kind kind,
-      identifier address) {
-        setup_connectors(target, kind, address.name());
-    }
-
-    void setup_connectors(connection_user& target, connection_kind kind) {
-        setup_connectors(target, kind, string_view{});
-    }
-
-    void add_factory(std::unique_ptr<connection_factory> factory);
-
-    template <typename Factory, typename... Args>
-    auto make_factory(Args&&... args)
-      -> std::enable_if_t<std::is_base_of_v<connection_factory, Factory>> {
-        add_factory(
-          std::make_unique<Factory>(*this, std::forward<Args>(args)...));
-    }
-
-    void default_init() {
-        connection_setup_default_init(*this);
-    }
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus

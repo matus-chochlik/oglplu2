@@ -1,4 +1,4 @@
-/// @example application/027_single_pass_edges/resources.cpp
+/// @example application/022_single_pass_edges/resources.cpp
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -27,7 +27,7 @@ void edges_program::init(execution_context& ec, video_context& vc) {
 
     gl.create_program() >> prog;
 
-    const auto prog_src{embed(EAGINE_ID(prog), "single_pass_edges_prog")};
+    const auto prog_src{embed(EAGINE_ID(prog), "single_pass_edges.oglpprog")};
     gl.build_program(prog, prog_src.unpack(ec));
     gl.use_program(prog);
 

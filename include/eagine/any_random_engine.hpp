@@ -14,6 +14,7 @@
 namespace eagine {
 
 /// @brief Type-erasing reference for standard random engine types.
+/// @ingroup type_utils
 template <typename Result>
 class any_random_engine : public callable_ref<Result()> {
 public:

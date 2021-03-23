@@ -28,7 +28,7 @@ void cubes_program::init(execution_context& ec, video_context& vc) {
 
     gl.create_program() >> prog;
 
-    const auto prog_src{embed(EAGINE_ID(prog), "example.oglpprog")};
+    const auto prog_src{embed(EAGINE_ID(prog), "scaled_cubes.oglpprog")};
     gl.build_program(prog, prog_src.unpack(ec));
     gl.use_program(prog);
 

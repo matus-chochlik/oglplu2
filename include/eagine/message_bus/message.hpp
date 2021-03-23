@@ -48,6 +48,7 @@ static constexpr auto broadcast_endpoint_id() noexcept -> identifier_t {
 using message_age = std::chrono::duration<float>;
 //------------------------------------------------------------------------------
 /// @brief Message priority enumeration.
+/// @ingroup msgbus
 enum class message_priority : std::uint8_t {
     /// @brief Idle, sent only when no messages with higher priority are enqueued.
     idle,
@@ -60,6 +61,15 @@ enum class message_priority : std::uint8_t {
     /// @brief Critical, sent as soon as possible.
     critical
 };
+//------------------------------------------------------------------------------
+/// @brief Message priority ordering.
+/// @ingroup msgbus
+/// @relates message_priority
+static inline auto operator<(message_priority l, message_priority r) noexcept
+  -> bool {
+    using U = std::underlying_type_t<message_priority>;
+    return U(l) < U(r);
+}
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
@@ -372,20 +382,27 @@ private:
     memory::buffer _buffer{};
 };
 //------------------------------------------------------------------------------
+/// @brief Class storing message bus messages.
+/// @ingroup msgbus
+/// @see serialized_message_storage
 class message_storage {
 public:
+    /// @brief Default constructor.
     message_storage() {
         _messages.reserve(64);
     }
 
+    /// @brief Indicates if the storage is empty.
     auto empty() const noexcept -> bool {
         return _messages.empty();
     }
 
-    auto size() const noexcept -> span_size_t {
+    /// @brief Returns the coung of messages in the storage.
+    auto count() const noexcept -> span_size_t {
         return span_size(_messages.size());
     }
 
+    /// @brief Pushes a message into this storage.
     void push(message_id msg_id, const message_view& message) {
         _messages.emplace_back(
           msg_id,
@@ -393,6 +410,9 @@ public:
           _clock_t::now());
     }
 
+    /// @brief Pushes a new message and lets a function to fill it.
+    ///
+    /// The function's Boolean return value indicates if the message should be kept.
     template <typename Function>
     auto push_if(Function function, span_size_t req_size = 0) -> bool {
         _messages.emplace_back(
@@ -417,15 +437,24 @@ public:
         return true;
     }
 
+    /// @brief Alias for the message fetch handler.
+    /// @see fetch_all
+    ///
     /// The return value indicates if the message is considered handled
     /// and should be removed.
     using fetch_handler =
       callable_ref<bool(message_id, message_age, const message_view&)>;
 
+    /// @brief Fetches all currently stored messages and calls handler on them.
     auto fetch_all(fetch_handler handler) -> bool;
 
+    /// @brief Alias for message cleanup callable predicate.
+    /// @see cleanup
+    ///
+    /// The return value indicates if a message should be removed.
     using cleanup_predicate = callable_ref<bool(message_age)>;
 
+    /// @brief Removes messages based on the result of the specified predicate.
     void cleanup(cleanup_predicate predicate);
 
 private:
@@ -433,6 +462,54 @@ private:
     using _timestamp_t = _clock_t::time_point;
     memory::buffer_pool _buffers;
     std::vector<std::tuple<message_id, stored_message, _timestamp_t>> _messages;
+};
+//------------------------------------------------------------------------------
+class message_pack_info {
+public:
+    using bit_set = std::uint64_t;
+
+    message_pack_info(span_size_t total_size) noexcept
+      : _total_size{limit_cast<std::uint16_t>(total_size)} {}
+
+    auto is_empty() const noexcept {
+        return _packed_bits == 0U;
+    }
+
+    auto bits() const noexcept -> bit_set {
+        return _packed_bits;
+    }
+
+    auto count() const noexcept -> span_size_t {
+        span_size_t result = 0;
+        auto bits = _packed_bits;
+        while(bits) {
+            ++result;
+            bits &= (bits - 1U);
+        }
+        return result;
+    }
+
+    auto used() const noexcept -> span_size_t {
+        return span_size(_packed_size);
+    }
+
+    auto total() const noexcept -> span_size_t {
+        return span_size(_total_size);
+    }
+
+    auto usage() const noexcept {
+        return float(used()) / float(total());
+    }
+
+    void add(span_size_t msg_size, bit_set current_bit) noexcept {
+        _packed_size += limit_cast<std::uint16_t>(msg_size);
+        _packed_bits |= current_bit;
+    }
+
+private:
+    bit_set _packed_bits{0U};
+    std::uint16_t _packed_size{0};
+    const std::uint16_t _total_size{0};
 };
 //------------------------------------------------------------------------------
 class serialized_message_storage {
@@ -449,7 +526,7 @@ public:
         return _messages.empty();
     }
 
-    auto size() const noexcept -> span_size_t {
+    auto count() const noexcept -> span_size_t {
         return span_size(_messages.size());
     }
 
@@ -476,11 +553,9 @@ public:
     auto fetch_some(fetch_handler handler, span_size_t n) -> bool;
     auto fetch_all(fetch_handler handler) -> bool;
 
-    using bit_set = std::uint64_t;
+    auto pack_into(memory::block dest) -> message_pack_info;
 
-    auto pack_into(memory::block dest) -> bit_set;
-
-    void cleanup(bit_set to_be_removed);
+    void cleanup(const message_pack_info& to_be_removed);
 
 private:
     memory::buffer_pool _buffers;
@@ -572,13 +647,10 @@ private:
     std::vector<stored_message> _messages;
 };
 //------------------------------------------------------------------------------
-struct connection_outgoing_messages {
-    using bit_set = serialized_message_storage::bit_set;
-
-    serialized_message_storage serialized{};
-
-    auto size() const noexcept -> span_size_t {
-        return serialized.size();
+class connection_outgoing_messages {
+public:
+    auto count() const noexcept -> span_size_t {
+        return _serialized.count();
     }
 
     auto enqueue(
@@ -587,38 +659,43 @@ struct connection_outgoing_messages {
       const message_view&,
       memory::block) -> bool;
 
-    auto pack_into(memory::block dest) -> bit_set {
-        return serialized.pack_into(dest);
+    auto pack_into(memory::block dest) -> message_pack_info {
+        return _serialized.pack_into(dest);
     }
 
-    void cleanup(bit_set to_be_removed) {
-        serialized.cleanup(to_be_removed);
+    void cleanup(const message_pack_info& packed) {
+        _serialized.cleanup(packed);
     }
+
+private:
+    serialized_message_storage _serialized{};
 };
 //------------------------------------------------------------------------------
-struct connection_incoming_messages {
+class connection_incoming_messages {
+public:
     using fetch_handler =
       callable_ref<bool(message_id, message_age, const message_view&)>;
 
-    serialized_message_storage packed{};
-    message_storage unpacked{};
-
     auto empty() const noexcept -> bool {
-        return packed.empty();
+        return _packed.empty();
     }
 
-    auto size() const noexcept -> span_size_t {
-        return packed.size();
+    auto count() const noexcept -> span_size_t {
+        return _packed.count();
     }
 
     void push(memory::const_block data) {
-        packed.push(data);
+        _packed.push(data);
     }
 
     auto fetch_messages(
       main_ctx_object& user,
       fetch_handler handler,
       span_size_t batch = 64) -> bool;
+
+private:
+    serialized_message_storage _packed{};
+    message_storage _unpacked{};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

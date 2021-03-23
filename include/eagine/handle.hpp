@@ -12,6 +12,7 @@
 #include "span.hpp"
 #include "wrapping_container.hpp"
 #include <array>
+#include <vector>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -73,7 +74,7 @@ public:
     }
 
     struct transform {
-        constexpr auto operator()(Handle hndl) noexcept {
+        constexpr auto operator()(Handle hndl) const noexcept {
             return basic_handle<Tag, Handle, invalid>{hndl};
         }
     };
@@ -169,12 +170,18 @@ public:
 //------------------------------------------------------------------------------
 /// @brief Alias for basic handle container based on non-const span.
 /// @ingroup c_api_wrap
+/// @see basic_handle_view
+/// @see basic_handle_array
+/// @see basic_handle_vector
 template <typename BasicHandle>
 using basic_handle_span =
   basic_handle_container<BasicHandle, span<typename BasicHandle::handle_type>>;
 
 /// @brief Alias for basic handle container based on const span.
 /// @ingroup c_api_wrap
+/// @see basic_handle_span
+/// @see basic_handle_array
+/// @see basic_handle_vector
 template <typename BasicHandle>
 using basic_handle_view = basic_handle_container<
   BasicHandle,
@@ -182,10 +189,23 @@ using basic_handle_view = basic_handle_container<
 
 /// @brief Alias for basic handle container based on std::array.
 /// @ingroup c_api_wrap
+/// @see basic_handle_span
+/// @see basic_handle_view
+/// @see basic_handle_vector
 template <typename BasicHandle, std::size_t N>
 using basic_handle_array = basic_handle_container<
   BasicHandle,
   std::array<typename BasicHandle::handle_type, N>>;
+
+/// @brief Alias for basic handle container based on std::vector.
+/// @ingroup c_api_wrap
+/// @see basic_handle_span
+/// @see basic_handle_view
+/// @see basic_handle_array
+template <typename BasicHandle>
+using basic_handle_vector = basic_handle_container<
+  BasicHandle,
+  std::vector<typename BasicHandle::handle_type>>;
 //------------------------------------------------------------------------------
 } // namespace eagine
 

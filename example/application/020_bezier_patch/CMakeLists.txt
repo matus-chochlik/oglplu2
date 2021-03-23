@@ -3,11 +3,11 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-oglplus_add_glsl_program(bpatch_prog)
+oglplus_add_glsl_program(bezier_patch)
 add_executable(application-020_bezier_patch main.cpp resources.cpp)
 eagine_embed_packed_target_resources(
 	application-020_bezier_patch
-	bpatch_prog
+	bezier_patch.oglpprog
 )
 eagine_add_exe_analysis(application-020_bezier_patch)
 

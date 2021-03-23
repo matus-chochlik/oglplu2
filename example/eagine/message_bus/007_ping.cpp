@@ -16,7 +16,6 @@
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/timeout.hpp>
-#include <eagine/units/unit/si/temperature.hpp>
 #include <algorithm>
 #include <chrono>
 #include <cmath>

@@ -12,13 +12,66 @@
 #include "assert.hpp"
 #include "deep_copy_ptr.hpp"
 #include "interface.hpp"
+#include "selector.hpp"
 #include <iterator>
 
 namespace eagine {
 
-// any_forward_iterator
+/// @brief Type erasure for forward iterators.
+/// @ingroup type_utils
+/// @see any_std_forward_iterator
 template <typename VT, typename RT, typename PT, typename DT>
 class any_forward_iterator {
+public:
+    /// @brief Alias for value type.
+    using value_type = VT;
+
+    /// @brief Alias for reference type.
+    using reference = RT;
+
+    /// @brief Alias for pointer type.
+    using pointer = PT;
+
+    /// @brief Alias fro difference type.
+    using difference_type = DT;
+
+    /// @brief Iterator category.
+    using iterator_category = std::forward_iterator_tag;
+
+    template <typename Iter>
+    any_forward_iterator(construct_from_t, Iter i)
+      : _pimpl{make_deep_copy_ptr<_impl<Iter>>(i)} {}
+
+    /// @brief Equality comparison.
+    friend bool
+    operator==(const any_forward_iterator& a, const any_forward_iterator& b) {
+        return a._pimpl->_equal(b._pimpl.get());
+    }
+
+    /// @brief Non-equality comparison.
+    friend bool
+    operator!=(const any_forward_iterator& a, const any_forward_iterator& b) {
+        return !a._pimpl->_equal(b._pimpl.get());
+    }
+
+    /// @brief Dereference operator.
+    reference operator*() const {
+        return _pimpl->_deref();
+    }
+
+    /// @brief Pre-increment.
+    any_forward_iterator& operator++() {
+        _pimpl->_advance();
+        return *this;
+    }
+
+    /// @brief Post-increment.
+    const any_forward_iterator operator++(int) {
+        any_forward_iterator i = *this;
+        _pimpl->_advance();
+        return i;
+    }
+
 private:
     struct _intf : interface<_intf> {
         virtual std::unique_ptr<_intf> copy() = 0;
@@ -54,52 +107,10 @@ private:
     };
 
     deep_copy_ptr<_intf> _pimpl;
-
-public:
-    using value_type = VT;
-    using reference = RT;
-    using pointer = PT;
-    using difference_type = DT;
-
-    using iterator_category = std::forward_iterator_tag;
-
-    any_forward_iterator() = default;
-    any_forward_iterator(any_forward_iterator&&) noexcept = default;
-    any_forward_iterator(const any_forward_iterator&) = default;
-    any_forward_iterator& operator=(const any_forward_iterator&) = default;
-    any_forward_iterator& operator=(any_forward_iterator&&) noexcept = default;
-    ~any_forward_iterator() noexcept = default;
-
-    template <typename Iter>
-    any_forward_iterator(Iter i)
-      : _pimpl(make_deep_copy_ptr<_impl<Iter>>(i)) {}
-
-    friend bool
-    operator==(const any_forward_iterator& a, const any_forward_iterator& b) {
-        return a._pimpl->_equal(b._pimpl.get());
-    }
-
-    friend bool
-    operator!=(const any_forward_iterator& a, const any_forward_iterator& b) {
-        return !a._pimpl->_equal(b._pimpl.get());
-    }
-
-    reference operator*() const {
-        return _pimpl->_deref();
-    }
-
-    any_forward_iterator& operator++() {
-        _pimpl->_advance();
-        return *this;
-    }
-
-    const any_forward_iterator operator++(int) {
-        any_forward_iterator i = *this;
-        _pimpl->_advance();
-        return i;
-    }
 };
 
+/// @brief Alias for type erased STL forward iterators.
+/// @ingroup type_utils
 template <typename T>
 using any_std_forward_iterator =
   any_forward_iterator<T, const T&, const T*, std::ptrdiff_t>;

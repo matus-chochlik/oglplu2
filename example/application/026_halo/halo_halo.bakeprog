@@ -1,0 +1,3 @@
+--vertex;vertex_halo.glsl;
+--geometry;geometry_halo.glsl;
+--fragment;fragment_halo.glsl;

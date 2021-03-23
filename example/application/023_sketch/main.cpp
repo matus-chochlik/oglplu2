@@ -1,4 +1,4 @@
-/// @example application/022_halo/main.cpp
+/// @example application/023_sketch/main.cpp
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -11,13 +11,7 @@
 
 #include <eagine/application/camera.hpp>
 #include <eagine/application/main.hpp>
-#include <eagine/embed.hpp>
-#include <eagine/shapes/adjacency.hpp>
-#include <eagine/shapes/icosahedron.hpp>
-#include <eagine/shapes/torus.hpp>
-#include <eagine/shapes/value_tree.hpp>
 #include <eagine/timeout.hpp>
-#include <eagine/value_tree/json.hpp>
 #include <oglplus/math/matrix.hpp>
 #include <oglplus/math/vector.hpp>
 
@@ -27,12 +21,9 @@
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
-class example_halo : public application {
+class example_sketch : public application {
 public:
-    example_halo(
-      execution_context&,
-      video_context&,
-      std::shared_ptr<shapes::generator>);
+    example_sketch(execution_context&, video_context&);
 
     auto is_done() noexcept -> bool final {
         return _is_done.is_expired();
@@ -48,60 +39,53 @@ private:
     timeout _is_done{std::chrono::seconds{30}};
 
     orbiting_camera _camera;
-    surface_program _surf_prog;
-    halo_program _halo_prog;
+    sketch_program _sketch_prog;
     shape_geometry _shape;
+    sketch_texture _tex;
 };
 //------------------------------------------------------------------------------
-example_halo::example_halo(
-  execution_context& ec,
-  video_context& vc,
-  std::shared_ptr<shapes::generator> gen)
+example_sketch::example_sketch(execution_context& ec, video_context& vc)
   : _ctx{ec}
-  , _video{vc}
-  , _shape{std::move(gen)} {
+  , _video{vc} {
     auto& glapi = _video.gl_api();
     auto& [gl, GL] = glapi;
 
     _shape.init(ec, vc);
+    _tex.init(ec, vc);
 
-    _surf_prog.init(ec, vc);
-    _surf_prog.bind_position_location(vc, _shape.position_loc());
-    _surf_prog.bind_normal_location(vc, _shape.normal_loc());
-
-    _halo_prog.init(ec, vc);
-    _halo_prog.bind_position_location(vc, _shape.position_loc());
-    _halo_prog.bind_normal_location(vc, _shape.normal_loc());
+    _sketch_prog.init(ec, vc);
+    _sketch_prog.bind_position_location(vc, _shape.position_loc());
+    _sketch_prog.bind_normal_location(vc, _shape.normal_loc());
+    _sketch_prog.bind_coord_location(vc, _shape.coord_loc());
 
     // camera
     _camera.set_near(0.1F)
       .set_far(50.F)
-      .set_orbit_min(1.4F)
-      .set_orbit_max(3.5F)
-      .set_fov(right_angle_());
+      .set_orbit_min(1.1F)
+      .set_orbit_max(2.5F)
+      .set_fov(degrees_(50.F));
 
-    gl.clear_color(0.25F, 0.25F, 0.25F, 0.0F);
+    gl.clear_color(0.85F, 0.85F, 0.85F, 0.0F);
     gl.enable(GL.depth_test);
     gl.enable(GL.cull_face);
     gl.cull_face(GL.back);
-    gl.blend_func(GL.src_alpha, GL.one);
 
     _camera.connect_inputs(ec).basic_input_mapping(ec);
     ec.setup_inputs().switch_input_mapping();
 }
 //------------------------------------------------------------------------------
-void example_halo::on_video_resize() noexcept {
+void example_sketch::on_video_resize() noexcept {
     auto& gl = _video.gl_api();
     gl.viewport(_video.surface_size());
 }
 //------------------------------------------------------------------------------
-void example_halo::update() noexcept {
+void example_sketch::update() noexcept {
     auto& state = _ctx.state();
     if(state.is_active()) {
         _is_done.reset();
     }
     if(state.user_idle_too_long()) {
-        _camera.idle_update(state, 5.F);
+        _camera.idle_update(state, 9.F);
     }
 
     auto& glapi = _video.gl_api();
@@ -109,54 +93,26 @@ void example_halo::update() noexcept {
 
     gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
 
-    float t = _ctx.state().frame_time().value();
-    _surf_prog.prepare_frame(_video, _camera, t);
+    _sketch_prog.prepare_frame(
+      _video, _camera, _ctx.state().frame_time().value());
     _shape.draw(_ctx, _video);
-
-    gl.depth_mask(GL.false_);
-    gl.enable(GL.blend);
-    _halo_prog.prepare_frame(_video, _camera, t);
-    _shape.draw(_ctx, _video);
-    gl.disable(GL.blend);
-    gl.depth_mask(GL.true_);
 
     _video.commit();
 }
 //------------------------------------------------------------------------------
-void example_halo::clean_up() noexcept {
+void example_sketch::clean_up() noexcept {
 
-    _halo_prog.clean_up(_video);
-    _surf_prog.clean_up(_video);
+    _sketch_prog.clean_up(_video);
     _shape.clean_up(_video);
+    _tex.init(_ctx, _video);
 
     _video.end();
 }
 //------------------------------------------------------------------------------
 class example_launchpad : public launchpad {
 public:
-    auto setup(main_ctx& ctx, launch_options& opts) -> bool final {
+    auto setup(main_ctx&, launch_options& opts) -> bool final {
         opts.no_audio().require_input().require_video();
-        std::shared_ptr<shapes::generator> gen;
-
-        if(ctx.args().find("--icosahedron")) {
-            gen = shapes::unit_icosahedron(
-              shapes::vertex_attrib_kind::position |
-              shapes::vertex_attrib_kind::normal);
-        } else if(ctx.args().find("--torus")) {
-            gen = shapes::unit_torus(
-              shapes::vertex_attrib_kind::position |
-              shapes::vertex_attrib_kind::normal);
-        }
-
-        if(!gen) {
-            const auto json_src{
-              embed(EAGINE_ID(SphereJson), "twisted_sphere.json")};
-            gen = shapes::from_value_tree(
-              valtree::from_json_text(as_chars(json_src.unpack(ctx)), ctx),
-              ctx);
-        }
-
-        _gen = shapes::add_triangle_adjacency(std::move(gen));
         return true;
     }
 
@@ -180,15 +136,12 @@ public:
             vc.begin();
             if(vc.init_gl_api()) {
                 if(check_requirements(vc)) {
-                    return {std::make_unique<example_halo>(ec, vc, _gen)};
+                    return {std::make_unique<example_sketch>(ec, vc)};
                 }
             }
         }
         return {};
     }
-
-private:
-    std::shared_ptr<shapes::generator> _gen;
 };
 //------------------------------------------------------------------------------
 auto establish(main_ctx&) -> std::unique_ptr<launchpad> {

@@ -45,10 +45,19 @@ using gl_object_name_view = basic_handle_view<gl_object_name<Tag>>;
 
 /// @brief Alias for template wrapping an array of GL object handles.
 /// @ingroup gl_api_wrap
+/// @see gl_object_name_vector
 /// @see gl_object_name_span
 /// @see gl_object_name_view
 template <typename Tag, std::size_t N>
 using gl_object_name_array = basic_handle_array<gl_object_name<Tag>, N>;
+
+/// @brief Alias for template wrapping a vector of GL object handles.
+/// @ingroup gl_api_wrap
+/// @see gl_object_name_array
+/// @see gl_object_name_span
+/// @see gl_object_name_view
+template <typename Tag>
+using gl_object_name_vector = basic_handle_vector<gl_object_name<Tag>>;
 //------------------------------------------------------------------------------
 /// @brief Tag type denoting GL buffer objects.
 /// @ingroup gl_api_wrap

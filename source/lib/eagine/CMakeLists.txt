@@ -36,8 +36,9 @@ set(EAGINE_LIB_SOURCES
 	shapes_base.cpp
 	shapes_topology.cpp
 	shapes_cube.cpp
-	shapes_torus.cpp
 	shapes_sphere.cpp
+	shapes_torus.cpp
+	shapes_twisted_torus.cpp
 	shapes_icosahedron.cpp
 	shapes_value_tree.cpp
 	shapes_modifiers.cpp

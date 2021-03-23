@@ -22,7 +22,7 @@ void patch_program::init(execution_context& ec, video_context& vc) {
 
     gl.create_program() >> prog;
 
-    const auto prog_src{embed(EAGINE_ID(BPatchProg), "bpatch_prog")};
+    const auto prog_src{embed(EAGINE_ID(BPatchProg), "bezier_patch.oglpprog")};
     gl.build_program(prog, prog_src.unpack(ec));
     gl.use_program(prog);
 

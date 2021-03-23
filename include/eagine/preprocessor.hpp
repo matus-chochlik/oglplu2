@@ -22,7 +22,7 @@
 
 #elif defined(_MSC_VER)
 
-#define RAPIDJSON_PRAGMA(x) __pragma(x)
+#define EAGINE_PRAGMA(x) __pragma(x)
 
 #endif
 

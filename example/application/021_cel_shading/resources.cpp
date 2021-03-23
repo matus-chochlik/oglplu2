@@ -1,4 +1,4 @@
-/// @example application/026_cel_shading/resources.cpp
+/// @example application/021_cel_shading/resources.cpp
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -23,7 +23,7 @@ void cel_program::init(execution_context& ec, video_context& vc) {
 
     gl.create_program() >> prog;
 
-    const auto prog_src{embed(EAGINE_ID(prog), "cel_shading_prog")};
+    const auto prog_src{embed(EAGINE_ID(prog), "cel_shading.oglpprog")};
     gl.build_program(prog, prog_src.unpack(ec));
     gl.use_program(prog);
 

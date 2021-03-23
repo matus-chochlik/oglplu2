@@ -3,11 +3,11 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-oglplus_add_glsl_program(tessellation_prog)
+oglplus_add_glsl_program(sphere_tessellation)
 add_executable(application-031_tessellation main.cpp resources.cpp)
 eagine_embed_packed_target_resources(
 	application-031_tessellation
-	tessellation_prog
+	sphere_tessellation.oglpprog
 )
 eagine_add_exe_analysis(application-031_tessellation)
 

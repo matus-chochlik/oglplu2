@@ -1,0 +1,3 @@
+--vertex;sketch_vertex.glsl;
+--geometry;sketch_geometry.glsl;
+--fragment;sketch_fragment.glsl;

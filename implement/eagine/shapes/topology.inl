@@ -6,6 +6,7 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/assert.hpp>
+#include <eagine/math/tvec.hpp>
 #include <iostream>
 
 namespace eagine {
@@ -24,8 +25,33 @@ struct topology_data {
           span_size(values_per_vertex));
     }
 
-    auto is_same_vertex(unsigned i, unsigned j) const noexcept -> bool {
-        return (i == j) || are_equal(values_of(i), values_of(j));
+    auto to_vec(span<const float> v) const noexcept {
+        return math::tvec<float, 3, true>{v[0], v[1], v[2]};
+    }
+
+    auto vec_of(unsigned i) const noexcept {
+        return to_vec(values_of(i));
+    }
+
+    auto distance_delta(const mesh_triangle& tri) const noexcept -> float {
+        const auto a = vec_of(tri.vertex_index(0));
+        const auto b = vec_of(tri.vertex_index(1));
+        const auto c = vec_of(tri.vertex_index(2));
+        return 0.1F *
+               std::min(
+                 std::min(distance(a, b), distance(b, c)), distance(a, c));
+    }
+
+    auto have_same_position(unsigned i, unsigned j, float delta) const noexcept
+      -> bool {
+        const auto p = vec_of(i);
+        const auto q = vec_of(j);
+        return distance(p, q) < delta;
+    }
+
+    auto is_same_vertex(unsigned i, unsigned j, float delta) const noexcept
+      -> bool {
+        return (i == j) || have_same_position(i, j, delta);
     }
 };
 //------------------------------------------------------------------------------
@@ -33,13 +59,14 @@ EAGINE_LIB_FUNC
 auto mesh_triangle::setup_adjacent(
   mesh_triangle& l,
   mesh_triangle& r,
-  const topology_data& d) noexcept
+  const topology_data& topo) noexcept
   -> std::tuple<bool, std::uint8_t, std::uint8_t, std::uint8_t, std::uint8_t> {
     EAGINE_ASSERT(l.index() != r.index());
+    const auto delta = topo.distance_delta(l);
     for(auto i : integer_range(std_size(3))) {
         for(auto j : integer_range(std_size(3))) {
-            if(d.is_same_vertex(l.curri(i), r.curri(j))) {
-                if(d.is_same_vertex(l.previ(i), r.previ(j))) {
+            if(topo.is_same_vertex(l.curri(i), r.curri(j), delta)) {
+                if(topo.is_same_vertex(l.previ(i), r.previ(j), delta)) {
                     l._adjacent[prevv(i)] = &r;
                     l._opposite[prevv(i)] = narrow(nextv(j));
                     r._adjacent[prevv(j)] = &l;
@@ -50,7 +77,7 @@ auto mesh_triangle::setup_adjacent(
                       narrow(i),
                       narrow(prevv(j)),
                       narrow(j)};
-                } else if(d.is_same_vertex(l.previ(i), r.nexti(j))) {
+                } else if(topo.is_same_vertex(l.previ(i), r.nexti(j), delta)) {
                     l._adjacent[prevv(i)] = &r;
                     l._opposite[prevv(i)] = narrow(prevv(j));
                     r._adjacent[j] = &l;
@@ -61,7 +88,7 @@ auto mesh_triangle::setup_adjacent(
                       narrow(i),
                       narrow(j),
                       narrow(nextv(j))};
-                } else if(d.is_same_vertex(l.nexti(i), r.previ(j))) {
+                } else if(topo.is_same_vertex(l.nexti(i), r.previ(j), delta)) {
                     l._adjacent[i] = &r;
                     l._opposite[i] = narrow(nextv(j));
                     r._adjacent[prevv(j)] = &l;
@@ -72,7 +99,7 @@ auto mesh_triangle::setup_adjacent(
                       narrow(nextv(i)),
                       narrow(prevv(j)),
                       narrow(j)};
-                } else if(d.is_same_vertex(l.nexti(i), r.nexti(j))) {
+                } else if(topo.is_same_vertex(l.nexti(i), r.nexti(j), delta)) {
                     l._adjacent[i] = &r;
                     l._opposite[i] = narrow(prevv(j));
                     r._adjacent[j] = &l;

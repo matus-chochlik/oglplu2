@@ -20,7 +20,7 @@ auto stored_message::store_and_sign(
     if(ok md_type{ctx.default_message_digest()}) {
         auto& ssl = ctx.ssl();
         _buffer.resize(max_size);
-        if(auto used = store_data_with_size(data, storage())) {
+        if(auto used{store_data_with_size(data, storage())}) {
             if(ok md_ctx{ssl.new_message_digest()}) {
                 auto cleanup{ssl.delete_message_digest.raii(md_ctx)};
 
@@ -159,33 +159,72 @@ auto serialized_message_storage::fetch_all(fetch_handler handler) -> bool {
     return fetched_some;
 }
 //------------------------------------------------------------------------------
+class message_packing_context {
+public:
+    using bit_set = message_pack_info::bit_set;
+
+    message_packing_context(memory::block blk) noexcept
+      : _blk{blk}
+      , _info{_blk.size()} {}
+
+    auto info() const noexcept -> const message_pack_info& {
+        return _info;
+    }
+
+    auto dest() noexcept {
+        return _blk;
+    }
+
+    auto is_full() const noexcept {
+        return _current_bit == 0U;
+    }
+
+    void add(span_size_t size) noexcept {
+        _blk = skip(_blk, size);
+        _info.add(size, _current_bit);
+    }
+
+    void next() noexcept {
+        _current_bit <<= 1U;
+    }
+
+    void finalize() noexcept {
+        zero(_blk);
+    }
+
+private:
+    bit_set _current_bit{1U};
+    memory::block _blk;
+    message_pack_info _info;
+};
+//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto serialized_message_storage::pack_into(memory::block dest) -> bit_set {
-    bit_set result{0U};
-    bit_set current{1U};
+auto serialized_message_storage::pack_into(memory::block dest)
+  -> message_pack_info {
+    message_packing_context packing{dest};
 
     for(auto& message : _messages) {
-        if(current == 0U) {
+        if(packing.is_full()) {
             break;
         }
-        if(auto packed = store_data_with_size(view(message), dest)) {
-            dest = skip(dest, packed.size());
-            result |= current;
+        if(auto packed{store_data_with_size(view(message), packing.dest())}) {
+            packing.add(packed.size());
         }
-        current <<= 1U;
+        packing.next();
     }
-    zero(dest);
+    packing.finalize();
 
-    return result;
+    return packing.info();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void serialized_message_storage::cleanup(bit_set to_be_removed) {
+void serialized_message_storage::cleanup(const message_pack_info& packed) {
+    auto to_be_removed = packed.bits();
     _messages.erase(
       std::remove_if(
         _messages.begin(),
         _messages.end(),
-        [this, &to_be_removed](auto& message) mutable {
+        [this, to_be_removed](auto& message) mutable {
             const bool do_remove = (to_be_removed & 1U) == 1U;
             if(do_remove) {
                 _buffers.eat(std::move(message));
@@ -211,7 +250,7 @@ auto connection_outgoing_messages::enqueue(
     if(!errors) {
         user.log_trace("enqueuing message ${message} to be sent")
           .arg(EAGINE_ID(message), msg_id);
-        serialized.push(sink.done());
+        _serialized.push(sink.done());
         return true;
     }
     user.log_error("failed to serialize message ${message}")
@@ -226,10 +265,10 @@ auto connection_incoming_messages::fetch_messages(
   main_ctx_object& user,
   fetch_handler handler,
   span_size_t batch) -> bool {
-    unpacked.fetch_all(handler);
+    _unpacked.fetch_all(handler);
     auto unpacker = [this, &user, &handler](memory::const_block data) {
         for_each_data_with_size(data, [this, &user](memory::const_block blk) {
-            unpacked.push_if(
+            _unpacked.push_if(
               [&user, blk](message_id& msg_id, stored_message& message) {
                   block_data_source source(blk);
                   string_deserializer_backend backend(source);
@@ -247,11 +286,11 @@ auto connection_incoming_messages::fetch_messages(
                   }
               });
         });
-        unpacked.fetch_all(handler);
+        _unpacked.fetch_all(handler);
         return true;
     };
 
-    return packed.fetch_some({construct_from, unpacker}, batch);
+    return _packed.fetch_some({construct_from, unpacker}, batch);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

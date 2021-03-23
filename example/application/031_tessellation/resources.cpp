@@ -25,7 +25,8 @@ void sphere_program::init(execution_context& ec, video_context& vc) {
 
     gl.create_program() >> prog;
 
-    const auto prog_src{embed(EAGINE_ID(TessProg), "tessellation_prog")};
+    const auto prog_src{
+      embed(EAGINE_ID(TessProg), "sphere_tessellation.oglpprog")};
     gl.build_program(prog, prog_src.unpack(ec));
     gl.use_program(prog);
 

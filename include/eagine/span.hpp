@@ -22,6 +22,10 @@ using memory::cover_one;
 using memory::view;
 using memory::view_one;
 //------------------------------------------------------------------------------
+/// @brief Helper function for pretty-printing spans as lists into output streams.
+/// @ingroup memory
+/// @see write_to_stream
+/// @relates memory::basic_span
 template <typename T, typename P, typename S, typename Output>
 static inline auto list_to_stream(Output& out, memory::basic_span<T, P, S> s)
   -> Output& {
@@ -38,6 +42,10 @@ static inline auto list_to_stream(Output& out, memory::basic_span<T, P, S> s)
     return out << ']';
 }
 //------------------------------------------------------------------------------
+/// @brief Helper function for raw-reading spans from output streams.
+/// @ingroup memory
+/// @see write_to_stream
+/// @relates memory::basic_span
 template <typename Input, typename T, typename P, typename S>
 static inline auto read_from_stream(Input& in, memory::basic_span<T, P, S> s)
   -> auto& {
@@ -45,6 +53,11 @@ static inline auto read_from_stream(Input& in, memory::basic_span<T, P, S> s)
       reinterpret_cast<char*>(s.data()), limit_cast<std::streamsize>(s.size()));
 }
 //------------------------------------------------------------------------------
+/// @brief Helper function for raw-reading spans into output streams.
+/// @ingroup memory
+/// @see read_from_stream
+/// @see list_to_stream
+/// @relates memory::basic_span
 template <typename Output, typename T, typename P, typename S>
 static inline auto write_to_stream(Output& out, memory::basic_span<T, P, S> s)
   -> auto& {
@@ -53,6 +66,10 @@ static inline auto write_to_stream(Output& out, memory::basic_span<T, P, S> s)
       limit_cast<std::streamsize>(s.size()));
 }
 //------------------------------------------------------------------------------
+/// @brief Operator for printing generic element spans into output streams.
+/// @ingroup memory
+/// @see list_to_stream
+/// @relates memory::basic_span
 template <typename T, typename P, typename S>
 static inline auto operator<<(std::ostream& out, memory::basic_span<T, P, S> s)
   -> std::
@@ -60,6 +77,10 @@ static inline auto operator<<(std::ostream& out, memory::basic_span<T, P, S> s)
     return list_to_stream(out, s);
 }
 //------------------------------------------------------------------------------
+/// @brief Operator for printing spans of string characters into output streams.
+/// @ingroup memory
+/// @see write_to_stream
+/// @relates memory::basic_span
 template <typename T, typename P, typename S>
 static inline auto operator<<(std::ostream& out, memory::basic_span<T, P, S> s)
   -> std::
@@ -67,6 +88,13 @@ static inline auto operator<<(std::ostream& out, memory::basic_span<T, P, S> s)
     return write_to_stream(out, absolute(s));
 }
 //------------------------------------------------------------------------------
+/// @brief Makes a callable that returns consecutive span elements starting at i.
+/// @ingroup memory
+/// @see make_span_putter
+/// @relates memory::basic_span
+///
+/// The constructed callable object does not take any arguments in the call
+/// operator and returns optional values of T.
 template <typename T, typename P, typename S>
 static inline auto
 make_span_getter(span_size_t& i, memory::basic_span<T, P, S> spn) {
@@ -83,6 +111,14 @@ static inline auto make_span_getter(span_size_t& i, const Src& src) {
     return make_span_getter(i, view(src));
 }
 //------------------------------------------------------------------------------
+/// @brief Makes a callable getting consecutive, transformed span elements starting at i.
+/// @ingroup memory
+/// @see make_span_putter
+/// @relates memory::basic_span
+///
+/// The constructed callable object does not take any arguments in the call
+/// operator and returns the result of the transform function.
+/// The transform function takes a single optional value of T.
 template <typename T, typename P, typename S, typename Transform>
 static inline auto make_span_getter(
   span_size_t& i,
@@ -102,6 +138,12 @@ make_span_getter(span_size_t& i, const Src& src, Transform transform) {
     return make_span_getter(i, view(src), std::move(transform));
 }
 //------------------------------------------------------------------------------
+/// @brief Makes a callable setting consecutive elements of a span starting at i.
+/// @ingroup memory
+/// @see make_span_getter
+/// @relates memory::basic_span
+///
+/// The constructed callable takes a single value explicitly convertible to T.
 template <typename T, typename P, typename S>
 static inline auto
 make_span_putter(span_size_t& i, memory::basic_span<T, P, S> spn) {
@@ -119,6 +161,13 @@ static inline auto make_span_putter(span_size_t& o, Dst& dst) {
     return make_span_putter(o, cover(dst));
 }
 //------------------------------------------------------------------------------
+/// @brief Makes a callable setting consecutive elements of a span starting at i.
+/// @ingroup memory
+/// @param transform transformation operation to be applied
+/// @see make_span_getter
+/// @relates memory::basic_span
+/// The constructed callable takes a single value explicitly convertible to the
+/// argument of the transform function.
 template <typename T, typename P, typename S, typename Transform>
 static inline auto make_span_putter(
   span_size_t& i,
