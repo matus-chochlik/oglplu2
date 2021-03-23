@@ -2,7 +2,7 @@
 uniform sampler2D Tex;
 
 const vec3 lightDir = normalize(vec3(1.0));
-const float edgeWidth = 1.2;
+const float edgeWidth = 1.4;
 
 noperspective in vec3 geomDist;
 in vec3 geomNormal;
@@ -16,9 +16,9 @@ void main() {
 	float density = max(texture(Tex, geomCoord).r - light, 0.0);
 
     vec3 faceColor = mix(
-		vec3(0.3),
+		vec3(0.2),
 		vec3(0.85, 0.84, 0.84),
-		mix(mix(0.3, 1.0, light), 0.0, density));
+		mix(mix(0.4, 1.0, light), 0.0, density));
     vec3 edgeColor = vec3(0.0);
 
     fragColor = mix(faceColor, edgeColor, edgeAlpha);

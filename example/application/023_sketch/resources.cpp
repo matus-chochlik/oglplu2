@@ -89,9 +89,9 @@ void shape_geometry::init(execution_context& ec, video_context& vc) {
         shapes::vertex_attrib_kind::position |
           shapes::vertex_attrib_kind::normal |
           shapes::vertex_attrib_kind::wrap_coord,
-        8,
-        12,
-        8,
+        9,
+        13,
+        9,
         0.5F)));
 
     auto draw_var = shape.draw_variant(0);
@@ -165,7 +165,7 @@ void sketch_texture::init(execution_context& ec, video_context& vc) {
         }
     };
 
-    for(auto i : integer_range(3500)) {
+    for(auto i : integer_range(3000)) {
         std::array<float, 6> rand{};
         ec.random_uniform_01(cover(rand));
 
@@ -175,7 +175,7 @@ void sketch_texture::init(execution_context& ec, video_context& vc) {
         const auto ymax = std::max(rand[2], rand[3]);
         const auto w = int((xmax - xmin) * float(side));
         const auto h = int((ymax - ymin) * float(side));
-        const auto l = (rand[5] - 0.5F) * 0.3F;
+        const auto l = (rand[5] - 0.5F) * 0.4F;
 
         for(int t : integer_range(2)) {
             if(w > h) {
@@ -184,15 +184,15 @@ void sketch_texture::init(execution_context& ec, video_context& vc) {
                     const float c = l * float(x + 1) / float(w);
                     scratch(
                       int(x + xmin * side) + i,
-                      int(h * c + ymin * side) + t,
+                      int(float(h + t) * c + ymin * side),
                       layer);
                 }
             } else {
-                const auto layer = rand[4] * 0.75F;
+                const auto layer = rand[4] * 0.85F;
                 for(auto y : integer_range(h)) {
                     const float c = l * float(y + 1) / float(h);
                     scratch(
-                      int(w * c + xmin * side) + t,
+                      int(float(w + t) * c + xmin * side),
                       int(y + ymin * side) + i,
                       layer);
                 }
