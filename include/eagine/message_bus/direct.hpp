@@ -295,6 +295,7 @@ public:
     using connection_factory::make_acceptor;
     using connection_factory::make_connector;
 
+    /// @brief Construction from a parent main context object with implicit address.
     direct_connection_factory(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(DrctConnFc), parent}
       , _default_addr{_make_addr()} {}

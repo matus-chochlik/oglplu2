@@ -30,19 +30,36 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Enumeration of changes tracked about remote message bus nodes.
+/// @ingroup msgbus
+/// @see remote_node_changes
 enum class remote_node_change : std::uint16_t {
+    /// @brief The node kind has appeared or changed.
+    /// @see node_kind
     kind = 1U << 0U,
+    /// @brief The host identifier has appeared or changed.
     host_id = 1U << 1U,
+    /// @brief The host information has appeared or changed.
     host_info = 1U << 2U,
+    /// @brief The build information has appeared or changed.
     build_info = 1U << 3U,
+    /// @brief The endpoint information has appeared or changed.
     endpoint_info = 1U << 4U,
+    /// @brief New remotly callable methods have been added.
     methods_added = 1U << 5U,
+    /// @brief New remotly callable methods have been removed.
     methods_removed = 1U << 6U,
+    /// @brief Node started responding to pings.
     started_responding = 1U << 7U,
+    /// @brief Node stopped responding to pings.
     stopped_responding = 1U << 8U,
+    /// @brief The hardware configuration information has appeared or changed.
     hardware_config = 1U << 9U,
+    /// @brief New sensor values have appeared or changed.
     sensor_values = 1U << 10U,
+    /// @brief The bus connection information has appeared or changed.
     connection_info = 1U << 11U,
+    /// @brief The endpoint instance id has changed.
     instance_id = 1U << 12U
 };
 //------------------------------------------------------------------------------
@@ -65,16 +82,20 @@ enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
        {"instance_id", remote_node_change::instance_id}}};
 }
 //------------------------------------------------------------------------------
+/// @brief Class providin and manipulating information about remote node changes.
+/// @ingroup msgbus
 struct remote_node_changes : bitfield<remote_node_change> {
     using base = bitfield<remote_node_change>;
     using base::base;
 
+    /// @brief Remote node responsivity has changed.
     auto responsivity() const noexcept -> bool {
         return has_any(
           remote_node_change::started_responding,
           remote_node_change::stopped_responding);
     }
 
+    /// @brief Remote node instance id has changed.
     auto new_instance() const noexcept -> bool {
         return has(remote_node_change::instance_id);
     }
@@ -100,52 +121,137 @@ class node_connection;
 class node_connection_state;
 class node_connections;
 //------------------------------------------------------------------------------
+/// @brief Class tracking the state of remote message bus nodes.
+/// @ingroup msgbus
+/// @see remote_node_changes
 class remote_node_tracker {
 public:
+    /// @brief Default constructor.
     remote_node_tracker();
+
     remote_node_tracker(nothing_t) noexcept
       : _pimpl{} {}
+
     remote_node_tracker(std::shared_ptr<remote_node_tracker_impl> pimpl) noexcept
       : _pimpl{std::move(pimpl)} {}
 
     auto cached(const std::string&) -> string_view;
 
+    /// @brief Finds and returns the state information about a remote bus node.
+    /// @see get_host
+    /// @see get_instance
+    /// @see get_connection
+    /// @see for_each_node
     auto get_node(identifier_t node_id) -> remote_node_state&;
+
+    /// @brief Finds and returns the state information about a remote host.
+    /// @see get_node
+    /// @see get_instance
+    /// @see get_connection
+    /// @see for_each_host
     auto get_host(host_id_t) -> remote_host_state&;
+
+    /// @brief Finds and returns the state information about a remote host.
+    /// @see get_node
+    /// @see get_instance
+    /// @see get_connection
+    /// @see for_each_host
     auto get_host(host_id_t) const -> remote_host_state;
+
+    /// @brief Finds and returns the information about a remote instance (process).
+    /// @see get_node
+    /// @see get_host
+    /// @see get_connection
     auto get_instance(host_id_t) -> remote_instance_state&;
+
+    /// @brief Finds and returns the information about a remote instance (process).
+    /// @see get_node
+    /// @see get_host
+    /// @see get_connection
     auto get_instance(host_id_t) const -> remote_instance_state;
 
+    /// @brief Finds and returns the information about remote node connections.
+    /// @see get_node
+    /// @see get_host
+    /// @see get_instance
+    /// @see for_each_connection
     auto get_connection(identifier_t node_id1, identifier_t node_id2)
       -> node_connection_state&;
+
+    /// @brief Finds and returns the information about remote node connections.
+    /// @see get_node
+    /// @see get_host
+    /// @see get_instance
+    /// @see for_each_connection
     auto get_connection(identifier_t node_id1, identifier_t node_id2) const
       -> node_connection_state;
 
     auto notice_instance(identifier_t node_id, process_instance_id_t)
       -> remote_node_state&;
 
+    /// @brief Calls a function on each tracked remote host.
+    /// @see remote_host
+    /// @see for_each_host_state
+    /// @see for_each_node
+    ///
+    /// The function is called with (host_id_t, const remote_host&) as arguments.
     template <typename Function>
     void for_each_host(Function func);
 
+    /// @brief Calls a function on each tracked remote host.
+    /// @see remote_host_state
+    /// @see for_each_host
+    /// @see for_each_node
+    ///
+    /// The function is called with (host_id_t, const remote_host_state&) as arguments.
     template <typename Function>
     void for_each_host_state(Function func);
 
+    /// @brief Calls a function on each tracked remote bus node.
+    /// @see remote_node
+    /// @see for_each_node_state
+    /// @see for_each_host
+    ///
+    /// The function is called with (host_id_t, const remote_node_state&) as arguments.
     template <typename Function>
     void for_each_node(Function func);
 
+    /// @brief Calls a function on each tracked remote bus node.
+    /// @see remote_node_state
+    /// @see for_each_node
+    /// @see for_each_host
+    ///
+    /// The function is called with (host_id_t, const remote_node_state&) as arguments.
     template <typename Function>
     void for_each_node_state(Function func);
 
+    /// @brief Calls a function on tracked remote bus nodes of an instance (process).
+    /// @see remote_node_state
+    /// @see for_each_node_state
+    /// @see for_each_host_node_state
+    ///
+    /// The function is called with (host_id_t, const remote_node_state&) as arguments.
     template <typename Function>
     void
     for_each_instance_node_state(process_instance_id_t inst_id, Function func);
 
+    /// @brief Calls a function on tracked remote bus nodes of a remote host.
+    /// @see remote_node_state
+    /// @see for_each_node_state
+    /// @see for_each_instance_node_state
+    ///
+    /// The function is called with (host_id_t, const remote_node_state&) as arguments.
     template <typename Function>
     void for_each_host_node_state(host_id_t host_id, Function func);
 
     template <typename Function>
     void for_each_connection(Function func);
 
+    /// @brief Calls a function on tracked connections between bus nodes.
+    /// @see node_connection_state
+    /// @see for_each_node_state
+    ///
+    /// The function is called with (const node_connection_state&) as argument.
     template <typename Function>
     void for_each_connection(Function func) const;
 
@@ -323,6 +429,9 @@ protected:
     auto _impl() noexcept -> remote_node_impl*;
 };
 //------------------------------------------------------------------------------
+/// @brief Class representing the state of a remote message bus node.
+/// @ingroup msgbus
+/// @see remote_node_tracker
 class remote_node_state : public remote_node {
 public:
     using remote_node::remote_node;
