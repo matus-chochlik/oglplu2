@@ -276,6 +276,7 @@ private:
 /// @see remote_node_tracker
 /// @see remote_node
 /// @see remote_instance
+/// @see node_connection
 class remote_host {
 public:
     remote_host() noexcept = default;
@@ -401,6 +402,7 @@ public:
 /// @see remote_node_tracker
 /// @see remote_node
 /// @see remote_host
+/// @see node_connection
 class remote_instance {
 public:
     remote_instance() noexcept = default;
@@ -458,6 +460,7 @@ public:
 /// @see remote_node_tracker
 /// @see remote_host
 /// @see remote_instance
+/// @see node_connection
 class remote_node {
 public:
     remote_node() noexcept = default;
@@ -589,6 +592,13 @@ public:
       -> remote_node_state&;
 };
 //------------------------------------------------------------------------------
+/// @brief Class providing information about connection between bus nodes.
+/// @ingroup msgbus
+/// @see remote_node_tracker
+/// @see remote_node
+/// @see remote_host
+/// @see remote_instance
+/// @see node_connections
 class node_connection {
 public:
     node_connection() noexcept = default;
@@ -600,19 +610,26 @@ public:
       , _id2{id2}
       , _tracker{std::move(tracker)} {}
 
+    /// @brief Indicates if this is not-empty and has actual information.
     explicit operator bool() const noexcept {
         return bool(_pimpl);
     }
 
+    /// @brief Indicates if the connection connects node with the specified id.
+    /// @see opposite_id
     auto connects(identifier_t id) const noexcept {
         return (_id1 == id) || (_id2 == id);
     }
 
+    /// @brief Indicates if the connection connects nodes with the specified id.
+    /// @see opposite_id
     auto connects(identifier_t id1, identifier_t id2) const noexcept {
         return ((_id1 == id1) && (_id2 == id2)) ||
                ((_id1 == id2) && (_id2 == id1));
     }
 
+    /// @brief Returns the id of the node opposite to the node with id in argument.
+    /// @see connects
     auto opposite_id(identifier_t id) const noexcept
       -> valid_if_not_zero<identifier_t> {
         if(_id1 == id) {
@@ -624,6 +641,7 @@ public:
         return {0U};
     }
 
+    /// @brief Returns the connection kind.
     auto kind() const noexcept -> connection_kind;
 
 private:
@@ -637,6 +655,13 @@ protected:
     auto _impl() noexcept -> node_connection_impl*;
 };
 //------------------------------------------------------------------------------
+/// @brief Class manipulating information about connection between bus nodes.
+/// @ingroup msgbus
+/// @see remote_node_tracker
+/// @see remote_node
+/// @see remote_host
+/// @see remote_instance
+/// @note Do not use directly. Use node_connection instead.
 class node_connection_state : public node_connection {
 public:
     using node_connection::node_connection;
@@ -644,6 +669,13 @@ public:
     auto set_kind(connection_kind) -> node_connection_state&;
 };
 //------------------------------------------------------------------------------
+/// @brief Class providing information about connections from the perspective of a node.
+/// @ingroup msgbus
+/// @see remote_node_tracker
+/// @see remote_node
+/// @see remote_host
+/// @see remote_instance
+/// @see node_connection
 class node_connections {
 public:
     node_connections(
@@ -654,20 +686,32 @@ public:
       , _remote_ids{std::move(remote_ids)}
       , _tracker{std::move(tracker)} {}
 
+    /// @brief Returns the origin node connected by the listed connections.
     auto origin() -> remote_node {
         return _tracker.get_node(_origin_id);
     }
 
+    /// @brief Returns the number of adjacent connections of the origin node.
+    /// @see get
+    /// @see remote
     auto count() const noexcept -> span_size_t {
         return span_size(_remote_ids.size());
     }
 
+    /// @brief Returns the i-th connection of the origin node.
+    /// @see count
+    /// @see remote
+    /// @pre index >= 0 && index < count()
     auto get(span_size_t index) -> node_connection {
         EAGINE_ASSERT((index >= 0) && (index < count()));
         return _tracker.get_connection(
           _origin_id, _remote_ids[std_size(index)]);
     }
 
+    /// @brief Returns the node connected through the i-th connection.
+    /// @see count
+    /// @see get
+    /// @pre index >= 0 && index < count()
     auto remote(span_size_t index) -> remote_node {
         EAGINE_ASSERT((index >= 0) && (index < count()));
         return _tracker.get_node(_remote_ids[std_size(index)]);
