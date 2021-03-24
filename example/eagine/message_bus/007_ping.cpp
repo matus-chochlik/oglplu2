@@ -176,7 +176,7 @@ public:
             for(auto& [pingable_id, entry] : _targets) {
                 if(_rcvd < _max) {
                     const auto lim{
-                      _rcvd + _tout +
+                      _rcvd +
                       static_cast<std::intmax_t>(
                         _mod * (1 + std::log(float(1 + _targets.size()))))};
 
@@ -245,7 +245,7 @@ private:
     std::chrono::steady_clock::time_point prev_log{
       std::chrono::steady_clock::now()};
     std::map<identifier_t, ping_stats> _targets{};
-    std::intmax_t _mod{10000};
+    std::intmax_t _mod{5000};
     std::intmax_t _max{100000};
     std::intmax_t _sent{0};
     std::intmax_t _rcvd{0};
