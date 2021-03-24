@@ -204,6 +204,7 @@ public:
     /// @see for_each_node
     ///
     /// The function is called with (host_id_t, const remote_host_state&) as arguments.
+    /// This function is subject to change without notice. Prefer using for_each_host.
     template <typename Function>
     void for_each_host_state(Function func);
 
@@ -212,7 +213,7 @@ public:
     /// @see for_each_node_state
     /// @see for_each_host
     ///
-    /// The function is called with (host_id_t, const remote_node_state&) as arguments.
+    /// The function is called with (host_id_t, const remote_node&) as arguments.
     template <typename Function>
     void for_each_node(Function func);
 
@@ -222,6 +223,7 @@ public:
     /// @see for_each_host
     ///
     /// The function is called with (host_id_t, const remote_node_state&) as arguments.
+    /// This function is subject to change without notice. Prefer using for_each_node.
     template <typename Function>
     void for_each_node_state(Function func);
 
@@ -231,6 +233,7 @@ public:
     /// @see for_each_host_node_state
     ///
     /// The function is called with (host_id_t, const remote_node_state&) as arguments.
+    /// This function is subject to change without notice. Prefer using for_each_node.
     template <typename Function>
     void
     for_each_instance_node_state(process_instance_id_t inst_id, Function func);
@@ -241,6 +244,7 @@ public:
     /// @see for_each_instance_node_state
     ///
     /// The function is called with (host_id_t, const remote_node_state&) as arguments.
+    /// This function is subject to change without notice. Prefer using for_each_node.
     template <typename Function>
     void for_each_host_node_state(host_id_t host_id, Function func);
 
@@ -251,7 +255,7 @@ public:
     /// @see node_connection_state
     /// @see for_each_node_state
     ///
-    /// The function is called with (const node_connection_state&) as argument.
+    /// The function is called with (const node_connection&) as argument.
     template <typename Function>
     void for_each_connection(Function func) const;
 
@@ -267,30 +271,64 @@ private:
     std::shared_ptr<remote_node_tracker_impl> _pimpl{};
 };
 //------------------------------------------------------------------------------
+/// @brief Class providing information about a remote host of bus nodes.
+/// @ingroup msgbus
+/// @see remote_node_tracker
+/// @see remote_node
+/// @see remote_instance
 class remote_host {
 public:
     remote_host() noexcept = default;
     remote_host(host_id_t host_id) noexcept
       : _host_id{host_id} {}
 
+    /// @brief Indicates if this is not-empty and has actual information.
     explicit operator bool() const noexcept {
         return bool(_pimpl);
     }
 
+    /// @brief Returns the unique host id.
     auto id() const noexcept -> valid_if_not_zero<host_id_t> {
         return {_host_id};
     }
 
+    /// @brief Indicates if the remote host is reachable/alive.
     auto is_alive() const noexcept -> bool;
 
+    /// @brief Returns the name of the remote host.
     auto name() const noexcept -> valid_if_not_empty<string_view>;
 
+    /// @brief Returns the number of concurrent threads supported at the host.
     auto cpu_concurrent_threads() const noexcept
       -> valid_if_positive<span_size_t>;
+
+    /// @brief Returns the short average load on the remote host.
+    /// @see long_average_load
+    /// @see system_info::short_average_load
     auto short_average_load() const noexcept -> valid_if_nonnegative<float>;
+
+    /// @brief Returns the long average load on the remote host.
+    /// @see short_average_load
+    /// @see system_info::long_average_load
     auto long_average_load() const noexcept -> valid_if_nonnegative<float>;
+
+    /// @brief Returns the total RAM size on the remote host.
+    /// @see free_ram_size
+    /// @see total_swap_size
+    /// @see ram_usage
+    /// @see system_info::total_ram_size
     auto total_ram_size() const noexcept -> valid_if_positive<span_size_t>;
+
+    /// @brief Returns the free RAM size on the remote host.
+    /// @see total_ram_size
+    /// @see free_swap_size
+    /// @see ram_usage
+    /// @see system_info::free_ram_size
     auto free_ram_size() const noexcept -> valid_if_positive<span_size_t>;
+
+    /// @brief Returns the RAM usage on the remote host (0.0, 1.0).
+    /// @see total_ram_size
+    /// @see free_ram_size
     auto ram_usage() const noexcept -> valid_if_nonnegative<float> {
         if(const auto total{total_ram_size()}) {
             if(const auto free{free_ram_size()}) {
@@ -299,8 +337,24 @@ public:
         }
         return {-1.F};
     }
+
+    /// @brief Returns the total swap size on the remote host.
+    /// @see free_swap_size
+    /// @see total_ram_size
+    /// @see swap_usage
+    /// @see system_info::total_swap_size
     auto total_swap_size() const noexcept -> valid_if_positive<span_size_t>;
+
+    /// @brief Returns the free swap size on the remote host.
+    /// @see total_swap_size
+    /// @see free_ram_size
+    /// @see swap_usage
+    /// @see system_info::total_ram_size
     auto free_swap_size() const noexcept -> valid_if_nonnegative<span_size_t>;
+
+    /// @brief Returns the swap usage on the remote host (0.0, 1.0).
+    /// @see total_swap_size
+    /// @see free_swap_size
     auto swap_usage() const noexcept -> valid_if_nonnegative<float> {
         if(const auto total{total_swap_size()}) {
             if(const auto free{free_swap_size()}) {
@@ -310,15 +364,20 @@ public:
         return {-1.F};
     }
 
-private:
-    host_id_t _host_id{0U};
-    std::shared_ptr<remote_host_impl> _pimpl{};
-
 protected:
     auto _impl() const noexcept -> const remote_host_impl*;
     auto _impl() noexcept -> remote_host_impl*;
+
+private:
+    host_id_t _host_id{0U};
+    std::shared_ptr<remote_host_impl> _pimpl{};
 };
 //------------------------------------------------------------------------------
+/// @brief Class manipulating information about a remote host of bus nodes.
+/// @ingroup msgbus
+/// @see remote_node_tracker
+/// @see remote_node
+/// @note Do not use directly. Use remote_host instead.
 class remote_host_state : public remote_host {
 public:
     using remote_host::remote_host;
@@ -337,6 +396,11 @@ public:
     auto set_free_swap_size(span_size_t) -> remote_host_state&;
 };
 //------------------------------------------------------------------------------
+/// @brief Class providing information about a remote instance running bus nodes.
+/// @ingroup msgbus
+/// @see remote_node_tracker
+/// @see remote_node
+/// @see remote_host
 class remote_instance {
 public:
     remote_instance() noexcept = default;
@@ -346,18 +410,23 @@ public:
       : _inst_id{inst_id}
       , _tracker{std::move(tracker)} {}
 
+    /// @brief Indicates if this is not-empty and has actual information.
     explicit operator bool() const noexcept {
         return bool(_pimpl);
     }
 
+    /// @brief Returns the id of the instance unique in the host scope.
     auto id() const noexcept -> valid_if_not_zero<process_instance_id_t> {
         return {_inst_id};
     }
 
+    /// @brief Indicates if the remote instance (process) is alive and responsive.
     auto is_alive() const noexcept -> bool;
 
+    /// @brief Returns the information about the host where the instance is running.
     auto host() const noexcept -> remote_host;
 
+    /// @brief Returns the build information about the program running in the instance.
     auto build() const noexcept -> optional_reference_wrapper<const build_info>;
 
 private:
@@ -370,6 +439,11 @@ protected:
     auto _impl() noexcept -> remote_instance_impl*;
 };
 //------------------------------------------------------------------------------
+/// @brief Class manipulating information about a remote instance running bus nodes.
+/// @ingroup msgbus
+/// @see remote_node_tracker
+/// @see remote_instance
+/// @note Do not use directly. Use remote_host instead.
 class remote_instance_state : public remote_instance {
 public:
     using remote_instance::remote_instance;
@@ -379,6 +453,11 @@ public:
     auto assign(build_info) -> remote_instance_state&;
 };
 //------------------------------------------------------------------------------
+/// @brief Class providing information about a remote bus node.
+/// @ingroup msgbus
+/// @see remote_node_tracker
+/// @see remote_host
+/// @see remote_instance
 class remote_node {
 public:
     remote_node() noexcept = default;
@@ -386,37 +465,84 @@ public:
       : _node_id{node_id}
       , _tracker{std::move(tracker)} {}
 
+    /// @brief Indicates if this is not-empty and has actual information.
     explicit operator bool() const noexcept {
         return bool(_pimpl);
     }
 
+    /// @brief Returns the unique id of the remote bus node.
     auto id() const noexcept -> valid_if_not_zero<identifier_t> {
         return {_node_id};
     }
 
+    /// @brief Returns the id of the instance in which the node is running.
     auto instance_id() const noexcept
       -> valid_if_not_zero<process_instance_id_t>;
 
+    /// @brief Returns the id of the host on which the node is running.
     auto host_id() const noexcept -> valid_if_not_zero<host_id_t>;
 
+    /// @brief Returns the kind of the remote node.
+    /// @see is_router_node
+    /// @see is_bridge_node
     auto kind() const noexcept -> node_kind;
 
-    auto has_endpoint_info() const noexcept -> bool;
-    auto app_name() const noexcept -> valid_if_not_empty<string_view>;
-    auto display_name() const noexcept -> valid_if_not_empty<string_view>;
-    auto description() const noexcept -> valid_if_not_empty<string_view>;
+    /// @brief Returns if the remote node is a router control node.
+    /// @see is_bridge_node
+    /// @see kind
     auto is_router_node() const noexcept -> tribool;
+
+    /// @brief Returns if the remote node is a router control node.
+    /// @see is_bridge_node
+    /// @see kind
     auto is_bridge_node() const noexcept -> tribool;
 
+    /// @brief Indicates if endpoint information is available.
+    auto has_endpoint_info() const noexcept -> bool;
+
+    /// @brief Returns the application name.
+    auto app_name() const noexcept -> valid_if_not_empty<string_view>;
+
+    /// @brief Returns the user-readable display name of the application.
+    auto display_name() const noexcept -> valid_if_not_empty<string_view>;
+
+    /// @brief Returns the user-readable description of the application.
+    auto description() const noexcept -> valid_if_not_empty<string_view>;
+
+    /// @brief Indicates if the remote node subscribes to the specified message type.
     auto subscribes_to(message_id msg_id) const noexcept -> tribool;
 
+    /// @brief Indicates if the remote node is pingable.
+    /// @see set_ping_interval
+    /// @see is_responsive
     auto is_pingable() const noexcept -> tribool;
+
+    /// @brief Sets the ping interval for the remote node.
+    /// @see is_pingable
     void set_ping_interval(std::chrono::milliseconds) noexcept;
+
+    /// @brief Returns the ping success rate for the remote node (0.0, 1.0).
+    /// @see is_responsive
+    /// @see is_pingable
     auto ping_success_rate() const noexcept -> valid_if_between_0_1<float>;
+
+    /// @brief Indicates if the remote node is responsive.
+    /// @see ping_success_rate
     auto is_responsive() const noexcept -> tribool;
 
+    /// @brief Returns information about the host where the node is running.
+    /// @see instance
+    /// @see connections
     auto host() const noexcept -> remote_host;
+
+    /// @brief Returns information about the instance in which the node is running.
+    /// @see host
+    /// @see connections
     auto instance() const noexcept -> remote_instance;
+
+    /// @brief Return information about the connections of this node.
+    /// @see host
+    /// @see instance
     auto connections() const noexcept -> node_connections;
 
 private:
@@ -429,9 +555,11 @@ protected:
     auto _impl() noexcept -> remote_node_impl*;
 };
 //------------------------------------------------------------------------------
-/// @brief Class representing the state of a remote message bus node.
+/// @brief Class manipulating information about a remote bus node.
 /// @ingroup msgbus
 /// @see remote_node_tracker
+/// @see remote_node
+/// @note Do not use directly. Use remote_node instead
 class remote_node_state : public remote_node {
 public:
     using remote_node::remote_node;
