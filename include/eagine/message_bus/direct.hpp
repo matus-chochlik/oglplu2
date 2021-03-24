@@ -19,34 +19,36 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Common shared state for a direct connection.
+/// @ingroup msgbus
+/// @note Implementation detail. Do not use directly.
+///
+/// Connectors and acceptors sharing the same shared state object are "connected".
 class direct_connection_state : public main_ctx_object {
-private:
-    std::mutex _s2c_mutex;
-    std::mutex _c2s_mutex;
-    message_storage _server_to_client;
-    message_storage _client_to_server;
-    value_change_div_tracker<span_size_t, 16> _s2c_count{0};
-    value_change_div_tracker<span_size_t, 16> _c2s_count{0};
-
 public:
+    /// @brief Construction from a parent main context object.
     direct_connection_state(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(DrctConnSt), parent} {}
 
+    /// @brief Sends a message to the server counterpart.
     void send_to_server(message_id msg_id, const message_view& message) {
         std::unique_lock lock{_c2s_mutex};
         _client_to_server.push(msg_id, message);
     }
 
+    /// @brief Sends a message to the client counterpart.
     void send_to_client(message_id msg_id, const message_view& message) {
         std::unique_lock lock{_s2c_mutex};
         _server_to_client.push(msg_id, message);
     }
 
+    /// @brief Fetches received messages from the client counterpart.
     auto fetch_from_client(connection::fetch_handler handler) noexcept -> bool {
         std::unique_lock lock{_c2s_mutex};
         return _client_to_server.fetch_all(handler);
     }
 
+    /// @brief Fetches received messages from the service counterpart.
     auto fetch_from_server(connection::fetch_handler handler) noexcept -> bool {
         std::unique_lock lock{_s2c_mutex};
         return _server_to_client.fetch_all(handler);
@@ -71,26 +73,46 @@ public:
             }
         }
     }
-};
-//------------------------------------------------------------------------------
-class direct_connection_address : public main_ctx_object {
-public:
-    using shared_state = std::shared_ptr<direct_connection_state>;
-    using process_handler = callable_ref<void(shared_state&)>;
 
 private:
-    std::vector<shared_state> _pending;
-
+    std::mutex _s2c_mutex;
+    std::mutex _c2s_mutex;
+    message_storage _server_to_client;
+    message_storage _client_to_server;
+    value_change_div_tracker<span_size_t, 16> _s2c_count{0};
+    value_change_div_tracker<span_size_t, 16> _c2s_count{0};
+};
+//------------------------------------------------------------------------------
+/// @brief Class acting as the "address" of a direct connection.
+/// @ingroup msgbus
+/// @see direct_acceptor
+/// @see direct_client_connection
+/// @see direct_server_connection
+/// @see direct_connection_factory
+///
+class direct_connection_address : public main_ctx_object {
 public:
+    /// @brief Alias for shared pointer to direct state type.
+    using shared_state = std::shared_ptr<direct_connection_state>;
+
+    /// @brief Alias for shared state accept handler callable.
+    /// @see process_all
+    using process_handler = callable_ref<void(shared_state&)>;
+
+    /// @brief Construction from a parent main context object.
     direct_connection_address(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(DrctConnAd), parent} {}
 
+    /// @brief Creates and returns the shared state for a new client connection.
+    /// @see process_all
     auto connect() -> shared_state {
         auto state{std::make_shared<direct_connection_state>(*this)};
         _pending.push_back(state);
         return state;
     }
 
+    /// @brief Handles the pending server counterparts for created client connections.
+    /// @see connect
     auto process_all(process_handler handler) -> bool {
         some_true something_done{};
         for(auto& state : _pending) {
@@ -100,8 +122,15 @@ public:
         _pending.clear();
         return something_done;
     }
+
+private:
+    std::vector<shared_state> _pending;
 };
 //------------------------------------------------------------------------------
+/// @brief Implementation of the connection_info interface for direct connections.
+/// @ingroup msgbus
+/// @see direct_client_connection
+/// @see direct_server_connection
 template <typename Base>
 class direct_connection_info : public Base {
 public:
@@ -120,20 +149,12 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Implementation of client-side direct connection.
+/// @ingroup msgbus
+/// @see direct_server_connection
+/// @see direct_acceptor
+/// @see direct_connection_factory
 class direct_client_connection : public direct_connection_info<connection> {
-
-private:
-    std::weak_ptr<direct_connection_address> _weak_address;
-    std::shared_ptr<direct_connection_state> _state;
-
-    inline void _checkup() {
-        if(EAGINE_UNLIKELY(!_state)) {
-            if(auto address{_weak_address.lock()}) {
-                _state = address->connect();
-            }
-        }
-    }
-
 public:
     direct_client_connection(
       std::shared_ptr<direct_connection_address>& address) noexcept
@@ -174,12 +195,26 @@ public:
             _state->log_message_counts();
         }
     }
+
+private:
+    std::weak_ptr<direct_connection_address> _weak_address;
+    std::shared_ptr<direct_connection_state> _state;
+
+    inline void _checkup() {
+        if(EAGINE_UNLIKELY(!_state)) {
+            if(auto address{_weak_address.lock()}) {
+                _state = address->connect();
+            }
+        }
+    }
 };
 //------------------------------------------------------------------------------
+/// @brief Implementation of server-side direct connection.
+/// @ingroup msgbus
+/// @see direct_client_connection
+/// @see direct_acceptor
+/// @see direct_connection_factory
 class direct_server_connection : public direct_connection_info<connection> {
-private:
-    std::weak_ptr<direct_connection_state> _weak_state;
-
 public:
     direct_server_connection(std::shared_ptr<direct_connection_state>& state)
       : _weak_state{state} {}
@@ -198,23 +233,28 @@ public:
         }
         return false;
     }
+
+private:
+    std::weak_ptr<direct_connection_state> _weak_state;
 };
 //------------------------------------------------------------------------------
+/// @brief Implementation of acceptor for direct connections.
+/// @ingroup msgbus
+/// @see direct_connection_factory
 class direct_acceptor
   : public direct_connection_info<acceptor>
   , public main_ctx_object {
     using shared_state = std::shared_ptr<direct_connection_state>;
 
-private:
-    std::shared_ptr<direct_connection_address> _address{};
-
 public:
+    /// @brief Construction from a parent main context object and an address object.
     direct_acceptor(
       main_ctx_parent parent,
       std::shared_ptr<direct_connection_address> address) noexcept
       : main_ctx_object{EAGINE_ID(DrctAccptr), parent}
       , _address{std::move(address)} {}
 
+    /// @brief Construction from a parent main context object with implicit address.
     direct_acceptor(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(DrctAccptr), parent}
       , _address{std::make_shared<direct_connection_address>(*this)} {}
@@ -232,6 +272,7 @@ public:
         return something_done;
     }
 
+    /// @brief Makes a new client-side direct connection.
     auto make_connection() -> std::unique_ptr<connection> {
         if(_address) {
             return std::unique_ptr<connection>{
@@ -239,32 +280,17 @@ public:
         }
         return {};
     }
+
+private:
+    std::shared_ptr<direct_connection_address> _address{};
 };
 //------------------------------------------------------------------------------
+/// @brief Implementation of connection_factory for direct connections.
+/// @ingroup msgbus
+/// @see direct_acceptor
 class direct_connection_factory
   : public direct_connection_info<connection_factory>
   , public main_ctx_object {
-private:
-    std::shared_ptr<direct_connection_address> _default_addr;
-    std::map<
-      std::string,
-      std::shared_ptr<direct_connection_address>,
-      basic_str_view_less<std::string, string_view>>
-      _addrs;
-
-    auto _make_addr() {
-        return std::make_shared<direct_connection_address>(*this);
-    }
-
-    auto _get(string_view addr_str) -> auto& {
-        auto pos = _addrs.find(addr_str);
-        if(pos == _addrs.end()) {
-            pos = _addrs.emplace(to_string(addr_str), _make_addr()).first;
-        }
-        EAGINE_ASSERT(pos != _addrs.end());
-        return pos->second;
-    }
-
 public:
     using connection_factory::make_acceptor;
     using connection_factory::make_connector;
@@ -287,6 +313,28 @@ public:
             return std::make_unique<direct_client_connection>(_get(addr_str));
         }
         return std::make_unique<direct_client_connection>(_default_addr);
+    }
+
+private:
+    std::shared_ptr<direct_connection_address> _default_addr;
+    std::map<
+      std::string,
+      std::shared_ptr<direct_connection_address>,
+      basic_str_view_less<std::string, string_view>>
+      _addrs;
+
+    auto _make_addr() -> std::shared_ptr<direct_connection_address> {
+        return std::make_shared<direct_connection_address>(*this);
+    }
+
+    auto _get(string_view addr_str)
+      -> std::shared_ptr<direct_connection_address>& {
+        auto pos = _addrs.find(addr_str);
+        if(pos == _addrs.end()) {
+            pos = _addrs.emplace(to_string(addr_str), _make_addr()).first;
+        }
+        EAGINE_ASSERT(pos != _addrs.end());
+        return pos->second;
     }
 };
 //------------------------------------------------------------------------------
