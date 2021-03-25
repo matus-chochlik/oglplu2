@@ -20,6 +20,9 @@
 
 namespace eagine {
 
+/// @brief Selects the appropriate type for biteset element representation.
+/// @ingroup type_utils
+/// @see biteset
 template <typename std::size_t B>
 using biteset_cell_type = std::conditional_t<
   (B <= 8),
@@ -35,14 +38,27 @@ using biteset_cell_type = std::conditional_t<
 template <std::size_t N, std::size_t B, typename T = biteset_cell_type<B>>
 class biteset;
 
+/// @brief Proxy class that can be used to access elements in a biteset.
+/// @ingroup type_utils
+/// @see biteset
+/// @see biteset_iterator
 template <typename BiS>
 class biteset_value_proxy;
 
+/// @brief Base class for biteset value proxy.
+/// @ingroup type_utils
+/// @see biteset
+/// @see biteset_iterator
+/// @see biteset_value_proxy
 template <typename BiS>
 class biteset_value_proxy_base {
 public:
+    /// @brief Alias for size type.
     using size_type = typename BiS::size_type;
+
+    /// @brief Alias for element value type.
     using value_type = typename BiS::value_type;
+
     using self = biteset_value_proxy_base;
     using derived = biteset_value_proxy<BiS>;
 
@@ -50,14 +66,19 @@ public:
       : _ptr{&bs}
       , _pos{pos} {}
 
+    /// @brief Indicates if this is a valid proxy object that can be used for access.
     constexpr auto is_valid() const noexcept -> bool {
         return (_ptr != nullptr) && (_pos < _ptr->size());
     }
 
+    /// @brief Gets the value of the referenced biteset element.
+    /// @pre is_valid()
     constexpr auto get() const noexcept -> value_type {
         return EAGINE_CONSTEXPR_ASSERT(is_valid(), _ptr->get(_pos));
     }
 
+    /// @brief Sets the value of the referenced biteset element.
+    /// @pre is_valid()
     void set(value_type val) noexcept {
         EAGINE_CONSTEXPR_ASSERT(is_valid(), _ptr->set(_pos, val));
     }
@@ -73,30 +94,39 @@ public:
         other.set(b);
     }
 
+    /// @brief Implicit conversion to the value type.
+    /// @see get
+    /// @pre is_valid()
     constexpr operator value_type() const noexcept {
         return get();
     }
 
+    /// @brief Equality comparison.
     friend constexpr auto operator==(const self& a, const self& b) noexcept {
         return a.get() == b.get();
     }
 
+    /// @brief Non-equality comparison.
     friend constexpr auto operator!=(const self& a, const self& b) noexcept {
         return a.get() != b.get();
     }
 
+    /// @brief Less-than comparison.
     friend constexpr auto operator<(const self& a, const self& b) noexcept {
         return a.get() < b.get();
     }
 
+    /// @brief Less-equal comparison.
     friend constexpr auto operator<=(const self& a, const self& b) noexcept {
         return a.get() <= b.get();
     }
 
+    /// @brief Greater-than comparison.
     friend constexpr auto operator>(const self& a, const self& b) noexcept {
         return a.get() > b.get();
     }
 
+    /// @brief Greater-equal comparison.
     friend constexpr auto operator>=(const self& a, const self& b) noexcept {
         return a.get() >= b.get();
     }
@@ -106,6 +136,10 @@ protected:
     size_type _pos{0};
 };
 
+/// @brief Specialization of biteset proxy for const biteset values.
+/// @ingroup type_utils
+/// @see biteset
+/// @see biteset_iterator
 template <std::size_t N, std::size_t B, typename T>
 class biteset_value_proxy<const biteset<N, B, T>>
   : public biteset_value_proxy_base<const biteset<N, B, T>> {
@@ -121,6 +155,10 @@ public:
       : _base{bs, pos} {}
 };
 
+/// @brief Specialization of biteset proxy for mutable biteset values.
+/// @ingroup type_utils
+/// @see biteset
+/// @see biteset_iterator
 template <std::size_t N, std::size_t B, typename T>
 class biteset_value_proxy<biteset<N, B, T>>
   : public biteset_value_proxy_base<biteset<N, B, T>> {
@@ -151,6 +189,7 @@ public:
 
     ~biteset_value_proxy() noexcept = default;
 
+    /// @brief Assigns the specified value to the referenceb biteset element.
     auto operator=(const T& v) noexcept -> self& {
         this->set(v);
         return *this;
@@ -312,6 +351,9 @@ public:
     }
 };
 
+/// @brief Iterator type for biteset.
+/// @ingroup type_utils
+/// @see biteset
 template <std::size_t N, std::size_t B, typename T>
 class biteset_iterator<biteset<N, B, T>>
   : public biteset_iterator_base<biteset<N, B, T>> {
@@ -322,6 +364,7 @@ class biteset_iterator<biteset<N, B, T>>
     using _base::is_valid;
 
 public:
+    using self = biteset_iterator;
     using size_type = typename biteset<N, B, T>::size_type;
     using difference_type = typename biteset<N, B, T>::difference_type;
     using value_type = typename biteset<N, B, T>::value_type;
@@ -331,8 +374,9 @@ public:
     using const_reference = const_proxy;
     using pointer = proxy;
     using const_pointer = const_proxy;
+
+    /// @brief Iterator category.
     using iterator_category = std::random_access_iterator_tag;
-    using self = biteset_iterator;
 
     constexpr biteset_iterator(biteset<N, B, T>& bs, size_type pos) noexcept
       : _base{bs, pos} {}
@@ -356,14 +400,20 @@ public:
     }
 };
 
+/// @brief Sequence of unsigned integer values with specified number bits.
+/// @ingroup type_utils
+/// @tparam N the size - count of elements - in the sequence.
+/// @tparam B the number of bits in each element.
+/// @tparam T the type representing a single element outside of the biteset.
+/// @see byteset
 template <std::size_t N, std::size_t B, typename T>
 class biteset {
-private:
-    static constexpr const std::size_t _store_size =
+public:
+    static constexpr const std::size_t store_size =
       ((N * B) / CHAR_BIT) + (((N * B) % CHAR_BIT != 0) ? 1 : 0);
 
-    using _bytes_t = byteset<_store_size>;
-    using _byte_t = typename _bytes_t::value_type;
+private:
+    using _bytes_t = byteset<store_size>;
 
     // the number of useful bits in T
     static constexpr const std::size_t _bite_s = B;
@@ -380,14 +430,25 @@ public:
       "bite with B bits size does not fit into type T");
     static_assert(std::is_integral_v<T>, "T must be integral type");
 
+    /// @brief Alias for size type.
     using size_type = span_size_t;
+
+    /// @brief Alias for difference type.
     using difference_type = span_size_t;
+
+    /// @brief Alias for element value type
     using value_type = T;
+
+    /// @brief Alias for iterator type.
     using iterator = biteset_iterator<biteset>;
+
+    /// @brief Alias for const iterator type.
     using const_iterator = biteset_iterator<const biteset>;
 
+    /// @brief Default constructor.
     constexpr biteset() noexcept = default;
 
+    /// @brief Construction from a pack of integer values.
     template <
       typename... P,
       typename = std::enable_if_t<
@@ -399,80 +460,100 @@ public:
     explicit constexpr biteset(_bytes_t init) noexcept
       : _bytes{init} {}
 
+    /// @brief Constructs a biteset from the specified values splitting bit groups of size=B.
     template <typename UIntT>
     static constexpr auto from_value(UIntT init) noexcept {
         return biteset{_bytes_t{init}};
     }
 
+    /// @brief Returns the number of elements in this biteset.
+    /// @see get
     constexpr auto size() const noexcept -> size_type {
         return N;
     }
 
+    /// @brief Returns the i-th element in this biteset.
+    /// @pre i < size()
     constexpr auto get(size_type i) const noexcept {
         return _get_cell(std::size_t(i));
     }
 
+    /// @brief Sets the i-th element in this biteset.
+    /// @pre i < size()
     void set(size_type i, T value) noexcept {
         _set_cell(std::size_t(i), value);
     }
 
+    /// @brief Returns an iterator to the start of the sequence.
     auto begin() const noexcept -> const_iterator {
         return {*this, 0};
     }
 
+    /// @brief Returns an iterator past the end of the sequence.
     auto end() const noexcept -> const_iterator {
         return {*this, N};
     }
 
+    /// @brief Returns a const iterator to the start of the sequence.
     auto begin() noexcept -> iterator {
         return {*this, 0};
     }
 
+    /// @brief Returns a const iterator past the end of the sequence.
     auto end() noexcept -> iterator {
         return {*this, N};
     }
 
+    /// @brief Subscript operator.
     constexpr auto operator[](size_type i) const noexcept
       -> biteset_value_proxy<const biteset> {
         return {*this, i};
     }
 
+    /// @brief Subscript operator.
     constexpr auto operator[](size_type i) noexcept
       -> biteset_value_proxy<biteset> {
         return {*this, i};
     }
 
+    /// @brief Equality comparison.
     friend constexpr auto
     operator==(const biteset& a, const biteset& b) noexcept {
         return a.bytes() == b.bytes();
     }
 
+    /// @brief Non-equality comparison.
     friend constexpr auto
     operator!=(const biteset& a, const biteset& b) noexcept {
         return a.bytes() != b.bytes();
     }
 
+    /// @brief Less-than comparison.
     friend constexpr auto
     operator<(const biteset& a, const biteset& b) noexcept {
         return a.bytes() < b.bytes();
     }
 
+    /// @brief Less-equal comparison.
     friend constexpr auto
     operator<=(const biteset& a, const biteset& b) noexcept {
         return a.bytes() <= b.bytes();
     }
 
+    /// @brief Greater-than comparison.
     friend constexpr auto
     operator>(const biteset& a, const biteset& b) noexcept {
         return a.bytes() > b.bytes();
     }
 
+    /// @brief Greater-equal comparison.
     friend constexpr auto
     operator>=(const biteset& a, const biteset& b) noexcept {
         return a.bytes() >= b.bytes();
     }
 
-    constexpr auto bytes() const noexcept -> const auto& {
+    /// @brief Converts this biteset into a byteset.
+    constexpr auto bytes() const noexcept -> const byteset<store_size>& {
         return _bytes;
     }
 
@@ -486,15 +567,17 @@ private:
 
     static constexpr auto
     _extract_init_bits(T init, std::size_t ofs, std::size_t len) noexcept
-      -> _byte_t {
-        // NOLINTNEXTLINE(hicpp-signed-bitwise)
-        return _byte_t(init >> (_bite_s - ofs - len)) & _byte_t((1 << len) - 1);
+      -> byte {
+        // NOLINT(hicpp-signed-bitwise)
+        return static_cast<byte>(init >> (_bite_s - ofs - len)) &
+               // NOLINT(hicpp-signed-bitwise)
+               static_cast<byte>((1U << len) - 1U);
     }
 
     template <std::size_t L>
     static constexpr auto _do_get_byte_bits(
       const T (&init)[N],
-      _byte_t state,
+      byte state,
       std::size_t bo,
       std::size_t bl,
       std::size_t bb,
@@ -504,7 +587,7 @@ private:
       size_constant<L>) noexcept {
         return _get_byte_bits(
           init,
-          _byte_t(state << bl) |
+          static_cast<byte>(state << bl) |
             _extract_init_bits(cb < N ? init[cb] : T(0), bo, bl),
           bb + bl,
           be,
@@ -515,7 +598,7 @@ private:
 
     static constexpr auto _get_byte_bits(
       const T (&)[N],
-      _byte_t state,
+      byte state,
       std::size_t,
       std::size_t,
       std::size_t,
@@ -527,7 +610,7 @@ private:
     template <std::size_t L>
     static constexpr auto _get_byte_bits(
       const T (&init)[N],
-      _byte_t state,
+      byte state,
       std::size_t bb,
       std::size_t be,
       std::size_t cb,
@@ -550,23 +633,17 @@ private:
     static constexpr auto
     _get_byte_bits(const T (&init)[N], std::size_t bb, std::size_t be) noexcept {
         return _get_byte_bits(
-          init,
-          _byte_t(0),
-          bb,
-          be,
-          bb / _bite_s,
-          be / _bite_s,
-          size_constant<1>{});
+          init, byte(0), bb, be, bb / _bite_s, be / _bite_s, size_constant<1>{});
     }
 
     static constexpr auto _get_byte(const T (&init)[N], std::size_t i) noexcept {
         return (B == _byte_s)
-                 ? _byte_t(init[i])
+                 ? static_cast<byte>(init[i])
                  : _get_byte_bits(init, (i + 0) * _byte_s, (i + 1) * _byte_s);
     }
 
     static constexpr auto
-    _extract_cell_bits(_byte_t by, std::size_t ofs, std::size_t len) noexcept
+    _extract_cell_bits(byte by, std::size_t ofs, std::size_t len) noexcept
       -> T {
         // NOLINTNEXTLINE(hicpp-signed-bitwise)
         return T(by >> (_byte_s - ofs - len)) & T((1 << len) - 1);
@@ -625,7 +702,7 @@ private:
     constexpr auto _get_cell_bits(std::size_t bb, std::size_t be) const noexcept
       -> T {
         return _get_cell_bits(
-          _byte_t(0), bb, be, bb / _byte_s, be / _byte_s, size_constant<1>{});
+          byte(0), bb, be, bb / _byte_s, be / _byte_s, size_constant<1>{});
     }
 
     constexpr auto _get_cell(std::size_t i) const noexcept -> T {
@@ -634,13 +711,12 @@ private:
                  : _get_cell_bits((i + 0) * _bite_s, (i + 1) * _bite_s);
     }
 
-    static constexpr void _store_cell_bits(
-      T v,
-      _byte_t& by,
-      std::size_t ofs,
-      std::size_t len) noexcept {
+    static constexpr void
+    _store_cell_bits(T v, byte& by, std::size_t ofs, std::size_t len) noexcept {
+        const auto msk =
+          // NOLINTNEXTLINE(hicpp-signed-bitwise)
+          static_cast<byte>(((1U << len) - 1U) << (_byte_s - ofs - len));
         // NOLINTNEXTLINE(hicpp-signed-bitwise)
-        _byte_t msk = _byte_t(((1 << len) - 1) << (_byte_s - ofs - len));
         by ^= (by & msk);
         by |= (v << (_byte_s - ofs - len));
     }
@@ -697,7 +773,7 @@ private:
 
     void _set_cell(std::size_t i, T value) noexcept {
         if(B == _byte_s) {
-            _bytes[size_type(i)] = _byte_t(value);
+            _bytes[size_type(i)] = byte(value);
         } else {
             _set_cell_bits(
               T(value << (_cell_s - _bite_s)),
@@ -715,7 +791,7 @@ private:
     template <typename... P>
     static constexpr auto _make_bytes(P... p) noexcept {
         return _do_make_bytes(
-          {T(p)...}, std::make_index_sequence<_store_size>{});
+          {T(p)...}, std::make_index_sequence<store_size>{});
     }
 };
 
