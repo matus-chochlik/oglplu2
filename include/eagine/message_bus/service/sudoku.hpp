@@ -240,8 +240,12 @@ private:
         auto& info = _infos.get(rank);
         basic_sudoku_board<S> board{info.traits};
 
-        if(EAGINE_LIKELY(default_deserialize_packed(
-             board, message.content(), _compressor))) {
+        const auto serialized{
+          (S > 4)
+            ? default_deserialize_packed(board, message.content(), _compressor)
+            : default_deserialize(board, message.content())};
+
+        if(EAGINE_LIKELY(serialized)) {
             info.add_board(
               message.source_id, message.sequence_no, std::move(board));
             mark_activity();
@@ -303,8 +307,10 @@ private:
                     const bool is_solved = candidate.is_solved();
 
                     auto temp{default_serialize_buffer_for(candidate)};
-                    auto serialized{default_serialize_packed(
-                      candidate, cover(temp), compressor)};
+                    const auto serialized{
+                      (S > 4) ? default_serialize_packed(
+                                  candidate, cover(temp), compressor)
+                              : default_serialize(candidate, cover(temp))};
                     EAGINE_ASSERT(serialized);
 
                     message_view response{extract(serialized)};
@@ -540,8 +546,12 @@ private:
             const unsigned_constant<S> rank{};
             basic_sudoku_board<S> board{traits};
 
-            if(EAGINE_LIKELY(default_deserialize_packed(
-                 board, message.content(), parent._compressor))) {
+            const auto deserialized{
+              (S > 4) ? default_deserialize_packed(
+                          board, message.content(), parent._compressor)
+                      : default_deserialize(board, message.content())};
+
+            if(EAGINE_LIKELY(deserialized)) {
                 const auto pos = std::find_if(
                   pending.begin(), pending.end(), [&](const auto& entry) {
                       return entry.sequence_no == message.sequence_no;
@@ -585,8 +595,10 @@ private:
                 auto pos = std::next(boards.begin(), dist(randeng));
                 auto& board = *pos;
                 auto temp{default_serialize_buffer_for(board)};
-                auto serialized{
-                  default_serialize_packed(board, cover(temp), compressor)};
+                const auto serialized{
+                  (S > 4)
+                    ? default_serialize_packed(board, cover(temp), compressor)
+                    : default_serialize(board, cover(temp))};
                 EAGINE_ASSERT(serialized);
 
                 const auto sequence_no = query_sequence++;
