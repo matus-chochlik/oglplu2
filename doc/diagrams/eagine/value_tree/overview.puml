@@ -1,0 +1,97 @@
+@startuml
+enum value_type {
+    unknown
+    bool_type
+    byte_type
+    int16_type
+    int32_type
+    int64_type
+    float_type
+    duration_type,
+    string_type,
+    composite
+}
+
+interface attribute_interface {
+    +type_id() : identifier
+}
+
+note "\
+- rapidyaml\n\
+- rapidjson\n\
+- filesystem\n\
+- rapidxml\n\
+- ...\n\
+" as impl_note
+
+interface compound_interface {
+    +type_id() : identifier
+    +add_ref(attribute_interface)
+    +release(attribute_interface)
+    +structure() : attribute_interface
+    +attribute_name(...) : string
+    +canonical_type(...) : value_type
+    +is_link(...) : bool
+    +nested_count(...)
+    +nested(...) : attribute_interface
+    +find(...) : attribute_interface
+    +value_count(...)
+    +fetch_values(...)
+}
+
+class concrete_attribute {
+}
+
+class concrete_compound {
+}
+
+package implementation {
+}
+
+class attribute {
+    +type_id() : identifier
+    +name() : string
+}
+
+class compound {
+    +type_id() : identifier
+    +structure() : attribute
+    +root() : compound_attribute
+    +attribute_name(...) : string
+    +canonical_type(...) : value_type
+    +is_link(...) : bool
+    +nested_count(...)
+    +nested(...) : attribute_interface
+    +find(...) : attribute_interface
+    +value_count(...)
+    +fetch_values(...)
+}
+
+class compound_attribute {
+    +type_id() : identifier
+    +name(...) : string
+    +canonical_type(...) : value_type
+    +is_link(...) : bool
+    +nested_count(...)
+    +nested(...) : attribute_interface
+    +find(...) : attribute_interface
+    +value_count(...)
+    +fetch_values(...)
+}
+
+compound_interface --> attribute_interface : uses
+compound_interface --> value_type
+attribute_interface <|-- concrete_attribute
+compound_interface <|-- concrete_compound
+concrete_compound ..> concrete_attribute : instantiates
+implementation <-- concrete_attribute : uses
+implementation <-- concrete_compound : uses
+impl_note .. implementation
+compound --> attribute : uses
+compound o--> compound_interface
+attribute o--> attribute_interface
+compound_attribute *--> compound
+compound_attribute *--> attribute
+compound_attribute ..> compound_attribute : nested
+compound ..> compound_attribute : root
+@enduml
