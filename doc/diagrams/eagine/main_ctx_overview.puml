@@ -1,0 +1,101 @@
+@startuml
+class program_arg {
+    +get()
+    +parse()
+    +prev()
+    +next()
+}
+
+class program_args {
+    +empty()
+    +size()
+    +command()
+    +begin()
+    +end()
+    +first()
+}
+
+class application_config {
+	+is_set(...)
+	+fetch(...)
+}
+
+class logger {
+    +log()
+}
+
+class process_watchdog {
+    +declare_initialized()
+    +notify_alive()
+    +announce_shutdown()
+}
+
+class data_compressor {
+    +compress(...)
+    +decompress(...)
+}
+
+class build_info {
+    +version_major()
+    +version_minor()
+    +version_patch()
+    +version_commit()
+    +version_at_least()
+}
+
+class system_info {
+    +host_id()
+    +hostname() : string
+    +uptime() : duration
+    +cpu_concurrent_threads()
+    +current_processes()
+    +short_average_load()
+    +long_average_load()
+    +memory_page_size()
+    +total_ram_size()
+    +free_ram_size()
+    +total_swap_size()
+    +free_swap_size()
+    +thermal_sensor_count()
+    +sensor_temperature(...)
+    +cooling_device_count()
+    +coolind_device_state(...)
+} 
+
+class user_info {
+    +login_name()
+    +home_dir_path()
+} 
+
+class main_ctx <<Singleton>> {
+    +process_id()
+    +args() : program_args
+    +log() : logger
+    +watchdog() : process_watchdog
+    +compressor() : data_compressor
+    +build() : build_info
+    +system() : system_info
+    +user() : user_info
+}
+
+class main_ctx_object {
+    +main_context() : main_ctx
+}
+
+note "Explicitly instantiated\nearly in the main function" as ctx_note
+
+program_args *-- program_arg
+program_arg --> program_arg : prev/next
+main_ctx_object <|-- logger
+main_ctx_object --> main_ctx
+program_args <--* "1" main_ctx
+logger <--* "1" main_ctx
+data_compressor <--* "1" main_ctx
+application_config <--* "1" main_ctx
+program_args <-- application_config
+main_ctx "1" *--> process_watchdog
+main_ctx "1" *--> build_info
+main_ctx "1" *--> system_info
+main_ctx "1" *--> user_info
+ctx_note .. main_ctx
+@enduml
