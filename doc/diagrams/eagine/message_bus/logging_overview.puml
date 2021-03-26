@@ -1,0 +1,103 @@
+@startuml
+enum log_event_severity {
+    trace
+    debug
+    stat
+    info
+    warning
+    error
+    fatal
+}
+
+interface logger_backend {
+    +type_id() : identifier
+    +set_description()
+    +enter_scope()
+    +leave_scope()
+    +log_chart_sample(...)
+    +begin_message(...)
+    +add_argument(...)
+    +finish_message(...)
+    +finish_log()
+}
+
+class null_log_backend {
+}
+
+class syslog_log_backend {
+}
+
+class ostream_log_backend {
+}
+
+class asio_ostream_log_backend {
+}
+
+class log_entry {
+    +set_format(...)
+    +arg(...)
+}
+
+class basic_logger {
+    +instance_id() : identifier
+    +backend()
+    +make_log_entry()
+}
+
+class logger {
+    +log()
+    +error()
+    +warning()
+    +info()
+    +stat()
+    +debug()
+    +trace()
+}
+
+class named_logging_object {
+    +log()
+    +log_fatal()
+    +log_error()
+    +log_warning()
+    +log_info()
+    +log_stat()
+    +log_debug()
+    +log_trace()
+}
+
+class root_logger {
+}
+
+class root_logger_options {
+}
+
+class program_args {
+    +begin()
+    +end()
+    +find()
+}
+
+class main_ctx_object {
+}
+
+class main_ctx {
+}
+
+logger_backend <|-- null_log_backend : implements
+logger_backend <|-- syslog_log_backend : implements
+logger_backend <|-- ostream_log_backend : implements
+ostream_log_backend <|-- asio_ostream_log_backend
+
+log_entry --> log_event_severity : has
+log_entry --> logger_backend : uses
+
+basic_logger ..> log_entry : instantiates
+basic_logger o--> logger_backend
+logger --|> basic_logger
+basic_logger <|-- named_logging_object
+named_logging_object <|--  main_ctx_object
+main_ctx_object --> main_ctx
+root_logger --|> logger
+root_logger --> program_args : uses
+root_logger --> root_logger_options : uses
+@enduml
