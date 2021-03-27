@@ -58,7 +58,7 @@ for the GLFW3+GLEW configuration:
 ::
 
  sudo apt install \
-    python \
+    python3 \
     pkgconf \
     cmake \
     make \
