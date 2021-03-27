@@ -20,13 +20,18 @@
 
 namespace eagine {
 
-static inline auto running_on_valgrind() noexcept -> tribool {
 #if defined(RUNNING_ON_VALGRIND)
+static inline auto running_on_valgrind() noexcept -> tribool {
     return bool(RUNNING_ON_VALGRIND); // NOLINT(hicpp-no-assembler)
-#else
-    return indeterminate;
-#endif
 }
+#else
+/// @brief Indicates if the current process runs on top of valgrind.
+/// @ingroup interop
+static constexpr inline auto running_on_valgrind() noexcept -> tribool {
+    return indeterminate;
+}
+#endif
+
 } // namespace eagine
 
 #endif // EAGINE_INTEROP_VALGRIND_HPP
