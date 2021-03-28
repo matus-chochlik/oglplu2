@@ -52,6 +52,9 @@ public:
 
     auto update() -> bool;
     auto update_all() -> bool;
+    void cleanup() {
+        _router.cleanup();
+    }
 
 private:
     std::shared_ptr<direct_acceptor> _acceptor;

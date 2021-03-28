@@ -78,7 +78,7 @@ public:
       const valid_if_positive<std::intmax_t>& limit)
       : main_ctx_object{EAGINE_ID(MsgBusPing), bus}
       , base{bus}
-      , _limit{extract_or(limit, 5000)}
+      , _limit{extract_or(limit, 1000)}
       , _max{extract_or(max, 100000)} {
         object_description("Pinger", "Message bus ping");
     }
@@ -193,7 +193,7 @@ public:
                           entry.sent - entry.responded - entry.timeouted;
                         const auto limit =
                           _limit / span_size(_targets.size() + 1);
-                        if(balance < limit) {
+                        if(balance <= limit) {
                             this->ping(pingable_id, std::chrono::seconds(15));
                             entry.sent++;
                             if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
@@ -253,7 +253,7 @@ private:
     std::chrono::steady_clock::time_point prev_log{
       std::chrono::steady_clock::now()};
     std::map<identifier_t, ping_state> _targets{};
-    std::intmax_t _limit{5000};
+    std::intmax_t _limit{1000};
     std::intmax_t _mod{10000};
     std::intmax_t _max{100000};
     std::intmax_t _sent{0};

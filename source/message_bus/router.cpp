@@ -169,6 +169,7 @@ auto main(main_ctx& ctx) -> int {
         wd.notify_alive();
     }
 
+    router.cleanup();
     wd.announce_shutdown();
 
     log.stat("message bus router finishing")

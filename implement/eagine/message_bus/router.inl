@@ -362,10 +362,16 @@ auto router::_remove_disconnected() -> bool {
         auto& rep = std::get<1>(p);
         auto& conn = rep.the_connection;
         if(EAGINE_UNLIKELY(rep.do_disconnect)) {
+            if(conn) {
+                conn->cleanup();
+            }
             conn.reset();
         } else {
             if(EAGINE_UNLIKELY(!conn->is_usable())) {
                 log_debug("removing disconnected connection");
+                if(conn) {
+                    conn->cleanup();
+                }
                 conn.reset();
             }
         }
@@ -952,6 +958,17 @@ auto router::update(const valid_if_positive<int>& count) -> bool {
     } while((n-- > 0) && something_done);
 
     return something_done;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void router::cleanup() {
+    for(auto& [id, node] : _nodes) {
+        EAGINE_MAYBE_UNUSED(id);
+        const auto& conn = node.the_connection;
+        if(EAGINE_LIKELY(conn)) {
+            conn->cleanup();
+        }
+    }
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

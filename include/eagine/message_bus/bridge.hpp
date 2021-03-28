@@ -48,6 +48,7 @@ public:
 
     auto update() -> bool;
     auto is_done() const noexcept -> bool;
+    void cleanup();
 
     auto no_connection_timeout() const noexcept -> auto& {
         return _no_connection_timeout;
@@ -64,6 +65,7 @@ private:
     auto _handle_special(message_id, message_view, bool) -> bool;
     auto _do_push(message_id, message_view) -> bool;
     auto _forward_messages() -> bool;
+    auto _message_too_old(message_priority, message_age) -> bool;
 
     shared_context _context{};
 

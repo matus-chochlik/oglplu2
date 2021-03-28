@@ -163,6 +163,8 @@ auto main(main_ctx& ctx) -> int {
         }
         wd.notify_alive();
     }
+
+    bridge.cleanup();
     wd.announce_shutdown();
 
     log.stat("message bus bridge finishing")
