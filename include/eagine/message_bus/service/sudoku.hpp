@@ -241,7 +241,7 @@ private:
         basic_sudoku_board<S> board{info.traits};
 
         const auto serialized{
-          (S > 4)
+          (S >= 4)
             ? default_deserialize_packed(board, message.content(), _compressor)
             : default_deserialize(board, message.content())};
 
@@ -308,9 +308,9 @@ private:
 
                     auto temp{default_serialize_buffer_for(candidate)};
                     const auto serialized{
-                      (S > 4) ? default_serialize_packed(
-                                  candidate, cover(temp), compressor)
-                              : default_serialize(candidate, cover(temp))};
+                      (S >= 4) ? default_serialize_packed(
+                                   candidate, cover(temp), compressor)
+                               : default_serialize(candidate, cover(temp))};
                     EAGINE_ASSERT(serialized);
 
                     message_view response{extract(serialized)};
@@ -544,9 +544,9 @@ private:
             basic_sudoku_board<S> board{traits};
 
             const auto deserialized{
-              (S > 4) ? default_deserialize_packed(
-                          board, message.content(), parent._compressor)
-                      : default_deserialize(board, message.content())};
+              (S >= 4) ? default_deserialize_packed(
+                           board, message.content(), parent._compressor)
+                       : default_deserialize(board, message.content())};
 
             if(EAGINE_LIKELY(deserialized)) {
                 const auto pos = std::find_if(
@@ -593,7 +593,7 @@ private:
                 auto& board = *pos;
                 auto temp{default_serialize_buffer_for(board)};
                 const auto serialized{
-                  (S > 4)
+                  (S >= 4)
                     ? default_serialize_packed(board, cover(temp), compressor)
                     : default_serialize(board, cover(temp))};
                 EAGINE_ASSERT(serialized);
@@ -1113,7 +1113,7 @@ private:
                 max_count = std::max(max_count, std::get<1>(p));
             }
             solver.bus()
-              .log_debug("solution contributions by helpers")
+              .log_stat("solution contributions by helpers")
               .arg(EAGINE_ID(rank), S)
               .arg_func([this, max_count](logger_backend& backend) {
                   for(const auto& [helper_id, count] : helper_contrib) {
