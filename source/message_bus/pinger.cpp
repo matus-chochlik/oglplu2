@@ -72,9 +72,13 @@ class pinger_node
     using base = pinger_base;
 
 public:
-    pinger_node(endpoint& bus, const valid_if_positive<std::intmax_t>& max)
+    pinger_node(
+      endpoint& bus,
+      const valid_if_positive<std::intmax_t>& max,
+      const valid_if_positive<std::intmax_t>& limit)
       : main_ctx_object{EAGINE_ID(MsgBusPing), bus}
       , base{bus}
+      , _limit{extract_or(limit, 5000)}
       , _max{extract_or(max, 100000)} {
         object_description("Pinger", "Message bus ping");
     }
@@ -188,7 +192,7 @@ public:
                         const auto balance =
                           entry.sent - entry.responded - entry.timeouted;
                         const auto limit =
-                          _mod / span_size(_targets.size() + 1);
+                          _limit / span_size(_targets.size() + 1);
                         if(balance < limit) {
                             this->ping(pingable_id, std::chrono::seconds(15));
                             entry.sent++;
@@ -249,6 +253,7 @@ private:
     std::chrono::steady_clock::time_point prev_log{
       std::chrono::steady_clock::now()};
     std::map<identifier_t, ping_state> _targets{};
+    std::intmax_t _limit{5000};
     std::intmax_t _mod{10000};
     std::intmax_t _max{100000};
     std::intmax_t _sent{0};
@@ -272,7 +277,12 @@ auto main(main_ctx& ctx) -> int {
         arg.next().parse(ping_count, ctx.log().error_stream());
     }
 
-    msgbus::pinger_node the_pinger{bus, ping_count};
+    valid_if_positive<std::intmax_t> limit_count{};
+    if(auto arg{ctx.args().find("--limit-count")}) {
+        arg.next().parse(limit_count, ctx.log().error_stream());
+    }
+
+    msgbus::pinger_node the_pinger{bus, ping_count, limit_count};
     conn_setup.setup_connectors(the_pinger, address);
 
     resetting_timeout do_chart_stats{std::chrono::seconds(15), nothing};
