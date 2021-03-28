@@ -253,17 +253,22 @@ struct asio_connection_state
               total_sent_blocks
                 ? float(total_sent_messages) / float(total_sent_blocks)
                 : 0.F;
-            const auto bytes_per_sec =
+            const auto used_per_sec =
               total_used_size /
+              std::chrono::duration<float>(clock_type::now() - send_start_time)
+                .count();
+            const auto sent_per_sec =
+              total_sent_size /
               std::chrono::duration<float>(clock_type::now() - send_start_time)
                 .count();
 
             log_stat("message slack ratio: ${slack}")
               .arg(EAGINE_ID(usedSize), EAGINE_ID(ByteSize), total_used_size)
               .arg(EAGINE_ID(sentSize), EAGINE_ID(ByteSize), total_sent_size)
-              .arg(EAGINE_ID(slack), EAGINE_ID(Ratio), slack)
-              .arg(EAGINE_ID(bytsPerSec), EAGINE_ID(ByteSize), bytes_per_sec)
-              .arg(EAGINE_ID(msgsPerBlk), msgs_per_block);
+              .arg(EAGINE_ID(msgsPerBlk), msgs_per_block)
+              .arg(EAGINE_ID(usedPerSec), EAGINE_ID(ByteSize), used_per_sec)
+              .arg(EAGINE_ID(sentPerSec), EAGINE_ID(ByteSize), sent_per_sec)
+              .arg(EAGINE_ID(slack), EAGINE_ID(Ratio), slack);
             return true;
         }
         return false;

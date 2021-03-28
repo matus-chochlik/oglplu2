@@ -435,7 +435,7 @@ class XmlLogFormatter(object):
             "real": self._formatReal,
             "YesNo": self._formatYesNoMaybe,
             "YesNoMaybe": self._formatYesNoMaybe,
-            "ByteSize": lambda x: self._formatByteSize(int(x))
+            "ByteSize": lambda x: self._formatByteSize(int(float(x)))
         }
         self._source_id = 0
         self._sources = []
