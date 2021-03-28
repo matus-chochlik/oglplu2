@@ -140,6 +140,15 @@ auto main(main_ctx& ctx) -> int {
               std::chrono::milliseconds(math::minimum(++idle_streak, 50)));
         }
     }
+    if(rank_3) {
+        tiling_generator.log_contribution_histogram(unsigned_constant<3>{});
+    }
+    if(rank_4) {
+        tiling_generator.log_contribution_histogram(unsigned_constant<4>{});
+    }
+    if(rank_5) {
+        tiling_generator.log_contribution_histogram(unsigned_constant<5>{});
+    }
 
     return 0;
 }

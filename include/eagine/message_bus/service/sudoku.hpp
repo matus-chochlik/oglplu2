@@ -320,10 +320,7 @@ private:
                 };
 
                 board.for_each_alternative(
-                  board.find_unsolved(), [&](auto& intermediate) {
-                      intermediate.for_each_alternative(
-                        intermediate.find_unsolved(), process_candidate);
-                  });
+                  board.find_unsolved(), process_candidate);
 
                 message_view response{};
                 response.set_target_id(target_id);
@@ -938,6 +935,12 @@ public:
     virtual void on_tiles_generated(const sudoku_tiles<5>&) {}
     virtual void on_tiles_generated(const sudoku_tiles<6>&) {}
 
+    template <unsigned S>
+    auto log_contribution_histogram(unsigned_constant<S> rank) -> auto& {
+        _infos.get(rank).log_contribution_histogram(*this);
+        return *this;
+    }
+
 private:
     template <unsigned S>
     struct rank_info : sudoku_tiles<S> {
@@ -1091,12 +1094,40 @@ private:
                   .arg(EAGINE_ID(x), std::get<0>(coord))
                   .arg(EAGINE_ID(y), std::get<1>(coord))
                   .arg(EAGINE_ID(helper), helper_id);
+
+                auto helper_pos = helper_contrib.find(helper_id);
+                if(helper_pos == helper_contrib.end()) {
+                    helper_pos = helper_contrib.emplace(helper_id, 0).first;
+                }
+                ++helper_pos->second;
             }
 
             enqueue_incomplete(solver);
 
             solver.on_tiles_generated(*this);
         }
+
+        void log_contribution_histogram(This& solver) {
+            span_size_t max_count = 0;
+            for(const auto& p : helper_contrib) {
+                max_count = std::max(max_count, std::get<1>(p));
+            }
+            solver.bus()
+              .log_debug("solution contributions by helpers")
+              .arg(EAGINE_ID(rank), S)
+              .arg_func([this, max_count](logger_backend& backend) {
+                  for(const auto& [helper_id, count] : helper_contrib) {
+                      backend.add_float(
+                        EAGINE_ID(helper),
+                        EAGINE_ID(Histogram),
+                        float(0),
+                        float(count),
+                        float(max_count));
+                  }
+              });
+        }
+
+        flat_map<identifier_t, span_size_t> helper_contrib;
     };
 
     sudoku_rank_tuple<rank_info> _infos;
