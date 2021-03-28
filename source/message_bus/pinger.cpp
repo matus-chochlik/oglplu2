@@ -25,7 +25,7 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-struct ping_stats {
+struct ping_state {
     host_id_t host_id{0};
     std::string hostname;
     std::chrono::microseconds min_time{std::chrono::microseconds::max()};
@@ -35,6 +35,7 @@ struct ping_stats {
       std::chrono::steady_clock::now()};
     std::chrono::steady_clock::time_point finish{
       std::chrono::steady_clock::now()};
+    std::intmax_t sent{0};
     std::intmax_t responded{0};
     std::intmax_t timeouted{0};
     resetting_timeout should_check_info{std::chrono::seconds(5), nothing};
@@ -93,9 +94,9 @@ public:
 
     void on_unsubscribed(const subscriber_info& info, message_id sub_msg) final {
         if(sub_msg == this->ping_msg_id()) {
-            auto& stats = _targets[info.endpoint_id];
-            if(stats.is_active) {
-                stats.is_active = false;
+            auto& state = _targets[info.endpoint_id];
+            if(state.is_active) {
+                state.is_active = false;
                 log_info("pingable ${id} disappeared")
                   .arg(EAGINE_ID(id), info.endpoint_id);
             }
@@ -104,8 +105,8 @@ public:
 
     void not_subscribed(const subscriber_info& info, message_id sub_msg) final {
         if(sub_msg == this->ping_msg_id()) {
-            auto& stats = _targets[info.endpoint_id];
-            stats.is_active = false;
+            auto& state = _targets[info.endpoint_id];
+            state.is_active = false;
             log_info("target ${id} is not pingable")
               .arg(EAGINE_ID(id), info.endpoint_id);
         }
@@ -115,8 +116,8 @@ public:
       const result_context& res_ctx,
       valid_if_positive<host_id_t>&& host_id) final {
         if(host_id) {
-            auto& stats = _targets[res_ctx.source_id()];
-            stats.host_id = extract(host_id);
+            auto& state = _targets[res_ctx.source_id()];
+            state.host_id = extract(host_id);
         }
     }
 
@@ -124,8 +125,8 @@ public:
       const result_context& res_ctx,
       valid_if_not_empty<std::string>&& hostname) final {
         if(hostname) {
-            auto& stats = _targets[res_ctx.source_id()];
-            stats.hostname = extract(std::move(hostname));
+            auto& state = _targets[res_ctx.source_id()];
+            state.hostname = extract(std::move(hostname));
         }
     }
 
@@ -134,12 +135,12 @@ public:
       message_sequence_t,
       std::chrono::microseconds age,
       verification_bits) final {
-        auto& stats = _targets[pinger_id];
-        stats.responded++;
-        stats.min_time = std::min(stats.min_time, age);
-        stats.max_time = std::max(stats.max_time, age);
-        stats.sum_time += age;
-        stats.finish = std::chrono::steady_clock::now();
+        auto& state = _targets[pinger_id];
+        state.responded++;
+        state.min_time = std::min(state.min_time, age);
+        state.max_time = std::max(state.max_time, age);
+        state.sum_time += age;
+        state.finish = std::chrono::steady_clock::now();
         if(EAGINE_UNLIKELY((++_rcvd % _mod) == 0)) {
             const auto now{std::chrono::steady_clock::now()};
             const std::chrono::duration<float> interval{now - prev_log};
@@ -162,8 +163,8 @@ public:
       identifier_t pinger_id,
       message_sequence_t,
       std::chrono::microseconds) final {
-        auto& stats = _targets[pinger_id];
-        stats.timeouted++;
+        auto& state = _targets[pinger_id];
+        state.timeouted++;
         if(EAGINE_UNLIKELY((++_tout % _mod) == 0)) {
             log_info("${tout} pongs expired").arg(EAGINE_ID(tout), _tout);
         }
@@ -184,14 +185,13 @@ public:
             for(auto& [pingable_id, entry] : _targets) {
                 if(_rcvd < _max) {
                     if(entry.is_active) {
-                        const auto lim{
-                          _rcvd +
-                          static_cast<std::intmax_t>(
-                            float(_mod) * 0.1F *
-                            (1.F + std::log(float(1 + _targets.size()))))};
-
-                        if(_sent < lim) {
+                        const auto balance =
+                          entry.sent - entry.responded - entry.timeouted;
+                        const auto limit =
+                          _mod / span_size(_targets.size() + 1);
+                        if(balance < limit) {
                             this->ping(pingable_id, std::chrono::seconds(15));
+                            entry.sent++;
                             if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
                                 log_info("sent ${sent} pings")
                                   .arg(EAGINE_ID(sent), _sent);
@@ -248,7 +248,7 @@ private:
     resetting_timeout _should_query_pingable{std::chrono::seconds(3), nothing};
     std::chrono::steady_clock::time_point prev_log{
       std::chrono::steady_clock::now()};
-    std::map<identifier_t, ping_stats> _targets{};
+    std::map<identifier_t, ping_state> _targets{};
     std::intmax_t _mod{10000};
     std::intmax_t _max{100000};
     std::intmax_t _sent{0};
