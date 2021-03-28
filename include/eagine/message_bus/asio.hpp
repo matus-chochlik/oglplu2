@@ -180,6 +180,8 @@ struct asio_connection_state
   : std::enable_shared_from_this<asio_connection_state<Kind, Proto>>
   , main_ctx_object {
     using endpoint_type = asio_endpoint_type<Kind, Proto>;
+    using clock_type = std::chrono::steady_clock;
+    using clock_time = typename clock_type::time_point;
 
     std::shared_ptr<asio_common_state> common;
     asio_socket_type<Kind, Proto> socket;
@@ -190,6 +192,7 @@ struct asio_connection_state
     memory::buffer write_buffer{};
     span_size_t total_used_size{0};
     span_size_t total_sent_size{0};
+    clock_time send_start_time{clock_type::now()};
     std::int32_t total_sent_messages{0};
     std::int32_t total_sent_blocks{0};
     float send_pack_ratio{1.F};
@@ -250,11 +253,16 @@ struct asio_connection_state
               total_sent_blocks
                 ? float(total_sent_messages) / float(total_sent_blocks)
                 : 0.F;
+            const auto bytes_per_sec =
+              total_used_size /
+              std::chrono::duration<float>(clock_type::now() - send_start_time)
+                .count();
 
             log_stat("message slack ratio: ${slack}")
               .arg(EAGINE_ID(usedSize), EAGINE_ID(ByteSize), total_used_size)
               .arg(EAGINE_ID(sentSize), EAGINE_ID(ByteSize), total_sent_size)
               .arg(EAGINE_ID(slack), EAGINE_ID(Ratio), slack)
+              .arg(EAGINE_ID(bytsPerSec), EAGINE_ID(ByteSize), bytes_per_sec)
               .arg(EAGINE_ID(msgsPerBlk), msgs_per_block);
             return true;
         }
@@ -326,6 +334,7 @@ struct asio_connection_state
                           if(this->log_usage_stats(span_size(2U << 27U))) {
                               total_used_size = 0;
                               total_sent_size = 0;
+                              send_start_time = clock_type::now();
                           }
 
                           this->handle_sent(group, target_endpoint, packed);
