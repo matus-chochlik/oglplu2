@@ -15,15 +15,22 @@ namespace eagine::memory {
 //------------------------------------------------------------------------------
 /// @brief Template for classes representing a memory span split in two parts.
 /// @ingroup memory
+/// @tparam ValueType the type of elements assumed in the covered memory range.
+/// @tparam Pointer the pointer type used to point to the start of the span.
+/// @tparam SizeType the integer type used to count the elements in the span.
 /// @see basic_split_block
-template <typename T>
+template <
+  typename ValueType,
+  typename Pointer = ValueType*,
+  typename SizeType = span_size_t>
 class basic_split_span {
 public:
     /// @brief Default constructor.
     constexpr basic_split_span() noexcept = default;
 
     /// @brief Initializing constructor.
-    constexpr basic_split_span(basic_span<T> spn) noexcept
+    constexpr basic_split_span(
+      basic_span<ValueType, Pointer, SizeType> spn) noexcept
       : _span{spn} {}
 
     /// @brief Returns the position of split as count of bytes since beginning.
@@ -65,7 +72,7 @@ public:
     }
 
 private:
-    basic_span<T> _span{};
+    basic_span<ValueType, Pointer, SizeType> _span{};
     span_size_t _split{0};
 };
 //------------------------------------------------------------------------------

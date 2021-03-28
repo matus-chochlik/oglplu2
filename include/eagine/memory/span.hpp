@@ -87,6 +87,8 @@ constexpr bool has_span_data_member_v = has_span_data_member<T>::value;
 /// @tparam ValueType the type of elements assumed in the covered memory range.
 /// @tparam Pointer the pointer type used to point to the start of the span.
 /// @tparam SizeType the integer type used to count the elements in the span.
+/// @see basic_block
+/// @see basic_split_span
 ///
 /// This template is similar to std::span but allows to specify other pointer
 /// types besides ValueType*, for example basic_offset_ptr, etc. and to specify
