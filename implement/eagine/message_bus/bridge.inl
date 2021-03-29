@@ -318,29 +318,13 @@ auto bridge::_do_push(message_id msg_id, message_view message) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_message_too_old(message_priority priority, message_age age)
-  -> bool {
-    switch(priority) {
-        case message_priority::idle:
-            return age > std::chrono::seconds(10);
-        case message_priority::low:
-            return age > std::chrono::seconds(20);
-        case message_priority::normal:
-            return age > std::chrono::seconds(30);
-        case message_priority::high:
-        case message_priority::critical:
-            break;
-    }
-    return false;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 auto bridge::_forward_messages() -> bool {
     some_true something_done{};
 
     auto forward_conn_to_output =
-      [this](message_id msg_id, message_age age, const message_view& message) {
-          if(_message_too_old(message.priority, age)) {
+      [this](message_id msg_id, message_age msg_age, message_view message) {
+          if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+              ++_dropped_messages_c2o;
               return true;
           }
           if(EAGINE_UNLIKELY(++_forwarded_messages_c2o % 1000000 == 0)) {
@@ -354,6 +338,7 @@ auto bridge::_forward_messages() -> bool {
                   log_chart_sample(EAGINE_ID(msgPerSecO), msgs_per_sec);
                   log_stat("forwarded ${count} messages to output")
                     .arg(EAGINE_ID(count), _forwarded_messages_c2o)
+                    .arg(EAGINE_ID(dropped), _dropped_messages_c2o)
                     .arg(EAGINE_ID(interval), interval)
                     .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
               }
@@ -373,8 +358,9 @@ auto bridge::_forward_messages() -> bool {
     _state->notify_output_ready();
 
     auto forward_input_to_conn =
-      [this](message_id msg_id, message_age age, const message_view& message) {
-          if(_message_too_old(message.priority, age)) {
+      [this](message_id msg_id, message_age msg_age, message_view message) {
+          if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+              ++_dropped_messages_i2c;
               return true;
           }
           if(EAGINE_UNLIKELY(++_forwarded_messages_i2c % 1000000 == 0)) {
@@ -388,6 +374,7 @@ auto bridge::_forward_messages() -> bool {
                   log_chart_sample(EAGINE_ID(msgPerSecI), msgs_per_sec);
                   log_stat("forwarded ${count} messages from input")
                     .arg(EAGINE_ID(count), _forwarded_messages_i2c)
+                    .arg(EAGINE_ID(dropped), _dropped_messages_i2c)
                     .arg(EAGINE_ID(interval), interval)
                     .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
               }

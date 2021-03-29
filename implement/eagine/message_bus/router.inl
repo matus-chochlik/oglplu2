@@ -793,6 +793,7 @@ auto router::_do_route_message(
                     log_chart_sample(EAGINE_ID(msgsPerSec), msgs_per_sec);
                     log_stat("forwarded ${count} messages")
                       .arg(EAGINE_ID(count), _forwarded_messages)
+                      .arg(EAGINE_ID(dropped), _dropped_messages)
                       .arg(EAGINE_ID(interval), interval)
                       .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
                 }
@@ -864,19 +865,18 @@ auto router::_route_messages() -> bool {
     some_true something_done{};
 
     for(auto& nd : _nodes) {
-        auto handler = [this, &nd](
-                         message_id msg_id,
-                         message_age msg_age,
-                         const message_view& message) {
-            auto& [incoming_id, node_in] = nd;
-            if(this->_handle_special(msg_id, incoming_id, node_in, message)) {
-                return true;
-            }
-            if(EAGINE_LIKELY(msg_age < std::chrono::seconds(30))) {
-                return this->_do_route_message(msg_id, incoming_id, message);
-            }
-            return true;
-        };
+        auto handler =
+          [this, &nd](
+            message_id msg_id, message_age msg_age, message_view message) {
+              auto& [incoming_id, node_in] = nd;
+              if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+                  return true;
+              }
+              if(this->_handle_special(msg_id, incoming_id, node_in, message)) {
+                  return true;
+              }
+              return this->_do_route_message(msg_id, incoming_id, message);
+          };
 
         const auto& conn_in = std::get<1>(nd).the_connection;
         if(EAGINE_LIKELY(conn_in && conn_in->is_usable())) {
@@ -885,7 +885,10 @@ auto router::_route_messages() -> bool {
     }
 
     auto handler =
-      [&](message_id msg_id, message_age msg_age, const message_view& message) {
+      [&](message_id msg_id, message_age msg_age, message_view message) {
+          if(message.add_age(msg_age).too_old()) {
+              return true;
+          }
           if(this->_handle_special(
                msg_id, _parent_router.confirmed_id, message)) {
               return true;

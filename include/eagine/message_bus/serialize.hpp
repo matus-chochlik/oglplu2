@@ -68,6 +68,7 @@ auto serialize_message_header(
       msg.serializer_id,
       msg.sequence_no,
       msg.hop_count,
+      msg.age_seconds,
       msg.priority,
       msg.crypto_flags);
     return serialize(message_params, backend);
@@ -122,6 +123,7 @@ auto deserialize_message_header(
       msg.serializer_id,
       msg.sequence_no,
       msg.hop_count,
+      msg.age_seconds,
       msg.priority,
       msg.crypto_flags);
     return deserialize(message_params, backend);

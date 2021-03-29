@@ -84,6 +84,7 @@ public:
         message_view message{};
         auto msg_id{EAGINE_MSGBUS_ID(ping)};
         message.set_target_id(pingable_id);
+        message.set_priority(message_priority::low);
         this->bus().set_next_sequence_id(msg_id, message);
         this->bus().post(msg_id, message);
         _pending.emplace_back(message.target_id, message.sequence_no, max_time);
