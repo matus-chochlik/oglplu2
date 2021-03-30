@@ -25,14 +25,21 @@ struct registered_entry {
     auto update_service() -> bool;
 };
 //------------------------------------------------------------------------------
+/// @brief Class combining a local bus router and a set of endpoints.
+/// @ingroup msgbus
 class registry : public main_ctx_object {
 public:
+    /// @brief Construction from parent main context object.
     registry(main_ctx_parent parent);
 
+    /// @brief Establishes a new endpoint with the specified logger identifier.
+    /// @see emplace
     [[nodiscard]] auto establish(identifier log_id) -> endpoint& {
         return *(_add_entry(log_id)._endpoint);
     }
 
+    /// @brief Establishes an endpoint and instantiates a service object tied to it.
+    /// @see establish
     template <typename Service>
     auto emplace(identifier log_id) -> std::
       enable_if_t<std::is_base_of_v<service_interface, Service>, Service&> {
@@ -45,6 +52,9 @@ public:
 
     auto update() -> bool;
     auto update_all() -> bool;
+    void cleanup() {
+        _router.cleanup();
+    }
 
 private:
     std::shared_ptr<direct_acceptor> _acceptor;

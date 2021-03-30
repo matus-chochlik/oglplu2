@@ -20,11 +20,14 @@ set(
 		eagine-message_bus-sudoku_tiling
 		oglplus
 		oglplus-bake_program_source
-		oglplus-bake_png_image
+		
 		oglplus-bake_noise_image
 		oglplus-bake_checker_image
 		oglplus-texgen
 )
+if(TARGET oglplus-bake_png_image)
+	list(APPEND OGLPLUS_EXPORT_TARGETS oglplus-bake_png_image)
+endif()
 if(TARGET eglplus)
 	list(APPEND OGLPLUS_EXPORT_TARGETS eglplus)
 endif()

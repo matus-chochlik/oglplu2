@@ -50,16 +50,6 @@ struct pending_blob {
 };
 //------------------------------------------------------------------------------
 class blob_manipulator : main_ctx_object {
-private:
-    std::int64_t _max_blob_size{16 * 1024 * 1024};
-    std::uint64_t _blob_id_sequence{0};
-    memory::buffer _scratch_buffer{};
-    memory::buffer_pool _buffers{};
-    std::vector<pending_blob> _outgoing{};
-    std::vector<pending_blob> _incoming{};
-
-    auto _scratch_block(span_size_t size) -> memory::block;
-
 public:
     blob_manipulator(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(BlobManipl), parent} {}
@@ -105,6 +95,16 @@ public:
         return !_outgoing.empty();
     }
     auto process_outgoing(send_handler, span_size_t max_data_size) -> bool;
+
+private:
+    std::int64_t _max_blob_size{16 * 1024 * 1024};
+    std::uint64_t _blob_id_sequence{0};
+    memory::buffer _scratch_buffer{};
+    memory::buffer_pool _buffers{};
+    std::vector<pending_blob> _outgoing{};
+    std::vector<pending_blob> _incoming{};
+
+    auto _scratch_block(span_size_t size) -> memory::block;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

@@ -42,7 +42,7 @@ struct router_endpoint_info {
     std::vector<message_id> subscriptions{};
     std::vector<message_id> unsubscriptions{};
 
-    void assign_instance_id(message_view msg) {
+    void assign_instance_id(const message_view& msg) {
         is_outdated.reset();
         if(instance_id != msg.sequence_no) {
             instance_id = msg.sequence_no;
@@ -71,7 +71,7 @@ struct routed_node {
 
     auto is_allowed(message_id) const noexcept -> bool;
 
-    auto send(main_ctx_object&, message_id, message_view) const -> bool;
+    auto send(main_ctx_object&, message_id, const message_view&) const -> bool;
 };
 //------------------------------------------------------------------------------
 struct parent_router {
@@ -86,7 +86,7 @@ struct parent_router {
     template <typename Handler>
     auto fetch_messages(main_ctx_object&, const Handler&) -> bool;
 
-    auto send(main_ctx_object&, message_id, message_view) const -> bool;
+    auto send(main_ctx_object&, message_id, const message_view&) const -> bool;
 };
 //------------------------------------------------------------------------------
 class router
@@ -118,6 +118,8 @@ public:
     auto update() -> bool {
         return update(2);
     }
+
+    void cleanup();
 
     auto no_connection_timeout() const noexcept -> auto& {
         return _no_connection_timeout;
@@ -175,7 +177,7 @@ private:
     auto _do_route_message(
       message_id msg_id,
       identifier_t incoming_id,
-      message_view message) -> bool;
+      message_view& message) -> bool;
 
     auto _route_messages() -> bool;
     auto _update_connections() -> bool;
@@ -190,6 +192,7 @@ private:
     std::chrono::steady_clock::time_point _forwarded_since{
       std::chrono::steady_clock::now()};
     std::intmax_t _forwarded_messages{0};
+    std::intmax_t _dropped_messages{0};
     parent_router _parent_router;
     std::vector<std::shared_ptr<acceptor>> _acceptors;
     std::vector<router_pending> _pending;

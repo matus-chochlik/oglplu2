@@ -5,7 +5,7 @@
 #
 set(
 	EAGINE_EMBED_GENERATOR
-	"${PROJECT_SOURCE_DIR}/config/tools/embed_generator"
+	"python3" "${PROJECT_SOURCE_DIR}/config/tools/embed_generator"
 )
 
 include("${PROJECT_SOURCE_DIR}/config/EmbedCommon.cmake")

@@ -1,0 +1,9 @@
+version: "3.6"
+services:
+    oglplus_typical:
+        build: .
+        container_name: oglplus_typical
+        volumes:
+            - type: tmpfs
+              target: /home/oglplus/oglplu2
+

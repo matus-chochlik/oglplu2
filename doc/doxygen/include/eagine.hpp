@@ -75,4 +75,6 @@ namespace application {
 
 /// @defgroup dyn_lib Dynamically-linked libraries
 
+/// @defgroup interop Interoperability
+
 } // namespace eagine

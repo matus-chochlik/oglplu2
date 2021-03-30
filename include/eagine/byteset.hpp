@@ -17,22 +17,43 @@
 
 namespace eagine {
 
+/// @brief Class storing a sequence of bytes converting them to and from unsigned integer.
+/// @ingroup type_utils
+/// @tparam N the size - number of elements - in the byte sequence.
+/// @see biteset
 template <std::size_t N>
 class byteset {
 public:
     static_assert(N > 0, "byteset size must be greater than zero");
+
+    /// @brief Alias for size type.
     using size_type = span_size_t;
-    using value_type = unsigned char;
+
+    /// @brief Alias for element value type.
+    using value_type = byte;
+
+    /// @brief Alias for element reference type.
     using reference = value_type&;
+
+    /// @brief Alias for const reference type.
     using const_reference = const value_type&;
+
+    /// @brief Alias for pointer to element type.
     using pointer = value_type*;
+
+    /// @brief Alias for pointer to const element type.
     using const_pointer = const value_type*;
 
+    /// @brief Alias for iterator type.
     using iterator = value_type*;
+
+    /// @brief Alias for const iterator type.
     using const_iterator = const value_type*;
 
-    constexpr byteset() = default;
+    /// @brief Default constructor.
+    constexpr byteset() noexcept = default;
 
+    /// @brief Construction from a pack of integer values.
     template <
       typename... B,
       typename = std::enable_if_t<
@@ -49,65 +70,87 @@ public:
     constexpr byteset(std::index_sequence<I...>, UInt init) noexcept
       : _bytes{value_type((init >> (8 * (N - I - 1))) & 0xFFU)...} {}
 
+    /// @brief Construiction from unsigned integer that is then split into bytes.
     template <
       typename UInt,
-      typename =
-        std::enable_if_t<(sizeof(UInt) >= N) && std::is_integral_v<UInt>>>
+      typename = std::enable_if_t<
+        (sizeof(UInt) >= N) && std::is_integral_v<UInt> &&
+        std::is_unsigned_v<UInt>>>
     explicit constexpr byteset(UInt init) noexcept
       : byteset(std::make_index_sequence<N>(), init) {}
 
+    /// @brief Returns a pointer to the byte sequence start.
+    /// @see size
     auto data() noexcept -> pointer {
         return _bytes;
     }
 
+    /// @brief Returns a const pointer to the byte sequence start.
+    /// @see size
     constexpr auto data() const noexcept -> const_pointer {
         return _bytes;
     }
 
+    /// @brief Returns the count of bytes in the stored sequence.
     constexpr auto size() const noexcept -> size_type {
         return N;
     }
 
+    /// @brief Creates a const view over the stored sequence of bytes.
     constexpr auto block() const noexcept -> memory::const_block {
         return {data(), size()};
     }
 
+    /// @brief Subscript operator.
     constexpr auto operator[](size_type i) noexcept -> reference {
         return _bytes[i];
     }
 
+    /// @brief Subscript operator.
     constexpr auto operator[](size_type i) const noexcept -> const_reference {
         return _bytes[i];
     }
 
+    /// @brief Returns the first byte in the sequence.
+    /// @see back
     constexpr auto front() noexcept -> reference {
         return _bytes[0];
     }
 
+    /// @brief Returns the first byte in the sequence.
+    /// @see back
     constexpr auto front() const noexcept -> const_reference {
         return _bytes[0];
     }
 
+    /// @brief Returns the last byte in the sequence.
+    /// @see front
     constexpr auto back() noexcept -> reference {
         return _bytes[N - 1];
     }
 
+    /// @brief Returns the last byte in the sequence.
+    /// @see front
     constexpr auto back() const noexcept -> const_reference {
         return _bytes[N - 1];
     }
 
+    /// @brief Returns an iterator to the start of the byte sequence.
     auto begin() noexcept -> iterator {
         return _bytes + 0;
     }
 
+    /// @brief Returns an iterator past the end of the byte sequence.
     auto end() noexcept -> iterator {
         return _bytes + N;
     }
 
+    /// @brief Returns a const iterator to the start of the byte sequence.
     constexpr auto begin() const noexcept -> const_iterator {
         return _bytes + 0;
     }
 
+    /// @brief Returns a const iterator past the end of the byte sequence.
     constexpr auto end() const noexcept -> const_iterator {
         return _bytes + N;
     }
@@ -116,36 +159,43 @@ public:
         return _do_cmp(a, b, std::make_index_sequence<N>{});
     }
 
+    /// @brief Equality comparison.
     friend constexpr auto
     operator==(const byteset& a, const byteset& b) noexcept {
         return compare(a, b) == 0;
     }
 
+    /// @brief Non-equality comparison.
     friend constexpr auto
     operator!=(const byteset& a, const byteset& b) noexcept {
         return compare(a, b) != 0;
     }
 
+    /// @brief Less-than comparison.
     friend constexpr auto
     operator<(const byteset& a, const byteset& b) noexcept {
         return compare(a, b) < 0;
     }
 
+    /// @brief Less-equal comparison.
     friend constexpr auto
     operator<=(const byteset& a, const byteset& b) noexcept {
         return compare(a, b) <= 0;
     }
 
+    /// @brief Greater-than comparison.
     friend constexpr auto
     operator>(const byteset& a, const byteset& b) noexcept {
         return compare(a, b) > 0;
     }
 
+    /// @brief Greater-equal comparison.
     friend constexpr auto
     operator>=(const byteset& a, const byteset& b) noexcept {
         return compare(a, b) >= 0;
     }
 
+    /// @brief Converts the byte sequence into an unsigned integer value.
     template <
       typename UInt,
       typename =

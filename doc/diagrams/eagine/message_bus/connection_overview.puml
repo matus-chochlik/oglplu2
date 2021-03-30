@@ -1,0 +1,97 @@
+@startuml
+enum connection_kind {
+    unknown
+    in_process
+    local_interprocess
+    remote_interprocess
+}
+
+enum connection_protocol {
+    stream
+    datagram
+    message
+}
+
+enum connection_address_kind {
+    none
+    filepath
+    ipv4
+}
+
+class message {
+}
+
+class fetch_handler {
+    +operator(...)
+}
+
+interface connection_info {
+}
+
+interface connection {
+    +update()
+    +is_usable()
+    +send()
+    +fetch_messages()
+}
+
+interface connection_user {
+    +add_connection()
+}
+
+class concrete_connection {
+}
+
+class concrete_connector {
+    +reconnect()
+}
+
+class concrete_server_connection {
+}
+
+class accept_handler {
+    +operator()
+}
+
+interface acceptor {
+    +update()
+    +process_accepted()
+}
+
+class concrete_acceptor {
+}
+
+interface acceptor_user {
+    +add_acceptor()
+}
+
+interface connection_factory {
+    +make_acceptor()
+    +make_connector()
+}
+
+class concrete_factory {
+}
+
+connection_kind <-- connection_info : has
+connection_protocol <-- connection_info : has
+connection_address_kind <-- connection_info : has
+connection_info <|-- connection : extends
+connection --> message : sends
+connection <|-- concrete_connection : implements
+concrete_connection <|-- concrete_connector : implements
+concrete_connection <|-- concrete_server_connection : implements
+fetch_handler --> message : handles
+connection_user --> connection : uses
+connection_info <|-- acceptor : extends
+concrete_connection --> fetch_handler : invokes
+concrete_acceptor --> accept_handler : invokes
+accept_handler --> connection : handles
+acceptor <|-- concrete_acceptor : implements
+acceptor_user --> acceptor : uses
+concrete_acceptor ..> concrete_server_connection : instantiates
+connection_info <|-- connection_factory : extends
+connection_factory <|-- concrete_factory : implements
+concrete_factory ..> concrete_connector : instantiates
+concrete_factory ..> concrete_acceptor : instantiates
+@enduml

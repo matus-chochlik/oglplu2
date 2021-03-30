@@ -144,8 +144,17 @@ struct message_info {
     /// @brief The message hop counter.
     /// @see add_hop
     /// @see too_many_hops
-    /// Counts how many times the message passed through a rounter or a bridge.
+    /// Counts how many times the message passed through a router or a bridge.
     hop_count_t hop_count{0};
+
+    /// @brief Alias for type used to store the message age in seconds.
+    using age_seconds_t = std::int8_t;
+
+    /// @brief The message age in seconds.
+    /// @see add_age
+    /// @see too_old
+    /// Accumulated time the message spent in various queues.
+    age_seconds_t age_seconds{0};
 
     /// @brief The message priority.
     /// @see set_priority
@@ -165,12 +174,45 @@ struct message_info {
         return hop_count >= hop_count_t(64);
     }
 
+    /// @brief Indicates that the message is too old.
+    /// @see age_seconds
+    /// @see add_age
+    auto too_old() const noexcept -> bool {
+        switch(priority) {
+            case message_priority::idle:
+                return age_seconds > 10;
+            case message_priority::low:
+                return age_seconds > 20;
+            case message_priority::normal:
+                return age_seconds > 30;
+            case message_priority::high:
+                return age_seconds == std::numeric_limits<age_seconds_t>::max();
+            case message_priority::critical:
+                break;
+        }
+        return false;
+    }
+
     /// @brief Increments the hop counter.
     /// @see hop_count
     /// @see too_many_hops
     auto add_hop() noexcept -> auto& {
         EAGINE_ASSERT(hop_count < std::numeric_limits<hop_count_t>::max());
         ++hop_count;
+        return *this;
+    }
+
+    /// @brief Adds to the age seconds counter.
+    /// @see age_seconds
+    /// @see too_old
+    auto add_age(message_age age) noexcept -> auto& {
+        const float added_seconds = age.count() + 0.5F;
+        if(auto new_age{convert_if_fits<age_seconds_t>(
+             int(age_seconds) + int(added_seconds))}) {
+            age_seconds = extract(new_age);
+        } else {
+            age_seconds = std::numeric_limits<age_seconds_t>::max();
+        }
         return *this;
     }
 
@@ -221,6 +263,7 @@ struct message_info {
     auto setup_response(const message_info& info) noexcept -> auto& {
         target_id = info.source_id;
         sequence_no = info.sequence_no;
+        priority = info.priority;
         return *this;
     }
 };
@@ -407,7 +450,7 @@ public:
         _messages.emplace_back(
           msg_id,
           stored_message{message, _buffers.get(message.data.size())},
-          _clock_t::now());
+          _clock_t::now() - _clock_t::duration(int(message.age_seconds)));
     }
 
     /// @brief Pushes a new message and lets a function to fill it.

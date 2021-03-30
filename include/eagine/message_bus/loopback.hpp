@@ -14,6 +14,8 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Loopback implementation of connection. Used mainly for testing and development.
+/// @ingroup msgbus
 class loopback_connection : public connection {
 public:
     auto kind() -> connection_kind final {

@@ -209,7 +209,7 @@ void bridge::_setup_from_config() {
 EAGINE_LIB_FUNC
 auto bridge::_handle_special(
   message_id msg_id,
-  message_view message,
+  const message_view& message,
   bool to_connection) -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         log_debug("bridge handling special message ${message}")
@@ -284,7 +284,7 @@ auto bridge::_handle_special(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_do_send(message_id msg_id, message_view message) -> bool {
+auto bridge::_do_send(message_id msg_id, message_view& message) -> bool {
     message.add_hop();
     if(EAGINE_LIKELY(_connection)) {
         if(_connection->send(msg_id, message)) {
@@ -298,14 +298,14 @@ auto bridge::_do_send(message_id msg_id, message_view message) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_send(message_id msg_id, message_view message) -> bool {
+auto bridge::_send(message_id msg_id, message_view& message) -> bool {
     EAGINE_ASSERT(has_id());
     message.set_source_id(_id);
     return _do_send(msg_id, message);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_do_push(message_id msg_id, message_view message) -> bool {
+auto bridge::_do_push(message_id msg_id, message_view& message) -> bool {
     if(EAGINE_LIKELY(_state)) {
         message.add_hop();
         _state->push(msg_id, message);
@@ -322,8 +322,11 @@ auto bridge::_forward_messages() -> bool {
     some_true something_done{};
 
     auto forward_conn_to_output =
-      [this](message_id msg_id, message_age, const message_view& message) {
-          // TODO: use message age
+      [this](message_id msg_id, message_age msg_age, message_view message) {
+          if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+              ++_dropped_messages_c2o;
+              return true;
+          }
           if(EAGINE_UNLIKELY(++_forwarded_messages_c2o % 1000000 == 0)) {
               const auto now{std::chrono::steady_clock::now()};
               const std::chrono::duration<float> interval{
@@ -335,6 +338,7 @@ auto bridge::_forward_messages() -> bool {
                   log_chart_sample(EAGINE_ID(msgPerSecO), msgs_per_sec);
                   log_stat("forwarded ${count} messages to output")
                     .arg(EAGINE_ID(count), _forwarded_messages_c2o)
+                    .arg(EAGINE_ID(dropped), _dropped_messages_c2o)
                     .arg(EAGINE_ID(interval), interval)
                     .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
               }
@@ -354,8 +358,11 @@ auto bridge::_forward_messages() -> bool {
     _state->notify_output_ready();
 
     auto forward_input_to_conn =
-      [this](message_id msg_id, message_age, const message_view& message) {
-          // TODO: use message age
+      [this](message_id msg_id, message_age msg_age, message_view message) {
+          if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+              ++_dropped_messages_i2c;
+              return true;
+          }
           if(EAGINE_UNLIKELY(++_forwarded_messages_i2c % 1000000 == 0)) {
               const auto now{std::chrono::steady_clock::now()};
               const std::chrono::duration<float> interval{
@@ -367,6 +374,7 @@ auto bridge::_forward_messages() -> bool {
                   log_chart_sample(EAGINE_ID(msgPerSecI), msgs_per_sec);
                   log_stat("forwarded ${count} messages from input")
                     .arg(EAGINE_ID(count), _forwarded_messages_i2c)
+                    .arg(EAGINE_ID(dropped), _dropped_messages_i2c)
                     .arg(EAGINE_ID(interval), interval)
                     .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
               }
@@ -436,7 +444,8 @@ auto bridge::update() -> bool {
     // if processing the messages assigned the id
     if(EAGINE_UNLIKELY(has_id() && !had_id)) {
         log_debug("announcing id ${id}").arg(EAGINE_ID(id), _id);
-        _send(EAGINE_MSGBUS_ID(announceId), {});
+        message_view msg;
+        _send(EAGINE_MSGBUS_ID(announceId), msg);
         something_done();
     }
 
@@ -446,6 +455,13 @@ auto bridge::update() -> bool {
 EAGINE_LIB_FUNC
 auto bridge::is_done() const noexcept -> bool {
     return no_connection_timeout() || !std::cin.good();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void bridge::cleanup() {
+    if(_connection) {
+        _connection->cleanup();
+    }
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

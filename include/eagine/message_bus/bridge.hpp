@@ -48,6 +48,7 @@ public:
 
     auto update() -> bool;
     auto is_done() const noexcept -> bool;
+    void cleanup();
 
     auto no_connection_timeout() const noexcept -> auto& {
         return _no_connection_timeout;
@@ -59,10 +60,10 @@ private:
     auto _check_state() -> bool;
     auto _update_connections() -> bool;
 
-    auto _do_send(message_id, message_view) -> bool;
-    auto _send(message_id, message_view) -> bool;
-    auto _handle_special(message_id, message_view, bool) -> bool;
-    auto _do_push(message_id, message_view) -> bool;
+    auto _do_send(message_id, message_view&) -> bool;
+    auto _send(message_id, message_view&) -> bool;
+    auto _handle_special(message_id, const message_view&, bool) -> bool;
+    auto _do_push(message_id, message_view&) -> bool;
     auto _forward_messages() -> bool;
 
     shared_context _context{};
@@ -77,6 +78,8 @@ private:
       std::chrono::steady_clock::now()};
     std::intmax_t _forwarded_messages_i2c{0};
     std::intmax_t _forwarded_messages_c2o{0};
+    std::intmax_t _dropped_messages_i2c{0};
+    std::intmax_t _dropped_messages_c2o{0};
 
     std::shared_ptr<bridge_state> _state{};
     timeout _no_connection_timeout{std::chrono::seconds{30}};

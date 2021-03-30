@@ -1,0 +1,66 @@
+@startuml
+class direct_connection_state {
+    client_to_server : queue
+    server_to_client : queue
+    queue_mutex : mutex
+    +send_to_server()
+    +send_to_client()
+    +fetch_from_server()
+    +fetch_from_client()
+}
+
+class direct_connection_address {
+    +connect() : shared_state
+    +process_all()
+}
+
+interface connection {
+    +is_usable()
+    +update()
+    +send()
+    +fetch_messages()
+}
+
+class direct_connection_info {
+    +kind() : connection_kind
+    +addr_kind() : connection_addr_kind
+    +type_id() : identifier
+}
+
+class direct_client_connection {
+}
+
+class direct_server_connection {
+}
+
+class accept_handler {
+    +operator()
+}
+
+class direct_acceptor {
+    +make_connection()
+    +process_accepted()
+}
+
+class direct_connection_factory {
+    +make_connector()
+    +make_acceptor()
+}
+
+connection <|-- direct_connection_info : implements
+direct_connection_info <|-- direct_client_connection : extends
+direct_connection_info <|-- direct_server_connection : extends
+accept_handler --> direct_server_connection : accepts
+direct_acceptor --> accept_handler : invokes
+direct_acceptor o-- direct_connection_address : listens at
+direct_acceptor ..> direct_client_connection
+direct_acceptor ..> direct_server_connection
+direct_connection_address ..> direct_connection_state : instantiates
+direct_client_connection o--> direct_connection_state : shares 
+direct_server_connection o--> direct_connection_state : shares
+direct_client_connection o..> direct_connection_address : weakly\nreferences
+
+direct_connection_factory *-- direct_connection_address
+direct_connection_factory ..> direct_client_connection : instantiates
+direct_connection_factory ..> direct_acceptor : instantiates
+@enduml

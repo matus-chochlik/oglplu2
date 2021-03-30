@@ -246,10 +246,11 @@ private:
 //------------------------------------------------------------------------------
 /// @brief Template for subscribers with predefined count of handled message types.
 /// @ingroup msgbus
+/// @see subscriber
 template <std::size_t N>
 class static_subscriber : public subscriber_base {
 public:
-    /// @brief Alias for the method/message handler callable reference.
+    /// @brief Alias for method/message handler callable reference.
     using method_handler = typename endpoint::method_handler;
 
     using handler_entry = typename subscriber_base::handler_entry;
@@ -264,6 +265,9 @@ public:
     }
 
     /// @brief Construction from a reference to endpoint and some message maps.
+    /// @see endpoint
+    /// @see message_handler_map
+    /// @see EAGINE_MSG_MAP
     template <
       typename Class,
       typename... MsgMaps,
@@ -300,10 +304,15 @@ public:
     /// @brief Sends messages to the bus saying which messages this can handle.
     /// @see retract_subscriptions
     /// @see respond_to_subscription_query
+    /// @see allow_subscriptions
     void announce_subscriptions() const {
         this->_announce_subscriptions(view(_msg_handlers));
     }
 
+    /// @brief Sends messages to the router saying which messages should be forwarded.
+    /// @see announce_subscriptions
+    /// @see retract_subscriptions
+    /// @see respond_to_subscription_query
     void allow_subscriptions() const {
         this->_allow_subscriptions(view(_msg_handlers));
     }
@@ -311,6 +320,7 @@ public:
     /// @brief Sends messages to the bus saying which messages this cannot handle.
     /// @see announce_subscriptions
     /// @see respond_to_subscription_query
+    /// @see allow_subscriptions
     void retract_subscriptions() const noexcept {
         this->_retract_subscriptions(view(_msg_handlers));
     }
@@ -336,17 +346,24 @@ private:
     std::array<handler_entry, N> _msg_handlers;
 };
 //------------------------------------------------------------------------------
+/// @brief Template for subscribers with variable count of handled message types.
+/// @ingroup msgbus
+/// @see static_subscriber
 class subscriber
   : public interface<subscriber>
   , public subscriber_base {
 public:
     using handler_entry = subscriber_base::handler_entry;
+
+    /// @brief Alias for method/message handler callable reference.
     using method_handler =
       callable_ref<bool(const message_context&, stored_message&)>;
 
+    /// @brief Construction from a reference to endpoint.
     subscriber(endpoint& bus) noexcept
       : subscriber_base{bus} {}
 
+    /// @brief Adds a handler for messages with the specified message id.
     template <
       typename Class,
       bool (Class::*Method)(const message_context&, stored_message&)>
@@ -359,6 +376,7 @@ public:
         _msg_handlers.emplace_back(msg_id, method_handler{instance, method});
     }
 
+    /// @brief Adds a handler for messages with the specified message id.
     template <
       typename Class,
       bool (Class::*Method)(const message_context&, stored_message&)>
@@ -370,6 +388,7 @@ public:
         add_method(instance, msg_map.msg_id(), msg_map.method());
     }
 
+    /// @brief Adds a handler for messages with the specified message id.
     template <
       typename Class,
       bool (Class::*Method)(const message_context&, stored_message&)>
@@ -384,6 +403,7 @@ public:
           std::get<1>(imm).method());
     }
 
+    /// @brief Adds a handler for messages with the specified message id.
     template <
       typename Class,
       bool (Class::*Method)(const message_context&, stored_message&),
@@ -399,30 +419,52 @@ public:
         add_method(instance, msg_map.msg_id(), msg_map.method());
     }
 
+    /// @brief Handles (and removes) one of poending received messages.
+    /// @see process_all
     auto process_one() -> bool {
         return this->_process_one(view(_msg_handlers));
     }
 
+    /// @brief Handles (and removes) all poending received messages.
+    /// @see process_one
     auto process_all() -> span_size_t {
         return this->_process_all(view(_msg_handlers));
     }
 
+    /// @brief Sends messages to the bus saying which messages this can handle.
+    /// @see retract_subscriptions
+    /// @see respond_to_subscription_query
+    /// @see allow_subscriptions
     void announce_subscriptions() const {
         this->_announce_subscriptions(view(_msg_handlers));
     }
 
+    /// @brief Sends messages to the router saying which messages should be forwarded.
+    /// @see announce_subscriptions
+    /// @see retract_subscriptions
+    /// @see respond_to_subscription_query
     void allow_subscriptions() const {
         this->_allow_subscriptions(view(_msg_handlers));
     }
 
+    /// @brief Sends messages to the bus saying which messages this cannot handle.
+    /// @see announce_subscriptions
+    /// @see respond_to_subscription_query
+    /// @see allow_subscriptions
     void retract_subscriptions() const noexcept {
         this->_retract_subscriptions(view(_msg_handlers));
     }
 
+    /// @brief Sends messages responding to a subscription query.
+    /// @see retract_subscriptions
+    /// @see announce_subscriptions
     void respond_to_subscription_query(identifier_t source_id) const noexcept {
         this->_respond_to_subscription_query(source_id, view(_msg_handlers));
     }
 
+    /// @brief Sends messages responding to a subscription query.
+    /// @see retract_subscriptions
+    /// @see announce_subscriptions
     void respond_to_subscription_query(
       identifier_t source_id,
       message_id sub_msg) const noexcept {

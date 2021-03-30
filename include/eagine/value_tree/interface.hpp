@@ -64,7 +64,7 @@ constexpr auto enumerator_mapping(type_identity<value_type>, Selector) noexcept 
 //------------------------------------------------------------------------------
 struct compound_interface;
 
-/// @brief Interfaca for value tree attribute implementations.
+/// @brief Interface for value tree attribute implementations.
 /// @ingroup valtree
 /// @note Do not use directly in client code, use attribute instead.
 /// @see attribute
@@ -75,7 +75,7 @@ struct attribute_interface : interface<attribute_interface> {
     virtual auto type_id() const noexcept -> identifier_t = 0;
 };
 //------------------------------------------------------------------------------
-/// @brief Interfaca for value tree compound implementations.
+/// @brief Interface for value tree compound implementations.
 /// @ingroup valtree
 /// @note Do not use directly in client code, use compound instead.
 /// @see compound

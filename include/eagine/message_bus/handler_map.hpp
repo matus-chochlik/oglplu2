@@ -20,6 +20,8 @@ namespace eagine::msgbus {
 /// @see message_id
 /// @see static_message_handler_map
 /// @see member_function_constant
+/// @see static_subscriber
+/// @see subscriber
 template <typename MemFuncConst>
 struct message_handler_map {
     message_id _msg_id;
@@ -44,6 +46,8 @@ struct message_handler_map {
 /// @see message_id
 /// @see message_handler_map
 /// @see member_function_constant
+/// @see static_subscriber
+/// @see subscriber
 template <typename MessageId, typename MemFuncConst>
 struct static_message_handler_map {
 
@@ -61,6 +65,8 @@ struct static_message_handler_map {
 /// @brief Constructs an instance of static message handler map.
 /// @ingroup msgbus
 /// @see eagine::msgbus::static_message_handler_map
+/// @see eagine::msgbus::static_subscriber
+/// @see eagine::msgbus::subscriber
 /// @see EAGINE_MSG_TYPE
 /// @see EAGINE_MEM_FUNC_T
 #define EAGINE_MSG_MAP(CLASS_ID, METHOD_ID, CLASS, METHOD) \
