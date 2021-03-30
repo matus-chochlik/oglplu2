@@ -61,7 +61,7 @@ auto routed_node::is_allowed(message_id msg_id) const noexcept -> bool {
 auto routed_node::send(
   main_ctx_object& user,
   message_id msg_id,
-  message_view message) const -> bool {
+  const message_view& message) const -> bool {
     if(EAGINE_LIKELY(the_connection)) {
         if(EAGINE_UNLIKELY(!the_connection->send(msg_id, message))) {
             user.log_debug("failed to send message to connected node");
@@ -152,7 +152,7 @@ parent_router::fetch_messages(main_ctx_object& user, const Handler& handler)
 auto parent_router::send(
   main_ctx_object& user,
   message_id msg_id,
-  message_view message) const -> bool {
+  const message_view& message) const -> bool {
     if(the_connection) {
         if(EAGINE_UNLIKELY(!the_connection->send(msg_id, message))) {
             user.log_debug("failed to send message to parent router");
@@ -770,7 +770,7 @@ EAGINE_LIB_FUNC
 auto router::_do_route_message(
   message_id msg_id,
   identifier_t incoming_id,
-  message_view message) -> bool {
+  message_view& message) -> bool {
 
     bool result = true;
     if(EAGINE_UNLIKELY(message.too_many_hops())) {

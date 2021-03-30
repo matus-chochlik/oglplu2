@@ -209,7 +209,7 @@ void bridge::_setup_from_config() {
 EAGINE_LIB_FUNC
 auto bridge::_handle_special(
   message_id msg_id,
-  message_view message,
+  const message_view& message,
   bool to_connection) -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         log_debug("bridge handling special message ${message}")
@@ -284,7 +284,7 @@ auto bridge::_handle_special(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_do_send(message_id msg_id, message_view message) -> bool {
+auto bridge::_do_send(message_id msg_id, message_view& message) -> bool {
     message.add_hop();
     if(EAGINE_LIKELY(_connection)) {
         if(_connection->send(msg_id, message)) {
@@ -298,14 +298,14 @@ auto bridge::_do_send(message_id msg_id, message_view message) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_send(message_id msg_id, message_view message) -> bool {
+auto bridge::_send(message_id msg_id, message_view& message) -> bool {
     EAGINE_ASSERT(has_id());
     message.set_source_id(_id);
     return _do_send(msg_id, message);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_do_push(message_id msg_id, message_view message) -> bool {
+auto bridge::_do_push(message_id msg_id, message_view& message) -> bool {
     if(EAGINE_LIKELY(_state)) {
         message.add_hop();
         _state->push(msg_id, message);
@@ -444,7 +444,8 @@ auto bridge::update() -> bool {
     // if processing the messages assigned the id
     if(EAGINE_UNLIKELY(has_id() && !had_id)) {
         log_debug("announcing id ${id}").arg(EAGINE_ID(id), _id);
-        _send(EAGINE_MSGBUS_ID(announceId), {});
+        message_view msg;
+        _send(EAGINE_MSGBUS_ID(announceId), msg);
         something_done();
     }
 
