@@ -196,6 +196,7 @@ struct asio_connection_state
     std::int32_t total_sent_messages{0};
     std::int32_t total_sent_blocks{0};
     float send_pack_ratio{1.F};
+    const float send_pack_factr{0.5F};
     bool is_sending{false};
     bool is_recving{false};
 
@@ -203,10 +204,12 @@ struct asio_connection_state
       main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
       asio_socket_type<Kind, Proto> sock,
-      span_size_t block_size)
+      span_size_t block_size,
+      float pack_factr)
       : main_ctx_object{EAGINE_ID(AsioConnSt), parent}
       , common{std::move(asio_state)}
-      , socket{std::move(sock)} {
+      , socket{std::move(sock)}
+      , send_pack_factr{pack_factr} {
         EAGINE_ASSERT(common);
         common->update();
 
@@ -227,12 +230,14 @@ struct asio_connection_state
     asio_connection_state(
       main_ctx_parent parent,
       const std::shared_ptr<asio_common_state>& asio_state,
-      span_size_t block_size) noexcept
+      span_size_t block_size,
+      float pack_factr) noexcept
       : asio_connection_state{
           parent,
           asio_state,
           asio_socket_type<Kind, Proto>{asio_state->context},
-          block_size} {}
+          block_size,
+          pack_factr} {}
 
     auto weak_ref() noexcept {
         return std::weak_ptr(this->shared_from_this());
@@ -268,6 +273,8 @@ struct asio_connection_state
               .arg(EAGINE_ID(msgsPerBlk), msgs_per_block)
               .arg(EAGINE_ID(usedPerSec), EAGINE_ID(ByteSize), used_per_sec)
               .arg(EAGINE_ID(sentPerSec), EAGINE_ID(ByteSize), sent_per_sec)
+              .arg(EAGINE_ID(addrKind), Kind)
+              .arg(EAGINE_ID(proto), Proto)
               .arg(EAGINE_ID(slack), EAGINE_ID(Ratio), slack);
             return true;
         }
@@ -353,7 +360,7 @@ struct asio_connection_state
               });
         } else {
             is_sending = false;
-            send_pack_ratio *= 0.9F;
+            send_pack_ratio *= send_pack_factr;
         }
     }
 
@@ -472,12 +479,14 @@ public:
     asio_connection_base(
       main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
-      span_size_t block_size)
+      span_size_t block_size,
+      float pack_factr)
       : main_ctx_object{EAGINE_ID(AsioConnBs), parent}
       , _state{std::make_shared<asio_connection_state<Kind, Proto>>(
           *this,
           std::move(asio_state),
-          block_size)} {
+          block_size,
+          pack_factr)} {
         EAGINE_ASSERT(_state);
     }
 
@@ -485,13 +494,15 @@ public:
       main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
       asio_socket_type<Kind, Proto> socket,
-      span_size_t block_size)
+      span_size_t block_size,
+      float pack_factr)
       : main_ctx_object{EAGINE_ID(AsioConnBs), parent}
       , _state{std::make_shared<asio_connection_state<Kind, Proto>>(
           *this,
           std::move(asio_state),
           std::move(socket),
-          block_size)} {
+          block_size,
+          pack_factr)} {
         EAGINE_ASSERT(_state);
     }
 
@@ -902,8 +913,9 @@ public:
       main_ctx_parent parent,
       const std::shared_ptr<asio_common_state>& asio_state,
       string_view addr_str,
-      span_size_t block_size)
-      : base{parent, asio_state, block_size}
+      span_size_t block_size,
+      float pack_factr)
+      : base{parent, asio_state, block_size, pack_factr}
       , _resolver{asio_state->context}
       , _addr{parse_ipv4_addr(addr_str)} {}
 
@@ -938,6 +950,7 @@ private:
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
     span_size_t _block_size;
+    float _pack_factr;
 
     std::vector<asio::ip::tcp::socket> _accepted;
 
@@ -973,13 +986,15 @@ public:
       main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
       string_view addr_str,
-      span_size_t block_size) noexcept
+      span_size_t block_size,
+      float pack_factr) noexcept
       : main_ctx_object{EAGINE_ID(AsioAccptr), parent}
       , _asio_state{std::move(asio_state)}
       , _addr{parse_ipv4_addr(addr_str)}
       , _acceptor{_asio_state->context}
       , _socket{_asio_state->context}
-      , _block_size{block_size} {}
+      , _block_size{block_size}
+      , _pack_factr{pack_factr} {}
 
     auto update() -> bool final {
         EAGINE_ASSERT(this->_asio_state);
@@ -1007,7 +1022,7 @@ public:
             auto conn = std::make_unique<asio_connection<
               connection_addr_kind::ipv4,
               connection_protocol::stream>>(
-              *this, _asio_state, std::move(socket), _block_size);
+              *this, _asio_state, std::move(socket), _block_size, _pack_factr);
             handler(std::move(conn));
             something_done();
         }
@@ -1090,8 +1105,9 @@ public:
       main_ctx_parent parent,
       const std::shared_ptr<asio_common_state>& asio_state,
       string_view addr_str,
-      span_size_t block_size)
-      : base{parent, asio_state, block_size}
+      span_size_t block_size,
+      float pack_factr)
+      : base{parent, asio_state, block_size, pack_factr}
       , _resolver{asio_state->context}
       , _addr{parse_ipv4_addr(addr_str)} {}
 
@@ -1131,7 +1147,8 @@ public:
       main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
       string_view addr_str,
-      span_size_t block_size) noexcept
+      span_size_t block_size,
+      float pack_factr) noexcept
       : main_ctx_object{EAGINE_ID(AsioAccptr), parent}
       , _asio_state{std::move(asio_state)}
       , _addr{parse_ipv4_addr(addr_str)}
@@ -1141,7 +1158,8 @@ public:
           asio::ip::udp::socket{
             _asio_state->context,
             asio::ip::udp::endpoint{asio::ip::udp::v4(), std::get<1>(_addr)}},
-          block_size} {}
+          block_size,
+          pack_factr} {}
 
     auto update() -> bool final {
         return _conn.update();
@@ -1220,8 +1238,9 @@ public:
       main_ctx_parent parent,
       const std::shared_ptr<asio_common_state>& asio_state,
       string_view addr_str,
-      span_size_t block_size)
-      : base{parent, asio_state, block_size}
+      span_size_t block_size,
+      float pack_factr)
+      : base{parent, asio_state, block_size, pack_factr}
       , _addr_str{_fix_addr(addr_str)} {
         conn_state().conn_endpoint = {_addr_str.c_str()};
     }
@@ -1256,6 +1275,7 @@ private:
     std::string _addr_str;
     asio::local::stream_protocol::acceptor _acceptor;
     span_size_t _block_size;
+    float _pack_factr;
     bool _accepting{false};
 
     std::vector<asio::local::stream_protocol::socket> _accepted;
@@ -1300,14 +1320,15 @@ public:
     asio_acceptor(
       main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
-      string_view addr_str, span_size_t block_size) noexcept
+      string_view addr_str, span_size_t block_size, float pack_factr) noexcept
       : main_ctx_object{EAGINE_ID(AsioAccptr), parent}
       , _asio_state{_prepare(std::move(asio_state), _fix_addr(addr_str))}
       , _addr_str{to_string(_fix_addr(addr_str))}
       , _acceptor{
           _asio_state->context,
           asio::local::stream_protocol::endpoint(_addr_str.c_str())}
-	  , _block_size{block_size} {
+	  , _block_size{block_size}
+	  , _pack_factr{pack_factr} {
     }
 
     ~asio_acceptor() noexcept override {
@@ -1349,7 +1370,7 @@ public:
             auto conn = std::make_unique<asio_connection<
               connection_addr_kind::filepath,
               connection_protocol::stream>>(
-              *this, _asio_state, std::move(socket), _block_size);
+              *this, _asio_state, std::move(socket), _block_size, _pack_factr);
             handler(std::move(conn));
             something_done();
         }
@@ -1376,6 +1397,19 @@ private:
         return 4 * 1024;
     }
 
+    template <connection_addr_kind K, connection_protocol P>
+    static constexpr auto _default_pack_factr(
+      connection_addr_kind_tag<K>,
+      connection_protocol_tag<P>) noexcept -> float {
+        if(K == connection_addr_kind::filepath) {
+            return 0.125F;
+        }
+        if(P == connection_protocol::stream) {
+            return 0.75F;
+        }
+        return 0.5F;
+    }
+
     template <connection_addr_kind K>
     static constexpr auto _default_block_size(
       connection_addr_kind_tag<K>,
@@ -1384,6 +1418,7 @@ private:
     }
 
     span_size_t _block_size{default_block_size()};
+    float _pack_factr{0.5F};
 
 public:
     using connection_factory::make_acceptor;
@@ -1394,33 +1429,47 @@ public:
           connection_addr_kind_tag<Kind>{}, connection_protocol_tag<Proto>{});
     }
 
+    static constexpr auto default_pack_factor() noexcept -> float {
+        return _default_pack_factr(
+          connection_addr_kind_tag<Kind>{}, connection_protocol_tag<Proto>{});
+    }
+
     asio_connection_factory(
       main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
-      span_size_t block_size) noexcept
+      span_size_t block_size,
+      float pack_factr) noexcept
       : main_ctx_object{EAGINE_ID(AsioConnFc), parent}
       , _asio_state{std::move(asio_state)}
-      , _block_size{block_size} {}
+      , _block_size{block_size}
+      , _pack_factr{pack_factr} {}
 
-    asio_connection_factory(main_ctx_parent parent, span_size_t block_size)
+    asio_connection_factory(
+      main_ctx_parent parent,
+      span_size_t block_size,
+      float pack_factr)
       : asio_connection_factory{
           parent,
           std::make_shared<asio_common_state>(),
-          block_size} {}
+          block_size,
+          pack_factr} {}
 
     asio_connection_factory(main_ctx_parent parent)
-      : asio_connection_factory{parent, default_block_size()} {}
+      : asio_connection_factory{
+          parent,
+          default_block_size(),
+          default_pack_factor()} {}
 
     auto make_acceptor(string_view addr_str)
       -> std::unique_ptr<acceptor> final {
         return std::make_unique<asio_acceptor<Kind, Proto>>(
-          *this, _asio_state, addr_str, _block_size);
+          *this, _asio_state, addr_str, _block_size, _pack_factr);
     }
 
     auto make_connector(string_view addr_str)
       -> std::unique_ptr<connection> final {
         return std::make_unique<asio_connector<Kind, Proto>>(
-          *this, _asio_state, addr_str, _block_size);
+          *this, _asio_state, addr_str, _block_size, _pack_factr);
     }
 };
 //------------------------------------------------------------------------------

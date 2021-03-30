@@ -60,10 +60,10 @@ private:
     auto _check_state() -> bool;
     auto _update_connections() -> bool;
 
-    auto _do_send(message_id, message_view) -> bool;
-    auto _send(message_id, message_view) -> bool;
-    auto _handle_special(message_id, message_view, bool) -> bool;
-    auto _do_push(message_id, message_view) -> bool;
+    auto _do_send(message_id, message_view&) -> bool;
+    auto _send(message_id, message_view&) -> bool;
+    auto _handle_special(message_id, const message_view&, bool) -> bool;
+    auto _do_push(message_id, message_view&) -> bool;
     auto _forward_messages() -> bool;
 
     shared_context _context{};
