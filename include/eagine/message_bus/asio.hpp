@@ -353,7 +353,7 @@ struct asio_connection_state
               });
         } else {
             is_sending = false;
-            send_pack_ratio *= 0.9F;
+            send_pack_ratio *= 0.75F;
         }
     }
 
