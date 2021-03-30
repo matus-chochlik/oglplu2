@@ -273,6 +273,8 @@ struct asio_connection_state
               .arg(EAGINE_ID(msgsPerBlk), msgs_per_block)
               .arg(EAGINE_ID(usedPerSec), EAGINE_ID(ByteSize), used_per_sec)
               .arg(EAGINE_ID(sentPerSec), EAGINE_ID(ByteSize), sent_per_sec)
+              .arg(EAGINE_ID(addrKind), Kind)
+              .arg(EAGINE_ID(proto), Proto)
               .arg(EAGINE_ID(slack), EAGINE_ID(Ratio), slack);
             return true;
         }
@@ -1400,7 +1402,7 @@ private:
       connection_addr_kind_tag<K>,
       connection_protocol_tag<P>) noexcept -> float {
         if(K == connection_addr_kind::filepath) {
-            return 0.25F;
+            return 0.125F;
         }
         if(P == connection_protocol::stream) {
             return 0.75F;
