@@ -91,31 +91,29 @@ public:
             _output_ready.wait(lock);
             _outgoing.swap();
         }
-        auto handler = [this](
-                         message_id msg_id,
-                         message_age msg_age,
-                         const message_view& message) {
-            if(EAGINE_LIKELY(msg_age < std::chrono::seconds(30))) {
-                string_serializer_backend backend(_sink);
-                serialize_message_header(msg_id, message, backend);
+        auto handler =
+          [this](message_id msg_id, message_age msg_age, message_view message) {
+              if(EAGINE_LIKELY(!message.add_age(msg_age).too_old())) {
+                  string_serializer_backend backend(_sink);
+                  serialize_message_header(msg_id, message, backend);
 
-                span_size_t i = 0;
-                do_dissolve_bits(
-                  make_span_getter(i, message.data),
-                  [this](byte b) {
-                      const auto encode{make_base64_encode_transform()};
-                      if(auto opt_c{encode(b)}) {
-                          this->_output << extract(opt_c);
-                          return true;
-                      }
-                      return false;
-                  },
-                  6);
+                  span_size_t i = 0;
+                  do_dissolve_bits(
+                    make_span_getter(i, message.data),
+                    [this](byte b) {
+                        const auto encode{make_base64_encode_transform()};
+                        if(auto opt_c{encode(b)}) {
+                            this->_output << extract(opt_c);
+                            return true;
+                        }
+                        return false;
+                    },
+                    6);
 
-                _output << '\n';
-            }
-            return true;
-        };
+                  _output << '\n';
+              }
+              return true;
+          };
         _outgoing.back().fetch_all({construct_from, handler});
         _output << std::flush;
     }
