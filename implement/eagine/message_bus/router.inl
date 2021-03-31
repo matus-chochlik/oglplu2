@@ -980,6 +980,13 @@ void router::cleanup() {
             conn->cleanup();
         }
     }
+    const auto avg_msg_age =
+      _message_age_sum / float(_forwarded_messages + _dropped_messages + 1);
+
+    log_stat("forwarded ${count} messages in total")
+      .arg(EAGINE_ID(count), _forwarded_messages)
+      .arg(EAGINE_ID(dropped), _dropped_messages)
+      .arg(EAGINE_ID(avgMsgAge), avg_msg_age);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

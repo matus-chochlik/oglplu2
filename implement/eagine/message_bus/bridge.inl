@@ -410,7 +410,9 @@ EAGINE_LIB_FUNC
 auto bridge::_check_state() -> bool {
     some_true something_done{};
 
-    if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
+    if(EAGINE_LIKELY(_state && _state->is_usable())) {
+        _no_iostream_timeout.reset();
+    } else {
         if(std::cin.good() && _connection) {
             if(auto max_data_size = _connection->max_data_size()) {
                 _state = std::make_shared<bridge_state>(extract(max_data_size));
@@ -464,7 +466,7 @@ auto bridge::update() -> bool {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto bridge::is_done() const noexcept -> bool {
-    return no_connection_timeout() || !std::cin.good();
+    return no_connection_timeout() || no_iostream_timeout();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -472,6 +474,22 @@ void bridge::cleanup() {
     if(_connection) {
         _connection->cleanup();
     }
+    const auto avg_msg_age_c2o =
+      _message_age_sum_c2o /
+      float(_forwarded_messages_c2o + _dropped_messages_c2o + 1);
+    const auto avg_msg_age_i2c =
+      _message_age_sum_i2c /
+      float(_forwarded_messages_i2c + _dropped_messages_i2c + 1);
+
+    log_stat("forwarded ${count} messages in total to output")
+      .arg(EAGINE_ID(count), _forwarded_messages_c2o)
+      .arg(EAGINE_ID(dropped), _dropped_messages_c2o)
+      .arg(EAGINE_ID(avgMsgAge), avg_msg_age_c2o);
+
+    log_stat("forwarded ${count} messages in total to connection")
+      .arg(EAGINE_ID(count), _forwarded_messages_i2c)
+      .arg(EAGINE_ID(dropped), _dropped_messages_i2c)
+      .arg(EAGINE_ID(avgMsgAge), avg_msg_age_i2c);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

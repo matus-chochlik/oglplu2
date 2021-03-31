@@ -274,7 +274,7 @@ struct asio_connection_state
               .arg(EAGINE_ID(usedPerSec), EAGINE_ID(ByteSize), used_per_sec)
               .arg(EAGINE_ID(sentPerSec), EAGINE_ID(ByteSize), sent_per_sec)
               .arg(EAGINE_ID(addrKind), Kind)
-              .arg(EAGINE_ID(proto), Proto)
+              .arg(EAGINE_ID(protocol), Proto)
               .arg(EAGINE_ID(slack), EAGINE_ID(Ratio), slack);
             return true;
         }
