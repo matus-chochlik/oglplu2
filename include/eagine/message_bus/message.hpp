@@ -731,10 +731,7 @@ public:
         _packed.push(data);
     }
 
-    auto fetch_messages(
-      main_ctx_object& user,
-      fetch_handler handler,
-      span_size_t batch = 64) -> bool;
+    auto fetch_messages(main_ctx_object& user, fetch_handler handler) -> bool;
 
 private:
     serialized_message_storage _packed{};

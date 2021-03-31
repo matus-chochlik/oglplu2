@@ -263,8 +263,7 @@ auto connection_outgoing_messages::enqueue(
 EAGINE_LIB_FUNC
 auto connection_incoming_messages::fetch_messages(
   main_ctx_object& user,
-  fetch_handler handler,
-  span_size_t batch) -> bool {
+  fetch_handler handler) -> bool {
     _unpacked.fetch_all(handler);
     auto unpacker = [this, &user, &handler](memory::const_block data) {
         for_each_data_with_size(data, [this, &user](memory::const_block blk) {
@@ -290,7 +289,7 @@ auto connection_incoming_messages::fetch_messages(
         return true;
     };
 
-    return _packed.fetch_some({construct_from, unpacker}, batch);
+    return _packed.fetch_all({construct_from, unpacker});
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
