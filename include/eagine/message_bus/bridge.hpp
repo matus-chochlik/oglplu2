@@ -50,10 +50,6 @@ public:
     auto is_done() const noexcept -> bool;
     void cleanup();
 
-    auto no_iostream_timeout() const noexcept -> auto& {
-        return _no_iostream_timeout;
-    }
-
     auto no_connection_timeout() const noexcept -> auto& {
         return _no_connection_timeout;
     }
@@ -61,6 +57,7 @@ public:
 private:
     void _setup_from_config();
 
+    auto _recoverable_state() const noexcept -> bool;
     auto _check_state() -> bool;
     auto _update_connections() -> bool;
 
@@ -89,7 +86,6 @@ private:
 
     std::shared_ptr<bridge_state> _state{};
     timeout _no_connection_timeout{std::chrono::seconds{30}};
-    timeout _no_iostream_timeout{std::chrono::seconds{30}};
     std::unique_ptr<connection> _connection{};
 };
 //------------------------------------------------------------------------------

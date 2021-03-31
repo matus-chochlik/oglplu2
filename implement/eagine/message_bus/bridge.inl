@@ -407,13 +407,16 @@ auto bridge::_forward_messages() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto bridge::_recoverable_state() const noexcept -> bool {
+    return std::cin.good() && std::cout.good();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto bridge::_check_state() -> bool {
     some_true something_done{};
 
-    if(EAGINE_LIKELY(_state && _state->is_usable())) {
-        _no_iostream_timeout.reset();
-    } else {
-        if(std::cin.good() && _connection) {
+    if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
+        if(_recoverable_state() && _connection) {
             if(auto max_data_size = _connection->max_data_size()) {
                 _state = std::make_shared<bridge_state>(extract(max_data_size));
                 _state->start();
@@ -466,7 +469,7 @@ auto bridge::update() -> bool {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto bridge::is_done() const noexcept -> bool {
-    return no_connection_timeout() || no_iostream_timeout();
+    return no_connection_timeout() || !_recoverable_state();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
