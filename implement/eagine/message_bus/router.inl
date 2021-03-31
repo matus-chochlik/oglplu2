@@ -789,12 +789,16 @@ auto router::_do_route_message(
 
                 if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                     const auto msgs_per_sec{1000000.F / interval.count()};
+                    const auto avg_msg_age =
+                      _message_age_sum /
+                      float(_forwarded_messages + _dropped_messages + 1);
 
                     log_chart_sample(EAGINE_ID(msgsPerSec), msgs_per_sec);
                     log_stat("forwarded ${count} messages")
                       .arg(EAGINE_ID(count), _forwarded_messages)
                       .arg(EAGINE_ID(dropped), _dropped_messages)
                       .arg(EAGINE_ID(interval), interval)
+                      .arg(EAGINE_ID(avgMsgAge), avg_msg_age)
                       .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
                 }
 
@@ -869,7 +873,9 @@ auto router::_route_messages() -> bool {
           [this, &nd](
             message_id msg_id, message_age msg_age, message_view message) {
               auto& [incoming_id, node_in] = nd;
-              if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+              _message_age_sum += message.add_age(msg_age).age().count();
+              if(EAGINE_UNLIKELY(message.too_old())) {
+                  ++_dropped_messages;
                   return true;
               }
               if(this->_handle_special(msg_id, incoming_id, node_in, message)) {
@@ -886,7 +892,9 @@ auto router::_route_messages() -> bool {
 
     auto handler =
       [&](message_id msg_id, message_age msg_age, message_view message) {
-          if(message.add_age(msg_age).too_old()) {
+          _message_age_sum += message.add_age(msg_age).age().count();
+          if(EAGINE_UNLIKELY(message.too_old())) {
+              ++_dropped_messages;
               return true;
           }
           if(this->_handle_special(

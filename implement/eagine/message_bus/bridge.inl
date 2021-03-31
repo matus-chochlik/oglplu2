@@ -323,7 +323,8 @@ auto bridge::_forward_messages() -> bool {
 
     auto forward_conn_to_output =
       [this](message_id msg_id, message_age msg_age, message_view message) {
-          if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+          _message_age_sum_c2o += message.add_age(msg_age).age().count();
+          if(EAGINE_UNLIKELY(message.too_old())) {
               ++_dropped_messages_c2o;
               return true;
           }
@@ -334,12 +335,16 @@ auto bridge::_forward_messages() -> bool {
 
               if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                   const auto msgs_per_sec{1000000.F / interval.count()};
+                  const auto avg_msg_age =
+                    _message_age_sum_c2o /
+                    float(_forwarded_messages_c2o + _dropped_messages_c2o + 1);
 
                   log_chart_sample(EAGINE_ID(msgPerSecO), msgs_per_sec);
                   log_stat("forwarded ${count} messages to output")
                     .arg(EAGINE_ID(count), _forwarded_messages_c2o)
                     .arg(EAGINE_ID(dropped), _dropped_messages_c2o)
                     .arg(EAGINE_ID(interval), interval)
+                    .arg(EAGINE_ID(avgMsgAge), avg_msg_age)
                     .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
               }
 
@@ -359,7 +364,8 @@ auto bridge::_forward_messages() -> bool {
 
     auto forward_input_to_conn =
       [this](message_id msg_id, message_age msg_age, message_view message) {
-          if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+          _message_age_sum_i2c += message.add_age(msg_age).age().count();
+          if(EAGINE_UNLIKELY(message.too_old())) {
               ++_dropped_messages_i2c;
               return true;
           }
@@ -370,12 +376,16 @@ auto bridge::_forward_messages() -> bool {
 
               if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                   const auto msgs_per_sec{1000000.F / interval.count()};
+                  const auto avg_msg_age =
+                    _message_age_sum_i2c /
+                    float(_forwarded_messages_i2c + _dropped_messages_i2c + 1);
 
                   log_chart_sample(EAGINE_ID(msgPerSecI), msgs_per_sec);
                   log_stat("forwarded ${count} messages from input")
                     .arg(EAGINE_ID(count), _forwarded_messages_i2c)
                     .arg(EAGINE_ID(dropped), _dropped_messages_i2c)
                     .arg(EAGINE_ID(interval), interval)
+                    .arg(EAGINE_ID(avgMsgAge), avg_msg_age)
                     .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
               }
 

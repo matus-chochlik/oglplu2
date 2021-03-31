@@ -43,8 +43,14 @@ static constexpr auto broadcast_endpoint_id() noexcept -> identifier_t {
     return 0U;
 }
 //------------------------------------------------------------------------------
+/// @brief Alias for message timestamp type.
+/// @ingroup msgbus
+/// @see message_age
+using message_timestamp = std::chrono::steady_clock::time_point;
+//------------------------------------------------------------------------------
 /// @brief Alias for message age type.
 /// @ingroup msgbus
+/// @see message_timestamp
 using message_age = std::chrono::duration<float>;
 //------------------------------------------------------------------------------
 /// @brief Message priority enumeration.
@@ -147,14 +153,15 @@ struct message_info {
     /// Counts how many times the message passed through a router or a bridge.
     hop_count_t hop_count{0};
 
-    /// @brief Alias for type used to store the message age in seconds.
-    using age_seconds_t = std::int8_t;
+    /// @brief Alias for type used to store the message age in quarter seconds.
+    using age_t = std::int8_t;
 
-    /// @brief The message age in seconds.
+    /// @brief The message age in quarter seconds.
+    /// @see age
     /// @see add_age
     /// @see too_old
     /// Accumulated time the message spent in various queues.
-    age_seconds_t age_seconds{0};
+    age_t age_quarter_seconds{0};
 
     /// @brief The message priority.
     /// @see set_priority
@@ -174,25 +181,6 @@ struct message_info {
         return hop_count >= hop_count_t(64);
     }
 
-    /// @brief Indicates that the message is too old.
-    /// @see age_seconds
-    /// @see add_age
-    auto too_old() const noexcept -> bool {
-        switch(priority) {
-            case message_priority::idle:
-                return age_seconds > 10;
-            case message_priority::low:
-                return age_seconds > 20;
-            case message_priority::normal:
-                return age_seconds > 30;
-            case message_priority::high:
-                return age_seconds == std::numeric_limits<age_seconds_t>::max();
-            case message_priority::critical:
-                break;
-        }
-        return false;
-    }
-
     /// @brief Increments the hop counter.
     /// @see hop_count
     /// @see too_many_hops
@@ -202,18 +190,44 @@ struct message_info {
         return *this;
     }
 
+    /// @brief Indicates that the message is too old.
+    /// @see age
+    /// @see add_age
+    auto too_old() const noexcept -> bool {
+        switch(priority) {
+            case message_priority::idle:
+                return age_quarter_seconds > 10 * 4;
+            case message_priority::low:
+                return age_quarter_seconds > 20 * 4;
+            case message_priority::normal:
+                return age_quarter_seconds > 30 * 4;
+            case message_priority::high:
+                return age_quarter_seconds == std::numeric_limits<age_t>::max();
+            case message_priority::critical:
+                break;
+        }
+        return false;
+    }
+
     /// @brief Adds to the age seconds counter.
-    /// @see age_seconds
+    /// @see age
     /// @see too_old
     auto add_age(message_age age) noexcept -> auto& {
-        const float added_seconds = age.count() + 0.5F;
-        if(auto new_age{convert_if_fits<age_seconds_t>(
-             int(age_seconds) + int(added_seconds))}) {
-            age_seconds = extract(new_age);
+        const float added_quarter_seconds = (age.count() + 0.20F) * 4.F;
+        if(auto new_age{convert_if_fits<age_t>(
+             int(age_quarter_seconds) + int(added_quarter_seconds))}) {
+            age_quarter_seconds = extract(new_age);
         } else {
-            age_seconds = std::numeric_limits<age_seconds_t>::max();
+            age_quarter_seconds = std::numeric_limits<age_t>::max();
         }
         return *this;
+    }
+
+    /// @brief Returns the message age
+    /// @see too_old
+    /// @see add_age
+    auto age() const noexcept -> message_age {
+        return message_age{float(age_quarter_seconds) * 0.25F};
     }
 
     /// @brief Sets the priority of this message.
@@ -263,6 +277,7 @@ struct message_info {
     auto setup_response(const message_info& info) noexcept -> auto& {
         target_id = info.source_id;
         sequence_no = info.sequence_no;
+        age_quarter_seconds = info.age_quarter_seconds;
         priority = info.priority;
         return *this;
     }
@@ -450,7 +465,8 @@ public:
         _messages.emplace_back(
           msg_id,
           stored_message{message, _buffers.get(message.data.size())},
-          _clock_t::now() - _clock_t::duration(int(message.age_seconds)));
+          _clock_t::now() -
+            std::chrono::duration_cast<_clock_t::duration>(message.age()));
     }
 
     /// @brief Pushes a new message and lets a function to fill it.
@@ -466,7 +482,7 @@ public:
         EAGINE_MAYBE_UNUSED(insert_time);
         bool rollback = false;
         try {
-            if(!function(msg_id, message)) {
+            if(!function(msg_id, insert_time, message)) {
                 rollback = true;
             }
         } catch(...) {
@@ -502,9 +518,9 @@ public:
 
 private:
     using _clock_t = std::chrono::steady_clock;
-    using _timestamp_t = _clock_t::time_point;
     memory::buffer_pool _buffers;
-    std::vector<std::tuple<message_id, stored_message, _timestamp_t>> _messages;
+    std::vector<std::tuple<message_id, stored_message, message_timestamp>>
+      _messages;
 };
 //------------------------------------------------------------------------------
 class message_pack_info {
@@ -559,7 +575,8 @@ class serialized_message_storage {
 public:
     /// The return value indicates if the message is considered handled
     /// and should be removed.
-    using fetch_handler = callable_ref<bool(memory::const_block)>;
+    using fetch_handler =
+      callable_ref<bool(message_timestamp, memory::const_block)>;
 
     serialized_message_storage() {
         _messages.reserve(32);
@@ -575,14 +592,14 @@ public:
 
     auto top() const noexcept -> memory::const_block {
         if(!_messages.empty()) {
-            return view(_messages.front());
+            return view(std::get<0>(_messages.front()));
         }
         return {};
     }
 
     void pop() noexcept {
         EAGINE_ASSERT(!_messages.empty());
-        _buffers.eat(std::move(_messages.front()));
+        _buffers.eat(std::move(std::get<0>(_messages.front())));
         _messages.erase(_messages.begin());
     }
 
@@ -590,10 +607,9 @@ public:
         EAGINE_ASSERT(!message.empty());
         auto buf = _buffers.get(message.size());
         memory::copy_into(message, buf);
-        _messages.emplace_back(std::move(buf));
+        _messages.emplace_back(std::move(buf), _clock_t::now());
     }
 
-    auto fetch_some(fetch_handler handler, span_size_t n) -> bool;
     auto fetch_all(fetch_handler handler) -> bool;
 
     auto pack_into(memory::block dest) -> message_pack_info;
@@ -601,8 +617,9 @@ public:
     void cleanup(const message_pack_info& to_be_removed);
 
 private:
+    using _clock_t = std::chrono::steady_clock;
     memory::buffer_pool _buffers;
-    std::vector<memory::buffer> _messages;
+    std::vector<std::tuple<memory::buffer, message_timestamp>> _messages;
 };
 //------------------------------------------------------------------------------
 class endpoint;
@@ -647,14 +664,15 @@ public:
         return _messages.size();
     }
 
-    void push(const message_view& message) {
+    auto push(const message_view& message) -> stored_message& {
         auto pos = std::lower_bound(
           _messages.begin(),
           _messages.end(),
           message.priority,
           [](auto& msg, auto pri) { return msg.priority < pri; });
 
-        _messages.emplace(pos, message, _buffers.get(message.data.size()));
+        return *_messages.emplace(
+          pos, message, _buffers.get(message.data.size()));
     }
 
     auto process_one(const message_context& msg_ctx, handler_type handler)

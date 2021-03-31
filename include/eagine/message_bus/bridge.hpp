@@ -80,6 +80,8 @@ private:
     std::intmax_t _forwarded_messages_c2o{0};
     std::intmax_t _dropped_messages_i2c{0};
     std::intmax_t _dropped_messages_c2o{0};
+    float _message_age_sum_i2c{0.F};
+    float _message_age_sum_c2o{0.F};
 
     std::shared_ptr<bridge_state> _state{};
     timeout _no_connection_timeout{std::chrono::seconds{30}};
