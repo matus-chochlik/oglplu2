@@ -420,6 +420,8 @@ struct asio_connection_state
                       } else {
                           if(error == asio::error::eof) {
                               log_debug("received end-of-file");
+                          } else if(error == asio::error::connection_reset) {
+                              log_debug("connection reset by peer");
                           } else {
                               log_error("failed to receive data: ${error}")
                                 .arg(EAGINE_ID(error), error);
