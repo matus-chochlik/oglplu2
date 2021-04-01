@@ -85,6 +85,14 @@ public:
         _output_ready.notify_one();
     }
 
+    auto forwarded_messages() const noexcept {
+        return _forwarded_messages;
+    }
+
+    auto dropped_messages() const noexcept {
+        return _dropped_messages;
+    }
+
     void send_output() {
         {
             std::unique_lock lock{_output_mutex};
@@ -93,7 +101,9 @@ public:
         }
         auto handler =
           [this](message_id msg_id, message_age msg_age, message_view message) {
-              if(EAGINE_LIKELY(!message.add_age(msg_age).too_old())) {
+              if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+                  ++_dropped_messages;
+              } else {
                   string_serializer_backend backend(_sink);
                   serialize_message_header(msg_id, message, backend);
 
@@ -110,12 +120,12 @@ public:
                     },
                     6);
 
-                  _output << '\n';
+                  _output << '\n' << std::flush;
+                  ++_forwarded_messages;
               }
               return true;
           };
         _outgoing.back().fetch_all({construct_from, handler});
-        _output << std::flush;
     }
 
     using fetch_handler = message_storage::fetch_handler;
@@ -154,6 +164,8 @@ public:
                 _incoming.front().push({class_id, method_id}, _recv_dest);
             }
             _source.pop(extract(pos) + 1);
+        } else {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     }
 
@@ -175,6 +187,8 @@ private:
     double_buffer<message_storage> _outgoing{};
     double_buffer<message_storage> _incoming{};
     stored_message _recv_dest{};
+    span_size_t _forwarded_messages{0};
+    span_size_t _dropped_messages{0};
 };
 //------------------------------------------------------------------------------
 // bridge
@@ -338,7 +352,7 @@ auto bridge::_forward_messages() -> bool {
                     float(_forwarded_messages_c2o + _dropped_messages_c2o + 1);
 
                   log_chart_sample(EAGINE_ID(msgPerSecO), msgs_per_sec);
-                  log_stat("forwarded ${count} messages to output")
+                  log_stat("forwarded ${count} messages to output queue")
                     .arg(EAGINE_ID(count), _forwarded_messages_c2o)
                     .arg(EAGINE_ID(dropped), _dropped_messages_c2o)
                     .arg(EAGINE_ID(interval), interval)
@@ -482,7 +496,13 @@ void bridge::cleanup() {
       _message_age_sum_i2c /
       float(_forwarded_messages_i2c + _dropped_messages_i2c + 1);
 
-    log_stat("forwarded ${count} messages in total to output")
+    if(_state) {
+        log_stat("forwarded ${count} messages in total to output stream")
+          .arg(EAGINE_ID(count), _state->forwarded_messages())
+          .arg(EAGINE_ID(dropped), _state->dropped_messages());
+    }
+
+    log_stat("forwarded ${count} messages in total to output queue")
       .arg(EAGINE_ID(count), _forwarded_messages_c2o)
       .arg(EAGINE_ID(dropped), _dropped_messages_c2o)
       .arg(EAGINE_ID(avgMsgAge), avg_msg_age_c2o);
