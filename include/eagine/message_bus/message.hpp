@@ -465,8 +465,7 @@ public:
         _messages.emplace_back(
           msg_id,
           stored_message{message, _buffers.get(message.data.size())},
-          _clock_t::now() -
-            std::chrono::duration_cast<_clock_t::duration>(message.age()));
+          _clock_t::now());
     }
 
     /// @brief Pushes a new message and lets a function to fill it.
