@@ -42,9 +42,13 @@ auto root_logger_choose_backend(
               std::cout, min_severity);
         } else if(arg.is_tag("--use-syslog")) {
             return std::make_unique<syslog_log_backend<>>(min_severity);
-#if EAGINE_HAS_ASIO_LOG_BACKEND
+        } else if(arg.is_tag("--use-asio-nw-log")) {
+            return std::make_unique<asio_tcpipv4_ostream_log_backend<>>(
+              min_severity);
+#if EAGINE_HAS_ASIO_LOCAL_LOG_BACKEND
         } else if(arg.is_tag("--use-asio-log")) {
-            return std::make_unique<asio_ostream_log_backend<>>(min_severity);
+            return std::make_unique<asio_local_ostream_log_backend<>>(
+              min_severity);
 #endif
         }
     }
@@ -54,15 +58,23 @@ auto root_logger_choose_backend(
     }
 
 #if EAGINE_DEBUG
-#if EAGINE_HAS_ASIO_LOG_BACKEND
+#if EAGINE_HAS_ASIO_LOCAL_LOG_BACKEND
     try {
-        return std::make_unique<asio_ostream_log_backend<>>(min_severity);
+        return std::make_unique<asio_local_ostream_log_backend<>>(min_severity);
     } catch(std::system_error& err) {
         if(err.code().value() != ENOENT) {
             throw;
         }
     }
 #endif
+    try {
+        return std::make_unique<asio_tcpipv4_ostream_log_backend<>>(
+          min_severity);
+    } catch(std::system_error& err) {
+        if(err.code().value() != ENOENT) {
+            throw;
+        }
+    }
 #endif
 
     return std::make_unique<ostream_log_backend<>>(std::clog, min_severity);
