@@ -79,11 +79,11 @@ struct default_identifier_char_set {
     /// @brief The default identifier character set.
     /// @showinitializer
     static constexpr const char values[63] = {
-      'e', 't', 'a', 'o', 'i', 'n', 's', 'r', 'h', 'l', 'd', 'c', 'u',
-      'm', 'f', 'p', 'g', 'w', 'y', 'b', 'v', 'k', 'x', 'j', 'q', 'z',
-      'T', 'A', 'I', 'S', 'O', 'W', 'H', 'B', 'C', 'M', 'F', 'P', 'D',
-      'R', 'L', 'E', 'G', 'N', 'Y', 'U', 'K', 'V', 'J', 'Q', 'X', 'Z',
-      '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_'};
+      '_', 'e', 't', 'a', 'o', 'i', 'n', 's', 'r', 'h', 'l', 'd', 'c',
+      'u', 'm', 'f', 'p', 'g', 'w', 'y', 'b', 'v', 'k', 'x', 'j', 'q',
+      'z', 'T', 'A', 'I', 'S', 'O', 'W', 'H', 'B', 'C', 'M', 'F', 'P',
+      'D', 'R', 'L', 'E', 'G', 'N', 'Y', 'U', 'K', 'V', 'J', 'Q', 'X',
+      'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 };
 //------------------------------------------------------------------------------
 /// @brief Helper template for unpacking of identifier into a character string.
@@ -225,19 +225,19 @@ public:
     }
 
     /// @brief Returns the size of this identifier.
-    /// @see is_empty()
-    constexpr auto size() const noexcept -> size_type {
-        return _get_size(0);
-    }
-
-    /// @brief Returns the size of this identifier.
     /// @see size()
     constexpr auto is_empty() const noexcept -> bool {
-        return _get_size(0) == 0;
+        return value() == 0;
     }
 
     constexpr explicit operator bool() const noexcept {
         return !is_empty();
+    }
+
+    /// @brief Returns the size of this identifier.
+    /// @see is_empty()
+    constexpr auto size() const noexcept -> size_type {
+        return is_empty() ? 0 : _get_size(0);
     }
 
     /// @brief Subscript operator. Allows to access individual characters.
