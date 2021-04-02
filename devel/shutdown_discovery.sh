@@ -5,7 +5,7 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 install_prefix="$(<$(dirname ${0})/../INSTALL_PREFIX)"
-log_args=("--use-asio-log" "--min-log-severity" "debug")
+log_args=("--use-asio-nw-log" "--min-log-severity" "debug")
 conn_args=("--msg-bus-asio-local-stream")
 ssl_args=(
 	"${EAGINE_SSL_ENGINE_ID:+--msg-bus-ssl-engine}"

@@ -5,7 +5,7 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 install_prefix="$(<$(dirname ${0})/../INSTALL_PREFIX)"
-log_args=("--use-asio-log" "--min-log-severity" "info")
+log_args=("--use-asio-nw-log" "--min-log-severity" "info")
 conn_type="--msg-bus-asio-local-stream"
 l_addr=/tmp/eagmb-trk-l
 r_addr=/tmp/eagmb-trk-r
