@@ -990,6 +990,7 @@ class LocalNetworkSocket(socket.socket):
     # --------------------------------------------------------------------------
     def __init__(self, socket_port):
         socket.socket.__init__(self, socket.AF_INET, socket.SOCK_STREAM)
+        self.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.bind(('', socket_port))
         self.listen(50)
         self.setblocking(False)
