@@ -950,52 +950,54 @@ class XmlLogClientHandler(xml.sax.ContentHandler):
             self.disconnect()
 
 # ------------------------------------------------------------------------------
-def open_socket(socket_path):
-    try: os.unlink(socket_path)
-    except OSError as os_error:
-        if os_error.errno != errno.ENOENT:
-            raise
-    uds = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-    uds.bind(socket_path)
-    uds.listen(50)
-    uds.setblocking(False)
-    return uds
+class LocalLogSocket(socket.socket):
+    # --------------------------------------------------------------------------
+    def __init__(self, socket_path):
+        self._socket_path = socket_path
+        try: os.unlink(self._socket_path)
+        except OSError as os_error:
+            if os_error.errno != errno.ENOENT:
+                raise
+        socket.socket.__init__(self, socket.AF_UNIX, socket.SOCK_STREAM)
+        self.bind(self._socket_path)
+        self.listen(50)
+        self.setblocking(False)
+
+    # --------------------------------------------------------------------------
+    def __del__(self):
+        try:
+            self.close()
+            os.unlink(self._socket_path)
+        except: pass
 
 # ------------------------------------------------------------------------------
-def handle_connections(socket_path, formatter):
-    try:
-        global keepRunning
-        lsock = open_socket(socket_path)
-        with selectors.DefaultSelector() as selector:
-            selector.register(
-                lsock,
-                selectors.EVENT_READ,
-                data = formatter
-            )
+def handle_connections(log_sock, formatter):
+    global keepRunning
+    with selectors.DefaultSelector() as selector:
+        selector.register(
+            log_sock,
+            selectors.EVENT_READ,
+            data = formatter
+        )
 
-            while keepRunning:
-                events = selector.select(timeout=1.0)
-                for key, mask in events:
-                    if type(key.data) is XmlLogFormatter:
-                        connection, addr = lsock.accept()
-                        connection.setblocking(False)
-                        selector.register(
+        while keepRunning:
+            events = selector.select(timeout=1.0)
+            for key, mask in events:
+                if type(key.data) is XmlLogFormatter:
+                    connection, addr = log_sock.accept()
+                    connection.setblocking(False)
+                    selector.register(
+                        connection,
+                        selectors.EVENT_READ,
+                        data = XmlLogClientHandler(
+                            key.data.makeProcessor(),
                             connection,
-                            selectors.EVENT_READ,
-                            data = XmlLogClientHandler(
-                                key.data.makeProcessor(),
-                                connection,
-                                selector
-                            )
+                            selector
                         )
-                    elif type(key.data) is XmlLogClientHandler:
-                        if mask & selectors.EVENT_READ:
-                            key.data.handleRead()
-    finally:
-        try:
-            lsock.close()
-            os.unlink(socket_path)
-        except: pass
+                    )
+                elif type(key.data) is XmlLogClientHandler:
+                    if mask & selectors.EVENT_READ:
+                        key.data.handleRead()
 
 # ------------------------------------------------------------------------------
 def handleInterrupt(sig, frame):
@@ -1008,7 +1010,8 @@ def main():
         signal.signal(signal.SIGINT, handleInterrupt)
         signal.signal(signal.SIGTERM, handleInterrupt)
         formatter = XmlLogFormatter(options)
-        handle_connections("/tmp/eagine-xmllog", formatter)
+        log_sock = LocalLogSocket("/tmp/eagine-xmllog")
+        handle_connections(log_sock, formatter)
     except KeyboardInterrupt:
         return 0
 # ------------------------------------------------------------------------------
