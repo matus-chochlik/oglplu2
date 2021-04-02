@@ -13,6 +13,7 @@
 #include <eagine/logging/ostream_backend.hpp>
 #include <eagine/logging/syslog_backend.hpp>
 #include <eagine/logging/type/program_args.hpp>
+#include <eagine/process.hpp>
 #include <cerrno>
 #include <iostream>
 
@@ -110,6 +111,7 @@ auto root_logger::_init_backend(
 EAGINE_LIB_FUNC
 auto root_logger::_log_args(const program_args& args) -> void {
     auto args_entry{info("program arguments:")};
+    args_entry.tag(EAGINE_ID(ProgArgs));
     args_entry.arg(EAGINE_ID(cmd), args.command());
     for(auto& arg : args) {
         args_entry.arg(EAGINE_ID(arg), arg);
@@ -120,16 +122,25 @@ EAGINE_LIB_FUNC
 auto root_logger::_log_git_info() -> void {
     const string_view n_a{"N/A"};
     info("source version information")
+      .tag(EAGINE_ID(GitInfo))
       .arg(EAGINE_ID(gitBranch), EAGINE_ID(GitBranch), config_git_branch(), n_a)
       .arg(EAGINE_ID(gitHashId), EAGINE_ID(GitHash), config_git_hash_id(), n_a)
       .arg(EAGINE_ID(gitDate), EAGINE_ID(RFC2822), config_git_date(), n_a)
       .arg(EAGINE_ID(gitDescrib), EAGINE_ID(str), config_git_describe(), n_a)
       .arg(EAGINE_ID(gitVersion), EAGINE_ID(str), config_git_version(), n_a);
 }
+EAGINE_LIB_FUNC
+//------------------------------------------------------------------------------
+auto root_logger::_log_instance_info() -> void {
+    info("instance information")
+      .tag(EAGINE_ID(Instance))
+      .arg(EAGINE_ID(instanceId), make_process_instance_id());
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto root_logger::_log_compiler_info() -> void {
     info("built with ${complrName} compiler for ${Archtcture} architecture")
+      .tag(EAGINE_ID(Compiler))
       .arg(
         EAGINE_ID(complrName),
         EAGINE_ID(string),

@@ -79,21 +79,6 @@ public:
 
     auto begin_message(
       identifier src,
-      logger_instance_id inst,
-      log_event_severity,
-      string_view format) noexcept -> bool final {
-
-        auto& msg = _new_message();
-        msg.source = src;
-        msg.instance = inst;
-        msg.format.assign(
-          sizeof(logger_instance_id) > 4 ? "%16lx|%10.*s|" : "%8lx|%10.*s|");
-        _translate(format, msg);
-        return true;
-    }
-
-    auto begin_tagged_message(
-      identifier src,
       identifier tag,
       logger_instance_id inst,
       log_event_severity,
@@ -104,8 +89,7 @@ public:
         msg.tag = tag;
         msg.instance = inst;
         msg.format.assign(
-          sizeof(logger_instance_id) > 4 ? "%16lx|%10.*s|%10.*s|"
-                                         : "%8lx|%10.*s|%10.*s|");
+          sizeof(logger_instance_id) > 4 ? "%16lx|%10.*s|" : "%8lx|%10.*s|");
         _translate(format, msg);
         return true;
     }
