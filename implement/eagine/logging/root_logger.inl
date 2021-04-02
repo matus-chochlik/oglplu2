@@ -11,6 +11,7 @@
 #include <eagine/logging/asio_backend.hpp>
 #include <eagine/logging/null_backend.hpp>
 #include <eagine/logging/ostream_backend.hpp>
+#include <eagine/logging/proxy_backend.hpp>
 #include <eagine/logging/syslog_backend.hpp>
 #include <eagine/logging/type/program_args.hpp>
 #include <eagine/process.hpp>
@@ -66,27 +67,7 @@ auto root_logger_choose_backend(
         return std::make_unique<null_log_backend>();
     }
 
-#if EAGINE_DEBUG
-#if EAGINE_HAS_ASIO_LOCAL_LOG_BACKEND
-    try {
-        return std::make_unique<asio_local_ostream_log_backend<>>(min_severity);
-    } catch(std::system_error& err) {
-        if(err.code().value() != ENOENT) {
-            throw;
-        }
-    }
-#endif
-    try {
-        return std::make_unique<asio_tcpipv4_ostream_log_backend<>>(
-          min_severity);
-    } catch(std::system_error& err) {
-        if(err.code().value() != ENOENT) {
-            throw;
-        }
-    }
-#endif
-
-    return std::make_unique<ostream_log_backend<>>(std::clog, min_severity);
+    return std::make_unique<proxy_log_backend>(min_severity);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

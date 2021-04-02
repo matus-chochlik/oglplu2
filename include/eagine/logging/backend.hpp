@@ -19,6 +19,7 @@
 #include <cstdint>
 
 namespace eagine {
+class application_config;
 //------------------------------------------------------------------------------
 /// @brief Helper class used in implementation of has_log_entry_adapter_t.
 /// @ingroup logging
@@ -57,6 +58,9 @@ using logger_instance_id = std::uintptr_t;
 /// @brief Interface for logging backend implementations.
 /// @ingroup logging
 struct logger_backend : interface<logger_backend> {
+    virtual auto configure(application_config&) -> bool {
+        return false;
+    }
 
     /// @brief The memory allocator used by the logger backend.
     virtual auto allocator() noexcept -> memory::shared_byte_allocator = 0;

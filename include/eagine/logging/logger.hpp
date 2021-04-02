@@ -61,6 +61,13 @@ public:
         return reinterpret_cast<logger_instance_id>(this);
     }
 
+    auto configure(application_config& config) -> bool {
+        if(auto lbe{backend()}) {
+            extract(lbe).configure(config);
+        }
+        return false;
+    }
+
 protected:
     basic_logger() noexcept = default;
 

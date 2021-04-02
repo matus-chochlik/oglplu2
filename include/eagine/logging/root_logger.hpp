@@ -15,10 +15,11 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+class application_config;
+
 /// @brief Class typically used as the per-application single root of logger hierarchy.
 /// @ingroup logging
 class root_logger : public logger {
-
 public:
     /// @brief Constructor initializing from and id, program arguments and options.
     root_logger(

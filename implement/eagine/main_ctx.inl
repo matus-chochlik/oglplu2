@@ -126,6 +126,7 @@ main_ctx::main_ctx(master_ctx& master) noexcept
   , _app_name{master.app_name()} {
     EAGINE_ASSERT(!_single_ptr());
     _single_ptr() = this;
+    _log.configure(_app_config);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
