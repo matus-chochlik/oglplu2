@@ -5,7 +5,7 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 install_prefix="$(<$(dirname ${0})/../INSTALL_PREFIX)"
-log_args=("--use-asio-nw-log" "--min-log-severity" "stat")
+log_args=("--min-log-severity" "stat")
 conn_type="--msg-bus-asio-local-stream"
 #
 termpids=()

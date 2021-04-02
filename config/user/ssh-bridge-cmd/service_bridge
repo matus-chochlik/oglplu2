@@ -5,7 +5,5 @@
 #   http://www.boost.org/LICENSE_1_0.txt
 #
 exec ${OGLPLUS_PREFIX}/bin/eagine-message_bus-bridge \
-	--use-syslog \
-	--min-log-severity info \
 	--config-group service
 

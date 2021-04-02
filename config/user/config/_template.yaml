@@ -1,3 +1,7 @@
+log:
+    backend: network
+    network:
+        address: localhost:34917
 ca_cert_path: /path/to/ca/certificate.pem
 msg_bus:
     ssl_engine: pkcs11
