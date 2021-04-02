@@ -92,6 +92,24 @@ public:
         return true;
     }
 
+    auto begin_tagged_message(
+      identifier src,
+      identifier tag,
+      logger_instance_id inst,
+      log_event_severity,
+      string_view format) noexcept -> bool final {
+
+        auto& msg = _new_message();
+        msg.source = src;
+        msg.tag = tag;
+        msg.instance = inst;
+        msg.format.assign(
+          sizeof(logger_instance_id) > 4 ? "%16lx|%10.*s|%10.*s|"
+                                         : "%8lx|%10.*s|%10.*s|");
+        _translate(format, msg);
+        return true;
+    }
+
     void do_add_arg(identifier arg, string_view value) noexcept {
         auto& msg = _get_message();
         const auto aidv = arg.value();
@@ -198,6 +216,7 @@ private:
 
     struct _message_state {
         identifier source;
+        identifier tag;
         logger_instance_id instance{0};
         std::string format;
         flat_map<std::size_t, identifier_t> arg_idx;
@@ -268,12 +287,15 @@ private:
     template <std::size_t... I>
     void _do_log_I(_message_state& msg, std::index_sequence<I...>) {
         const auto source_name = msg.source.name();
+        const auto tag_name = msg.tag.name();
         ::syslog( // NOLINT(hicpp-vararg)
           _translate(log_event_severity::info),
           msg.format.c_str(),
           static_cast<unsigned long>(msg.instance),
           int(source_name.size()),
           source_name.data(),
+          int(tag_name.size()),
+          tag_name.data(),
           msg.arg_map[msg.arg_idx[I]].c_str()...);
     }
 

@@ -124,6 +124,29 @@ public:
         return true;
     }
 
+    auto begin_tagged_message(
+      identifier source,
+      identifier tag,
+      logger_instance_id instance,
+      log_event_severity severity,
+      string_view format) noexcept -> bool final {
+        try {
+            const auto now = std::chrono::steady_clock::now();
+            const auto sec = std::chrono::duration<float>(now - _start);
+            _lockable.lock();
+            _out << "<m";
+            _out << " lvl='" << enumerator_name(severity) << "'";
+            _out << " src='" << source.name() << "'";
+            _out << " tag='" << tag.name() << "'";
+            _out << " iid='" << instance << "'";
+            _out << " ts='" << sec.count() << "'";
+            _out << ">";
+            _out << "<f>" << format << "</f>";
+        } catch(...) {
+        }
+        return true;
+    }
+
     void add_nothing(identifier arg, identifier tag) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'/>";

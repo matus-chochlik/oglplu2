@@ -46,6 +46,15 @@ struct null_log_backend : logger_backend {
         return false;
     }
 
+    auto begin_tagged_message(
+      identifier,
+      identifier,
+      logger_instance_id,
+      log_event_severity,
+      string_view) noexcept -> bool final {
+        return false;
+    }
+
     void add_nothing(identifier, identifier) noexcept final {}
 
     void add_identifier(identifier, identifier, identifier) noexcept final {}
