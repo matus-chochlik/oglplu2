@@ -225,8 +225,19 @@ public:
     }
 
     /// @brief Returns the size of this identifier.
+    /// @see is_empty()
     constexpr auto size() const noexcept -> size_type {
         return _get_size(0);
+    }
+
+    /// @brief Returns the size of this identifier.
+    /// @see size()
+    constexpr auto is_empty() const noexcept -> bool {
+        return _get_size(0) == 0;
+    }
+
+    constexpr explicit operator bool() const noexcept {
+        return !is_empty();
     }
 
     /// @brief Subscript operator. Allows to access individual characters.
