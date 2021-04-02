@@ -112,10 +112,10 @@ protected:
 private:
     static auto _fix_addr(string_view addr_str)
       -> std::tuple<std::string, std::string> {
-        auto [hostname, port_str] = split_by_last(
-          addr_str ? addr_str : string_view{"localhost:34917"},
-          string_view(":"));
-        return {to_string(hostname), to_string(port_str)};
+        auto [hostname, port_str] = split_by_last(addr_str, string_view(":"));
+        return {
+          hostname ? to_string(hostname) : std::string("localhost"),
+          port_str ? to_string(port_str) : std::string("34917")};
     }
     std::tuple<std::string, std::string> _addr;
 

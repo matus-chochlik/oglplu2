@@ -6,6 +6,7 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/compiler_info.hpp>
+#include <eagine/environment.hpp>
 #include <eagine/git_info.hpp>
 #include <eagine/logging/asio_backend.hpp>
 #include <eagine/logging/null_backend.hpp>
@@ -43,8 +44,15 @@ auto root_logger_choose_backend(
         } else if(arg.is_tag("--use-syslog")) {
             return std::make_unique<syslog_log_backend<>>(min_severity);
         } else if(arg.is_tag("--use-asio-nw-log")) {
+            string_view nw_addr;
+            if(auto env_var{get_environment_variable("EAGINE_LOG_ADDR")}) {
+                nw_addr = extract(env_var);
+            }
+            if(!arg.next().starts_with("-")) {
+                nw_addr = arg.next();
+            }
             return std::make_unique<asio_tcpipv4_ostream_log_backend<>>(
-              min_severity);
+              nw_addr, min_severity);
 #if EAGINE_HAS_ASIO_LOCAL_LOG_BACKEND
         } else if(arg.is_tag("--use-asio-log")) {
             return std::make_unique<asio_local_ostream_log_backend<>>(
