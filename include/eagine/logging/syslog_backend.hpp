@@ -89,7 +89,8 @@ public:
         msg.tag = tag;
         msg.instance = inst;
         msg.format.assign(
-          sizeof(logger_instance_id) > 4 ? "%16lx|%10.*s|" : "%8lx|%10.*s|");
+          sizeof(logger_instance_id) > 4 ? "%16lx|%10.*s|%10.*s|"
+                                         : "%8lx|%10.*s|%10.*s|");
         _translate(format, msg);
         return true;
     }
@@ -271,7 +272,7 @@ private:
     template <std::size_t... I>
     void _do_log_I(_message_state& msg, std::index_sequence<I...>) {
         const auto source_name = msg.source.name();
-        const auto tag_name = msg.tag.name();
+        const auto tag_name = msg.tag ? msg.tag.name().str() : std::string();
         ::syslog( // NOLINT(hicpp-vararg)
           _translate(log_event_severity::info),
           msg.format.c_str(),

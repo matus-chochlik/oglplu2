@@ -116,7 +116,9 @@ public:
             _out << "<m";
             _out << " lvl='" << enumerator_name(severity) << "'";
             _out << " src='" << source.name() << "'";
-            _out << " tag='" << tag.name() << "'";
+            if(tag) {
+                _out << " tag='" << tag.name() << "'";
+            }
             _out << " iid='" << instance << "'";
             _out << " ts='" << sec.count() << "'";
             _out << ">";
