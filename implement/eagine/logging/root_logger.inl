@@ -45,11 +45,11 @@ auto root_logger_choose_backend(
             return std::make_unique<syslog_log_backend<>>(min_severity);
         } else if(arg.is_tag("--use-asio-nw-log")) {
             string_view nw_addr;
-            if(auto env_var{get_environment_variable("EAGINE_LOG_ADDR")}) {
-                nw_addr = extract(env_var);
-            }
-            if(!arg.next().starts_with("-")) {
+            if(arg.next() && !arg.next().starts_with("-")) {
                 nw_addr = arg.next();
+            } else if(auto env_var{
+                        get_environment_variable("EAGINE_LOG_ADDR")}) {
+                nw_addr = extract(env_var);
             }
             return std::make_unique<asio_tcpipv4_ostream_log_backend<>>(
               nw_addr, min_severity);
