@@ -28,7 +28,7 @@ namespace eagine::msgbus {
 class bridge_state : public std::enable_shared_from_this<bridge_state> {
 public:
     bridge_state(const valid_if_positive<span_size_t>& max_data_size)
-      : _max_read{extract_or(max_data_size, 512) * 2} {}
+      : _max_read{extract_or(max_data_size, 2048) * 2} {}
     bridge_state(bridge_state&&) = delete;
     bridge_state(const bridge_state&) = delete;
     auto operator=(bridge_state&&) = delete;
@@ -93,6 +93,10 @@ public:
         return _dropped_messages;
     }
 
+    auto decode_errors() const noexcept {
+        return _decode_errors;
+    }
+
     void send_output() {
         {
             std::unique_lock lock{_output_mutex};
@@ -148,7 +152,9 @@ public:
             const auto errors = deserialize_message_header(
               class_id, method_id, _recv_dest, backend);
 
-            if(!errors) {
+            if(EAGINE_UNLIKELY(errors)) {
+                ++_decode_errors;
+            } else {
                 _buffer.ensure(source.remaining().size());
                 span_size_t i = 0;
                 span_size_t o = 0;
@@ -189,6 +195,7 @@ private:
     stored_message _recv_dest{};
     span_size_t _forwarded_messages{0};
     span_size_t _dropped_messages{0};
+    span_size_t _decode_errors{0};
 };
 //------------------------------------------------------------------------------
 // bridge
@@ -430,6 +437,7 @@ auto bridge::_check_state() -> bool {
     if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
         if(_recoverable_state() && _connection) {
             if(auto max_data_size = _connection->max_data_size()) {
+                ++_state_count;
                 _state = std::make_shared<bridge_state>(extract(max_data_size));
                 _state->start();
                 something_done();
@@ -499,7 +507,9 @@ void bridge::cleanup() {
     if(_state) {
         log_stat("forwarded ${count} messages in total to output stream")
           .arg(EAGINE_ID(count), _state->forwarded_messages())
-          .arg(EAGINE_ID(dropped), _state->dropped_messages());
+          .arg(EAGINE_ID(dropped), _state->dropped_messages())
+          .arg(EAGINE_ID(decodeErr), _state->decode_errors())
+          .arg(EAGINE_ID(stateCount), _state_count);
     }
 
     log_stat("forwarded ${count} messages in total to output queue")

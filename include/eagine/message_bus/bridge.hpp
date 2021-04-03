@@ -77,6 +77,7 @@ private:
       std::chrono::steady_clock::now()};
     std::chrono::steady_clock::time_point _forwarded_since_c2o{
       std::chrono::steady_clock::now()};
+    std::intmax_t _state_count{0};
     std::intmax_t _forwarded_messages_i2c{0};
     std::intmax_t _forwarded_messages_c2o{0};
     std::intmax_t _dropped_messages_i2c{0};
