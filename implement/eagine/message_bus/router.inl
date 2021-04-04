@@ -362,10 +362,12 @@ auto router::_remove_disconnected() -> bool {
         auto& rep = std::get<1>(p);
         auto& conn = rep.the_connection;
         if(EAGINE_UNLIKELY(rep.do_disconnect)) {
-            if(conn) {
-                conn->cleanup();
+            if(!rep.maybe_router) {
+                if(conn) {
+                    conn->cleanup();
+                }
+                conn.reset();
             }
-            conn.reset();
         } else {
             if(EAGINE_UNLIKELY(!conn->is_usable())) {
                 log_debug("removing disconnected connection");
@@ -493,7 +495,7 @@ auto router::_handle_blob(
 auto router::_update_endpoint_info(
   identifier_t incoming_id,
   const message_view& message) -> router_endpoint_info& {
-    _endpoint_idx[incoming_id] = message.source_id;
+    _endpoint_idx[message.source_id] = incoming_id;
     auto& info = _endpoint_infos[message.source_id];
     // sequence_no is the instance id in this message type
     info.assign_instance_id(message);
@@ -755,7 +757,7 @@ auto router::_handle_special(
             log_debug("received bye-bye from node ${source}")
               .arg(EAGINE_ID(source), message.source_id);
             node.do_disconnect = true;
-            _endpoint_idx.erase(incoming_id);
+            _endpoint_idx.erase(message.source_id);
             _endpoint_infos.erase(message.source_id);
             // this should be forwarded
             return false;
