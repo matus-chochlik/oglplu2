@@ -77,8 +77,8 @@ ${install_prefix}/bin/eagine-message_bus-pinger \
 	"${log_args[@]}" \
 	${conn_type} \
 	--msg-bus-router-address /tmp/sudoku_t \
-	--ping-count 100k \
-	--limit-count 25 \
+	--ping-count 1M \
+	--limit-count 250 \
 	& pids+=($!)
 
 for pid in ${pids[@]}
