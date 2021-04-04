@@ -146,6 +146,8 @@ private:
     auto _handle_accept() -> bool;
     auto _handle_pending() -> bool;
     auto _remove_timeouted() -> bool;
+    auto _is_disconnected(identifier_t endpoint_id) -> bool;
+    auto _mark_disconnected(identifier_t endpoint_id) -> void;
     auto _remove_disconnected() -> bool;
     void _assign_id(std::unique_ptr<connection>& conn);
     void _handle_connection(std::unique_ptr<connection> conn);
@@ -200,6 +202,7 @@ private:
     flat_map<identifier_t, routed_node> _nodes;
     flat_map<identifier_t, identifier_t> _endpoint_idx;
     flat_map<identifier_t, router_endpoint_info> _endpoint_infos;
+    flat_map<identifier_t, timeout> _recently_disconnected;
     blob_manipulator _blobs{*this};
 };
 //------------------------------------------------------------------------------
