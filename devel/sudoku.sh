@@ -39,7 +39,7 @@ ${install_prefix}/bin/eagine-local-bridge \
 	-c --msg-bus-bridge-shutdown-verify false \
 	-l --msg-bus-router-address /tmp/sudoku_t \
 	-r --msg-bus-router-address /tmp/sudoku_h \
-	& pids+=($!)
+	& termpids+=($!)
 sleep 1
 ${install_prefix}/bin/eagine-message_bus-sudoku_helper \
 	"${log_args[@]}" \
@@ -85,7 +85,9 @@ for pid in ${pids[@]}
 do wait ${pid}
 done
 
-kill -INT ${termpids[@]}
+for pid in ${termpids[@]}
+do kill -INT ${pid} $(ps --ppid ${pid} -o pid=)
+done
 
 for pid in ${termpids[@]}
 do wait ${pid}
