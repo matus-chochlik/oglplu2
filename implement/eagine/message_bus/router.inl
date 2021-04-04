@@ -778,6 +778,7 @@ auto router::_do_route_message(
     if(EAGINE_UNLIKELY(message.too_many_hops())) {
         log_warning("message ${message} discarded after too many hops")
           .arg(EAGINE_ID(message), msg_id);
+        ++_dropped_messages;
     } else {
         const auto& nodes = this->_nodes;
         message.add_hop();
