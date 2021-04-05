@@ -49,8 +49,8 @@ auto root_logger_choose_backend(
             string_view nw_addr;
             if(arg.next() && !arg.next().starts_with("-")) {
                 nw_addr = arg.next();
-            } else if(auto env_var{
-                        get_environment_variable("EAGINE_LOG_ADDR")}) {
+            } else if(auto env_var{get_environment_variable(
+                        "EAGINE_LOG_NETWORK_ADDRESS")}) {
                 nw_addr = extract(env_var);
             }
             return std::make_unique<asio_tcpipv4_ostream_log_backend<>>(
