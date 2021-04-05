@@ -26,11 +26,8 @@ do
 		--rank)
 			rank=${2}
 			shift;;
-		"")
-			break;;
-		*)
-			ssh_hosts+=(${1})
-			break;;
+		"") break;;
+		*) ssh_hosts+=(${1});;
 	esac
 	shift
 done
