@@ -58,6 +58,7 @@ div=$((rank * (rank - 2)))
 	"${conn_args[@]}" \
 	--msg-bus-sudoku-solver-block-cells false \
 	--msg-bus-sudoku-solver-print-incomplete false \
+	--msg-bus-sudoku-solver-print-progress true \
 	--msg-bus-sudoku-solver-rank ${rank} \
 	--msg-bus-sudoku-solver-width  $(((width / div) * div)) \
 	--msg-bus-sudoku-solver-height $(((height/ div) * div)) \

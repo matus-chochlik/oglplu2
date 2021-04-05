@@ -35,6 +35,9 @@ public:
 
     template <unsigned S>
     void handle_generated(const sudoku_tiles<S>& tiles) {
+        if(_print_progress) {
+            tiles.print_progress(std::cerr) << std::flush;
+        }
         if(_print_incomplete || tiles.are_complete()) {
             if(_block_cells) {
                 tiles.print(std::cout, block_sudoku_board_traits<S>{})
@@ -66,6 +69,8 @@ private:
     }
 
     bool _block_cells{cfg_init("msg_bus.sudoku.solver.block_cells", false)};
+    bool _print_progress{
+      cfg_init("msg_bus.sudoku.solver.print_progress", false)};
     bool _print_incomplete{
       cfg_init("msg_bus.sudoku.solver.print_incomplete", false)};
 };
