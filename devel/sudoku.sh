@@ -57,9 +57,9 @@ ${install_prefix}/bin/eagine-message_bus-sudoku_tiling \
 	--msg-bus-router-address /tmp/sudoku_t \
 	--msg-bus-sudoku-solver-block-cells true \
 	--msg-bus-sudoku-solver-print-incomplete true \
-	--${rank} \
-	--width  $(((COLUMNS / div) * div)) \
-	--height $(((LINES / div) * div)) \
+	--msg-bus-sudoku-solver-rank ${rank} \
+	--msg-bus-sudoku-solver-width  $(((COLUMNS / div) * div)) \
+	--msg-bus-sudoku-solver-height $(((LINES / div) * div)) \
 	& pids+=($!)
 sleep 1
 for ssh_host in "${@}"
