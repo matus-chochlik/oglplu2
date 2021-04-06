@@ -40,6 +40,7 @@ struct null_log_backend : logger_backend {
 
     auto begin_message(
       identifier,
+      identifier,
       logger_instance_id,
       log_event_severity,
       string_view) noexcept -> bool final {

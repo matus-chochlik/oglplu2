@@ -344,6 +344,7 @@ public:
     void query_certificate_of(identifier_t endpoint_id);
 
     /// @brief Posts a message as a response to another received message.
+    /// @see message_info::setup_response
     auto respond_to(
       const message_info& info,
       message_id msg_id,

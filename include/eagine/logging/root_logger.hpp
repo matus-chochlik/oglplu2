@@ -15,10 +15,11 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+class application_config;
+
 /// @brief Class typically used as the per-application single root of logger hierarchy.
 /// @ingroup logging
 class root_logger : public logger {
-
 public:
     /// @brief Constructor initializing from and id, program arguments and options.
     root_logger(
@@ -27,6 +28,7 @@ public:
       const root_logger_options& opts)
       : logger{logger_id, {_init_backend(args, opts)}} {
         _log_args(args);
+        _log_instance_info();
         _log_git_info();
         _log_compiler_info();
     }
@@ -45,6 +47,7 @@ private:
 
     auto _log_git_info() -> void;
     auto _log_compiler_info() -> void;
+    auto _log_instance_info() -> void;
     auto _log_args(const program_args&) -> void;
 };
 //------------------------------------------------------------------------------

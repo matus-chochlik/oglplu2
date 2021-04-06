@@ -845,6 +845,23 @@ public:
         return out;
     }
 
+    auto print_progress(std::ostream& out, Coord min, Coord max) const
+      -> std::ostream& {
+        const auto [xmin, ymin, xmax, ymax] = boards_extent(min, max);
+
+        for(auto y : integer_range(ymin, ymax)) {
+            for(auto x : integer_range(xmin, xmax)) {
+                if(get_board(x, y)) {
+                    out << "██";
+                } else {
+                    out << "▒▒";
+                }
+            }
+            out << '\n';
+        }
+        return out;
+    }
+
     auto print(std::ostream& out, Coord min, Coord max) const -> std::ostream& {
         return print(out, min, max, _traits);
     }
@@ -857,6 +874,10 @@ public:
 
     auto print(std::ostream& out) const -> auto& {
         return print(out, {_minu, _minv}, {_maxu, _maxv});
+    }
+
+    auto print_progress(std::ostream& out) const -> auto& {
+        return print_progress(out, {_minu, _minv}, {_maxu, _maxv});
     }
 
     auto reset() noexcept -> auto& {

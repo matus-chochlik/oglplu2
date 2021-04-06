@@ -105,6 +105,7 @@ public:
 
     auto begin_message(
       identifier source,
+      identifier tag,
       logger_instance_id instance,
       log_event_severity severity,
       string_view format) noexcept -> bool final {
@@ -115,6 +116,9 @@ public:
             _out << "<m";
             _out << " lvl='" << enumerator_name(severity) << "'";
             _out << " src='" << source.name() << "'";
+            if(tag) {
+                _out << " tag='" << tag.name() << "'";
+            }
             _out << " iid='" << instance << "'";
             _out << " ts='" << sec.count() << "'";
             _out << ">";

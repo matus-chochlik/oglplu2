@@ -102,7 +102,22 @@ class ArgumentParser(argparse.ArgumentParser):
         argparse.ArgumentParser.__init__(self, **kw)
 
         self.add_argument(
-            "--output", "-o", 
+            "--network-socket", "-n",
+            dest='network_socket',
+            action="store_true",
+            default=False
+        )
+
+        self.add_argument(
+            "--port", "-p",
+            dest='socket_port',
+            type=_positive_int,
+            action="store",
+            default=34917
+        )
+
+        self.add_argument(
+            "--output", "-o",
             metavar='OUTPUT-FILE',
             dest='output_path',
             nargs='?',
@@ -122,7 +137,7 @@ class ArgumentParser(argparse.ArgumentParser):
         try:
             import matplotlib.pyplot as plt
             self.add_argument(
-                "--plot-charts", "-p",
+                "--plot-charts", "-C",
                 dest="plot_charts",
                 action="store_true",
                 default=False,
@@ -132,7 +147,7 @@ class ArgumentParser(argparse.ArgumentParser):
             )
 
             self.add_argument(
-                "--plot-output", "-P", 
+                "--plot-output", "-P",
                 metavar='OUTPUT-FILE',
                 dest='plot_output_path',
                 nargs='?',
@@ -144,7 +159,7 @@ class ArgumentParser(argparse.ArgumentParser):
             )
 
             self.add_argument(
-                "--plot-reduce", "-R", 
+                "--plot-reduce", "-R",
                 metavar='MAX-SAMPLES',
                 dest='plot_reduce_count',
                 nargs='?',
@@ -156,7 +171,7 @@ class ArgumentParser(argparse.ArgumentParser):
             )
 
             self.add_argument(
-                "--plot-normalize", "-N", 
+                "--plot-normalize", "-N",
                 dest='plot_normalize',
                 action="store_true",
                 default=False,
@@ -166,7 +181,7 @@ class ArgumentParser(argparse.ArgumentParser):
             )
         except ImportError:
             self.add_argument(
-                "--plot-charts", "-p",
+                "--plot-charts", "-C",
                 dest="plot_charts",
                 action="store_false",
                 default=False,
@@ -570,7 +585,7 @@ class XmlLogFormatter(object):
             value = info.get("value")
             try:
                 trans = self._translations[typ]
-                value = trans["opts"][trans["type"](value)] 
+                value = trans["opts"][trans["type"](value)]
             except: pass
             decorate = self._decorators.get(typ, lambda x: x)
             value = decorate(value)
@@ -746,12 +761,12 @@ class XmlLogFormatter(object):
             return "%d:%02d:%02d" % (h, m, s)
 
         def _reduceSamples(lst):
-            maxlen = self._options.plot_reduce_count 
+            maxlen = self._options.plot_reduce_count
             maxlen = maxlen if maxlen is not None else len(lst)
             if maxlen < len(lst):
                 def _avg(x, y):
                     return (sum(x)/len(x), sum(y)/len(y))
-                
+
                 temp = []
                 llen = len(lst)
                 fact = int(math.ceil(llen / maxlen))
@@ -865,7 +880,7 @@ class XmlLogProcessor(xml.sax.ContentHandler):
                 }
         elif tag == "c":
             try: logger = self._loggers[attr["src"]]
-            except KeyError: 
+            except KeyError:
                 logger = self._loggers[attr["src"]] = {}
             try: inst = logger[attr["iid"]]
             except KeyError:
@@ -879,14 +894,14 @@ class XmlLogProcessor(xml.sax.ContentHandler):
             series.append((time_ofs+float(attr["ts"]), float(attr["v"])))
         elif tag == "d":
             try: logger = self._loggers[attr["src"]]
-            except KeyError: 
+            except KeyError:
                 logger = self._loggers[attr["src"]] = {}
             try: inst = logger[attr["iid"]]
             except KeyError:
                 inst = logger[attr["iid"]] = {}
             inst["display_name"] = attr["dn"]
             inst["description"] = attr["desc"]
-            
+
     # --------------------------------------------------------------------------
     def endElement(self, tag):
         if tag == "log":
@@ -915,7 +930,7 @@ class XmlLogClientHandler(xml.sax.ContentHandler):
     def __init__(self, processor, connection, selector):
         self._processor = processor
         self._connection = connection
-        self._selector = selector 
+        self._selector = selector
         self._buffer = bytes()
 
     # --------------------------------------------------------------------------
@@ -940,7 +955,7 @@ class XmlLogClientHandler(xml.sax.ContentHandler):
                     try:
                         self._processor.processLine(line.decode('utf-8'))
                         done += 1
-                    except UnicodeDecodeError: 
+                    except UnicodeDecodeError:
                         print(line)
                         break
                 self._buffer = sep.join(lines[done:])
@@ -950,52 +965,76 @@ class XmlLogClientHandler(xml.sax.ContentHandler):
             self.disconnect()
 
 # ------------------------------------------------------------------------------
-def open_socket(socket_path):
-    try: os.unlink(socket_path)
-    except OSError as os_error:
-        if os_error.errno != errno.ENOENT:
-            raise
-    uds = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-    uds.bind(socket_path)
-    uds.listen(50)
-    uds.setblocking(False)
-    return uds
+class LocalLogSocket(socket.socket):
+    # --------------------------------------------------------------------------
+    def __init__(self, socket_path):
+        self._socket_path = socket_path
+        try: os.unlink(self._socket_path)
+        except OSError as os_error:
+            if os_error.errno != errno.ENOENT:
+                raise
+        socket.socket.__init__(self, socket.AF_UNIX, socket.SOCK_STREAM)
+        self.bind(self._socket_path)
+        self.listen(50)
+        self.setblocking(False)
+
+    # --------------------------------------------------------------------------
+    def __del__(self):
+        try:
+            self.close()
+            os.unlink(self._socket_path)
+        except: pass
 
 # ------------------------------------------------------------------------------
-def handle_connections(socket_path, formatter):
-    try:
-        global keepRunning
-        lsock = open_socket(socket_path)
-        with selectors.DefaultSelector() as selector:
-            selector.register(
-                lsock,
-                selectors.EVENT_READ,
-                data = formatter
-            )
+class LocalNetworkSocket(socket.socket):
+    # --------------------------------------------------------------------------
+    def __init__(self, socket_port):
+        socket.socket.__init__(self, socket.AF_INET, socket.SOCK_STREAM)
+        self.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.bind(('', socket_port))
+        self.listen(50)
+        self.setblocking(False)
 
-            while keepRunning:
-                events = selector.select(timeout=1.0)
-                for key, mask in events:
-                    if type(key.data) is XmlLogFormatter:
-                        connection, addr = lsock.accept()
-                        connection.setblocking(False)
-                        selector.register(
-                            connection,
-                            selectors.EVENT_READ,
-                            data = XmlLogClientHandler(
-                                key.data.makeProcessor(),
-                                connection,
-                                selector
-                            )
-                        )
-                    elif type(key.data) is XmlLogClientHandler:
-                        if mask & selectors.EVENT_READ:
-                            key.data.handleRead()
-    finally:
+    # --------------------------------------------------------------------------
+    def __del__(self):
         try:
-            lsock.close()
-            os.unlink(socket_path)
+            self.close()
         except: pass
+
+# ------------------------------------------------------------------------------
+def open_socket(options):
+    if options.network_socket:
+        return LocalNetworkSocket(options.socket_port)
+    return LocalLogSocket("/tmp/eagine-xmllog")
+
+# ------------------------------------------------------------------------------
+def handle_connections(log_sock, formatter):
+    global keepRunning
+    with selectors.DefaultSelector() as selector:
+        selector.register(
+            log_sock,
+            selectors.EVENT_READ,
+            data = formatter
+        )
+
+        while keepRunning:
+            events = selector.select(timeout=1.0)
+            for key, mask in events:
+                if type(key.data) is XmlLogFormatter:
+                    connection, addr = log_sock.accept()
+                    connection.setblocking(False)
+                    selector.register(
+                        connection,
+                        selectors.EVENT_READ,
+                        data = XmlLogClientHandler(
+                            key.data.makeProcessor(),
+                            connection,
+                            selector
+                        )
+                    )
+                elif type(key.data) is XmlLogClientHandler:
+                    if mask & selectors.EVENT_READ:
+                        key.data.handleRead()
 
 # ------------------------------------------------------------------------------
 def handleInterrupt(sig, frame):
@@ -1008,7 +1047,7 @@ def main():
         signal.signal(signal.SIGINT, handleInterrupt)
         signal.signal(signal.SIGTERM, handleInterrupt)
         formatter = XmlLogFormatter(options)
-        handle_connections("/tmp/eagine-xmllog", formatter)
+        handle_connections(open_socket(options), formatter)
     except KeyboardInterrupt:
         return 0
 # ------------------------------------------------------------------------------

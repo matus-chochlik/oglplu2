@@ -6,7 +6,7 @@
 #
 OGLPLUS_PREFIX="$(<$(dirname ${0})/../INSTALL_PREFIX)"
 ssh_host=${1:-oglplus-msgbus}
-log_args=("--use-asio-log" "--min-log-severity" "stat")
+log_args=("--min-log-severity" "stat")
 cmn_args=("--msg-bus-asio-local-stream" "--msg-bus-router-address" "/tmp/oglp-ping")
 #
 pids=()

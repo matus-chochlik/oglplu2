@@ -19,6 +19,7 @@
 #include <cstdint>
 
 namespace eagine {
+class application_config;
 //------------------------------------------------------------------------------
 /// @brief Helper class used in implementation of has_log_entry_adapter_t.
 /// @ingroup logging
@@ -57,6 +58,9 @@ using logger_instance_id = std::uintptr_t;
 /// @brief Interface for logging backend implementations.
 /// @ingroup logging
 struct logger_backend : interface<logger_backend> {
+    virtual auto configure(application_config&) -> bool {
+        return false;
+    }
 
     /// @brief The memory allocator used by the logger backend.
     virtual auto allocator() noexcept -> memory::shared_byte_allocator = 0;
@@ -86,11 +90,13 @@ struct logger_backend : interface<logger_backend> {
 
     /// @brief Begins a new logging message.
     /// @param source the identifier of the source logger object.
+    /// @param tag the identifier of this message type or instance.
     /// @param instance unique instance id of the source logger object.
     /// @param severity the log level or severity of the log event.
     /// @param format the format string of the message. May contain argument placeholders.
     virtual auto begin_message(
       identifier source,
+      identifier tag,
       logger_instance_id instance,
       log_event_severity severity,
       string_view format) noexcept -> bool = 0;

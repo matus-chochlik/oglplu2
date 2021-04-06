@@ -6,12 +6,15 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/compiler_info.hpp>
+#include <eagine/environment.hpp>
 #include <eagine/git_info.hpp>
 #include <eagine/logging/asio_backend.hpp>
 #include <eagine/logging/null_backend.hpp>
 #include <eagine/logging/ostream_backend.hpp>
+#include <eagine/logging/proxy_backend.hpp>
 #include <eagine/logging/syslog_backend.hpp>
 #include <eagine/logging/type/program_args.hpp>
+#include <eagine/process.hpp>
 #include <cerrno>
 #include <iostream>
 
@@ -42,9 +45,20 @@ auto root_logger_choose_backend(
               std::cout, min_severity);
         } else if(arg.is_tag("--use-syslog")) {
             return std::make_unique<syslog_log_backend<>>(min_severity);
-#if EAGINE_HAS_ASIO_LOG_BACKEND
+        } else if(arg.is_tag("--use-asio-nw-log")) {
+            string_view nw_addr;
+            if(arg.next() && !arg.next().starts_with("-")) {
+                nw_addr = arg.next();
+            } else if(auto env_var{get_environment_variable(
+                        "EAGINE_LOG_NETWORK_ADDRESS")}) {
+                nw_addr = extract(env_var);
+            }
+            return std::make_unique<asio_tcpipv4_ostream_log_backend<>>(
+              nw_addr, min_severity);
+#if EAGINE_HAS_ASIO_LOCAL_LOG_BACKEND
         } else if(arg.is_tag("--use-asio-log")) {
-            return std::make_unique<asio_ostream_log_backend<>>(min_severity);
+            return std::make_unique<asio_local_ostream_log_backend<>>(
+              min_severity);
 #endif
         }
     }
@@ -53,19 +67,7 @@ auto root_logger_choose_backend(
         return std::make_unique<null_log_backend>();
     }
 
-#if EAGINE_DEBUG
-#if EAGINE_HAS_ASIO_LOG_BACKEND
-    try {
-        return std::make_unique<asio_ostream_log_backend<>>(min_severity);
-    } catch(std::system_error& err) {
-        if(err.code().value() != ENOENT) {
-            throw;
-        }
-    }
-#endif
-#endif
-
-    return std::make_unique<ostream_log_backend<>>(std::clog, min_severity);
+    return std::make_unique<proxy_log_backend>(min_severity);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -90,6 +92,7 @@ auto root_logger::_init_backend(
 EAGINE_LIB_FUNC
 auto root_logger::_log_args(const program_args& args) -> void {
     auto args_entry{info("program arguments:")};
+    args_entry.tag(EAGINE_ID(ProgArgs));
     args_entry.arg(EAGINE_ID(cmd), args.command());
     for(auto& arg : args) {
         args_entry.arg(EAGINE_ID(arg), arg);
@@ -100,16 +103,25 @@ EAGINE_LIB_FUNC
 auto root_logger::_log_git_info() -> void {
     const string_view n_a{"N/A"};
     info("source version information")
+      .tag(EAGINE_ID(GitInfo))
       .arg(EAGINE_ID(gitBranch), EAGINE_ID(GitBranch), config_git_branch(), n_a)
       .arg(EAGINE_ID(gitHashId), EAGINE_ID(GitHash), config_git_hash_id(), n_a)
       .arg(EAGINE_ID(gitDate), EAGINE_ID(RFC2822), config_git_date(), n_a)
       .arg(EAGINE_ID(gitDescrib), EAGINE_ID(str), config_git_describe(), n_a)
       .arg(EAGINE_ID(gitVersion), EAGINE_ID(str), config_git_version(), n_a);
 }
+EAGINE_LIB_FUNC
+//------------------------------------------------------------------------------
+auto root_logger::_log_instance_info() -> void {
+    info("instance information")
+      .tag(EAGINE_ID(Instance))
+      .arg(EAGINE_ID(instanceId), make_process_instance_id());
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto root_logger::_log_compiler_info() -> void {
     info("built with ${complrName} compiler for ${Archtcture} architecture")
+      .tag(EAGINE_ID(Compiler))
       .arg(
         EAGINE_ID(complrName),
         EAGINE_ID(string),

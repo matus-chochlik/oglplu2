@@ -198,8 +198,13 @@ public:
     /// @brief Converts the byte sequence into an unsigned integer value.
     template <
       typename UInt,
-      typename =
-        std::enable_if_t<(sizeof(UInt) >= N) && std::is_integral_v<UInt>>>
+      typename = std::enable_if_t<
+        (sizeof(UInt) >= N) && (
+#if __SIZEOF_INT128__
+                                 std::is_same_v<UInt, __uint128_t> ||
+                                 std::is_same_v<UInt, __int128_t> ||
+#endif
+                                 std::is_integral_v<UInt>)>>
     constexpr auto as(UInt i = 0) const noexcept {
         return _push_back_to(i, 0);
     }

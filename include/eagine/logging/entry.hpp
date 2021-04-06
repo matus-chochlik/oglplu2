@@ -65,14 +65,6 @@ class logger;
 /// @ingroup logging
 /// @note Do not use directly, use logger instead.
 class log_entry {
-    static auto _be_alloc(logger_backend* backend) noexcept
-      -> memory::shared_byte_allocator {
-        if(backend) {
-            return backend->allocator();
-        }
-        return {};
-    }
-
 public:
     /// @brief Constructor.
     log_entry(
@@ -105,7 +97,7 @@ public:
     ~log_entry() noexcept {
         if(_backend) {
             if(EAGINE_LIKELY(_backend->begin_message(
-                 _source_id, _instance_id, _severity, _format))) {
+                 _source_id, _entry_tag, _instance_id, _severity, _format))) {
                 _args(*_backend);
                 _backend->finish_message();
                 _backend = nullptr;
@@ -584,13 +576,28 @@ public:
         return arg(name, tag, either_or(std::move(opt), std::move(fbck)));
     }
 
+    /// @brief Adds an optional tag to this log entry.
+    auto tag(identifier entry_tag) noexcept -> auto& {
+        _entry_tag = entry_tag;
+        return *this;
+    }
+
 private:
     identifier _source_id{};
+    identifier _entry_tag{};
     logger_instance_id _instance_id{};
     logger_backend* _backend{nullptr};
     string_view _format{};
     memory::callable_storage<void(logger_backend&)> _args;
     const log_event_severity _severity{log_event_severity::info};
+
+    static auto _be_alloc(logger_backend* backend) noexcept
+      -> memory::shared_byte_allocator {
+        if(backend) {
+            return backend->allocator();
+        }
+        return {};
+    }
 };
 //------------------------------------------------------------------------------
 /// @brief Do-nothing variant of log_entry with compatible API.
@@ -631,6 +638,10 @@ struct no_log_entry {
     constexpr auto arg_func(const Func&) -> auto& {
         return *this;
     }
+
+    constexpr auto tag(identifier) noexcept -> auto& {
+        return *this;
+    }
 };
 //------------------------------------------------------------------------------
 template <typename T>
@@ -656,7 +667,7 @@ public:
 class stream_log_entry {
 public:
     /// @brief Implicit conversion to an istream.
-    operator std::ostream &() noexcept {
+    operator std::ostream&() noexcept {
         return _out;
     }
 
@@ -681,7 +692,11 @@ public:
             if(!fmt_str.empty()) {
                 if(_backend) {
                     if(EAGINE_LIKELY(_backend->begin_message(
-                         _source_id, _instance_id, _severity, fmt_str))) {
+                         _source_id,
+                         _entry_tag,
+                         _instance_id,
+                         _severity,
+                         fmt_str))) {
                         _backend->finish_message();
                         _backend = nullptr;
                     }
@@ -691,9 +706,15 @@ public:
         }
     }
 
+    auto tag(identifier entry_tag) noexcept -> auto& {
+        _entry_tag = entry_tag;
+        return *this;
+    }
+
 private:
     std::stringstream _out{};
     identifier _source_id{};
+    identifier _entry_tag{};
     logger_instance_id _instance_id{};
     logger_backend* _backend{nullptr};
     const log_event_severity _severity{log_event_severity::info};

@@ -58,4 +58,10 @@ install(
 	DESTINATION bin
 	COMPONENT tools
 )
+install(
+	PROGRAMS eagine-sudoku-tiling.sh
+	RENAME eagine-sudoku-tiling
+	DESTINATION bin
+	COMPONENT tools
+)
 

@@ -414,17 +414,19 @@ protected:
     }
 
 protected:
-    auto _handle_send(memory::const_block data) -> bool {
+    auto _handle_send(message_timestamp, memory::const_block data) -> bool {
         return !_data_queue.send(1, as_chars(data)).had_error();
     }
 
     void _handle_receive(unsigned, memory::span<const char> data) {
-        _incoming.push_if([data](message_id& msg_id, stored_message& message) {
-            block_data_source source(as_bytes(data));
-            string_deserializer_backend backend(source);
-            const auto errors = deserialize_message(msg_id, message, backend);
-            return !errors;
-        });
+        _incoming.push_if(
+          [data](
+            message_id& msg_id, message_timestamp&, stored_message& message) {
+              block_data_source source(as_bytes(data));
+              string_deserializer_backend backend(source);
+              const auto errors = deserialize_message(msg_id, message, backend);
+              return !errors;
+          });
     }
 
     std::mutex _mutex;
@@ -562,17 +564,19 @@ private:
     }
 
     void _handle_receive(unsigned, memory::span<const char> data) {
-        _requests.push_if([data](message_id& msg_id, stored_message& message) {
-            block_data_source source(as_bytes(data));
-            string_deserializer_backend backend(source);
-            const auto errors = deserialize_message(msg_id, message, backend);
-            if(EAGINE_LIKELY(is_special_message(msg_id))) {
-                if(EAGINE_LIKELY(msg_id.has_method(EAGINE_ID(pmqConnect)))) {
-                    return !errors;
-                }
-            }
-            return false;
-        });
+        _requests.push_if(
+          [data](
+            message_id& msg_id, message_timestamp&, stored_message& message) {
+              block_data_source source(as_bytes(data));
+              string_deserializer_backend backend(source);
+              const auto errors = deserialize_message(msg_id, message, backend);
+              if(EAGINE_LIKELY(is_special_message(msg_id))) {
+                  if(EAGINE_LIKELY(msg_id.has_method(EAGINE_ID(pmqConnect)))) {
+                      return !errors;
+                  }
+              }
+              return false;
+          });
     }
 
     auto _process(const accept_handler& handler) -> bool {

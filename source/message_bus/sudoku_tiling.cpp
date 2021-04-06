@@ -35,6 +35,9 @@ public:
 
     template <unsigned S>
     void handle_generated(const sudoku_tiles<S>& tiles) {
+        if(_print_progress) {
+            tiles.print_progress(std::cerr) << std::flush;
+        }
         if(_print_incomplete || tiles.are_complete()) {
             if(_block_cells) {
                 tiles.print(std::cout, block_sudoku_board_traits<S>{})
@@ -66,6 +69,8 @@ private:
     }
 
     bool _block_cells{cfg_init("msg_bus.sudoku.solver.block_cells", false)};
+    bool _print_progress{
+      cfg_init("msg_bus.sudoku.solver.print_progress", false)};
     bool _print_incomplete{
       cfg_init("msg_bus.sudoku.solver.print_incomplete", false)};
 };
@@ -83,32 +88,32 @@ auto main(main_ctx& ctx) -> int {
     msgbus::sudoku_tiling_node tiling_generator(tiling_endpoint);
     conn_setup.setup_connectors(tiling_generator, address);
 
-    valid_if_positive<int> width{0};
-    valid_if_positive<int> height{0};
+    const auto width =
+      extract_or(ctx.config().get<int>("msg_bus.sudoku.solver.width"), 32);
+    const auto height =
+      extract_or(ctx.config().get<int>("msg_bus.sudoku.solver.height"), 32);
 
-    ctx.args().find("--width").parse_next(width, ctx.log().error_stream());
-    ctx.args().find("--height").parse_next(height, ctx.log().error_stream());
-
-    const bool rank_3 = ctx.args().find("--3");
-    const bool rank_4 = ctx.args().find("--4");
-    const bool rank_5 = ctx.args().find("--5");
+    const auto rank =
+      extract_or(ctx.config().get<int>("msg_bus.sudoku.solver.rank"), 4);
 
     auto enqueue = [&](auto traits) {
         tiling_generator.reinitialize(
-          {extract_or(width, 32), extract_or(height, 32)},
-          traits.make_generator().generate_medium());
+          {width, height}, traits.make_generator().generate_medium());
     };
 
-    if(rank_3) {
-        enqueue(default_sudoku_board_traits<3>());
-    }
-
-    if(rank_4) {
-        enqueue(default_sudoku_board_traits<4>());
-    }
-
-    if(rank_5) {
-        enqueue(default_sudoku_board_traits<5>());
+    switch(rank) {
+        case 3:
+            enqueue(default_sudoku_board_traits<3>());
+            break;
+        case 4:
+            enqueue(default_sudoku_board_traits<4>());
+            break;
+        case 5:
+            enqueue(default_sudoku_board_traits<5>());
+            break;
+        default:
+            ctx.log().error("invalid rank: ${rank}").arg(EAGINE_ID(rank), rank);
+            return -1;
     }
 
     auto keep_running = [&] {
@@ -119,17 +124,17 @@ auto main(main_ctx& ctx) -> int {
     while(keep_running()) {
         tiling_generator.update();
         if(EAGINE_UNLIKELY(
-             rank_3 &&
+             rank == 3 &&
              tiling_generator.solution_timeouted(unsigned_constant<3>{}))) {
             enqueue(default_sudoku_board_traits<3>());
         }
         if(EAGINE_UNLIKELY(
-             rank_4 &&
+             rank == 4 &&
              tiling_generator.solution_timeouted(unsigned_constant<4>{}))) {
             enqueue(default_sudoku_board_traits<4>());
         }
         if(EAGINE_UNLIKELY(
-             rank_5 &&
+             rank == 5 &&
              tiling_generator.solution_timeouted(unsigned_constant<5>{}))) {
             enqueue(default_sudoku_board_traits<5>());
         }
@@ -140,14 +145,19 @@ auto main(main_ctx& ctx) -> int {
               std::chrono::milliseconds(math::minimum(++idle_streak, 50)));
         }
     }
-    if(rank_3) {
-        tiling_generator.log_contribution_histogram(unsigned_constant<3>{});
-    }
-    if(rank_4) {
-        tiling_generator.log_contribution_histogram(unsigned_constant<4>{});
-    }
-    if(rank_5) {
-        tiling_generator.log_contribution_histogram(unsigned_constant<5>{});
+
+    switch(rank) {
+        case 3:
+            tiling_generator.log_contribution_histogram(unsigned_constant<3>{});
+            break;
+        case 4:
+            tiling_generator.log_contribution_histogram(unsigned_constant<4>{});
+            break;
+        case 5:
+            tiling_generator.log_contribution_histogram(unsigned_constant<5>{});
+            break;
+        default:
+            break;
     }
 
     return 0;

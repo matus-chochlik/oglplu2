@@ -274,7 +274,7 @@ struct asio_connection_state
               .arg(EAGINE_ID(usedPerSec), EAGINE_ID(ByteSize), used_per_sec)
               .arg(EAGINE_ID(sentPerSec), EAGINE_ID(ByteSize), sent_per_sec)
               .arg(EAGINE_ID(addrKind), Kind)
-              .arg(EAGINE_ID(proto), Proto)
+              .arg(EAGINE_ID(protocol), Proto)
               .arg(EAGINE_ID(slack), EAGINE_ID(Ratio), slack);
             return true;
         }
@@ -420,6 +420,8 @@ struct asio_connection_state
                       } else {
                           if(error == asio::error::eof) {
                               log_debug("received end-of-file");
+                          } else if(error == asio::error::connection_reset) {
+                              log_debug("connection reset by peer");
                           } else {
                               log_error("failed to receive data: ${error}")
                                 .arg(EAGINE_ID(error), error);

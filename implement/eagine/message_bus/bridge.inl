@@ -28,7 +28,7 @@ namespace eagine::msgbus {
 class bridge_state : public std::enable_shared_from_this<bridge_state> {
 public:
     bridge_state(const valid_if_positive<span_size_t>& max_data_size)
-      : _max_read{extract_or(max_data_size, 512) * 2} {}
+      : _max_read{extract_or(max_data_size, 2048) * 2} {}
     bridge_state(bridge_state&&) = delete;
     bridge_state(const bridge_state&) = delete;
     auto operator=(bridge_state&&) = delete;
@@ -85,39 +85,51 @@ public:
         _output_ready.notify_one();
     }
 
+    auto forwarded_messages() const noexcept {
+        return _forwarded_messages;
+    }
+
+    auto dropped_messages() const noexcept {
+        return _dropped_messages;
+    }
+
+    auto decode_errors() const noexcept {
+        return _decode_errors;
+    }
+
     void send_output() {
         {
             std::unique_lock lock{_output_mutex};
             _output_ready.wait(lock);
             _outgoing.swap();
         }
-        auto handler = [this](
-                         message_id msg_id,
-                         message_age msg_age,
-                         const message_view& message) {
-            if(EAGINE_LIKELY(msg_age < std::chrono::seconds(30))) {
-                string_serializer_backend backend(_sink);
-                serialize_message_header(msg_id, message, backend);
+        auto handler =
+          [this](message_id msg_id, message_age msg_age, message_view message) {
+              if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+                  ++_dropped_messages;
+              } else {
+                  string_serializer_backend backend(_sink);
+                  serialize_message_header(msg_id, message, backend);
 
-                span_size_t i = 0;
-                do_dissolve_bits(
-                  make_span_getter(i, message.data),
-                  [this](byte b) {
-                      const auto encode{make_base64_encode_transform()};
-                      if(auto opt_c{encode(b)}) {
-                          this->_output << extract(opt_c);
-                          return true;
-                      }
-                      return false;
-                  },
-                  6);
+                  span_size_t i = 0;
+                  do_dissolve_bits(
+                    make_span_getter(i, message.data),
+                    [this](byte b) {
+                        const auto encode{make_base64_encode_transform()};
+                        if(auto opt_c{encode(b)}) {
+                            this->_output << extract(opt_c);
+                            return true;
+                        }
+                        return false;
+                    },
+                    6);
 
-                _output << '\n';
-            }
-            return true;
-        };
+                  _output << '\n' << std::flush;
+                  ++_forwarded_messages;
+              }
+              return true;
+          };
         _outgoing.back().fetch_all({construct_from, handler});
-        _output << std::flush;
     }
 
     using fetch_handler = message_storage::fetch_handler;
@@ -140,7 +152,9 @@ public:
             const auto errors = deserialize_message_header(
               class_id, method_id, _recv_dest, backend);
 
-            if(!errors) {
+            if(EAGINE_UNLIKELY(errors)) {
+                ++_decode_errors;
+            } else {
                 _buffer.ensure(source.remaining().size());
                 span_size_t i = 0;
                 span_size_t o = 0;
@@ -156,6 +170,8 @@ public:
                 _incoming.front().push({class_id, method_id}, _recv_dest);
             }
             _source.pop(extract(pos) + 1);
+        } else {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     }
 
@@ -177,6 +193,9 @@ private:
     double_buffer<message_storage> _outgoing{};
     double_buffer<message_storage> _incoming{};
     stored_message _recv_dest{};
+    span_size_t _forwarded_messages{0};
+    span_size_t _dropped_messages{0};
+    span_size_t _decode_errors{0};
 };
 //------------------------------------------------------------------------------
 // bridge
@@ -323,7 +342,8 @@ auto bridge::_forward_messages() -> bool {
 
     auto forward_conn_to_output =
       [this](message_id msg_id, message_age msg_age, message_view message) {
-          if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+          _message_age_sum_c2o += message.add_age(msg_age).age().count();
+          if(EAGINE_UNLIKELY(message.too_old())) {
               ++_dropped_messages_c2o;
               return true;
           }
@@ -334,12 +354,16 @@ auto bridge::_forward_messages() -> bool {
 
               if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                   const auto msgs_per_sec{1000000.F / interval.count()};
+                  const auto avg_msg_age =
+                    _message_age_sum_c2o /
+                    float(_forwarded_messages_c2o + _dropped_messages_c2o + 1);
 
                   log_chart_sample(EAGINE_ID(msgPerSecO), msgs_per_sec);
-                  log_stat("forwarded ${count} messages to output")
+                  log_stat("forwarded ${count} messages to output queue")
                     .arg(EAGINE_ID(count), _forwarded_messages_c2o)
                     .arg(EAGINE_ID(dropped), _dropped_messages_c2o)
                     .arg(EAGINE_ID(interval), interval)
+                    .arg(EAGINE_ID(avgMsgAge), avg_msg_age)
                     .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
               }
 
@@ -359,7 +383,8 @@ auto bridge::_forward_messages() -> bool {
 
     auto forward_input_to_conn =
       [this](message_id msg_id, message_age msg_age, message_view message) {
-          if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+          _message_age_sum_i2c += message.add_age(msg_age).age().count();
+          if(EAGINE_UNLIKELY(message.too_old())) {
               ++_dropped_messages_i2c;
               return true;
           }
@@ -370,12 +395,16 @@ auto bridge::_forward_messages() -> bool {
 
               if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                   const auto msgs_per_sec{1000000.F / interval.count()};
+                  const auto avg_msg_age =
+                    _message_age_sum_i2c /
+                    float(_forwarded_messages_i2c + _dropped_messages_i2c + 1);
 
                   log_chart_sample(EAGINE_ID(msgPerSecI), msgs_per_sec);
                   log_stat("forwarded ${count} messages from input")
                     .arg(EAGINE_ID(count), _forwarded_messages_i2c)
                     .arg(EAGINE_ID(dropped), _dropped_messages_i2c)
                     .arg(EAGINE_ID(interval), interval)
+                    .arg(EAGINE_ID(avgMsgAge), avg_msg_age)
                     .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
               }
 
@@ -397,12 +426,18 @@ auto bridge::_forward_messages() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto bridge::_recoverable_state() const noexcept -> bool {
+    return std::cin.good() && std::cout.good();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto bridge::_check_state() -> bool {
     some_true something_done{};
 
     if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
-        if(std::cin.good() && _connection) {
+        if(_recoverable_state() && _connection) {
             if(auto max_data_size = _connection->max_data_size()) {
+                ++_state_count;
                 _state = std::make_shared<bridge_state>(extract(max_data_size));
                 _state->start();
                 something_done();
@@ -454,7 +489,7 @@ auto bridge::update() -> bool {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto bridge::is_done() const noexcept -> bool {
-    return no_connection_timeout() || !std::cin.good();
+    return no_connection_timeout() || !_recoverable_state();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -462,6 +497,30 @@ void bridge::cleanup() {
     if(_connection) {
         _connection->cleanup();
     }
+    const auto avg_msg_age_c2o =
+      _message_age_sum_c2o /
+      float(_forwarded_messages_c2o + _dropped_messages_c2o + 1);
+    const auto avg_msg_age_i2c =
+      _message_age_sum_i2c /
+      float(_forwarded_messages_i2c + _dropped_messages_i2c + 1);
+
+    if(_state) {
+        log_stat("forwarded ${count} messages in total to output stream")
+          .arg(EAGINE_ID(count), _state->forwarded_messages())
+          .arg(EAGINE_ID(dropped), _state->dropped_messages())
+          .arg(EAGINE_ID(decodeErr), _state->decode_errors())
+          .arg(EAGINE_ID(stateCount), _state_count);
+    }
+
+    log_stat("forwarded ${count} messages in total to output queue")
+      .arg(EAGINE_ID(count), _forwarded_messages_c2o)
+      .arg(EAGINE_ID(dropped), _dropped_messages_c2o)
+      .arg(EAGINE_ID(avgMsgAge), avg_msg_age_c2o);
+
+    log_stat("forwarded ${count} messages in total to connection")
+      .arg(EAGINE_ID(count), _forwarded_messages_i2c)
+      .arg(EAGINE_ID(dropped), _dropped_messages_i2c)
+      .arg(EAGINE_ID(avgMsgAge), avg_msg_age_i2c);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

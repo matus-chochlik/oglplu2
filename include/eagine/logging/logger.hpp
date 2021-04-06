@@ -61,6 +61,13 @@ public:
         return reinterpret_cast<logger_instance_id>(this);
     }
 
+    auto configure(application_config& config) -> bool {
+        if(auto lbe{backend()}) {
+            extract(lbe).configure(config);
+        }
+        return false;
+    }
+
 protected:
     basic_logger() noexcept = default;
 
@@ -120,35 +127,35 @@ protected:
           _entry_backend(source, severity)};
     }
 
-    auto log_fatal(identifier source, string_view format) noexcept {
+    constexpr auto log_fatal(identifier source, string_view format) noexcept {
         return make_log_entry(
           source,
           log_event_severity_constant<log_event_severity::fatal>{},
           format);
     }
 
-    auto log_error(identifier source, string_view format) noexcept {
+    constexpr auto log_error(identifier source, string_view format) noexcept {
         return make_log_entry(
           source,
           log_event_severity_constant<log_event_severity::error>{},
           format);
     }
 
-    auto log_warning(identifier source, string_view format) noexcept {
+    constexpr auto log_warning(identifier source, string_view format) noexcept {
         return make_log_entry(
           source,
           log_event_severity_constant<log_event_severity::warning>{},
           format);
     }
 
-    auto log_info(identifier source, string_view format) noexcept {
+    constexpr auto log_info(identifier source, string_view format) noexcept {
         return make_log_entry(
           source,
           log_event_severity_constant<log_event_severity::info>{},
           format);
     }
 
-    auto log_stat(identifier source, string_view format) noexcept {
+    constexpr auto log_stat(identifier source, string_view format) noexcept {
         return make_log_entry(
           source,
           log_event_severity_constant<log_event_severity::stat>{},
@@ -393,9 +400,10 @@ public:
 protected:
     template <log_event_severity severity>
     auto make_log_entry(
+      identifier tag,
       log_event_severity_constant<severity> level,
       string_view format) noexcept -> entry_type<severity> {
-        return base::make_log_entry(_object_id, level, format);
+        return base::make_log_entry(_object_id, tag, level, format);
     }
 
     auto make_log_entry(log_event_severity severity, string_view format) noexcept
@@ -430,6 +438,7 @@ public:
     /// @see debug
     /// @see trace
     /// @see backtrace
+    /// @see log_tagged
     template <log_event_severity severity>
     auto log(
       log_event_severity_constant<severity> level,

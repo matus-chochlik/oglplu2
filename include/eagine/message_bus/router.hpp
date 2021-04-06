@@ -146,6 +146,8 @@ private:
     auto _handle_accept() -> bool;
     auto _handle_pending() -> bool;
     auto _remove_timeouted() -> bool;
+    auto _is_disconnected(identifier_t endpoint_id) -> bool;
+    auto _mark_disconnected(identifier_t endpoint_id) -> void;
     auto _remove_disconnected() -> bool;
     void _assign_id(std::unique_ptr<connection>& conn);
     void _handle_connection(std::unique_ptr<connection> conn);
@@ -193,12 +195,14 @@ private:
       std::chrono::steady_clock::now()};
     std::intmax_t _forwarded_messages{0};
     std::intmax_t _dropped_messages{0};
+    float _message_age_sum{0.F};
     parent_router _parent_router;
     std::vector<std::shared_ptr<acceptor>> _acceptors;
     std::vector<router_pending> _pending;
     flat_map<identifier_t, routed_node> _nodes;
     flat_map<identifier_t, identifier_t> _endpoint_idx;
     flat_map<identifier_t, router_endpoint_info> _endpoint_infos;
+    flat_map<identifier_t, timeout> _recently_disconnected;
     blob_manipulator _blobs{*this};
 };
 //------------------------------------------------------------------------------

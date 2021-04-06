@@ -8,8 +8,10 @@
 
 // clang-format off
 #include "prologue.inl"
-#include <eagine/git_info.hpp>
+#include <eagine/application_config.hpp>
 #include <eagine/compiler_info.hpp>
+#include <eagine/git_info.hpp>
+#include <eagine/from_string.hpp>
 #include <eagine/hexdump.hpp>
 #include <eagine/type_name.hpp>
 

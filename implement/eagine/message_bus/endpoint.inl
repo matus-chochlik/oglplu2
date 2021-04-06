@@ -209,16 +209,15 @@ auto endpoint::_handle_special(
 EAGINE_LIB_FUNC
 auto endpoint::_store_message(
   message_id msg_id,
-  message_age,
+  message_age msg_age,
   const message_view& message) -> bool {
-    // TODO: use message age
     if(!_handle_special(msg_id, message)) {
         if((message.target_id == _endpoint_id) || !is_valid_id(message.target_id)) {
             auto pos = _incoming.find(msg_id);
             if(pos != _incoming.end()) {
                 log_trace("stored message ${message}")
                   .arg(EAGINE_ID(message), msg_id);
-                _get_queue(*pos).push(message);
+                _get_queue(*pos).push(message).add_age(msg_age);
             } else if(_allow_blob && _allow_blob(msg_id)) {
                 auto [newpos, newone] = _incoming.try_emplace(msg_id);
                 EAGINE_MAYBE_UNUSED(newone);
@@ -226,7 +225,7 @@ auto endpoint::_store_message(
                 _get_counter(*newpos) = 0;
                 log_debug("storing new type of message ${message}")
                   .arg(EAGINE_ID(message), msg_id);
-                _get_queue(*newpos).push(message);
+                _get_queue(*newpos).push(message).add_age(msg_age);
             }
         } else {
             log_warning("trying to store message for target ${target}")
@@ -353,7 +352,9 @@ auto endpoint::post_signed(message_id msg_id, message_view msg_view) -> bool {
         const auto max_size = extract(opt_size);
         return _outgoing.push_if(
           [this, msg_id, &msg_view, max_size](
-            message_id& dst_msg_id, stored_message& message) {
+            message_id& dst_msg_id,
+            message_timestamp&,
+            stored_message& message) {
               message.assign(msg_view);
               if(message.store_and_sign(
                    msg_view.data, max_size, ctx(), *this)) {

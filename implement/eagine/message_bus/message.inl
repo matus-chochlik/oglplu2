@@ -114,32 +114,11 @@ void message_storage::cleanup(cleanup_predicate predicate) {
 // serialized_message_storage
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto serialized_message_storage::fetch_some(fetch_handler handler, span_size_t n)
-  -> bool {
-    bool fetched_some = false;
-    for(auto& message : _messages) {
-        if(n-- <= 0) {
-            break;
-        }
-        if(handler(view(message))) {
-            _buffers.eat(std::move(message));
-        }
-    }
-    _messages.erase(
-      std::remove_if(
-        _messages.begin(),
-        _messages.end(),
-        [](auto& buf) { return buf.empty(); }),
-      _messages.end());
-    return fetched_some;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 auto serialized_message_storage::fetch_all(fetch_handler handler) -> bool {
     bool fetched_some = false;
     bool keep_some = false;
-    for(auto& message : _messages) {
-        if(handler(view(message))) {
+    for(auto& [message, timestamp] : _messages) {
+        if(handler(timestamp, view(message))) {
             _buffers.eat(std::move(message));
             fetched_some = true;
         } else {
@@ -151,7 +130,7 @@ auto serialized_message_storage::fetch_all(fetch_handler handler) -> bool {
           std::remove_if(
             _messages.begin(),
             _messages.end(),
-            [](auto& buf) { return buf.empty(); }),
+            [](auto& entry) { return std::get<0>(entry).empty(); }),
           _messages.end());
     } else {
         _messages.clear();
@@ -203,7 +182,8 @@ auto serialized_message_storage::pack_into(memory::block dest)
   -> message_pack_info {
     message_packing_context packing{dest};
 
-    for(auto& message : _messages) {
+    for(auto& [message, timestamp] : _messages) {
+        EAGINE_MAYBE_UNUSED(timestamp);
         if(packing.is_full()) {
             break;
         }
@@ -224,10 +204,10 @@ void serialized_message_storage::cleanup(const message_pack_info& packed) {
       std::remove_if(
         _messages.begin(),
         _messages.end(),
-        [this, to_be_removed](auto& message) mutable {
+        [this, to_be_removed](auto& entry) mutable {
             const bool do_remove = (to_be_removed & 1U) == 1U;
             if(do_remove) {
-                _buffers.eat(std::move(message));
+                _buffers.eat(std::move(std::get<0>(entry)));
             }
             to_be_removed >>= 1U;
             return do_remove;
@@ -263,13 +243,16 @@ auto connection_outgoing_messages::enqueue(
 EAGINE_LIB_FUNC
 auto connection_incoming_messages::fetch_messages(
   main_ctx_object& user,
-  fetch_handler handler,
-  span_size_t batch) -> bool {
+  fetch_handler handler) -> bool {
     _unpacked.fetch_all(handler);
-    auto unpacker = [this, &user, &handler](memory::const_block data) {
-        for_each_data_with_size(data, [this, &user](memory::const_block blk) {
-            _unpacked.push_if(
-              [&user, blk](message_id& msg_id, stored_message& message) {
+    auto unpacker = [this, &user, &handler](
+                      message_timestamp data_ts, memory::const_block data) {
+        for_each_data_with_size(
+          data, [this, &user, data_ts](memory::const_block blk) {
+              _unpacked.push_if([&user, data_ts, blk](
+                                  message_id& msg_id,
+                                  message_timestamp& msg_ts,
+                                  stored_message& message) {
                   block_data_source source(blk);
                   string_deserializer_backend backend(source);
                   const auto errors =
@@ -277,6 +260,7 @@ auto connection_incoming_messages::fetch_messages(
                   if(!errors) {
                       user.log_trace("fetched message ${message}")
                         .arg(EAGINE_ID(message), msg_id);
+                      msg_ts = data_ts;
                       return true;
                   } else {
                       user.log_error("failed to deserialize message)")
@@ -285,12 +269,12 @@ auto connection_incoming_messages::fetch_messages(
                       return false;
                   }
               });
-        });
+          });
         _unpacked.fetch_all(handler);
         return true;
     };
 
-    return _packed.fetch_some({construct_from, unpacker}, batch);
+    return _packed.fetch_all({construct_from, unpacker});
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

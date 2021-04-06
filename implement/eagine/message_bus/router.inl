@@ -313,6 +313,7 @@ auto router::_handle_pending() -> bool {
                 pos->second.the_connection = std::move(pending.the_connection);
                 pos->second.maybe_router = maybe_router;
                 _pending.erase(_pending.begin() + idx);
+                _recently_disconnected.erase(id);
                 something_done();
             } else {
                 ++idx;
@@ -346,6 +347,7 @@ auto router::_remove_timeouted() -> bool {
         auto& [endpoint_id, info] = entry;
         if(info.is_outdated) {
             _endpoint_idx.erase(endpoint_id);
+            _mark_disconnected(endpoint_id);
             return true;
         }
         return false;
@@ -355,13 +357,32 @@ auto router::_remove_timeouted() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto router::_is_disconnected(identifier_t endpoint_id) -> bool {
+    auto pos = _recently_disconnected.find(endpoint_id);
+    if(pos != _recently_disconnected.end()) {
+        if(pos->second.is_expired()) {
+            _recently_disconnected.erase(pos);
+        } else {
+            return true;
+        }
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_mark_disconnected(identifier_t endpoint_id) -> void {
+    _recently_disconnected.erase_if(
+      [](auto& p) { return std::get<1>(p).is_expired(); });
+    _recently_disconnected.emplace(endpoint_id, std::chrono::seconds(10));
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto router::_remove_disconnected() -> bool {
     some_true something_done{};
 
-    for(auto& p : _nodes) {
-        auto& rep = std::get<1>(p);
-        auto& conn = rep.the_connection;
-        if(EAGINE_UNLIKELY(rep.do_disconnect)) {
+    for(auto& [endpoint_id, node] : _nodes) {
+        auto& conn = node.the_connection;
+        if(EAGINE_UNLIKELY(node.do_disconnect)) {
             if(conn) {
                 conn->cleanup();
             }
@@ -376,8 +397,13 @@ auto router::_remove_disconnected() -> bool {
             }
         }
     }
-    something_done(
-      _nodes.erase_if([](auto& p) { return !p.second.the_connection; }) > 0);
+    something_done(_nodes.erase_if([this](auto& p) {
+        if(!p.second.the_connection) {
+            _mark_disconnected(p.first);
+            return true;
+        }
+        return false;
+    }) > 0);
     return something_done;
 }
 //------------------------------------------------------------------------------
@@ -493,7 +519,7 @@ auto router::_handle_blob(
 auto router::_update_endpoint_info(
   identifier_t incoming_id,
   const message_view& message) -> router_endpoint_info& {
-    _endpoint_idx[incoming_id] = message.source_id;
+    _endpoint_idx[message.source_id] = incoming_id;
     auto& info = _endpoint_infos[message.source_id];
     // sequence_no is the instance id in this message type
     info.assign_instance_id(message);
@@ -754,8 +780,10 @@ auto router::_handle_special(
         } else if(msg_id.has_method(EAGINE_ID(byeBye))) {
             log_debug("received bye-bye from node ${source}")
               .arg(EAGINE_ID(source), message.source_id);
-            node.do_disconnect = true;
-            _endpoint_idx.erase(incoming_id);
+            if(!node.maybe_router) {
+                node.do_disconnect = true;
+            }
+            _endpoint_idx.erase(message.source_id);
             _endpoint_infos.erase(message.source_id);
             // this should be forwarded
             return false;
@@ -776,6 +804,7 @@ auto router::_do_route_message(
     if(EAGINE_UNLIKELY(message.too_many_hops())) {
         log_warning("message ${message} discarded after too many hops")
           .arg(EAGINE_ID(message), msg_id);
+        ++_dropped_messages;
     } else {
         const auto& nodes = this->_nodes;
         message.add_hop();
@@ -789,12 +818,16 @@ auto router::_do_route_message(
 
                 if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                     const auto msgs_per_sec{1000000.F / interval.count()};
+                    const auto avg_msg_age =
+                      _message_age_sum /
+                      float(_forwarded_messages + _dropped_messages + 1);
 
                     log_chart_sample(EAGINE_ID(msgsPerSec), msgs_per_sec);
                     log_stat("forwarded ${count} messages")
                       .arg(EAGINE_ID(count), _forwarded_messages)
                       .arg(EAGINE_ID(dropped), _dropped_messages)
                       .arg(EAGINE_ID(interval), interval)
+                      .arg(EAGINE_ID(avgMsgAge), avg_msg_age)
                       .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
                 }
 
@@ -830,17 +863,21 @@ auto router::_do_route_message(
                     }
                 }
             }
-            if(!has_routed) {
-                for(const auto& [outgoing_id, node_out] : nodes) {
-                    if(node_out.maybe_router) {
-                        if(incoming_id != outgoing_id) {
-                            has_routed |= forward_to(node_out);
+
+            if(EAGINE_LIKELY(!_is_disconnected(message.target_id))) {
+                if(!has_routed) {
+                    for(const auto& [outgoing_id, node_out] : nodes) {
+                        if(node_out.maybe_router) {
+                            if(incoming_id != outgoing_id) {
+                                has_routed |= forward_to(node_out);
+                            }
                         }
                     }
-                }
-                // if the message didn't come from the parent router
-                if(incoming_id != _id_base) {
-                    has_routed |= _parent_router.send(*this, msg_id, message);
+                    // if the message didn't come from the parent router
+                    if(incoming_id != _id_base) {
+                        has_routed |=
+                          _parent_router.send(*this, msg_id, message);
+                    }
                 }
             }
             result &= has_routed;
@@ -869,7 +906,9 @@ auto router::_route_messages() -> bool {
           [this, &nd](
             message_id msg_id, message_age msg_age, message_view message) {
               auto& [incoming_id, node_in] = nd;
-              if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
+              _message_age_sum += message.add_age(msg_age).age().count();
+              if(EAGINE_UNLIKELY(message.too_old())) {
+                  ++_dropped_messages;
                   return true;
               }
               if(this->_handle_special(msg_id, incoming_id, node_in, message)) {
@@ -886,7 +925,9 @@ auto router::_route_messages() -> bool {
 
     auto handler =
       [&](message_id msg_id, message_age msg_age, message_view message) {
-          if(message.add_age(msg_age).too_old()) {
+          _message_age_sum += message.add_age(msg_age).age().count();
+          if(EAGINE_UNLIKELY(message.too_old())) {
+              ++_dropped_messages;
               return true;
           }
           if(this->_handle_special(
@@ -972,6 +1013,13 @@ void router::cleanup() {
             conn->cleanup();
         }
     }
+    const auto avg_msg_age =
+      _message_age_sum / float(_forwarded_messages + _dropped_messages + 1);
+
+    log_stat("forwarded ${count} messages in total")
+      .arg(EAGINE_ID(count), _forwarded_messages)
+      .arg(EAGINE_ID(dropped), _dropped_messages)
+      .arg(EAGINE_ID(avgMsgAge), avg_msg_age);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
