@@ -33,6 +33,9 @@ class ostream_log_backend {
 class asio_ostream_log_backend {
 }
 
+class proxy_log_backend <<Proxy>> {
+}
+
 class log_entry {
     +set_format(...)
     +arg(...)
@@ -87,6 +90,8 @@ logger_backend <|-- null_log_backend : implements
 logger_backend <|-- syslog_log_backend : implements
 logger_backend <|-- ostream_log_backend : implements
 ostream_log_backend <|-- asio_ostream_log_backend
+proxy_log_backend --|> logger_backend : implements
+proxy_log_backend *--> logger_backend : delegates to
 
 log_entry --> log_event_severity : has
 log_entry --> logger_backend : uses
