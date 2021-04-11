@@ -84,6 +84,10 @@ protected:
 template <typename T>
 class program_parameter : public basic_program_parameter {
 public:
+    /// @brief Construction from short and long tag strings.
+    program_parameter(string_view short_tag, string_view long_tag) noexcept
+      : basic_program_parameter{short_tag, long_tag} {}
+
     /// @brief Construction from short and long tag strings and the initial value.
     program_parameter(
       string_view short_tag,

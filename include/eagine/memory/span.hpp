@@ -9,6 +9,7 @@
 #ifndef EAGINE_MEMORY_SPAN_HPP
 #define EAGINE_MEMORY_SPAN_HPP
 
+#include "../anything.hpp"
 #include "../assert.hpp"
 #include "../compare.hpp"
 #include "../extract.hpp"
@@ -58,27 +59,28 @@ constexpr bool has_span_size_member_v = has_span_size_member<T>::value;
 //------------------------------------------------------------------------------
 // has_span_data_member
 //------------------------------------------------------------------------------
+template <typename Elem>
 struct _has_span_data_member_base {
     template <
       typename X,
       typename P = decltype(std::declval<X>().data()),
       typename PT = typename std::pointer_traits<P>::element_type>
+    static auto _detect(X*) -> std::is_convertible<PT, Elem>;
 
-    static auto _detect(X*) -> std::true_type;
     static auto _detect(...) -> std::false_type;
 };
 //------------------------------------------------------------------------------
 /// @brief Helper class detecting if type T has x.data() member function.
 /// @ingroup type_utils
-template <typename T>
+template <typename T, typename E>
 struct has_span_data_member
   : public decltype(
-      _has_span_data_member_base::_detect(static_cast<T*>(nullptr))) {};
+      _has_span_data_member_base<E>::_detect(static_cast<T*>(nullptr))) {};
 //------------------------------------------------------------------------------
 /// @brief Trait indicating if type T has x.size() member function.
 /// @ingroup type_utils
-template <typename T>
-constexpr bool has_span_data_member_v = has_span_data_member<T>::value;
+template <typename T, typename E = anything>
+constexpr bool has_span_data_member_v = has_span_data_member<T, E>::value;
 //------------------------------------------------------------------------------
 // basic_span
 //------------------------------------------------------------------------------
