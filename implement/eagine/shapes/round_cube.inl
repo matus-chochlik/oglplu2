@@ -7,6 +7,7 @@
 ///
 
 #include <eagine/assert.hpp>
+#include <eagine/math/constants.hpp>
 #include <eagine/math/tvec.hpp>
 #include <eagine/memory/span_algo.hpp>
 
@@ -79,7 +80,10 @@ void unit_round_cube_gen::positions(span<float> dest) noexcept {
     EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     auto frac = [this](int q) {
-        return float(q) / float(_divisions) - 0.5F;
+        auto adjust = [](float f) {
+            return 0.5F * std::asin(f) / std::asin(0.5F);
+        };
+        return adjust(float(q) / float(_divisions) - 0.5F);
     };
 
     for(auto f : integer_range(6)) {
