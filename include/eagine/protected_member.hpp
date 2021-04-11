@@ -14,26 +14,33 @@
 
 namespace eagine {
 
+/// @brief Class holding a single tagged data member.
+/// @ingroup type_utils
 template <typename T, typename Selector = type_identity<T>>
 class protected_member {
-private:
-    T _member;
+public:
+    /// @brief Returns a reference to the stored member.
+    auto get_the_member(Selector = Selector()) noexcept -> T& {
+        return _member;
+    }
+
+    /// @brief Returns a const reference to the stored member.
+    auto get_the_member(Selector = Selector()) const noexcept -> const T& {
+        return _member;
+    }
 
 protected:
     template <typename... P>
     protected_member(P&&... p)
       : _member(std::forward<P>(p)...) {}
 
-public:
-    auto get_the_member(Selector = Selector()) noexcept -> T& {
-        return _member;
-    }
-
-    auto get_the_member(Selector = Selector()) const noexcept -> const T& {
-        return _member;
-    }
+private:
+    T _member;
 };
 
+/// @brief Returns a reference to the member stored in protected_member.
+/// @ingroup type_utils
+/// @relates protected_member
 template <typename Selector, typename T>
 static inline auto get_member(
   protected_member<T, Selector>& pm,
@@ -41,6 +48,9 @@ static inline auto get_member(
     return pm.get_the_member(selector);
 }
 
+/// @brief Returns a const reference to the member stored in protected_member.
+/// @ingroup type_utils
+/// @relates protected_member
 template <typename Selector, typename T>
 static inline auto get_member(
   const protected_member<T, Selector>& pm,

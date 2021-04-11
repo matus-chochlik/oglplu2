@@ -188,11 +188,14 @@ public:
 };
 //------------------------------------------------------------------------------
 /// @brief Overload of extract for instantiations of the ok template.
+/// @relates ok
 template <typename Outcome>
 auto extract(const ok<Outcome>& x) noexcept -> const auto& {
     return x.get();
 }
 //------------------------------------------------------------------------------
+/// @brief Overload of begin for instantiations of the ok template.
+/// @relates ok
 template <typename Outcome>
 auto begin(
   const ok<Outcome>& x,
@@ -200,6 +203,8 @@ auto begin(
     return x.get().begin();
 }
 //------------------------------------------------------------------------------
+/// @brief Overload of begin for instantiations of the ok template.
+/// @relates ok
 template <typename Outcome>
 auto end(
   const ok<Outcome>& x,

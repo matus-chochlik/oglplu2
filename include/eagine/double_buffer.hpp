@@ -14,6 +14,7 @@
 namespace eagine {
 
 /// @brief Class holding two instances of type @p T and allows to switch them.
+/// @ingroup type_utils
 template <typename T>
 class double_buffer {
 public:

@@ -9,38 +9,41 @@
 #ifndef EAGINE_INTERLEAVED_CALL_HPP
 #define EAGINE_INTERLEAVED_CALL_HPP
 
+#include "branch_predict.hpp"
 #include <utility>
 
 namespace eagine {
 
+/// @brief Callable class that interleaves calls to a function with a separator function.
+/// @ingroup functional
 template <typename Func, typename SepFunc>
 class interleaved_call {
-private:
-    Func _func;
-    SepFunc _sep_func;
-    bool _first{true};
-
 public:
+    /// @brief Construction from the base function and the separator function.
     interleaved_call(Func func, SepFunc sep_func)
       : _func(func)
       , _sep_func(sep_func) {}
 
+    /// @brief The function call operator.
     template <typename... P>
     auto operator()(P&&... p) {
-        if(!_first) {
+        if(EAGINE_LIKELY(!_first)) {
             _sep_func();
         } else {
             _first = false;
         }
         return _func(std::forward<P>(p)...);
     }
+
+private:
+    Func _func;
+    SepFunc _sep_func;
+    bool _first{true};
 };
 
 template <typename Func, typename SepFunc>
-static inline auto make_interleaved(Func func, SepFunc sep_func)
-  -> interleaved_call<Func, SepFunc> {
-    return {func, sep_func};
-}
+interleaved_call(Func func, SepFunc sep_func)
+  -> interleaved_call<Func, SepFunc>;
 
 } // namespace eagine
 
