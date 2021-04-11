@@ -45,6 +45,7 @@ private:
 
     oglp::owned_buffer_name positions;
     oglp::owned_buffer_name normals;
+    oglp::owned_buffer_name indices;
 
     oglp::owned_program_name prog;
 
@@ -119,6 +120,10 @@ example_cube::example_cube(execution_context& ec, video_context& vc)
       _ctx.buffer());
     gl.bind_attrib_location(prog, normal_loc, "Normal");
 
+    // indices
+    gl.gen_buffers() >> indices;
+    shape.index_setup(glapi, indices, _ctx.buffer());
+
     // uniform
     gl.get_uniform_location(prog, "Camera") >> camera_loc;
     camera.set_near(0.1F)
@@ -164,6 +169,7 @@ void example_cube::clean_up() noexcept {
     auto& gl = _video.gl_api();
 
     gl.delete_program(std::move(prog));
+    gl.delete_buffers(std::move(indices));
     gl.delete_buffers(std::move(normals));
     gl.delete_buffers(std::move(positions));
     gl.delete_vertex_arrays(std::move(vao));
