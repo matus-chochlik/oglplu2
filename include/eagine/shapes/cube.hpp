@@ -83,9 +83,11 @@ private:
 /// @brief Constructs instances of unit_cube_gen.
 /// @ingroup shapes
 /// @see from_value_tree
+/// @see unit_round_cube
 /// @see unit_icosahedron
 /// @see unit_sphere
 /// @see unit_torus
+/// @see unit_twisted_torus
 /// @see unit_screen
 static inline auto unit_cube(vertex_attrib_bits attr_bits) {
     return std::make_unique<unit_cube_gen>(attr_bits);

@@ -81,8 +81,10 @@ private:
 /// @ingroup shapes
 /// @see from_value_tree
 /// @see unit_cube
+/// @see unit_round_cube
 /// @see unit_icosahedron
 /// @see unit_torus
+/// @see unit_twisted_torus
 /// @see unit_screen
 static inline auto unit_sphere(
   vertex_attrib_bits attr_bits,
@@ -96,7 +98,9 @@ static inline auto unit_sphere(
 /// @ingroup shapes
 /// @see from_value_tree
 /// @see unit_cube
+/// @see unit_round_cube
 /// @see unit_torus
+/// @see unit_twisted_torus
 /// @see unit_icosahedron
 /// @see unit_screen
 static inline auto unit_sphere(vertex_attrib_bits attr_bits) {

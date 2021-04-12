@@ -68,6 +68,7 @@ private:
 /// @see unit_icosahedron
 /// @see unit_sphere
 /// @see unit_torus
+/// @see unit_twisted_torus
 /// @see unit_screen
 static inline auto unit_round_cube(vertex_attrib_bits attr_bits, int divisions) {
     return std::make_unique<unit_round_cube_gen>(attr_bits, divisions);

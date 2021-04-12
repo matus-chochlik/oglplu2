@@ -63,9 +63,11 @@ private:
 /// @ingroup shapes
 /// @see from_value_tree
 /// @see unit_cube
+/// @see unit_round_cube
 /// @see unit_sphere
 /// @see unit_torus
 /// @see unit_screen
+/// @see unit_twisted_torus
 static inline auto unit_icosahedron(vertex_attrib_bits attr_bits) {
     return std::make_unique<unit_icosahedron_gen>(attr_bits);
 }

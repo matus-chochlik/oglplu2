@@ -53,9 +53,11 @@ private:
 /// @ingroup shapes
 /// @see from_value_tree
 /// @see unit_cube
+/// @see unit_round_cube
 /// @see unit_sphere
 /// @see unit_icosahedron
 /// @see unit_torus
+/// @see unit_twisted_torus
 static inline auto unit_screen(vertex_attrib_bits attr_bits) {
     return std::make_unique<unit_screen_gen>(attr_bits);
 }
