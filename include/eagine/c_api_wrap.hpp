@@ -263,6 +263,8 @@ protected:
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Overload of extract for api_result_value.
+//
 template <typename Result>
 static constexpr auto
 extract(api_result_value<Result, api_result_validity::never>&) noexcept
@@ -285,8 +287,6 @@ inline auto operator>>(
     return dest = std::move(result._value);
 }
 //------------------------------------------------------------------------------
-/// @brief Specialization for never-valid results.
-/// @ingroup c_api_wrap
 template <>
 class api_result_value<void, api_result_validity::never> {
 public:

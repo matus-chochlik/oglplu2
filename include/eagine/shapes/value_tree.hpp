@@ -78,10 +78,12 @@ private:
 /// @brief Constructs instances of value_tree_loader.
 /// @ingroup shapes
 /// @see unit_cube
+/// @see unit_round_cube
 /// @see unit_sphere
 /// @see unit_icosahedron
 /// @see unit_screen
 /// @see unit_torus
+/// @see unit_twisted_torus
 static inline auto
 from_value_tree(valtree::compound source, main_ctx_parent parent) {
     return std::make_unique<value_tree_loader>(std::move(source), parent);

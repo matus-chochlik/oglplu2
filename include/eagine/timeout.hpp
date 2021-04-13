@@ -16,6 +16,7 @@ namespace eagine {
 //------------------------------------------------------------------------------
 /// @brief Class that measures elapsed time since instance construction.
 /// @ingroup time_utils
+/// @see timeout
 class time_measure {
     using _clock = std::chrono::steady_clock;
 
@@ -41,6 +42,8 @@ private:
 //------------------------------------------------------------------------------
 /// @brief Class representing a timeout since construction or reset.
 /// @ingroup time_utils
+/// @see time_measure
+/// @see resetting_timeout
 class timeout {
     using _clock = std::chrono::steady_clock;
 
@@ -134,6 +137,8 @@ private:
 //------------------------------------------------------------------------------
 /// @brief Specialization of timeout that resets when tested for expiration.
 /// @ingroup time_utils
+/// @see timeout
+/// @see time_measure
 class resetting_timeout : public timeout {
 public:
     using timeout::timeout;

@@ -15,14 +15,14 @@ auto main() -> int {
     using v = string_view;
 
     auto fn1 =
-      make_interleaved([](int i) { cout << i; }, []() { cout << ", "; });
+      interleaved_call([](int i) { cout << i; }, []() { cout << ", "; });
 
     for(int i = 0; i < 20; ++i) {
         fn1(i);
     }
     cout << std::endl;
 
-    auto fn2 = make_interleaved(
+    auto fn2 = interleaved_call(
       [](string_view s) { cout << s; }, []() { cout << "}{"; });
 
     cout << '{';

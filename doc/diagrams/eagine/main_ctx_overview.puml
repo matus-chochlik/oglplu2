@@ -82,7 +82,7 @@ class main_ctx_object {
     +main_context() : main_ctx
 }
 
-note "Explicitly instantiated\nearly in the main function" as ctx_note
+note right of main_ctx : Explicitly instantiated\nearly in the main function.
 
 program_args *-- program_arg
 program_arg --> program_arg : prev/next

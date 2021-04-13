@@ -6,27 +6,31 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-#ifndef EAGINE_SHAPES_ICOSAHEDRON_HPP
-#define EAGINE_SHAPES_ICOSAHEDRON_HPP
+#ifndef EAGINE_SHAPES_ROUND_CUBE_HPP
+#define EAGINE_SHAPES_ROUND_CUBE_HPP
 
 #include "gen_base.hpp"
 #include <eagine/config/basic.hpp>
 #include <cassert>
+#include <memory>
 
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
-/// @brief Generator of centered icosahedron shape with unit diameter.
+/// @brief Generator of centered, subdivided and rounded cube shape with unit radius.
 /// @ingroup shapes
-/// @see unit_icosahedron
-class unit_icosahedron_gen : public centered_unit_shape_generator_base {
+/// @see unit_round_cube
+class unit_round_cube_gen : public centered_unit_shape_generator_base {
 public:
-    unit_icosahedron_gen(vertex_attrib_bits attr_bits) noexcept;
+    unit_round_cube_gen(vertex_attrib_bits attr_bits, int divisions) noexcept;
 
     auto vertex_count() -> span_size_t override;
 
     void positions(span<float> dest) noexcept;
+
     void normals(span<float> dest) noexcept;
+
+    void face_coords(span<float> dest) noexcept;
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
@@ -51,32 +55,34 @@ private:
 
     static auto _attr_mask() noexcept -> vertex_attrib_bits;
 
-    static auto _shared_attrs() noexcept -> vertex_attrib_bits;
-
-    auto _only_shared_attribs() noexcept -> bool;
-
     template <typename T>
     void _indices(drawing_variant, span<T> dest) noexcept;
+
+    int _divisions;
 };
 //------------------------------------------------------------------------------
-/// @brief Constructs instances of unit_icosahedron_gen.
+/// @brief Constructs instances of unit_round_cube_gen.
 /// @ingroup shapes
 /// @see from_value_tree
 /// @see unit_cube
-/// @see unit_round_cube
+/// @see unit_icosahedron
 /// @see unit_sphere
 /// @see unit_torus
-/// @see unit_screen
 /// @see unit_twisted_torus
-static inline auto unit_icosahedron(vertex_attrib_bits attr_bits) {
-    return std::make_unique<unit_icosahedron_gen>(attr_bits);
+/// @see unit_screen
+static inline auto unit_round_cube(vertex_attrib_bits attr_bits, int divisions) {
+    return std::make_unique<unit_round_cube_gen>(attr_bits, divisions);
+}
+//------------------------------------------------------------------------------
+static inline auto unit_round_cube(vertex_attrib_bits attr_bits) {
+    return std::make_unique<unit_round_cube_gen>(attr_bits, 8);
 }
 //------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
-#include <eagine/shapes/icosahedron.inl>
+#include <eagine/shapes/round_cube.inl>
 #endif
 
-#endif // EAGINE_SHAPES_ICOSAHEDRON_HPP
+#endif // EAGINE_SHAPES_ROUND_CUBE_HPP

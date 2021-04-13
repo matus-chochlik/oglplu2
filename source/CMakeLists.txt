@@ -20,8 +20,8 @@ set(
 		eagine-message_bus-sudoku_tiling
 		oglplus
 		oglplus-bake_program_source
-		
 		oglplus-bake_noise_image
+		oglplus-bake_tiling_image
 		oglplus-bake_checker_image
 		oglplus-texgen
 )

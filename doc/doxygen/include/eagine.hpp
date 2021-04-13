@@ -73,6 +73,8 @@ namespace application {
 /// @defgroup application Application wrapper
 }
 
+/// @defgroup embedding Compiled-in resource blocks.
+
 /// @defgroup dyn_lib Dynamically-linked libraries
 
 /// @defgroup interop Interoperability
