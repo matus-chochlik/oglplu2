@@ -3,5 +3,6 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 
-add_subdirectory(textures)
-add_subdirectory(tilings)
+oglplus_add_packed_texture(tiles_r4_s256_a6)
+
+
