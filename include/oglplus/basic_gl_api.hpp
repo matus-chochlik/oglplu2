@@ -408,7 +408,7 @@ public:
       texture_target tex_tgt,
       gl_types::int_type level,
       gl_types::int_type border,
-      const image_spec& image) -> combined_result<void> {
+      const image_spec& image) const -> combined_result<void> {
         return this->tex_image1d(
           tex_tgt,
           level,
@@ -424,7 +424,7 @@ public:
       texture_target tex_tgt,
       gl_types::int_type level,
       gl_types::int_type border,
-      const image_spec& image) -> combined_result<void> {
+      const image_spec& image) const -> combined_result<void> {
         return this->tex_image2d(
           tex_tgt,
           level,
@@ -441,7 +441,7 @@ public:
       texture_target tex_tgt,
       gl_types::int_type level,
       gl_types::int_type border,
-      const image_spec& image) -> combined_result<void> {
+      const image_spec& image) const -> combined_result<void> {
         return this->tex_image3d(
           tex_tgt,
           level,
