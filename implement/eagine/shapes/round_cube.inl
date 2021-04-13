@@ -250,6 +250,7 @@ void unit_round_cube_gen::instructions(
         op.first = 0;
         op.count = index_count(var);
         op.primitive_restart_index = unsigned(vertex_count());
+        op.cw_face_winding = true;
         op.primitive_restart = true;
     } else {
         span_size_t o = 0;
@@ -264,6 +265,7 @@ void unit_round_cube_gen::instructions(
                 op.idx_type = index_type(var);
                 op.first = offs;
                 op.count = len;
+                op.cw_face_winding = true;
                 op.primitive_restart = false;
                 offs += len;
             }
