@@ -4,6 +4,7 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 
+eagine_example_common(001_signal)
 eagine_example_common(001_loopback)
 eagine_example_common(002_direct)
 eagine_example_common(003_shutdown)

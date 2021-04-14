@@ -123,6 +123,11 @@ class callback_invoker
 public:
     using base::base;
 
+    auto operator()(_callback_t callback) -> callback_invoker& {
+        this->_callback = callback;
+        return *this;
+    }
+
     template <typename Class, typename MfcT, MfcT Mfc>
     auto operator()(Class* that, member_function_constant<MfcT, Mfc> func)
       -> callback_invoker& {
