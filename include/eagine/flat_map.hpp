@@ -310,15 +310,15 @@ public:
         std::sort(_vec.begin(), _vec.end(), value_comp());
     }
 
-    auto empty() const -> bool {
+    auto empty() const noexcept -> bool {
         return _vec.empty();
     }
 
-    auto size() const -> size_type {
+    auto size() const noexcept -> size_type {
         return _vec.size();
     }
 
-    auto max_size() const -> size_type {
+    auto max_size() const noexcept -> size_type {
         return _vec.max_size();
     }
 
@@ -332,7 +332,15 @@ public:
         return *this;
     }
 
-    auto begin() -> iterator {
+    auto front() const noexcept -> auto& {
+        return _vec.front();
+    }
+
+    auto back() const noexcept -> auto& {
+        return _vec.back();
+    }
+
+    auto begin() noexcept -> iterator {
         return _vec.begin();
     }
 
@@ -367,6 +375,11 @@ public:
         auto ip = _find_insert_pos(key);
         ip = _do_emplace(ip, key, std::forward<Args>(args)...);
         return ip;
+    }
+
+    auto find_insert_position(const key_type& key)
+      -> std::pair<iterator, bool> {
+        return _find_insert_pos(key);
     }
 
     auto insert(const value_type& value) -> std::pair<iterator, bool> {
