@@ -39,12 +39,32 @@ public:
 protected:
     node_tracker(endpoint& bus)
       : base{bus} {
+        this->host_id_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_host_id_received)});
+        this->hostname_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_hostname_received)});
         this->router_appeared.connect(
           {this, EAGINE_THIS_MEM_FUNC_C(on_router_appeared)});
         this->bridge_appeared.connect(
           {this, EAGINE_THIS_MEM_FUNC_C(on_bridge_appeared)});
         this->endpoint_appeared.connect(
           {this, EAGINE_THIS_MEM_FUNC_C(on_endpoint_appeared)});
+        this->build_info_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_build_info_received)});
+        this->cpu_concurrent_threads_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_cpu_concurrent_threads_received)});
+        this->short_average_load_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_short_average_load_received)});
+        this->long_average_load_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_long_average_load_received)});
+        this->free_ram_size_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_free_ram_size_received)});
+        this->total_ram_size_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_total_ram_size_received)});
+        this->free_swap_size_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_free_swap_size_received)});
+        this->total_swap_size_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_total_swap_size_received)});
     }
 
     void add_methods() {
@@ -204,7 +224,7 @@ private:
 
     void on_host_id_received(
       const result_context& ctx,
-      valid_if_positive<host_id_t>&& host_id) final {
+      const valid_if_positive<host_id_t>& host_id) {
         if(host_id) {
             _get_node(ctx.source_id())
               .set_host_id(extract(host_id))
@@ -214,12 +234,12 @@ private:
 
     void on_hostname_received(
       const result_context& ctx,
-      valid_if_not_empty<std::string>&& hostname) final {
+      const valid_if_not_empty<std::string>& hostname) {
         if(hostname) {
             auto& node = _get_node(ctx.source_id());
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id));
-                host.set_hostname(std::move(extract(hostname))).notice_alive();
+                host.set_hostname(extract(hostname)).notice_alive();
                 _tracker.for_each_host_node_state(
                   extract(host_id), [&](auto, auto& host_node) {
                       host_node.add_change(remote_node_change::host_info);
@@ -229,11 +249,11 @@ private:
     }
 
     void
-    on_build_info_received(const result_context& ctx, build_info&& info) final {
+    on_build_info_received(const result_context& ctx, const build_info& info) {
         auto& node = _get_node(ctx.source_id()).notice_alive();
         if(auto inst_id{node.instance_id()}) {
             auto& inst = _get_instance(extract(inst_id));
-            inst.assign(std::move(info));
+            inst.assign(info);
             _tracker.for_each_host_node_state(
               extract(inst_id), [&](auto, auto& inst_node) {
                   inst_node.add_change(remote_node_change::build_info);
@@ -243,7 +263,7 @@ private:
 
     void on_cpu_concurrent_threads_received(
       const result_context& ctx,
-      valid_if_positive<span_size_t>&& opt_value) final {
+      const valid_if_positive<span_size_t>& opt_value) {
         if(opt_value) {
             auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
@@ -259,7 +279,7 @@ private:
 
     void on_short_average_load_received(
       const result_context& ctx,
-      valid_if_nonnegative<float>&& opt_value) final {
+      const valid_if_nonnegative<float>& opt_value) {
         if(opt_value) {
             auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
@@ -275,7 +295,7 @@ private:
 
     void on_long_average_load_received(
       const result_context& ctx,
-      valid_if_nonnegative<float>&& opt_value) final {
+      const valid_if_nonnegative<float>& opt_value) {
         if(opt_value) {
             auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
@@ -291,7 +311,7 @@ private:
 
     void on_free_ram_size_received(
       const result_context& ctx,
-      valid_if_positive<span_size_t>&& opt_value) final {
+      const valid_if_positive<span_size_t>& opt_value) {
         if(opt_value) {
             auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
@@ -307,7 +327,7 @@ private:
 
     void on_total_ram_size_received(
       const result_context& ctx,
-      valid_if_positive<span_size_t>&& opt_value) final {
+      const valid_if_positive<span_size_t>& opt_value) {
         if(opt_value) {
             auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
@@ -323,7 +343,7 @@ private:
 
     void on_free_swap_size_received(
       const result_context& ctx,
-      valid_if_nonnegative<span_size_t>&& opt_value) final {
+      const valid_if_nonnegative<span_size_t>& opt_value) {
         if(opt_value) {
             auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
@@ -339,7 +359,7 @@ private:
 
     void on_total_swap_size_received(
       const result_context& ctx,
-      valid_if_nonnegative<span_size_t>&& opt_value) final {
+      const valid_if_nonnegative<span_size_t>& opt_value) {
         if(opt_value) {
             auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {

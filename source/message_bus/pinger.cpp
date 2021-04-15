@@ -81,6 +81,11 @@ public:
       , _limit{extract_or(limit, 1000)}
       , _max{extract_or(max, 100000)} {
         object_description("Pinger", "Message bus ping");
+
+        this->host_id_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_host_id_received)});
+        this->hostname_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_hostname_received)});
     }
 
     void is_alive(const subscriber_info&) final {}
@@ -118,7 +123,7 @@ public:
 
     void on_host_id_received(
       const result_context& res_ctx,
-      valid_if_positive<host_id_t>&& host_id) final {
+      const valid_if_positive<host_id_t>& host_id) {
         if(host_id) {
             auto& state = _targets[res_ctx.source_id()];
             state.host_id = extract(host_id);
@@ -127,10 +132,10 @@ public:
 
     void on_hostname_received(
       const result_context& res_ctx,
-      valid_if_not_empty<std::string>&& hostname) final {
+      const valid_if_not_empty<std::string>& hostname) {
         if(hostname) {
             auto& state = _targets[res_ctx.source_id()];
-            state.hostname = extract(std::move(hostname));
+            state.hostname = extract(hostname);
         }
     }
 

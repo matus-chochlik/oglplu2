@@ -13,6 +13,7 @@
 #include "../../main_ctx.hpp"
 #include "../../maybe_unused.hpp"
 #include "../service.hpp"
+#include "../signal.hpp"
 #include <array>
 #include <chrono>
 
@@ -128,49 +129,33 @@ protected:
     void add_methods() {
         Base::add_methods();
 
-        Base::add_method(_uptime(
-          this,
-          EAGINE_THIS_MEM_FUNC_C(
-            on_uptime_received))[EAGINE_MSG_ID(eagiSysInf, uptime)]);
+        Base::add_method(
+          _uptime(uptime_received)[EAGINE_MSG_ID(eagiSysInf, uptime)]);
 
         Base::add_method(_cpu_concurrent_threads(
-          this, EAGINE_THIS_MEM_FUNC_C(on_cpu_concurrent_threads_received))
-                           [EAGINE_MSG_ID(eagiSysInf, cpuThreads)]);
+          cpu_concurrent_threads_received)[EAGINE_MSG_ID(
+          eagiSysInf, cpuThreads)]);
 
         Base::add_method(_short_average_load(
-          this,
-          EAGINE_THIS_MEM_FUNC_C(on_short_average_load_received))[EAGINE_MSG_ID(
-          eagiSysInf, shortLoad)]);
+          short_average_load_received)[EAGINE_MSG_ID(eagiSysInf, shortLoad)]);
 
         Base::add_method(_long_average_load(
-          this,
-          EAGINE_THIS_MEM_FUNC_C(on_long_average_load_received))[EAGINE_MSG_ID(
-          eagiSysInf, longLoad)]);
+          long_average_load_received)[EAGINE_MSG_ID(eagiSysInf, longLoad)]);
 
         Base::add_method(_memory_page_size(
-          this,
-          EAGINE_THIS_MEM_FUNC_C(on_memory_page_size_received))[EAGINE_MSG_ID(
-          eagiSysInf, memPageSz)]);
+          memory_page_size_received)[EAGINE_MSG_ID(eagiSysInf, memPageSz)]);
 
         Base::add_method(_free_ram_size(
-          this,
-          EAGINE_THIS_MEM_FUNC_C(
-            on_free_ram_size_received))[EAGINE_MSG_ID(eagiSysInf, freeRamSz)]);
+          free_ram_size_received)[EAGINE_MSG_ID(eagiSysInf, freeRamSz)]);
 
         Base::add_method(_total_ram_size(
-          this,
-          EAGINE_THIS_MEM_FUNC_C(
-            on_total_ram_size_received))[EAGINE_MSG_ID(eagiSysInf, totalRamSz)]);
+          total_ram_size_received)[EAGINE_MSG_ID(eagiSysInf, totalRamSz)]);
 
         Base::add_method(_free_swap_size(
-          this,
-          EAGINE_THIS_MEM_FUNC_C(
-            on_free_swap_size_received))[EAGINE_MSG_ID(eagiSysInf, freeSwpSz)]);
+          free_swap_size_received)[EAGINE_MSG_ID(eagiSysInf, freeSwpSz)]);
 
         Base::add_method(_total_swap_size(
-          this,
-          EAGINE_THIS_MEM_FUNC_C(on_total_swap_size_received))[EAGINE_MSG_ID(
-          eagiSysInf, totalSwpSz)]);
+          total_swap_size_received)[EAGINE_MSG_ID(eagiSysInf, totalSwpSz)]);
     }
 
 public:
@@ -179,80 +164,72 @@ public:
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqUptime));
     }
 
-    virtual void
-    on_uptime_received(const result_context&, std::chrono::duration<float>&&) {}
+    signal<void(const result_context&, const std::chrono::duration<float>&)>
+      uptime_received;
 
     void query_cpu_concurrent_threads(identifier_t endpoint_id) {
         _cpu_concurrent_threads.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqCpuThrds));
     }
 
-    virtual void on_cpu_concurrent_threads_received(
-      const result_context&,
-      valid_if_positive<span_size_t>&&) {}
+    signal<void(const result_context&, const valid_if_positive<span_size_t>&)>
+      cpu_concurrent_threads_received;
 
     void query_short_average_load(identifier_t endpoint_id) {
         _short_average_load.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqShrtLoad));
     }
 
-    virtual void on_short_average_load_received(
-      const result_context&,
-      valid_if_nonnegative<float>&&) {}
+    signal<void(const result_context&, const valid_if_nonnegative<float>&)>
+      short_average_load_received;
 
     void query_long_average_load(identifier_t endpoint_id) {
         _long_average_load.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqLongLoad));
     }
 
-    virtual void on_long_average_load_received(
-      const result_context&,
-      valid_if_nonnegative<float>&&) {}
+    signal<void(const result_context&, const valid_if_nonnegative<float>&)>
+      long_average_load_received;
 
     void query_memory_page_size(identifier_t endpoint_id) {
         _memory_page_size.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqMemPgSz));
     }
 
-    virtual void on_memory_page_size_received(
-      const result_context&,
-      valid_if_positive<span_size_t>&&) {}
+    signal<void(const result_context&, const valid_if_positive<span_size_t>&)>
+      memory_page_size_received;
 
     void query_free_ram_size(identifier_t endpoint_id) {
         _free_ram_size.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqFreRamSz));
     }
 
-    virtual void on_free_ram_size_received(
-      const result_context&,
-      valid_if_positive<span_size_t>&&) {}
+    signal<void(const result_context&, const valid_if_positive<span_size_t>&)>
+      free_ram_size_received;
 
     void query_total_ram_size(identifier_t endpoint_id) {
         _total_ram_size.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTtlRamSz));
     }
 
-    virtual void on_total_ram_size_received(
-      const result_context&,
-      valid_if_positive<span_size_t>&&) {}
+    signal<void(const result_context&, const valid_if_positive<span_size_t>&)>
+      total_ram_size_received;
 
     void query_free_swap_size(identifier_t endpoint_id) {
         _free_swap_size.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqFreSwpSz));
     }
 
-    virtual void on_free_swap_size_received(
-      const result_context&,
-      valid_if_nonnegative<span_size_t>&&) {}
+    signal<void(const result_context&, const valid_if_nonnegative<span_size_t>&)>
+      free_swap_size_received;
 
     void query_total_swap_size(identifier_t endpoint_id) {
         _total_swap_size.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTtlSwpSz));
     }
 
-    virtual void on_total_swap_size_received(
-      const result_context&,
-      valid_if_nonnegative<span_size_t>&&) {}
+    signal<void(const result_context&, const valid_if_nonnegative<span_size_t>&)>
+      total_swap_size_received;
 
 private:
     default_callback_invoker<std::chrono::duration<float>(), 32> _uptime;
