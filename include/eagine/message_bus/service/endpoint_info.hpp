@@ -62,11 +62,8 @@ protected:
     void add_methods() {
         Base::add_methods();
 
-        Base::add_method(_info(
-          this,
-          EAGINE_MEM_FUNC_C(
-            This,
-            on_endpoint_info_received))[EAGINE_MSG_ID(eagiEptInf, response)]);
+        Base::add_method(
+          _info(endpoint_info_received)[EAGINE_MSG_ID(eagiEptInf, response)]);
     }
 
 public:
@@ -75,8 +72,8 @@ public:
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiEptInf, request));
     }
 
-    virtual void
-    on_endpoint_info_received(const result_context&, endpoint_info&&) = 0;
+    signal<void(const result_context&, const endpoint_info&)>
+      endpoint_info_received;
 
 private:
     default_callback_invoker<endpoint_info(), 1024> _info;

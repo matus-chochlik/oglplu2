@@ -39,6 +39,12 @@ public:
 protected:
     node_tracker(endpoint& bus)
       : base{bus} {
+        this->reported_alive.connect({this, EAGINE_THIS_MEM_FUNC_C(is_alive)});
+        this->subscribed.connect({this, EAGINE_THIS_MEM_FUNC_C(on_subscribed)});
+        this->unsubscribed.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_unsubscribed)});
+        this->not_subscribed.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_not_subscribed)});
         this->host_id_received.connect(
           {this, EAGINE_THIS_MEM_FUNC_C(on_host_id_received)});
         this->hostname_received.connect(
@@ -49,6 +55,8 @@ protected:
           {this, EAGINE_THIS_MEM_FUNC_C(on_bridge_appeared)});
         this->endpoint_appeared.connect(
           {this, EAGINE_THIS_MEM_FUNC_C(on_endpoint_appeared)});
+        this->endpoint_info_received.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_endpoint_info_received)});
         this->build_info_received.connect(
           {this, EAGINE_THIS_MEM_FUNC_C(on_build_info_received)});
         this->cpu_concurrent_threads_received.connect(
@@ -174,21 +182,21 @@ private:
         }
     }
 
-    void is_alive(const subscriber_info& info) final {
+    void is_alive(const subscriber_info& info) {
         _tracker.notice_instance(info.endpoint_id, info.instance_id);
     }
 
-    void on_subscribed(const subscriber_info& info, message_id msg_id) final {
+    void on_subscribed(const subscriber_info& info, message_id msg_id) {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .add_subscription(msg_id);
     }
 
-    void on_unsubscribed(const subscriber_info& info, message_id msg_id) final {
+    void on_unsubscribed(const subscriber_info& info, message_id msg_id) {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .remove_subscription(msg_id);
     }
 
-    void not_subscribed(const subscriber_info& info, message_id msg_id) final {
+    void on_not_subscribed(const subscriber_info& info, message_id msg_id) {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .remove_subscription(msg_id);
     }
@@ -218,8 +226,8 @@ private:
 
     void on_endpoint_info_received(
       const result_context& ctx,
-      endpoint_info&& info) final {
-        _get_node(ctx.source_id()).assign(std::move(info)).notice_alive();
+      const endpoint_info& info) {
+        _get_node(ctx.source_id()).assign(info).notice_alive();
     }
 
     void on_host_id_received(

@@ -34,7 +34,10 @@ class pong_example
 public:
     pong_example(endpoint& bus)
       : main_ctx_object{EAGINE_ID(PongExampl), bus}
-      , base{bus} {}
+      , base{bus} {
+        this->shutdown_requested.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_shutdown)});
+    }
 
     auto respond_to_ping(identifier_t, message_sequence_t, verification_bits)
       -> bool final {
@@ -47,7 +50,7 @@ public:
     void on_shutdown(
       std::chrono::milliseconds age,
       identifier_t source_id,
-      verification_bits verified) final {
+      verification_bits verified) {
         log_info("received shutdown request from ${source}")
           .arg(EAGINE_ID(age), age)
           .arg(EAGINE_ID(source), source_id)

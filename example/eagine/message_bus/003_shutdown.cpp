@@ -30,11 +30,15 @@ class shutdown_trigger
 public:
     shutdown_trigger(endpoint& bus)
       : main_ctx_object{EAGINE_ID(ShtdwnTrgr), bus}
-      , base{bus} {}
+      , base{bus} {
+        this->subscribed.connect({this, EAGINE_THIS_MEM_FUNC_C(on_subscribed)});
+        this->unsubscribed.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_unsubscribed)});
+        this->not_subscribed.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_not_subscribed)});
+    }
 
-    void is_alive(const subscriber_info&) final {}
-
-    void on_subscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_subscribed(const subscriber_info& info, message_id sub_msg) {
         if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
             log_info("target ${id} appeared")
               .arg(EAGINE_ID(id), info.endpoint_id);
@@ -43,7 +47,7 @@ public:
         }
     }
 
-    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) {
         if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
             log_info("target ${id} disappeared")
               .arg(EAGINE_ID(id), info.endpoint_id);
@@ -51,7 +55,7 @@ public:
         }
     }
 
-    void not_subscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_not_subscribed(const subscriber_info& info, message_id sub_msg) {
         if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
             log_info("target ${id} does not support shutdown")
               .arg(EAGINE_ID(id), info.endpoint_id);

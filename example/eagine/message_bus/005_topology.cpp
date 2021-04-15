@@ -38,6 +38,8 @@ public:
           {this, EAGINE_THIS_MEM_FUNC_C(on_bridge_appeared)});
         this->endpoint_appeared.connect(
           {this, EAGINE_THIS_MEM_FUNC_C(on_endpoint_appeared)});
+        this->shutdown_requested.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_shutdown)});
     }
 
     void print_topology() {
@@ -111,7 +113,7 @@ public:
     void on_shutdown(
       std::chrono::milliseconds age,
       identifier_t subscriber_id,
-      verification_bits verified) final {
+      verification_bits verified) {
         _log.info("received ${age} old shutdown request from ${subscrbr}")
           .arg(EAGINE_ID(age), age)
           .arg(EAGINE_ID(subscrbr), subscriber_id)

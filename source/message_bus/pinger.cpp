@@ -82,15 +82,18 @@ public:
       , _max{extract_or(max, 100000)} {
         object_description("Pinger", "Message bus ping");
 
+        this->subscribed.connect({this, EAGINE_THIS_MEM_FUNC_C(on_subscribed)});
+        this->unsubscribed.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_unsubscribed)});
+        this->not_subscribed.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_not_subscribed)});
         this->host_id_received.connect(
           {this, EAGINE_THIS_MEM_FUNC_C(on_host_id_received)});
         this->hostname_received.connect(
           {this, EAGINE_THIS_MEM_FUNC_C(on_hostname_received)});
     }
 
-    void is_alive(const subscriber_info&) final {}
-
-    void on_subscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_subscribed(const subscriber_info& info, message_id sub_msg) {
         if(sub_msg == this->ping_msg_id()) {
             auto& stats = _targets[info.endpoint_id];
             if(!stats.is_active) {
@@ -101,7 +104,7 @@ public:
         }
     }
 
-    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) {
         if(sub_msg == this->ping_msg_id()) {
             auto& state = _targets[info.endpoint_id];
             if(state.is_active) {
@@ -112,7 +115,7 @@ public:
         }
     }
 
-    void not_subscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_not_subscribed(const subscriber_info& info, message_id sub_msg) {
         if(sub_msg == this->ping_msg_id()) {
             auto& state = _targets[info.endpoint_id];
             state.is_active = false;

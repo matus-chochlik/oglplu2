@@ -29,32 +29,37 @@ class subscription_logger
 public:
     subscription_logger(endpoint& bus)
       : main_ctx_object{EAGINE_ID(SubscrLog), bus}
-      , base{bus} {}
+      , base{bus} {
+        this->reported_alive.connect({this, EAGINE_THIS_MEM_FUNC_C(is_alive)});
+        this->subscribed.connect({this, EAGINE_THIS_MEM_FUNC_C(on_subscribed)});
+        this->unsubscribed.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_unsubscribed)});
+        this->shutdown_requested.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_shutdown)});
+    }
 
-    void is_alive(const subscriber_info& info) final {
+    void is_alive(const subscriber_info& info) {
         log_info("endpoint ${subscrbr} is alive")
           .arg(EAGINE_ID(subscrbr), info.endpoint_id);
     }
 
-    void on_subscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_subscribed(const subscriber_info& info, message_id sub_msg) {
         log_info("endpoint ${subscrbr} subscribed to ${message}")
           .arg(EAGINE_ID(subscrbr), info.endpoint_id)
           .arg(EAGINE_ID(message), sub_msg);
         this->bus().query_certificate_of(info.endpoint_id);
     }
 
-    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) {
         log_info("endpoint ${subscrbr} unsubscribed from ${message}")
           .arg(EAGINE_ID(subscrbr), info.endpoint_id)
           .arg(EAGINE_ID(message), sub_msg);
     }
 
-    void not_subscribed(const subscriber_info&, message_id) final {}
-
     void on_shutdown(
       std::chrono::milliseconds age,
       identifier_t subscriber_id,
-      verification_bits verified) final {
+      verification_bits verified) {
         log_info("received ${age} old shutdown request from ${subscrbr}")
           .arg(EAGINE_ID(age), age)
           .arg(EAGINE_ID(subscrbr), subscriber_id)

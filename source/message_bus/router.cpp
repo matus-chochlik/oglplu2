@@ -50,6 +50,8 @@ public:
             }
             log_info("shutdown delay is set to ${delay}")
               .arg(EAGINE_ID(delay), _shutdown_timeout.period());
+            this->shutdown_requested.connect(
+              {this, EAGINE_THIS_MEM_FUNC_C(on_shutdown)});
         }
     }
 
@@ -94,7 +96,7 @@ private:
     void on_shutdown(
       std::chrono::milliseconds age,
       identifier_t source_id,
-      verification_bits verified) final {
+      verification_bits verified) {
         log_info("received ${age} old shutdown request from ${source}")
           .arg(EAGINE_ID(age), age)
           .arg(EAGINE_ID(source), source_id)

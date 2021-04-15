@@ -37,7 +37,10 @@ class sudoku_helper_node
 public:
     sudoku_helper_node(endpoint& bus)
       : main_ctx_object{EAGINE_ID(SudokuNode), bus}
-      , sudoku_helper_base{bus} {}
+      , sudoku_helper_base{bus} {
+        this->shutdown_requested.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_shutdown)});
+    }
 
     auto is_shut_down() const noexcept -> bool {
         return _do_shutdown;
@@ -47,7 +50,7 @@ private:
     void on_shutdown(
       std::chrono::milliseconds age,
       identifier_t source_id,
-      verification_bits verified) final {
+      verification_bits verified) {
         log_info("received shutdown request from ${source}")
           .arg(EAGINE_ID(age), age)
           .arg(EAGINE_ID(source), source_id)
