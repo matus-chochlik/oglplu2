@@ -51,6 +51,13 @@ auto main() -> int {
     sig.disconnect(kd);
     f(8);
 
+    auto fe = [](int i) {
+        std::cout << "E: " << i << std::endl;
+    };
+    if(auto be{sig.bind({eagine::construct_from, fe})}) {
+        f(9);
+    }
+
     return 0;
 }
 
