@@ -33,14 +33,24 @@ class node_tracker : public node_tracker_base<Base> {
     using This = node_tracker;
     using base = node_tracker_base<Base>;
 
+public:
+    signal<void(remote_node&, remote_node_changes)> node_changed;
+
 protected:
-    using base::base;
+    node_tracker(endpoint& bus)
+      : base{bus} {
+        this->router_appeared.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_router_appeared)});
+        this->bridge_appeared.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_bridge_appeared)});
+        this->endpoint_appeared.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_endpoint_appeared)});
+    }
 
     void add_methods() {
         base::add_methods();
     }
 
-public:
     auto update() -> bool {
         some_true something_done{};
         something_done(base::update());
@@ -109,8 +119,6 @@ public:
         _tracker.for_each_node(std::move(function));
     }
 
-    virtual void on_node_change(remote_node& node, remote_node_changes) = 0;
-
 private:
     resetting_timeout _should_query_topology{std::chrono::seconds{15}, nothing};
     resetting_timeout _should_query_info{std::chrono::seconds{10}};
@@ -136,7 +144,7 @@ private:
 
     void _handle_node_change(identifier_t node_id, remote_node_state& node) {
         if(const auto changes{node.changes()}) {
-            on_node_change(node, changes);
+            node_changed(node, changes);
             if(EAGINE_UNLIKELY(changes.new_instance())) {
                 this->query_endpoint_info(node_id);
                 this->query_host_id(node_id);
@@ -165,7 +173,7 @@ private:
           .remove_subscription(msg_id);
     }
 
-    void router_appeared(const router_topology_info& info) final {
+    void on_router_appeared(const router_topology_info& info) {
         _tracker.notice_instance(info.router_id, info.instance_id)
           .assign(node_kind::router);
         if(info.remote_id) {
@@ -174,7 +182,7 @@ private:
         }
     }
 
-    void bridge_appeared(const bridge_topology_info& info) final {
+    void on_bridge_appeared(const bridge_topology_info& info) {
         _tracker.notice_instance(info.bridge_id, info.instance_id)
           .assign(node_kind::bridge);
         if(info.opposite_id) {
@@ -183,7 +191,7 @@ private:
         }
     }
 
-    void endpoint_appeared(const endpoint_topology_info& info) final {
+    void on_endpoint_appeared(const endpoint_topology_info& info) {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .assign(node_kind::endpoint);
     }

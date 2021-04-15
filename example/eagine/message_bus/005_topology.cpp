@@ -31,7 +31,14 @@ class topology_printer
 public:
     topology_printer(endpoint& bus)
       : main_ctx_object{EAGINE_ID(TopoPrint), bus}
-      , base{bus} {}
+      , base{bus} {
+        this->router_appeared.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_router_appeared)});
+        this->bridge_appeared.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_bridge_appeared)});
+        this->endpoint_appeared.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_endpoint_appeared)});
+    }
 
     void print_topology() {
         std::cout << "graph EMB {\n";
@@ -69,7 +76,7 @@ public:
         std::cout << "}\n";
     }
 
-    void router_appeared(const router_topology_info& info) final {
+    void on_router_appeared(const router_topology_info& info) {
         log_info("found router connection ${router} - ${remote}")
           .arg(EAGINE_ID(remote), info.remote_id)
           .arg(EAGINE_ID(router), info.router_id);
@@ -78,7 +85,7 @@ public:
         _connections.emplace(info.router_id, info.remote_id);
     }
 
-    void bridge_appeared(const bridge_topology_info& info) final {
+    void on_bridge_appeared(const bridge_topology_info& info) {
         if(info.opposite_id) {
             log_info("found bridge connection ${bridge} - ${remote}")
               .arg(EAGINE_ID(remote), info.opposite_id)
@@ -94,7 +101,7 @@ public:
         _bridges.emplace(info.bridge_id);
     }
 
-    void endpoint_appeared(const endpoint_topology_info& info) final {
+    void on_endpoint_appeared(const endpoint_topology_info& info) {
         log_info("found endpoint ${endpoint}")
           .arg(EAGINE_ID(endpoint), info.endpoint_id);
 

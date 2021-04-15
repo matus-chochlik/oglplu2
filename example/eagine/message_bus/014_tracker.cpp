@@ -31,9 +31,11 @@ public:
       : main_ctx_object{EAGINE_ID(TrkrExampl), bus}
       , base{bus} {
         object_description("Node tracker", "Node tracker example");
+        this->node_changed.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_node_change)});
     }
 
-    void on_node_change(remote_node& node, remote_node_changes changes) final {
+    void on_node_change(remote_node& node, remote_node_changes changes) {
         log_info("node change ${nodeId}")
           .arg(EAGINE_ID(changes), changes)
           .arg(EAGINE_ID(nodeId), extract(node.id()));

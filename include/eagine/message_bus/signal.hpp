@@ -63,7 +63,8 @@ public:
     /// @brief Connects the specified callable, returns a binding object.
     /// @see connect
     /// @see signal_binding
-    auto bind(callable_ref<void(Params...)> slot) -> signal_binding;
+    [[nodiscard]] auto bind(callable_ref<void(Params...)> slot)
+      -> signal_binding;
 
     /// @brief Disconnects the callable by specifying the connection key.
     /// @see connect
@@ -74,6 +75,11 @@ public:
 
     void unbind(binding_key key) noexcept {
         _slots.erase(key);
+    }
+
+    /// @brief The call operator.
+    void operator()(Params... args) const noexcept {
+        _call(args...);
     }
 
     /// @brief Implicit conversion to a compatible callable_ref.
@@ -147,7 +153,8 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename... Params>
-auto signal<void(Params...)>::bind(callable_ref<void(Params...)> slot)
+[[nodiscard]] auto
+signal<void(Params...)>::bind(callable_ref<void(Params...)> slot)
   -> signal_binding {
     return {connect(slot), this};
 }

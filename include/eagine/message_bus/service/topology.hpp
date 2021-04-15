@@ -10,6 +10,7 @@
 #define EAGINE_MESSAGE_BUS_SERVICE_TOPOLOGY_HPP
 
 #include "../serialize.hpp"
+#include "../signal.hpp"
 #include "../subscriber.hpp"
 
 namespace eagine::msgbus {
@@ -39,9 +40,9 @@ public:
         this->bus().post(msg_id, message);
     }
 
-    virtual void router_appeared(const router_topology_info& info) = 0;
-    virtual void bridge_appeared(const bridge_topology_info& info) = 0;
-    virtual void endpoint_appeared(const endpoint_topology_info& info) = 0;
+    signal<void(const router_topology_info&)> router_appeared;
+    signal<void(const bridge_topology_info&)> bridge_appeared;
+    signal<void(const endpoint_topology_info&)> endpoint_appeared;
 
 private:
     auto _handle_router(const message_context&, stored_message& message)
