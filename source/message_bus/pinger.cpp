@@ -87,6 +87,10 @@ public:
           {this, EAGINE_THIS_MEM_FUNC_C(on_unsubscribed)});
         this->not_subscribed.connect(
           {this, EAGINE_THIS_MEM_FUNC_C(on_not_subscribed)});
+        this->ping_responded.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_ping_response)});
+        this->ping_timeouted.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_ping_timeout)});
         this->host_id_received.connect(
           {this, EAGINE_THIS_MEM_FUNC_C(on_host_id_received)});
         this->hostname_received.connect(
@@ -146,7 +150,7 @@ public:
       identifier_t pinger_id,
       message_sequence_t,
       std::chrono::microseconds age,
-      verification_bits) final {
+      verification_bits) {
         auto& state = _targets[pinger_id];
         state.responded++;
         state.min_time = std::min(state.min_time, age);
@@ -174,7 +178,7 @@ public:
     void on_ping_timeout(
       identifier_t pinger_id,
       message_sequence_t,
-      std::chrono::microseconds) final {
+      std::chrono::microseconds) {
         auto& state = _targets[pinger_id];
         state.timeouted++;
         if(EAGINE_UNLIKELY((++_tout % _mod) == 0)) {

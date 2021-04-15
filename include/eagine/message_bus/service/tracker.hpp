@@ -73,6 +73,10 @@ protected:
           {this, EAGINE_THIS_MEM_FUNC_C(on_free_swap_size_received)});
         this->total_swap_size_received.connect(
           {this, EAGINE_THIS_MEM_FUNC_C(on_total_swap_size_received)});
+        this->ping_responded.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_ping_response)});
+        this->ping_timeouted.connect(
+          {this, EAGINE_THIS_MEM_FUNC_C(on_ping_timeout)});
     }
 
     void add_methods() {
@@ -385,14 +389,14 @@ private:
       identifier_t node_id,
       message_sequence_t sequence_no,
       std::chrono::microseconds age,
-      verification_bits) final {
+      verification_bits) {
         _get_node(node_id).ping_response(sequence_no, age);
     }
 
     void on_ping_timeout(
       identifier_t node_id,
       message_sequence_t sequence_no,
-      std::chrono::microseconds age) final {
+      std::chrono::microseconds age) {
         _get_node(node_id).ping_timeout(sequence_no, age);
     }
 };
