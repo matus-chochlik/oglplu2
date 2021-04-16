@@ -119,7 +119,7 @@ struct launchpad : interface<launchpad> {
         return true;
     }
 
-    virtual auto launch(execution_context&, const launch_options&)
+    [[nodiscard]] virtual auto launch(execution_context&, const launch_options&)
       -> std::unique_ptr<application> = 0;
 };
 //------------------------------------------------------------------------------

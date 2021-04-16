@@ -355,7 +355,7 @@ private:
     void consume(const input_info&, const input_value<double>&) noexcept final;
 };
 //------------------------------------------------------------------------------
-auto establish(main_ctx&) -> std::unique_ptr<launchpad>;
+[[nodiscard]] auto establish(main_ctx&) -> std::unique_ptr<launchpad>;
 } // namespace eagine::application
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)

@@ -846,6 +846,35 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
       asio_connection<connection_addr_kind::ipv4, connection_protocol::stream>;
     using base::conn_state;
 
+public:
+    asio_connector(
+      main_ctx_parent parent,
+      const std::shared_ptr<asio_common_state>& asio_state,
+      string_view addr_str,
+      span_size_t block_size,
+      float pack_factr)
+      : base{parent, asio_state, block_size, pack_factr}
+      , _resolver{asio_state->context}
+      , _addr{parse_ipv4_addr(addr_str)} {}
+
+    auto update() -> bool final {
+        some_true something_done{};
+        if(conn_state().socket.is_open()) {
+            something_done(conn_state().start_receive(*this));
+            something_done(conn_state().start_send(*this));
+        } else if(!_connecting) {
+            if(_should_reconnect) {
+                _should_reconnect.reset();
+                _start_resolve();
+                something_done();
+            }
+        }
+        something_done(conn_state().update());
+        this->_log_message_counts();
+        return something_done;
+    }
+
+private:
     asio::ip::tcp::resolver _resolver;
     std::tuple<std::string, ipv4_port> _addr;
     timeout _should_reconnect{std::chrono::seconds{1}, nothing};
@@ -909,34 +938,6 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
               }
           });
     }
-
-public:
-    asio_connector(
-      main_ctx_parent parent,
-      const std::shared_ptr<asio_common_state>& asio_state,
-      string_view addr_str,
-      span_size_t block_size,
-      float pack_factr)
-      : base{parent, asio_state, block_size, pack_factr}
-      , _resolver{asio_state->context}
-      , _addr{parse_ipv4_addr(addr_str)} {}
-
-    auto update() -> bool final {
-        some_true something_done{};
-        if(conn_state().socket.is_open()) {
-            something_done(conn_state().start_receive(*this));
-            something_done(conn_state().start_send(*this));
-        } else if(!_connecting) {
-            if(_should_reconnect) {
-                _should_reconnect.reset();
-                _start_resolve();
-                something_done();
-            }
-        }
-        something_done(conn_state().update());
-        this->_log_message_counts();
-        return something_done;
-    }
 };
 //------------------------------------------------------------------------------
 template <>
@@ -946,43 +947,6 @@ class asio_acceptor<connection_addr_kind::ipv4, connection_protocol::stream>
       connection_addr_kind::ipv4,
       connection_protocol::stream>
   , public main_ctx_object {
-private:
-    std::shared_ptr<asio_common_state> _asio_state;
-    std::tuple<std::string, ipv4_port> _addr;
-    asio::ip::tcp::acceptor _acceptor;
-    asio::ip::tcp::socket _socket;
-    span_size_t _block_size;
-    float _pack_factr;
-
-    std::vector<asio::ip::tcp::socket> _accepted;
-
-    void _start_accept() {
-        log_debug("accepting connection on address ${host}:${port}")
-          .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
-          .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
-
-        _socket = asio::ip::tcp::socket(this->_asio_state->context);
-        _acceptor.async_accept(_socket, [this](std::error_code error) {
-            if(!error) {
-                log_debug("accepted connection on address ${host}:${port}")
-                  .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
-                  .arg(
-                    EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
-                this->_accepted.emplace_back(std::move(this->_socket));
-            } else {
-                log_error(
-                  "failed to accept connection on address "
-                  "${host}:${port}: "
-                  "${error}")
-                  .arg(EAGINE_ID(error), error)
-                  .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
-                  .arg(
-                    EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
-            }
-            _start_accept();
-        });
-    }
-
 public:
     asio_acceptor(
       main_ctx_parent parent,
@@ -1031,6 +995,43 @@ public:
         _accepted.clear();
         return something_done;
     }
+
+private:
+    std::shared_ptr<asio_common_state> _asio_state;
+    std::tuple<std::string, ipv4_port> _addr;
+    asio::ip::tcp::acceptor _acceptor;
+    asio::ip::tcp::socket _socket;
+    span_size_t _block_size;
+    float _pack_factr;
+
+    std::vector<asio::ip::tcp::socket> _accepted;
+
+    void _start_accept() {
+        log_debug("accepting connection on address ${host}:${port}")
+          .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
+          .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
+
+        _socket = asio::ip::tcp::socket(this->_asio_state->context);
+        _acceptor.async_accept(_socket, [this](std::error_code error) {
+            if(!error) {
+                log_debug("accepted connection on address ${host}:${port}")
+                  .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
+                  .arg(
+                    EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
+                this->_accepted.emplace_back(std::move(this->_socket));
+            } else {
+                log_error(
+                  "failed to accept connection on address "
+                  "${host}:${port}: "
+                  "${error}")
+                  .arg(EAGINE_ID(error), error)
+                  .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
+                  .arg(
+                    EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
+            }
+            _start_accept();
+        });
+    }
 };
 //------------------------------------------------------------------------------
 // UDP/IPv4
@@ -1069,6 +1070,35 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
       asio_connection<connection_addr_kind::ipv4, connection_protocol::datagram>;
     using base::conn_state;
 
+public:
+    asio_connector(
+      main_ctx_parent parent,
+      const std::shared_ptr<asio_common_state>& asio_state,
+      string_view addr_str,
+      span_size_t block_size,
+      float pack_factr)
+      : base{parent, asio_state, block_size, pack_factr}
+      , _resolver{asio_state->context}
+      , _addr{parse_ipv4_addr(addr_str)} {}
+
+    auto update() -> bool final {
+        some_true something_done{};
+        if(conn_state().socket.is_open()) {
+            something_done(conn_state().start_receive(*this));
+            something_done(conn_state().start_send(*this));
+        } else if(!_establishing) {
+            if(_should_reconnect) {
+                _should_reconnect.reset();
+                _start_resolve();
+                something_done();
+            }
+        }
+        something_done(conn_state().update());
+        this->_log_message_counts();
+        return something_done;
+    }
+
+private:
     asio::ip::udp::resolver _resolver;
     std::tuple<std::string, ipv4_port> _addr;
     timeout _should_reconnect{std::chrono::seconds{1}, nothing};
@@ -1101,34 +1131,6 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
               }
           });
     }
-
-public:
-    asio_connector(
-      main_ctx_parent parent,
-      const std::shared_ptr<asio_common_state>& asio_state,
-      string_view addr_str,
-      span_size_t block_size,
-      float pack_factr)
-      : base{parent, asio_state, block_size, pack_factr}
-      , _resolver{asio_state->context}
-      , _addr{parse_ipv4_addr(addr_str)} {}
-
-    auto update() -> bool final {
-        some_true something_done{};
-        if(conn_state().socket.is_open()) {
-            something_done(conn_state().start_receive(*this));
-            something_done(conn_state().start_send(*this));
-        } else if(!_establishing) {
-            if(_should_reconnect) {
-                _should_reconnect.reset();
-                _start_resolve();
-                something_done();
-            }
-        }
-        something_done(conn_state().update());
-        this->_log_message_counts();
-        return something_done;
-    }
 };
 //------------------------------------------------------------------------------
 template <>
@@ -1138,11 +1140,6 @@ class asio_acceptor<connection_addr_kind::ipv4, connection_protocol::datagram>
       connection_addr_kind::ipv4,
       connection_protocol::datagram>
   , public main_ctx_object {
-private:
-    std::shared_ptr<asio_common_state> _asio_state;
-    std::tuple<std::string, ipv4_port> _addr;
-
-    asio_datagram_server_connection<connection_addr_kind::ipv4> _conn;
 
 public:
     asio_acceptor(
@@ -1170,6 +1167,12 @@ public:
     auto process_accepted(const accept_handler& handler) -> bool final {
         return _conn.process_accepted(handler);
     }
+
+private:
+    std::shared_ptr<asio_common_state> _asio_state;
+    std::tuple<std::string, ipv4_port> _addr;
+
+    asio_datagram_server_connection<connection_addr_kind::ipv4> _conn;
 };
 //------------------------------------------------------------------------------
 // Local/Stream
@@ -1208,33 +1211,6 @@ class asio_connector<connection_addr_kind::filepath, connection_protocol::stream
       connection_addr_kind::filepath,
       connection_protocol::stream>;
 
-    std::string _addr_str;
-    timeout _should_reconnect{std::chrono::seconds{1}, nothing};
-    bool _connecting{false};
-
-    void _start_connect() {
-        _connecting = true;
-        this->log_debug("connecting to ${address}")
-          .arg(EAGINE_ID(address), EAGINE_ID(FsPath), this->_addr_str);
-
-        conn_state().socket.async_connect(
-          conn_state().conn_endpoint, [this](std::error_code error) mutable {
-              if(!error) {
-                  this->log_debug("connected on address ${address}")
-                    .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
-                  _connecting = false;
-              } else {
-                  this->log_error("failed to connect: ${error}")
-                    .arg(EAGINE_ID(error), error);
-                  _connecting = false;
-              }
-          });
-    }
-
-    static inline auto _fix_addr(string_view addr_str) noexcept {
-        return addr_str ? addr_str : string_view{"/tmp/eagine-msgbus.socket"};
-    }
-
 public:
     asio_connector(
       main_ctx_parent parent,
@@ -1263,6 +1239,34 @@ public:
         this->_log_message_counts();
         return something_done;
     }
+
+private:
+    std::string _addr_str;
+    timeout _should_reconnect{std::chrono::seconds{1}, nothing};
+    bool _connecting{false};
+
+    void _start_connect() {
+        _connecting = true;
+        this->log_debug("connecting to ${address}")
+          .arg(EAGINE_ID(address), EAGINE_ID(FsPath), this->_addr_str);
+
+        conn_state().socket.async_connect(
+          conn_state().conn_endpoint, [this](std::error_code error) mutable {
+              if(!error) {
+                  this->log_debug("connected on address ${address}")
+                    .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
+                  _connecting = false;
+              } else {
+                  this->log_error("failed to connect: ${error}")
+                    .arg(EAGINE_ID(error), error);
+                  _connecting = false;
+              }
+          });
+    }
+
+    static inline auto _fix_addr(string_view addr_str) noexcept -> string_view {
+        return addr_str ? addr_str : string_view{"/tmp/eagine-msgbus.socket"};
+    }
 };
 //------------------------------------------------------------------------------
 template <>
@@ -1272,52 +1276,6 @@ class asio_acceptor<connection_addr_kind::filepath, connection_protocol::stream>
       connection_addr_kind::filepath,
       connection_protocol::stream>
   , public main_ctx_object {
-private:
-    std::shared_ptr<asio_common_state> _asio_state;
-    std::string _addr_str;
-    asio::local::stream_protocol::acceptor _acceptor;
-    span_size_t _block_size;
-    float _pack_factr;
-    bool _accepting{false};
-
-    std::vector<asio::local::stream_protocol::socket> _accepted;
-
-    void _start_accept() {
-        log_debug("accepting connection on address ${address}")
-          .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
-
-        _accepting = true;
-        _acceptor.async_accept([this](
-                                 std::error_code error,
-                                 asio::local::stream_protocol::socket socket) {
-            if(error) {
-                this->_accepting = false;
-                this
-                  ->log_error(
-                    "failed to accept connection on address ${address}: "
-                    "${error}")
-                  .arg(EAGINE_ID(error), error)
-                  .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
-            } else {
-                this->log_debug("accepted connection on address ${address}")
-                  .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
-                this->_accepted.emplace_back(std::move(socket));
-            }
-            _start_accept();
-        });
-    }
-
-    static inline auto _fix_addr(string_view addr_str) noexcept {
-        return addr_str ? addr_str : string_view{"/tmp/eagine-msgbus.socket"};
-    }
-
-    static inline auto _prepare(
-      std::shared_ptr<asio_common_state> asio_state,
-      string_view addr_str) -> std::shared_ptr<asio_common_state> {
-        std::remove(c_str(addr_str));
-        return asio_state;
-    }
-
 public:
     asio_acceptor(
       main_ctx_parent parent,
@@ -1378,6 +1336,52 @@ public:
         }
         _accepted.clear();
         return something_done;
+    }
+
+private:
+    std::shared_ptr<asio_common_state> _asio_state;
+    std::string _addr_str;
+    asio::local::stream_protocol::acceptor _acceptor;
+    span_size_t _block_size;
+    float _pack_factr;
+    bool _accepting{false};
+
+    std::vector<asio::local::stream_protocol::socket> _accepted;
+
+    void _start_accept() {
+        log_debug("accepting connection on address ${address}")
+          .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
+
+        _accepting = true;
+        _acceptor.async_accept([this](
+                                 std::error_code error,
+                                 asio::local::stream_protocol::socket socket) {
+            if(error) {
+                this->_accepting = false;
+                this
+                  ->log_error(
+                    "failed to accept connection on address ${address}: "
+                    "${error}")
+                  .arg(EAGINE_ID(error), error)
+                  .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
+            } else {
+                this->log_debug("accepted connection on address ${address}")
+                  .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
+                this->_accepted.emplace_back(std::move(socket));
+            }
+            _start_accept();
+        });
+    }
+
+    static inline auto _fix_addr(string_view addr_str) noexcept -> string_view {
+        return addr_str ? addr_str : string_view{"/tmp/eagine-msgbus.socket"};
+    }
+
+    static inline auto _prepare(
+      std::shared_ptr<asio_common_state> asio_state,
+      string_view addr_str) -> std::shared_ptr<asio_common_state> {
+        std::remove(c_str(addr_str));
+        return asio_state;
     }
 };
 //------------------------------------------------------------------------------
