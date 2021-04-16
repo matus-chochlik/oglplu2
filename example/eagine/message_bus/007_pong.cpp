@@ -35,8 +35,7 @@ public:
     pong_example(endpoint& bus)
       : main_ctx_object{EAGINE_ID(PongExampl), bus}
       , base{bus} {
-        this->shutdown_requested.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_shutdown)});
+        shutdown_requested.connect(EAGINE_THIS_MEM_FUNC_REF(on_shutdown));
     }
 
     auto respond_to_ping(identifier_t, message_sequence_t, verification_bits)

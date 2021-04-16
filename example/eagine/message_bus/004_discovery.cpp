@@ -30,12 +30,10 @@ public:
     subscription_logger(endpoint& bus)
       : main_ctx_object{EAGINE_ID(SubscrLog), bus}
       , base{bus} {
-        this->reported_alive.connect({this, EAGINE_THIS_MEM_FUNC_C(is_alive)});
-        this->subscribed.connect({this, EAGINE_THIS_MEM_FUNC_C(on_subscribed)});
-        this->unsubscribed.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_unsubscribed)});
-        this->shutdown_requested.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_shutdown)});
+        reported_alive.connect(EAGINE_THIS_MEM_FUNC_REF(is_alive));
+        subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_subscribed));
+        unsubscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_unsubscribed));
+        shutdown_requested.connect(EAGINE_THIS_MEM_FUNC_REF(on_shutdown));
     }
 
     void is_alive(const subscriber_info& info) {

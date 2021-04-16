@@ -31,11 +31,9 @@ public:
     shutdown_trigger(endpoint& bus)
       : main_ctx_object{EAGINE_ID(ShtdwnTrgr), bus}
       , base{bus} {
-        this->subscribed.connect({this, EAGINE_THIS_MEM_FUNC_C(on_subscribed)});
-        this->unsubscribed.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_unsubscribed)});
-        this->not_subscribed.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_not_subscribed)});
+        subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_subscribed));
+        unsubscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_unsubscribed));
+        not_subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_not_subscribed));
     }
 
     void on_subscribed(const subscriber_info& info, message_id sub_msg) {

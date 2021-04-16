@@ -77,19 +77,14 @@ public:
       , _max{extract_or(max, 100000)} {
         object_description("Pinger", "Ping example");
 
-        this->subscribed.connect({this, EAGINE_THIS_MEM_FUNC_C(on_subscribed)});
-        this->unsubscribed.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_unsubscribed)});
-        this->not_subscribed.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_not_subscribed)});
-        this->ping_responded.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_ping_response)});
-        this->ping_timeouted.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_ping_timeout)});
-        this->host_id_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_host_id_received)});
-        this->hostname_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_hostname_received)});
+        subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_subscribed));
+        unsubscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_unsubscribed));
+        not_subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_not_subscribed));
+        ping_responded.connect(EAGINE_THIS_MEM_FUNC_REF(on_ping_response));
+        ping_timeouted.connect(EAGINE_THIS_MEM_FUNC_REF(on_ping_timeout));
+        host_id_received.connect(EAGINE_THIS_MEM_FUNC_REF(on_host_id_received));
+        hostname_received.connect(
+          EAGINE_THIS_MEM_FUNC_REF(on_hostname_received));
     }
 
     void on_subscribed(const subscriber_info& info, message_id sub_msg) {

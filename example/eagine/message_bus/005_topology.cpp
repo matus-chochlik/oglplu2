@@ -32,14 +32,11 @@ public:
     topology_printer(endpoint& bus)
       : main_ctx_object{EAGINE_ID(TopoPrint), bus}
       , base{bus} {
-        this->router_appeared.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_router_appeared)});
-        this->bridge_appeared.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_bridge_appeared)});
-        this->endpoint_appeared.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_endpoint_appeared)});
-        this->shutdown_requested.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_shutdown)});
+        router_appeared.connect(EAGINE_THIS_MEM_FUNC_REF(on_router_appeared));
+        bridge_appeared.connect(EAGINE_THIS_MEM_FUNC_REF(on_bridge_appeared));
+        endpoint_appeared.connect(
+          EAGINE_THIS_MEM_FUNC_REF(on_endpoint_appeared));
+        shutdown_requested.connect(EAGINE_THIS_MEM_FUNC_REF(on_shutdown));
     }
 
     void print_topology() {
