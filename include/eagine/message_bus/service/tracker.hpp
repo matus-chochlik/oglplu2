@@ -36,45 +36,113 @@ class node_tracker : public node_tracker_base<Base> {
 public:
     signal<void(remote_node&, remote_node_changes)> node_changed;
 
+    auto on_alive() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_alive);
+    }
+
+    auto on_subscribed() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_subscribed);
+    }
+
+    auto on_unsubscribed() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_unsubscribed);
+    }
+
+    auto on_not_subscribed() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_not_subscribed);
+    }
+
+    auto on_host_id_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_host_id_received);
+    }
+
+    auto on_hostname_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_hostname_received);
+    }
+
+    auto on_router_appeared() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_router_appeared);
+    }
+
+    auto on_bridge_appeared() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_bridge_appeared);
+    }
+
+    auto on_endpoint_appeared() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_appeared);
+    }
+
+    auto on_endpoint_info_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_info_received);
+    }
+
+    auto on_build_info_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_build_info_received);
+    }
+
+    auto on_cpu_concurrent_threads_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(
+          _handle_cpu_concurrent_threads_received);
+    }
+
+    auto on_short_average_load_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_short_average_load_received);
+    }
+
+    auto on_long_average_load_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_long_average_load_received);
+    }
+
+    auto on_free_ram_size_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_free_ram_size_received);
+    }
+
+    auto on_total_ram_size_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_total_ram_size_received);
+    }
+
+    auto on_free_swap_size_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_free_swap_size_received);
+    }
+
+    auto on_total_swap_size_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_total_swap_size_received);
+    }
+
+    auto on_ping_response() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_ping_response);
+    }
+
+    auto on_ping_timeout() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_ping_timeout);
+    }
+
 protected:
     node_tracker(endpoint& bus)
       : base{bus} {
-        this->reported_alive.connect(EAGINE_THIS_MEM_FUNC_REF(is_alive));
-        this->subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_subscribed));
-        this->unsubscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_unsubscribed));
-        this->not_subscribed.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_not_subscribed));
-        this->host_id_received.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_host_id_received));
-        this->hostname_received.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_hostname_received));
-        this->router_appeared.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_router_appeared));
-        this->bridge_appeared.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_bridge_appeared));
-        this->endpoint_appeared.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_endpoint_appeared));
-        this->endpoint_info_received.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_endpoint_info_received));
-        this->build_info_received.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_build_info_received));
+        this->reported_alive.connect(on_alive());
+        this->subscribed.connect(on_subscribed());
+        this->unsubscribed.connect(on_unsubscribed());
+        this->not_subscribed.connect(on_not_subscribed());
+        this->host_id_received.connect(on_host_id_received());
+        this->hostname_received.connect(on_hostname_received());
+        this->router_appeared.connect(on_router_appeared());
+        this->bridge_appeared.connect(on_bridge_appeared());
+        this->endpoint_appeared.connect(on_endpoint_appeared());
+        this->endpoint_info_received.connect(on_endpoint_info_received());
+        this->build_info_received.connect(on_build_info_received());
         this->cpu_concurrent_threads_received.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_cpu_concurrent_threads_received));
+          on_cpu_concurrent_threads_received());
         this->short_average_load_received.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_short_average_load_received));
+          on_short_average_load_received());
         this->long_average_load_received.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_long_average_load_received));
-        this->free_ram_size_received.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_free_ram_size_received));
-        this->total_ram_size_received.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_total_ram_size_received));
-        this->free_swap_size_received.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_free_swap_size_received));
-        this->total_swap_size_received.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_total_swap_size_received));
-        this->ping_responded.connect(
-          EAGINE_THIS_MEM_FUNC_REF(on_ping_response));
-        this->ping_timeouted.connect(EAGINE_THIS_MEM_FUNC_REF(on_ping_timeout));
+          on_long_average_load_received());
+        this->free_ram_size_received.connect(on_free_ram_size_received());
+        this->total_ram_size_received.connect(on_total_ram_size_received());
+        this->free_swap_size_received.connect(on_free_swap_size_received());
+        this->total_swap_size_received.connect(on_total_swap_size_received());
+        this->ping_responded.connect(on_ping_response());
+        this->ping_timeouted.connect(on_ping_timeout());
     }
 
     void add_methods() {
@@ -184,26 +252,26 @@ private:
         }
     }
 
-    void is_alive(const subscriber_info& info) {
+    void _handle_alive(const subscriber_info& info) {
         _tracker.notice_instance(info.endpoint_id, info.instance_id);
     }
 
-    void on_subscribed(const subscriber_info& info, message_id msg_id) {
+    void _handle_subscribed(const subscriber_info& info, message_id msg_id) {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .add_subscription(msg_id);
     }
 
-    void on_unsubscribed(const subscriber_info& info, message_id msg_id) {
+    void _handle_unsubscribed(const subscriber_info& info, message_id msg_id) {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .remove_subscription(msg_id);
     }
 
-    void on_not_subscribed(const subscriber_info& info, message_id msg_id) {
+    void _handle_not_subscribed(const subscriber_info& info, message_id msg_id) {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .remove_subscription(msg_id);
     }
 
-    void on_router_appeared(const router_topology_info& info) {
+    void _handle_router_appeared(const router_topology_info& info) {
         _tracker.notice_instance(info.router_id, info.instance_id)
           .assign(node_kind::router);
         if(info.remote_id) {
@@ -212,7 +280,7 @@ private:
         }
     }
 
-    void on_bridge_appeared(const bridge_topology_info& info) {
+    void _handle_bridge_appeared(const bridge_topology_info& info) {
         _tracker.notice_instance(info.bridge_id, info.instance_id)
           .assign(node_kind::bridge);
         if(info.opposite_id) {
@@ -221,18 +289,18 @@ private:
         }
     }
 
-    void on_endpoint_appeared(const endpoint_topology_info& info) {
+    void _handle_endpoint_appeared(const endpoint_topology_info& info) {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .assign(node_kind::endpoint);
     }
 
-    void on_endpoint_info_received(
+    void _handle_endpoint_info_received(
       const result_context& ctx,
       const endpoint_info& info) {
         _get_node(ctx.source_id()).assign(info).notice_alive();
     }
 
-    void on_host_id_received(
+    void _handle_host_id_received(
       const result_context& ctx,
       const valid_if_positive<host_id_t>& host_id) {
         if(host_id) {
@@ -242,7 +310,7 @@ private:
         }
     }
 
-    void on_hostname_received(
+    void _handle_hostname_received(
       const result_context& ctx,
       const valid_if_not_empty<std::string>& hostname) {
         if(hostname) {
@@ -258,8 +326,9 @@ private:
         }
     }
 
-    void
-    on_build_info_received(const result_context& ctx, const build_info& info) {
+    void _handle_build_info_received(
+      const result_context& ctx,
+      const build_info& info) {
         auto& node = _get_node(ctx.source_id()).notice_alive();
         if(auto inst_id{node.instance_id()}) {
             auto& inst = _get_instance(extract(inst_id));
@@ -271,7 +340,7 @@ private:
         }
     }
 
-    void on_cpu_concurrent_threads_received(
+    void _handle_cpu_concurrent_threads_received(
       const result_context& ctx,
       const valid_if_positive<span_size_t>& opt_value) {
         if(opt_value) {
@@ -287,7 +356,7 @@ private:
         }
     }
 
-    void on_short_average_load_received(
+    void _handle_short_average_load_received(
       const result_context& ctx,
       const valid_if_nonnegative<float>& opt_value) {
         if(opt_value) {
@@ -303,7 +372,7 @@ private:
         }
     }
 
-    void on_long_average_load_received(
+    void _handle_long_average_load_received(
       const result_context& ctx,
       const valid_if_nonnegative<float>& opt_value) {
         if(opt_value) {
@@ -319,7 +388,7 @@ private:
         }
     }
 
-    void on_free_ram_size_received(
+    void _handle_free_ram_size_received(
       const result_context& ctx,
       const valid_if_positive<span_size_t>& opt_value) {
         if(opt_value) {
@@ -335,7 +404,7 @@ private:
         }
     }
 
-    void on_total_ram_size_received(
+    void _handle_total_ram_size_received(
       const result_context& ctx,
       const valid_if_positive<span_size_t>& opt_value) {
         if(opt_value) {
@@ -351,7 +420,7 @@ private:
         }
     }
 
-    void on_free_swap_size_received(
+    void _handle_free_swap_size_received(
       const result_context& ctx,
       const valid_if_nonnegative<span_size_t>& opt_value) {
         if(opt_value) {
@@ -367,7 +436,7 @@ private:
         }
     }
 
-    void on_total_swap_size_received(
+    void _handle_total_swap_size_received(
       const result_context& ctx,
       const valid_if_nonnegative<span_size_t>& opt_value) {
         if(opt_value) {
@@ -383,7 +452,7 @@ private:
         }
     }
 
-    void on_ping_response(
+    void _handle_ping_response(
       identifier_t node_id,
       message_sequence_t sequence_no,
       std::chrono::microseconds age,
@@ -391,7 +460,7 @@ private:
         _get_node(node_id).ping_response(sequence_no, age);
     }
 
-    void on_ping_timeout(
+    void _handle_ping_timeout(
       identifier_t node_id,
       message_sequence_t sequence_no,
       std::chrono::microseconds age) {

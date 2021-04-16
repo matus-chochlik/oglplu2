@@ -32,10 +32,14 @@ class pingable_node
     using base = pingable_node_base;
 
 public:
+    auto on_shutdown_slot() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(on_shutdown);
+    }
+
     pingable_node(endpoint& bus)
       : main_ctx_object{EAGINE_ID(PngablNode), bus}
       , base{bus} {
-        shutdown_requested.connect(EAGINE_THIS_MEM_FUNC_REF(on_shutdown));
+        shutdown_requested.connect(on_shutdown_slot());
     }
 
     auto respond_to_ping(identifier_t, message_sequence_t, verification_bits)
