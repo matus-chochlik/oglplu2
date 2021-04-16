@@ -397,7 +397,7 @@ protected:
                      .receive(
                        as_chars(cover(_buffer)),
                        posix_mqueue::receive_handler(
-                         this, EAGINE_THIS_MEM_FUNC_C(_handle_receive)))
+                         EAGINE_THIS_MEM_FUNC_REF(_handle_receive)))
                      .had_error()) {
                 something_done();
             }
@@ -407,8 +407,7 @@ protected:
 
     auto _send() -> bool {
         if(_data_queue.is_usable()) {
-            return _outgoing.fetch_all(
-              {this, EAGINE_THIS_MEM_FUNC_C(_handle_send)});
+            return _outgoing.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_send));
         }
         return false;
     }
@@ -554,8 +553,7 @@ private:
             while(!_accept_queue
                      .receive(
                        as_chars(cover(_buffer)),
-                       posix_mqueue::receive_handler(
-                         this, EAGINE_THIS_MEM_FUNC_C(_handle_receive)))
+                       EAGINE_THIS_MEM_FUNC_REF(_handle_receive))
                      .had_error()) {
                 something_done();
             }

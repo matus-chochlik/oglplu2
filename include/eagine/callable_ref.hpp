@@ -190,6 +190,45 @@ private:
 template <typename Sig>
 using callable_ref = basic_callable_ref<Sig, is_noexcept_function_v<Sig>>;
 
+/// @brief Function constructing instances of callable_ref wrapping member functions.
+/// @ingroup functonal
+template <
+  typename RV,
+  typename C,
+  typename... P,
+  bool NE,
+  RV (C::*Ptr)(P...) noexcept(NE)>
+static constexpr inline auto make_callable_ref(
+  C* obj,
+  member_function_constant<RV (C::*)(P...) noexcept(NE), Ptr> mfc) noexcept
+  -> callable_ref<RV(P...) noexcept(NE)> {
+    return {obj, mfc};
+}
+
+/// @brief Function constructing instances of callable_ref wrapping member functions.
+/// @ingroup functonal
+template <
+  typename RV,
+  typename C,
+  typename... P,
+  bool NE,
+  RV (C::*Ptr)(P...) const noexcept(NE)>
+static constexpr inline auto make_callable_ref(
+  C* obj,
+  member_function_constant<RV (C::*)(P...) noexcept(NE), Ptr> mfc) noexcept
+  -> callable_ref<RV(P...) noexcept(NE)> {
+    return {obj, mfc};
+}
+
+/// @brief Macro for creating a callable_ref object from the specified member function.
+/// @ingroup functional
+/// @see oglplus::callable_ref
+/// @see oglplus::make_callable_ref
+/// @see EAGINE_THIS_MEM_FUNC_C
+/// @see EAGINE_THIS_T
+#define EAGINE_THIS_MEM_FUNC_REF(FUNC) \
+    eagine::make_callable_ref(this, EAGINE_THIS_MEM_FUNC_C(FUNC))
+
 } // namespace eagine
 
 #endif // EAGINE_CALLABLE_REF_HPP

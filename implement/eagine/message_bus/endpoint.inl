@@ -21,9 +21,7 @@ auto endpoint::_process_blobs() -> bool {
     const auto opt_max_size = max_data_size();
     if(EAGINE_LIKELY(opt_max_size)) {
         return _blobs.process_outgoing(
-          blob_manipulator::send_handler{
-            this, EAGINE_THIS_MEM_FUNC_C(_handle_post)},
-          extract(opt_max_size));
+          EAGINE_THIS_MEM_FUNC_REF(_handle_post), extract(opt_max_size));
     }
     return false;
 }
@@ -82,9 +80,7 @@ auto endpoint::_handle_special(
             return true;
         } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
             if(_blobs.process_incoming(
-                 blob_manipulator::filter_function(
-                   this, EAGINE_THIS_MEM_FUNC_C(_do_allow_blob)),
-                 message)) {
+                 EAGINE_THIS_MEM_FUNC_REF(_do_allow_blob), message)) {
                 _blobs.fetch_all(_store_handler);
             }
             return true;
@@ -330,8 +326,9 @@ void endpoint::flush_outbox() {
     if(has_id()) {
         log_debug("flushing outbox (size: ${count})")
           .arg(EAGINE_ID(count), _outgoing.count());
-        _outgoing.fetch_all(message_storage::fetch_handler{
-          this, EAGINE_THIS_MEM_FUNC_C(_handle_send)});
+
+        _outgoing.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_send));
+
         if(EAGINE_LIKELY(_connection)) {
             _connection->cleanup();
         }
@@ -427,8 +424,8 @@ auto endpoint::update() -> bool {
     if(EAGINE_UNLIKELY(has_id() && !_outgoing.empty())) {
         log_debug("sending ${count} messages from outbox")
           .arg(EAGINE_ID(count), _outgoing.count());
-        something_done(_outgoing.fetch_all(message_storage::fetch_handler{
-          this, EAGINE_THIS_MEM_FUNC_C(_handle_send)}));
+        something_done(
+          _outgoing.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_send)));
     }
 
     return something_done;

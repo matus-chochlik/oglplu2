@@ -38,8 +38,7 @@ public:
     sudoku_helper_node(endpoint& bus)
       : main_ctx_object{EAGINE_ID(SudokuNode), bus}
       , sudoku_helper_base{bus} {
-        this->shutdown_requested.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_shutdown)});
+        shutdown_requested.connect(EAGINE_THIS_MEM_FUNC_REF(on_shutdown));
     }
 
     auto is_shut_down() const noexcept -> bool {

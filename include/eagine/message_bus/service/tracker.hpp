@@ -39,44 +39,42 @@ public:
 protected:
     node_tracker(endpoint& bus)
       : base{bus} {
-        this->reported_alive.connect({this, EAGINE_THIS_MEM_FUNC_C(is_alive)});
-        this->subscribed.connect({this, EAGINE_THIS_MEM_FUNC_C(on_subscribed)});
-        this->unsubscribed.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_unsubscribed)});
+        this->reported_alive.connect(EAGINE_THIS_MEM_FUNC_REF(is_alive));
+        this->subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_subscribed));
+        this->unsubscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_unsubscribed));
         this->not_subscribed.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_not_subscribed)});
+          EAGINE_THIS_MEM_FUNC_REF(on_not_subscribed));
         this->host_id_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_host_id_received)});
+          EAGINE_THIS_MEM_FUNC_REF(on_host_id_received));
         this->hostname_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_hostname_received)});
+          EAGINE_THIS_MEM_FUNC_REF(on_hostname_received));
         this->router_appeared.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_router_appeared)});
+          EAGINE_THIS_MEM_FUNC_REF(on_router_appeared));
         this->bridge_appeared.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_bridge_appeared)});
+          EAGINE_THIS_MEM_FUNC_REF(on_bridge_appeared));
         this->endpoint_appeared.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_endpoint_appeared)});
+          EAGINE_THIS_MEM_FUNC_REF(on_endpoint_appeared));
         this->endpoint_info_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_endpoint_info_received)});
+          EAGINE_THIS_MEM_FUNC_REF(on_endpoint_info_received));
         this->build_info_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_build_info_received)});
+          EAGINE_THIS_MEM_FUNC_REF(on_build_info_received));
         this->cpu_concurrent_threads_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_cpu_concurrent_threads_received)});
+          EAGINE_THIS_MEM_FUNC_REF(on_cpu_concurrent_threads_received));
         this->short_average_load_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_short_average_load_received)});
+          EAGINE_THIS_MEM_FUNC_REF(on_short_average_load_received));
         this->long_average_load_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_long_average_load_received)});
+          EAGINE_THIS_MEM_FUNC_REF(on_long_average_load_received));
         this->free_ram_size_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_free_ram_size_received)});
+          EAGINE_THIS_MEM_FUNC_REF(on_free_ram_size_received));
         this->total_ram_size_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_total_ram_size_received)});
+          EAGINE_THIS_MEM_FUNC_REF(on_total_ram_size_received));
         this->free_swap_size_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_free_swap_size_received)});
+          EAGINE_THIS_MEM_FUNC_REF(on_free_swap_size_received));
         this->total_swap_size_received.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_total_swap_size_received)});
+          EAGINE_THIS_MEM_FUNC_REF(on_total_swap_size_received));
         this->ping_responded.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_ping_response)});
-        this->ping_timeouted.connect(
-          {this, EAGINE_THIS_MEM_FUNC_C(on_ping_timeout)});
+          EAGINE_THIS_MEM_FUNC_REF(on_ping_response));
+        this->ping_timeouted.connect(EAGINE_THIS_MEM_FUNC_REF(on_ping_timeout));
     }
 
     void add_methods() {

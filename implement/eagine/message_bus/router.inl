@@ -626,11 +626,8 @@ auto router::_handle_special_common(
         return false;
     } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
         if(_blobs.process_incoming(
-             blob_manipulator::filter_function(
-               this, EAGINE_THIS_MEM_FUNC_C(_do_allow_blob)),
-             message)) {
-            _blobs.fetch_all(blob_manipulator::fetch_handler(
-              this, EAGINE_THIS_MEM_FUNC_C(_handle_blob)));
+             EAGINE_THIS_MEM_FUNC_REF(_do_allow_blob), message)) {
+            _blobs.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_blob));
         }
         // this should be routed
         return false;

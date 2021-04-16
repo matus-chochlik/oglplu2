@@ -50,8 +50,8 @@ public:
             }
             log_info("shutdown delay is set to ${delay}")
               .arg(EAGINE_ID(delay), _shutdown_timeout.period());
-            this->shutdown_requested.connect(
-              {this, EAGINE_THIS_MEM_FUNC_C(on_shutdown)});
+
+            shutdown_requested.connect(EAGINE_THIS_MEM_FUNC_REF(on_shutdown));
         }
     }
 

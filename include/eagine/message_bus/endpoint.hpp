@@ -432,7 +432,7 @@ private:
     auto _do_allow_blob(message_id) -> bool;
 
     auto _default_store_handler() noexcept -> fetch_handler {
-        return fetch_handler{this, EAGINE_THIS_MEM_FUNC_C(_store_message)};
+        return EAGINE_THIS_MEM_FUNC_REF(_store_message);
     }
 
     fetch_handler _store_handler{_default_store_handler()};
