@@ -6,15 +6,21 @@
 ///
 
 #include "MonitorBackend.hpp"
+#include "NodeListModel.hpp"
 #include "TrackerModel.hpp"
 //------------------------------------------------------------------------------
 MonitorBackend::MonitorBackend(eagine::main_ctx_parent parent)
   : QObject{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(Backend), parent}
-  , _monitorViewModel{*this}
-  , _trackerModel{std::make_shared<TrackerModel>(*this)} {
+  , _trackerModel{std::make_shared<TrackerModel>(*this)}
+  , _nodeListModel{*this}
+  , _monitorViewModel{*this} {
     emit trackerModelChanged();
-    startTimer(10);
+    _timerId = startTimer(10);
+}
+//------------------------------------------------------------------------------
+MonitorBackend::~MonitorBackend() {
+    killTimer(_timerId);
 }
 //------------------------------------------------------------------------------
 void MonitorBackend::timerEvent(QTimerEvent*) {

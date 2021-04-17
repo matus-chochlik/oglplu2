@@ -25,7 +25,17 @@ public:
 
     void update();
 
+    auto tracker() const noexcept -> auto& {
+        return _tracker;
+    }
+signals:
+    void nodeAppeared(eagine::identifier_t nodeId);
+
 private:
+    void handleNodeChanged(
+      eagine::msgbus::remote_node&,
+      eagine::msgbus::remote_node_changes);
+
     MonitorBackend& _backend;
     eagine::msgbus::endpoint _bus;
     eagine::msgbus::service_composition<

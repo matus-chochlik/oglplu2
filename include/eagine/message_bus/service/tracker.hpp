@@ -180,6 +180,11 @@ public:
         return something_done;
     }
 
+    template <typename Function>
+    void for_each_node(Function function) {
+        _tracker.for_each_node(std::move(function));
+    }
+
 protected:
     node_tracker(endpoint& bus)
       : base{bus} {
@@ -212,9 +217,8 @@ protected:
         base::add_methods();
     }
 
-    template <typename Function>
-    void for_each_node(Function function) {
-        _tracker.for_each_node(std::move(function));
+    auto get_node(identifier_t id) -> const remote_node_state& {
+        return _tracker.get_node(id);
     }
 
 private:

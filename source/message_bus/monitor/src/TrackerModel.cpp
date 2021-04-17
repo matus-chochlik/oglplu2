@@ -19,6 +19,55 @@ TrackerModel::TrackerModel(MonitorBackend& backend)
     eagine::msgbus::router_address address{*this};
     eagine::msgbus::connection_setup conn_setup{*this};
     conn_setup.setup_connectors(_tracker, address);
+
+    _tracker.node_changed.connect(EAGINE_THIS_MEM_FUNC_REF(handleNodeChanged));
+}
+//------------------------------------------------------------------------------
+void TrackerModel::handleNodeChanged(
+  eagine::msgbus::remote_node& node,
+  eagine::msgbus::remote_node_changes changes) {
+    using eagine::msgbus::remote_node_change;
+
+    (void)node;
+
+    if(changes.has(remote_node_change::kind)) {
+    }
+
+    if(changes.has(remote_node_change::host_id)) {
+    }
+
+    if(changes.has(remote_node_change::host_info)) {
+    }
+
+    if(changes.has(remote_node_change::build_info)) {
+    }
+
+    if(changes.has(remote_node_change::endpoint_info)) {
+    }
+
+    if(changes.has(remote_node_change::methods_added)) {
+    }
+
+    if(changes.has(remote_node_change::methods_removed)) {
+    }
+
+    if(changes.has(remote_node_change::started_responding)) {
+    }
+
+    if(changes.has(remote_node_change::stopped_responding)) {
+    }
+
+    if(changes.has(remote_node_change::hardware_config)) {
+    }
+
+    if(changes.has(remote_node_change::sensor_values)) {
+    }
+
+    if(changes.has(remote_node_change::connection_info)) {
+    }
+
+    if(changes.has(remote_node_change::instance_id)) {
+    }
 }
 //------------------------------------------------------------------------------
 void TrackerModel::update() {

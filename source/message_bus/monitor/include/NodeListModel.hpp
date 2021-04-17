@@ -5,22 +5,25 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-#ifndef EAGINE_MESSAGE_BUS_MONITOR_MONITOR_VIEW_MODEL
-#define EAGINE_MESSAGE_BUS_MONITOR_MONITOR_VIEW_MODEL
+#ifndef EAGINE_MESSAGE_BUS_MONITOR_NODE_LIST_MODEL
+#define EAGINE_MESSAGE_BUS_MONITOR_NODE_LIST_MODEL
 
 #include <eagine/main_ctx_object.hpp>
 #include <QObject>
 
 class MonitorBackend;
 //------------------------------------------------------------------------------
-class MonitorViewModel
+class NodeListModel
   : public QObject
   , public eagine::main_ctx_object {
     Q_OBJECT
 
 public:
-    MonitorViewModel(MonitorBackend&);
+    NodeListModel(MonitorBackend&);
+
 public slots:
+    void onTrackerModelChanged();
+    void onNodeAppeared(eagine::identifier_t nodeId);
 
 private:
     MonitorBackend& _backend;
