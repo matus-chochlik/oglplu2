@@ -9,7 +9,6 @@
 #define EAGINE_MESSAGE_BUS_MONITOR_BACKEND
 
 #include "MonitorViewModel.hpp"
-#include "NodeListModel.hpp"
 #include <eagine/main_ctx_object.hpp>
 #include <QObject>
 #include <memory>
@@ -36,7 +35,6 @@ private:
 
     int _timerId{0};
     std::shared_ptr<TrackerModel> _trackerModel;
-    NodeListModel _nodeListModel;
     MonitorViewModel _monitorViewModel;
 };
 //------------------------------------------------------------------------------

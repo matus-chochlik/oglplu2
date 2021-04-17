@@ -29,7 +29,7 @@ public:
         return _tracker;
     }
 signals:
-    void nodeAppeared(eagine::identifier_t nodeId);
+    void nodeAppeared(eagine::msgbus::remote_node&);
 
 private:
     void handleNodeChanged(

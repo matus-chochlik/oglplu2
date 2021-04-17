@@ -7,9 +7,15 @@
 
 #include "MonitorViewModel.hpp"
 #include "MonitorBackend.hpp"
+#include "NodeListViewModel.hpp"
 //------------------------------------------------------------------------------
 MonitorViewModel::MonitorViewModel(MonitorBackend& backend)
   : QObject{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(MonitorVM), backend}
-  , _backend{backend} {}
+  , _backend{backend}
+  , _nodeListViewModel{_backend} {}
+//------------------------------------------------------------------------------
+auto MonitorViewModel::getNodeListViewModel() -> NodeListViewModel* {
+    return &_nodeListViewModel;
+}
 //------------------------------------------------------------------------------

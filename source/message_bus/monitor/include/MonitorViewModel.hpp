@@ -8,6 +8,7 @@
 #ifndef EAGINE_MESSAGE_BUS_MONITOR_MONITOR_VIEW_MODEL
 #define EAGINE_MESSAGE_BUS_MONITOR_MONITOR_VIEW_MODEL
 
+#include "NodeListViewModel.hpp"
 #include <eagine/main_ctx_object.hpp>
 #include <QObject>
 
@@ -18,12 +19,16 @@ class MonitorViewModel
   , public eagine::main_ctx_object {
     Q_OBJECT
 
+    Q_PROPERTY(NodeListViewModel* nodeList READ getNodeListViewModel CONSTANT)
 public:
     MonitorViewModel(MonitorBackend&);
+
+    auto getNodeListViewModel() -> NodeListViewModel*;
 public slots:
 
 private:
     MonitorBackend& _backend;
+    NodeListViewModel _nodeListViewModel;
 };
 //------------------------------------------------------------------------------
 #endif

@@ -28,9 +28,8 @@ void TrackerModel::handleNodeChanged(
   eagine::msgbus::remote_node_changes changes) {
     using eagine::msgbus::remote_node_change;
 
-    (void)node;
-
     if(changes.has(remote_node_change::kind)) {
+        emit nodeAppeared(node);
     }
 
     if(changes.has(remote_node_change::host_id)) {

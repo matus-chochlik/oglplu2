@@ -7,8 +7,8 @@ import "qrc:///views"
 ApplicationWindow {
     id: root
     visible: true
-    width: 1280
-    height: 900
+    width: 1200
+    height: 800
     Material.theme: Material.Dark
 	Material.accent: Material.Orange
 
