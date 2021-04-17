@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+	<file>qtquickcontrols2.conf</file>
+	<file>monitor.qml</file>
+</qresource>
+</RCC>

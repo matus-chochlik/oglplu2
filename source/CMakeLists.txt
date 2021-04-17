@@ -40,6 +40,10 @@ if(TARGET ryml)
 	list(APPEND OGLPLUS_EXPORT_TARGETS ryml)
 endif()
 
+if(TARGET eagine-message_bus-monitor)
+	list(APPEND OGLPLUS_EXPORT_TARGETS eagine-message_bus-monitor)
+endif()
+
 install(
 	TARGETS ${OGLPLUS_EXPORT_TARGETS}
 	EXPORT OGLplusTargets
