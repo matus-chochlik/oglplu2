@@ -8,11 +8,11 @@
 #ifndef EAGINE_MESSAGE_BUS_MONITOR_BACKEND
 #define EAGINE_MESSAGE_BUS_MONITOR_BACKEND
 
+#include "MonitorViewModel.hpp"
 #include <eagine/main_ctx_object.hpp>
 #include <QObject>
 #include <memory>
 
-class MonitorViewModel;
 class TrackerModel;
 //------------------------------------------------------------------------------
 class MonitorBackend
@@ -20,14 +20,19 @@ class MonitorBackend
   , public eagine::main_ctx_object {
     Q_OBJECT
 
-    Q_PROPERTY(MonitorViewModel* monitor READ getMonitor CONSTANT)
+    Q_PROPERTY(MonitorViewModel* monitor READ getMonitorViewModel CONSTANT)
 public:
     MonitorBackend(eagine::main_ctx_parent);
 
-    auto getMonitor() -> MonitorViewModel*;
+    auto trackerModel() noexcept -> TrackerModel*;
+    auto getMonitorViewModel() noexcept -> MonitorViewModel*;
+signals:
+    void trackerModelChanged();
 public slots:
 private:
     void timerEvent(QTimerEvent*) final;
+
+    MonitorViewModel _monitorViewModel;
     std::shared_ptr<TrackerModel> _trackerModel;
 };
 //------------------------------------------------------------------------------

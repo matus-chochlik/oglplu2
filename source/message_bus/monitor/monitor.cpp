@@ -1,4 +1,5 @@
 #include "MonitorBackend.hpp"
+#include "MonitorViewModel.hpp"
 #include <eagine/main_ctx.hpp>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -14,6 +15,10 @@ auto main(main_ctx& ctx) -> int {
 
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app{argc_copy, const_cast<char**>(argv_copy)};
+
+    const auto regId = "com.github.matus-chochlik.oglplu2";
+    qmlRegisterUncreatableType<MonitorViewModel>(
+      regId, 1, 0, "MonitorViewModel", {});
 
     MonitorBackend backend(ctx);
     QQmlApplicationEngine engine;

@@ -8,12 +8,12 @@
 #include "MonitorBackend.hpp"
 #include "TrackerModel.hpp"
 //------------------------------------------------------------------------------
-// Backend
-//------------------------------------------------------------------------------
 MonitorBackend::MonitorBackend(eagine::main_ctx_parent parent)
   : QObject{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(Backend), parent}
+  , _monitorViewModel{*this}
   , _trackerModel{std::make_shared<TrackerModel>(*this)} {
+    emit trackerModelChanged();
     startTimer(10);
 }
 //------------------------------------------------------------------------------
@@ -23,7 +23,11 @@ void MonitorBackend::timerEvent(QTimerEvent*) {
     }
 }
 //------------------------------------------------------------------------------
-auto MonitorBackend::getMonitor() -> MonitorViewModel* {
-    return nullptr;
+auto MonitorBackend::trackerModel() noexcept -> TrackerModel* {
+    return _trackerModel.get();
+}
+//------------------------------------------------------------------------------
+auto MonitorBackend::getMonitorViewModel() noexcept -> MonitorViewModel* {
+    return &_monitorViewModel;
 }
 //------------------------------------------------------------------------------

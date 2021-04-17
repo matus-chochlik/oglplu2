@@ -6,12 +6,14 @@
 ///
 
 #include "TrackerModel.hpp"
+#include "MonitorBackend.hpp"
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
 //------------------------------------------------------------------------------
-TrackerModel::TrackerModel(eagine::main_ctx_parent parent)
+TrackerModel::TrackerModel(MonitorBackend& backend)
   : QObject{nullptr}
-  , eagine::main_ctx_object{EAGINE_ID(Tracker), parent}
+  , eagine::main_ctx_object{EAGINE_ID(Tracker), backend}
+  , _backend{backend}
   , _bus{EAGINE_ID(TrckrEndpt), *this}
   , _tracker{_bus} {
     eagine::msgbus::router_address address{*this};
