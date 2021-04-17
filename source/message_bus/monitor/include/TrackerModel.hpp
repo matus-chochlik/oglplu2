@@ -5,30 +5,30 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-#ifndef EAGINE_MESSAGE_BUS_MONITOR_BACKEND
-#define EAGINE_MESSAGE_BUS_MONITOR_BACKEND
+#ifndef EAGINE_MESSAGE_BUS_MONITOR_TRACKER_MODEL
+#define EAGINE_MESSAGE_BUS_MONITOR_TRACKER_MODEL
 
 #include <eagine/main_ctx_object.hpp>
+#include <eagine/message_bus/service.hpp>
+#include <eagine/message_bus/service/shutdown.hpp>
+#include <eagine/message_bus/service/tracker.hpp>
 #include <QObject>
-#include <memory>
 
-class MonitorViewModel;
-class TrackerModel;
 //------------------------------------------------------------------------------
-class MonitorBackend
+class TrackerModel
   : public QObject
   , public eagine::main_ctx_object {
     Q_OBJECT
-
-    Q_PROPERTY(MonitorViewModel* monitor READ getMonitor CONSTANT)
 public:
-    MonitorBackend(eagine::main_ctx_parent);
+    TrackerModel(eagine::main_ctx_parent);
 
-    auto getMonitor() -> MonitorViewModel*;
-public slots:
+    void update();
+
 private:
-    void timerEvent(QTimerEvent*) final;
-    std::shared_ptr<TrackerModel> _trackerModel;
+    eagine::msgbus::endpoint _bus;
+    eagine::msgbus::service_composition<
+      eagine::msgbus::node_tracker<eagine::msgbus::shutdown_invoker<>>>
+      _tracker;
 };
 //------------------------------------------------------------------------------
 #endif

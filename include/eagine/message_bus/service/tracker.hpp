@@ -117,38 +117,6 @@ public:
         return EAGINE_THIS_MEM_FUNC_REF(_handle_ping_timeout);
     }
 
-protected:
-    node_tracker(endpoint& bus)
-      : base{bus} {
-        this->reported_alive.connect(on_alive());
-        this->subscribed.connect(on_subscribed());
-        this->unsubscribed.connect(on_unsubscribed());
-        this->not_subscribed.connect(on_not_subscribed());
-        this->host_id_received.connect(on_host_id_received());
-        this->hostname_received.connect(on_hostname_received());
-        this->router_appeared.connect(on_router_appeared());
-        this->bridge_appeared.connect(on_bridge_appeared());
-        this->endpoint_appeared.connect(on_endpoint_appeared());
-        this->endpoint_info_received.connect(on_endpoint_info_received());
-        this->build_info_received.connect(on_build_info_received());
-        this->cpu_concurrent_threads_received.connect(
-          on_cpu_concurrent_threads_received());
-        this->short_average_load_received.connect(
-          on_short_average_load_received());
-        this->long_average_load_received.connect(
-          on_long_average_load_received());
-        this->free_ram_size_received.connect(on_free_ram_size_received());
-        this->total_ram_size_received.connect(on_total_ram_size_received());
-        this->free_swap_size_received.connect(on_free_swap_size_received());
-        this->total_swap_size_received.connect(on_total_swap_size_received());
-        this->ping_responded.connect(on_ping_response());
-        this->ping_timeouted.connect(on_ping_timeout());
-    }
-
-    void add_methods() {
-        base::add_methods();
-    }
-
     auto update() -> bool {
         some_true something_done{};
         something_done(base::update());
@@ -210,6 +178,38 @@ protected:
         });
 
         return something_done;
+    }
+
+protected:
+    node_tracker(endpoint& bus)
+      : base{bus} {
+        this->reported_alive.connect(on_alive());
+        this->subscribed.connect(on_subscribed());
+        this->unsubscribed.connect(on_unsubscribed());
+        this->not_subscribed.connect(on_not_subscribed());
+        this->host_id_received.connect(on_host_id_received());
+        this->hostname_received.connect(on_hostname_received());
+        this->router_appeared.connect(on_router_appeared());
+        this->bridge_appeared.connect(on_bridge_appeared());
+        this->endpoint_appeared.connect(on_endpoint_appeared());
+        this->endpoint_info_received.connect(on_endpoint_info_received());
+        this->build_info_received.connect(on_build_info_received());
+        this->cpu_concurrent_threads_received.connect(
+          on_cpu_concurrent_threads_received());
+        this->short_average_load_received.connect(
+          on_short_average_load_received());
+        this->long_average_load_received.connect(
+          on_long_average_load_received());
+        this->free_ram_size_received.connect(on_free_ram_size_received());
+        this->total_ram_size_received.connect(on_total_ram_size_received());
+        this->free_swap_size_received.connect(on_free_swap_size_received());
+        this->total_swap_size_received.connect(on_total_swap_size_received());
+        this->ping_responded.connect(on_ping_response());
+        this->ping_timeouted.connect(on_ping_timeout());
+    }
+
+    void add_methods() {
+        base::add_methods();
     }
 
     template <typename Function>

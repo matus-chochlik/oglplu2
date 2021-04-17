@@ -10,9 +10,11 @@ set(MONITOR_RESOURCES
 set(MONITOR_SOURCES
 	monitor.cpp
 	src/MonitorBackend.cpp
+	src/TrackerModel.cpp
 )
 set(MONITOR_HEADERS
 	include/MonitorBackend.hpp
+	include/TrackerModel.hpp
 )
 add_executable(
 	eagine-message_bus-monitor
