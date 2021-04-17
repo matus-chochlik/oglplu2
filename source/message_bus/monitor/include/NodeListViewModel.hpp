@@ -41,8 +41,9 @@ private slots:
 private:
     enum {
         identifierRole = Qt::UserRole + 0,
-        displayNameRole = Qt::UserRole + 1,
-        descriptionRole = Qt::UserRole + 2
+        itemKindRole = Qt::UserRole + 1,
+        displayNameRole = Qt::UserRole + 2,
+        descriptionRole = Qt::UserRole + 3
     };
 
     MonitorBackend& _backend;

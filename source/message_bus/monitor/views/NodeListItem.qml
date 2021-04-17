@@ -3,13 +3,33 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.2
 import "qrc:///views"
 
-ColumnLayout {
-	id: nodeView
+Pane {
+	id: nodeListItem
+	width: parent.width
+	height: 55
 
-	Label {
-		text: identifier
+	function isCurrent() {
+		return nodeListItem.ListView.view.currentIndex != index
 	}
-	Label {
-		text: description
+
+	function makeCurrent() {
+		nodeListItem.ListView.view.currentIndex = index
+	}
+
+	background: Rectangle {
+		color: "orange"
+		opacity: isCurrent() ? 0.0 : 0.5
+	}
+	ColumnLayout {
+		Label {
+			text: identifier ? itemKind + ": " + identifier : "N/A"
+		}
+		Label {
+			text: displayName ? displayName : "-"
+		}
+	}
+	MouseArea {
+		anchors.fill: parent
+		onClicked: makeCurrent()
 	}
 }

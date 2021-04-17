@@ -43,6 +43,7 @@ void NodeListViewModel::onNodeAppeared(eagine::msgbus::remote_node& node) {
 auto NodeListViewModel::roleNames() const -> QHash<int, QByteArray> {
     QHash<int, QByteArray> result;
     result.insert(NodeListViewModel::identifierRole, "identifier");
+    result.insert(NodeListViewModel::itemKindRole, "itemKind");
     result.insert(NodeListViewModel::displayNameRole, "displayName");
     result.insert(NodeListViewModel::descriptionRole, "description");
     return result;
@@ -72,6 +73,18 @@ auto NodeListViewModel::data(const QModelIndex& index, int role) const
         auto pos = _nodes.begin() + r;
         if(role == NodeListViewModel::identifierRole) {
             return {QString::number(pos->first)};
+        } else if(role == NodeListViewModel::itemKindRole) {
+            switch(pos->second.kind()) {
+                case eagine::msgbus::node_kind::router:
+                    return {"Router"};
+                case eagine::msgbus::node_kind::bridge:
+                    return {"Bridge"};
+                case eagine::msgbus::node_kind::endpoint:
+                    return {"Endpoint"};
+                case eagine::msgbus::node_kind::unknown:
+                    break;
+            }
+            return {"Node"};
         } else if(role == NodeListViewModel::displayNameRole) {
             if(auto optStr{pos->second.display_name()}) {
                 return {c_str(extract(optStr))};
