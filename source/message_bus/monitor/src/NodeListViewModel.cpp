@@ -10,6 +10,82 @@
 #include "TrackerModel.hpp"
 #include <algorithm>
 //------------------------------------------------------------------------------
+// HostInfo
+//------------------------------------------------------------------------------
+auto NodeListViewModel::HostInfo::totalCount() const noexcept {
+    return std::accumulate(
+      instances.begin(), instances.end(), 0, [](int s, auto& e) {
+          return s + e.second.totalCount();
+      });
+}
+//------------------------------------------------------------------------------
+// Data
+//------------------------------------------------------------------------------
+auto NodeListViewModel::Data::totalCount() const noexcept {
+    return std::accumulate(hosts.begin(), hosts.end(), 0, [](int s, auto& e) {
+        return s + e.second.totalCount();
+    });
+}
+//------------------------------------------------------------------------------
+template <typename Function>
+void NodeListViewModel::Data::forHost(
+  eagine::identifier_t hostId,
+  Function function) const {
+    const auto hostPos = hosts.find(hostId);
+    if(hostPos != hosts.end()) {
+        const auto& hostInfo = hostPos->second;
+        function(hostInfo);
+    }
+}
+//------------------------------------------------------------------------------
+template <typename Function>
+void NodeListViewModel::Data::forInst(
+  eagine::identifier_t instId,
+  Function function) const {
+    const auto hostIdPos = inst2Host.find(instId);
+    if(hostIdPos != inst2Host.end()) {
+        const auto hostId = hostIdPos->second;
+        const auto hostPos = hosts.find(hostId);
+        if(hostPos != hosts.end()) {
+            const auto& hostInfo = hostPos->second;
+            const auto instPos = hostInfo.instances.find(instId);
+            if(instPos != hostInfo.instances.end()) {
+                const auto& instInfo = instPos->second;
+                function(instInfo);
+            }
+        }
+    }
+}
+//------------------------------------------------------------------------------
+template <typename Function>
+void NodeListViewModel::Data::forNode(
+  eagine::identifier_t nodeId,
+  Function function) const {
+    const auto instIdPos = node2Inst.find(nodeId);
+    if(instIdPos != node2Inst.end()) {
+        const auto instId = instIdPos->second;
+        const auto hostIdPos = inst2Host.find(instId);
+        if(hostIdPos != inst2Host.end()) {
+            const auto hostId = hostIdPos->second;
+            const auto hostPos = hosts.find(hostId);
+            if(hostPos != hosts.end()) {
+                const auto& hostInfo = hostPos->second;
+                const auto instPos = hostInfo.instances.find(instId);
+                if(instPos != hostInfo.instances.end()) {
+                    const auto& instInfo = instPos->second;
+                    const auto nodePos = instInfo.nodes.find(nodeId);
+                    if(nodePos != instInfo.nodes.end()) {
+                        const auto& nodeInfo = nodePos->second;
+                        function(nodeInfo);
+                    }
+                }
+            }
+        }
+    }
+}
+//------------------------------------------------------------------------------
+// NodeListViewModel
+//------------------------------------------------------------------------------
 NodeListViewModel::NodeListViewModel(MonitorBackend& backend)
   : QAbstractItemModel{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(NodeListVM), backend}
@@ -52,6 +128,7 @@ auto NodeListViewModel::roleNames() const -> QHash<int, QByteArray> {
     result.insert(NodeListViewModel::identifierRole, "identifier");
     result.insert(NodeListViewModel::displayNameRole, "displayName");
     result.insert(NodeListViewModel::descriptionRole, "description");
+    result.insert(NodeListViewModel::childCountRole, "childCount");
     return result;
 }
 //------------------------------------------------------------------------------
@@ -134,33 +211,44 @@ auto NodeListViewModel::descriptionData(
 auto NodeListViewModel::data(const QModelIndex& index, int role) const
   -> QVariant {
     QVariant result;
-    if(index.column() == 0) {
-        if(role == NodeListViewModel::identifierRole) {
-            return {QString::number(index.internalId())};
-        } else if(role == NodeListViewModel::itemKindRole) {
-            return {"Host"};
-        }
-    } else if(index.column() == 1) {
-        if(role == NodeListViewModel::identifierRole) {
-            return {QString::number(index.internalId())};
-        } else if(role == NodeListViewModel::itemKindRole) {
-            return {"Instance"};
-        }
-    } else {
-        const auto nodeId = index.internalId();
-        if(role == NodeListViewModel::identifierRole) {
-            return {QString::number(nodeId)};
+    if(role == NodeListViewModel::identifierRole) {
+        result = {QString::number(index.internalId())};
+    } else if(index.column() == 0) {
+        const auto hostId = index.internalId();
+        if(role == NodeListViewModel::itemKindRole) {
+            result = {"Host"};
         } else {
-            _model.forNode(nodeId, [this, role, &result](auto& node) {
-                if(role == NodeListViewModel::itemKindRole) {
-                    result = itemKindData(node);
-                } else if(role == NodeListViewModel::displayNameRole) {
-                    result = displayNameData(node);
-                } else if(role == NodeListViewModel::descriptionRole) {
-                    result = descriptionData(node);
+            _model.forHost(hostId, [this, role, &result](auto& info) {
+                if(role == NodeListViewModel::childCountRole) {
+                    result = {info.count()};
                 }
             });
         }
+    } else if(index.column() == 1) {
+        const auto instId = index.internalId();
+        if(role == NodeListViewModel::itemKindRole) {
+            result = {"Instance"};
+        } else {
+            _model.forInst(instId, [this, role, &result](auto& info) {
+                if(role == NodeListViewModel::childCountRole) {
+                    result = {info.count()};
+                }
+            });
+        }
+    } else {
+        const auto nodeId = index.internalId();
+        _model.forNode(nodeId, [this, role, &result](auto& info) {
+            auto& node = info.node;
+            if(role == NodeListViewModel::itemKindRole) {
+                result = itemKindData(node);
+            } else if(role == NodeListViewModel::displayNameRole) {
+                result = displayNameData(node);
+            } else if(role == NodeListViewModel::descriptionRole) {
+                result = descriptionData(node);
+            } else if(role == NodeListViewModel::childCountRole) {
+                result = 1;
+            }
+        });
     }
     return result;
 }

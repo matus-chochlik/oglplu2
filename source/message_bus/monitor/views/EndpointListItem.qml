@@ -7,17 +7,17 @@ NodeListItem {
 	id: endpointListItem
 
 	RowLayout {
-	Item {
-		width: 20
-	}
-	ColumnLayout {
-		Layout.fillWidth: true
-		Label {
-			text: "Endpoint: %1".arg(identifier ? identifier : "?")
+		Item {
+			width: 20
 		}
-		Label {
-			text: displayName ? displayName : "-"
+		ColumnLayout {
+			Layout.fillWidth: true
+			Label {
+				text: "Endpoint: %1".arg(identifier ? identifier : "?")
+			}
+			Label {
+				text: displayName ? displayName : "-"
+			}
 		}
-	}
 	}
 }

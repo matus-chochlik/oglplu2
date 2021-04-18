@@ -13,7 +13,6 @@
 #include <eagine/message_bus/remote_node.hpp>
 #include <QAbstractItemModel>
 #include <QObject>
-#include <algorithm>
 
 class MonitorBackend;
 //------------------------------------------------------------------------------
@@ -49,7 +48,8 @@ private:
         itemKindRole = Qt::UserRole + 0,
         identifierRole = Qt::UserRole + 1,
         displayNameRole = Qt::UserRole + 2,
-        descriptionRole = Qt::UserRole + 3
+        descriptionRole = Qt::UserRole + 3,
+        childCountRole = Qt::UserRole + 4
     };
 
     MonitorBackend& _backend;
@@ -62,8 +62,12 @@ private:
         eagine::msgbus::remote_instance instance;
         eagine::flat_map<eagine::identifier_t, NodeInfo> nodes;
 
-        auto totalCount() const noexcept {
+        auto count() const noexcept {
             return eagine::limit_cast<int>(nodes.size());
+        }
+
+        auto totalCount() const noexcept {
+            return count();
         }
 
         auto indexOk(int i) const noexcept -> bool {
@@ -85,12 +89,11 @@ private:
         eagine::msgbus::remote_host hosts;
         eagine::flat_map<eagine::identifier_t, InstanceInfo> instances;
 
-        auto totalCount() const noexcept {
-            return std::accumulate(
-              instances.begin(), instances.end(), 0, [](int s, auto& e) {
-                  return s + e.second.totalCount();
-              });
+        auto count() const noexcept {
+            return eagine::limit_cast<int>(instances.size());
         }
+
+        auto totalCount() const noexcept;
 
         auto indexOk(int i) const noexcept -> bool {
             return (i >= 0) && (i < eagine::limit_cast<int>(instances.size()));
@@ -102,22 +105,12 @@ private:
         }
     };
 
-    struct {
+    struct Data {
         eagine::flat_map<eagine::identifier_t, HostInfo> hosts;
         eagine::flat_map<eagine::identifier_t, eagine::identifier_t> node2Inst;
         eagine::flat_map<eagine::identifier_t, eagine::identifier_t> inst2Host;
 
-        auto totalCount() const noexcept {
-            return std::accumulate(
-              hosts.begin(), hosts.end(), 0, [](int s, auto& e) {
-                  return s + e.second.totalCount();
-              });
-        }
-
-        auto indexOf(eagine::identifier_t id) const noexcept -> int {
-            const auto pos = hosts.find(id);
-            return eagine::limit_cast<int>(pos - hosts.begin());
-        }
+        auto totalCount() const noexcept;
 
         auto indexOk(int i) const noexcept -> bool {
             return (i >= 0) && (i < eagine::limit_cast<int>(hosts.size()));
@@ -129,29 +122,13 @@ private:
         }
 
         template <typename Function>
-        void forNode(eagine::identifier_t nodeId, Function function) const {
-            const auto instIdPos = node2Inst.find(nodeId);
-            if(instIdPos != node2Inst.end()) {
-                const auto instId = instIdPos->second;
-                const auto hostIdPos = inst2Host.find(instId);
-                if(hostIdPos != inst2Host.end()) {
-                    const auto hostId = hostIdPos->second;
-                    const auto hostPos = hosts.find(hostId);
-                    if(hostPos != hosts.end()) {
-                        const auto& hostInfo = hostPos->second;
-                        const auto instPos = hostInfo.instances.find(instId);
-                        if(instPos != hostInfo.instances.end()) {
-                            const auto& instInfo = instPos->second;
-                            const auto nodePos = instInfo.nodes.find(nodeId);
-                            if(nodePos != instInfo.nodes.end()) {
-                                const auto& nodeInfo = nodePos->second;
-                                function(nodeInfo.node);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        void forHost(eagine::identifier_t hostId, Function function) const;
+
+        template <typename Function>
+        void forInst(eagine::identifier_t instId, Function function) const;
+
+        template <typename Function>
+        void forNode(eagine::identifier_t nodeId, Function function) const;
     } _model;
 };
 //------------------------------------------------------------------------------
