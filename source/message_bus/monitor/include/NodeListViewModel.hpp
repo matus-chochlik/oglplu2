@@ -62,47 +62,18 @@ private:
         eagine::msgbus::remote_instance instance;
         eagine::flat_map<eagine::identifier_t, NodeInfo> nodes;
 
-        auto count() const noexcept {
-            return eagine::limit_cast<int>(nodes.size());
-        }
-
-        auto totalCount() const noexcept {
-            return count();
-        }
-
-        auto indexOk(int i) const noexcept -> bool {
-            return (i >= 0) && (i < eagine::limit_cast<int>(nodes.size()));
-        }
-
-        auto id(int i) const noexcept -> auto {
-            EAGINE_ASSERT(indexOk(i));
-            return (nodes.begin() + i)->first;
-        }
-
-        auto at(int i) const noexcept -> auto& {
-            EAGINE_ASSERT(indexOk(i));
-            return (nodes.begin() + i)->second;
-        }
+        auto count() const noexcept -> int;
+        auto totalCount() const noexcept -> int;
+        auto indexOk(int i) const noexcept -> bool;
+        auto id(int i) const noexcept -> eagine::identifier_t;
     };
 
     struct HostInfo {
         eagine::msgbus::remote_host hosts;
         eagine::flat_map<eagine::identifier_t, InstanceInfo> instances;
 
-        auto count() const noexcept {
-            return eagine::limit_cast<int>(instances.size());
-        }
-
-        auto totalCount() const noexcept;
-
-        auto indexOk(int i) const noexcept -> bool {
-            return (i >= 0) && (i < eagine::limit_cast<int>(instances.size()));
-        }
-
-        auto at(int i) const noexcept -> auto& {
-            EAGINE_ASSERT(indexOk(i));
-            return (instances.begin() + i)->second;
-        }
+        auto count() const noexcept -> int;
+        auto totalCount() const noexcept -> int;
     };
 
     struct Data {
@@ -110,16 +81,7 @@ private:
         eagine::flat_map<eagine::identifier_t, eagine::identifier_t> node2Inst;
         eagine::flat_map<eagine::identifier_t, eagine::identifier_t> inst2Host;
 
-        auto totalCount() const noexcept;
-
-        auto indexOk(int i) const noexcept -> bool {
-            return (i >= 0) && (i < eagine::limit_cast<int>(hosts.size()));
-        }
-
-        auto at(int i) const noexcept -> auto& {
-            EAGINE_ASSERT(indexOk(i));
-            return (hosts.begin() + i)->second;
-        }
+        auto totalCount() const noexcept -> int;
 
         template <typename Function>
         void forHost(eagine::identifier_t hostId, Function function) const;

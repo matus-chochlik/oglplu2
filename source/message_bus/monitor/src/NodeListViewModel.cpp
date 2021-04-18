@@ -10,9 +10,33 @@
 #include "TrackerModel.hpp"
 #include <algorithm>
 //------------------------------------------------------------------------------
+// InstanceInfo
+//------------------------------------------------------------------------------
+auto NodeListViewModel::InstanceInfo::count() const noexcept -> int {
+    return eagine::limit_cast<int>(nodes.size());
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::InstanceInfo::totalCount() const noexcept -> int {
+    return count();
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::InstanceInfo::indexOk(int i) const noexcept -> bool {
+    return (i >= 0) && (i < eagine::limit_cast<int>(nodes.size()));
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::InstanceInfo::id(int i) const noexcept
+  -> eagine::identifier_t {
+    EAGINE_ASSERT(indexOk(i));
+    return (nodes.begin() + i)->first;
+}
+//------------------------------------------------------------------------------
 // HostInfo
 //------------------------------------------------------------------------------
-auto NodeListViewModel::HostInfo::totalCount() const noexcept {
+auto NodeListViewModel::HostInfo::count() const noexcept -> int {
+    return eagine::limit_cast<int>(instances.size());
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::HostInfo::totalCount() const noexcept -> int {
     return std::accumulate(
       instances.begin(), instances.end(), 0, [](int s, auto& e) {
           return s + e.second.totalCount();
@@ -21,7 +45,7 @@ auto NodeListViewModel::HostInfo::totalCount() const noexcept {
 //------------------------------------------------------------------------------
 // Data
 //------------------------------------------------------------------------------
-auto NodeListViewModel::Data::totalCount() const noexcept {
+auto NodeListViewModel::Data::totalCount() const noexcept -> int {
     return std::accumulate(hosts.begin(), hosts.end(), 0, [](int s, auto& e) {
         return s + e.second.totalCount();
     });
