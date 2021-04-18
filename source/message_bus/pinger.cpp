@@ -41,8 +41,11 @@ struct ping_state {
     resetting_timeout should_check_info{std::chrono::seconds(5), nothing};
     bool is_active{false};
 
-    auto avg_time() const noexcept {
-        return sum_time / responded;
+    auto avg_time() const noexcept -> std::chrono::microseconds {
+        if(responded) {
+            return sum_time / responded;
+        }
+        return {};
     }
 
     auto time_interval() const noexcept {
