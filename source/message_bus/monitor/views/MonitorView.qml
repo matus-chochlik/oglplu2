@@ -15,6 +15,7 @@ RowLayout {
 		delegate: NodeListItem {
 			Layout.fillWidth: true
 		}
+		focus: true
 		clip: true
 	}
 }
