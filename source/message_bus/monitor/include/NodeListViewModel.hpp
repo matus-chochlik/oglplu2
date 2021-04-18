@@ -30,6 +30,11 @@ public:
     auto parent(const QModelIndex& child) const -> QModelIndex final;
     auto columnCount(const QModelIndex& parent) const -> int final;
     auto rowCount(const QModelIndex& parent) const -> int final;
+
+    auto identifierData(const eagine::msgbus::remote_node&) const -> QVariant;
+    auto itemKindData(const eagine::msgbus::remote_node&) const -> QVariant;
+    auto displayNameData(const eagine::msgbus::remote_node&) const -> QVariant;
+    auto descriptionData(const eagine::msgbus::remote_node&) const -> QVariant;
     auto data(const QModelIndex& index, int role) const -> QVariant final;
 
 public slots:

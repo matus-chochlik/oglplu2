@@ -66,33 +66,56 @@ auto NodeListViewModel::rowCount(const QModelIndex&) const -> int {
     return eagine::limit_cast<int>(_nodes.size());
 }
 //------------------------------------------------------------------------------
+auto NodeListViewModel::identifierData(
+  const eagine::msgbus::remote_node& node) const -> QVariant {
+    return {QString::number(extract(node.id()))};
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::itemKindData(
+  const eagine::msgbus::remote_node& node) const -> QVariant {
+    switch(node.kind()) {
+        case eagine::msgbus::node_kind::router:
+            return {"Router"};
+        case eagine::msgbus::node_kind::bridge:
+            return {"Bridge"};
+        case eagine::msgbus::node_kind::endpoint:
+            return {"Endpoint"};
+        case eagine::msgbus::node_kind::unknown:
+            break;
+    }
+    return {"Node"};
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::displayNameData(
+  const eagine::msgbus::remote_node& node) const -> QVariant {
+    if(auto optStr{node.display_name()}) {
+        return {c_str(extract(optStr))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::descriptionData(
+  const eagine::msgbus::remote_node& node) const -> QVariant {
+    if(auto optStr{node.description()}) {
+        return {c_str(extract(optStr))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 auto NodeListViewModel::data(const QModelIndex& index, int role) const
   -> QVariant {
     const auto r = index.row();
     if((r >= 0) && (r < eagine::limit_cast<int>(_nodes.size()))) {
         auto pos = _nodes.begin() + r;
+        auto& node = pos->second;
         if(role == NodeListViewModel::identifierRole) {
-            return {QString::number(pos->first)};
+            return identifierData(node);
         } else if(role == NodeListViewModel::itemKindRole) {
-            switch(pos->second.kind()) {
-                case eagine::msgbus::node_kind::router:
-                    return {"Router"};
-                case eagine::msgbus::node_kind::bridge:
-                    return {"Bridge"};
-                case eagine::msgbus::node_kind::endpoint:
-                    return {"Endpoint"};
-                case eagine::msgbus::node_kind::unknown:
-                    break;
-            }
-            return {"Node"};
+            return itemKindData(node);
         } else if(role == NodeListViewModel::displayNameRole) {
-            if(auto optStr{pos->second.display_name()}) {
-                return {c_str(extract(optStr))};
-            }
+            return displayNameData(node);
         } else if(role == NodeListViewModel::descriptionRole) {
-            if(auto optStr{pos->second.description()}) {
-                return {c_str(extract(optStr))};
-            }
+            return descriptionData(node);
         }
     }
     return {};
