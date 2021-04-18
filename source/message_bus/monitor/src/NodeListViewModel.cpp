@@ -8,6 +8,7 @@
 #include "NodeListViewModel.hpp"
 #include "MonitorBackend.hpp"
 #include "TrackerModel.hpp"
+#include <algorithm>
 //------------------------------------------------------------------------------
 NodeListViewModel::NodeListViewModel(MonitorBackend& backend)
   : QAbstractItemModel{nullptr}
@@ -32,9 +33,14 @@ void NodeListViewModel::onTrackerModelChanged() {
 //------------------------------------------------------------------------------
 void NodeListViewModel::onNodeAppeared(eagine::msgbus::remote_node& node) {
     if(node) {
-        auto [pos, added] = _nodes.try_emplace(extract(node.id()));
-        if(added) {
-            pos->second = node;
+        const auto hostId = extract_or(node.host().id(), 0U);
+        const auto instId = extract_or(node.instance().id(), 0U);
+        const auto nodeId = extract_or(node.id(), 0U);
+        auto& entry = _model.hosts[hostId].instances[instId].nodes[nodeId];
+        if(!entry.node) {
+            entry.node = node;
+            _model.node2Inst[nodeId] = instId;
+            _model.inst2Host[instId] = hostId;
             emit modelReset({});
         }
     }
@@ -42,8 +48,8 @@ void NodeListViewModel::onNodeAppeared(eagine::msgbus::remote_node& node) {
 //------------------------------------------------------------------------------
 auto NodeListViewModel::roleNames() const -> QHash<int, QByteArray> {
     QHash<int, QByteArray> result;
-    result.insert(NodeListViewModel::identifierRole, "identifier");
     result.insert(NodeListViewModel::itemKindRole, "itemKind");
+    result.insert(NodeListViewModel::identifierRole, "identifier");
     result.insert(NodeListViewModel::displayNameRole, "displayName");
     result.insert(NodeListViewModel::descriptionRole, "description");
     return result;
@@ -51,7 +57,30 @@ auto NodeListViewModel::roleNames() const -> QHash<int, QByteArray> {
 //------------------------------------------------------------------------------
 auto NodeListViewModel::index(int row, int, const QModelIndex&) const
   -> QModelIndex {
-    return QAbstractItemModel::createIndex(row, 0);
+    int skip = row;
+    for(auto& [hostId, host] : _model.hosts) {
+        if(!skip) {
+            return QAbstractItemModel::createIndex(row, 0, hostId);
+        }
+        skip--;
+        auto subtotal = host.totalCount();
+        if(skip < subtotal) {
+            for(auto& [instId, inst] : host.instances) {
+                if(!skip) {
+                    return QAbstractItemModel::createIndex(row, 1, instId);
+                }
+                skip--;
+                subtotal = inst.totalCount();
+                if(skip < subtotal) {
+                    return QAbstractItemModel::createIndex(
+                      row, 2, inst.id(skip));
+                }
+                skip -= subtotal;
+            }
+        }
+        skip -= subtotal;
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::parent(const QModelIndex&) const -> QModelIndex {
@@ -59,16 +88,11 @@ auto NodeListViewModel::parent(const QModelIndex&) const -> QModelIndex {
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::columnCount(const QModelIndex&) const -> int {
-    return 1;
+    return 3;
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::rowCount(const QModelIndex&) const -> int {
-    return eagine::limit_cast<int>(_nodes.size());
-}
-//------------------------------------------------------------------------------
-auto NodeListViewModel::identifierData(
-  const eagine::msgbus::remote_node& node) const -> QVariant {
-    return {QString::number(extract(node.id()))};
+    return _model.totalCount();
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::itemKindData(
@@ -84,6 +108,11 @@ auto NodeListViewModel::itemKindData(
             break;
     }
     return {"Node"};
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::identifierData(
+  const eagine::msgbus::remote_node& node) const -> QVariant {
+    return {QString::number(extract(node.id()))};
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::displayNameData(
@@ -104,20 +133,35 @@ auto NodeListViewModel::descriptionData(
 //------------------------------------------------------------------------------
 auto NodeListViewModel::data(const QModelIndex& index, int role) const
   -> QVariant {
-    const auto r = index.row();
-    if((r >= 0) && (r < eagine::limit_cast<int>(_nodes.size()))) {
-        auto pos = _nodes.begin() + r;
-        auto& node = pos->second;
+    QVariant result;
+    if(index.column() == 0) {
         if(role == NodeListViewModel::identifierRole) {
-            return identifierData(node);
+            return {QString::number(index.internalId())};
         } else if(role == NodeListViewModel::itemKindRole) {
-            return itemKindData(node);
-        } else if(role == NodeListViewModel::displayNameRole) {
-            return displayNameData(node);
-        } else if(role == NodeListViewModel::descriptionRole) {
-            return descriptionData(node);
+            return {"Host"};
+        }
+    } else if(index.column() == 1) {
+        if(role == NodeListViewModel::identifierRole) {
+            return {QString::number(index.internalId())};
+        } else if(role == NodeListViewModel::itemKindRole) {
+            return {"Instance"};
+        }
+    } else {
+        const auto nodeId = index.internalId();
+        if(role == NodeListViewModel::identifierRole) {
+            return {QString::number(nodeId)};
+        } else {
+            _model.forNode(nodeId, [this, role, &result](auto& node) {
+                if(role == NodeListViewModel::itemKindRole) {
+                    result = itemKindData(node);
+                } else if(role == NodeListViewModel::displayNameRole) {
+                    result = displayNameData(node);
+                } else if(role == NodeListViewModel::descriptionRole) {
+                    result = descriptionData(node);
+                }
+            });
         }
     }
-    return {};
+    return result;
 }
 //------------------------------------------------------------------------------

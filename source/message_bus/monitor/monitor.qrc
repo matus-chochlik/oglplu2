@@ -3,6 +3,7 @@
 	<file>qtquickcontrols2.conf</file>
 	<file>monitor.qml</file>
 	<file>views/MonitorView.qml</file>
+	<file>views/NodeListView.qml</file>
 	<file>views/NodeListItem.qml</file>
 </qresource>
 </RCC>

@@ -7,15 +7,8 @@ RowLayout {
     id: monitorView
     property variant model: null
 
-	ListView {
-		Layout.preferredWidth: 200
+	NodeListView {
 		Layout.fillHeight: true
-
 		model: monitorView.model.nodeList
-		delegate: NodeListItem {
-			Layout.fillWidth: true
-		}
-		focus: true
-		clip: true
 	}
 }
