@@ -6,8 +6,9 @@ import "qrc:///views"
 
 Pane {
 	id: nodeListItem
+	property variant view: nodeListItemLayout.view
 
-	width: parent.width
+	width: 200
 	height: 55
 	clip: true
 
@@ -17,28 +18,12 @@ Pane {
 		opacity: 0.0
 	}
 
-	function nodeItemIdentifier() {
-		return "%1: %2"
-			.arg(itemKind ? itemKind : "Node")
-			.arg(identifier ? identifier : "?")
-	}
-
-	ColumnLayout {
-		id: expandedNodeItem
-		Label {
-			text: nodeItemIdentifier()
-		}
-		Label {
-			text: displayName ? displayName : "-"
-		}
-	}
-
 	function isCurrent() {
-		return nodeListItem.ListView.view.currentIndex == index
+		return nodeListItem.view.currentIndex == index
 	}
 
 	function makeCurrent() {
-		nodeListItem.ListView.view.currentIndex = index
+		nodeListItem.view.currentIndex = index
 	}
 
 	state: isCurrent() ? "Selected" : "Unselected"

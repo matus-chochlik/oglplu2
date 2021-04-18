@@ -5,5 +5,10 @@
 	<file>views/MonitorView.qml</file>
 	<file>views/NodeListView.qml</file>
 	<file>views/NodeListItem.qml</file>
+	<file>views/HostListItem.qml</file>
+	<file>views/InstanceListItem.qml</file>
+	<file>views/RouterListItem.qml</file>
+	<file>views/BridgeListItem.qml</file>
+	<file>views/EndpointListItem.qml</file>
 </qresource>
 </RCC>
