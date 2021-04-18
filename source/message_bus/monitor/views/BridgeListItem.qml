@@ -6,12 +6,14 @@ import "qrc:///views"
 NodeListItem {
 	id: bridgeListItem
 
-	ColumnLayout {
-		Label {
-			text: "Bridge: %1".arg(identifier ? identifier : "?")
+	RowLayout {
+		Item {
+			width: 20
 		}
-		Label {
-			text: displayName ? displayName : "-"
+		ColumnLayout {
+			Label {
+				text: "Bridge: %1".arg(identifier ? identifier : "?")
+			}
 		}
 	}
 }

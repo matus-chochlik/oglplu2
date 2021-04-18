@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.2
 
 ListView {
 	id: nodeListView
-	Layout.preferredWidth: 200
+	Layout.preferredWidth: 250
 
 	delegate: Loader {
 		id: itemLoader
@@ -19,6 +19,7 @@ ListView {
 			itemLoader.item.view = nodeListView
 		}
 	}
+	spacing: 2
 	focus: true
 	clip: true
 }

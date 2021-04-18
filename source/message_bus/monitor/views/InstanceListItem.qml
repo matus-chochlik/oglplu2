@@ -6,10 +6,17 @@ import "qrc:///views"
 NodeListItem {
 	id: instListItem
 
-	ColumnLayout {
-		Label {
-			text: "Instance: %1".arg(identifier ? identifier : "?")
+	RowLayout {
+		Item {
+			width: 10
+		}
+		ColumnLayout {
+			Label {
+				text: "Instance: %1".arg(identifier ? identifier : "?")
+			}
+			Label {
+				text: "Nodes: %1".arg(childCount ? childCount : "?")
+			}
 		}
 	}
-
 }
