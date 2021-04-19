@@ -9,6 +9,7 @@ set(MONITOR_RESOURCES
 )
 set(MONITOR_SOURCES
 	monitor.cpp
+	src/MonitorTheme.cpp
 	src/MonitorBackend.cpp
 	src/TrackerModel.cpp
 	src/NodeListViewModel.cpp
@@ -16,6 +17,7 @@ set(MONITOR_SOURCES
 	src/NodeViewModel.cpp
 )
 set(MONITOR_HEADERS
+	include/MonitorTheme.hpp
 	include/MonitorBackend.hpp
 	include/TrackerModel.hpp
 	include/NodeListViewModel.hpp

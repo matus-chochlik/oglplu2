@@ -9,9 +9,8 @@ ApplicationWindow {
     visible: true
     width: 1200
     height: 800
-    Material.theme: Material.Dark
+    Material.theme: backend.theme.light ? Material.Light : Material.Dark
 	Material.accent: Material.Orange
-
     Action {
         id: quitAction
         text: qsTr("&Quit")
@@ -21,12 +20,31 @@ ApplicationWindow {
         }
     }
 
+    Action {
+        id: lightThemeToggleAction
+        text: qsTr("&Light")
+		checkable: true
+		checked: backend.theme.light
+        onToggled: {
+            backend.theme.light = checked
+        }
+    }
+
     menuBar: MenuBar {
         Menu {
             title: qsTr("&File")
             MenuItem {
                 action: quitAction
             }
+        }
+        Menu {
+            title: qsTr("&Window")
+        	Menu {
+            	title: qsTr("&Theme")
+				MenuItem {
+					action: lightThemeToggleAction
+				}
+			}
         }
     }
 

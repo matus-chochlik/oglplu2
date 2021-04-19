@@ -19,6 +19,8 @@ auto main(main_ctx& ctx) -> int {
 
     const auto registerId = "com.github.matus-chochlik.oglplu2";
 
+    qmlRegisterUncreatableType<MonitorTheme>(
+      registerId, 1, 0, "MonitorTheme", {});
     qmlRegisterUncreatableType<MonitorViewModel>(
       registerId, 1, 0, "MonitorViewModel", {});
     qmlRegisterUncreatableType<NodeListViewModel>(

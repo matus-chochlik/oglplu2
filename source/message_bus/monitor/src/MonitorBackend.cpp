@@ -12,6 +12,7 @@ MonitorBackend::MonitorBackend(eagine::main_ctx_parent parent)
   : QObject{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(Backend), parent}
   , _trackerModel{std::make_shared<TrackerModel>(*this)}
+  , _monitorTheme{*this}
   , _monitorViewModel{*this} {
     emit trackerModelChanged();
     _timerId = startTimer(10);
@@ -29,6 +30,10 @@ void MonitorBackend::timerEvent(QTimerEvent*) {
 //------------------------------------------------------------------------------
 auto MonitorBackend::trackerModel() noexcept -> TrackerModel* {
     return _trackerModel.get();
+}
+//------------------------------------------------------------------------------
+auto MonitorBackend::getMonitorTheme() noexcept -> MonitorTheme* {
+    return &_monitorTheme;
 }
 //------------------------------------------------------------------------------
 auto MonitorBackend::getMonitorViewModel() noexcept -> MonitorViewModel* {
