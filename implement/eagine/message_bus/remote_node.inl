@@ -509,6 +509,7 @@ auto remote_node_state::set_host_id(host_id_t host_id) -> remote_node_state& {
             i.changes |= remote_node_change::host_info;
             if(i.instance_id) {
                 _tracker.get_instance(i.instance_id).set_host_id(host_id);
+                i.changes |= remote_node_change::host_id;
             }
         }
     }

@@ -39,11 +39,13 @@ public:
 
 public slots:
     void onNodeAppeared(eagine::msgbus::remote_node&);
+    void onNodeRelocated(eagine::msgbus::remote_node&);
 
 private slots:
     void onTrackerModelChanged();
 
 private:
+    enum { hostItem = 0, instItem = 1, nodeItem = 2 };
     enum {
         itemKindRole = Qt::UserRole + 0,
         identifierRole = Qt::UserRole + 1,
@@ -63,16 +65,18 @@ private:
         eagine::flat_map<eagine::identifier_t, NodeInfo> nodes;
 
         auto count() const noexcept -> int;
+        auto subCount() const noexcept -> int;
         auto totalCount() const noexcept -> int;
         auto indexOk(int i) const noexcept -> bool;
         auto id(int i) const noexcept -> eagine::identifier_t;
     };
 
     struct HostInfo {
-        eagine::msgbus::remote_host hosts;
+        eagine::msgbus::remote_host host;
         eagine::flat_map<eagine::identifier_t, InstanceInfo> instances;
 
         auto count() const noexcept -> int;
+        auto subCount() const noexcept -> int;
         auto totalCount() const noexcept -> int;
     };
 
@@ -91,6 +95,9 @@ private:
 
         template <typename Function>
         void forNode(eagine::identifier_t nodeId, Function function) const;
+
+        void addNode(eagine::msgbus::remote_node&);
+        void moveNode(eagine::msgbus::remote_node&);
     } _model;
 };
 //------------------------------------------------------------------------------

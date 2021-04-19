@@ -32,7 +32,10 @@ void TrackerModel::handleNodeChanged(
         emit nodeAppeared(node);
     }
 
-    if(changes.has(remote_node_change::host_id)) {
+    if(
+      changes.has(remote_node_change::host_id) ||
+      changes.has(remote_node_change::instance_id)) {
+        emit nodeRelocated(node);
     }
 
     if(changes.has(remote_node_change::host_info)) {
@@ -63,9 +66,6 @@ void TrackerModel::handleNodeChanged(
     }
 
     if(changes.has(remote_node_change::connection_info)) {
-    }
-
-    if(changes.has(remote_node_change::instance_id)) {
     }
 }
 //------------------------------------------------------------------------------

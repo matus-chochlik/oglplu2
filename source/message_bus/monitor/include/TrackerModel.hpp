@@ -30,6 +30,7 @@ public:
     }
 signals:
     void nodeAppeared(eagine::msgbus::remote_node&);
+    void nodeRelocated(eagine::msgbus::remote_node&);
 
 private:
     void handleNodeChanged(
