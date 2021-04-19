@@ -11,7 +11,8 @@ ListView {
 		Layout.fillWidth: true
 
 		function itemViewUrl() {
-			return "qrc:///views/%1ListItem.qml".arg(itemKind)
+			return "qrc:///views/%1ListItem.qml"
+				.arg(itemKind ? itemKind : "Unknown")
 		}
 
 		source: itemViewUrl()

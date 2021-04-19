@@ -3,18 +3,22 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.2
 import "qrc:///views"
 
-Pane {
+Control {
 	id: nodeListItem
 	property variant view: nodeListItemLayout.view
 
 	width: 250
-	height: 55
+	height: 56
+	leftPadding: 0
+	topPadding: 0
+	rightPadding: 0
+	bottomPadding: 0
 	clip: true
 
 	background: Rectangle {
-		id: nodeItemBackground
-		color: "orange"
-		opacity: 0.1
+		id: nodeListItemBg
+		color: "gray"
+		opacity: 0.05
 	}
 
 	function isCurrent() {
@@ -30,15 +34,15 @@ Pane {
 		State {
 			name: "Selected"
 			PropertyChanges {
-				target: nodeItemBackground
-				opacity: 0.6
+				target: nodeListItemBg
+				opacity: 0.5
 			}
 		},
 		State {
 			name: "Unselected"
 			PropertyChanges {
-				target: nodeItemBackground
-				opacity: 0.1
+				target: nodeListItemBg
+				opacity: 0.05
 			}
 		}
 	]
@@ -48,7 +52,7 @@ Pane {
 			from: "Unselected"
 			to: "Selected"
 			PropertyAnimation {
-				target: nodeItemBackground
+				target: nodeListItemBg
 				properties: "opacity"
 				duration: 100
 			}
@@ -57,7 +61,7 @@ Pane {
 			from: "Selected"
 			to: "Unselected"
 			PropertyAnimation {
-				target: nodeItemBackground
+				target: nodeListItemBg
 				properties: "opacity"
 				duration: 300
 			}

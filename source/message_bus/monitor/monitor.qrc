@@ -2,6 +2,12 @@
 <qresource>
 	<file>qtquickcontrols2.conf</file>
 	<file>monitor.qml</file>
+	<file>icons/HostItem.svg</file>
+	<file>icons/InstanceItem.svg</file>
+	<file>icons/UnknownNode.svg</file>
+	<file>icons/RouterNode.svg</file>
+	<file>icons/BridgeNode.svg</file>
+	<file>icons/EndpointNode.svg</file>
 	<file>views/MonitorView.qml</file>
 	<file>views/NodeListView.qml</file>
 	<file>views/NodeListItem.qml</file>

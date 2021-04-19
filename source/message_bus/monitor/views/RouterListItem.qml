@@ -7,12 +7,26 @@ NodeListItem {
 	id: routerListItem
 
 	RowLayout {
+		anchors.fill: parent
 		Item {
-			width: 20
+			Layout.preferredWidth: 50
+		}
+		Image {
+			Layout.preferredWidth: 56
+			Layout.preferredHeight: 56
+			horizontalAlignment: Image.AlignHCenter
+			source: "qrc:/icons/RouterNode.svg"
 		}
 		ColumnLayout {
+			Layout.fillHeight: true
 			Label {
-				text: "Router: %1".arg(identifier ? identifier : "?")
+				Layout.fillWidth: true
+				font.pixelSize: 10;
+				text: "Router: %1".arg(identifier)
+			}
+			Label {
+				Layout.fillWidth: true
+				text: "Connected:"
 			}
 		}
 	}

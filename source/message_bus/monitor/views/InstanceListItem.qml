@@ -7,15 +7,26 @@ NodeListItem {
 	id: instListItem
 
 	RowLayout {
+		anchors.fill: parent
 		Item {
-			width: 10
+			Layout.preferredWidth: 25
+		}
+		Image {
+			Layout.preferredWidth: 56
+			Layout.preferredHeight: 56
+			horizontalAlignment: Image.AlignHCenter
+			source: "qrc:/icons/InstanceItem.svg"
 		}
 		ColumnLayout {
+			Layout.fillHeight: true
 			Label {
-				text: "Instance: %1".arg(identifier ? identifier : "?")
+				Layout.fillWidth: true
+				font.pixelSize: 10;
+				text: "Process: %1".arg(identifier ? identifier : "?")
 			}
 			Label {
-				text: "Nodes: %1".arg(childCount ? childCount : "?")
+				Layout.fillWidth: true
+				text: "Running nodes: %1".arg(childCount ? childCount : "?")
 			}
 		}
 	}

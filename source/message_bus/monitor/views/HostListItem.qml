@@ -6,12 +6,25 @@ import "qrc:///views"
 NodeListItem {
 	id: hostListItem
 
-	ColumnLayout {
-		Label {
-			text: "Host: %1".arg(identifier ? identifier : "?")
+	RowLayout {
+		anchors.fill: parent
+		Image {
+			Layout.preferredWidth: 56
+			Layout.preferredHeight: 56
+			horizontalAlignment: Image.AlignHCenter
+			source: "qrc:/icons/HostItem.svg"
 		}
-		Label {
-			text: displayName ? displayName : "-"
+		ColumnLayout {
+			Layout.fillHeight: true
+			Label {
+				Layout.fillWidth: true
+				font.pixelSize: 10;
+				text: "Host: %1".arg(identifier ? identifier : "?")
+			}
+			Label {
+				Layout.fillWidth: true
+				text: "Processes: %1".arg(childCount ? childCount : "?")
+			}
 		}
 	}
 }

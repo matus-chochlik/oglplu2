@@ -7,13 +7,27 @@ NodeListItem {
 	id: unknownListItem
 
 	RowLayout {
+		anchors.fill: parent
 		Item {
-			width: 20
+			Layout.preferredWidth: 50
+		}
+		Image {
+			Layout.preferredWidth: 56
+			Layout.preferredHeight: 56
+			horizontalAlignment: Image.AlignHCenter
+			source: "qrc:/icons/UnknownNode.svg"
 		}
 		ColumnLayout {
-			Layout.fillWidth: true
+			Layout.fillHeight: true
 			Label {
-				text: "Unknown: %1".arg(identifier ? identifier : "?")
+				Layout.fillWidth: true
+				font.pixelSize: 10;
+				text: "Unknown node: %1".arg(identifier ? identifier : "?")
+			}
+			Label {
+				Layout.fillWidth: true
+				font.italic: true
+				text: "No info available"
 			}
 		}
 	}
