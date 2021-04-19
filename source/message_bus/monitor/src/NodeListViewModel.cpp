@@ -303,7 +303,7 @@ auto NodeListViewModel::itemKindData(
         case eagine::msgbus::node_kind::unknown:
             break;
     }
-    return {"Node"};
+    return {"Unknown"};
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::identifierData(

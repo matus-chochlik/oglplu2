@@ -10,5 +10,6 @@
 	<file>views/RouterListItem.qml</file>
 	<file>views/BridgeListItem.qml</file>
 	<file>views/EndpointListItem.qml</file>
+	<file>views/UnknownListItem.qml</file>
 </qresource>
 </RCC>
