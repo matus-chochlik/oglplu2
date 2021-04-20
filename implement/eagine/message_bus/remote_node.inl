@@ -1061,6 +1061,9 @@ auto remote_node_tracker::notice_instance(
         }
     } else {
         node.set_instance_id(instance_id);
+        if(auto host_id{node.host_id()}) {
+            get_instance(instance_id).set_host_id(extract(host_id));
+        }
     }
     return node.notice_alive();
 }

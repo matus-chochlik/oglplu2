@@ -48,9 +48,7 @@ public:
     auto data(const QModelIndex& index, int role) const -> QVariant final;
 
 public slots:
-    void onNodeKindChanged(const remote_node&);
-    void onNodeRelocated(const remote_node&);
-    void onNodeInfoChanged(const remote_node&);
+    void onNodeChanged(const remote_node&);
     void onInstanceInfoChanged(const remote_inst&);
     void onHostInfoChanged(const remote_host&);
 
@@ -113,9 +111,6 @@ private:
 
         template <typename Function>
         void forNode(eagine::identifier_t nodeId, Function function) const;
-
-        void addNode(const remote_node&);
-        void moveNode(const remote_node&);
 
         auto updateNode(const remote_node&) -> int;
         auto updateInst(const remote_inst&) -> int;

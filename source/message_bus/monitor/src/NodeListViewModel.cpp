@@ -128,123 +128,101 @@ void NodeListViewModel::Data::forNode(
     }
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::Data::addNode(const remote_node& node) {
-    const auto hostId = extract_or(node.host().id(), 0U);
-    const auto instId = extract_or(node.instance().id(), 0U);
-    const auto nodeId = extract_or(node.id(), 0U);
-
-    auto& nodeInfo = hosts[hostId].instances[instId].nodes[nodeId];
-    if(!nodeInfo.node) {
-        nodeInfo.node = node;
-    }
-    node2Inst[nodeId] = instId;
-    inst2Host[instId] = hostId;
-}
-//------------------------------------------------------------------------------
-void NodeListViewModel::Data::moveNode(const remote_node& node) {
-    const auto nodeId = extract(node.id());
-    if(auto inst{node.instance()}) {
-        const auto instId = extract(inst.id());
-        if(auto host{inst.host()}) {
-            const auto hostId = extract(host.id());
-            auto& hostInfo = hosts[hostId];
-            auto& instInfo = hostInfo.instances[instId];
-            const auto prevInstIdPos = node2Inst.find(nodeId);
-            if(prevInstIdPos != node2Inst.end()) {
-                const auto prevInstId = prevInstIdPos->second;
-                const auto prevHostIdPos = inst2Host.find(prevInstId);
-                EAGINE_ASSERT(prevHostIdPos != inst2Host.end());
-                const auto prevHostId = prevHostIdPos->second;
-                if((instId != prevInstId) || (hostId != prevHostId)) {
-                    const auto prevHostPos = hosts.find(prevHostId);
-                    EAGINE_ASSERT(prevHostPos != hosts.end());
-                    auto& prevHostInfo = prevHostPos->second;
-                    const auto prevInstPos =
-                      prevHostInfo.instances.find(prevInstId);
-                    EAGINE_ASSERT(prevInstPos != prevHostInfo.instances.end());
-                    auto& prevInstInfo = prevInstPos->second;
-                    const auto prevNodePos = prevInstInfo.nodes.find(nodeId);
-                    EAGINE_ASSERT(prevNodePos != prevInstInfo.nodes.end());
-                    auto& prevNodeInfo = prevNodePos->second;
-
-                    if(instId != prevInstId) {
-                        if(!instInfo.instance) {
-                            instInfo.instance = inst;
-                        }
-                        auto& nodeInfo = instInfo.nodes[nodeId];
-                        nodeInfo = std::move(prevNodeInfo);
-                        EAGINE_ASSERT(nodeInfo.node);
-
-                        node2Inst[nodeId] = instId;
-                        prevInstInfo.nodes.erase(prevNodePos);
-                    }
-
-                    if(hostId != prevHostId) {
-                        if(!hostInfo.host) {
-                            hostInfo.host = node.host();
-                        }
-                        for(auto& [otherNodeId, otherNodeInfo] :
-                            prevInstInfo.nodes) {
-                            instInfo.nodes[otherNodeId] =
-                              std::move(otherNodeInfo);
-                            node2Inst[otherNodeId] = instId;
-                        }
-
-                        inst2Host[instId] = hostId;
-                        prevInstInfo.nodes.clear();
-                    }
-
-                    if(prevInstInfo.nodes.empty()) {
-                        prevHostInfo.instances.erase(prevInstPos);
-                    }
-
-                    if(prevHostInfo.instances.empty()) {
-                        hosts.erase(prevHostPos);
-                    }
-                }
-            } else {
-                auto& nodeInfo = hosts[hostId].instances[instId].nodes[nodeId];
-                nodeInfo.node = node;
-                node2Inst[nodeId] = instId;
-                inst2Host[instId] = hostId;
-            }
-        }
-    }
-}
-//------------------------------------------------------------------------------
 auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
     const auto hostId = extract_or(node.host().id(), 0U);
-    const auto hostPos = hosts.find(hostId);
-    if(hostPos != hosts.end()) {
-        auto& hostInfo = hostPos->second;
-        auto& instances = hostInfo.instances;
-        const auto instId = extract_or(node.instance().id(), 0U);
-        const auto instPos = instances.find(instId);
-        if(instPos != instances.end()) {
-            auto& instInfo = instPos->second;
-            auto& nodes = instInfo.nodes;
-            const auto nodeId = extract(node.id());
-            const auto nodePos = nodes.find(nodeId);
-            if(nodePos != nodes.end()) {
-                auto& nodeInfo = nodePos->second;
-                if(!nodeInfo.node) {
-                    nodeInfo.node = node;
+    const auto instId = extract_or(node.instance().id(), 0U);
+    const auto nodeId = extract(node.id());
+
+    const auto prevInstIdPos = node2Inst.find(nodeId);
+    if(prevInstIdPos != node2Inst.end()) {
+        auto& hostInfo = hosts[hostId];
+        auto& instInfo = hostInfo.instances[instId];
+
+        if(hostId && instId) {
+            const auto prevInstId = prevInstIdPos->second;
+            const auto prevHostIdPos = inst2Host.find(prevInstId);
+            EAGINE_ASSERT(prevHostIdPos != inst2Host.end());
+            const auto prevHostId = prevHostIdPos->second;
+
+            const auto prevHostPos = hosts.find(prevHostId);
+            EAGINE_ASSERT(prevHostPos != hosts.end());
+            auto& prevHostInfo = prevHostPos->second;
+            const auto prevInstPos = prevHostInfo.instances.find(prevInstId);
+            EAGINE_ASSERT(prevInstPos != prevHostInfo.instances.end());
+            auto& prevInstInfo = prevInstPos->second;
+            const auto prevNodePos = prevInstInfo.nodes.find(nodeId);
+            EAGINE_ASSERT(prevNodePos != prevInstInfo.nodes.end());
+            auto& prevNodeInfo = prevNodePos->second;
+
+            bool relocated = false;
+            if(instId != prevInstId) {
+                if(!instInfo.instance) {
+                    instInfo.instance = node.instance();
                 }
-                nodeInfo.update();
-                int row = 2;
-                for(auto it = hosts.begin(); it != hostPos; ++it) {
-                    row += it->second.totalCount();
+                auto& nodeInfo = instInfo.nodes[nodeId];
+                nodeInfo = std::move(prevNodeInfo);
+                EAGINE_ASSERT(nodeInfo.node);
+
+                node2Inst[nodeId] = instId;
+                inst2Host[instId] = hostId;
+                prevInstInfo.nodes.erase(prevNodePos);
+                relocated = true;
+            }
+
+            if(hostId != prevHostId) {
+                if(!hostInfo.host) {
+                    hostInfo.host = node.host();
                 }
-                for(auto it = instances.begin(); it != instPos; ++it) {
-                    row += it->second.totalCount();
+                for(auto& [otherNodeId, otherNodeInfo] : prevInstInfo.nodes) {
+                    instInfo.nodes[otherNodeId] = std::move(otherNodeInfo);
+                    node2Inst[otherNodeId] = instId;
                 }
-                for(auto it = nodes.begin(); it != nodePos; ++it) {
-                    row += it->second.totalCount();
-                }
-                return row;
+
+                inst2Host[instId] = hostId;
+                prevInstInfo.nodes.clear();
+                relocated = true;
+            }
+
+            if(prevInstInfo.nodes.empty()) {
+                prevHostInfo.instances.erase(prevInstPos);
+                relocated = true;
+            }
+
+            if(prevHostInfo.instances.empty()) {
+                hosts.erase(prevHostPos);
+                relocated = true;
+            }
+
+            if(relocated) {
+                return -1;
             }
         }
+
+        int row = 2;
+        for(auto& hostEntry : hosts) {
+            if(hostEntry.first == hostId) {
+                for(auto& instEntry : hostEntry.second.instances) {
+                    if(instEntry.first == instId) {
+                        for(auto& nodeEntry : instEntry.second.nodes) {
+                            if(nodeEntry.first == nodeId) {
+                                nodeEntry.second.update();
+                                return row;
+                            }
+                            row += nodeEntry.second.totalCount();
+                        }
+                    }
+                    row += instEntry.second.totalCount();
+                }
+            }
+            row += hostEntry.second.totalCount();
+        }
+        EAGINE_UNREACHABLE();
     }
+
+    auto& nodeInfo = hosts[hostId].instances[instId].nodes[nodeId];
+    nodeInfo.node = node;
+    node2Inst[nodeId] = instId;
+    inst2Host[instId] = hostId;
     return -1;
 }
 //------------------------------------------------------------------------------
@@ -312,17 +290,17 @@ void NodeListViewModel::onTrackerModelChanged() {
           trackerModel,
           &TrackerModel::nodeKindChanged,
           this,
-          &NodeListViewModel::onNodeKindChanged);
+          &NodeListViewModel::onNodeChanged);
         connect(
           trackerModel,
           &TrackerModel::nodeRelocated,
           this,
-          &NodeListViewModel::onNodeRelocated);
+          &NodeListViewModel::onNodeChanged);
         connect(
           trackerModel,
           &TrackerModel::nodeInfoChanged,
           this,
-          &NodeListViewModel::onNodeInfoChanged);
+          &NodeListViewModel::onNodeChanged);
         connect(
           trackerModel,
           &TrackerModel::instanceInfoChanged,
@@ -336,27 +314,15 @@ void NodeListViewModel::onTrackerModelChanged() {
     }
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::onNodeKindChanged(const remote_node& node) {
+void NodeListViewModel::onNodeChanged(const remote_node& node) {
     if(node) {
-        _model.addNode(node);
-        emit modelReset({});
-    }
-}
-//------------------------------------------------------------------------------
-void NodeListViewModel::onNodeRelocated(const remote_node& node) {
-    if(node) {
-        _model.moveNode(node);
-        emit modelReset({});
-    }
-}
-//------------------------------------------------------------------------------
-void NodeListViewModel::onNodeInfoChanged(const remote_node& node) {
-    if(node) {
-        if(const auto row = _model.updateNode(node); row >= 0) {
+        if(int row = _model.updateNode(node); row >= 0) {
             const auto nodeId = extract(node.id());
             emit dataChanged(
               QAbstractItemModel::createIndex(row, 0, nodeId),
               QAbstractItemModel::createIndex(row, 2, nodeId));
+        } else {
+            emit modelReset({});
         }
     }
 }
