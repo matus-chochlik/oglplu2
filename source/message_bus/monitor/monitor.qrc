@@ -17,5 +17,7 @@
 	<file>views/BridgeListItem.qml</file>
 	<file>views/EndpointListItem.qml</file>
 	<file>views/UnknownListItem.qml</file>
+	<file>views/Responsive.qml</file>
+	<file>views/Unresponsive.qml</file>
 </qresource>
 </RCC>
