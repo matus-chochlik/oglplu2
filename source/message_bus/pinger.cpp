@@ -11,6 +11,7 @@
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/discovery.hpp>
+#include <eagine/message_bus/service/endpoint_info.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/signal_switch.hpp>
@@ -66,8 +67,8 @@ struct ping_state {
     }
 };
 //------------------------------------------------------------------------------
-using pinger_base =
-  service_composition<pinger<host_info_consumer<subscriber_discovery<>>>>;
+using pinger_base = service_composition<
+  pinger<host_info_consumer<endpoint_info_provider<subscriber_discovery<>>>>>;
 
 class pinger_node
   : public main_ctx_object
@@ -259,6 +260,13 @@ public:
     }
 
 private:
+    auto provide_endpoint_info() -> endpoint_info final {
+        endpoint_info result;
+        result.display_name = "pinger";
+        result.description = "node pinging all other nodes";
+        return result;
+    }
+
     resetting_timeout _should_query_pingable{std::chrono::seconds(3), nothing};
     std::chrono::steady_clock::time_point prev_log{
       std::chrono::steady_clock::now()};

@@ -60,7 +60,7 @@ private:
 
     auto provide_endpoint_info() -> endpoint_info final {
         endpoint_info result;
-        result.display_name = "sudoku node";
+        result.display_name = "sudoku helper";
         result.description = "helper node for the sudoku solver service";
         return result;
     }
