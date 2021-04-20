@@ -10,6 +10,14 @@
 #include "TrackerModel.hpp"
 #include <algorithm>
 //------------------------------------------------------------------------------
+// NodeInfo
+//------------------------------------------------------------------------------
+auto NodeListViewModel::NodeInfo::totalCount() const noexcept -> int {
+    return 1;
+}
+//------------------------------------------------------------------------------
+void NodeListViewModel::NodeInfo::update() {}
+//------------------------------------------------------------------------------
 // InstanceInfo
 //------------------------------------------------------------------------------
 auto NodeListViewModel::InstanceInfo::count() const noexcept -> int {
@@ -33,6 +41,8 @@ auto NodeListViewModel::InstanceInfo::id(int i) const noexcept
     EAGINE_ASSERT(indexOk(i));
     return (nodes.begin() + i)->first;
 }
+//------------------------------------------------------------------------------
+void NodeListViewModel::InstanceInfo::update() {}
 //------------------------------------------------------------------------------
 // HostInfo
 //------------------------------------------------------------------------------
@@ -118,18 +128,20 @@ void NodeListViewModel::Data::forNode(
     }
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::Data::addNode(const eagine::msgbus::remote_node& node) {
+void NodeListViewModel::Data::addNode(const remote_node& node) {
     const auto hostId = extract_or(node.host().id(), 0U);
     const auto instId = extract_or(node.instance().id(), 0U);
     const auto nodeId = extract_or(node.id(), 0U);
 
     auto& nodeInfo = hosts[hostId].instances[instId].nodes[nodeId];
-    nodeInfo.node = node;
+    if(!nodeInfo.node) {
+        nodeInfo.node = node;
+    }
     node2Inst[nodeId] = instId;
     inst2Host[instId] = hostId;
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::Data::moveNode(const eagine::msgbus::remote_node& node) {
+void NodeListViewModel::Data::moveNode(const remote_node& node) {
     const auto nodeId = extract(node.id());
     if(auto inst{node.instance()}) {
         const auto instId = extract(inst.id());
@@ -200,8 +212,70 @@ void NodeListViewModel::Data::moveNode(const eagine::msgbus::remote_node& node) 
     }
 }
 //------------------------------------------------------------------------------
-auto NodeListViewModel::Data::updateHost(const eagine::msgbus::remote_host& host)
-  -> int {
+auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
+    const auto hostId = extract_or(node.host().id(), 0U);
+    const auto hostPos = hosts.find(hostId);
+    if(hostPos != hosts.end()) {
+        auto& hostInfo = hostPos->second;
+        auto& instances = hostInfo.instances;
+        const auto instId = extract_or(node.instance().id(), 0U);
+        const auto instPos = instances.find(instId);
+        if(instPos != instances.end()) {
+            auto& instInfo = instPos->second;
+            auto& nodes = instInfo.nodes;
+            const auto nodeId = extract(node.id());
+            const auto nodePos = nodes.find(nodeId);
+            if(nodePos != nodes.end()) {
+                auto& nodeInfo = nodePos->second;
+                if(!nodeInfo.node) {
+                    nodeInfo.node = node;
+                }
+                nodeInfo.update();
+                int row = 2;
+                for(auto it = hosts.begin(); it != hostPos; ++it) {
+                    row += it->second.totalCount();
+                }
+                for(auto it = instances.begin(); it != instPos; ++it) {
+                    row += it->second.totalCount();
+                }
+                for(auto it = nodes.begin(); it != nodePos; ++it) {
+                    row += it->second.totalCount();
+                }
+                return row;
+            }
+        }
+    }
+    return -1;
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::Data::updateInst(const remote_inst& inst) -> int {
+    const auto hostId = extract_or(inst.host().id(), 0U);
+    const auto hostPos = hosts.find(hostId);
+    if(hostPos != hosts.end()) {
+        auto& hostInfo = hostPos->second;
+        auto& instances = hostInfo.instances;
+        const auto instId = extract_or(inst.id(), 0U);
+        const auto instPos = instances.find(instId);
+        if(instPos != instances.end()) {
+            auto& instInfo = instPos->second;
+            if(!instInfo.instance) {
+                instInfo.instance = inst;
+            }
+            instInfo.update();
+            int row = 1;
+            for(auto it = hosts.begin(); it != hostPos; ++it) {
+                row += it->second.totalCount();
+            }
+            for(auto it = instances.begin(); it != instPos; ++it) {
+                row += it->second.totalCount();
+            }
+            return row;
+        }
+    }
+    return -1;
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::Data::updateHost(const remote_host& host) -> int {
     const auto hostId = extract_or(host.id(), 0U);
     const auto hostPos = hosts.find(hostId);
     if(hostPos != hosts.end()) {
@@ -236,14 +310,24 @@ void NodeListViewModel::onTrackerModelChanged() {
     if(auto trackerModel{_backend.trackerModel()}) {
         connect(
           trackerModel,
-          &TrackerModel::nodeAppeared,
+          &TrackerModel::nodeKindChanged,
           this,
-          &NodeListViewModel::onNodeAppeared);
+          &NodeListViewModel::onNodeKindChanged);
         connect(
           trackerModel,
           &TrackerModel::nodeRelocated,
           this,
           &NodeListViewModel::onNodeRelocated);
+        connect(
+          trackerModel,
+          &TrackerModel::nodeInfoChanged,
+          this,
+          &NodeListViewModel::onNodeInfoChanged);
+        connect(
+          trackerModel,
+          &TrackerModel::instanceInfoChanged,
+          this,
+          &NodeListViewModel::onInstanceInfoChanged);
         connect(
           trackerModel,
           &TrackerModel::hostInfoChanged,
@@ -252,23 +336,43 @@ void NodeListViewModel::onTrackerModelChanged() {
     }
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::onNodeAppeared(const eagine::msgbus::remote_node& node) {
+void NodeListViewModel::onNodeKindChanged(const remote_node& node) {
     if(node) {
         _model.addNode(node);
         emit modelReset({});
     }
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::onNodeRelocated(
-  const eagine::msgbus::remote_node& node) {
+void NodeListViewModel::onNodeRelocated(const remote_node& node) {
     if(node) {
         _model.moveNode(node);
         emit modelReset({});
     }
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::onHostInfoChanged(
-  const eagine::msgbus::remote_host& host) {
+void NodeListViewModel::onNodeInfoChanged(const remote_node& node) {
+    if(node) {
+        if(const auto row = _model.updateNode(node); row >= 0) {
+            const auto nodeId = extract(node.id());
+            emit dataChanged(
+              QAbstractItemModel::createIndex(row, 0, nodeId),
+              QAbstractItemModel::createIndex(row, 2, nodeId));
+        }
+    }
+}
+//------------------------------------------------------------------------------
+void NodeListViewModel::onInstanceInfoChanged(const remote_inst& inst) {
+    if(inst) {
+        if(const auto row = _model.updateInst(inst); row >= 0) {
+            const auto instId = extract_or(inst.id(), 0U);
+            emit dataChanged(
+              QAbstractItemModel::createIndex(row, 0, instId),
+              QAbstractItemModel::createIndex(row, 2, instId));
+        }
+    }
+}
+//------------------------------------------------------------------------------
+void NodeListViewModel::onHostInfoChanged(const remote_host& host) {
     if(host) {
         if(const auto row = _model.updateHost(host); row >= 0) {
             const auto hostId = extract_or(host.id(), 0U);
@@ -285,6 +389,7 @@ auto NodeListViewModel::roleNames() const -> QHash<int, QByteArray> {
     result.insert(NodeListViewModel::identifierRole, "identifier");
     result.insert(NodeListViewModel::displayNameRole, "displayName");
     result.insert(NodeListViewModel::descriptionRole, "description");
+    result.insert(NodeListViewModel::isResponsiveRole, "isResponsive");
     result.insert(NodeListViewModel::childCountRole, "childCount");
     return result;
 }
@@ -330,8 +435,8 @@ auto NodeListViewModel::rowCount(const QModelIndex&) const -> int {
     return _model.totalCount();
 }
 //------------------------------------------------------------------------------
-auto NodeListViewModel::itemKindData(
-  const eagine::msgbus::remote_node& node) const -> QVariant {
+auto NodeListViewModel::itemKindData(const remote_node& node) const
+  -> QVariant {
     switch(node.kind()) {
         case eagine::msgbus::node_kind::router:
             return {"Router"};
@@ -345,31 +450,60 @@ auto NodeListViewModel::itemKindData(
     return {"Unknown"};
 }
 //------------------------------------------------------------------------------
-auto NodeListViewModel::identifierData(
-  const eagine::msgbus::remote_node& node) const -> QVariant {
+auto NodeListViewModel::identifierData(const remote_node& node) const
+  -> QVariant {
     return {QString::number(extract(node.id()))};
 }
 //------------------------------------------------------------------------------
-auto NodeListViewModel::displayNameData(
-  const eagine::msgbus::remote_host& host) const -> QVariant {
+auto NodeListViewModel::displayNameData(const remote_host& host) const
+  -> QVariant {
     if(auto optStr{host.name()}) {
         return {c_str(extract(optStr))};
     }
     return {};
 }
 //------------------------------------------------------------------------------
-auto NodeListViewModel::displayNameData(
-  const eagine::msgbus::remote_node& node) const -> QVariant {
+auto NodeListViewModel::displayNameData(const remote_inst& inst) const
+  -> QVariant {
+    if(auto optStr{inst.application_name()}) {
+        return {c_str(extract(optStr))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::displayNameData(const remote_node& node) const
+  -> QVariant {
     if(auto optStr{node.display_name()}) {
         return {c_str(extract(optStr))};
     }
     return {};
 }
 //------------------------------------------------------------------------------
-auto NodeListViewModel::descriptionData(
-  const eagine::msgbus::remote_node& node) const -> QVariant {
+auto NodeListViewModel::descriptionData(const remote_node& node) const
+  -> QVariant {
     if(auto optStr{node.description()}) {
         return {c_str(extract(optStr))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::isResponsiveData(const remote_host& host) const
+  -> QVariant {
+    return {host.is_alive()};
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::isResponsiveData(const remote_inst& inst) const
+  -> QVariant {
+    return {inst.is_alive()};
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::isResponsiveData(const remote_node& node) const
+  -> QVariant {
+    if(node.is_responsive()) {
+        return {true};
+    }
+    if(!node.is_responsive()) {
+        return {false};
     }
     return {};
 }
@@ -389,6 +523,8 @@ auto NodeListViewModel::data(const QModelIndex& index, int role) const
                     result = {info.count()};
                 } else if(role == NodeListViewModel::displayNameRole) {
                     result = displayNameData(info.host);
+                } else if(role == NodeListViewModel::isResponsiveRole) {
+                    result = isResponsiveData(info.host);
                 }
             });
         }
@@ -397,9 +533,13 @@ auto NodeListViewModel::data(const QModelIndex& index, int role) const
         if(role == NodeListViewModel::itemKindRole) {
             result = {"Instance"};
         } else {
-            _model.forInst(instId, [role, &result](auto& info) {
+            _model.forInst(instId, [this, role, &result](auto& info) {
                 if(role == NodeListViewModel::childCountRole) {
                     result = {info.count()};
+                } else if(role == NodeListViewModel::displayNameRole) {
+                    result = displayNameData(info.instance);
+                } else if(role == NodeListViewModel::isResponsiveRole) {
+                    result = isResponsiveData(info.instance);
                 }
             });
         }
@@ -413,6 +553,8 @@ auto NodeListViewModel::data(const QModelIndex& index, int role) const
                 result = displayNameData(node);
             } else if(role == NodeListViewModel::descriptionRole) {
                 result = descriptionData(node);
+            } else if(role == NodeListViewModel::isResponsiveRole) {
+                result = isResponsiveData(node);
             } else if(role == NodeListViewModel::childCountRole) {
                 result = {0};
             }

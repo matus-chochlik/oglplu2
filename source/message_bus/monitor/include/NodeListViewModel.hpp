@@ -21,27 +21,38 @@ class NodeListViewModel
   , public eagine::main_ctx_object {
     Q_OBJECT
 
+    using remote_node = eagine::msgbus::remote_node;
+    using remote_inst = eagine::msgbus::remote_instance;
+    using remote_host = eagine::msgbus::remote_host;
+
 public:
     NodeListViewModel(MonitorBackend&);
 
     auto roleNames() const -> QHash<int, QByteArray> final;
-    auto index(int row, int column, const QModelIndex& parent) const
+    auto index(int row, int column, const QModelIndex& parent = {}) const
       -> QModelIndex final;
     auto parent(const QModelIndex& child) const -> QModelIndex final;
     auto columnCount(const QModelIndex& parent) const -> int final;
     auto rowCount(const QModelIndex& parent) const -> int final;
 
-    auto itemKindData(const eagine::msgbus::remote_node&) const -> QVariant;
-    auto identifierData(const eagine::msgbus::remote_node&) const -> QVariant;
-    auto displayNameData(const eagine::msgbus::remote_host&) const -> QVariant;
-    auto displayNameData(const eagine::msgbus::remote_node&) const -> QVariant;
-    auto descriptionData(const eagine::msgbus::remote_node&) const -> QVariant;
+    auto itemKindData(const remote_node&) const -> QVariant;
+    auto identifierData(const remote_node&) const -> QVariant;
+    auto displayNameData(const remote_host&) const -> QVariant;
+    auto displayNameData(const remote_inst&) const -> QVariant;
+    auto displayNameData(const remote_node&) const -> QVariant;
+    auto descriptionData(const remote_node&) const -> QVariant;
+    auto isResponsiveData(const remote_host&) const -> QVariant;
+    auto isResponsiveData(const remote_inst&) const -> QVariant;
+    auto isResponsiveData(const remote_node&) const -> QVariant;
+
     auto data(const QModelIndex& index, int role) const -> QVariant final;
 
 public slots:
-    void onNodeAppeared(const eagine::msgbus::remote_node&);
-    void onNodeRelocated(const eagine::msgbus::remote_node&);
-    void onHostInfoChanged(const eagine::msgbus::remote_host&);
+    void onNodeKindChanged(const remote_node&);
+    void onNodeRelocated(const remote_node&);
+    void onNodeInfoChanged(const remote_node&);
+    void onInstanceInfoChanged(const remote_inst&);
+    void onHostInfoChanged(const remote_host&);
 
 private slots:
     void onTrackerModelChanged();
@@ -53,17 +64,20 @@ private:
         descriptionRole = Qt::ToolTipRole,
         itemKindRole = Qt::UserRole + 0,
         identifierRole = Qt::UserRole + 1,
-        childCountRole = Qt::UserRole + 2
+        isResponsiveRole = Qt::UserRole + 2,
+        childCountRole = Qt::UserRole + 3
     };
 
     MonitorBackend& _backend;
 
     struct NodeInfo {
-        eagine::msgbus::remote_node node;
+        remote_node node;
+        auto totalCount() const noexcept -> int;
+        void update();
     };
 
     struct InstanceInfo {
-        eagine::msgbus::remote_instance instance;
+        remote_inst instance;
         eagine::flat_map<eagine::identifier_t, NodeInfo> nodes;
 
         auto count() const noexcept -> int;
@@ -71,10 +85,11 @@ private:
         auto totalCount() const noexcept -> int;
         auto indexOk(int i) const noexcept -> bool;
         auto id(int i) const noexcept -> eagine::identifier_t;
+        void update();
     };
 
     struct HostInfo {
-        eagine::msgbus::remote_host host;
+        remote_host host;
         eagine::flat_map<eagine::identifier_t, InstanceInfo> instances;
 
         auto count() const noexcept -> int;
@@ -99,10 +114,12 @@ private:
         template <typename Function>
         void forNode(eagine::identifier_t nodeId, Function function) const;
 
-        void addNode(const eagine::msgbus::remote_node&);
-        void moveNode(const eagine::msgbus::remote_node&);
+        void addNode(const remote_node&);
+        void moveNode(const remote_node&);
 
-        auto updateHost(const eagine::msgbus::remote_host&) -> int;
+        auto updateNode(const remote_node&) -> int;
+        auto updateInst(const remote_inst&) -> int;
+        auto updateHost(const remote_host&) -> int;
     } _model;
 };
 //------------------------------------------------------------------------------

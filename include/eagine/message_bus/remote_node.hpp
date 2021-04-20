@@ -582,9 +582,18 @@ public:
     auto host_id() const noexcept -> valid_if_not_zero<host_id_t>;
 
     /// @brief Returns the kind of the remote node.
+    /// @see has_known_kind
     /// @see is_router_node
     /// @see is_bridge_node
     auto kind() const noexcept -> node_kind;
+
+    /// @brief Indicates if the kind of the remote node is known.
+    /// @see kind
+    /// @see is_router_node
+    /// @see is_bridge_node
+    auto has_known_kind() const noexcept -> bool {
+        return kind() != node_kind::unknown;
+    }
 
     /// @brief Returns if the remote node is a router control node.
     /// @see is_bridge_node

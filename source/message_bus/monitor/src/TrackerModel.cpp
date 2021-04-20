@@ -20,6 +20,9 @@ TrackerModel::TrackerModel(MonitorBackend& backend)
     eagine::msgbus::connection_setup conn_setup{*this};
     conn_setup.setup_connectors(_tracker, address);
 
+    _tracker.host_changed.connect(EAGINE_THIS_MEM_FUNC_REF(handleHostChanged));
+    _tracker.instance_changed.connect(
+      EAGINE_THIS_MEM_FUNC_REF(handleInstanceChanged));
     _tracker.node_changed.connect(EAGINE_THIS_MEM_FUNC_REF(handleNodeChanged));
 }
 //------------------------------------------------------------------------------
@@ -33,13 +36,23 @@ void TrackerModel::handleHostChanged(
     }
 }
 //------------------------------------------------------------------------------
+void TrackerModel::handleInstanceChanged(
+  eagine::msgbus::remote_instance& instance,
+  eagine::msgbus::remote_instance_changes changes) {
+    using eagine::msgbus::remote_instance_change;
+
+    if(changes.has(remote_instance_change::application_info)) {
+        emit instanceInfoChanged(instance);
+    }
+}
+//------------------------------------------------------------------------------
 void TrackerModel::handleNodeChanged(
   eagine::msgbus::remote_node& node,
   eagine::msgbus::remote_node_changes changes) {
     using eagine::msgbus::remote_node_change;
 
     if(changes.has(remote_node_change::kind)) {
-        emit nodeAppeared(node);
+        emit nodeKindChanged(node);
     }
 
     if(
@@ -48,13 +61,8 @@ void TrackerModel::handleNodeChanged(
         emit nodeRelocated(node);
     }
 
-    if(changes.has(remote_node_change::host_info)) {
-    }
-
-    if(changes.has(remote_node_change::build_info)) {
-    }
-
     if(changes.has(remote_node_change::endpoint_info)) {
+        emit nodeInfoChanged(node);
     }
 
     if(changes.has(remote_node_change::methods_added)) {
@@ -67,12 +75,6 @@ void TrackerModel::handleNodeChanged(
     }
 
     if(changes.has(remote_node_change::stopped_responding)) {
-    }
-
-    if(changes.has(remote_node_change::hardware_config)) {
-    }
-
-    if(changes.has(remote_node_change::sensor_values)) {
     }
 
     if(changes.has(remote_node_change::connection_info)) {

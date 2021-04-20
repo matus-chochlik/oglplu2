@@ -33,11 +33,14 @@ protected:
     }
 
 public:
-    void discover_topology() {
+    void query_topology(identifier_t node_id) {
         message_view message{};
-        message.set_target_id(broadcast_endpoint_id());
+        message.set_target_id(node_id);
         const auto msg_id{EAGINE_MSGBUS_ID(topoQuery)};
         this->bus().post(msg_id, message);
+    }
+    void discover_topology() {
+        query_topology(broadcast_endpoint_id());
     }
 
     signal<void(const router_topology_info&)> router_appeared;

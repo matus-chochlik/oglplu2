@@ -25,6 +25,9 @@ NodeListItem {
 				text: "Process: %1".arg(identifier ? identifier : "?")
 			}
 			Label {
+				text: displayName ? displayName : "-"
+			}
+			Label {
 				Layout.fillWidth: true
 				text: "Running nodes: %1".arg(childCount ? childCount : "?")
 			}

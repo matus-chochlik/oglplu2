@@ -29,14 +29,20 @@ public:
         return _tracker;
     }
 signals:
-    void nodeAppeared(const eagine::msgbus::remote_node&);
+    void nodeKindChanged(const eagine::msgbus::remote_node&);
     void nodeRelocated(const eagine::msgbus::remote_node&);
+    void nodeInfoChanged(const eagine::msgbus::remote_node&);
+    void instanceInfoChanged(const eagine::msgbus::remote_instance&);
     void hostInfoChanged(const eagine::msgbus::remote_host&);
 
 private:
     void handleHostChanged(
       eagine::msgbus::remote_host&,
       eagine::msgbus::remote_host_changes);
+
+    void handleInstanceChanged(
+      eagine::msgbus::remote_instance&,
+      eagine::msgbus::remote_instance_changes);
 
     void handleNodeChanged(
       eagine::msgbus::remote_node&,

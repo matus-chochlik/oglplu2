@@ -145,6 +145,9 @@ public:
 
         _tracker.for_each_node_state([&](auto node_id, auto& node) {
             if(should_query_info) {
+                if(!node.has_known_kind()) {
+                    this->query_topology(node_id);
+                }
                 if(!node.host_id()) {
                     this->query_host_id(node_id);
                 }
