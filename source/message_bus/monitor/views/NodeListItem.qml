@@ -72,4 +72,22 @@ Control {
 		anchors.fill: parent
 		onClicked: makeCurrent()
 	}
+
+	function toolTipText() {
+		var result = ""
+		if(itemKind && identifier) {
+			result += "%1 %2: ".arg(itemKind).arg(identifier)
+		}
+		if(description) {
+			result += description
+		} else if(displayName) {
+			result += displayName
+		}
+		return result
+	}
+
+	ToolTip.delay: 1000
+	ToolTip.timeout: 5000
+	ToolTip.visible: hovered
+	ToolTip.text: qsTr(toolTipText())
 }
