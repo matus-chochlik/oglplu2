@@ -100,9 +100,6 @@ data_member_mapping(type_identity<endpoint_topology_info>, Selector) noexcept {
 //------------------------------------------------------------------------------
 /// @brief Message bus endpoint information.
 struct endpoint_info {
-    /// @brief The application name.
-    std::string app_name;
-
     /// @brief User-readable display name of the endpoint.
     std::string display_name;
 
@@ -117,7 +114,7 @@ struct endpoint_info {
 
     auto tie() const noexcept {
         return std::tie(
-          app_name, display_name, description, is_router_node, is_bridge_node);
+          display_name, description, is_router_node, is_bridge_node);
     }
 
     friend auto
@@ -131,14 +128,7 @@ template <typename Selector>
 constexpr auto
 data_member_mapping(type_identity<endpoint_info>, Selector) noexcept {
     using S = endpoint_info;
-    return make_data_member_mapping<
-      S,
-      std::string,
-      std::string,
-      std::string,
-      bool,
-      bool>(
-      {"app_name", &S::app_name},
+    return make_data_member_mapping<S, std::string, std::string, bool, bool>(
       {"display_name", &S::display_name},
       {"description", &S::description},
       {"is_router_node", &S::is_router_node},

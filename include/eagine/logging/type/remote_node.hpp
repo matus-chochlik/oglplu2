@@ -46,11 +46,6 @@ adapt_log_entry_arg(identifier name, const msgbus::remote_node& value) {
             backend.add_adapted(EAGINE_ID(buildInfo), extract(opt_bld));
         }
 
-        if(const auto opt_name{value.app_name()}) {
-            backend.add_string(
-              EAGINE_ID(applName), EAGINE_ID(string), extract(opt_name));
-        }
-
         if(const auto opt_name{value.display_name()}) {
             backend.add_string(
               EAGINE_ID(dispName), EAGINE_ID(string), extract(opt_name));

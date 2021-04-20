@@ -547,7 +547,7 @@ public:
 
     auto notice_alive() -> remote_instance_state&;
     auto set_host_id(host_id_t) -> remote_instance_state&;
-    auto set_app_name(std::string) -> remote_instance_state&;
+    auto set_app_name(const std::string&) -> remote_instance_state&;
     auto assign(build_info) -> remote_instance_state&;
 };
 //------------------------------------------------------------------------------
@@ -607,9 +607,6 @@ public:
 
     /// @brief Indicates if endpoint information is available.
     auto has_endpoint_info() const noexcept -> bool;
-
-    /// @brief Returns the application name.
-    auto app_name() const noexcept -> valid_if_not_empty<string_view>;
 
     /// @brief Returns the user-readable display name of the application.
     auto display_name() const noexcept -> valid_if_not_empty<string_view>;

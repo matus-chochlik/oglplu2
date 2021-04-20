@@ -41,11 +41,7 @@ public:
 
 private:
     auto _get_endpoint_info() -> endpoint_info {
-        auto result{provide_endpoint_info()};
-        if(result.app_name.empty()) {
-            result.app_name = main_ctx::get().app_name();
-        }
-        return result;
+        return provide_endpoint_info();
     }
 
     default_function_skeleton<endpoint_info(), 1024> _respond;

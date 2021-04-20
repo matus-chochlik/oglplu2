@@ -14,7 +14,7 @@ namespace eagine::msgbus {
 class remote_instance_impl {
 public:
     timeout is_alive{std::chrono::seconds{180}};
-    std::string app_name;
+    string_view app_name;
     optionally_valid<build_info> bld_info;
     host_id_t host_id{0U};
 
@@ -40,7 +40,6 @@ public:
 class remote_node_impl {
 public:
     process_instance_id_t instance_id{0U};
-    string_view app_name;
     string_view display_name;
     string_view description;
     tribool is_router_node{indeterminate};
@@ -189,12 +188,15 @@ auto remote_instance_state::set_host_id(host_id_t host_id)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_instance_state::set_app_name(std::string app_name)
+auto remote_instance_state::set_app_name(const std::string& new_app_name)
   -> remote_instance_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        i.app_name = std::move(app_name);
-        i.changes |= remote_instance_change::application_info;
+        auto app_name = _tracker.cached(new_app_name);
+        if(!are_equal(app_name, i.app_name)) {
+            i.app_name = app_name;
+            i.changes |= remote_instance_change::application_info;
+        }
     }
     return *this;
 }
@@ -364,19 +366,10 @@ EAGINE_LIB_FUNC
 auto remote_node::has_endpoint_info() const noexcept -> bool {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        return !i.app_name.empty() && !i.display_name.empty() &&
-               !i.is_router_node.is(indeterminate) &&
-               !i.is_bridge_node.is(indeterminate);
+        return !i.is_router_node.is(indeterminate) &&
+               !i.is_bridge_node.is(indeterminate) && !i.display_name.empty();
     }
     return false;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto remote_node::app_name() const noexcept -> valid_if_not_empty<string_view> {
-    if(auto impl{_impl()}) {
-        return extract(impl).app_name;
-    }
-    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -610,11 +603,6 @@ auto remote_node_state::assign(const endpoint_info& info)
   -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        auto app_name = _tracker.cached(info.app_name);
-        if(!are_equal(app_name, i.app_name)) {
-            i.app_name = app_name;
-            i.changes |= remote_node_change::endpoint_info;
-        }
         auto display_name = _tracker.cached(info.display_name);
         if(!are_equal(display_name, i.display_name)) {
             i.display_name = display_name;
