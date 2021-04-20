@@ -33,6 +33,7 @@ namespace eagine::msgbus {
 /// @brief Enumeration of changes tracked about remote message bus nodes.
 /// @ingroup msgbus
 /// @see remote_node_changes
+/// @see remote_host_change
 enum class remote_node_change : std::uint16_t {
     /// @brief The node kind has appeared or changed.
     /// @see node_kind
@@ -82,8 +83,9 @@ enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
        {"instance_id", remote_node_change::instance_id}}};
 }
 //------------------------------------------------------------------------------
-/// @brief Class providin and manipulating information about remote node changes.
+/// @brief Class providing and manipulating information about remote node changes.
 /// @ingroup msgbus
+/// @see remote_host_changes
 struct remote_node_changes : bitfield<remote_node_change> {
     using base = bitfield<remote_node_change>;
     using base::base;
@@ -106,6 +108,41 @@ static inline auto operator|(remote_node_change l, remote_node_change r) noexcep
     return {l, r};
 }
 //------------------------------------------------------------------------------
+/// @brief Enumeration of changes tracked about remote message bus hosts.
+/// @ingroup msgbus
+/// @see remote_host_changes
+/// @see remote_node_change
+enum class remote_host_change : std::uint16_t {
+    /// @brief The host name has appeared or changed.
+    hostname = 1U << 1U,
+    /// @brief The hardware configuration information has appeared or changed.
+    hardware_config = 1U << 2U,
+    /// @brief New sensor values have appeared or changed.
+    sensor_values = 1U << 3U
+};
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto
+enumerator_mapping(type_identity<remote_host_change>, Selector) noexcept {
+    return enumerator_map_type<remote_host_change, 3>{
+      {{"hostname", remote_host_change::hostname},
+       {"hardware_config", remote_host_change::hardware_config},
+       {"sensor_values", remote_host_change::sensor_values}}};
+}
+//------------------------------------------------------------------------------
+/// @brief Class providing and manipulating information about remote host changes.
+/// @ingroup msgbus
+/// @see remote_node_changes
+struct remote_host_changes : bitfield<remote_host_change> {
+    using base = bitfield<remote_host_change>;
+    using base::base;
+};
+
+static inline auto operator|(remote_host_change l, remote_host_change r) noexcept
+  -> remote_host_changes {
+    return {l, r};
+}
+//------------------------------------------------------------------------------
 class remote_node_tracker_impl;
 class remote_host_impl;
 class remote_host;
@@ -124,6 +161,7 @@ class node_connections;
 /// @brief Class tracking the state of remote message bus nodes.
 /// @ingroup msgbus
 /// @see remote_node_changes
+/// @see remote_host_changes
 class remote_node_tracker {
 public:
     /// @brief Default constructor.
@@ -382,6 +420,9 @@ private:
 class remote_host_state : public remote_host {
 public:
     using remote_host::remote_host;
+
+    auto changes() -> remote_host_changes;
+    auto add_change(remote_host_change) -> remote_host_state&;
 
     auto should_query_sensors() -> bool;
     auto sensors_queried() -> remote_host_state&;

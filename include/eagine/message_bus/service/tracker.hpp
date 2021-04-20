@@ -34,6 +34,7 @@ class node_tracker : public node_tracker_base<Base> {
     using base = node_tracker_base<Base>;
 
 public:
+    signal<void(remote_host&, remote_host_changes)> host_changed;
     signal<void(remote_node&, remote_node_changes)> node_changed;
 
     auto on_alive() noexcept {
@@ -127,6 +128,10 @@ public:
         }
 
         const bool should_query_info{_should_query_info};
+
+        _tracker.for_each_host_state([&](auto host_id, auto& host) {
+            _handle_host_change(host_id, host);
+        });
 
         _tracker.for_each_node_state([&](auto node_id, auto& node) {
             if(should_query_info) {
@@ -242,6 +247,12 @@ private:
     auto _get_connection(identifier_t id1, identifier_t id2)
       -> node_connection_state& {
         return _tracker.get_connection(id1, id2);
+    }
+
+    void _handle_host_change(identifier_t, remote_host_state& host) {
+        if(const auto changes{host.changes()}) {
+            host_changed(host, changes);
+        }
     }
 
     void _handle_node_change(identifier_t node_id, remote_node_state& node) {

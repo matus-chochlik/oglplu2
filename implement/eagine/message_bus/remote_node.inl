@@ -30,6 +30,8 @@ public:
     span_size_t free_ram_size{-1};
     span_size_t total_swap_size{-1};
     span_size_t free_swap_size{-1};
+
+    remote_host_changes changes{};
 };
 //------------------------------------------------------------------------------
 class remote_node_impl {
@@ -179,6 +181,26 @@ inline auto remote_host::_impl() noexcept -> remote_host_impl* {
     } catch(...) {
     }
     return nullptr;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::changes() -> remote_host_changes {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        const auto result = i.changes;
+        i.changes.clear();
+        return result;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::add_change(remote_host_change change)
+  -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).changes |= change;
+    }
+    return *this;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -506,10 +528,9 @@ auto remote_node_state::set_host_id(host_id_t host_id) -> remote_node_state& {
         auto& i = extract(impl);
         if(i.host_id != host_id) {
             i.host_id = host_id;
-            i.changes |= remote_node_change::host_info;
+            i.changes |= remote_node_change::host_id;
             if(i.instance_id) {
                 _tracker.get_instance(i.instance_id).set_host_id(host_id);
-                i.changes |= remote_node_change::host_id;
             }
         }
     }
@@ -690,7 +711,9 @@ auto remote_host_state::notice_alive() -> remote_host_state& {
 EAGINE_LIB_FUNC
 auto remote_host_state::set_hostname(std::string hn) -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).hostname = std::move(hn);
+        auto& i = extract(impl);
+        i.hostname = std::move(hn);
+        i.changes |= remote_host_change::hostname;
     }
     return *this;
 }
@@ -699,7 +722,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_cpu_concurrent_threads(span_size_t value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).cpu_concurrent_threads = value;
+        auto& i = extract(impl);
+        i.cpu_concurrent_threads = value;
+        i.changes |= remote_host_change::hardware_config;
     }
     return *this;
 }
@@ -708,7 +733,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_short_average_load(float value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).short_average_load = value;
+        auto& i = extract(impl);
+        i.short_average_load = value;
+        i.changes |= remote_host_change::sensor_values;
     }
     return *this;
 }
@@ -717,7 +744,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_long_average_load(float value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).long_average_load = value;
+        auto& i = extract(impl);
+        i.long_average_load = value;
+        i.changes |= remote_host_change::sensor_values;
     }
     return *this;
 }
@@ -726,7 +755,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_total_ram_size(span_size_t value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).total_ram_size = value;
+        auto& i = extract(impl);
+        i.total_ram_size = value;
+        i.changes |= remote_host_change::hardware_config;
     }
     return *this;
 }
@@ -735,7 +766,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_total_swap_size(span_size_t value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).total_swap_size = value;
+        auto& i = extract(impl);
+        i.total_swap_size = value;
+        i.changes |= remote_host_change::hardware_config;
     }
     return *this;
 }
@@ -744,7 +777,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_free_ram_size(span_size_t value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).free_ram_size = value;
+        auto& i = extract(impl);
+        i.free_ram_size = value;
+        i.changes |= remote_host_change::sensor_values;
     }
     return *this;
 }
@@ -753,7 +788,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_free_swap_size(span_size_t value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).free_swap_size = value;
+        auto& i = extract(impl);
+        i.free_swap_size = value;
+        i.changes |= remote_host_change::sensor_values;
     }
     return *this;
 }
