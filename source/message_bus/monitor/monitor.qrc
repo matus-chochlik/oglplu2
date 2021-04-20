@@ -8,6 +8,8 @@
 	<file>icons/RouterNode.svg</file>
 	<file>icons/BridgeNode.svg</file>
 	<file>icons/EndpointNode.svg</file>
+	<file>icons/Responsive.svg</file>
+	<file>icons/Unresponsive.svg</file>
 	<file>views/MonitorView.qml</file>
 	<file>views/NodeListView.qml</file>
 	<file>views/NodeListItem.qml</file>
@@ -17,7 +19,5 @@
 	<file>views/BridgeListItem.qml</file>
 	<file>views/EndpointListItem.qml</file>
 	<file>views/UnknownListItem.qml</file>
-	<file>views/Responsive.qml</file>
-	<file>views/Unresponsive.qml</file>
 </qresource>
 </RCC>
