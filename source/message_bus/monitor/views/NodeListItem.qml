@@ -7,8 +7,8 @@ Control {
 	id: nodeListItem
 	property variant view: nodeListItemLayout.view
 
-	width: 250
-	height: 56
+	width: backend.theme.nodeListItemWidth
+	height: backend.theme.nodeListItemHeight
 	leftPadding: 0
 	topPadding: 0
 	rightPadding: 0

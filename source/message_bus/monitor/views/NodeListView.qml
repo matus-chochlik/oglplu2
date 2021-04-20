@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.2
 
 ListView {
 	id: nodeListView
-	Layout.preferredWidth: 250
+	Layout.preferredWidth: backend.theme.nodeListItemWidth
 
 	delegate: Loader {
 		id: itemLoader

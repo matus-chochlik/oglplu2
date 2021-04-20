@@ -9,8 +9,8 @@ NodeListItem {
 	RowLayout {
 		anchors.fill: parent
 		Image {
-			Layout.preferredWidth: 56
-			Layout.preferredHeight: 56
+			Layout.preferredWidth:  backend.theme.nodeListIconSize
+			Layout.preferredHeight: backend.theme.nodeListIconSize
 			horizontalAlignment: Image.AlignHCenter
 			source: "qrc:/icons/HostItem.svg"
 		}
@@ -22,7 +22,9 @@ NodeListItem {
 				text: "Host: %1".arg(identifier ? identifier : "?")
 			}
 			Label {
-				Layout.fillWidth: true
+				text: displayName ? displayName : "-"
+			}
+			Label {
 				text: "Processes: %1".arg(childCount ? childCount : "?")
 			}
 		}

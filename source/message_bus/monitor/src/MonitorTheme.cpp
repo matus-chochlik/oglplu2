@@ -20,3 +20,15 @@ auto MonitorTheme::getLight() const -> bool {
     return _light;
 }
 //------------------------------------------------------------------------------
+auto MonitorTheme::getNodeListItemWidth() -> int {
+    return 300;
+}
+//------------------------------------------------------------------------------
+auto MonitorTheme::getNodeListItemHeight() -> int {
+    return 56;
+}
+//------------------------------------------------------------------------------
+auto MonitorTheme::getNodeListIconSize() -> int {
+    return 56;
+}
+//------------------------------------------------------------------------------

@@ -12,8 +12,8 @@ NodeListItem {
 			Layout.preferredWidth: 25
 		}
 		Image {
-			Layout.preferredWidth: 56
-			Layout.preferredHeight: 56
+			Layout.preferredWidth:  backend.theme.nodeListIconSize
+			Layout.preferredHeight: backend.theme.nodeListIconSize
 			horizontalAlignment: Image.AlignHCenter
 			source: "qrc:/icons/InstanceItem.svg"
 		}

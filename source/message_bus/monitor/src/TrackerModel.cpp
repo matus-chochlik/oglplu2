@@ -23,6 +23,16 @@ TrackerModel::TrackerModel(MonitorBackend& backend)
     _tracker.node_changed.connect(EAGINE_THIS_MEM_FUNC_REF(handleNodeChanged));
 }
 //------------------------------------------------------------------------------
+void TrackerModel::handleHostChanged(
+  eagine::msgbus::remote_host& host,
+  eagine::msgbus::remote_host_changes changes) {
+    using eagine::msgbus::remote_host_change;
+
+    if(changes.has(remote_host_change::hostname)) {
+        emit hostInfoChanged(host);
+    }
+}
+//------------------------------------------------------------------------------
 void TrackerModel::handleNodeChanged(
   eagine::msgbus::remote_node& node,
   eagine::msgbus::remote_node_changes changes) {

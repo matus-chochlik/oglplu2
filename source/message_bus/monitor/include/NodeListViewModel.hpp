@@ -33,13 +33,15 @@ public:
 
     auto itemKindData(const eagine::msgbus::remote_node&) const -> QVariant;
     auto identifierData(const eagine::msgbus::remote_node&) const -> QVariant;
+    auto displayNameData(const eagine::msgbus::remote_host&) const -> QVariant;
     auto displayNameData(const eagine::msgbus::remote_node&) const -> QVariant;
     auto descriptionData(const eagine::msgbus::remote_node&) const -> QVariant;
     auto data(const QModelIndex& index, int role) const -> QVariant final;
 
 public slots:
-    void onNodeAppeared(eagine::msgbus::remote_node&);
-    void onNodeRelocated(eagine::msgbus::remote_node&);
+    void onNodeAppeared(const eagine::msgbus::remote_node&);
+    void onNodeRelocated(const eagine::msgbus::remote_node&);
+    void onHostInfoChanged(const eagine::msgbus::remote_host&);
 
 private slots:
     void onTrackerModelChanged();
@@ -78,6 +80,7 @@ private:
         auto count() const noexcept -> int;
         auto subCount() const noexcept -> int;
         auto totalCount() const noexcept -> int;
+        void update();
     };
 
     struct Data {
@@ -96,8 +99,10 @@ private:
         template <typename Function>
         void forNode(eagine::identifier_t nodeId, Function function) const;
 
-        void addNode(eagine::msgbus::remote_node&);
-        void moveNode(eagine::msgbus::remote_node&);
+        void addNode(const eagine::msgbus::remote_node&);
+        void moveNode(const eagine::msgbus::remote_node&);
+
+        auto updateHost(const eagine::msgbus::remote_host&) -> int;
     } _model;
 };
 //------------------------------------------------------------------------------

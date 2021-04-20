@@ -54,6 +54,8 @@ auto NodeListViewModel::HostInfo::totalCount() const noexcept -> int {
       });
 }
 //------------------------------------------------------------------------------
+void NodeListViewModel::HostInfo::update() {}
+//------------------------------------------------------------------------------
 // Data
 //------------------------------------------------------------------------------
 auto NodeListViewModel::Data::totalCount() const noexcept -> int {
@@ -116,7 +118,7 @@ void NodeListViewModel::Data::forNode(
     }
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::Data::addNode(eagine::msgbus::remote_node& node) {
+void NodeListViewModel::Data::addNode(const eagine::msgbus::remote_node& node) {
     const auto hostId = extract_or(node.host().id(), 0U);
     const auto instId = extract_or(node.instance().id(), 0U);
     const auto nodeId = extract_or(node.id(), 0U);
@@ -127,7 +129,7 @@ void NodeListViewModel::Data::addNode(eagine::msgbus::remote_node& node) {
     inst2Host[instId] = hostId;
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::Data::moveNode(eagine::msgbus::remote_node& node) {
+void NodeListViewModel::Data::moveNode(const eagine::msgbus::remote_node& node) {
     const auto nodeId = extract(node.id());
     if(auto inst{node.instance()}) {
         const auto instId = extract(inst.id());
@@ -198,6 +200,25 @@ void NodeListViewModel::Data::moveNode(eagine::msgbus::remote_node& node) {
     }
 }
 //------------------------------------------------------------------------------
+auto NodeListViewModel::Data::updateHost(const eagine::msgbus::remote_host& host)
+  -> int {
+    const auto hostId = extract_or(host.id(), 0U);
+    const auto hostPos = hosts.find(hostId);
+    if(hostPos != hosts.end()) {
+        auto& hostInfo = hostPos->second;
+        if(!hostInfo.host) {
+            hostInfo.host = host;
+        }
+        hostInfo.update();
+        int row = 0;
+        for(auto it = hosts.begin(); it != hostPos; ++it) {
+            row += it->second.totalCount();
+        }
+        return row;
+    }
+    return -1;
+}
+//------------------------------------------------------------------------------
 // NodeListViewModel
 //------------------------------------------------------------------------------
 NodeListViewModel::NodeListViewModel(MonitorBackend& backend)
@@ -223,20 +244,38 @@ void NodeListViewModel::onTrackerModelChanged() {
           &TrackerModel::nodeRelocated,
           this,
           &NodeListViewModel::onNodeRelocated);
+        connect(
+          trackerModel,
+          &TrackerModel::hostInfoChanged,
+          this,
+          &NodeListViewModel::onHostInfoChanged);
     }
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::onNodeAppeared(eagine::msgbus::remote_node& node) {
+void NodeListViewModel::onNodeAppeared(const eagine::msgbus::remote_node& node) {
     if(node) {
         _model.addNode(node);
         emit modelReset({});
     }
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::onNodeRelocated(eagine::msgbus::remote_node& node) {
+void NodeListViewModel::onNodeRelocated(
+  const eagine::msgbus::remote_node& node) {
     if(node) {
         _model.moveNode(node);
         emit modelReset({});
+    }
+}
+//------------------------------------------------------------------------------
+void NodeListViewModel::onHostInfoChanged(
+  const eagine::msgbus::remote_host& host) {
+    if(host) {
+        if(const auto row = _model.updateHost(host); row >= 0) {
+            const auto hostId = extract_or(host.id(), 0U);
+            emit dataChanged(
+              QAbstractItemModel::createIndex(row, 0, hostId),
+              QAbstractItemModel::createIndex(row, 2, hostId));
+        }
     }
 }
 //------------------------------------------------------------------------------
@@ -312,6 +351,14 @@ auto NodeListViewModel::identifierData(
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::displayNameData(
+  const eagine::msgbus::remote_host& host) const -> QVariant {
+    if(auto optStr{host.name()}) {
+        return {c_str(extract(optStr))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::displayNameData(
   const eagine::msgbus::remote_node& node) const -> QVariant {
     if(auto optStr{node.display_name()}) {
         return {c_str(extract(optStr))};
@@ -337,9 +384,11 @@ auto NodeListViewModel::data(const QModelIndex& index, int role) const
         if(role == NodeListViewModel::itemKindRole) {
             result = {"Host"};
         } else {
-            _model.forHost(hostId, [role, &result](auto& info) {
+            _model.forHost(hostId, [this, role, &result](auto& info) {
                 if(role == NodeListViewModel::childCountRole) {
                     result = {info.count()};
+                } else if(role == NodeListViewModel::displayNameRole) {
+                    result = displayNameData(info.host);
                 }
             });
         }

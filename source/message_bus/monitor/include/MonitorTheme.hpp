@@ -19,11 +19,18 @@ class MonitorTheme
     Q_OBJECT
 
     Q_PROPERTY(bool light READ getLight WRITE setLight NOTIFY lightChanged)
+    Q_PROPERTY(int nodeListItemWidth READ getNodeListItemWidth CONSTANT)
+    Q_PROPERTY(int nodeListItemHeight READ getNodeListItemHeight CONSTANT)
+    Q_PROPERTY(int nodeListIconSize READ getNodeListIconSize CONSTANT)
 public:
     MonitorTheme(eagine::main_ctx_parent);
 
     void setLight(bool);
     auto getLight() const -> bool;
+
+    auto getNodeListItemWidth() -> int;
+    auto getNodeListItemHeight() -> int;
+    auto getNodeListIconSize() -> int;
 signals:
     void lightChanged();
 public slots:
