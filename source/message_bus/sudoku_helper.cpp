@@ -12,6 +12,7 @@
 #include <eagine/message_bus/router.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
+#include <eagine/message_bus/service/application_info.hpp>
 #include <eagine/message_bus/service/build_info.hpp>
 #include <eagine/message_bus/service/endpoint_info.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
@@ -27,9 +28,9 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using sudoku_helper_base =
-  service_composition<shutdown_target<pingable<build_info_provider<
-    host_info_provider<endpoint_info_provider<sudoku_helper<>>>>>>>;
+using sudoku_helper_base = service_composition<
+  shutdown_target<pingable<build_info_provider<host_info_provider<
+    application_info_provider<endpoint_info_provider<sudoku_helper<>>>>>>>>;
 
 class sudoku_helper_node
   : public main_ctx_object

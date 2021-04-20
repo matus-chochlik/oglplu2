@@ -10,6 +10,7 @@
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
+#include <eagine/message_bus/service/application_info.hpp>
 #include <eagine/message_bus/service/discovery.hpp>
 #include <eagine/message_bus/service/endpoint_info.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
@@ -67,8 +68,8 @@ struct ping_state {
     }
 };
 //------------------------------------------------------------------------------
-using pinger_base = service_composition<
-  pinger<host_info_consumer<endpoint_info_provider<subscriber_discovery<>>>>>;
+using pinger_base = service_composition<pinger<host_info_consumer<
+  application_info_provider<endpoint_info_provider<subscriber_discovery<>>>>>>;
 
 class pinger_node
   : public main_ctx_object

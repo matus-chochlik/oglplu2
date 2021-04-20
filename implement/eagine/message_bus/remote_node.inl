@@ -14,8 +14,11 @@ namespace eagine::msgbus {
 class remote_instance_impl {
 public:
     timeout is_alive{std::chrono::seconds{180}};
+    std::string app_name;
     optionally_valid<build_info> bld_info;
     host_id_t host_id{0U};
+
+    remote_instance_changes changes{};
 };
 //------------------------------------------------------------------------------
 class remote_host_impl {
@@ -122,6 +125,16 @@ auto remote_instance::host() const noexcept -> remote_host {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_instance::application_name() const noexcept
+  -> valid_if_not_empty<string_view> {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        return {i.app_name};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_instance::build() const noexcept
   -> optional_reference_wrapper<const build_info> {
     if(auto impl{_impl()}) {
@@ -134,6 +147,26 @@ auto remote_instance::build() const noexcept
 }
 //------------------------------------------------------------------------------
 // remote_instance_state
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_instance_state::changes() -> remote_instance_changes {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        const auto result = i.changes;
+        i.changes.clear();
+        return result;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_instance_state::add_change(remote_instance_change change)
+  -> remote_instance_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).changes |= change;
+    }
+    return *this;
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto remote_instance_state::notice_alive() -> remote_instance_state& {
@@ -151,6 +184,17 @@ auto remote_instance_state::set_host_id(host_id_t host_id)
         if(i.host_id != host_id) {
             i.host_id = host_id;
         }
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_instance_state::set_app_name(std::string app_name)
+  -> remote_instance_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        i.app_name = std::move(app_name);
+        i.changes |= remote_instance_change::application_info;
     }
     return *this;
 }
@@ -484,6 +528,18 @@ auto remote_node_state::host_state() const noexcept -> remote_host_state {
         auto& i = extract(impl);
         if(i.host_id) {
             return _tracker.get_host(i.host_id);
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::instance_state() const noexcept
+  -> remote_instance_state {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.instance_id) {
+            return _tracker.get_instance(i.instance_id);
         }
     }
     return {};
@@ -875,6 +931,13 @@ auto remote_node_tracker::_get_nodes() noexcept
   -> flat_map<identifier_t, remote_node_state>& {
     EAGINE_ASSERT(_pimpl);
     return _pimpl->nodes;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::_get_instances() noexcept
+  -> flat_map<process_instance_id_t, remote_instance_state>& {
+    EAGINE_ASSERT(_pimpl);
+    return _pimpl->instances;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

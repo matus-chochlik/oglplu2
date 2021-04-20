@@ -12,6 +12,7 @@
 #include "../remote_node.hpp"
 #include "../serialize.hpp"
 #include "../subscriber.hpp"
+#include "application_info.hpp"
 #include "build_info.hpp"
 #include "discovery.hpp"
 #include "endpoint_info.hpp"
@@ -23,9 +24,9 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename Base>
-using node_tracker_base =
-  pinger<system_info_consumer<host_info_consumer<build_info_consumer<
-    endpoint_info_consumer<network_topology<subscriber_discovery<Base>>>>>>>;
+using node_tracker_base = pinger<system_info_consumer<
+  host_info_consumer<build_info_consumer<application_info_consumer<
+    endpoint_info_consumer<network_topology<subscriber_discovery<Base>>>>>>>>;
 //------------------------------------------------------------------------------
 template <typename Base = subscriber>
 class node_tracker : public node_tracker_base<Base> {
@@ -35,6 +36,7 @@ class node_tracker : public node_tracker_base<Base> {
 
 public:
     signal<void(remote_host&, remote_host_changes)> host_changed;
+    signal<void(remote_instance&, remote_instance_changes)> instance_changed;
     signal<void(remote_node&, remote_node_changes)> node_changed;
 
     auto on_alive() noexcept {
@@ -71,6 +73,10 @@ public:
 
     auto on_endpoint_appeared() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_appeared);
+    }
+
+    auto on_application_name_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_application_name_received);
     }
 
     auto on_endpoint_info_received() noexcept {
@@ -133,6 +139,10 @@ public:
             _handle_host_change(host_id, host);
         });
 
+        _tracker.for_each_instance_state([&](auto inst_id, auto& inst) {
+            _handle_inst_change(inst_id, inst);
+        });
+
         _tracker.for_each_node_state([&](auto node_id, auto& node) {
             if(should_query_info) {
                 if(!node.host_id()) {
@@ -145,7 +155,12 @@ public:
                     this->query_build_info(node_id);
                 }
                 if(node.is_responsive()) {
-                    if(auto host = node.host_state()) {
+                    if(auto inst{node.instance_state()}) {
+                        if(!inst.application_name()) {
+                            this->query_application_name(node_id);
+                        }
+                    }
+                    if(auto host{node.host_state()}) {
                         if(!host.name()) {
                             this->query_hostname(node_id);
                         }
@@ -202,6 +217,7 @@ protected:
         this->router_appeared.connect(on_router_appeared());
         this->bridge_appeared.connect(on_bridge_appeared());
         this->endpoint_appeared.connect(on_endpoint_appeared());
+        this->application_name_received.connect(on_application_name_received());
         this->endpoint_info_received.connect(on_endpoint_info_received());
         this->build_info_received.connect(on_build_info_received());
         this->cpu_concurrent_threads_received.connect(
@@ -252,6 +268,12 @@ private:
     void _handle_host_change(identifier_t, remote_host_state& host) {
         if(const auto changes{host.changes()}) {
             host_changed(host, changes);
+        }
+    }
+
+    void _handle_inst_change(identifier_t, remote_instance_state& inst) {
+        if(const auto changes{inst.changes()}) {
+            instance_changed(inst, changes);
         }
     }
 
@@ -309,6 +331,23 @@ private:
           .assign(node_kind::endpoint);
     }
 
+    void _handle_application_name_received(
+      const result_context& ctx,
+      const valid_if_not_empty<std::string>& app_name) {
+        if(app_name) {
+            auto& node = _get_node(ctx.source_id());
+            if(auto inst_id{node.instance_id()}) {
+                auto& inst = _get_instance(extract(inst_id));
+                inst.set_app_name(extract(app_name)).notice_alive();
+                _tracker.for_each_instance_node_state(
+                  extract(inst_id), [&](auto, auto& inst_node) {
+                      inst_node.add_change(
+                        remote_node_change::application_info);
+                  });
+            }
+        }
+    }
+
     void _handle_endpoint_info_received(
       const result_context& ctx,
       const endpoint_info& info) {
@@ -348,7 +387,7 @@ private:
         if(auto inst_id{node.instance_id()}) {
             auto& inst = _get_instance(extract(inst_id));
             inst.assign(info);
-            _tracker.for_each_host_node_state(
+            _tracker.for_each_instance_node_state(
               extract(inst_id), [&](auto, auto& inst_node) {
                   inst_node.add_change(remote_node_change::build_info);
               });

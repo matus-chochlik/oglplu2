@@ -44,34 +44,37 @@ enum class remote_node_change : std::uint16_t {
     host_info = 1U << 2U,
     /// @brief The build information has appeared or changed.
     build_info = 1U << 3U,
+    /// @brief The application information has appeared or changed.
+    application_info = 1U << 4U,
     /// @brief The endpoint information has appeared or changed.
-    endpoint_info = 1U << 4U,
+    endpoint_info = 1U << 5U,
     /// @brief New remotly callable methods have been added.
-    methods_added = 1U << 5U,
+    methods_added = 1U << 6U,
     /// @brief New remotly callable methods have been removed.
-    methods_removed = 1U << 6U,
+    methods_removed = 1U << 7U,
     /// @brief Node started responding to pings.
-    started_responding = 1U << 7U,
+    started_responding = 1U << 8U,
     /// @brief Node stopped responding to pings.
-    stopped_responding = 1U << 8U,
+    stopped_responding = 1U << 9U,
     /// @brief The hardware configuration information has appeared or changed.
-    hardware_config = 1U << 9U,
+    hardware_config = 1U << 10U,
     /// @brief New sensor values have appeared or changed.
-    sensor_values = 1U << 10U,
+    sensor_values = 1U << 11U,
     /// @brief The bus connection information has appeared or changed.
-    connection_info = 1U << 11U,
+    connection_info = 1U << 12U,
     /// @brief The endpoint instance id has changed.
-    instance_id = 1U << 12U
+    instance_id = 1U << 13U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
 enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
-    return enumerator_map_type<remote_node_change, 13>{
+    return enumerator_map_type<remote_node_change, 14>{
       {{"kind", remote_node_change::kind},
        {"host_id", remote_node_change::host_id},
        {"host_info", remote_node_change::host_info},
        {"build_info", remote_node_change::build_info},
+       {"application_info", remote_node_change::application_info},
        {"endpoint_info", remote_node_change::endpoint_info},
        {"methods_added", remote_node_change::methods_added},
        {"methods_removed", remote_node_change::methods_removed},
@@ -105,6 +108,39 @@ struct remote_node_changes : bitfield<remote_node_change> {
 
 static inline auto operator|(remote_node_change l, remote_node_change r) noexcept
   -> remote_node_changes {
+    return {l, r};
+}
+//------------------------------------------------------------------------------
+/// @brief Enumeration of changes tracked about remote message bus instances.
+/// @ingroup msgbus
+/// @see remote_instance_changes
+/// @see remote_node_change
+enum class remote_instance_change : std::uint16_t {
+    /// @brief The application information has appeared or changed.
+    application_info = 1U << 1U,
+    /// @brief New statistics have appeared or changed.
+    statistics = 1U << 2U
+};
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto
+enumerator_mapping(type_identity<remote_instance_change>, Selector) noexcept {
+    return enumerator_map_type<remote_instance_change, 2>{
+      {{"application_info", remote_instance_change::application_info},
+       {"statistics", remote_instance_change::statistics}}};
+}
+//------------------------------------------------------------------------------
+/// @brief Class providing and manipulating information about remote instance changes.
+/// @ingroup msgbus
+/// @see remote_node_changes
+struct remote_instance_changes : bitfield<remote_instance_change> {
+    using base = bitfield<remote_instance_change>;
+    using base::base;
+};
+
+static inline auto
+operator|(remote_instance_change l, remote_instance_change r) noexcept
+  -> remote_instance_changes {
     return {l, r};
 }
 //------------------------------------------------------------------------------
@@ -265,6 +301,16 @@ public:
     template <typename Function>
     void for_each_node_state(Function func);
 
+    /// @brief Calls a function on each tracked remote bus instance.
+    /// @see remote_instance_state
+    /// @see for_each_node_state
+    /// @see for_each_host_state
+    ///
+    /// The function is called with (process_instance_id_t, const remote_instance_state&)
+    /// as arguments. This function is subject to change without notice.
+    template <typename Function>
+    void for_each_instance_state(Function func);
+
     /// @brief Calls a function on tracked remote bus nodes of an instance (process).
     /// @see remote_node_state
     /// @see for_each_node_state
@@ -301,6 +347,8 @@ private:
     friend class node_connections;
 
     auto _get_nodes() noexcept -> flat_map<identifier_t, remote_node_state>&;
+    auto _get_instances() noexcept
+      -> flat_map<process_instance_id_t, remote_instance_state>&;
     auto _get_hosts() noexcept -> flat_map<host_id_t, remote_host_state>&;
     auto _get_connections() noexcept -> std::vector<node_connection_state>&;
     auto _get_connections() const noexcept
@@ -469,6 +517,9 @@ public:
     /// @brief Returns the information about the host where the instance is running.
     auto host() const noexcept -> remote_host;
 
+    /// @brief Returns the application name of this instance.
+    auto application_name() const noexcept -> valid_if_not_empty<string_view>;
+
     /// @brief Returns the build information about the program running in the instance.
     auto build() const noexcept -> optional_reference_wrapper<const build_info>;
 
@@ -491,8 +542,12 @@ class remote_instance_state : public remote_instance {
 public:
     using remote_instance::remote_instance;
 
+    auto changes() -> remote_instance_changes;
+    auto add_change(remote_instance_change) -> remote_instance_state&;
+
     auto notice_alive() -> remote_instance_state&;
     auto set_host_id(host_id_t) -> remote_instance_state&;
+    auto set_app_name(std::string) -> remote_instance_state&;
     auto assign(build_info) -> remote_instance_state&;
 };
 //------------------------------------------------------------------------------
@@ -611,6 +666,7 @@ public:
     auto clear() noexcept -> remote_node_state&;
 
     auto host_state() const noexcept -> remote_host_state;
+    auto instance_state() const noexcept -> remote_instance_state;
 
     auto changes() -> remote_node_changes;
     auto add_change(remote_node_change) -> remote_node_state&;
@@ -796,6 +852,15 @@ void remote_node_tracker::for_each_node_state(Function func) {
     if(EAGINE_LIKELY(_pimpl)) {
         for(auto& [node_id, node] : _get_nodes()) {
             func(node_id, node);
+        }
+    }
+}
+//------------------------------------------------------------------------------
+template <typename Function>
+void remote_node_tracker::for_each_instance_state(Function func) {
+    if(EAGINE_LIKELY(_pimpl)) {
+        for(auto& [inst_id, inst] : _get_instances()) {
+            func(inst_id, inst);
         }
     }
 }
