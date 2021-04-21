@@ -27,6 +27,7 @@ Control {
 
 	function makeCurrent() {
 		nodeListItem.view.currentIndex = index
+		nodeListItem.view.model.onItemSelected(index);
 	}
 
 	state: isCurrent() ? "Selected" : "Unselected"

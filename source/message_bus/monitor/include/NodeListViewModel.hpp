@@ -47,6 +47,12 @@ public:
 
     auto data(const QModelIndex& index, int role) const -> QVariant final;
 
+    Q_INVOKABLE void onItemSelected(int row);
+signals:
+    void itemSelected(
+      eagine::identifier_t,
+      eagine::identifier_t,
+      eagine::identifier_t);
 public slots:
     void onNodeChanged(const remote_node&);
     void onInstanceInfoChanged(const remote_inst&);

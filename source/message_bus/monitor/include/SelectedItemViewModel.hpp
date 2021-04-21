@@ -21,17 +21,25 @@ class SelectedItemViewModel
 
     Q_PROPERTY(QString itemKind READ getItemKind NOTIFY itemSelected)
 public:
-    SelectedItemViewModel(MonitorBackend&);
+    SelectedItemViewModel(MonitorBackend&, NodeListViewModel&);
 
     auto getItemKind() -> QString;
 
 signals:
     void itemSelected();
+
 public slots:
+    void onItemSelected(
+      eagine::identifier_t,
+      eagine::identifier_t,
+      eagine::identifier_t);
 
 private:
-    auto _nodeListViewModel() -> NodeListViewModel*;
     MonitorBackend& _backend;
+    NodeListViewModel& _nodeListViewModel;
+    eagine::identifier_t _hostId{0};
+    eagine::identifier_t _instId{0};
+    eagine::identifier_t _nodeId{0};
 };
 //------------------------------------------------------------------------------
 #endif

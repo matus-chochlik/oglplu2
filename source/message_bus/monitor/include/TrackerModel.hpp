@@ -25,6 +25,10 @@ public:
 
     void update();
 
+    auto tracker() noexcept -> auto& {
+        return _tracker;
+    }
+
     auto tracker() const noexcept -> auto& {
         return _tracker;
     }

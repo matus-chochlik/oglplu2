@@ -360,6 +360,38 @@ auto NodeListViewModel::roleNames() const -> QHash<int, QByteArray> {
     return result;
 }
 //------------------------------------------------------------------------------
+void NodeListViewModel::onItemSelected(int row) {
+    if(row < 0) {
+        emit itemSelected(0, 0, 0);
+        return;
+    }
+    int skip = row;
+    for(auto& [hostId, host] : _model.hosts) {
+        if(!skip) {
+            emit itemSelected(hostId, 0, 0);
+            return;
+        }
+        skip--;
+        auto subtotal = host.subCount();
+        if(skip < subtotal) {
+            for(auto& [instId, inst] : host.instances) {
+                if(!skip) {
+                    emit itemSelected(hostId, instId, 0);
+                    return;
+                }
+                skip--;
+                subtotal = inst.subCount();
+                if(skip < subtotal) {
+                    emit itemSelected(hostId, instId, inst.id(skip));
+                    return;
+                }
+                skip -= subtotal;
+            }
+        }
+        skip -= subtotal;
+    }
+}
+//------------------------------------------------------------------------------
 auto NodeListViewModel::index(int row, int, const QModelIndex&) const
   -> QModelIndex {
     int skip = row;
@@ -533,3 +565,4 @@ auto NodeListViewModel::data(const QModelIndex& index, int role) const
     return result;
 }
 //------------------------------------------------------------------------------
+

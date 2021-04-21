@@ -14,7 +14,7 @@ MonitorViewModel::MonitorViewModel(MonitorBackend& backend)
   , eagine::main_ctx_object{EAGINE_ID(MonitorVM), backend}
   , _backend{backend}
   , _nodeListViewModel{_backend}
-  , _selectedItemViewModel{_backend} {}
+  , _selectedItemViewModel{_backend, _nodeListViewModel} {}
 //------------------------------------------------------------------------------
 auto MonitorViewModel::getNodeListViewModel() -> NodeListViewModel* {
     return &_nodeListViewModel;

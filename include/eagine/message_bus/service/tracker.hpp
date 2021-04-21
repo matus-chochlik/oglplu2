@@ -208,6 +208,10 @@ public:
         _tracker.for_each_node(std::move(function));
     }
 
+    auto get_node(identifier_t id) -> const remote_node_state& {
+        return _tracker.get_node(id);
+    }
+
 protected:
     node_tracker(endpoint& bus)
       : base{bus} {
@@ -239,10 +243,6 @@ protected:
 
     void add_methods() {
         base::add_methods();
-    }
-
-    auto get_node(identifier_t id) -> const remote_node_state& {
-        return _tracker.get_node(id);
     }
 
 private:
