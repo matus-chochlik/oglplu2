@@ -14,11 +14,12 @@
 	<file>views/MonitorView.qml</file>
 	<file>views/NodeListView.qml</file>
 	<file>views/NodeListItem.qml</file>
+	<file>views/UnknownHostListItem.qml</file>
 	<file>views/HostListItem.qml</file>
 	<file>views/InstanceListItem.qml</file>
 	<file>views/RouterListItem.qml</file>
 	<file>views/BridgeListItem.qml</file>
 	<file>views/EndpointListItem.qml</file>
-	<file>views/UnknownListItem.qml</file>
+	<file>views/UnknownNodeListItem.qml</file>
 </qresource>
 </RCC>

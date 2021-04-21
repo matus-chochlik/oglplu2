@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.2
 import "qrc:///views"
 
 NodeListItem {
-	id: unknownListItem
+	id: unknownNodeListItem
 
 	RowLayout {
 		anchors.fill: parent

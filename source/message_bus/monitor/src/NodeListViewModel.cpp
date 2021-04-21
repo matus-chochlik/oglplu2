@@ -413,7 +413,7 @@ auto NodeListViewModel::itemKindData(const remote_node& node) const
         case eagine::msgbus::node_kind::unknown:
             break;
     }
-    return {"Unknown"};
+    return {"UnknownNode"};
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::identifierData(const remote_node& node) const
@@ -482,7 +482,11 @@ auto NodeListViewModel::data(const QModelIndex& index, int role) const
     } else if(index.column() == hostItem) {
         const auto hostId = index.internalId();
         if(role == NodeListViewModel::itemKindRole) {
-            result = {"Host"};
+            if(hostId) {
+                result = {"Host"};
+            } else {
+                result = {"UnknownHost"};
+            }
         } else {
             _model.forHost(hostId, [this, role, &result](auto& info) {
                 if(role == NodeListViewModel::childCountRole) {
