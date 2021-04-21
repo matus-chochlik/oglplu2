@@ -68,8 +68,9 @@ struct ping_state {
     }
 };
 //------------------------------------------------------------------------------
-using pinger_base = service_composition<pinger<host_info_consumer<
-  application_info_provider<endpoint_info_provider<subscriber_discovery<>>>>>>;
+using pinger_base =
+  service_composition<pinger<host_info_consumer<host_info_provider<
+    application_info_provider<endpoint_info_provider<subscriber_discovery<>>>>>>>;
 
 class pinger_node
   : public main_ctx_object
@@ -132,8 +133,10 @@ public:
       const result_context& res_ctx,
       const valid_if_positive<host_id_t>& host_id) {
         if(host_id) {
-            auto& state = _targets[res_ctx.source_id()];
-            state.host_id = extract(host_id);
+            if(host_id != this->bus().get_id()) {
+                auto& state = _targets[res_ctx.source_id()];
+                state.host_id = extract(host_id);
+            }
         }
     }
 
