@@ -9,27 +9,18 @@ NodeListItem {
 	RowLayout {
 		anchors.fill: parent
 		Item {
-			Layout.preferredWidth: 25
+			Layout.preferredWidth: backend.theme.nodeListInstOffset
 		}
-		Image {
-			Layout.preferredWidth:  backend.theme.nodeListIconSize
-			Layout.preferredHeight: backend.theme.nodeListIconSize
-			horizontalAlignment: Image.AlignHCenter
-			source: "qrc:/icons/InstanceItem.svg"
+		NodeListIcon {
+			iconName: "InstanceItem"
 		}
 		ColumnLayout {
 			Layout.fillHeight: true
-			Label {
-				Layout.fillWidth: true
-				font.pixelSize: 10;
-				text: "Process: %1".arg(identifier ? identifier : "?")
+			NodeListHeading {
+				title: "Process"
 			}
 			Label {
 				text: displayName ? displayName : "-"
-			}
-			Label {
-				Layout.fillWidth: true
-				text: "Running nodes: %1".arg(childCount ? childCount : "?")
 			}
 		}
 	}

@@ -9,20 +9,15 @@ NodeListItem {
 	RowLayout {
 		anchors.fill: parent
 		Item {
-			Layout.preferredWidth: 50
+			Layout.preferredWidth: backend.theme.nodeListNodeOffset
 		}
-		Image {
-			Layout.preferredWidth:  backend.theme.nodeListIconSize
-			Layout.preferredHeight: backend.theme.nodeListIconSize
-			horizontalAlignment: Image.AlignHCenter
-			source: "qrc:/icons/UnknownNode.svg"
+		NodeListIcon {
+			iconName: "UnknownNode"
 		}
 		ColumnLayout {
 			Layout.fillHeight: true
-			Label {
-				Layout.fillWidth: true
-				font.pixelSize: 10;
-				text: "Unknown node: %1".arg(identifier ? identifier : "?")
+			NodeListHeading {
+				title: "Unknown node"
 			}
 			Label {
 				Layout.fillWidth: true

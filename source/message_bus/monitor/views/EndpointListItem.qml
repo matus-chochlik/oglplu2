@@ -9,20 +9,15 @@ NodeListItem {
 	RowLayout {
 		anchors.fill: parent
 		Item {
-			Layout.preferredWidth: 50
+			Layout.preferredWidth: backend.theme.nodeListNodeOffset
 		}
-		Image {
-			Layout.preferredWidth:  backend.theme.nodeListIconSize
-			Layout.preferredHeight: backend.theme.nodeListIconSize
-			horizontalAlignment: Image.AlignHCenter
-			source: "qrc:/icons/EndpointNode.svg"
+		NodeListIcon {
+			iconName: "EndpointNode"
 		}
 		ColumnLayout {
 			Layout.fillHeight: true
-			Label {
-				Layout.fillWidth: true
-				font.pixelSize: 10;
-				text: "Endpoint: %1".arg(identifier)
+			NodeListHeading {
+				title: "Endpoint"
 			}
 			Label {
 				Layout.fillWidth: true

@@ -8,17 +8,16 @@ NodeListItem {
 
 	RowLayout {
 		anchors.fill: parent
-		Image {
-			Layout.preferredWidth:  backend.theme.nodeListIconSize
-			Layout.preferredHeight: backend.theme.nodeListIconSize
-			horizontalAlignment: Image.AlignHCenter
-			source: "qrc:/icons/UnknownHostItem.svg"
+		Item {
+			Layout.preferredWidth: backend.theme.nodeListHostOffset
+		}
+		NodeListIcon {
+			iconName: "UnknownHostItem"
 		}
 		ColumnLayout {
 			Layout.fillHeight: true
-			Label {
-				Layout.fillWidth: true
-				text: "Unknown host"
+			NodeListHeading {
+				title: "Unknown host"
 			}
 			Label {
 				Layout.fillWidth: true

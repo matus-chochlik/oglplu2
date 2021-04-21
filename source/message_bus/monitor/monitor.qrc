@@ -12,6 +12,10 @@
 	<file>icons/Responsive.svg</file>
 	<file>icons/Unresponsive.svg</file>
 
+	<file>views/AliveIndicator.qml</file>
+	<file>views/NodeListIcon.qml</file>
+	<file>views/NodeListHeading.qml</file>
+
 	<file>views/MonitorView.qml</file>
 	<file>views/NodeListView.qml</file>
 	<file>views/NodeListItem.qml</file>

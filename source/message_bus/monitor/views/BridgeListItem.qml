@@ -9,20 +9,15 @@ NodeListItem {
 	RowLayout {
 		anchors.fill: parent
 		Item {
-			Layout.preferredWidth: 50
+			Layout.preferredWidth: backend.theme.nodeListNodeOffset
 		}
-		Image {
-			Layout.preferredWidth:  backend.theme.nodeListIconSize
-			Layout.preferredHeight: backend.theme.nodeListIconSize
-			horizontalAlignment: Image.AlignHCenter
-			source: "qrc:/icons/BridgeNode.svg"
+		NodeListIcon {
+			iconName: "BridgeNode"
 		}
 		ColumnLayout {
 			Layout.fillHeight: true
-			Label {
-				Layout.fillWidth: true
-				font.pixelSize: 10;
-				text: "Bridge: %1".arg(identifier)
+			NodeListHeading {
+				title: "Bridge"
 			}
 			Label {
 				Layout.fillWidth: true

@@ -8,24 +8,19 @@ NodeListItem {
 
 	RowLayout {
 		anchors.fill: parent
-		Image {
-			Layout.preferredWidth:  backend.theme.nodeListIconSize
-			Layout.preferredHeight: backend.theme.nodeListIconSize
-			horizontalAlignment: Image.AlignHCenter
-			source: "qrc:/icons/HostItem.svg"
+		Item {
+			Layout.preferredWidth: backend.theme.nodeListHostOffset
+		}
+		NodeListIcon {
+			iconName: "HostItem"
 		}
 		ColumnLayout {
 			Layout.fillHeight: true
-			Label {
-				Layout.fillWidth: true
-				font.pixelSize: 10;
-				text: "Host: %1".arg(identifier ? identifier : "?")
+			NodeListHeading {
+				title: "Host"
 			}
 			Label {
 				text: displayName ? displayName : "-"
-			}
-			Label {
-				text: "Processes: %1".arg(childCount ? childCount : "?")
 			}
 		}
 	}
