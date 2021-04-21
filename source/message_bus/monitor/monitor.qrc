@@ -2,6 +2,7 @@
 <qresource>
 	<file>qtquickcontrols2.conf</file>
 	<file>monitor.qml</file>
+	<file>icons/UnknownHostItem.svg</file>
 	<file>icons/HostItem.svg</file>
 	<file>icons/InstanceItem.svg</file>
 	<file>icons/UnknownNode.svg</file>
