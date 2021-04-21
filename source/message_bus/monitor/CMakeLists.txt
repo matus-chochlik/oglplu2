@@ -14,7 +14,7 @@ set(MONITOR_SOURCES
 	src/TrackerModel.cpp
 	src/NodeListViewModel.cpp
 	src/MonitorViewModel.cpp
-	src/NodeViewModel.cpp
+	src/SelectedItemViewModel.cpp
 )
 set(MONITOR_HEADERS
 	include/MonitorTheme.hpp
@@ -22,7 +22,7 @@ set(MONITOR_HEADERS
 	include/TrackerModel.hpp
 	include/NodeListViewModel.hpp
 	include/MonitorViewModel.hpp
-	include/NodeViewModel.hpp
+	include/SelectedItemViewModel.hpp
 )
 add_executable(
 	eagine-message_bus-monitor

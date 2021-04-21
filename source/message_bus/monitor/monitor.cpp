@@ -1,6 +1,6 @@
 #include "MonitorBackend.hpp"
 #include "MonitorViewModel.hpp"
-#include "NodeViewModel.hpp"
+#include "SelectedItemViewModel.hpp"
 #include <eagine/main_ctx.hpp>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -25,6 +25,8 @@ auto main(main_ctx& ctx) -> int {
       registerId, 1, 0, "MonitorViewModel", {});
     qmlRegisterUncreatableType<NodeListViewModel>(
       registerId, 1, 0, "NodeListViewModel", {});
+    qmlRegisterUncreatableType<SelectedItemViewModel>(
+      registerId, 1, 0, "SelectedItemViewModel", {});
 
     MonitorBackend backend(ctx);
     QQmlApplicationEngine engine;

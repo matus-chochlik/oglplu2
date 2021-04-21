@@ -5,22 +5,23 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-#include "MonitorViewModel.hpp"
+#include "SelectedItemViewModel.hpp"
 #include "MonitorBackend.hpp"
 #include "NodeListViewModel.hpp"
 //------------------------------------------------------------------------------
-MonitorViewModel::MonitorViewModel(MonitorBackend& backend)
+SelectedItemViewModel::SelectedItemViewModel(MonitorBackend& backend)
   : QObject{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(MonitorVM), backend}
-  , _backend{backend}
-  , _nodeListViewModel{_backend}
-  , _selectedItemViewModel{_backend} {}
+  , _backend{backend} {}
 //------------------------------------------------------------------------------
-auto MonitorViewModel::getNodeListViewModel() -> NodeListViewModel* {
-    return &_nodeListViewModel;
+auto SelectedItemViewModel::_nodeListViewModel() -> NodeListViewModel* {
+    if(auto monitorViewModel{_backend.getMonitorViewModel()}) {
+        return monitorViewModel->getNodeListViewModel();
+    }
+    return nullptr;
 }
-//------------------------------------------------------------------------------auto
-auto MonitorViewModel::getSelectedItemViewModel() -> SelectedItemViewModel* {
-    return &_selectedItemViewModel;
+//------------------------------------------------------------------------------
+auto SelectedItemViewModel::getItemKind() -> QString {
+    return "NoItem";
 }
 //------------------------------------------------------------------------------

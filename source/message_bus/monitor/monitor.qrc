@@ -11,6 +11,7 @@
 	<file>icons/EndpointNode.svg</file>
 	<file>icons/Responsive.svg</file>
 	<file>icons/Unresponsive.svg</file>
+
 	<file>views/MonitorView.qml</file>
 	<file>views/NodeListView.qml</file>
 	<file>views/NodeListItem.qml</file>
@@ -21,5 +22,14 @@
 	<file>views/BridgeListItem.qml</file>
 	<file>views/EndpointListItem.qml</file>
 	<file>views/UnknownNodeListItem.qml</file>
+
+	<file>views/NoItemView.qml</file>
+	<file>views/UnknownHostView.qml</file>
+	<file>views/HostView.qml</file>
+	<file>views/InstanceView.qml</file>
+	<file>views/RouterView.qml</file>
+	<file>views/BridgeView.qml</file>
+	<file>views/EndpointView.qml</file>
+	<file>views/UnknownNodeView.qml</file>
 </qresource>
 </RCC>

@@ -21,7 +21,7 @@ auto MonitorTheme::getLight() const -> bool {
 }
 //------------------------------------------------------------------------------
 auto MonitorTheme::getNodeListItemWidth() -> int {
-    return 300;
+    return 350;
 }
 //------------------------------------------------------------------------------
 auto MonitorTheme::getNodeListItemHeight() -> int {
@@ -29,6 +29,6 @@ auto MonitorTheme::getNodeListItemHeight() -> int {
 }
 //------------------------------------------------------------------------------
 auto MonitorTheme::getNodeListIconSize() -> int {
-    return 56;
+    return 48;
 }
 //------------------------------------------------------------------------------

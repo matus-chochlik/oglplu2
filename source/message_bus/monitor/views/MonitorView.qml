@@ -11,4 +11,22 @@ RowLayout {
 		Layout.fillHeight: true
 		model: monitorView.model.nodeList
 	}
+
+	Loader {
+		id: selectedItemView
+		Layout.fillWidth: true
+		Layout.fillHeight: true
+
+		function itemViewUrl() {
+			return "qrc:///views/%1View.qml"
+				.arg(monitorView.model.selectedItem.itemKind
+					? monitorView.model.selectedItem.itemKind
+					: "NoItem")
+		}
+
+		source: itemViewUrl()
+		onLoaded: {
+			selectedItemView.item.model = monitorView.model.selectedItem
+		}
+	}
 }
