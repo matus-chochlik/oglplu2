@@ -47,8 +47,18 @@ auto NodeViewModel::getIdentifier() -> QVariant {
 }
 //------------------------------------------------------------------------------
 auto NodeViewModel::getDisplayName() -> QVariant {
-    if(auto optStr{_node.display_name()}) {
-        return {c_str(extract(optStr))};
+    switch(_node.kind()) {
+        case eagine::msgbus::node_kind::endpoint:
+            if(auto optStr{_node.display_name()}) {
+                return {c_str(extract(optStr))};
+            }
+            break;
+        case eagine::msgbus::node_kind::router:
+            return {"routing node"};
+        case eagine::msgbus::node_kind::bridge:
+            return {"bridge node"};
+        case eagine::msgbus::node_kind::unknown:
+            return {"unknown node"};
     }
     return {};
 }

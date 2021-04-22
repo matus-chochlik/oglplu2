@@ -30,6 +30,11 @@ Control {
 		nodeListItem.view.model.onItemSelected(index);
 	}
 
+	function unselect() {
+		nodeListItem.view.currentIndex = -1
+		nodeListItem.view.model.onItemSelected(-1);
+	}
+
 	state: isCurrent() ? "Selected" : "Unselected"
 	states: [
 		State {
@@ -68,6 +73,15 @@ Control {
 			}
 		}
 	]
+
+	focus: true
+	Keys.onPressed: {
+		if(event.key == Qt.Key_Return) {
+			makeCurrent()
+		} else if(event.key == Qt.Key_Escape) {
+			unselect()
+		}
+	}
 
 	MouseArea {
 		anchors.fill: parent

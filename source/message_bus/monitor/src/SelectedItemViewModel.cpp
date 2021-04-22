@@ -74,9 +74,9 @@ void SelectedItemViewModel::onItemSelected(
 //------------------------------------------------------------------------------
 void SelectedItemViewModel::onItemUnselected() {
     _itemSelected = false;
+    emit itemSelectionChanged();
     emit hostChanged(0U);
     emit instChanged(0U);
     emit nodeChanged(0U);
-    emit itemSelectionChanged();
 }
 //------------------------------------------------------------------------------
