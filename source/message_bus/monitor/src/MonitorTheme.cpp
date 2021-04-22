@@ -47,6 +47,10 @@ auto MonitorTheme::getNodeListIconSize() -> int {
     return 48;
 }
 //------------------------------------------------------------------------------
+auto MonitorTheme::getItemViewIconSize() -> int {
+    return 64;
+}
+//------------------------------------------------------------------------------
 auto MonitorTheme::getNodeListAliveSize() -> int {
     return 12;
 }

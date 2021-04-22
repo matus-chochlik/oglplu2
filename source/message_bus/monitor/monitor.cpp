@@ -27,6 +27,12 @@ auto main(main_ctx& ctx) -> int {
       registerId, 1, 0, "NodeListViewModel", {});
     qmlRegisterUncreatableType<SelectedItemViewModel>(
       registerId, 1, 0, "SelectedItemViewModel", {});
+    qmlRegisterUncreatableType<HostViewModel>(
+      registerId, 1, 0, "HostViewModel", {});
+    qmlRegisterUncreatableType<InstViewModel>(
+      registerId, 1, 0, "InstViewModel", {});
+    qmlRegisterUncreatableType<NodeViewModel>(
+      registerId, 1, 0, "NodeViewModel", {});
 
     MonitorBackend backend(ctx);
     QQmlApplicationEngine engine;

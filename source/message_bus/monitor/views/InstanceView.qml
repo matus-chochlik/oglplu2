@@ -3,15 +3,19 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.2
 import "qrc:///views"
 
-Item {
+Pane {
 	id: instanceView
     property variant model: null
+	leftPadding: 0
 
 	ColumnLayout {
-		anchors.fill: parent
 		ItemViewHeading {
-			itemKind: model.itemKind
-			itemId: model.instId
+			itemKind: "Process"
+			iconName: "InstanceItem"
+			itemId: instanceView.model.inst.identifier
+		}
+		HostView {
+			model: instanceView.model
 		}
 		Item {
 			Layout.fillHeight: true

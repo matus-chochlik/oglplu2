@@ -16,7 +16,10 @@ SelectedItemViewModel::SelectedItemViewModel(
   : QObject{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(MonitorVM), backend}
   , _backend{backend}
-  , _nodeListViewModel{nodeListViewModel} {
+  , _nodeListViewModel{nodeListViewModel}
+  , _hostViewModel{_backend, *this}
+  , _instViewModel{_backend, *this}
+  , _nodeViewModel{_backend, *this} {
     connect(
       &_nodeListViewModel,
       &NodeListViewModel::itemSelected,
@@ -26,68 +29,54 @@ SelectedItemViewModel::SelectedItemViewModel(
 //------------------------------------------------------------------------------
 auto SelectedItemViewModel::getItemKind() -> QString {
     if(_itemSelected) {
-        if(auto trackerModel{_backend.trackerModel()}) {
-            auto& tracker = trackerModel->tracker();
-            if(_nodeId) {
-                if(auto node = tracker.get_node(_nodeId)) {
-                    switch(node.kind()) {
-                        case eagine::msgbus::node_kind::endpoint:
-                            return {"Endpoint"};
-                        case eagine::msgbus::node_kind::router:
-                            return {"Router"};
-                        case eagine::msgbus::node_kind::bridge:
-                            return {"Bridge"};
-                        case eagine::msgbus::node_kind::unknown:
-                            break;
-                    }
-                }
-                return {"UnknownNode"};
-            } else if(_instId) {
-                return {"Instance"};
-            } else if(_hostId) {
-                return {"Host"};
-            } else {
-                return {"UnknownHost"};
-            }
+        if(_nodeViewModel) {
+            return _nodeViewModel.getItemKind();
+        } else if(_instViewModel) {
+            return _instViewModel.getItemKind();
+        } else if(_hostViewModel) {
+            return _hostViewModel.getItemKind();
         }
     }
     return {"NoItem"};
 }
 //------------------------------------------------------------------------------
-auto SelectedItemViewModel::getHostId() -> QVariant {
-    if(_hostId) {
-        return {static_cast<qulonglong>(_hostId)};
+auto SelectedItemViewModel::getHostViewModel() -> HostViewModel* {
+    if(_hostViewModel) {
+        return &_hostViewModel;
     }
-    return {};
+    return nullptr;
 }
 //------------------------------------------------------------------------------
-auto SelectedItemViewModel::getInstId() -> QVariant {
-    if(_instId) {
-        return {static_cast<qulonglong>(_instId)};
+auto SelectedItemViewModel::getInstViewModel() -> InstViewModel* {
+    if(_instViewModel) {
+        return &_instViewModel;
     }
-    return {};
+    return nullptr;
 }
 //------------------------------------------------------------------------------
-auto SelectedItemViewModel::getNodeId() -> QVariant {
-    if(_nodeId) {
-        return {static_cast<qulonglong>(_nodeId)};
+auto SelectedItemViewModel::getNodeViewModel() -> NodeViewModel* {
+    if(_nodeViewModel) {
+        return &_nodeViewModel;
     }
-    return {};
+    return nullptr;
 }
 //------------------------------------------------------------------------------
 void SelectedItemViewModel::onItemSelected(
   eagine::identifier_t hostId,
   eagine::identifier_t instId,
   eagine::identifier_t nodeId) {
-    _hostId = hostId;
-    _instId = instId;
-    _nodeId = nodeId;
     _itemSelected = true;
+    emit hostChanged(hostId);
+    emit instChanged(instId);
+    emit nodeChanged(nodeId);
     emit itemSelectionChanged();
 }
 //------------------------------------------------------------------------------
 void SelectedItemViewModel::onItemUnselected() {
     _itemSelected = false;
+    emit hostChanged(0U);
+    emit instChanged(0U);
+    emit nodeChanged(0U);
     emit itemSelectionChanged();
 }
 //------------------------------------------------------------------------------

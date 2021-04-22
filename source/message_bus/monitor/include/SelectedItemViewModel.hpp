@@ -8,6 +8,9 @@
 #ifndef EAGINE_MESSAGE_BUS_MONITOR_SELECTED_ITEM_VIEW_MODEL
 #define EAGINE_MESSAGE_BUS_MONITOR_SELECTED_ITEM_VIEW_MODEL
 
+#include "HostViewModel.hpp"
+#include "InstViewModel.hpp"
+#include "NodeViewModel.hpp"
 #include <eagine/main_ctx_object.hpp>
 #include <QObject>
 
@@ -20,19 +23,26 @@ class SelectedItemViewModel
     Q_OBJECT
 
     Q_PROPERTY(QString itemKind READ getItemKind NOTIFY itemSelectionChanged)
-    Q_PROPERTY(QVariant hostId READ getHostId NOTIFY itemSelectionChanged)
-    Q_PROPERTY(QVariant instId READ getInstId NOTIFY itemSelectionChanged)
-    Q_PROPERTY(QVariant nodeId READ getNodeId NOTIFY itemSelectionChanged)
+
+    Q_PROPERTY(
+      HostViewModel* host READ getHostViewModel NOTIFY itemSelectionChanged)
+    Q_PROPERTY(
+      InstViewModel* inst READ getInstViewModel NOTIFY itemSelectionChanged)
+    Q_PROPERTY(
+      NodeViewModel* node READ getNodeViewModel NOTIFY itemSelectionChanged)
 public:
     SelectedItemViewModel(MonitorBackend&, NodeListViewModel&);
 
     auto getItemKind() -> QString;
-    auto getHostId() -> QVariant;
-    auto getInstId() -> QVariant;
-    auto getNodeId() -> QVariant;
+    auto getHostViewModel() -> HostViewModel*;
+    auto getInstViewModel() -> InstViewModel*;
+    auto getNodeViewModel() -> NodeViewModel*;
 
 signals:
     void itemSelectionChanged();
+    void hostChanged(eagine::identifier_t);
+    void instChanged(eagine::identifier_t);
+    void nodeChanged(eagine::identifier_t);
 
 public slots:
     void onItemSelected(
@@ -44,9 +54,10 @@ public slots:
 private:
     MonitorBackend& _backend;
     NodeListViewModel& _nodeListViewModel;
-    eagine::identifier_t _hostId{0};
-    eagine::identifier_t _instId{0};
-    eagine::identifier_t _nodeId{0};
+    HostViewModel _hostViewModel;
+    InstViewModel _instViewModel;
+    NodeViewModel _nodeViewModel;
+
     bool _itemSelected{false};
 };
 //------------------------------------------------------------------------------

@@ -3,14 +3,23 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.2
 import "qrc:///views"
 
-Label {
+RowLayout {
 	property string itemKind: "Unknown"
-	property int itemId: 0
+	property string iconName: "Unknown"
+	property variant itemId: null
 
-	Layout.fillWidth: true;
-	font.pixelSize: backend.theme.hugeFontSize;
-	text: qsTr("%1 <i>%2</i>")
-		.arg(qsTr(itemKind, "item"))
-		.arg(Number(itemId).toLocaleString(Qt.locale("C"), "f", 0))
+	Image {
+		Layout.preferredWidth:  backend.theme.itemViewIconSize
+		Layout.preferredHeight: backend.theme.itemViewIconSize
+		horizontalAlignment: Image.AlignHCenter
+		source: "qrc:/icons/%1.svg".arg(iconName)
+	}
+	Label {
+		Layout.fillWidth: true;
+		font.pixelSize: backend.theme.hugeFontSize;
+		text: qsTr("%1 <i>%2</i>")
+			.arg(qsTr(itemKind, "item"))
+			.arg(itemId ? itemId : "?")
+	}
 }
 

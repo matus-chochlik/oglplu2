@@ -3,15 +3,16 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.2
 import "qrc:///views"
 
-Item {
+Pane {
 	id: hostView
     property variant model: null
+	leftPadding: 0
 
 	ColumnLayout {
-		anchors.fill: parent
 		ItemViewHeading {
-			itemKind: model.itemKind
-			itemId: model.hostId
+			itemKind: "Host"
+			iconName: "HostItem"
+			itemId: hostView.model.host.identifier
 		}
 		Item {
 			Layout.fillHeight: true

@@ -26,6 +26,7 @@ class MonitorTheme
     Q_PROPERTY(int nodeListItemWidth READ getNodeListItemWidth CONSTANT)
     Q_PROPERTY(int nodeListItemHeight READ getNodeListItemHeight CONSTANT)
     Q_PROPERTY(int nodeListIconSize READ getNodeListIconSize CONSTANT)
+    Q_PROPERTY(int itemViewIconSize READ getItemViewIconSize CONSTANT)
     Q_PROPERTY(int nodeListAliveSize READ getNodeListAliveSize CONSTANT)
 
     Q_PROPERTY(float smallFontSize READ getSmallFontSize CONSTANT)
@@ -44,6 +45,7 @@ public:
     auto getNodeListItemWidth() -> int;
     auto getNodeListItemHeight() -> int;
     auto getNodeListIconSize() -> int;
+    auto getItemViewIconSize() -> int;
     auto getNodeListAliveSize() -> int;
 
     auto getSmallFontSize() -> float;
