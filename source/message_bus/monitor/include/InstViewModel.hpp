@@ -24,6 +24,7 @@ class InstViewModel
 
     Q_PROPERTY(QVariant identifier READ getIdentifier NOTIFY infoChanged)
     Q_PROPERTY(QVariant displayName READ getDisplayName NOTIFY infoChanged)
+    Q_PROPERTY(QVariant description READ getDescription NOTIFY infoChanged)
 public:
     InstViewModel(MonitorBackend&, SelectedItemViewModel&);
 
@@ -34,6 +35,7 @@ public:
     auto getItemKind() -> QString;
     auto getIdentifier() -> QVariant;
     auto getDisplayName() -> QVariant;
+    auto getDescription() -> QVariant;
 
 signals:
     void infoChanged();

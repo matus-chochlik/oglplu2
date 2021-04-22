@@ -43,6 +43,10 @@ auto HostViewModel::getDisplayName() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto HostViewModel::getDescription() -> QVariant {
+    return {};
+}
+//------------------------------------------------------------------------------
 void HostViewModel::onHostInfoChanged(eagine::identifier_t hostId) {
     if(hostId) {
         if(auto trackerModel{_backend.trackerModel()}) {

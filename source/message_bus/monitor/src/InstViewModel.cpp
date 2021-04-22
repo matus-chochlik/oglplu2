@@ -40,6 +40,10 @@ auto InstViewModel::getDisplayName() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto InstViewModel::getDescription() -> QVariant {
+    return {};
+}
+//------------------------------------------------------------------------------
 void InstViewModel::onInstInfoChanged(eagine::identifier_t instId) {
     if(instId) {
         if(auto trackerModel{_backend.trackerModel()}) {
