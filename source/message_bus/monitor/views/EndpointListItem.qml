@@ -17,7 +17,7 @@ NodeListItem {
 		ColumnLayout {
 			Layout.fillHeight: true
 			NodeListHeading {
-				title: "Endpoint"
+				itemKind: model.itemKind
 			}
 			Label {
 				Layout.fillWidth: true
@@ -25,4 +25,20 @@ NodeListItem {
 			}
 		}
 	}
+
+	function toolTipText() {
+		var result = ""
+		if(itemKind && identifier) {
+			result += "%1: %2\n".arg(qsTr(itemKind)).arg(identifier)
+		}
+		if(displayName) {
+			result += "%1\n".arg(qsTr(displayName))
+		}
+		if(description) {
+			result += "%1\n".arg(qsTr(description))
+		}
+		return result
+	}
+
+	ToolTip.text: toolTipText()
 }

@@ -17,7 +17,7 @@ NodeListItem {
 		ColumnLayout {
 			Layout.fillHeight: true
 			NodeListHeading {
-				title: "Host"
+				itemKind: model.itemKind
 			}
 			Label {
 				text: displayName ? displayName : "-"

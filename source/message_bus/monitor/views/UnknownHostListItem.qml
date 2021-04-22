@@ -17,7 +17,7 @@ NodeListItem {
 		ColumnLayout {
 			Layout.fillHeight: true
 			NodeListHeading {
-				title: "Unknown host"
+				itemKind: "Unknown host"
 			}
 			Label {
 				Layout.fillWidth: true

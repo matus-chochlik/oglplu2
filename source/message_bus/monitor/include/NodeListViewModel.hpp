@@ -53,6 +53,7 @@ signals:
       eagine::identifier_t,
       eagine::identifier_t,
       eagine::identifier_t);
+    void itemUnselected();
 public slots:
     void onNodeChanged(const remote_node&);
     void onInstanceInfoChanged(const remote_inst&);

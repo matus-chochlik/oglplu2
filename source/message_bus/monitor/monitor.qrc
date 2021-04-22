@@ -15,6 +15,7 @@
 	<file>views/AliveIndicator.qml</file>
 	<file>views/NodeListIcon.qml</file>
 	<file>views/NodeListHeading.qml</file>
+	<file>views/ItemViewHeading.qml</file>
 
 	<file>views/MonitorView.qml</file>
 	<file>views/NodeListView.qml</file>

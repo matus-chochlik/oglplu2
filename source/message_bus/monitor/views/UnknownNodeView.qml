@@ -9,8 +9,8 @@ Item {
 
 	ColumnLayout {
 		anchors.fill: parent
-		Label {
-			text: qsTr("Unknown node view")
+		ItemViewHeading {
+			itemKind: model.itemKind
 		}
 		Item {
 			Layout.fillHeight: true

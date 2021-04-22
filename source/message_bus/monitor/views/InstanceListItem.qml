@@ -17,7 +17,7 @@ NodeListItem {
 		ColumnLayout {
 			Layout.fillHeight: true
 			NodeListHeading {
-				title: "Process"
+				itemKind: "Process"
 			}
 			Label {
 				text: displayName ? displayName : "-"

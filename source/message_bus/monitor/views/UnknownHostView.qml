@@ -9,11 +9,23 @@ Item {
 
 	ColumnLayout {
 		anchors.fill: parent
+		Item {
+			Layout.fillHeight: true;
+		}
 		Label {
-			text: qsTr("Unknown host view")
+			Layout.fillWidth: true;
+			horizontalAlignment: Label.AlignHCenter
+			font.pixelSize: backend.theme.hugeFontSize;
+			text: qsTr("Unknown host")
+		}
+		Label {
+			Layout.fillWidth: true;
+			horizontalAlignment: Label.AlignHCenter
+			font.italic: true
+			text: qsTr("No additional information available")
 		}
 		Item {
-			Layout.fillHeight: true
+			Layout.fillHeight: true;
 		}
 	}
 }

@@ -9,8 +9,9 @@ Item {
 
 	ColumnLayout {
 		anchors.fill: parent
-		Label {
-			text: qsTr("Router view")
+		ItemViewHeading {
+			itemKind: model.itemKind
+			itemId: model.nodeId
 		}
 		Item {
 			Layout.fillHeight: true

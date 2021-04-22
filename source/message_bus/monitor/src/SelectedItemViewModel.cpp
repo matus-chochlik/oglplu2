@@ -25,31 +25,54 @@ SelectedItemViewModel::SelectedItemViewModel(
 }
 //------------------------------------------------------------------------------
 auto SelectedItemViewModel::getItemKind() -> QString {
-    if(auto trackerModel{_backend.trackerModel()}) {
-        auto& tracker = trackerModel->tracker();
-        if(_nodeId) {
-            if(auto node = tracker.get_node(_nodeId)) {
-                switch(node.kind()) {
-                    case eagine::msgbus::node_kind::endpoint:
-                        return {"Endpoint"};
-                    case eagine::msgbus::node_kind::router:
-                        return {"Router"};
-                    case eagine::msgbus::node_kind::bridge:
-                        return {"Bridge"};
-                    case eagine::msgbus::node_kind::unknown:
-                        break;
+    if(_itemSelected) {
+        if(auto trackerModel{_backend.trackerModel()}) {
+            auto& tracker = trackerModel->tracker();
+            if(_nodeId) {
+                if(auto node = tracker.get_node(_nodeId)) {
+                    switch(node.kind()) {
+                        case eagine::msgbus::node_kind::endpoint:
+                            return {"Endpoint"};
+                        case eagine::msgbus::node_kind::router:
+                            return {"Router"};
+                        case eagine::msgbus::node_kind::bridge:
+                            return {"Bridge"};
+                        case eagine::msgbus::node_kind::unknown:
+                            break;
+                    }
                 }
+                return {"UnknownNode"};
+            } else if(_instId) {
+                return {"Instance"};
+            } else if(_hostId) {
+                return {"Host"};
+            } else {
+                return {"UnknownHost"};
             }
-            return {"UnknownNode"};
-        } else if(_instId) {
-            return {"Instance"};
-        } else if(_hostId) {
-            return {"Host"};
-        } else {
-            return {"UnknownHost"};
         }
     }
     return {"NoItem"};
+}
+//------------------------------------------------------------------------------
+auto SelectedItemViewModel::getHostId() -> QVariant {
+    if(_hostId) {
+        return {static_cast<qulonglong>(_hostId)};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto SelectedItemViewModel::getInstId() -> QVariant {
+    if(_instId) {
+        return {static_cast<qulonglong>(_instId)};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto SelectedItemViewModel::getNodeId() -> QVariant {
+    if(_nodeId) {
+        return {static_cast<qulonglong>(_nodeId)};
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 void SelectedItemViewModel::onItemSelected(
@@ -59,6 +82,12 @@ void SelectedItemViewModel::onItemSelected(
     _hostId = hostId;
     _instId = instId;
     _nodeId = nodeId;
-    emit itemSelected();
+    _itemSelected = true;
+    emit itemSelectionChanged();
+}
+//------------------------------------------------------------------------------
+void SelectedItemViewModel::onItemUnselected() {
+    _itemSelected = false;
+    emit itemSelectionChanged();
 }
 //------------------------------------------------------------------------------

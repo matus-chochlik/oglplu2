@@ -17,7 +17,7 @@ NodeListItem {
 		ColumnLayout {
 			Layout.fillHeight: true
 			NodeListHeading {
-				title: "Bridge"
+				itemKind: model.itemKind
 			}
 			Label {
 				Layout.fillWidth: true

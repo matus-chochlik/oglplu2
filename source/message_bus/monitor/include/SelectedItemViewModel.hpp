@@ -19,20 +19,27 @@ class SelectedItemViewModel
   , public eagine::main_ctx_object {
     Q_OBJECT
 
-    Q_PROPERTY(QString itemKind READ getItemKind NOTIFY itemSelected)
+    Q_PROPERTY(QString itemKind READ getItemKind NOTIFY itemSelectionChanged)
+    Q_PROPERTY(QVariant hostId READ getHostId NOTIFY itemSelectionChanged)
+    Q_PROPERTY(QVariant instId READ getInstId NOTIFY itemSelectionChanged)
+    Q_PROPERTY(QVariant nodeId READ getNodeId NOTIFY itemSelectionChanged)
 public:
     SelectedItemViewModel(MonitorBackend&, NodeListViewModel&);
 
     auto getItemKind() -> QString;
+    auto getHostId() -> QVariant;
+    auto getInstId() -> QVariant;
+    auto getNodeId() -> QVariant;
 
 signals:
-    void itemSelected();
+    void itemSelectionChanged();
 
 public slots:
     void onItemSelected(
       eagine::identifier_t,
       eagine::identifier_t,
       eagine::identifier_t);
+    void onItemUnselected();
 
 private:
     MonitorBackend& _backend;
@@ -40,6 +47,7 @@ private:
     eagine::identifier_t _hostId{0};
     eagine::identifier_t _instId{0};
     eagine::identifier_t _nodeId{0};
+    bool _itemSelected{false};
 };
 //------------------------------------------------------------------------------
 #endif

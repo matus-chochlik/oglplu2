@@ -74,21 +74,7 @@ Control {
 		onClicked: makeCurrent()
 	}
 
-	function toolTipText() {
-		var result = ""
-		if(itemKind && identifier) {
-			result += "%1 %2: ".arg(itemKind).arg(identifier)
-		}
-		if(description) {
-			result += description
-		} else if(displayName) {
-			result += displayName
-		}
-		return result
-	}
-
-	ToolTip.delay: 1000
-	ToolTip.timeout: 5000
-	ToolTip.visible: hovered
-	ToolTip.text: qsTr(toolTipText())
+	ToolTip.delay: 2000
+	ToolTip.timeout: 7000
+	ToolTip.visible: ToolTip.text ? hovered : false
 }

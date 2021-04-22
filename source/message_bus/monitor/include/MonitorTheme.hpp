@@ -30,7 +30,7 @@ class MonitorTheme
 
     Q_PROPERTY(float smallFontSize READ getSmallFontSize CONSTANT)
     Q_PROPERTY(float normalFontSize READ getNormalFontSize CONSTANT)
-    Q_PROPERTY(float hugeFontSize READ getNormalFontSize CONSTANT)
+    Q_PROPERTY(float hugeFontSize READ getHugeFontSize CONSTANT)
 public:
     MonitorTheme(eagine::main_ctx_parent);
 

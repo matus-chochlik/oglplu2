@@ -17,7 +17,7 @@ NodeListItem {
 		ColumnLayout {
 			Layout.fillHeight: true
 			NodeListHeading {
-				title: "Router"
+				itemKind: model.itemKind
 			}
 			Label {
 				text: "Connected:"

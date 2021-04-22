@@ -9,8 +9,9 @@ Item {
 
 	ColumnLayout {
 		anchors.fill: parent
-		Label {
-			text: qsTr("Host view")
+		ItemViewHeading {
+			itemKind: model.itemKind
+			itemId: model.hostId
 		}
 		Item {
 			Layout.fillHeight: true
