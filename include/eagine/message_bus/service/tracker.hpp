@@ -208,7 +208,15 @@ public:
         _tracker.for_each_node(std::move(function));
     }
 
-    auto get_node(identifier_t id) -> const remote_node_state& {
+    auto get_host(identifier_t id) -> const remote_host& {
+        return _tracker.get_host(id);
+    }
+
+    auto get_instance(identifier_t id) -> const remote_instance& {
+        return _tracker.get_instance(id);
+    }
+
+    auto get_node(identifier_t id) -> const remote_node& {
         return _tracker.get_node(id);
     }
 
