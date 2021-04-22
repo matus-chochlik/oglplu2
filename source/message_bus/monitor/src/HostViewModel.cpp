@@ -22,21 +22,36 @@ HostViewModel::HostViewModel(
       &HostViewModel::onHostInfoChanged);
 }
 //------------------------------------------------------------------------------
-auto HostViewModel::getIdentifier() -> QVariant {
-    if(_hostId) {
-        return {QString::number(_hostId)};
-    }
-    return {};
-}
-//------------------------------------------------------------------------------
 auto HostViewModel::getItemKind() -> QString {
-    if(_hostId) {
+    if(_host) {
         return {"Host"};
     }
     return {"UnknownHost"};
 }
 //------------------------------------------------------------------------------
+auto HostViewModel::getIdentifier() -> QVariant {
+    if(_host) {
+        return {QString::number(extract(_host.id()))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto HostViewModel::getDisplayName() -> QVariant {
+    if(auto optStr{_host.name()}) {
+        return {c_str(extract(optStr))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 void HostViewModel::onHostInfoChanged(eagine::identifier_t hostId) {
-    _hostId = hostId;
+    if(hostId) {
+        if(auto trackerModel{_backend.trackerModel()}) {
+            auto& tracker = trackerModel->tracker();
+            _host = tracker.get_host(hostId);
+        }
+    } else {
+        _host = {};
+    }
+    emit infoChanged();
 }
 //------------------------------------------------------------------------------

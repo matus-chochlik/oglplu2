@@ -13,7 +13,7 @@ Pane {
 		ItemViewHeading {
 			itemKind: "Bridge"
 			iconName: "BridgeNode"
-			itemId: bridgeView.model.node.identifier
+			itemModel: bridgeView.model.node
 		}
 		InstanceView {
 			model: bridgeView.model

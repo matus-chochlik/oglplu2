@@ -13,7 +13,7 @@ Pane {
 		ItemViewHeading {
 			itemKind: "Router"
 			iconName: "RouterNode"
-			itemId: routerView.model.node.identifier
+			itemModel: routerView.model.node
 		}
 		InstanceView {
 			model: routerView.model

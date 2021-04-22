@@ -6,7 +6,7 @@ import "qrc:///views"
 RowLayout {
 	property string itemKind: "Unknown"
 	property string iconName: "Unknown"
-	property variant itemId: null
+	property variant itemModel: null
 
 	Image {
 		Layout.preferredWidth:  backend.theme.itemViewIconSize
@@ -14,12 +14,17 @@ RowLayout {
 		horizontalAlignment: Image.AlignHCenter
 		source: "qrc:/icons/%1.svg".arg(iconName)
 	}
-	Label {
-		Layout.fillWidth: true;
-		font.pixelSize: backend.theme.hugeFontSize;
-		text: qsTr("%1 <i>%2</i>")
-			.arg(qsTr(itemKind, "item"))
-			.arg(itemId ? itemId : "?")
+	ColumnLayout {
+		Label {
+			Layout.fillWidth: true;
+			font.pixelSize: backend.theme.hugeFontSize;
+			text: qsTr("%1 <i>%2</i>")
+				.arg(qsTr(itemKind, "item"))
+				.arg(itemModel.identifier ? itemModel.identifier : "?")
+		}
+		Label {
+			text: itemModel.displayName ? itemModel.displayName : ""
+		}
 	}
 }
 

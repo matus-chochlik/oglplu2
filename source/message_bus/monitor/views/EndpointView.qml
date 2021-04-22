@@ -12,7 +12,7 @@ Pane {
 		ItemViewHeading {
 			itemKind: "Endpoint"
 			iconName: "EndpointNode"
-			itemId: endpointView.model.node.identifier
+			itemModel: endpointView.model.node
 		}
 		InstanceView {
 			model: endpointView.model

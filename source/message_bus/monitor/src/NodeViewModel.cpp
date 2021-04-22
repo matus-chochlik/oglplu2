@@ -22,36 +22,46 @@ NodeViewModel::NodeViewModel(
       &NodeViewModel::onNodeInfoChanged);
 }
 //------------------------------------------------------------------------------
-auto NodeViewModel::getIdentifier() -> QVariant {
-    if(_nodeId) {
-        return {QString::number(_nodeId)};
-    }
-    return {};
-}
-//------------------------------------------------------------------------------
 auto NodeViewModel::getItemKind() -> QString {
-    if(auto trackerModel{_backend.trackerModel()}) {
-        auto& tracker = trackerModel->tracker();
-        if(_nodeId) {
-            if(auto node = tracker.get_node(_nodeId)) {
-                switch(node.kind()) {
-                    case eagine::msgbus::node_kind::endpoint:
-                        return {"Endpoint"};
-                    case eagine::msgbus::node_kind::router:
-                        return {"Router"};
-                    case eagine::msgbus::node_kind::bridge:
-                        return {"Bridge"};
-                    case eagine::msgbus::node_kind::unknown:
-                        break;
-                }
-            }
-            return {"UnknownNode"};
+    if(_node) {
+        switch(_node.kind()) {
+            case eagine::msgbus::node_kind::endpoint:
+                return {"Endpoint"};
+            case eagine::msgbus::node_kind::router:
+                return {"Router"};
+            case eagine::msgbus::node_kind::bridge:
+                return {"Bridge"};
+            case eagine::msgbus::node_kind::unknown:
+                break;
         }
+        return {"UnknownNode"};
     }
     return {"NoItem"};
 }
 //------------------------------------------------------------------------------
+auto NodeViewModel::getIdentifier() -> QVariant {
+    if(_node) {
+        return {QString::number(extract(_node.id()))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto NodeViewModel::getDisplayName() -> QVariant {
+    if(auto optStr{_node.display_name()}) {
+        return {c_str(extract(optStr))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 void NodeViewModel::onNodeInfoChanged(eagine::identifier_t nodeId) {
-    _nodeId = nodeId;
+    if(nodeId) {
+        if(auto trackerModel{_backend.trackerModel()}) {
+            auto& tracker = trackerModel->tracker();
+            _node = tracker.get_node(nodeId);
+        }
+    } else {
+        _node = {};
+    }
+    emit infoChanged();
 }
 //------------------------------------------------------------------------------

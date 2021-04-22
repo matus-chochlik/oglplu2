@@ -12,7 +12,7 @@ Pane {
 		ItemViewHeading {
 			itemKind: "Host"
 			iconName: "HostItem"
-			itemId: hostView.model.host.identifier
+			itemModel: hostView.model.host
 		}
 		Item {
 			Layout.fillHeight: true

@@ -22,19 +22,34 @@ InstViewModel::InstViewModel(
       &InstViewModel::onInstInfoChanged);
 }
 //------------------------------------------------------------------------------
-auto InstViewModel::getIdentifier() -> QVariant {
-    if(_instId) {
-        return {QString::number(_instId)};
-    }
-    return {};
-}
-//------------------------------------------------------------------------------
 auto InstViewModel::getItemKind() -> QString {
     return {"Instance"};
 }
 //------------------------------------------------------------------------------
+auto InstViewModel::getIdentifier() -> QVariant {
+    if(_inst) {
+        return {QString::number(extract(_inst.id()))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto InstViewModel::getDisplayName() -> QVariant {
+    if(auto optStr{_inst.application_name()}) {
+        return {c_str(extract(optStr))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 void InstViewModel::onInstInfoChanged(eagine::identifier_t instId) {
-    _instId = instId;
+    if(instId) {
+        if(auto trackerModel{_backend.trackerModel()}) {
+            auto& tracker = trackerModel->tracker();
+            _inst = tracker.get_instance(instId);
+        }
+    } else {
+        _inst = {};
+    }
+    emit infoChanged();
 }
 //------------------------------------------------------------------------------
 

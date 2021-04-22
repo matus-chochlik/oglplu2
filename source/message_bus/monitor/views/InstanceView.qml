@@ -12,7 +12,7 @@ Pane {
 		ItemViewHeading {
 			itemKind: "Process"
 			iconName: "InstanceItem"
-			itemId: instanceView.model.inst.identifier
+			itemModel: instanceView.model.inst
 		}
 		HostView {
 			model: instanceView.model
