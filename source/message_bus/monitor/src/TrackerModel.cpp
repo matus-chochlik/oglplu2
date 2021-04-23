@@ -65,7 +65,10 @@ void TrackerModel::handleNodeChanged(
         emit nodeRelocated(node);
     }
 
-    if(changes.has(remote_node_change::endpoint_info)) {
+    if(
+      changes.has(remote_node_change::endpoint_info) ||
+      changes.has(remote_node_change::started_responding) ||
+      changes.has(remote_node_change::stopped_responding)) {
         emit nodeInfoChanged(node);
     }
 
@@ -73,12 +76,6 @@ void TrackerModel::handleNodeChanged(
     }
 
     if(changes.has(remote_node_change::methods_removed)) {
-    }
-
-    if(changes.has(remote_node_change::started_responding)) {
-    }
-
-    if(changes.has(remote_node_change::stopped_responding)) {
     }
 
     if(changes.has(remote_node_change::connection_info)) {
