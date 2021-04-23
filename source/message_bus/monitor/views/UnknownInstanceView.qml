@@ -4,17 +4,17 @@ import QtQuick.Layouts 1.2
 import "qrc:///views"
 
 Pane {
-	id: unknownNodeView
+	id: unknownInstanceView
     property variant model: null
 	leftPadding: 0
 
 	ColumnLayout {
 		UnknownItemViewHeading {
 			itemKind: model.itemKind
-			iconName: "UnknownNode"
+			iconName: "InstanceItem"
 		}
-		InstanceView {
-			model: unknownNodeView.model
+		HostView {
+			model: unknownInstanceView.model
 		}
 		Item {
 			Layout.fillHeight: true

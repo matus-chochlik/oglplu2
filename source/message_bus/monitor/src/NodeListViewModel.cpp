@@ -533,7 +533,11 @@ auto NodeListViewModel::data(const QModelIndex& index, int role) const
     } else if(index.column() == instItem) {
         const auto instId = index.internalId();
         if(role == NodeListViewModel::itemKindRole) {
-            result = {"Instance"};
+            if(instId) {
+                result = {"Instance"};
+            } else {
+                result = {"UnknownInstance"};
+            }
         } else {
             _model.forInst(instId, [this, role, &result](auto& info) {
                 if(role == NodeListViewModel::childCountRole) {

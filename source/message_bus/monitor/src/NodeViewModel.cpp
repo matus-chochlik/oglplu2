@@ -28,7 +28,7 @@ NodeViewModel::NodeViewModel(
 }
 //------------------------------------------------------------------------------
 auto NodeViewModel::getItemKind() -> QString {
-    if(_node) {
+    if(_node.id()) {
         switch(_node.kind()) {
             case eagine::msgbus::node_kind::endpoint:
                 return {"Endpoint"};

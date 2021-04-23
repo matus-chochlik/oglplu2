@@ -28,7 +28,7 @@ HostViewModel::HostViewModel(
 }
 //------------------------------------------------------------------------------
 auto HostViewModel::getItemKind() -> QString {
-    if(_host) {
+    if(_host.id()) {
         return {"Host"};
     }
     return {"UnknownHost"};

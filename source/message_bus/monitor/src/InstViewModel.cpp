@@ -28,11 +28,14 @@ InstViewModel::InstViewModel(
 }
 //------------------------------------------------------------------------------
 auto InstViewModel::getItemKind() -> QString {
-    return {"Instance"};
+    if(_inst) {
+        return {"Instance"};
+    }
+    return {"UnknownInstance"};
 }
 //------------------------------------------------------------------------------
 auto InstViewModel::getIdentifier() -> QVariant {
-    if(_inst) {
+    if(_inst.id()) {
         return {QString::number(extract(_inst.id()))};
     }
     return {};
