@@ -41,6 +41,10 @@ void TrackerModel::handleInstanceChanged(
   eagine::msgbus::remote_instance_changes changes) {
     using eagine::msgbus::remote_instance_change;
 
+    if(changes.has(remote_instance_change::host_id)) {
+        emit instanceRelocated(instance);
+    }
+
     if(changes.has(remote_instance_change::application_info)) {
         emit instanceInfoChanged(instance);
     }

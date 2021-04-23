@@ -8,12 +8,8 @@ Loader {
     property variant model: null
 	Layout.fillWidth: true
 
-	function itemViewUrl() {
-		return "qrc:///views/%1View.qml"
-			.arg(parentInstanceView.model.instKind)
-	}
+	source: parentInstanceView.model.instViewUrl
 
-	source: itemViewUrl()
 	onLoaded: {
 		parentInstanceView.item.model = parentInstanceView.model
 	}

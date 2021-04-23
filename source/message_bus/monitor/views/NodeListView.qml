@@ -12,7 +12,7 @@ ListView {
 
 		function itemViewUrl() {
 			return "qrc:///views/%1ListItem.qml"
-				.arg(itemKind ? itemKind : "Unknown")
+				.arg(itemKind)
 		}
 
 		source: itemViewUrl()

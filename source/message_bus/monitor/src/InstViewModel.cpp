@@ -56,6 +56,11 @@ void InstViewModel::onTrackerModelChanged() {
     if(auto trackerModel{_backend.trackerModel()}) {
         connect(
           trackerModel,
+          &TrackerModel::instanceRelocated,
+          this,
+          &InstViewModel::onInstInfoChanged);
+        connect(
+          trackerModel,
           &TrackerModel::instanceInfoChanged,
           this,
           &InstViewModel::onInstInfoChanged);

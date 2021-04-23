@@ -38,32 +38,32 @@ enum class remote_node_change : std::uint16_t {
     /// @brief The node kind has appeared or changed.
     /// @see node_kind
     kind = 1U << 0U,
-    /// @brief The host identifier has appeared or changed.
-    host_id = 1U << 1U,
-    /// @brief The host information has appeared or changed.
-    host_info = 1U << 2U,
-    /// @brief The build information has appeared or changed.
-    build_info = 1U << 3U,
-    /// @brief The application information has appeared or changed.
-    application_info = 1U << 4U,
-    /// @brief The endpoint information has appeared or changed.
-    endpoint_info = 1U << 5U,
-    /// @brief New remotly callable methods have been added.
-    methods_added = 1U << 6U,
-    /// @brief New remotly callable methods have been removed.
-    methods_removed = 1U << 7U,
-    /// @brief Node started responding to pings.
-    started_responding = 1U << 8U,
-    /// @brief Node stopped responding to pings.
-    stopped_responding = 1U << 9U,
-    /// @brief The hardware configuration information has appeared or changed.
-    hardware_config = 1U << 10U,
-    /// @brief New sensor values have appeared or changed.
-    sensor_values = 1U << 11U,
-    /// @brief The bus connection information has appeared or changed.
-    connection_info = 1U << 12U,
     /// @brief The endpoint instance id has changed.
-    instance_id = 1U << 13U
+    instance_id = 1U << 1U,
+    /// @brief The host identifier has appeared or changed.
+    host_id = 1U << 2U,
+    /// @brief The host information has appeared or changed.
+    host_info = 1U << 3U,
+    /// @brief The build information has appeared or changed.
+    build_info = 1U << 4U,
+    /// @brief The application information has appeared or changed.
+    application_info = 1U << 5U,
+    /// @brief The endpoint information has appeared or changed.
+    endpoint_info = 1U << 6U,
+    /// @brief New remotly callable methods have been added.
+    methods_added = 1U << 7U,
+    /// @brief New remotly callable methods have been removed.
+    methods_removed = 1U << 8U,
+    /// @brief Node started responding to pings.
+    started_responding = 1U << 9U,
+    /// @brief Node stopped responding to pings.
+    stopped_responding = 1U << 10U,
+    /// @brief The hardware configuration information has appeared or changed.
+    hardware_config = 1U << 11U,
+    /// @brief New sensor values have appeared or changed.
+    sensor_values = 1U << 12U,
+    /// @brief The bus connection information has appeared or changed.
+    connection_info = 1U << 13U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
@@ -116,17 +116,20 @@ static inline auto operator|(remote_node_change l, remote_node_change r) noexcep
 /// @see remote_instance_changes
 /// @see remote_node_change
 enum class remote_instance_change : std::uint16_t {
+    /// @brief The host identifier has appeared or changed.
+    host_id = 1U << 1U,
     /// @brief The application information has appeared or changed.
-    application_info = 1U << 1U,
+    application_info = 1U << 2U,
     /// @brief New statistics have appeared or changed.
-    statistics = 1U << 2U
+    statistics = 1U << 3U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
 enumerator_mapping(type_identity<remote_instance_change>, Selector) noexcept {
-    return enumerator_map_type<remote_instance_change, 2>{
-      {{"application_info", remote_instance_change::application_info},
+    return enumerator_map_type<remote_instance_change, 3>{
+      {{"host_id", remote_instance_change::host_id},
+       {"application_info", remote_instance_change::application_info},
        {"statistics", remote_instance_change::statistics}}};
 }
 //------------------------------------------------------------------------------

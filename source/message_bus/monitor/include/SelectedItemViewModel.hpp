@@ -13,6 +13,7 @@
 #include "NodeViewModel.hpp"
 #include <eagine/main_ctx_object.hpp>
 #include <QObject>
+#include <QUrl>
 
 class MonitorBackend;
 class NodeListViewModel;
@@ -24,9 +25,10 @@ class SelectedItemViewModel
 
     Q_PROPERTY(QString itemKind READ getItemKind NOTIFY itemSelectionChanged)
 
-    Q_PROPERTY(QString hostKind READ getHostKind NOTIFY itemSelectionChanged)
-    Q_PROPERTY(QString instKind READ getInstKind NOTIFY itemSelectionChanged)
-    Q_PROPERTY(QString nodeKind READ getNodeKind NOTIFY itemSelectionChanged)
+    Q_PROPERTY(QUrl itemViewUrl READ getItemViewUrl NOTIFY itemSelectionChanged)
+    Q_PROPERTY(QUrl hostViewUrl READ getHostViewUrl NOTIFY itemSelectionChanged)
+    Q_PROPERTY(QUrl instViewUrl READ getInstViewUrl NOTIFY itemSelectionChanged)
+    Q_PROPERTY(QUrl nodeViewUrl READ getNodeViewUrl NOTIFY itemSelectionChanged)
 
     Q_PROPERTY(
       HostViewModel* host READ getHostViewModel NOTIFY itemSelectionChanged)
@@ -39,9 +41,10 @@ public:
 
     auto getItemKind() -> QString;
 
-    auto getHostKind() -> QString;
-    auto getInstKind() -> QString;
-    auto getNodeKind() -> QString;
+    auto getItemViewUrl() -> QUrl;
+    auto getHostViewUrl() -> QUrl;
+    auto getInstViewUrl() -> QUrl;
+    auto getNodeViewUrl() -> QUrl;
 
     auto getHostViewModel() -> HostViewModel*;
     auto getInstViewModel() -> InstViewModel*;

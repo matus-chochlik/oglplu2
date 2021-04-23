@@ -17,14 +17,8 @@ RowLayout {
 		Layout.fillWidth: true
 		Layout.fillHeight: true
 
-		function itemViewUrl() {
-			return "qrc:///views/%1View.qml"
-				.arg(monitorView.model.selectedItem.itemKind
-					? monitorView.model.selectedItem.itemKind
-					: "NoItem")
-		}
+		source: monitorView.model.selectedItem.itemViewUrl
 
-		source: itemViewUrl()
 		onLoaded: {
 			selectedItemView.item.model = monitorView.model.selectedItem
 		}

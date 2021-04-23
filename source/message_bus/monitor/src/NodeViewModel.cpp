@@ -89,6 +89,16 @@ void NodeViewModel::onTrackerModelChanged() {
     if(auto trackerModel{_backend.trackerModel()}) {
         connect(
           trackerModel,
+          &TrackerModel::nodeKindChanged,
+          this,
+          &NodeViewModel::onNodeInfoChanged);
+        connect(
+          trackerModel,
+          &TrackerModel::nodeRelocated,
+          this,
+          &NodeViewModel::onNodeInfoChanged);
+        connect(
+          trackerModel,
           &TrackerModel::nodeInfoChanged,
           this,
           &NodeViewModel::onNodeInfoChanged);

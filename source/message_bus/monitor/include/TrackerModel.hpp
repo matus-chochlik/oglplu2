@@ -36,6 +36,7 @@ signals:
     void nodeKindChanged(const eagine::msgbus::remote_node&);
     void nodeRelocated(const eagine::msgbus::remote_node&);
     void nodeInfoChanged(const eagine::msgbus::remote_node&);
+    void instanceRelocated(const eagine::msgbus::remote_instance&);
     void instanceInfoChanged(const eagine::msgbus::remote_instance&);
     void hostInfoChanged(const eagine::msgbus::remote_host&);
 

@@ -182,6 +182,7 @@ auto remote_instance_state::set_host_id(host_id_t host_id)
         auto& i = extract(impl);
         if(i.host_id != host_id) {
             i.host_id = host_id;
+            i.changes |= remote_instance_change::host_id;
         }
     }
     return *this;

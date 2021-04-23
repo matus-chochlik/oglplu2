@@ -56,16 +56,20 @@ auto SelectedItemViewModel::getItemKind() -> QString {
     return {"NoItem"};
 }
 //------------------------------------------------------------------------------
-auto SelectedItemViewModel::getHostKind() -> QString {
-    return _hostViewModel.getItemKind();
+auto SelectedItemViewModel::getItemViewUrl() -> QUrl {
+    return QString("qrc:///views/%1View.qml").arg(getItemKind());
 }
 //------------------------------------------------------------------------------
-auto SelectedItemViewModel::getInstKind() -> QString {
-    return _instViewModel.getItemKind();
+auto SelectedItemViewModel::getHostViewUrl() -> QUrl {
+    return QString("qrc:///views/%1View.qml").arg(_hostViewModel.getItemKind());
 }
 //------------------------------------------------------------------------------
-auto SelectedItemViewModel::getNodeKind() -> QString {
-    return _nodeViewModel.getItemKind();
+auto SelectedItemViewModel::getInstViewUrl() -> QUrl {
+    return QString("qrc:///views/%1View.qml").arg(_instViewModel.getItemKind());
+}
+//------------------------------------------------------------------------------
+auto SelectedItemViewModel::getNodeViewUrl() -> QUrl {
+    return QString("qrc:///views/%1View.qml").arg(_nodeViewModel.getItemKind());
 }
 //------------------------------------------------------------------------------
 auto SelectedItemViewModel::getHostViewModel() -> HostViewModel* {

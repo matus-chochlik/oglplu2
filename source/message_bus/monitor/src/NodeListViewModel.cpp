@@ -121,9 +121,10 @@ void NodeListViewModel::Data::forNode(
             EAGINE_ASSERT(instPos != hostInfo.instances.end());
             const auto& instInfo = instPos->second;
             const auto nodePos = instInfo.nodes.find(nodeId);
-            EAGINE_ASSERT(nodePos != instInfo.nodes.end());
-            const auto& nodeInfo = nodePos->second;
-            function(nodeInfo);
+            if(nodePos != instInfo.nodes.end()) {
+                const auto& nodeInfo = nodePos->second;
+                function(nodeInfo);
+            }
         }
     }
 }
