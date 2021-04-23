@@ -24,6 +24,10 @@ class SelectedItemViewModel
 
     Q_PROPERTY(QString itemKind READ getItemKind NOTIFY itemSelectionChanged)
 
+    Q_PROPERTY(QString hostKind READ getHostKind NOTIFY itemSelectionChanged)
+    Q_PROPERTY(QString instKind READ getInstKind NOTIFY itemSelectionChanged)
+    Q_PROPERTY(QString nodeKind READ getNodeKind NOTIFY itemSelectionChanged)
+
     Q_PROPERTY(
       HostViewModel* host READ getHostViewModel NOTIFY itemSelectionChanged)
     Q_PROPERTY(
@@ -34,6 +38,11 @@ public:
     SelectedItemViewModel(MonitorBackend&, NodeListViewModel&);
 
     auto getItemKind() -> QString;
+
+    auto getHostKind() -> QString;
+    auto getInstKind() -> QString;
+    auto getNodeKind() -> QString;
+
     auto getHostViewModel() -> HostViewModel*;
     auto getInstViewModel() -> InstViewModel*;
     auto getNodeViewModel() -> NodeViewModel*;
@@ -45,6 +54,7 @@ signals:
     void nodeChanged(eagine::identifier_t);
 
 private slots:
+    void onItemInfoChanged();
     void onItemSelected(
       eagine::identifier_t,
       eagine::identifier_t,

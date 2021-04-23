@@ -15,7 +15,7 @@ Pane {
 			iconName: "BridgeNode"
 			itemModel: bridgeView.model.node
 		}
-		InstanceView {
+		ParentInstanceView {
 			model: bridgeView.model
 		}
 		Item {

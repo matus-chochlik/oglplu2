@@ -36,7 +36,10 @@
 	<file>views/RouterView.qml</file>
 	<file>views/BridgeView.qml</file>
 	<file>views/EndpointView.qml</file>
+	<file>views/ParentHostView.qml</file>
+	<file>views/ParentInstanceView.qml</file>
 	<file>views/UnknownHostView.qml</file>
+	<file>views/UnknownInstanceView.qml</file>
 	<file>views/UnknownNodeView.qml</file>
 </qresource>
 </RCC>

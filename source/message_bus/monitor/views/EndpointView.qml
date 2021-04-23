@@ -14,7 +14,7 @@ Pane {
 			iconName: "EndpointNode"
 			itemModel: endpointView.model.node
 		}
-		InstanceView {
+		ParentInstanceView {
 			model: endpointView.model
 		}
 		Item {

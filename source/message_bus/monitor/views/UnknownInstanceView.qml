@@ -10,10 +10,10 @@ Pane {
 
 	ColumnLayout {
 		UnknownItemViewHeading {
-			itemKind: model.itemKind
+			itemKind: "UnknownInstance"
 			iconName: "InstanceItem"
 		}
-		HostView {
+		ParentHostView {
 			model: unknownInstanceView.model
 		}
 		Item {

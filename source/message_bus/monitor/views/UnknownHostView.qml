@@ -9,23 +9,8 @@ Item {
 
 	ColumnLayout {
 		UnknownItemViewHeading {
-			itemKind: model.itemKind
+			itemKind: "UnknownHost"
 			iconName: "UnknownHostItem"
-		}
-		Item {
-			Layout.fillHeight: true;
-		}
-		Label {
-			Layout.fillWidth: true;
-			horizontalAlignment: Label.AlignHCenter
-			font.pixelSize: backend.theme.hugeFontSize;
-			text: qsTr("Unknown host")
-		}
-		Label {
-			Layout.fillWidth: true;
-			horizontalAlignment: Label.AlignHCenter
-			font.italic: true
-			text: qsTr("No additional information available")
 		}
 		Item {
 			Layout.fillHeight: true;

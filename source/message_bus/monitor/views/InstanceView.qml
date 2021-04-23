@@ -14,7 +14,7 @@ Pane {
 			iconName: "InstanceItem"
 			itemModel: instanceView.model.inst
 		}
-		HostView {
+		ParentHostView {
 			model: instanceView.model
 		}
 		Item {

@@ -25,6 +25,22 @@ SelectedItemViewModel::SelectedItemViewModel(
       &NodeListViewModel::itemSelected,
       this,
       &SelectedItemViewModel::onItemSelected);
+
+    connect(
+      &_hostViewModel,
+      &HostViewModel::infoChanged,
+      this,
+      &SelectedItemViewModel::onItemInfoChanged);
+    connect(
+      &_instViewModel,
+      &InstViewModel::infoChanged,
+      this,
+      &SelectedItemViewModel::onItemInfoChanged);
+    connect(
+      &_nodeViewModel,
+      &NodeViewModel::infoChanged,
+      this,
+      &SelectedItemViewModel::onItemInfoChanged);
 }
 //------------------------------------------------------------------------------
 auto SelectedItemViewModel::getItemKind() -> QString {
@@ -38,6 +54,18 @@ auto SelectedItemViewModel::getItemKind() -> QString {
         }
     }
     return {"NoItem"};
+}
+//------------------------------------------------------------------------------
+auto SelectedItemViewModel::getHostKind() -> QString {
+    return _hostViewModel.getItemKind();
+}
+//------------------------------------------------------------------------------
+auto SelectedItemViewModel::getInstKind() -> QString {
+    return _instViewModel.getItemKind();
+}
+//------------------------------------------------------------------------------
+auto SelectedItemViewModel::getNodeKind() -> QString {
+    return _nodeViewModel.getItemKind();
 }
 //------------------------------------------------------------------------------
 auto SelectedItemViewModel::getHostViewModel() -> HostViewModel* {
@@ -59,6 +87,10 @@ auto SelectedItemViewModel::getNodeViewModel() -> NodeViewModel* {
         return &_nodeViewModel;
     }
     return nullptr;
+}
+//------------------------------------------------------------------------------
+void SelectedItemViewModel::onItemInfoChanged() {
+    emit itemSelectionChanged();
 }
 //------------------------------------------------------------------------------
 void SelectedItemViewModel::onItemSelected(

@@ -15,7 +15,7 @@ Pane {
 			iconName: "RouterNode"
 			itemModel: routerView.model.node
 		}
-		InstanceView {
+		ParentInstanceView {
 			model: routerView.model
 		}
 		Item {
