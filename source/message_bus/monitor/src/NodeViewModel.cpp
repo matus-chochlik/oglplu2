@@ -16,10 +16,15 @@ NodeViewModel::NodeViewModel(
   , eagine::main_ctx_object{EAGINE_ID(NodeVM), backend}
   , _backend{backend} {
     connect(
+      &_backend,
+      &MonitorBackend::trackerModelChanged,
+      this,
+      &NodeViewModel::onTrackerModelChanged);
+    connect(
       &selectedItemViewModel,
       &SelectedItemViewModel::nodeChanged,
       this,
-      &NodeViewModel::onNodeInfoChanged);
+      &NodeViewModel::onNodeIdChanged);
 }
 //------------------------------------------------------------------------------
 auto NodeViewModel::getItemKind() -> QString {
@@ -80,7 +85,17 @@ auto NodeViewModel::getDescription() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
-void NodeViewModel::onNodeInfoChanged(eagine::identifier_t nodeId) {
+void NodeViewModel::onTrackerModelChanged() {
+    if(auto trackerModel{_backend.trackerModel()}) {
+        connect(
+          trackerModel,
+          &TrackerModel::nodeInfoChanged,
+          this,
+          &NodeViewModel::onNodeInfoChanged);
+    }
+}
+//------------------------------------------------------------------------------
+void NodeViewModel::onNodeIdChanged(eagine::identifier_t nodeId) {
     if(nodeId) {
         if(auto trackerModel{_backend.trackerModel()}) {
             auto& tracker = trackerModel->tracker();
@@ -90,5 +105,11 @@ void NodeViewModel::onNodeInfoChanged(eagine::identifier_t nodeId) {
         _node = {};
     }
     emit infoChanged();
+}
+//------------------------------------------------------------------------------
+void NodeViewModel::onNodeInfoChanged(const remote_node& node) {
+    if(node.id() == _node.id()) {
+        emit infoChanged();
+    }
 }
 //------------------------------------------------------------------------------

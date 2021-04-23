@@ -25,6 +25,8 @@ class NodeViewModel
     Q_PROPERTY(QVariant displayName READ getDisplayName NOTIFY infoChanged)
     Q_PROPERTY(QVariant description READ getDescription NOTIFY infoChanged)
 
+    using remote_node = eagine::msgbus::remote_node;
+
 public:
     NodeViewModel(MonitorBackend&, SelectedItemViewModel&);
 
@@ -40,12 +42,14 @@ public:
 signals:
     void infoChanged();
 
-public slots:
-    void onNodeInfoChanged(eagine::identifier_t nodeId);
+private slots:
+    void onTrackerModelChanged();
+    void onNodeIdChanged(eagine::identifier_t nodeId);
+    void onNodeInfoChanged(const remote_node& node);
 
 private:
     MonitorBackend& _backend;
-    eagine::msgbus::remote_node _node;
+    remote_node _node;
 };
 //------------------------------------------------------------------------------
 #endif

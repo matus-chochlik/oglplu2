@@ -16,10 +16,15 @@ InstViewModel::InstViewModel(
   , eagine::main_ctx_object{EAGINE_ID(InstVM), backend}
   , _backend{backend} {
     connect(
+      &_backend,
+      &MonitorBackend::trackerModelChanged,
+      this,
+      &InstViewModel::onTrackerModelChanged);
+    connect(
       &selectedItemViewModel,
       &SelectedItemViewModel::instChanged,
       this,
-      &InstViewModel::onInstInfoChanged);
+      &InstViewModel::onInstIdChanged);
 }
 //------------------------------------------------------------------------------
 auto InstViewModel::getItemKind() -> QString {
@@ -44,7 +49,17 @@ auto InstViewModel::getDescription() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
-void InstViewModel::onInstInfoChanged(eagine::identifier_t instId) {
+void InstViewModel::onTrackerModelChanged() {
+    if(auto trackerModel{_backend.trackerModel()}) {
+        connect(
+          trackerModel,
+          &TrackerModel::instanceInfoChanged,
+          this,
+          &InstViewModel::onInstInfoChanged);
+    }
+}
+//------------------------------------------------------------------------------
+void InstViewModel::onInstIdChanged(eagine::identifier_t instId) {
     if(instId) {
         if(auto trackerModel{_backend.trackerModel()}) {
             auto& tracker = trackerModel->tracker();
@@ -56,4 +71,9 @@ void InstViewModel::onInstInfoChanged(eagine::identifier_t instId) {
     emit infoChanged();
 }
 //------------------------------------------------------------------------------
-
+void InstViewModel::onInstInfoChanged(const remote_inst& inst) {
+    if(inst.id() == _inst.id()) {
+        emit infoChanged();
+    }
+}
+//------------------------------------------------------------------------------

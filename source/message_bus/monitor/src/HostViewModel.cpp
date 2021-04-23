@@ -16,10 +16,15 @@ HostViewModel::HostViewModel(
   , eagine::main_ctx_object{EAGINE_ID(HostVM), backend}
   , _backend{backend} {
     connect(
+      &_backend,
+      &MonitorBackend::trackerModelChanged,
+      this,
+      &HostViewModel::onTrackerModelChanged);
+    connect(
       &selectedItemViewModel,
       &SelectedItemViewModel::hostChanged,
       this,
-      &HostViewModel::onHostInfoChanged);
+      &HostViewModel::onHostIdChanged);
 }
 //------------------------------------------------------------------------------
 auto HostViewModel::getItemKind() -> QString {
@@ -47,7 +52,17 @@ auto HostViewModel::getDescription() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
-void HostViewModel::onHostInfoChanged(eagine::identifier_t hostId) {
+void HostViewModel::onTrackerModelChanged() {
+    if(auto trackerModel{_backend.trackerModel()}) {
+        connect(
+          trackerModel,
+          &TrackerModel::hostInfoChanged,
+          this,
+          &HostViewModel::onHostInfoChanged);
+    }
+}
+//------------------------------------------------------------------------------
+void HostViewModel::onHostIdChanged(eagine::identifier_t hostId) {
     if(hostId) {
         if(auto trackerModel{_backend.trackerModel()}) {
             auto& tracker = trackerModel->tracker();
@@ -57,5 +72,11 @@ void HostViewModel::onHostInfoChanged(eagine::identifier_t hostId) {
         _host = {};
     }
     emit infoChanged();
+}
+//------------------------------------------------------------------------------
+void HostViewModel::onHostInfoChanged(const remote_host& host) {
+    if(host.id() == _host.id()) {
+        emit infoChanged();
+    }
 }
 //------------------------------------------------------------------------------

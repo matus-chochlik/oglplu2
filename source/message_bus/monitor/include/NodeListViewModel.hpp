@@ -54,12 +54,11 @@ signals:
       eagine::identifier_t,
       eagine::identifier_t);
     void itemUnselected();
-public slots:
+
+private slots:
     void onNodeChanged(const remote_node&);
     void onInstanceInfoChanged(const remote_inst&);
     void onHostInfoChanged(const remote_host&);
-
-private slots:
     void onTrackerModelChanged();
 
 private:

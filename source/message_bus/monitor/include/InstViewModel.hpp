@@ -25,6 +25,9 @@ class InstViewModel
     Q_PROPERTY(QVariant identifier READ getIdentifier NOTIFY infoChanged)
     Q_PROPERTY(QVariant displayName READ getDisplayName NOTIFY infoChanged)
     Q_PROPERTY(QVariant description READ getDescription NOTIFY infoChanged)
+
+    using remote_inst = eagine::msgbus::remote_instance;
+
 public:
     InstViewModel(MonitorBackend&, SelectedItemViewModel&);
 
@@ -40,12 +43,14 @@ public:
 signals:
     void infoChanged();
 
-public slots:
-    void onInstInfoChanged(eagine::identifier_t instId);
+private slots:
+    void onTrackerModelChanged();
+    void onInstIdChanged(eagine::identifier_t instId);
+    void onInstInfoChanged(const remote_inst& inst);
 
 private:
     MonitorBackend& _backend;
-    eagine::msgbus::remote_instance _inst;
+    remote_inst _inst;
 };
 //------------------------------------------------------------------------------
 #endif

@@ -44,7 +44,7 @@ signals:
     void instChanged(eagine::identifier_t);
     void nodeChanged(eagine::identifier_t);
 
-public slots:
+private slots:
     void onItemSelected(
       eagine::identifier_t,
       eagine::identifier_t,

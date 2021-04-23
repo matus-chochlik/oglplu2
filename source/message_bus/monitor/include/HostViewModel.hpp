@@ -24,6 +24,9 @@ class HostViewModel
     Q_PROPERTY(QVariant identifier READ getIdentifier NOTIFY infoChanged)
     Q_PROPERTY(QVariant displayName READ getDisplayName NOTIFY infoChanged)
     Q_PROPERTY(QVariant description READ getDescription NOTIFY infoChanged)
+
+    using remote_host = eagine::msgbus::remote_host;
+
 public:
     HostViewModel(MonitorBackend&, SelectedItemViewModel&);
 
@@ -39,12 +42,14 @@ public:
 signals:
     void infoChanged();
 
-public slots:
-    void onHostInfoChanged(eagine::identifier_t hostId);
+private slots:
+    void onTrackerModelChanged();
+    void onHostIdChanged(eagine::identifier_t hostId);
+    void onHostInfoChanged(const remote_host& host);
 
 private:
     MonitorBackend& _backend;
-    eagine::msgbus::remote_host _host;
+    remote_host _host;
 };
 //------------------------------------------------------------------------------
 #endif
