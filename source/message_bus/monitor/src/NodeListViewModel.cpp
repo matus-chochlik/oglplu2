@@ -16,8 +16,6 @@ auto NodeListViewModel::NodeInfo::totalCount() const noexcept -> int {
     return 1;
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::NodeInfo::update() {}
-//------------------------------------------------------------------------------
 // InstanceInfo
 //------------------------------------------------------------------------------
 auto NodeListViewModel::InstanceInfo::count() const noexcept -> int {
@@ -42,8 +40,6 @@ auto NodeListViewModel::InstanceInfo::id(int i) const noexcept
     return (nodes.begin() + i)->first;
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::InstanceInfo::update() {}
-//------------------------------------------------------------------------------
 // HostInfo
 //------------------------------------------------------------------------------
 auto NodeListViewModel::HostInfo::count() const noexcept -> int {
@@ -63,8 +59,6 @@ auto NodeListViewModel::HostInfo::totalCount() const noexcept -> int {
           return s + e.second.totalCount();
       });
 }
-//------------------------------------------------------------------------------
-void NodeListViewModel::HostInfo::update() {}
 //------------------------------------------------------------------------------
 // Data
 //------------------------------------------------------------------------------
@@ -127,6 +121,83 @@ void NodeListViewModel::Data::forNode(
             }
         }
     }
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::Data::updateSelection() noexcept -> bool {
+    bool updated = false;
+    if(selectedNodeId) {
+        const auto instIdPos = node2Inst.find(selectedNodeId);
+        if(instIdPos != node2Inst.end()) {
+            const auto instId = instIdPos->second;
+            if(selectedInstId != instId) {
+                selectedInstId = instId;
+                updated = true;
+            }
+            const auto hostIdPos = inst2Host.find(selectedInstId);
+            if(hostIdPos != inst2Host.end()) {
+                const auto hostId = hostIdPos->second;
+                if(selectedHostId != hostId) {
+                    selectedHostId = hostId;
+                    updated = true;
+                }
+            }
+        }
+    }
+    return updated;
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::Data::rowOf(eagine::identifier_t hostId) noexcept
+  -> int {
+    int row = 0;
+    for(auto& hostEntry : hosts) {
+        if(hostEntry.first == hostId) {
+            return row;
+        }
+        row += hostEntry.second.totalCount();
+    }
+    return -1;
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::Data::rowOf(
+  eagine::identifier_t hostId,
+  eagine::identifier_t instId) noexcept -> int {
+    int row = 1;
+    for(auto& hostEntry : hosts) {
+        if(hostEntry.first == hostId) {
+            for(auto& instEntry : hostEntry.second.instances) {
+                if(instEntry.first == instId) {
+                    return row;
+                }
+                row += instEntry.second.totalCount();
+            }
+        }
+        row += hostEntry.second.totalCount();
+    }
+    return -1;
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::Data::rowOf(
+  eagine::identifier_t hostId,
+  eagine::identifier_t instId,
+  eagine::identifier_t nodeId) noexcept -> int {
+    int row = 2;
+    for(auto& hostEntry : hosts) {
+        if(hostEntry.first == hostId) {
+            for(auto& instEntry : hostEntry.second.instances) {
+                if(instEntry.first == instId) {
+                    for(auto& nodeEntry : instEntry.second.nodes) {
+                        if(nodeEntry.first == nodeId) {
+                            return row;
+                        }
+                        row += nodeEntry.second.totalCount();
+                    }
+                }
+                row += instEntry.second.totalCount();
+            }
+        }
+        row += hostEntry.second.totalCount();
+    }
+    return -1;
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
@@ -199,25 +270,7 @@ auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
             }
         }
 
-        int row = 2;
-        for(auto& hostEntry : hosts) {
-            if(hostEntry.first == hostId) {
-                for(auto& instEntry : hostEntry.second.instances) {
-                    if(instEntry.first == instId) {
-                        for(auto& nodeEntry : instEntry.second.nodes) {
-                            if(nodeEntry.first == nodeId) {
-                                nodeEntry.second.update();
-                                return row;
-                            }
-                            row += nodeEntry.second.totalCount();
-                        }
-                    }
-                    row += instEntry.second.totalCount();
-                }
-            }
-            row += hostEntry.second.totalCount();
-        }
-        EAGINE_UNREACHABLE();
+        return rowOf(hostId, instId, nodeId);
     }
 
     auto& nodeInfo = hosts[hostId].instances[instId].nodes[nodeId];
@@ -241,7 +294,6 @@ auto NodeListViewModel::Data::updateInst(const remote_inst& inst) -> int {
             if(!instInfo.instance) {
                 instInfo.instance = inst;
             }
-            instInfo.update();
             int row = 1;
             for(auto it = hosts.begin(); it != hostPos; ++it) {
                 row += it->second.totalCount();
@@ -263,7 +315,6 @@ auto NodeListViewModel::Data::updateHost(const remote_host& host) -> int {
         if(!hostInfo.host) {
             hostInfo.host = host;
         }
-        hostInfo.update();
         int row = 0;
         for(auto it = hosts.begin(); it != hostPos; ++it) {
             row += it->second.totalCount();
@@ -325,6 +376,7 @@ void NodeListViewModel::onNodeChanged(const remote_node& node) {
               QAbstractItemModel::createIndex(row, 2, nodeId));
         } else {
             emit modelReset({});
+            emit itemSelectionChanged();
         }
     }
 }
@@ -362,15 +414,32 @@ auto NodeListViewModel::roleNames() const -> QHash<int, QByteArray> {
     return result;
 }
 //------------------------------------------------------------------------------
+void NodeListViewModel::_select(
+  eagine::identifier_t hostId,
+  eagine::identifier_t instId,
+  eagine::identifier_t nodeId) {
+    _model.selectedHostId = hostId;
+    _model.selectedInstId = instId;
+    _model.selectedNodeId = nodeId;
+    emit itemSelected(hostId, instId, nodeId);
+}
+//------------------------------------------------------------------------------
+void NodeListViewModel::_unselect() {
+    _model.selectedHostId = 0U;
+    _model.selectedInstId = 0U;
+    _model.selectedNodeId = 0U;
+    emit itemUnselected();
+}
+//------------------------------------------------------------------------------
 void NodeListViewModel::onItemSelected(int row) {
     if(row < 0) {
-        emit itemSelected(0, 0, 0);
+        _unselect();
         return;
     }
     int skip = row;
     for(auto& [hostId, host] : _model.hosts) {
         if(!skip) {
-            emit itemSelected(hostId, 0, 0);
+            _select(hostId, 0, 0);
             return;
         }
         skip--;
@@ -378,13 +447,13 @@ void NodeListViewModel::onItemSelected(int row) {
         if(skip < subtotal) {
             for(auto& [instId, inst] : host.instances) {
                 if(!skip) {
-                    emit itemSelected(hostId, instId, 0);
+                    _select(hostId, instId, 0);
                     return;
                 }
                 skip--;
                 subtotal = inst.subCount();
                 if(skip < subtotal) {
-                    emit itemSelected(hostId, instId, inst.id(skip));
+                    _select(hostId, instId, inst.id(skip));
                     return;
                 }
                 skip -= subtotal;
@@ -569,6 +638,18 @@ auto NodeListViewModel::data(const QModelIndex& index, int role) const
         });
     }
     return result;
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::getSelectedRow() -> int {
+    _model.updateSelection();
+    if(_model.selectedNodeId) {
+        return _model.rowOf(
+          _model.selectedHostId, _model.selectedInstId, _model.selectedNodeId);
+    }
+    if(_model.selectedInstId) {
+        return _model.rowOf(_model.selectedHostId, _model.selectedInstId);
+    }
+    return _model.rowOf(_model.selectedHostId);
 }
 //------------------------------------------------------------------------------
 
