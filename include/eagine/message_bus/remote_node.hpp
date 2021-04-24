@@ -117,7 +117,9 @@ static inline auto operator|(remote_node_change l, remote_node_change r) noexcep
 /// @see remote_node_change
 enum class remote_instance_change : std::uint16_t {
     /// @brief The host identifier has appeared or changed.
-    host_id = 1U << 1U,
+    host_id = 1U << 0U,
+    /// @brief The instance's nodes' responsivity has changed.
+    responsivity = 1U << 1U,
     /// @brief The application information has appeared or changed.
     application_info = 1U << 2U,
     /// @brief New statistics have appeared or changed.
@@ -127,8 +129,9 @@ enum class remote_instance_change : std::uint16_t {
 template <typename Selector>
 constexpr auto
 enumerator_mapping(type_identity<remote_instance_change>, Selector) noexcept {
-    return enumerator_map_type<remote_instance_change, 3>{
+    return enumerator_map_type<remote_instance_change, 4>{
       {{"host_id", remote_instance_change::host_id},
+       {"responsivity", remote_instance_change::responsivity},
        {"application_info", remote_instance_change::application_info},
        {"statistics", remote_instance_change::statistics}}};
 }
@@ -153,11 +156,11 @@ operator|(remote_instance_change l, remote_instance_change r) noexcept
 /// @see remote_node_change
 enum class remote_host_change : std::uint16_t {
     /// @brief The host name has appeared or changed.
-    hostname = 1U << 1U,
+    hostname = 1U << 0U,
     /// @brief The hardware configuration information has appeared or changed.
-    hardware_config = 1U << 2U,
+    hardware_config = 1U << 1U,
     /// @brief New sensor values have appeared or changed.
-    sensor_values = 1U << 3U
+    sensor_values = 1U << 2U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>

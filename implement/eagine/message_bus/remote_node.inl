@@ -170,7 +170,11 @@ auto remote_instance_state::add_change(remote_instance_change change)
 EAGINE_LIB_FUNC
 auto remote_instance_state::notice_alive() -> remote_instance_state& {
     if(auto impl{_impl()}) {
-        extract(impl).is_alive.reset();
+        auto& i = extract(impl);
+        if(!i.is_alive) {
+            i.changes |= remote_instance_change::responsivity;
+        }
+        i.is_alive.reset();
     }
     return *this;
 }
@@ -676,6 +680,10 @@ auto remote_node_state::notice_alive() -> remote_node_state& {
         i.ping_bits |= 1U;
         if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::started_responding;
+            if(i.instance_id) {
+                _tracker.get_instance(i.instance_id)
+                  .add_change(remote_instance_change::responsivity);
+            }
         }
     }
     return *this;
@@ -704,6 +712,10 @@ auto remote_node_state::ping_response(
         ++i.pings_responded;
         if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::started_responding;
+            if(i.instance_id) {
+                _tracker.get_instance(i.instance_id)
+                  .add_change(remote_instance_change::responsivity);
+            }
         }
     }
     return *this;
@@ -722,6 +734,10 @@ auto remote_node_state::ping_timeout(
         ++i.pings_timeouted;
         if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::stopped_responding;
+            if(i.instance_id) {
+                _tracker.get_instance(i.instance_id)
+                  .add_change(remote_instance_change::responsivity);
+            }
         }
     }
     return *this;

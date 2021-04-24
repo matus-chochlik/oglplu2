@@ -130,9 +130,9 @@ void NodeListViewModel::Data::forNode(
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
-    const auto hostId = extract_or(node.host().id(), 0U);
-    const auto instId = extract_or(node.instance().id(), 0U);
     const auto nodeId = extract(node.id());
+    const auto instId = extract_or(node.instance().id(), 0U);
+    const auto hostId = instId ? extract_or(node.host().id(), 0U) : 0U;
 
     const auto prevInstIdPos = node2Inst.find(nodeId);
     if(prevInstIdPos != node2Inst.end()) {
@@ -228,12 +228,13 @@ auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::Data::updateInst(const remote_inst& inst) -> int {
-    const auto hostId = extract_or(inst.host().id(), 0U);
+    const auto instId = extract_or(inst.id(), 0U);
+    const auto hostId = instId ? extract_or(inst.host().id(), 0U) : 0U;
+
     const auto hostPos = hosts.find(hostId);
     if(hostPos != hosts.end()) {
         auto& hostInfo = hostPos->second;
         auto& instances = hostInfo.instances;
-        const auto instId = extract_or(inst.id(), 0U);
         const auto instPos = instances.find(instId);
         if(instPos != instances.end()) {
             auto& instInfo = instPos->second;
