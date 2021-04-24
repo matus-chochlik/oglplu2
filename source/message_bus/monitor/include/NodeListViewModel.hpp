@@ -25,7 +25,7 @@ class NodeListViewModel
     using remote_inst = eagine::msgbus::remote_instance;
     using remote_host = eagine::msgbus::remote_host;
 
-    Q_PROPERTY(int selectedRow READ getSelectedRow NOTIFY itemSelectionChanged)
+    Q_PROPERTY(int selectedRow READ getSelectedRow NOTIFY selectedRowChanged)
 public:
     NodeListViewModel(MonitorBackend&);
 
@@ -48,11 +48,11 @@ public:
 
     auto data(const QModelIndex& index, int role) const -> QVariant final;
 
-    auto getSelectedRow() -> int;
+    auto getSelectedRow() const noexcept -> int;
 
     Q_INVOKABLE void onItemSelected(int row);
 signals:
-    void itemSelectionChanged();
+    void selectedRowChanged();
     void itemSelected(
       eagine::identifier_t,
       eagine::identifier_t,
@@ -115,27 +115,35 @@ private:
         auto totalCount() const noexcept -> int;
 
         template <typename Function>
-        void forHost(eagine::identifier_t hostId, Function function) const;
+        auto forHost(eagine::identifier_t hostId, Function function) const
+          -> bool;
 
         template <typename Function>
-        void forInst(eagine::identifier_t instId, Function function) const;
+        auto forInst(eagine::identifier_t instId, Function function) const
+          -> bool;
 
         template <typename Function>
-        void forNode(eagine::identifier_t nodeId, Function function) const;
+        auto forNode(eagine::identifier_t nodeId, Function function) const
+          -> bool;
 
         auto updateSelection() noexcept -> bool;
 
-        auto rowOf(eagine::identifier_t) noexcept -> int;
-        auto rowOf(eagine::identifier_t, eagine::identifier_t) noexcept -> int;
+        auto rowOf(eagine::identifier_t) const noexcept -> int;
+        auto rowOf(eagine::identifier_t, eagine::identifier_t) const noexcept
+          -> int;
         auto rowOf(
           eagine::identifier_t,
           eagine::identifier_t,
-          eagine::identifier_t) noexcept -> int;
+          eagine::identifier_t) const noexcept -> int;
+
+        auto findSelectedRow() const noexcept -> int;
 
         auto updateNode(const remote_node&) -> int;
         auto updateInst(const remote_inst&) -> int;
         auto updateHost(const remote_host&) -> int;
     } _model;
+
+    int _selectedRow{-1};
 
     void _select(
       eagine::identifier_t hostId,

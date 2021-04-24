@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.2
 ListView {
 	id: nodeListView
 	Layout.preferredWidth: backend.theme.nodeListItemWidth
+	highlightFollowsCurrentItem: true
 	currentIndex: model.selectedRow
 
 	delegate: Loader {

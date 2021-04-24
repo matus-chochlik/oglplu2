@@ -69,20 +69,22 @@ auto NodeListViewModel::Data::totalCount() const noexcept -> int {
 }
 //------------------------------------------------------------------------------
 template <typename Function>
-void NodeListViewModel::Data::forHost(
+auto NodeListViewModel::Data::forHost(
   eagine::identifier_t hostId,
-  Function function) const {
+  Function function) const -> bool {
     const auto hostPos = hosts.find(hostId);
     if(hostPos != hosts.end()) {
         const auto& hostInfo = hostPos->second;
         function(hostInfo);
+        return true;
     }
+    return false;
 }
 //------------------------------------------------------------------------------
 template <typename Function>
-void NodeListViewModel::Data::forInst(
+auto NodeListViewModel::Data::forInst(
   eagine::identifier_t instId,
-  Function function) const {
+  Function function) const -> bool {
     const auto hostIdPos = inst2Host.find(instId);
     if(hostIdPos != inst2Host.end()) {
         const auto hostId = hostIdPos->second;
@@ -93,15 +95,17 @@ void NodeListViewModel::Data::forInst(
             if(instPos != hostInfo.instances.end()) {
                 const auto& instInfo = instPos->second;
                 function(instInfo);
+                return true;
             }
         }
     }
+    return false;
 }
 //------------------------------------------------------------------------------
 template <typename Function>
-void NodeListViewModel::Data::forNode(
+auto NodeListViewModel::Data::forNode(
   eagine::identifier_t nodeId,
-  Function function) const {
+  Function function) const -> bool {
     const auto instIdPos = node2Inst.find(nodeId);
     if(instIdPos != node2Inst.end()) {
         const auto instId = instIdPos->second;
@@ -118,9 +122,11 @@ void NodeListViewModel::Data::forNode(
             if(nodePos != instInfo.nodes.end()) {
                 const auto& nodeInfo = nodePos->second;
                 function(nodeInfo);
+                return true;
             }
         }
     }
+    return false;
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::Data::updateSelection() noexcept -> bool {
@@ -146,7 +152,7 @@ auto NodeListViewModel::Data::updateSelection() noexcept -> bool {
     return updated;
 }
 //------------------------------------------------------------------------------
-auto NodeListViewModel::Data::rowOf(eagine::identifier_t hostId) noexcept
+auto NodeListViewModel::Data::rowOf(eagine::identifier_t hostId) const noexcept
   -> int {
     int row = 0;
     for(auto& hostEntry : hosts) {
@@ -160,7 +166,7 @@ auto NodeListViewModel::Data::rowOf(eagine::identifier_t hostId) noexcept
 //------------------------------------------------------------------------------
 auto NodeListViewModel::Data::rowOf(
   eagine::identifier_t hostId,
-  eagine::identifier_t instId) noexcept -> int {
+  eagine::identifier_t instId) const noexcept -> int {
     int row = 1;
     for(auto& hostEntry : hosts) {
         if(hostEntry.first == hostId) {
@@ -179,7 +185,7 @@ auto NodeListViewModel::Data::rowOf(
 auto NodeListViewModel::Data::rowOf(
   eagine::identifier_t hostId,
   eagine::identifier_t instId,
-  eagine::identifier_t nodeId) noexcept -> int {
+  eagine::identifier_t nodeId) const noexcept -> int {
     int row = 2;
     for(auto& hostEntry : hosts) {
         if(hostEntry.first == hostId) {
@@ -198,6 +204,16 @@ auto NodeListViewModel::Data::rowOf(
         row += hostEntry.second.totalCount();
     }
     return -1;
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::Data::findSelectedRow() const noexcept -> int {
+    if(selectedNodeId) {
+        return rowOf(selectedHostId, selectedInstId, selectedNodeId);
+    }
+    if(selectedInstId) {
+        return rowOf(selectedHostId, selectedInstId);
+    }
+    return rowOf(selectedHostId);
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
@@ -375,8 +391,15 @@ void NodeListViewModel::onNodeChanged(const remote_node& node) {
               QAbstractItemModel::createIndex(row, 0, nodeId),
               QAbstractItemModel::createIndex(row, 2, nodeId));
         } else {
+            if(_model.updateSelection()) {
+                emit itemSelected(
+                  _model.selectedHostId,
+                  _model.selectedInstId,
+                  _model.selectedNodeId);
+            }
+            _selectedRow = _model.findSelectedRow();
+            emit selectedRowChanged();
             emit modelReset({});
-            emit itemSelectionChanged();
         }
     }
 }
@@ -432,7 +455,7 @@ void NodeListViewModel::_unselect() {
 }
 //------------------------------------------------------------------------------
 void NodeListViewModel::onItemSelected(int row) {
-    if(row < 0) {
+    if(row < 0 || row >= _model.totalCount()) {
         _unselect();
         return;
     }
@@ -622,34 +645,30 @@ auto NodeListViewModel::data(const QModelIndex& index, int role) const
         }
     } else if(index.column() == nodeItem) {
         const auto nodeId = index.internalId();
-        _model.forNode(nodeId, [this, role, &result](auto& info) {
-            auto& node = info.node;
+        if(!_model.forNode(nodeId, [this, role, &result](auto& info) {
+               auto& node = info.node;
+               if(role == NodeListViewModel::itemKindRole) {
+                   result = itemKindData(node);
+               } else if(role == NodeListViewModel::displayNameRole) {
+                   result = displayNameData(node);
+               } else if(role == NodeListViewModel::descriptionRole) {
+                   result = descriptionData(node);
+               } else if(role == NodeListViewModel::isResponsiveRole) {
+                   result = isResponsiveData(node);
+               } else if(role == NodeListViewModel::childCountRole) {
+                   result = {0};
+               }
+           })) {
             if(role == NodeListViewModel::itemKindRole) {
-                result = itemKindData(node);
-            } else if(role == NodeListViewModel::displayNameRole) {
-                result = displayNameData(node);
-            } else if(role == NodeListViewModel::descriptionRole) {
-                result = descriptionData(node);
-            } else if(role == NodeListViewModel::isResponsiveRole) {
-                result = isResponsiveData(node);
-            } else if(role == NodeListViewModel::childCountRole) {
-                result = {0};
+                result = {"UnknownNode"};
             }
-        });
+        }
     }
     return result;
 }
 //------------------------------------------------------------------------------
-auto NodeListViewModel::getSelectedRow() -> int {
-    _model.updateSelection();
-    if(_model.selectedNodeId) {
-        return _model.rowOf(
-          _model.selectedHostId, _model.selectedInstId, _model.selectedNodeId);
-    }
-    if(_model.selectedInstId) {
-        return _model.rowOf(_model.selectedHostId, _model.selectedInstId);
-    }
-    return _model.rowOf(_model.selectedHostId);
+auto NodeListViewModel::getSelectedRow() const noexcept -> int {
+    return _selectedRow;
 }
 //------------------------------------------------------------------------------
 
