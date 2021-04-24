@@ -24,6 +24,15 @@ class HostViewModel
     Q_PROPERTY(QVariant identifier READ getIdentifier NOTIFY infoChanged)
     Q_PROPERTY(QVariant displayName READ getDisplayName NOTIFY infoChanged)
     Q_PROPERTY(QVariant description READ getDescription NOTIFY infoChanged)
+    Q_PROPERTY(QVariant cpuThreads READ getCpuThreads NOTIFY infoChanged)
+    Q_PROPERTY(QVariant shortLoad READ getShortLoad NOTIFY infoChanged)
+    Q_PROPERTY(QVariant longLoad READ getLongLoad NOTIFY infoChanged)
+    Q_PROPERTY(QVariant ramTotal READ getRamTotal NOTIFY infoChanged)
+    Q_PROPERTY(QVariant ramFree READ getRamFree NOTIFY infoChanged)
+    Q_PROPERTY(QVariant ramUsage READ getRamUsage NOTIFY infoChanged)
+    Q_PROPERTY(QVariant swapTotal READ getSwapTotal NOTIFY infoChanged)
+    Q_PROPERTY(QVariant swapFree READ getSwapFree NOTIFY infoChanged)
+    Q_PROPERTY(QVariant swapUsage READ getSwapUsage NOTIFY infoChanged)
 
     using remote_host = eagine::msgbus::remote_host;
 
@@ -38,6 +47,15 @@ public:
     auto getIdentifier() -> QVariant;
     auto getDisplayName() -> QVariant;
     auto getDescription() -> QVariant;
+    auto getCpuThreads() -> QVariant;
+    auto getShortLoad() -> QVariant;
+    auto getLongLoad() -> QVariant;
+    auto getRamTotal() -> QVariant;
+    auto getRamFree() -> QVariant;
+    auto getRamUsage() -> QVariant;
+    auto getSwapTotal() -> QVariant;
+    auto getSwapFree() -> QVariant;
+    auto getSwapUsage() -> QVariant;
 
 signals:
     void infoChanged();

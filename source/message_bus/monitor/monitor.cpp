@@ -5,6 +5,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <clocale>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -16,6 +17,7 @@ auto main(main_ctx& ctx) -> int {
 
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app{argc_copy, const_cast<char**>(argv_copy)};
+    std::setlocale(LC_NUMERIC, "C");
 
     const auto registerId = "com.github.matus-chochlik.oglplu2";
 

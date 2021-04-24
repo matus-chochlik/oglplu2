@@ -31,7 +31,7 @@ void TrackerModel::handleHostChanged(
   eagine::msgbus::remote_host_changes changes) {
     using eagine::msgbus::remote_host_change;
 
-    if(changes.has(remote_host_change::hostname)) {
+    if(changes) {
         emit hostInfoChanged(host);
     }
 }
