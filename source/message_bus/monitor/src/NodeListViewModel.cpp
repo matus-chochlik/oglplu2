@@ -455,6 +455,9 @@ void NodeListViewModel::_unselect() {
 }
 //------------------------------------------------------------------------------
 void NodeListViewModel::onItemSelected(int row) {
+    _selectedRow = row;
+    emit selectedRowChanged();
+
     if(row < 0 || row >= _model.totalCount()) {
         _unselect();
         return;

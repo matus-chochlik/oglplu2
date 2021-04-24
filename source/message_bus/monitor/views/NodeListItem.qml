@@ -21,6 +21,10 @@ Control {
 		opacity: 0.05
 	}
 
+	function isSelected() {
+		return nodeListItem.view.model.selectedRow == index
+	}
+
 	function isCurrent() {
 		return nodeListItem.view.currentIndex == index
 	}
@@ -35,17 +39,21 @@ Control {
 		nodeListItem.view.model.onItemSelected(-1);
 	}
 
-	state: isCurrent() ? "Selected" : "Unselected"
+	function highlightOpacity() {
+		return (isSelected() ? 0.4 : 0.0) + (isCurrent() ? 0.3 : 0.0)
+	}
+
+	state: isSelected() || isCurrent() ? "Highlighted" : "Default"
 	states: [
 		State {
-			name: "Selected"
+			name: "Highlighted"
 			PropertyChanges {
 				target: nodeListItemBg
-				opacity: 0.5
+				opacity: highlightOpacity()
 			}
 		},
 		State {
-			name: "Unselected"
+			name: "Default"
 			PropertyChanges {
 				target: nodeListItemBg
 				opacity: 0.05
@@ -55,8 +63,8 @@ Control {
 
 	transitions: [
 		Transition {
-			from: "Unselected"
-			to: "Selected"
+			from: "Default"
+			to: "Highlighted"
 			PropertyAnimation {
 				target: nodeListItemBg
 				properties: "opacity"
@@ -64,8 +72,8 @@ Control {
 			}
 		},
 		Transition {
-			from: "Selected"
-			to: "Unselected"
+			from: "Highlighted"
+			to: "Default"
 			PropertyAnimation {
 				target: nodeListItemBg
 				properties: "opacity"
