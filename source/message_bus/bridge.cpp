@@ -69,7 +69,8 @@ private:
     auto provide_endpoint_info() -> endpoint_info final {
         endpoint_info result;
         result.display_name = "bridge control node";
-        result.description = "endpoint monitoring and controlling a bridge";
+        result.description =
+          "endpoint monitoring and controlling a message bus bridge";
         result.is_bridge_node = true;
         return result;
     }
