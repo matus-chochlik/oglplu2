@@ -380,6 +380,11 @@ void NodeListViewModel::onTrackerModelChanged() {
           &TrackerModel::hostInfoChanged,
           this,
           &NodeListViewModel::onHostInfoChanged);
+        connect(
+          trackerModel,
+          &TrackerModel::nodeDisappeared,
+          this,
+          &NodeListViewModel::onNodeDisappeared);
     }
 }
 //------------------------------------------------------------------------------
@@ -403,6 +408,8 @@ void NodeListViewModel::onNodeChanged(const remote_node& node) {
         }
     }
 }
+//------------------------------------------------------------------------------
+void NodeListViewModel::onNodeDisappeared(eagine::identifier_t) {}
 //------------------------------------------------------------------------------
 void NodeListViewModel::onInstanceInfoChanged(const remote_inst& inst) {
     if(inst) {

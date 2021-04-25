@@ -60,10 +60,11 @@ signals:
     void itemUnselected();
 
 private slots:
+    void onTrackerModelChanged();
     void onNodeChanged(const remote_node&);
+    void onNodeDisappeared(eagine::identifier_t);
     void onInstanceInfoChanged(const remote_inst&);
     void onHostInfoChanged(const remote_host&);
-    void onTrackerModelChanged();
 
 private:
     enum { hostItem = 0, instItem = 1, nodeItem = 2 };

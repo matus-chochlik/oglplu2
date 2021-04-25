@@ -40,6 +40,8 @@ signals:
     void instanceInfoChanged(const eagine::msgbus::remote_instance&);
     void hostInfoChanged(const eagine::msgbus::remote_host&);
 
+    void nodeDisappeared(eagine::identifier_t);
+
 private:
     void handleHostChanged(
       eagine::msgbus::remote_host&,
@@ -52,6 +54,8 @@ private:
     void handleNodeChanged(
       eagine::msgbus::remote_node&,
       eagine::msgbus::remote_node_changes);
+
+    void handleNodeDisappeared(eagine::identifier_t);
 
     MonitorBackend& _backend;
     eagine::msgbus::endpoint _bus;

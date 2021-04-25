@@ -24,6 +24,13 @@ TrackerModel::TrackerModel(MonitorBackend& backend)
     _tracker.instance_changed.connect(
       EAGINE_THIS_MEM_FUNC_REF(handleInstanceChanged));
     _tracker.node_changed.connect(EAGINE_THIS_MEM_FUNC_REF(handleNodeChanged));
+
+    _tracker.router_disappeared.connect(
+      EAGINE_THIS_MEM_FUNC_REF(handleNodeDisappeared));
+    _tracker.bridge_disappeared.connect(
+      EAGINE_THIS_MEM_FUNC_REF(handleNodeDisappeared));
+    _tracker.endpoint_disappeared.connect(
+      EAGINE_THIS_MEM_FUNC_REF(handleNodeDisappeared));
 }
 //------------------------------------------------------------------------------
 void TrackerModel::handleHostChanged(
@@ -82,6 +89,10 @@ void TrackerModel::handleNodeChanged(
 
     if(changes.has(remote_node_change::connection_info)) {
     }
+}
+//------------------------------------------------------------------------------
+void TrackerModel::handleNodeDisappeared(eagine::identifier_t nodeId) {
+    emit nodeDisappeared(nodeId);
 }
 //------------------------------------------------------------------------------
 void TrackerModel::update() {
