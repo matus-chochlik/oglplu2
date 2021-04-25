@@ -9,12 +9,14 @@ Pane {
 	leftPadding: 0
 
 	ColumnLayout {
+		anchors.fill: parent
 		ItemViewHeading {
 			itemKind: "Process"
 			iconName: "InstanceItem"
 			itemModel: instanceView.model.inst
 		}
 		ParentHostView {
+			Layout.fillWidth: true
 			model: instanceView.model
 		}
 		Item {

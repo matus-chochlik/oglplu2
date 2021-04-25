@@ -16,6 +16,7 @@ Pane {
 			itemModel: routerView.model.node
 		}
 		ParentInstanceView {
+			Layout.fillWidth: true
 			model: routerView.model
 		}
 		Item {

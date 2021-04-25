@@ -9,11 +9,13 @@ Pane {
 	leftPadding: 0
 
 	ColumnLayout {
+		anchors.fill: parent
 		UnknownItemViewHeading {
 			itemKind: "UnknownNode"
 			iconName: "UnknownNode"
 		}
 		ParentInstanceView {
+			Layout.fillWidth: true
 			model: unknownNodeView.model
 		}
 		Item {

@@ -9,12 +9,14 @@ Pane {
 	leftPadding: 0
 
 	ColumnLayout {
+		anchors.fill: parent
 		ItemViewHeading {
 			itemKind: "Endpoint"
 			iconName: "EndpointNode"
 			itemModel: endpointView.model.node
 		}
 		ParentInstanceView {
+			Layout.fillWidth: true
 			model: endpointView.model
 		}
 		Item {

@@ -8,6 +8,7 @@ Item {
     property variant model: null
 
 	ColumnLayout {
+		anchors.fill: parent
 		UnknownItemViewHeading {
 			itemKind: "UnknownHost"
 			iconName: "UnknownHostItem"

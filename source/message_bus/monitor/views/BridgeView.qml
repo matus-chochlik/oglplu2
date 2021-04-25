@@ -16,6 +16,7 @@ Pane {
 			itemModel: bridgeView.model.node
 		}
 		ParentInstanceView {
+			Layout.fillWidth: true
 			model: bridgeView.model
 		}
 		Item {
