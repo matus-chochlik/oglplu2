@@ -66,9 +66,10 @@ public:
     }
 
     /// @brief Fetches received messages from the client counterpart.
-    auto fetch_from_client(connection::fetch_handler handler) noexcept -> bool {
+    auto fetch_from_client(connection::fetch_handler handler) noexcept
+      -> std::tuple<bool, bool> {
         std::unique_lock lock{_c2s_mutex};
-        return _client_to_server.fetch_all(handler);
+        return {_client_to_server.fetch_all(handler), _client_connected};
     }
 
     /// @brief Fetches received messages from the service counterpart.
@@ -260,7 +261,7 @@ public:
 
     auto is_usable() -> bool final {
         if(EAGINE_LIKELY(_state)) {
-            if(EAGINE_LIKELY(_state->is_usable())) {
+            if(EAGINE_LIKELY(_is_usable)) {
                 return true;
             }
             _state.reset();
@@ -276,14 +277,16 @@ public:
     }
 
     auto fetch_messages(connection::fetch_handler handler) -> bool final {
+        bool result = false;
         if(EAGINE_LIKELY(_state)) {
-            return _state->fetch_from_client(handler);
+            std::tie(result, _is_usable) = _state->fetch_from_client(handler);
         }
-        return false;
+        return result;
     }
 
 private:
     std::shared_ptr<direct_connection_state> _state;
+    bool _is_usable{true};
 };
 //------------------------------------------------------------------------------
 /// @brief Implementation of acceptor for direct connections.
