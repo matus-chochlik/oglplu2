@@ -188,6 +188,7 @@ auto main(main_ctx& ctx) -> int {
     }
     router.say_bye();
     router.update(8);
+    router.cleanup();
 
     return 0;
 }

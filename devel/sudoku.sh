@@ -87,7 +87,7 @@ do wait ${pid}
 done
 
 for pid in ${hlprpids[@]}
-do kill -INT ${pid} $(ps --ppid ${pid} -o pid=)
+do kill -INT ${pid}
 done
 
 for pid in ${hlprpids[@]}

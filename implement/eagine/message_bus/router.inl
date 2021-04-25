@@ -140,7 +140,11 @@ parent_router::fetch_messages(main_ctx_object& user, const Handler& handler)
               msg_id.has_method(EAGINE_ID(byeByeEndp)) ||
               msg_id.has_method(EAGINE_ID(byeByeRutr)) ||
               msg_id.has_method(EAGINE_ID(byeByeBrdg))) {
-                user.log_debug("received bye-bye from parent router ${source}")
+                user
+                  .log_debug(
+                    "received bye-bye (${method}) from node ${source} "
+                    "from parent router")
+                  .arg(EAGINE_ID(method), msg_id.method())
                   .arg(EAGINE_ID(source), message.source_id);
             } else {
                 return handler(msg_id, msg_age, message);
@@ -327,6 +331,13 @@ auto router::_handle_pending() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto router::_announce_lost(identifier_t node_id) -> bool {
+    message_view msg{};
+    msg.set_source_id(node_id);
+    return _do_route_message(EAGINE_MSGBUS_ID(byeByeEndp), _id_base, msg);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto router::_remove_timeouted() -> bool {
     some_true something_done{};
 
@@ -351,6 +362,7 @@ auto router::_remove_timeouted() -> bool {
         if(info.is_outdated) {
             _endpoint_idx.erase(endpoint_id);
             _mark_disconnected(endpoint_id);
+            _announce_lost(endpoint_id);
             return true;
         }
         return false;
@@ -781,7 +793,8 @@ auto router::_handle_special(
           msg_id.has_method(EAGINE_ID(byeByeEndp)) ||
           msg_id.has_method(EAGINE_ID(byeByeRutr)) ||
           msg_id.has_method(EAGINE_ID(byeByeBrdg))) {
-            log_debug("received bye-bye from node ${source}")
+            log_debug("received bye-bye (${method}) from node ${source}")
+              .arg(EAGINE_ID(method), msg_id.method())
               .arg(EAGINE_ID(source), message.source_id);
             if(!node.maybe_router) {
                 node.do_disconnect = true;
@@ -1023,8 +1036,8 @@ void router::say_bye() {
 
     _parent_router.send(*this, msgid, msg);
     _parent_router.update(*this, _id_base);
-    _update_connections();
     _route_messages();
+    _update_connections();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
