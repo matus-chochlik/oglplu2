@@ -332,6 +332,7 @@ void endpoint::flush_outbox() {
         _outgoing.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_send));
 
         if(EAGINE_LIKELY(_connection)) {
+            _connection->update();
             _connection->cleanup();
         }
     }

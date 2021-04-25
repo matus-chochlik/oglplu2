@@ -146,32 +146,33 @@ auto main(main_ctx& ctx) -> int {
     msgbus::endpoint node_endpoint{EAGINE_ID(BrdgNodeEp), ctx};
     node_endpoint.add_ca_certificate_pem(ca_certificate_pem(ctx));
     conn_setup.setup_connectors(node_endpoint, address);
-    msgbus::bridge_node node{node_endpoint};
+    {
+        msgbus::bridge_node node{node_endpoint};
 
-    auto& wd = ctx.watchdog();
-    wd.declare_initialized();
+        auto& wd = ctx.watchdog();
+        wd.declare_initialized();
 
-    while(EAGINE_LIKELY(
-      !(interrupted || node.is_shut_down() || bridge.is_done()))) {
-        some_true something_done{};
-        something_done(bridge.update());
-        something_done(node.update());
+        while(EAGINE_LIKELY(
+          !(interrupted || node.is_shut_down() || bridge.is_done()))) {
+            some_true something_done{};
+            something_done(bridge.update());
+            something_done(node.update());
 
-        if(something_done) {
-            ++cycles_work;
-            idle_streak = 0;
-        } else {
-            ++cycles_idle;
-            max_idle_streak = math::maximum(max_idle_streak, ++idle_streak);
-            std::this_thread::sleep_for(
-              std::chrono::milliseconds(math::minimum(idle_streak / 8, 8)));
+            if(something_done) {
+                ++cycles_work;
+                idle_streak = 0;
+            } else {
+                ++cycles_idle;
+                max_idle_streak = math::maximum(max_idle_streak, ++idle_streak);
+                std::this_thread::sleep_for(
+                  std::chrono::milliseconds(math::minimum(idle_streak / 8, 8)));
+            }
+            wd.notify_alive();
         }
-        wd.notify_alive();
+        wd.announce_shutdown();
     }
     bridge.say_bye();
-
     bridge.cleanup();
-    wd.announce_shutdown();
 
     log.stat("message bus bridge finishing")
       .arg(EAGINE_ID(working), cycles_work)

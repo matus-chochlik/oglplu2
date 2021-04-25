@@ -151,31 +151,33 @@ auto main(main_ctx& ctx) -> int {
     msgbus::endpoint node_endpoint{EAGINE_ID(RutrNodeEp), ctx};
     node_endpoint.add_certificate_pem(msgbus_router_certificate_pem(ctx));
     node_endpoint.add_connection(std::move(node_connection));
-    msgbus::router_node node{node_endpoint};
+    {
+        msgbus::router_node node{node_endpoint};
 
-    auto& wd = ctx.watchdog();
-    wd.declare_initialized();
+        auto& wd = ctx.watchdog();
+        wd.declare_initialized();
 
-    while(EAGINE_LIKELY(!(interrupted || node.is_shut_down()))) {
-        some_true something_done{};
-        something_done(router.update(8));
-        something_done(node.update());
+        while(EAGINE_LIKELY(!(interrupted || node.is_shut_down()))) {
+            some_true something_done{};
+            something_done(router.update(8));
+            something_done(node.update());
 
-        if(something_done) {
-            ++cycles_work;
-            idle_streak = 0;
-        } else {
-            ++cycles_idle;
-            max_idle_streak = math::maximum(max_idle_streak, ++idle_streak);
-            std::this_thread::sleep_for(
-              std::chrono::milliseconds(math::minimum(idle_streak / 8, 8)));
+            if(something_done) {
+                ++cycles_work;
+                idle_streak = 0;
+            } else {
+                ++cycles_idle;
+                max_idle_streak = math::maximum(max_idle_streak, ++idle_streak);
+                std::this_thread::sleep_for(
+                  std::chrono::milliseconds(math::minimum(idle_streak / 8, 8)));
+            }
+            wd.notify_alive();
         }
-        wd.notify_alive();
+        wd.announce_shutdown();
     }
-    router.say_bye();
 
+    router.say_bye();
     router.cleanup();
-    wd.announce_shutdown();
 
     log.stat("message bus router finishing")
       .arg(EAGINE_ID(working), cycles_work)

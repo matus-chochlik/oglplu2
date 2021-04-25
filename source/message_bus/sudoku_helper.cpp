@@ -94,45 +94,49 @@ auto main(main_ctx& ctx) -> int {
     helpers.reserve(std_size(helper_count));
 
     volatile auto remaining = helper_count + 1;
+
+    auto helper_main = [&]() {
+        std::unique_lock init_lock{helper_mutex};
+        msgbus::endpoint helper_endpoint{EAGINE_ID(SdkHlpEndp), ctx};
+        helper_endpoint.add_connection(acceptor->make_connection());
+        msgbus::sudoku_helper_node helper_node{helper_endpoint};
+        remaining--;
+        helper_cond.notify_all();
+        init_lock.unlock();
+
+        if(std::unique_lock latch_lock{helper_mutex}) {
+            while(remaining > 0) {
+                helper_cond.wait(latch_lock);
+            }
+        }
+
+        int idle_streak = 0;
+        auto keep_running = [&]() {
+            if(idle_streak > 5) {
+                std::unique_lock check_lock{helper_mutex};
+                if(interrupted) {
+                    return false;
+                }
+            }
+            return !(
+              helper_node.is_shut_down() ||
+              (shutdown_when_idle &&
+               (helper_node.idle_time() > max_idle_time)));
+        };
+
+        while(keep_running()) {
+            if(helper_node.update_and_process_all()) {
+                idle_streak = 0;
+            } else {
+                std::this_thread::sleep_for(
+                  std::chrono::milliseconds(math::minimum(++idle_streak, 100)));
+            }
+        }
+    };
+
     for(span_size_t i = 0; i < helper_count; ++i) {
         helpers.emplace_back([&]() {
-            std::unique_lock init_lock{helper_mutex};
-            msgbus::endpoint helper_endpoint{EAGINE_ID(SdkHlpEndp), ctx};
-            helper_endpoint.add_connection(acceptor->make_connection());
-            msgbus::sudoku_helper_node helper_node{helper_endpoint};
-            remaining--;
-            helper_cond.notify_all();
-            init_lock.unlock();
-
-            if(std::unique_lock latch_lock{helper_mutex}) {
-                while(remaining > 0) {
-                    helper_cond.wait(latch_lock);
-                }
-            }
-
-            int idle_streak = 0;
-            auto keep_running = [&]() {
-                if(idle_streak > 5) {
-                    std::unique_lock check_lock{helper_mutex};
-                    if(interrupted) {
-                        return false;
-                    }
-                }
-                return !(
-                  helper_node.is_shut_down() ||
-                  (shutdown_when_idle &&
-                   (helper_node.idle_time() > max_idle_time)));
-            };
-
-            while(keep_running()) {
-                if(helper_node.update_and_process_all()) {
-                    idle_streak = 0;
-                } else {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(
-                      math::minimum(++idle_streak, 100)));
-                }
-            }
-
+            helper_main();
             std::unique_lock finish_lock{helper_mutex};
             helper_count--;
             helper_cond.notify_one();
@@ -176,14 +180,14 @@ auto main(main_ctx& ctx) -> int {
             break;
         }
     }
-    router.say_bye();
-
     wd.announce_shutdown();
 
     for(auto& helper : helpers) {
         helper.join();
-        router.update();
+        router.update(8);
     }
+    router.say_bye();
+    router.update(8);
 
     return 0;
 }
