@@ -404,13 +404,22 @@ public:
 
     /// @brief Returns the short average load on the remote host.
     /// @see long_average_load
+    /// @see short_average_load_change
     /// @see system_info::short_average_load
     auto short_average_load() const noexcept -> valid_if_nonnegative<float>;
+
+    /// @brief Returns the change in short average load on the remote host.
+    /// @see short_average_load
+    auto short_average_load_change() const noexcept -> optionally_valid<float>;
 
     /// @brief Returns the long average load on the remote host.
     /// @see short_average_load
     /// @see system_info::long_average_load
     auto long_average_load() const noexcept -> valid_if_nonnegative<float>;
+
+    /// @brief Returns the change in long average load on the remote host.
+    /// @see long_average_load
+    auto long_average_load_change() const noexcept -> optionally_valid<float>;
 
     /// @brief Returns the total RAM size on the remote host.
     /// @see free_ram_size
@@ -422,25 +431,44 @@ public:
     /// @brief Returns the free RAM size on the remote host.
     /// @see total_ram_size
     /// @see free_swap_size
+    /// @see free_ram_size_change
     /// @see ram_usage
     /// @see system_info::free_ram_size
     auto free_ram_size() const noexcept -> valid_if_positive<span_size_t>;
 
+    /// @brief Returns the change in free RAM size on the remote host.
+    /// @see free_ram_size
+    auto free_ram_size_change() const noexcept -> optionally_valid<span_size_t>;
+
     /// @brief Returns the RAM usage on the remote host (0.0, 1.0).
+    /// @see ram_usage_change
     /// @see total_ram_size
     /// @see free_ram_size
     auto ram_usage() const noexcept -> valid_if_nonnegative<float> {
         if(const auto total{total_ram_size()}) {
             if(const auto free{free_ram_size()}) {
-                return 1.F - float(extract(free)) / float(extract(total));
+                return {1.F - float(extract(free)) / float(extract(total))};
             }
         }
         return {-1.F};
     }
 
+    /// @brief Returns the change in RAM usage on the remote host (-1.0, 1.0).
+    /// @see ram_usage
+    auto ram_usage_change() const noexcept -> optionally_valid<float> {
+        if(const auto total{total_ram_size()}) {
+            if(const auto change{free_ram_size_change()}) {
+                return {float(extract(change)) / float(extract(total)), true};
+            }
+        }
+        return {};
+    }
+
     /// @brief Returns the total swap size on the remote host.
     /// @see free_swap_size
     /// @see total_ram_size
+    /// @see free_swap_size_change
+    /// @see ram_usage
     /// @see swap_usage
     /// @see system_info::total_swap_size
     auto total_swap_size() const noexcept -> valid_if_positive<span_size_t>;
@@ -448,9 +476,15 @@ public:
     /// @brief Returns the free swap size on the remote host.
     /// @see total_swap_size
     /// @see free_ram_size
+    /// @see free_swap_size_change
     /// @see swap_usage
     /// @see system_info::total_ram_size
     auto free_swap_size() const noexcept -> valid_if_nonnegative<span_size_t>;
+
+    /// @brief Returns the change in free swap size on the remote host.
+    /// @see free_swap_size
+    auto free_swap_size_change() const noexcept
+      -> optionally_valid<span_size_t>;
 
     /// @brief Returns the swap usage on the remote host (0.0, 1.0).
     /// @see total_swap_size
@@ -458,10 +492,21 @@ public:
     auto swap_usage() const noexcept -> valid_if_nonnegative<float> {
         if(const auto total{total_swap_size()}) {
             if(const auto free{free_swap_size()}) {
-                return 1.F - float(extract(free)) / float(extract(total));
+                return {1.F - float(extract(free)) / float(extract(total))};
             }
         }
         return {-1.F};
+    }
+
+    /// @brief Returns the change in swap usage on the remote host (-1.0, 1.0).
+    /// @see swap_usage
+    auto swap_usage_change() const noexcept -> optionally_valid<float> {
+        if(const auto total{total_swap_size()}) {
+            if(const auto change{free_swap_size_change()}) {
+                return {float(extract(change)) / float(extract(total)), true};
+            }
+        }
+        return {};
     }
 
 protected:

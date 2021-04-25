@@ -302,6 +302,12 @@ public:
         return this->_update_value(new_value);
     }
 
+    /// @brief Shifts the revisions and assigns a new value.
+    auto operator=(const T& new_value) -> auto& {
+        assign(new_value);
+        return *this;
+    }
+
     /// @brief Shifts the revisions and advanced the current value by given delta.
     auto advance(const T& delta_value) -> bool {
         return this->_advance_value(delta_value);
@@ -317,6 +323,11 @@ public:
 
     auto assign(const valid_if<T, P...>& new_value) -> bool {
         return this->_update_value(new_value.value());
+    }
+
+    auto operator=(const T& new_value) -> auto& {
+        assign(new_value);
+        return *this;
     }
 
     auto advance(const valid_if<T, P...>& delta_value) -> bool {

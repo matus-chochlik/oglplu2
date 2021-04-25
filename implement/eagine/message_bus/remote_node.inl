@@ -7,6 +7,7 @@
 ///
 #include <eagine/branch_predict.hpp>
 #include <eagine/timeout.hpp>
+#include <eagine/value_with_history.hpp>
 #include <set>
 
 namespace eagine::msgbus {
@@ -27,12 +28,12 @@ public:
     timeout should_query_sensors{std::chrono::seconds{15}};
     std::string hostname;
     span_size_t cpu_concurrent_threads{-1};
-    float short_average_load{-1.F};
-    float long_average_load{-1.F};
     span_size_t total_ram_size{-1};
-    span_size_t free_ram_size{-1};
     span_size_t total_swap_size{-1};
-    span_size_t free_swap_size{-1};
+    variable_with_history<span_size_t, 2> free_ram_size{-1};
+    variable_with_history<span_size_t, 2> free_swap_size{-1};
+    variable_with_history<float, 2> short_average_load{-1.F};
+    variable_with_history<float, 2> long_average_load{-1.F};
 
     remote_host_changes changes{};
 };
@@ -284,7 +285,19 @@ EAGINE_LIB_FUNC
 auto remote_host::short_average_load() const noexcept
   -> valid_if_nonnegative<float> {
     if(auto impl{_impl()}) {
-        return {extract(impl).short_average_load};
+        return {extract(impl).short_average_load.value()};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::short_average_load_change() const noexcept
+  -> optionally_valid<float> {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        return {
+          i.short_average_load.delta(),
+          i.short_average_load.old_value() >= 0.F};
     }
     return {};
 }
@@ -293,7 +306,18 @@ EAGINE_LIB_FUNC
 auto remote_host::long_average_load() const noexcept
   -> valid_if_nonnegative<float> {
     if(auto impl{_impl()}) {
-        return {extract(impl).long_average_load};
+        return {extract(impl).long_average_load.value()};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::long_average_load_change() const noexcept
+  -> optionally_valid<float> {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        return {
+          i.long_average_load.delta(), i.long_average_load.old_value() >= 0.F};
     }
     return {};
 }
@@ -311,9 +335,19 @@ EAGINE_LIB_FUNC
 auto remote_host::free_ram_size() const noexcept
   -> valid_if_positive<span_size_t> {
     if(auto impl{_impl()}) {
-        return {extract(impl).free_ram_size};
+        return {extract(impl).free_ram_size.value()};
     }
     return {-1};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::free_ram_size_change() const noexcept
+  -> optionally_valid<span_size_t> {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        return {i.free_ram_size.delta(), i.free_ram_size.old_value() > 0};
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -329,9 +363,19 @@ EAGINE_LIB_FUNC
 auto remote_host::free_swap_size() const noexcept
   -> valid_if_nonnegative<span_size_t> {
     if(auto impl{_impl()}) {
-        return {extract(impl).free_swap_size};
+        return {extract(impl).free_swap_size.value()};
     }
     return {-1};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::free_swap_size_change() const noexcept
+  -> optionally_valid<span_size_t> {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        return {i.free_swap_size.delta(), i.free_swap_size.old_value() >= 0};
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 // remote_node
