@@ -9,6 +9,7 @@ log_args=("--min-log-severity" "stat")
 conn_type="--msg-bus-asio-local-stream"
 #
 termpids=()
+hlprpids=()
 pids=()
 #
 ${install_prefix}/bin/eagine-message_bus-router \
@@ -47,7 +48,7 @@ ${install_prefix}/bin/eagine-message_bus-sudoku_helper \
 	--msg-bus-router-address /tmp/sudoku_h \
 	--msg-bus-router-id-major 1000 \
 	--msg-bus-router-id-count 500 \
-	& termpids+=($!)
+	& hlprpids+=($!)
 sleep 1
 rank=4
 div=$((rank * (rank - 2)))
@@ -84,6 +85,16 @@ ${install_prefix}/bin/eagine-message_bus-pinger \
 for pid in ${pids[@]}
 do wait ${pid}
 done
+
+for pid in ${hlprpids[@]}
+do kill -INT ${pid} $(ps --ppid ${pid} -o pid=)
+done
+
+for pid in ${hlprpids[@]}
+do wait ${pid}
+done
+
+sleep 5
 
 for pid in ${termpids[@]}
 do kill -INT ${pid} $(ps --ppid ${pid} -o pid=)
