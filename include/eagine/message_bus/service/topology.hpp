@@ -19,19 +19,6 @@ template <typename Base = subscriber>
 class network_topology : public Base {
     using This = network_topology;
 
-protected:
-    using Base::Base;
-
-    void add_methods() {
-        Base::add_methods();
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiMsgBus, topoRutrCn, This, _handle_router));
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiMsgBus, topoBrdgCn, This, _handle_bridge));
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiMsgBus, topoEndpt, This, _handle_endpoint));
-    }
-
 public:
     void query_topology(identifier_t node_id) {
         message_view message{};
@@ -46,6 +33,32 @@ public:
     signal<void(const router_topology_info&)> router_appeared;
     signal<void(const bridge_topology_info&)> bridge_appeared;
     signal<void(const endpoint_topology_info&)> endpoint_appeared;
+
+    signal<void(identifier_t)> router_disappeared;
+    signal<void(identifier_t)> bridge_disappeared;
+    signal<void(identifier_t)> endpoint_disappeared;
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+        Base::add_method(
+          this, EAGINE_MSG_MAP(eagiMsgBus, topoRutrCn, This, _handle_router));
+        Base::add_method(
+          this, EAGINE_MSG_MAP(eagiMsgBus, topoBrdgCn, This, _handle_bridge));
+        Base::add_method(
+          this, EAGINE_MSG_MAP(eagiMsgBus, topoEndpt, This, _handle_endpoint));
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(eagiMsgBus, byeByeRutr, This, _handle_router_bye));
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(eagiMsgBus, byeByeBrdg, This, _handle_bridge_bye));
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(eagiMsgBus, byeByeEndp, This, _handle_endpoint_bye));
+    }
 
 private:
     auto _handle_router(const message_context&, stored_message& message)
@@ -72,6 +85,24 @@ private:
         if(default_deserialize(info, message.content())) {
             endpoint_appeared(info);
         }
+        return true;
+    }
+
+    auto _handle_router_bye(const message_context&, stored_message& message)
+      -> bool {
+        router_disappeared(message.source_id);
+        return true;
+    }
+
+    auto _handle_bridge_bye(const message_context&, stored_message& message)
+      -> bool {
+        bridge_disappeared(message.source_id);
+        return true;
+    }
+
+    auto _handle_endpoint_bye(const message_context&, stored_message& message)
+      -> bool {
+        endpoint_disappeared(message.source_id);
         return true;
     }
 };

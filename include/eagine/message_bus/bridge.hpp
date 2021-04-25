@@ -48,6 +48,7 @@ public:
 
     auto update() -> bool;
     auto is_done() const noexcept -> bool;
+    void say_bye();
     void cleanup();
 
     auto no_connection_timeout() const noexcept -> auto& {

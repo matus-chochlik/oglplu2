@@ -136,7 +136,7 @@ parent_router::fetch_messages(main_ctx_object& user, const Handler& handler)
                 user.log_debug("confirmed id ${id} by parent router ${source}")
                   .arg(EAGINE_ID(id), message.target_id)
                   .arg(EAGINE_ID(source), message.source_id);
-            } else if(msg_id.has_method(EAGINE_ID(byeBye))) {
+            } else if(msg_id.has_method(EAGINE_ID(byeByeEndp))) {
                 user.log_debug("received bye-bye from parent router ${source}")
                   .arg(EAGINE_ID(source), message.source_id);
             } else {
@@ -774,7 +774,10 @@ auto router::_handle_special(
             _update_endpoint_info(incoming_id, message);
             // this should be forwarded
             return false;
-        } else if(msg_id.has_method(EAGINE_ID(byeBye))) {
+        } else if(
+          msg_id.has_method(EAGINE_ID(byeByeEndp)) ||
+          msg_id.has_method(EAGINE_ID(byeByeRutr)) ||
+          msg_id.has_method(EAGINE_ID(byeByeBrdg))) {
             log_debug("received bye-bye from node ${source}")
               .arg(EAGINE_ID(source), message.source_id);
             if(!node.maybe_router) {
@@ -1002,11 +1005,27 @@ auto router::update(const valid_if_positive<int>& count) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void router::say_bye() {
+    const auto msgid = EAGINE_MSGBUS_ID(byeByeRutr);
+    for(auto& [id, node] : _nodes) {
+        EAGINE_MAYBE_UNUSED(id);
+        const auto& conn = node.the_connection;
+        if(conn) {
+            conn->send(msgid, {});
+            conn->update();
+        }
+    }
+
+    _parent_router.send(*this, msgid, {});
+    _parent_router.update(*this, _id_base);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void router::cleanup() {
     for(auto& [id, node] : _nodes) {
         EAGINE_MAYBE_UNUSED(id);
         const auto& conn = node.the_connection;
-        if(EAGINE_LIKELY(conn)) {
+        if(conn) {
             conn->cleanup();
         }
     }

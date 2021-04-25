@@ -172,7 +172,9 @@ auto endpoint::_handle_special(
             }
             return true;
         } else if(
-          msg_id.has_method(EAGINE_ID(byeBye)) ||
+          msg_id.has_method(EAGINE_ID(byeByeEndp)) ||
+          msg_id.has_method(EAGINE_ID(byeByeRutr)) ||
+          msg_id.has_method(EAGINE_ID(byeByeBrdg)) ||
           msg_id.has_method(EAGINE_ID(stillAlive)) ||
           msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
           msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
@@ -470,7 +472,7 @@ auto endpoint::say_still_alive() -> bool {
 EAGINE_LIB_FUNC
 auto endpoint::say_bye() -> bool {
     log_debug("saying bye-bye");
-    return post(EAGINE_MSGBUS_ID(byeBye), {});
+    return post(EAGINE_MSGBUS_ID(byeByeEndp), {});
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

@@ -172,6 +172,7 @@ auto main(main_ctx& ctx) -> int {
         }
         wd.notify_alive();
     }
+    router.say_bye();
 
     router.cleanup();
     wd.announce_shutdown();

@@ -120,10 +120,12 @@ enum class remote_instance_change : std::uint16_t {
     host_id = 1U << 0U,
     /// @brief The instance's nodes' responsivity has changed.
     responsivity = 1U << 1U,
+    /// @brief The build information has appeared or changed.
+    build_info = 1U << 2U,
     /// @brief The application information has appeared or changed.
-    application_info = 1U << 2U,
+    application_info = 1U << 3U,
     /// @brief New statistics have appeared or changed.
-    statistics = 1U << 3U
+    statistics = 1U << 4U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>

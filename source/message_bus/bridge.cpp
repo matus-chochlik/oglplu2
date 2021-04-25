@@ -168,6 +168,7 @@ auto main(main_ctx& ctx) -> int {
         }
         wd.notify_alive();
     }
+    bridge.say_bye();
 
     bridge.cleanup();
     wd.announce_shutdown();

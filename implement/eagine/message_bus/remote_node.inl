@@ -212,6 +212,7 @@ auto remote_instance_state::assign(build_info info) -> remote_instance_state& {
         auto& i = extract(impl);
         if(!i.bld_info) {
             i.bld_info = {std::move(info), true};
+            i.changes |= remote_instance_change::build_info;
         }
     }
     return *this;

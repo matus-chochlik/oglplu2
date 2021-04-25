@@ -493,6 +493,21 @@ auto bridge::is_done() const noexcept -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void bridge::say_bye() {
+    const auto msgid = EAGINE_MSGBUS_ID(byeByeBrdg);
+    message_view msg{};
+    if(_connection) {
+        _connection->send(msgid, msg);
+        _connection->update();
+    }
+    if(_state) {
+        _do_push(msgid, msg);
+        _state->notify_output_ready();
+        std::this_thread::sleep_for(std::chrono::seconds{1});
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void bridge::cleanup() {
     if(_connection) {
         _connection->cleanup();
