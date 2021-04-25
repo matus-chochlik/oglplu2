@@ -70,6 +70,30 @@ Pane {
 			}
 
 			Label {
+				Layout.columnSpan: 2
+			}
+
+			Label {
+				text: qsTr("Change")
+			}
+			Label {
+				Layout.fillWidth: true
+				text: hostView.model.host.shortLoadDelta
+					? "%1 %".arg(hostView.model.host.shortLoadDelta*100.0)
+					: "-"
+			}
+
+			Label {
+				text: qsTr("Change")
+			}
+			Label {
+				Layout.fillWidth: true
+				text: hostView.model.host.longLoadDelta
+					? "%1 %".arg(hostView.model.host.longLoadDelta*100.0)
+					: "-"
+			}
+
+			Label {
 				text: qsTr("Total RAM size")
 			}
 			Label {
@@ -97,6 +121,30 @@ Pane {
 			}
 
 			Label {
+				Layout.columnSpan: 2
+			}
+
+			Label {
+				text: qsTr("Change")
+			}
+			Label {
+				Layout.fillWidth: true
+				text: hostView.model.host.ramFreeDelta
+					? "%1 MB".arg(hostView.model.host.ramFreeDelta/1000000)
+					: "-"
+			}
+
+			Label {
+				text: qsTr("Change")
+			}
+			Label {
+				Layout.fillWidth: true
+				text: hostView.model.host.ramUsageDelta
+					? "%1 %".arg(hostView.model.host.ramUsageDelta*100.0)
+					: "-"
+			}
+
+			Label {
 				text: qsTr("Total swap size")
 			}
 			Label {
@@ -120,6 +168,30 @@ Pane {
 			Label {
 				text: hostView.model.host.swapUsage
 					? "%1 %".arg(hostView.model.host.swapUsage*100.0)
+					: "-"
+			}
+
+			Label {
+				Layout.columnSpan: 2
+			}
+
+			Label {
+				text: qsTr("Change")
+			}
+			Label {
+				Layout.fillWidth: true
+				text: hostView.model.host.swapFreeDelta
+					? "%1 MB".arg(hostView.model.host.swapFreeDelta/1000000)
+					: "-"
+			}
+
+			Label {
+				text: qsTr("Change")
+			}
+			Label {
+				Layout.fillWidth: true
+				text: hostView.model.host.swapUsageDelta
+					? "%1 %".arg(hostView.model.host.swapUsageDelta*100.0)
 					: "-"
 			}
 		}

@@ -66,8 +66,22 @@ auto HostViewModel::getShortLoad() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto HostViewModel::getShortLoadDelta() -> QVariant {
+    if(auto optNum{_host.short_average_load_change()}) {
+        return {extract(optNum)};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 auto HostViewModel::getLongLoad() -> QVariant {
     if(auto optNum{_host.long_average_load()}) {
+        return {extract(optNum)};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto HostViewModel::getLongLoadDelta() -> QVariant {
+    if(auto optNum{_host.long_average_load_change()}) {
         return {extract(optNum)};
     }
     return {};
@@ -87,13 +101,26 @@ auto HostViewModel::getRamFree() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto HostViewModel::getRamFreeDelta() -> QVariant {
+    if(auto optNum{_host.free_ram_size_change()}) {
+        return {eagine::limit_cast<qlonglong>(extract(optNum))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 auto HostViewModel::getRamUsage() -> QVariant {
     if(auto optNum{_host.ram_usage()}) {
         return {extract(optNum)};
     }
     return {};
 }
-
+//------------------------------------------------------------------------------
+auto HostViewModel::getRamUsageDelta() -> QVariant {
+    if(auto optNum{_host.ram_usage_change()}) {
+        return {extract(optNum)};
+    }
+    return {};
+}
 //------------------------------------------------------------------------------
 auto HostViewModel::getSwapTotal() -> QVariant {
     if(auto optNum{_host.total_swap_size()}) {
@@ -109,13 +136,26 @@ auto HostViewModel::getSwapFree() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto HostViewModel::getSwapFreeDelta() -> QVariant {
+    if(auto optNum{_host.free_swap_size_change()}) {
+        return {eagine::limit_cast<qlonglong>(extract(optNum))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 auto HostViewModel::getSwapUsage() -> QVariant {
     if(auto optNum{_host.swap_usage()}) {
         return {extract(optNum)};
     }
     return {};
 }
-
+//------------------------------------------------------------------------------
+auto HostViewModel::getSwapUsageDelta() -> QVariant {
+    if(auto optNum{_host.swap_usage_change()}) {
+        return {extract(optNum)};
+    }
+    return {};
+}
 //------------------------------------------------------------------------------
 void HostViewModel::onTrackerModelChanged() {
     if(auto trackerModel{_backend.trackerModel()}) {
