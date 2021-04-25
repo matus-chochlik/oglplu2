@@ -496,6 +496,7 @@ EAGINE_LIB_FUNC
 void bridge::say_bye() {
     const auto msgid = EAGINE_MSGBUS_ID(byeByeBrdg);
     message_view msg{};
+    msg.set_source_id(_id);
     if(_connection) {
         _connection->send(msgid, msg);
         _connection->update();
@@ -505,6 +506,8 @@ void bridge::say_bye() {
         _state->notify_output_ready();
         std::this_thread::sleep_for(std::chrono::seconds{1});
     }
+    _forward_messages();
+    _update_connections();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

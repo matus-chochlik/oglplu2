@@ -980,6 +980,12 @@ auto remote_node_tracker::get_node(identifier_t node_id) -> remote_node_state& {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node_tracker::remove_node(identifier_t node_id) -> bool {
+    EAGINE_ASSERT(_pimpl);
+    return _pimpl->nodes.erase(node_id) > 0;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node_tracker::get_host(host_id_t host_id) -> remote_host_state& {
     EAGINE_ASSERT(_pimpl);
     auto pos = _pimpl->hosts.find(host_id);

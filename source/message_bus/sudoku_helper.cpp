@@ -176,11 +176,13 @@ auto main(main_ctx& ctx) -> int {
             break;
         }
     }
+    router.say_bye();
 
     wd.announce_shutdown();
 
     for(auto& helper : helpers) {
         helper.join();
+        router.update();
     }
 
     return 0;

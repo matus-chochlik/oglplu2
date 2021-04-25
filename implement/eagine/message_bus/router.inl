@@ -136,7 +136,10 @@ parent_router::fetch_messages(main_ctx_object& user, const Handler& handler)
                 user.log_debug("confirmed id ${id} by parent router ${source}")
                   .arg(EAGINE_ID(id), message.target_id)
                   .arg(EAGINE_ID(source), message.source_id);
-            } else if(msg_id.has_method(EAGINE_ID(byeByeEndp))) {
+            } else if(
+              msg_id.has_method(EAGINE_ID(byeByeEndp)) ||
+              msg_id.has_method(EAGINE_ID(byeByeRutr)) ||
+              msg_id.has_method(EAGINE_ID(byeByeBrdg))) {
                 user.log_debug("received bye-bye from parent router ${source}")
                   .arg(EAGINE_ID(source), message.source_id);
             } else {
@@ -1007,17 +1010,21 @@ auto router::update(const valid_if_positive<int>& count) -> bool {
 EAGINE_LIB_FUNC
 void router::say_bye() {
     const auto msgid = EAGINE_MSGBUS_ID(byeByeRutr);
+    message_view msg{};
+    msg.set_source_id(_id_base);
     for(auto& [id, node] : _nodes) {
         EAGINE_MAYBE_UNUSED(id);
         const auto& conn = node.the_connection;
         if(conn) {
-            conn->send(msgid, {});
+            conn->send(msgid, msg);
             conn->update();
         }
     }
 
-    _parent_router.send(*this, msgid, {});
+    _parent_router.send(*this, msgid, msg);
     _parent_router.update(*this, _id_base);
+    _update_connections();
+    _route_messages();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

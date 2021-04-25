@@ -224,7 +224,12 @@ public:
     /// @see get_instance
     /// @see get_connection
     /// @see for_each_node
+    /// @see remove_node
     auto get_node(identifier_t node_id) -> remote_node_state&;
+
+    /// @brief Removes tracked node with the specified id.
+    /// @see get_node
+    auto remove_node(identifier_t node_id) -> bool;
 
     /// @brief Finds and returns the state information about a remote host.
     /// @see get_node

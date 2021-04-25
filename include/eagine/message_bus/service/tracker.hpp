@@ -328,6 +328,18 @@ private:
         }
     }
 
+    void _handle_router_disappeared(identifier_t router_id) {
+        _tracker.remove_node(router_id);
+    }
+
+    void _handle_bridge_disappeared(identifier_t bridge_id) {
+        _tracker.remove_node(bridge_id);
+    }
+
+    void _handle_endpoint_disappeared(identifier_t endpoint_id) {
+        _tracker.remove_node(endpoint_id);
+    }
+
     void _handle_bridge_appeared(const bridge_topology_info& info) {
         _tracker.notice_instance(info.bridge_id, info.instance_id)
           .assign(node_kind::bridge);
