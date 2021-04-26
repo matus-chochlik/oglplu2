@@ -458,7 +458,7 @@ public:
     auto ram_usage_change() const noexcept -> optionally_valid<float> {
         if(const auto total{total_ram_size()}) {
             if(const auto change{free_ram_size_change()}) {
-                return {float(extract(change)) / float(extract(total)), true};
+                return {-float(extract(change)) / float(extract(total)), true};
             }
         }
         return {};
@@ -503,7 +503,7 @@ public:
     auto swap_usage_change() const noexcept -> optionally_valid<float> {
         if(const auto total{total_swap_size()}) {
             if(const auto change{free_swap_size_change()}) {
-                return {float(extract(change)) / float(extract(total)), true};
+                return {-float(extract(change)) / float(extract(total)), true};
             }
         }
         return {};
