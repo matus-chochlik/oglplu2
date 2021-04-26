@@ -20,6 +20,7 @@ public:
     host_id_t host_id{0U};
 
     remote_instance_changes changes{};
+    bool was_alive{false};
 };
 //------------------------------------------------------------------------------
 class remote_host_impl {
@@ -36,6 +37,7 @@ public:
     variable_with_history<float, 2> long_average_load{-1.F};
 
     remote_host_changes changes{};
+    bool was_alive{false};
 };
 //------------------------------------------------------------------------------
 class remote_node_impl {
@@ -149,6 +151,20 @@ auto remote_instance::build() const noexcept
 // remote_instance_state
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_instance_state::update() -> remote_instance_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        const auto alive = i.is_alive.is_expired();
+        if(i.was_alive != alive) {
+            i.was_alive = alive;
+            i.changes |= alive ? remote_instance_change::started_responding
+                               : remote_instance_change::stopped_responding;
+        }
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_instance_state::changes() -> remote_instance_changes {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
@@ -173,7 +189,7 @@ auto remote_instance_state::notice_alive() -> remote_instance_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         if(!i.is_alive) {
-            i.changes |= remote_instance_change::responsivity;
+            i.changes |= remote_instance_change::started_responding;
         }
         i.is_alive.reset();
     }
@@ -234,6 +250,20 @@ inline auto remote_host::_impl() noexcept -> remote_host_impl* {
     } catch(...) {
     }
     return nullptr;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::update() -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        const auto alive = i.is_alive.is_expired();
+        if(i.was_alive != alive) {
+            i.was_alive = alive;
+            i.changes |= alive ? remote_host_change::started_responding
+                               : remote_host_change::stopped_responding;
+        }
+    }
+    return *this;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -589,6 +619,11 @@ auto remote_node_state::instance_state() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node_state::update() -> remote_node_state& {
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node_state::changes() -> remote_node_changes {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
@@ -727,7 +762,7 @@ auto remote_node_state::notice_alive() -> remote_node_state& {
             i.changes |= remote_node_change::started_responding;
             if(i.instance_id) {
                 _tracker.get_instance(i.instance_id)
-                  .add_change(remote_instance_change::responsivity);
+                  .add_change(remote_instance_change::started_responding);
             }
         }
     }
@@ -757,10 +792,6 @@ auto remote_node_state::ping_response(
         ++i.pings_responded;
         if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::started_responding;
-            if(i.instance_id) {
-                _tracker.get_instance(i.instance_id)
-                  .add_change(remote_instance_change::responsivity);
-            }
         }
     }
     return *this;
@@ -779,10 +810,6 @@ auto remote_node_state::ping_timeout(
         ++i.pings_timeouted;
         if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::stopped_responding;
-            if(i.instance_id) {
-                _tracker.get_instance(i.instance_id)
-                  .add_change(remote_instance_change::responsivity);
-            }
         }
     }
     return *this;

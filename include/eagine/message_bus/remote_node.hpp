@@ -89,6 +89,7 @@ enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
 /// @brief Class providing and manipulating information about remote node changes.
 /// @ingroup msgbus
 /// @see remote_host_changes
+/// @see remote_instance_changes
 struct remote_node_changes : bitfield<remote_node_change> {
     using base = bitfield<remote_node_change>;
     using base::base;
@@ -118,22 +119,25 @@ static inline auto operator|(remote_node_change l, remote_node_change r) noexcep
 enum class remote_instance_change : std::uint16_t {
     /// @brief The host identifier has appeared or changed.
     host_id = 1U << 0U,
-    /// @brief The instance's nodes' responsivity has changed.
-    responsivity = 1U << 1U,
+    /// @brief Instance started responding.
+    started_responding = 1U << 1U,
+    /// @brief Instance stopped responding.
+    stopped_responding = 1U << 2U,
     /// @brief The build information has appeared or changed.
-    build_info = 1U << 2U,
+    build_info = 1U << 3U,
     /// @brief The application information has appeared or changed.
-    application_info = 1U << 3U,
+    application_info = 1U << 4U,
     /// @brief New statistics have appeared or changed.
-    statistics = 1U << 4U
+    statistics = 1U << 5U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
 enumerator_mapping(type_identity<remote_instance_change>, Selector) noexcept {
-    return enumerator_map_type<remote_instance_change, 4>{
+    return enumerator_map_type<remote_instance_change, 5>{
       {{"host_id", remote_instance_change::host_id},
-       {"responsivity", remote_instance_change::responsivity},
+       {"started_responding", remote_instance_change::started_responding},
+       {"stopped_responding", remote_instance_change::stopped_responding},
        {"application_info", remote_instance_change::application_info},
        {"statistics", remote_instance_change::statistics}}};
 }
@@ -141,9 +145,17 @@ enumerator_mapping(type_identity<remote_instance_change>, Selector) noexcept {
 /// @brief Class providing and manipulating information about remote instance changes.
 /// @ingroup msgbus
 /// @see remote_node_changes
+/// @see remote_host_changes
 struct remote_instance_changes : bitfield<remote_instance_change> {
     using base = bitfield<remote_instance_change>;
     using base::base;
+
+    /// @brief Remote instance responsivity has changed.
+    auto responsivity() const noexcept -> bool {
+        return has_any(
+          remote_instance_change::started_responding,
+          remote_instance_change::stopped_responding);
+    }
 };
 
 static inline auto
@@ -159,17 +171,23 @@ operator|(remote_instance_change l, remote_instance_change r) noexcept
 enum class remote_host_change : std::uint16_t {
     /// @brief The host name has appeared or changed.
     hostname = 1U << 0U,
+    /// @brief Host started responding.
+    started_responding = 1U << 1U,
+    /// @brief Host stopped responding.
+    stopped_responding = 1U << 2U,
     /// @brief The hardware configuration information has appeared or changed.
-    hardware_config = 1U << 1U,
+    hardware_config = 1U << 3U,
     /// @brief New sensor values have appeared or changed.
-    sensor_values = 1U << 2U
+    sensor_values = 1U << 4U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
 enumerator_mapping(type_identity<remote_host_change>, Selector) noexcept {
-    return enumerator_map_type<remote_host_change, 3>{
+    return enumerator_map_type<remote_host_change, 5>{
       {{"hostname", remote_host_change::hostname},
+       {"started_responding", remote_host_change::started_responding},
+       {"stopped_responding", remote_host_change::stopped_responding},
        {"hardware_config", remote_host_change::hardware_config},
        {"sensor_values", remote_host_change::sensor_values}}};
 }
@@ -177,9 +195,17 @@ enumerator_mapping(type_identity<remote_host_change>, Selector) noexcept {
 /// @brief Class providing and manipulating information about remote host changes.
 /// @ingroup msgbus
 /// @see remote_node_changes
+/// @see remote_instance_changes
 struct remote_host_changes : bitfield<remote_host_change> {
     using base = bitfield<remote_host_change>;
     using base::base;
+
+    /// @brief Remote host responsivity has changed.
+    auto responsivity() const noexcept -> bool {
+        return has_any(
+          remote_host_change::started_responding,
+          remote_host_change::stopped_responding);
+    }
 };
 
 static inline auto operator|(remote_host_change l, remote_host_change r) noexcept
@@ -527,6 +553,7 @@ class remote_host_state : public remote_host {
 public:
     using remote_host::remote_host;
 
+    auto update() -> remote_host_state&;
     auto changes() -> remote_host_changes;
     auto add_change(remote_host_change) -> remote_host_state&;
 
@@ -600,6 +627,7 @@ class remote_instance_state : public remote_instance {
 public:
     using remote_instance::remote_instance;
 
+    auto update() -> remote_instance_state&;
     auto changes() -> remote_instance_changes;
     auto add_change(remote_instance_change) -> remote_instance_state&;
 
@@ -732,6 +760,7 @@ public:
     auto host_state() const noexcept -> remote_host_state;
     auto instance_state() const noexcept -> remote_instance_state;
 
+    auto update() -> remote_node_state&;
     auto changes() -> remote_node_changes;
     auto add_change(remote_node_change) -> remote_node_state&;
 

@@ -53,7 +53,8 @@ void TrackerModel::handleInstanceChanged(
     }
 
     if(
-      changes.has(remote_instance_change::responsivity) ||
+      changes.has(remote_instance_change::started_responding) ||
+      changes.has(remote_instance_change::stopped_responding) ||
       changes.has(remote_instance_change::application_info)) {
         emit instanceInfoChanged(instance);
     }

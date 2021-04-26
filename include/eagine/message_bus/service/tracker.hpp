@@ -277,19 +277,19 @@ private:
     }
 
     void _handle_host_change(identifier_t, remote_host_state& host) {
-        if(const auto changes{host.changes()}) {
+        if(const auto changes{host.update().changes()}) {
             host_changed(host, changes);
         }
     }
 
     void _handle_inst_change(identifier_t, remote_instance_state& inst) {
-        if(const auto changes{inst.changes()}) {
+        if(const auto changes{inst.update().changes()}) {
             instance_changed(inst, changes);
         }
     }
 
     void _handle_node_change(identifier_t node_id, remote_node_state& node) {
-        if(const auto changes{node.changes()}) {
+        if(const auto changes{node.update().changes()}) {
             node_changed(node, changes);
             if(EAGINE_UNLIKELY(changes.new_instance())) {
                 this->query_endpoint_info(node_id);
