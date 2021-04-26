@@ -541,4 +541,11 @@ void bridge::cleanup() {
       .arg(EAGINE_ID(avgMsgAge), avg_msg_age_i2c);
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void bridge::finish() {
+    say_bye();
+    update();
+    cleanup();
+}
+//------------------------------------------------------------------------------
 } // namespace eagine::msgbus

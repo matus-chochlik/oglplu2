@@ -1035,9 +1035,6 @@ void router::say_bye() {
     }
 
     _parent_router.send(*this, msgid, msg);
-    _parent_router.update(*this, _id_base);
-    _route_messages();
-    _update_connections();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -1056,6 +1053,13 @@ void router::cleanup() {
       .arg(EAGINE_ID(count), _forwarded_messages)
       .arg(EAGINE_ID(dropped), _dropped_messages)
       .arg(EAGINE_ID(avgMsgAge), avg_msg_age);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void router::finish() {
+    say_bye();
+    update(8);
+    cleanup();
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

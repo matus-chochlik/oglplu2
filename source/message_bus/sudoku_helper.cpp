@@ -186,9 +186,7 @@ auto main(main_ctx& ctx) -> int {
         helper.join();
         router.update(8);
     }
-    router.say_bye();
-    router.update(8);
-    router.cleanup();
+    router.finish();
 
     return 0;
 }

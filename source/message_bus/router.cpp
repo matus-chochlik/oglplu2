@@ -176,8 +176,7 @@ auto main(main_ctx& ctx) -> int {
         wd.announce_shutdown();
     }
 
-    router.say_bye();
-    router.cleanup();
+    router.finish();
 
     log.stat("message bus router finishing")
       .arg(EAGINE_ID(working), cycles_work)

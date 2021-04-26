@@ -171,8 +171,7 @@ auto main(main_ctx& ctx) -> int {
         }
         wd.announce_shutdown();
     }
-    bridge.say_bye();
-    bridge.cleanup();
+    bridge.finish();
 
     log.stat("message bus bridge finishing")
       .arg(EAGINE_ID(working), cycles_work)
