@@ -147,7 +147,6 @@ private:
 
     auto _handle_accept() -> bool;
     auto _handle_pending() -> bool;
-    auto _announce_lost(identifier_t node_id) -> bool;
     auto _remove_timeouted() -> bool;
     auto _is_disconnected(identifier_t endpoint_id) -> bool;
     auto _mark_disconnected(identifier_t endpoint_id) -> void;

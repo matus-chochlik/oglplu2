@@ -713,6 +713,10 @@ public:
         return _serialized.count();
     }
 
+    auto empty() const noexcept -> bool {
+        return _serialized.empty();
+    }
+
     auto enqueue(
       main_ctx_object& user,
       message_id,

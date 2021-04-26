@@ -544,7 +544,10 @@ void bridge::cleanup() {
 EAGINE_LIB_FUNC
 void bridge::finish() {
     say_bye();
-    update();
+    timeout too_long{std::chrono::seconds{1}};
+    while(!too_long) {
+        update();
+    }
     cleanup();
 }
 //------------------------------------------------------------------------------

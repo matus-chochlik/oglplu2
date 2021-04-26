@@ -331,13 +331,6 @@ auto router::_handle_pending() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_announce_lost(identifier_t node_id) -> bool {
-    message_view msg{};
-    msg.set_source_id(node_id);
-    return _do_route_message(EAGINE_MSGBUS_ID(byeByeEndp), _id_base, msg);
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 auto router::_remove_timeouted() -> bool {
     some_true something_done{};
 
@@ -362,7 +355,6 @@ auto router::_remove_timeouted() -> bool {
         if(info.is_outdated) {
             _endpoint_idx.erase(endpoint_id);
             _mark_disconnected(endpoint_id);
-            _announce_lost(endpoint_id);
             return true;
         }
         return false;
@@ -923,11 +915,11 @@ auto router::_route_messages() -> bool {
             message_id msg_id, message_age msg_age, message_view message) {
               auto& [incoming_id, node_in] = nd;
               _message_age_sum += message.add_age(msg_age).age().count();
-              if(EAGINE_UNLIKELY(message.too_old())) {
-                  ++_dropped_messages;
+              if(this->_handle_special(msg_id, incoming_id, node_in, message)) {
                   return true;
               }
-              if(this->_handle_special(msg_id, incoming_id, node_in, message)) {
+              if(EAGINE_UNLIKELY(message.too_old())) {
+                  ++_dropped_messages;
                   return true;
               }
               return this->_do_route_message(msg_id, incoming_id, message);
@@ -942,18 +934,15 @@ auto router::_route_messages() -> bool {
     auto handler =
       [&](message_id msg_id, message_age msg_age, message_view message) {
           _message_age_sum += message.add_age(msg_age).age().count();
-          if(EAGINE_UNLIKELY(message.too_old())) {
-              ++_dropped_messages;
-              return true;
-          }
           if(this->_handle_special(
                msg_id, _parent_router.confirmed_id, message)) {
               return true;
           }
-          if(EAGINE_LIKELY(msg_age < std::chrono::seconds(30))) {
-              return this->_do_route_message(msg_id, _id_base, message);
+          if(EAGINE_UNLIKELY(message.too_old())) {
+              ++_dropped_messages;
+              return true;
           }
-          return true;
+          return this->_do_route_message(msg_id, _id_base, message);
       };
     something_done(_parent_router.fetch_messages(*this, handler));
 
@@ -1058,7 +1047,10 @@ void router::cleanup() {
 EAGINE_LIB_FUNC
 void router::finish() {
     say_bye();
-    update(8);
+    timeout too_long{std::chrono::seconds{1}};
+    while(!too_long) {
+        update(8);
+    }
     cleanup();
 }
 //------------------------------------------------------------------------------

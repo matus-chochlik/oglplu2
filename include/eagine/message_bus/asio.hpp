@@ -582,6 +582,15 @@ public:
     }
 
     void cleanup() final {
+        timeout too_long{std::chrono::seconds{5}};
+        while(!_outgoing.empty() && !too_long) {
+            if(conn_state().socket.is_open()) {
+                if(!conn_state().start_send(*this)) {
+                    break;
+                }
+            }
+            conn_state().update();
+        }
         this->_log_message_counts();
         conn_state().cleanup(*this);
     }
