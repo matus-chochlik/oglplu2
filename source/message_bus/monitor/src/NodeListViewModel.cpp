@@ -4,9 +4,10 @@
 /// See accompanying file LICENSE_1_0.txt or copy at
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
+#include <QDebug>
 
-#include "NodeListViewModel.hpp"
 #include "MonitorBackend.hpp"
+#include "NodeListViewModel.hpp"
 #include "TrackerModel.hpp"
 #include <algorithm>
 //------------------------------------------------------------------------------
@@ -409,7 +410,9 @@ void NodeListViewModel::onNodeChanged(const remote_node& node) {
     }
 }
 //------------------------------------------------------------------------------
-void NodeListViewModel::onNodeDisappeared(eagine::identifier_t) {}
+void NodeListViewModel::onNodeDisappeared(eagine::identifier_t nodeId) {
+    qDebug() << nodeId; // NOLINT
+}
 //------------------------------------------------------------------------------
 void NodeListViewModel::onInstanceInfoChanged(const remote_inst& inst) {
     if(inst) {

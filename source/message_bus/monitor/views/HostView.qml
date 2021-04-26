@@ -6,6 +6,7 @@ import "qrc:///views"
 Pane {
 	id: hostView
     property variant model: null
+	property var lc: Qt.locale("C")
 	Layout.fillWidth: true
 	leftPadding: 0
 
@@ -55,7 +56,9 @@ Pane {
 			Label {
 				Layout.fillWidth: true
 				text: hostView.model.host.shortLoad
-					? "%1 %".arg(hostView.model.host.shortLoad*100.0)
+					? "%1 %".arg(
+						Number(hostView.model.host.shortLoad*100.0)
+							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
 
@@ -65,7 +68,9 @@ Pane {
 			Label {
 				Layout.fillWidth: true
 				text: hostView.model.host.longLoad
-					? "%1 %".arg(hostView.model.host.longLoad*100.0)
+					? "%1 %".arg(
+						Number(hostView.model.host.longLoad*100.0)
+							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
 
@@ -79,7 +84,9 @@ Pane {
 			Label {
 				Layout.fillWidth: true
 				text: hostView.model.host.shortLoadDelta
-					? "%1 %".arg(hostView.model.host.shortLoadDelta*100.0)
+					? "%1 %".arg(
+						Number(hostView.model.host.shortLoadDelta*100.0)
+							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
 
@@ -89,7 +96,9 @@ Pane {
 			Label {
 				Layout.fillWidth: true
 				text: hostView.model.host.longLoadDelta
-					? "%1 %".arg(hostView.model.host.longLoadDelta*100.0)
+					? "%1 %".arg(
+						Number(hostView.model.host.longLoadDelta*100.0)
+							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
 
@@ -98,7 +107,9 @@ Pane {
 			}
 			Label {
 				text: hostView.model.host.ramTotal
-					? "%1 MB".arg(hostView.model.host.ramTotal/1000000)
+					? "%1 MB".arg(
+						Number(hostView.model.host.ramTotal/1000000)
+							.toLocaleString(lc, "f", 0))
 					: "-"
 			}
 
@@ -107,7 +118,9 @@ Pane {
 			}
 			Label {
 				text: hostView.model.host.ramFree
-					? "%1 MB".arg(hostView.model.host.ramFree/1000000)
+					? "%1 MB".arg(
+						Number(hostView.model.host.ramFree/1000000)
+							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
 
@@ -116,7 +129,9 @@ Pane {
 			}
 			Label {
 				text: hostView.model.host.ramUsage
-					? "%1 %".arg(hostView.model.host.ramUsage*100.0)
+					? "%1 %".arg(
+						Number(hostView.model.host.ramUsage*100.0)
+							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
 
@@ -130,7 +145,9 @@ Pane {
 			Label {
 				Layout.fillWidth: true
 				text: hostView.model.host.ramFreeDelta
-					? "%1 MB".arg(hostView.model.host.ramFreeDelta/1000000)
+					? "%1 MB".arg(
+						Number(hostView.model.host.ramFreeDelta/1000000)
+							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
 
@@ -140,7 +157,9 @@ Pane {
 			Label {
 				Layout.fillWidth: true
 				text: hostView.model.host.ramUsageDelta
-					? "%1 %".arg(hostView.model.host.ramUsageDelta*100.0)
+					? "%1 %".arg(
+						Number(hostView.model.host.ramUsageDelta*100.0)
+							.toLocaleString(lc, "f", 2))
 					: "-"
 			}
 
@@ -149,7 +168,9 @@ Pane {
 			}
 			Label {
 				text: hostView.model.host.swapTotal
-					? "%1 MB".arg(hostView.model.host.swapTotal/1000000)
+					? "%1 MB".arg(
+						Number(hostView.model.host.swapTotal/1000000)
+							.toLocaleString(lc, "f", 0))
 					: "-"
 			}
 
@@ -158,7 +179,9 @@ Pane {
 			}
 			Label {
 				text: hostView.model.host.swapFree
-					? "%1 MB".arg(hostView.model.host.swapFree/1000000)
+					? "%1 MB".arg(
+						Number(hostView.model.host.swapFree/1000000)
+							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
 
@@ -167,7 +190,9 @@ Pane {
 			}
 			Label {
 				text: hostView.model.host.swapUsage
-					? "%1 %".arg(hostView.model.host.swapUsage*100.0)
+					? "%1 %".arg(
+						Number(hostView.model.host.swapUsage*100.0)
+							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
 
@@ -181,7 +206,9 @@ Pane {
 			Label {
 				Layout.fillWidth: true
 				text: hostView.model.host.swapFreeDelta
-					? "%1 MB".arg(hostView.model.host.swapFreeDelta/1000000)
+					? "%1 MB".arg(
+						Number(hostView.model.host.swapFreeDelta/1000000)
+							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
 
@@ -191,7 +218,9 @@ Pane {
 			Label {
 				Layout.fillWidth: true
 				text: hostView.model.host.swapUsageDelta
-					? "%1 %".arg(hostView.model.host.swapUsageDelta*100.0)
+					? "%1 %".arg(
+						Number(hostView.model.host.swapUsageDelta*100.0)
+							.toLocaleString(lc, "f", 2))
 					: "-"
 			}
 		}
