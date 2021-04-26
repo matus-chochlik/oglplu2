@@ -10,7 +10,7 @@ ApplicationWindow {
     width: 1200
     height: 800
     Material.theme: backend.theme.light ? Material.Light : Material.Dark
-	Material.accent: Material.Orange
+	Material.accent: Material.Blue
     Action {
         id: quitAction
         text: qsTr("&Quit")
