@@ -4,9 +4,10 @@
 /// See accompanying file LICENSE_1_0.txt or copy at
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
+#include <QDebug>
 
-#include "TrackerModel.hpp"
 #include "MonitorBackend.hpp"
+#include "TrackerModel.hpp"
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
 //------------------------------------------------------------------------------
@@ -55,7 +56,8 @@ void TrackerModel::handleInstanceChanged(
     if(
       changes.has(remote_instance_change::started_responding) ||
       changes.has(remote_instance_change::stopped_responding) ||
-      changes.has(remote_instance_change::application_info)) {
+      changes.has(remote_instance_change::application_info) ||
+      changes.has(remote_instance_change::build_info)) {
         emit instanceInfoChanged(instance);
     }
 }

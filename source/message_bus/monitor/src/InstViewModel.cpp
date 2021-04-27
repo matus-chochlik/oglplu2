@@ -52,6 +52,42 @@ auto InstViewModel::getDescription() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto InstViewModel::getVersionMajor() -> QVariant {
+    if(auto optBuild{_inst.build()}) {
+        if(auto optVerMajor{extract(optBuild).version_major()}) {
+            return {extract(optVerMajor)};
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto InstViewModel::getVersionMinor() -> QVariant {
+    if(auto optBuild{_inst.build()}) {
+        if(auto optVerMinor{extract(optBuild).version_minor()}) {
+            return {extract(optVerMinor)};
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto InstViewModel::getVersionPatch() -> QVariant {
+    if(auto optBuild{_inst.build()}) {
+        if(auto optVerPatch{extract(optBuild).version_patch()}) {
+            return {extract(optVerPatch)};
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto InstViewModel::getVersionCommit() -> QVariant {
+    if(auto optBuild{_inst.build()}) {
+        if(auto optVerCommit{extract(optBuild).version_commit()}) {
+            return {extract(optVerCommit)};
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 void InstViewModel::onTrackerModelChanged() {
     if(auto trackerModel{_backend.trackerModel()}) {
         connect(

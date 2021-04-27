@@ -17,13 +17,10 @@ Pane {
 			iconName: "HostItem"
 			itemModel: hostView.model.host
 		}
-		Item {
-			Layout.fillHeight: true
-		}
 		GridLayout {
 			Layout.fillWidth: true
 			columns: 6
-			rowSpacing: 20
+			rowSpacing: 10
 			columnSpacing: 20
 
 			Label {
@@ -223,6 +220,9 @@ Pane {
 							.toLocaleString(lc, "f", 2))
 					: "-"
 			}
+		}
+		Item {
+			Layout.fillHeight: true
 		}
 	}
 }

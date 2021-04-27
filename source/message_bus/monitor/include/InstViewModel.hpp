@@ -26,6 +26,11 @@ class InstViewModel
     Q_PROPERTY(QVariant displayName READ getDisplayName NOTIFY infoChanged)
     Q_PROPERTY(QVariant description READ getDescription NOTIFY infoChanged)
 
+    Q_PROPERTY(QVariant versionMajor READ getVersionMajor NOTIFY infoChanged)
+    Q_PROPERTY(QVariant versionMinor READ getVersionMinor NOTIFY infoChanged)
+    Q_PROPERTY(QVariant versionPatch READ getVersionPatch NOTIFY infoChanged)
+    Q_PROPERTY(QVariant versionCommit READ getVersionCommit NOTIFY infoChanged)
+
     using remote_inst = eagine::msgbus::remote_instance;
 
 public:
@@ -40,6 +45,10 @@ public:
     auto getDisplayName() -> QVariant;
     auto getDescription() -> QVariant;
 
+    auto getVersionMajor() -> QVariant;
+    auto getVersionMinor() -> QVariant;
+    auto getVersionPatch() -> QVariant;
+    auto getVersionCommit() -> QVariant;
 signals:
     void infoChanged();
 
