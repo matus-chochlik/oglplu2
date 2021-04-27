@@ -38,9 +38,9 @@ Pane {
 	}
 
 	function getOGLplusVersion() {
-		var m = instanceView.model.inst
 		var result = "-"
-		if(m.versionMajor != null) {
+		var m = instanceView.model.inst
+		if(m && m.versionMajor != null) {
 			result = "%1".arg(m.versionMajor)
 			if(m.versionMinor != null) {
 				result += ".%1".arg(m.versionMinor)

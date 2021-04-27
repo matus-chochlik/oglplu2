@@ -37,7 +37,7 @@ public:
     InstViewModel(MonitorBackend&, SelectedItemViewModel&);
 
     explicit operator bool() const noexcept {
-        return bool(_inst);
+        return bool(_inst.id());
     }
 
     auto getItemKind() -> QString;

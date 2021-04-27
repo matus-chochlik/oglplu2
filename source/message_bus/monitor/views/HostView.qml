@@ -18,6 +18,8 @@ Pane {
 			itemModel: hostView.model.host
 		}
 		GridLayout {
+			id: info
+			property variant host: hostView.model.host
 			Layout.fillWidth: true
 			columns: 6
 			rowSpacing: 10
@@ -31,10 +33,10 @@ Pane {
 				Layout.fillWidth: true
 				from: 0.0
 				to: 1.0
-				value: hostView.model.host.shortLoad
-					? hostView.model.host.shortLoad
+				value: info.host && info.host.shortLoad
+					? info.host.shortLoad
 					: 0.0
-				indeterminate: !hostView.model.host.shortLoad
+				indeterminate: !(info.host && info.host.shortLoad)
 			}
 
 			Label {
@@ -42,8 +44,8 @@ Pane {
 			}
 			Label {
 				Layout.fillWidth: true
-				text: hostView.model.host.cpuThreads
-					? hostView.model.host.cpuThreads
+				text: info.host && info.host.cpuThreads
+					? info.host.cpuThreads
 					: "-"
 			}
 
@@ -52,9 +54,9 @@ Pane {
 			}
 			Label {
 				Layout.fillWidth: true
-				text: hostView.model.host.shortLoad
+				text: info.host && info.host.shortLoad
 					? "%1 %".arg(
-						Number(hostView.model.host.shortLoad*100.0)
+						Number(info.host.shortLoad*100.0)
 							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
@@ -64,9 +66,9 @@ Pane {
 			}
 			Label {
 				Layout.fillWidth: true
-				text: hostView.model.host.longLoad
+				text: info.host && info.host.longLoad
 					? "%1 %".arg(
-						Number(hostView.model.host.longLoad*100.0)
+						Number(info.host.longLoad*100.0)
 							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
@@ -80,9 +82,9 @@ Pane {
 			}
 			Label {
 				Layout.fillWidth: true
-				text: hostView.model.host.shortLoadDelta
+				text: info.host && info.host.shortLoadDelta
 					? "%1 %".arg(
-						Number(hostView.model.host.shortLoadDelta*100.0)
+						Number(info.host.shortLoadDelta*100.0)
 							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
@@ -92,9 +94,9 @@ Pane {
 			}
 			Label {
 				Layout.fillWidth: true
-				text: hostView.model.host.longLoadDelta
+				text: info.host && info.host.longLoadDelta
 					? "%1 %".arg(
-						Number(hostView.model.host.longLoadDelta*100.0)
+						Number(info.host.longLoadDelta*100.0)
 							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
@@ -103,9 +105,9 @@ Pane {
 				text: qsTr("Total RAM size")
 			}
 			Label {
-				text: hostView.model.host.ramTotal
+				text: info.host && info.host.ramTotal
 					? "%1 MB".arg(
-						Number(hostView.model.host.ramTotal/1000000)
+						Number(info.host.ramTotal/1000000)
 							.toLocaleString(lc, "f", 0))
 					: "-"
 			}
@@ -114,9 +116,9 @@ Pane {
 				text: qsTr("Free RAM size")
 			}
 			Label {
-				text: hostView.model.host.ramFree
+				text: info.host && info.host.ramFree
 					? "%1 MB".arg(
-						Number(hostView.model.host.ramFree/1000000)
+						Number(info.host.ramFree/1000000)
 							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
@@ -125,9 +127,9 @@ Pane {
 				text: qsTr("RAM usage")
 			}
 			Label {
-				text: hostView.model.host.ramUsage
+				text: info.host && info.host.ramUsage
 					? "%1 %".arg(
-						Number(hostView.model.host.ramUsage*100.0)
+						Number(info.host.ramUsage*100.0)
 							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
@@ -141,9 +143,9 @@ Pane {
 			}
 			Label {
 				Layout.fillWidth: true
-				text: hostView.model.host.ramFreeDelta
+				text: info.host && info.host.ramFreeDelta
 					? "%1 MB".arg(
-						Number(hostView.model.host.ramFreeDelta/1000000)
+						Number(info.host.ramFreeDelta/1000000)
 							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
@@ -153,9 +155,9 @@ Pane {
 			}
 			Label {
 				Layout.fillWidth: true
-				text: hostView.model.host.ramUsageDelta
+				text: info.host && info.host.ramUsageDelta
 					? "%1 %".arg(
-						Number(hostView.model.host.ramUsageDelta*100.0)
+						Number(info.host.ramUsageDelta*100.0)
 							.toLocaleString(lc, "f", 2))
 					: "-"
 			}
@@ -164,9 +166,9 @@ Pane {
 				text: qsTr("Total swap size")
 			}
 			Label {
-				text: hostView.model.host.swapTotal
+				text: info.host && info.host.swapTotal
 					? "%1 MB".arg(
-						Number(hostView.model.host.swapTotal/1000000)
+						Number(info.host.swapTotal/1000000)
 							.toLocaleString(lc, "f", 0))
 					: "-"
 			}
@@ -175,9 +177,9 @@ Pane {
 				text: qsTr("Free swap size")
 			}
 			Label {
-				text: hostView.model.host.swapFree
+				text: info.host && info.host.swapFree
 					? "%1 MB".arg(
-						Number(hostView.model.host.swapFree/1000000)
+						Number(info.host.swapFree/1000000)
 							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
@@ -186,9 +188,9 @@ Pane {
 				text: qsTr("Swap usage")
 			}
 			Label {
-				text: hostView.model.host.swapUsage
+				text: info.host && info.host.swapUsage
 					? "%1 %".arg(
-						Number(hostView.model.host.swapUsage*100.0)
+						Number(info.host.swapUsage*100.0)
 							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
@@ -202,9 +204,9 @@ Pane {
 			}
 			Label {
 				Layout.fillWidth: true
-				text: hostView.model.host.swapFreeDelta
+				text: info.host && info.host.swapFreeDelta
 					? "%1 MB".arg(
-						Number(hostView.model.host.swapFreeDelta/1000000)
+						Number(info.host.swapFreeDelta/1000000)
 							.toLocaleString(lc, "f", 1))
 					: "-"
 			}
@@ -214,9 +216,9 @@ Pane {
 			}
 			Label {
 				Layout.fillWidth: true
-				text: hostView.model.host.swapUsageDelta
+				text: info.host && info.host.swapUsageDelta
 					? "%1 %".arg(
-						Number(hostView.model.host.swapUsageDelta*100.0)
+						Number(info.host.swapUsageDelta*100.0)
 							.toLocaleString(lc, "f", 2))
 					: "-"
 			}

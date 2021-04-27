@@ -67,6 +67,8 @@ private slots:
     void onHostInfoChanged(const remote_host&);
 
 private:
+    void afterHierarchyChanged();
+
     enum { hostItem = 0, instItem = 1, nodeItem = 2 };
     enum {
         displayNameRole = Qt::DisplayRole,
@@ -140,6 +142,7 @@ private:
         auto findSelectedRow() const noexcept -> int;
 
         auto updateNode(const remote_node&) -> int;
+        auto removeNode(eagine::identifier_t) -> bool;
         auto updateInst(const remote_inst&) -> int;
         auto updateHost(const remote_host&) -> int;
     } _model;

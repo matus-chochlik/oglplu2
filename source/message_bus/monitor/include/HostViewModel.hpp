@@ -46,7 +46,7 @@ public:
     HostViewModel(MonitorBackend&, SelectedItemViewModel&);
 
     explicit operator bool() const noexcept {
-        return bool(_host);
+        return bool(_host.id());
     }
 
     auto getItemKind() -> QString;

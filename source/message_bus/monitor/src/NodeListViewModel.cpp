@@ -4,10 +4,9 @@
 /// See accompanying file LICENSE_1_0.txt or copy at
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
-#include <QDebug>
 
-#include "MonitorBackend.hpp"
 #include "NodeListViewModel.hpp"
+#include "MonitorBackend.hpp"
 #include "TrackerModel.hpp"
 #include <algorithm>
 //------------------------------------------------------------------------------
@@ -148,6 +147,11 @@ auto NodeListViewModel::Data::updateSelection() noexcept -> bool {
                     updated = true;
                 }
             }
+        } else {
+            selectedNodeId = 0U;
+            selectedInstId = 0U;
+            selectedHostId = 0U;
+            updated = true;
         }
     }
     return updated;
@@ -228,6 +232,7 @@ auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
         auto& instInfo = hostInfo.instances[instId];
 
         if(hostId && instId) {
+            bool relocated = false;
             const auto prevInstId = prevInstIdPos->second;
             const auto prevHostIdPos = inst2Host.find(prevInstId);
             EAGINE_ASSERT(prevHostIdPos != inst2Host.end());
@@ -243,7 +248,6 @@ auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
             EAGINE_ASSERT(prevNodePos != prevInstInfo.nodes.end());
             auto& prevNodeInfo = prevNodePos->second;
 
-            bool relocated = false;
             if(instId != prevInstId) {
                 if(!instInfo.instance) {
                     instInfo.instance = node.instance();
@@ -295,6 +299,43 @@ auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
     node2Inst[nodeId] = instId;
     inst2Host[instId] = hostId;
     return -1;
+}
+//------------------------------------------------------------------------------
+auto NodeListViewModel::Data::removeNode(eagine::identifier_t nodeId) -> bool {
+    node2Inst.erase(nodeId);
+    std::size_t erased = 0;
+
+    for(auto& hostEntry : hosts) {
+        auto& hostInfo = hostEntry.second;
+        hostInfo.instances.erase(
+          std::remove_if(
+            hostInfo.instances.begin(),
+            hostInfo.instances.end(),
+            [nodeId, &erased](auto& instEntry) {
+                auto& instInfo = instEntry.second;
+                erased += instInfo.nodes.erase(nodeId);
+                if(instInfo.nodes.empty()) {
+                    ++erased;
+                    return true;
+                }
+                return false;
+            }),
+          hostInfo.instances.end());
+    }
+    hosts.erase(
+      std::remove_if(
+        hosts.begin(),
+        hosts.end(),
+        [&erased](auto& hostEntry) {
+            auto& hostInfo = hostEntry.second;
+            if(hostInfo.instances.empty()) {
+                ++erased;
+                return true;
+            }
+            return false;
+        }),
+      hosts.end());
+    return erased > 0;
 }
 //------------------------------------------------------------------------------
 auto NodeListViewModel::Data::updateInst(const remote_inst& inst) -> int {
@@ -389,6 +430,23 @@ void NodeListViewModel::onTrackerModelChanged() {
     }
 }
 //------------------------------------------------------------------------------
+void NodeListViewModel::afterHierarchyChanged() {
+    const bool updated = _model.updateSelection();
+    _selectedRow = _model.findSelectedRow();
+    emit selectedRowChanged();
+    if(updated) {
+        if(_selectedRow < 0) {
+            emit itemUnselected();
+        } else {
+            emit itemSelected(
+              _model.selectedHostId,
+              _model.selectedInstId,
+              _model.selectedNodeId);
+        }
+    }
+    emit modelReset({});
+}
+//------------------------------------------------------------------------------
 void NodeListViewModel::onNodeChanged(const remote_node& node) {
     if(node) {
         if(int row = _model.updateNode(node); row >= 0) {
@@ -397,21 +455,15 @@ void NodeListViewModel::onNodeChanged(const remote_node& node) {
               QAbstractItemModel::createIndex(row, 0, nodeId),
               QAbstractItemModel::createIndex(row, 2, nodeId));
         } else {
-            if(_model.updateSelection()) {
-                emit itemSelected(
-                  _model.selectedHostId,
-                  _model.selectedInstId,
-                  _model.selectedNodeId);
-            }
-            _selectedRow = _model.findSelectedRow();
-            emit selectedRowChanged();
-            emit modelReset({});
+            afterHierarchyChanged();
         }
     }
 }
 //------------------------------------------------------------------------------
 void NodeListViewModel::onNodeDisappeared(eagine::identifier_t nodeId) {
-    qDebug() << nodeId; // NOLINT
+    if(_model.removeNode(nodeId)) {
+        afterHierarchyChanged();
+    }
 }
 //------------------------------------------------------------------------------
 void NodeListViewModel::onInstanceInfoChanged(const remote_inst& inst) {

@@ -25,6 +25,11 @@ SelectedItemViewModel::SelectedItemViewModel(
       &NodeListViewModel::itemSelected,
       this,
       &SelectedItemViewModel::onItemSelected);
+    connect(
+      &_nodeListViewModel,
+      &NodeListViewModel::itemUnselected,
+      this,
+      &SelectedItemViewModel::onItemUnselected);
 
     connect(
       &_hostViewModel,
