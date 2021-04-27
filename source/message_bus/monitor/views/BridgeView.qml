@@ -15,6 +15,28 @@ Pane {
 			iconName: "BridgeNode"
 			itemModel: bridgeView.model.node
 		}
+		GridLayout {
+			id: info
+			property variant node: bridgeView.model.node
+			Layout.fillWidth: true
+			columns: 6
+			rowSpacing: 10
+			columnSpacing: 20
+
+			Label {
+				text: qsTr("Responsivity")
+			}
+			ProgressBar {
+				Layout.columnSpan: 5
+				Layout.fillWidth: true
+				from: 0.0
+				to: 1.0
+				value: info.node && info.node.pingSuccessRate
+					? info.node.pingSuccessRate
+					: 0.0
+				indeterminate: !(info.node && info.node.pingSuccessRate)
+			}
+		}
 		ParentInstanceView {
 			Layout.fillWidth: true
 			model: bridgeView.model

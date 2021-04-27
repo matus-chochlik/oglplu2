@@ -79,6 +79,7 @@ void TrackerModel::handleNodeChanged(
 
     if(
       changes.has(remote_node_change::endpoint_info) ||
+      changes.has(remote_node_change::response_rate) ||
       changes.has(remote_node_change::started_responding) ||
       changes.has(remote_node_change::stopped_responding)) {
         emit nodeInfoChanged(node);

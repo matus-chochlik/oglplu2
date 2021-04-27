@@ -793,6 +793,7 @@ auto remote_node_state::ping_response(
         if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::started_responding;
         }
+        i.changes |= remote_node_change::response_rate;
     }
     return *this;
 }
@@ -811,6 +812,7 @@ auto remote_node_state::ping_timeout(
         if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::stopped_responding;
         }
+        i.changes |= remote_node_change::response_rate;
     }
     return *this;
 }

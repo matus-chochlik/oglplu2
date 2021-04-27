@@ -85,6 +85,13 @@ auto NodeViewModel::getDescription() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto NodeViewModel::getPingSuccessRate() -> QVariant {
+    if(auto optNum{_node.ping_success_rate()}) {
+        return {extract(optNum)};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 void NodeViewModel::onTrackerModelChanged() {
     if(auto trackerModel{_backend.trackerModel()}) {
         connect(
