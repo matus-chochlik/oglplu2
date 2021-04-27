@@ -14,6 +14,7 @@
 #include <eagine/message_bus/bridge.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
+#include <eagine/message_bus/service/application_info.hpp>
 #include <eagine/message_bus/service/build_info.hpp>
 #include <eagine/message_bus/service/endpoint_info.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
@@ -25,8 +26,9 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 namespace msgbus {
-using bridge_node_base = service_composition<shutdown_target<
-  pingable<build_info_provider<host_info_provider<endpoint_info_provider<>>>>>>;
+using bridge_node_base =
+  service_composition<shutdown_target<pingable<build_info_provider<
+    host_info_provider<application_info_provider<endpoint_info_provider<>>>>>>>;
 //------------------------------------------------------------------------------
 class bridge_node
   : public main_ctx_object
@@ -47,6 +49,8 @@ public:
             }
             log_info("shutdown delay is set to ${delay}")
               .arg(EAGINE_ID(delay), _shutdown_timeout.period());
+
+            shutdown_requested.connect(EAGINE_THIS_MEM_FUNC_REF(on_shutdown));
         }
     }
 
@@ -65,7 +69,8 @@ private:
     auto provide_endpoint_info() -> endpoint_info final {
         endpoint_info result;
         result.display_name = "bridge control node";
-        result.description = "endpoint monitoring and controlling a bridge";
+        result.description =
+          "endpoint monitoring and controlling a message bus bridge";
         result.is_bridge_node = true;
         return result;
     }
@@ -91,7 +96,7 @@ private:
     void on_shutdown(
       std::chrono::milliseconds age,
       identifier_t source_id,
-      verification_bits verified) final {
+      verification_bits verified) {
         log_info("received ${age} old shutdown request from ${source}")
           .arg(EAGINE_ID(age), age)
           .arg(EAGINE_ID(source), source_id)
@@ -141,31 +146,32 @@ auto main(main_ctx& ctx) -> int {
     msgbus::endpoint node_endpoint{EAGINE_ID(BrdgNodeEp), ctx};
     node_endpoint.add_ca_certificate_pem(ca_certificate_pem(ctx));
     conn_setup.setup_connectors(node_endpoint, address);
-    msgbus::bridge_node node{node_endpoint};
+    {
+        msgbus::bridge_node node{node_endpoint};
 
-    auto& wd = ctx.watchdog();
-    wd.declare_initialized();
+        auto& wd = ctx.watchdog();
+        wd.declare_initialized();
 
-    while(EAGINE_LIKELY(
-      !(interrupted || node.is_shut_down() || bridge.is_done()))) {
-        some_true something_done{};
-        something_done(bridge.update());
-        something_done(node.update());
+        while(EAGINE_LIKELY(
+          !(interrupted || node.is_shut_down() || bridge.is_done()))) {
+            some_true something_done{};
+            something_done(bridge.update());
+            something_done(node.update());
 
-        if(something_done) {
-            ++cycles_work;
-            idle_streak = 0;
-        } else {
-            ++cycles_idle;
-            max_idle_streak = math::maximum(max_idle_streak, ++idle_streak);
-            std::this_thread::sleep_for(
-              std::chrono::milliseconds(math::minimum(idle_streak / 8, 8)));
+            if(something_done) {
+                ++cycles_work;
+                idle_streak = 0;
+            } else {
+                ++cycles_idle;
+                max_idle_streak = math::maximum(max_idle_streak, ++idle_streak);
+                std::this_thread::sleep_for(
+                  std::chrono::milliseconds(math::minimum(idle_streak / 8, 8)));
+            }
+            wd.notify_alive();
         }
-        wd.notify_alive();
+        wd.announce_shutdown();
     }
-
-    bridge.cleanup();
-    wd.announce_shutdown();
+    bridge.finish();
 
     log.stat("message bus bridge finishing")
       .arg(EAGINE_ID(working), cycles_work)

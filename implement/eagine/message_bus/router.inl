@@ -136,8 +136,15 @@ parent_router::fetch_messages(main_ctx_object& user, const Handler& handler)
                 user.log_debug("confirmed id ${id} by parent router ${source}")
                   .arg(EAGINE_ID(id), message.target_id)
                   .arg(EAGINE_ID(source), message.source_id);
-            } else if(msg_id.has_method(EAGINE_ID(byeBye))) {
-                user.log_debug("received bye-bye from parent router ${source}")
+            } else if(
+              msg_id.has_method(EAGINE_ID(byeByeEndp)) ||
+              msg_id.has_method(EAGINE_ID(byeByeRutr)) ||
+              msg_id.has_method(EAGINE_ID(byeByeBrdg))) {
+                user
+                  .log_debug(
+                    "received bye-bye (${method}) from node ${source} "
+                    "from parent router")
+                  .arg(EAGINE_ID(method), msg_id.method())
                   .arg(EAGINE_ID(source), message.source_id);
             } else {
                 return handler(msg_id, msg_age, message);
@@ -626,11 +633,8 @@ auto router::_handle_special_common(
         return false;
     } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
         if(_blobs.process_incoming(
-             blob_manipulator::filter_function(
-               this, EAGINE_THIS_MEM_FUNC_C(_do_allow_blob)),
-             message)) {
-            _blobs.fetch_all(blob_manipulator::fetch_handler(
-              this, EAGINE_THIS_MEM_FUNC_C(_handle_blob)));
+             EAGINE_THIS_MEM_FUNC_REF(_do_allow_blob), message)) {
+            _blobs.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_blob));
         }
         // this should be routed
         return false;
@@ -777,8 +781,12 @@ auto router::_handle_special(
             _update_endpoint_info(incoming_id, message);
             // this should be forwarded
             return false;
-        } else if(msg_id.has_method(EAGINE_ID(byeBye))) {
-            log_debug("received bye-bye from node ${source}")
+        } else if(
+          msg_id.has_method(EAGINE_ID(byeByeEndp)) ||
+          msg_id.has_method(EAGINE_ID(byeByeRutr)) ||
+          msg_id.has_method(EAGINE_ID(byeByeBrdg))) {
+            log_debug("received bye-bye (${method}) from node ${source}")
+              .arg(EAGINE_ID(method), msg_id.method())
               .arg(EAGINE_ID(source), message.source_id);
             if(!node.maybe_router) {
                 node.do_disconnect = true;
@@ -907,11 +915,11 @@ auto router::_route_messages() -> bool {
             message_id msg_id, message_age msg_age, message_view message) {
               auto& [incoming_id, node_in] = nd;
               _message_age_sum += message.add_age(msg_age).age().count();
-              if(EAGINE_UNLIKELY(message.too_old())) {
-                  ++_dropped_messages;
+              if(this->_handle_special(msg_id, incoming_id, node_in, message)) {
                   return true;
               }
-              if(this->_handle_special(msg_id, incoming_id, node_in, message)) {
+              if(EAGINE_UNLIKELY(message.too_old())) {
+                  ++_dropped_messages;
                   return true;
               }
               return this->_do_route_message(msg_id, incoming_id, message);
@@ -926,18 +934,15 @@ auto router::_route_messages() -> bool {
     auto handler =
       [&](message_id msg_id, message_age msg_age, message_view message) {
           _message_age_sum += message.add_age(msg_age).age().count();
-          if(EAGINE_UNLIKELY(message.too_old())) {
-              ++_dropped_messages;
-              return true;
-          }
           if(this->_handle_special(
                msg_id, _parent_router.confirmed_id, message)) {
               return true;
           }
-          if(EAGINE_LIKELY(msg_age < std::chrono::seconds(30))) {
-              return this->_do_route_message(msg_id, _id_base, message);
+          if(EAGINE_UNLIKELY(message.too_old())) {
+              ++_dropped_messages;
+              return true;
           }
-          return true;
+          return this->_do_route_message(msg_id, _id_base, message);
       };
     something_done(_parent_router.fetch_messages(*this, handler));
 
@@ -1005,11 +1010,28 @@ auto router::update(const valid_if_positive<int>& count) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void router::say_bye() {
+    const auto msgid = EAGINE_MSGBUS_ID(byeByeRutr);
+    message_view msg{};
+    msg.set_source_id(_id_base);
+    for(auto& [id, node] : _nodes) {
+        EAGINE_MAYBE_UNUSED(id);
+        const auto& conn = node.the_connection;
+        if(conn) {
+            conn->send(msgid, msg);
+            conn->update();
+        }
+    }
+
+    _parent_router.send(*this, msgid, msg);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void router::cleanup() {
     for(auto& [id, node] : _nodes) {
         EAGINE_MAYBE_UNUSED(id);
         const auto& conn = node.the_connection;
-        if(EAGINE_LIKELY(conn)) {
+        if(conn) {
             conn->cleanup();
         }
     }
@@ -1020,6 +1042,16 @@ void router::cleanup() {
       .arg(EAGINE_ID(count), _forwarded_messages)
       .arg(EAGINE_ID(dropped), _dropped_messages)
       .arg(EAGINE_ID(avgMsgAge), avg_msg_age);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void router::finish() {
+    say_bye();
+    timeout too_long{std::chrono::seconds{1}};
+    while(!too_long) {
+        update(8);
+    }
+    cleanup();
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

@@ -28,18 +28,17 @@ constexpr const bool has_rgba16 = false;
 //------------------------------------------------------------------------------
 // program options
 struct options {
-    using _str_param_t = program_parameter<valid_if_not_empty<string_view>>;
 
-    _str_param_t input_path;
-    _str_param_t output_path;
+    program_parameter<std::vector<valid_if_not_empty<string_view>>> input_paths;
+    program_parameter<valid_if_not_empty<string_view>> output_path;
 
     program_parameters all;
 
     options()
-      : input_path("-i", "--input", string_view())
+      : input_paths("-i", "--input")
       , output_path("-o", "--output", string_view("a.oglptex"))
-      , all(input_path, output_path) {
-        input_path.description(
+      , all(input_paths, output_path) {
+        input_paths.description(
           "Path to existing PNG input file, or '-' for standard input.");
         output_path.description(
           "Path to output file, or '-' for standard output.");
@@ -55,6 +54,15 @@ struct options {
 
     auto parse(program_arg& arg, std::ostream& log) -> bool {
         return all.parse(arg, log);
+    }
+
+    auto from_stdin() const -> bool {
+        return !input_paths.value().empty() &&
+               are_equal(input_paths.value().front().value(), string_view("-"));
+    }
+
+    auto to_stdout() const -> bool {
+        return are_equal(output_path.value(), string_view("-"));
     }
 };
 //------------------------------------------------------------------------------
@@ -188,27 +196,47 @@ public:
     auto gl_iformat() -> GLenum;
 };
 //------------------------------------------------------------------------------
-void convert_image(
+void do_convert_image(
   std::istream& input,
   std::ostream& output,
-  const options& /*opts*/
-) {
+  oglp::image_data_header& header,
+  int layer) {
+    auto match_value = [](auto& original, const auto& current, auto message) {
+        if(original) {
+            if(original != current) {
+                throw std::runtime_error(message);
+            }
+        } else {
+            original = current;
+        }
+    };
+
     png_reader reader(input);
 
-    int width = int(reader.image_width());
-    int height = int(reader.image_height());
-    int channels = int(reader.channels());
+    const auto width = int(reader.image_width());
+    const auto height = int(reader.image_height());
+    const auto channels = int(reader.channels());
 
-    oglp::image_data_header hdr{width, height, 1, channels};
+    match_value(header.width, width, "inconsistent image width");
+    match_value(header.height, height, "inconsistent image height");
+    match_value(header.channels, channels, "inconsistent image channel count");
 
-    hdr.data_type = reader.gl_data_type();
-    hdr.format = reader.gl_format();
-    hdr.internal_format = reader.gl_iformat();
+    const auto data_type = reader.gl_data_type();
+    const auto format = reader.gl_format();
+    const auto iformat = reader.gl_iformat();
+
+    match_value(header.data_type, data_type, "inconsistent image data type");
+    match_value(header.format, format, "inconsistent pixel format");
+    match_value(
+      header.internal_format, iformat, "inconsistent internal format");
 
     auto row_size = reader.row_bytes();
     auto size = reader.data_size();
 
-    oglp::write_and_pad_texture_image_data_header(output, hdr, span_size(size));
+    if(layer == 0) {
+        oglp::write_and_pad_texture_image_data_header(
+          output, header, span_size(size));
+    }
 
     std::vector<::png_byte> buffer(std_size(size));
 
@@ -221,31 +249,47 @@ void convert_image(
       static_cast<std::streamsize>(buffer.size()));
 }
 //------------------------------------------------------------------------------
+void convert_image(std::istream& input, std::ostream& output) {
+    oglp::image_data_header header{};
+    header.depth = 1;
+    do_convert_image(input, output, header, 0);
+}
+//------------------------------------------------------------------------------
 auto parse_options(const program_args& args, options& opts) -> int;
 //------------------------------------------------------------------------------
 auto main(main_ctx& ctx) -> int {
     try {
         options opts;
 
-        if(int err = parse_options(ctx.args(), opts)) {
+        if(int err{parse_options(ctx.args(), opts)}) {
             return err;
         }
 
-        bool from_stdin = are_equal(opts.input_path.value(), string_view("-"));
-        bool to_stdout = are_equal(opts.output_path.value(), string_view("-"));
+        const bool from_stdin = opts.from_stdin();
+        const bool to_stdout = opts.to_stdout();
 
         if(from_stdin && to_stdout) {
-            convert_image(std::cin, std::cout, opts);
+            convert_image(std::cin, std::cout);
         } else if(from_stdin) {
             std::ofstream output_file(c_str(opts.output_path.value()));
-            convert_image(std::cin, output_file, opts);
+            convert_image(std::cin, output_file);
         } else if(to_stdout) {
-            std::ifstream input_file(c_str(opts.input_path.value()));
-            convert_image(input_file, std::cout, opts);
+            oglp::image_data_header header{};
+            header.depth = limit_cast<int>(opts.input_paths.value().size());
+            int layer = 0;
+            for(auto& input_path : opts.input_paths.value()) {
+                std::ifstream input_file(c_str(input_path.value()));
+                do_convert_image(input_file, std::cout, header, layer++);
+            }
         } else {
-            std::ifstream input_file(c_str(opts.input_path.value()));
+            oglp::image_data_header header{};
+            header.depth = limit_cast<int>(opts.input_paths.value().size());
             std::ofstream output_file(c_str(opts.output_path.value()));
-            convert_image(input_file, output_file, opts);
+            int layer = 0;
+            for(auto& input_path : opts.input_paths.value()) {
+                std::ifstream input_file(c_str(input_path.value()));
+                do_convert_image(input_file, output_file, header, layer++);
+            }
         }
     } catch(std::exception& err) {
         std::cerr << "error: " << err.what() << std::endl;

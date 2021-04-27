@@ -119,7 +119,9 @@ public:
         return update(2);
     }
 
+    void say_bye();
     void cleanup();
+    void finish();
 
     auto no_connection_timeout() const noexcept -> auto& {
         return _no_connection_timeout;

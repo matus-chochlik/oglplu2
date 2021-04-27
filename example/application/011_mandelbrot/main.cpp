@@ -156,17 +156,12 @@ example_mandelbrot::example_mandelbrot(execution_context& ec, video_context& vc)
 
     ec.connect_inputs()
       .connect_input(
-        EAGINE_MSG_ID(Motion, Dampening),
-        {this, EAGINE_THIS_MEM_FUNC_C(dampening)})
+        EAGINE_MSG_ID(Motion, Dampening), EAGINE_THIS_MEM_FUNC_REF(dampening))
       .connect_input(
-        EAGINE_MSG_ID(Cursor, Dragging),
-        {this, EAGINE_THIS_MEM_FUNC_C(dragging)})
-      .connect_input(
-        EAGINE_MSG_ID(View, Zoom), {this, EAGINE_THIS_MEM_FUNC_C(zoom)})
-      .connect_input(
-        EAGINE_MSG_ID(View, PanX), {this, EAGINE_THIS_MEM_FUNC_C(pan_x)})
-      .connect_input(
-        EAGINE_MSG_ID(View, PanY), {this, EAGINE_THIS_MEM_FUNC_C(pan_y)})
+        EAGINE_MSG_ID(Cursor, Dragging), EAGINE_THIS_MEM_FUNC_REF(dragging))
+      .connect_input(EAGINE_MSG_ID(View, Zoom), EAGINE_THIS_MEM_FUNC_REF(zoom))
+      .connect_input(EAGINE_MSG_ID(View, PanX), EAGINE_THIS_MEM_FUNC_REF(pan_x))
+      .connect_input(EAGINE_MSG_ID(View, PanY), EAGINE_THIS_MEM_FUNC_REF(pan_y))
       .map_inputs()
       .map_input(
         EAGINE_MSG_ID(Motion, Dampening),

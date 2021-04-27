@@ -10,6 +10,7 @@
 #define EAGINE_MESSAGE_BUS_SERVICE_DISCOVERY_HPP
 
 #include "../serialize.hpp"
+#include "../signal.hpp"
 #include "../subscriber.hpp"
 
 namespace eagine::msgbus {
@@ -42,10 +43,10 @@ protected:
     }
 
 public:
-    virtual void is_alive(const subscriber_info&) = 0;
-    virtual void on_subscribed(const subscriber_info&, message_id) = 0;
-    virtual void on_unsubscribed(const subscriber_info&, message_id) = 0;
-    virtual void not_subscribed(const subscriber_info&, message_id) = 0;
+    signal<void(const subscriber_info&)> reported_alive;
+    signal<void(const subscriber_info&, message_id)> subscribed;
+    signal<void(const subscriber_info&, message_id)> unsubscribed;
+    signal<void(const subscriber_info&, message_id)> not_subscribed;
 
 private:
     auto _handle_alive(const message_context&, stored_message& message)
@@ -53,7 +54,7 @@ private:
         subscriber_info info{};
         info.endpoint_id = message.source_id;
         info.instance_id = message.sequence_no;
-        is_alive(info);
+        reported_alive(info);
         return true;
     }
 
@@ -64,7 +65,7 @@ private:
             subscriber_info info{};
             info.endpoint_id = message.source_id;
             info.instance_id = message.sequence_no;
-            on_subscribed(info, sub_msg_id);
+            subscribed(info, sub_msg_id);
         }
         return true;
     }
@@ -76,7 +77,7 @@ private:
             subscriber_info info{};
             info.endpoint_id = message.source_id;
             info.instance_id = message.sequence_no;
-            on_unsubscribed(info, sub_msg_id);
+            unsubscribed(info, sub_msg_id);
         }
         return true;
     }

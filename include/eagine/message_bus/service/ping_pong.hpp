@@ -12,6 +12,7 @@
 #include "../../bool_aggregate.hpp"
 #include "../../maybe_unused.hpp"
 #include "../serialize.hpp"
+#include "../signal.hpp"
 #include "../subscriber.hpp"
 #include <chrono>
 #include <vector>
@@ -105,7 +106,7 @@ public:
             [this, &something_done](auto& entry) {
                 auto& [pingable_id, sequence_no, ping_time] = entry;
                 if(ping_time.is_expired()) {
-                    on_ping_timeout(
+                    ping_timeouted(
                       pingable_id,
                       sequence_no,
                       std::chrono::duration_cast<std::chrono::microseconds>(
@@ -123,16 +124,18 @@ public:
         return !_pending.empty();
     }
 
-    virtual void on_ping_response(
+    signal<void(
       identifier_t pingable_id,
       message_sequence_t sequence_no,
       std::chrono::microseconds age,
-      verification_bits) = 0;
+      verification_bits)>
+      ping_responded;
 
-    virtual void on_ping_timeout(
+    signal<void(
       identifier_t pingable_id,
       message_sequence_t sequence_no,
-      std::chrono::microseconds age) = 0;
+      std::chrono::microseconds age)>
+      ping_timeouted;
 
 private:
     auto _handle_pong(const message_context&, stored_message& message) -> bool {
@@ -145,7 +148,7 @@ private:
                 const bool is_response = (message.source_id == pingable_id) &&
                                          (message.sequence_no == sequence_no);
                 if(is_response) {
-                    on_ping_response(
+                    ping_responded(
                       message.source_id,
                       message.sequence_no,
                       std::chrono::duration_cast<std::chrono::microseconds>(

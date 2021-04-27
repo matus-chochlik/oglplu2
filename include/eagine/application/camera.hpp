@@ -70,8 +70,7 @@ public:
     /// @see basic_input_mapping
     auto pressure_input() noexcept -> input_slot {
         return {
-          pressure_input_id(),
-          {this, EAGINE_THIS_MEM_FUNC_C(_handle_pressure)}};
+          pressure_input_id(), EAGINE_THIS_MEM_FUNC_REF(_handle_pressure)};
     }
 
     constexpr auto dampening_input_id() const noexcept -> message_id {
@@ -84,8 +83,7 @@ public:
     /// @see basic_input_mapping
     auto dampening_input() noexcept -> input_slot {
         return {
-          dampening_input_id(),
-          {this, EAGINE_THIS_MEM_FUNC_C(_handle_dampening)}};
+          dampening_input_id(), EAGINE_THIS_MEM_FUNC_REF(_handle_dampening)};
     }
 
     constexpr auto altitude_change_input_id() const noexcept -> message_id {
@@ -99,7 +97,7 @@ public:
     auto altitude_change_input() noexcept -> input_slot {
         return {
           altitude_change_input_id(),
-          {this, EAGINE_THIS_MEM_FUNC_C(_change_altitude)}};
+          EAGINE_THIS_MEM_FUNC_REF(_change_altitude)};
     }
 
     constexpr auto longitude_change_input_id() const noexcept -> message_id {
@@ -113,7 +111,7 @@ public:
     auto longitude_change_input() noexcept -> input_slot {
         return {
           longitude_change_input_id(),
-          input_handler{this, EAGINE_THIS_MEM_FUNC_C(_change_longitude)}};
+          EAGINE_THIS_MEM_FUNC_REF(_change_longitude)};
     }
 
     constexpr auto latitude_change_input_id() const noexcept -> message_id {
@@ -127,7 +125,7 @@ public:
     auto latitude_change_input() noexcept -> input_slot {
         return {
           latitude_change_input_id(),
-          {this, EAGINE_THIS_MEM_FUNC_C(_change_latitude)}};
+          EAGINE_THIS_MEM_FUNC_REF(_change_latitude)};
     }
 
     /// @brief Connects the camera input slots to the execution context.

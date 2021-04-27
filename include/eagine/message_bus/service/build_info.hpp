@@ -14,6 +14,7 @@
 #include "../../maybe_unused.hpp"
 #include "../../serialize/type/build_info.hpp"
 #include "../service.hpp"
+#include "../signal.hpp"
 #include <array>
 #include <chrono>
 
@@ -51,10 +52,8 @@ protected:
     void add_methods() {
         Base::add_methods();
 
-        Base::add_method(_build(
-          this,
-          EAGINE_THIS_MEM_FUNC_C(
-            on_build_info_received))[EAGINE_MSG_ID(eagiBldInf, response)]);
+        Base::add_method(
+          _build(build_info_received)[EAGINE_MSG_ID(eagiBldInf, response)]);
     }
 
 public:
@@ -63,7 +62,7 @@ public:
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiBldInf, request));
     }
 
-    virtual void on_build_info_received(const result_context&, build_info&&) = 0;
+    signal<void(const result_context&, const build_info&)> build_info_received;
 
 private:
     default_callback_invoker<build_info(), 32> _build;

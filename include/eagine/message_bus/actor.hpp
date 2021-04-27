@@ -91,7 +91,7 @@ protected:
     actor(main_ctx_object obj, Class* instance, MsgMaps... msg_maps)
       : _endpoint{_make_endpoint(
           std::move(obj),
-          {this, EAGINE_THIS_MEM_FUNC_C(_process_message)})}
+          EAGINE_THIS_MEM_FUNC_REF(_process_message))}
       , _subscriber{_endpoint, instance, msg_maps...} {
         _subscriber.announce_subscriptions();
     }
@@ -106,7 +106,7 @@ protected:
     actor(Derived&& temp, Class* instance, MsgMaps... msg_maps) noexcept
       : _endpoint{_move_endpoint(
           std::move(temp._endpoint),
-          {this, EAGINE_THIS_MEM_FUNC_C(_process_message)})}
+          EAGINE_THIS_MEM_FUNC_REF(_process_message))}
       , _subscriber{_endpoint, instance, msg_maps...} {}
 
     ~actor() noexcept override {

@@ -13,6 +13,7 @@
 #include "../../main_ctx.hpp"
 #include "../../maybe_unused.hpp"
 #include "../service.hpp"
+#include "../signal.hpp"
 #include <array>
 #include <chrono>
 
@@ -60,15 +61,11 @@ protected:
     void add_methods() {
         Base::add_methods();
 
-        Base::add_method(_host_id(
-          this,
-          EAGINE_THIS_MEM_FUNC_C(
-            on_host_id_received))[EAGINE_MSG_ID(eagiSysInf, hostId)]);
+        Base::add_method(
+          _host_id(host_id_received)[EAGINE_MSG_ID(eagiSysInf, hostId)]);
 
-        Base::add_method(_hostname(
-          this,
-          EAGINE_THIS_MEM_FUNC_C(
-            on_hostname_received))[EAGINE_MSG_ID(eagiSysInf, hostname)]);
+        Base::add_method(
+          _hostname(hostname_received)[EAGINE_MSG_ID(eagiSysInf, hostname)]);
     }
 
 public:
@@ -77,18 +74,16 @@ public:
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqHostId));
     }
 
-    virtual void on_host_id_received(
-      const result_context&,
-      valid_if_positive<host_id_t>&&) = 0;
+    signal<void(const result_context&, const valid_if_positive<host_id_t>&)>
+      host_id_received;
 
     void query_hostname(identifier_t endpoint_id) {
         _hostname.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqHostname));
     }
 
-    virtual void on_hostname_received(
-      const result_context&,
-      valid_if_not_empty<std::string>&&) {}
+    signal<void(const result_context&, const valid_if_not_empty<std::string>&)>
+      hostname_received;
 
 private:
     default_callback_invoker<valid_if_positive<host_id_t>(), 32> _host_id;

@@ -65,3 +65,9 @@ install(
 	COMPONENT tools
 )
 
+find_package(Qt5 COMPONENTS Core Qml Quick)
+if(Qt5_FOUND)
+	set(CMAKE_AUTOMOC ON)
+	set(CMAKE_AUTORCC ON)
+ 	add_subdirectory(monitor)
+endif()

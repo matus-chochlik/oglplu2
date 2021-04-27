@@ -493,6 +493,24 @@ auto bridge::is_done() const noexcept -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void bridge::say_bye() {
+    const auto msgid = EAGINE_MSGBUS_ID(byeByeBrdg);
+    message_view msg{};
+    msg.set_source_id(_id);
+    if(_connection) {
+        _connection->send(msgid, msg);
+        _connection->update();
+    }
+    if(_state) {
+        _do_push(msgid, msg);
+        _state->notify_output_ready();
+        std::this_thread::sleep_for(std::chrono::seconds{1});
+    }
+    _forward_messages();
+    _update_connections();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void bridge::cleanup() {
     if(_connection) {
         _connection->cleanup();
@@ -521,6 +539,16 @@ void bridge::cleanup() {
       .arg(EAGINE_ID(count), _forwarded_messages_i2c)
       .arg(EAGINE_ID(dropped), _dropped_messages_i2c)
       .arg(EAGINE_ID(avgMsgAge), avg_msg_age_i2c);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void bridge::finish() {
+    say_bye();
+    timeout too_long{std::chrono::seconds{1}};
+    while(!too_long) {
+        update();
+    }
+    cleanup();
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

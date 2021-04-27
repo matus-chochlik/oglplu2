@@ -30,6 +30,24 @@ public:
     direct_connection_state(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(DrctConnSt), parent} {}
 
+    /// @brief Says that the client has connected.
+    auto client_connect() {
+        std::unique_lock lock{_c2s_mutex};
+        _client_connected = true;
+    }
+
+    /// @brief Says that the client has disconnected.
+    auto client_disconnect() {
+        std::unique_lock lock{_c2s_mutex};
+        _client_connected = false;
+    }
+
+    /// @brief Checks if the connection is usable.
+    auto is_usable() {
+        std::unique_lock lock{_c2s_mutex};
+        return _client_connected || !_client_to_server.empty();
+    }
+
     /// @brief Sends a message to the server counterpart.
     void send_to_server(message_id msg_id, const message_view& message) {
         std::unique_lock lock{_c2s_mutex};
@@ -37,15 +55,21 @@ public:
     }
 
     /// @brief Sends a message to the client counterpart.
-    void send_to_client(message_id msg_id, const message_view& message) {
+    auto send_to_client(message_id msg_id, const message_view& message)
+      -> bool {
         std::unique_lock lock{_s2c_mutex};
-        _server_to_client.push(msg_id, message);
+        if(_client_connected) {
+            _server_to_client.push(msg_id, message);
+            return true;
+        }
+        return false;
     }
 
     /// @brief Fetches received messages from the client counterpart.
-    auto fetch_from_client(connection::fetch_handler handler) noexcept -> bool {
+    auto fetch_from_client(connection::fetch_handler handler) noexcept
+      -> std::tuple<bool, bool> {
         std::unique_lock lock{_c2s_mutex};
-        return _client_to_server.fetch_all(handler);
+        return {_client_to_server.fetch_all(handler), _client_connected};
     }
 
     /// @brief Fetches received messages from the service counterpart.
@@ -81,6 +105,7 @@ private:
     message_storage _client_to_server;
     value_change_div_tracker<span_size_t, 16> _s2c_count{0};
     value_change_div_tracker<span_size_t, 16> _c2s_count{0};
+    bool _client_connected{false};
 };
 //------------------------------------------------------------------------------
 /// @brief Class acting as the "address" of a direct connection.
@@ -159,7 +184,22 @@ public:
     direct_client_connection(
       std::shared_ptr<direct_connection_address>& address) noexcept
       : _weak_address{address}
-      , _state{address->connect()} {}
+      , _state{address->connect()} {
+        if(EAGINE_LIKELY(_state)) {
+            _state->client_connect();
+        }
+    }
+
+    direct_client_connection(direct_client_connection&&) = delete;
+    direct_client_connection(const direct_client_connection&) = delete;
+    auto operator=(direct_client_connection&&) = delete;
+    auto operator=(const direct_client_connection&) = delete;
+
+    ~direct_client_connection() noexcept final {
+        if(EAGINE_LIKELY(_state)) {
+            _state->client_disconnect();
+        }
+    }
 
     auto is_usable() -> bool final {
         _checkup();
@@ -217,25 +257,36 @@ private:
 class direct_server_connection : public direct_connection_info<connection> {
 public:
     direct_server_connection(std::shared_ptr<direct_connection_state>& state)
-      : _weak_state{state} {}
+      : _state{state} {}
+
+    auto is_usable() -> bool final {
+        if(EAGINE_LIKELY(_state)) {
+            if(EAGINE_LIKELY(_is_usable)) {
+                return true;
+            }
+            _state.reset();
+        }
+        return false;
+    }
 
     auto send(message_id msg_id, const message_view& message) -> bool final {
-        if(auto state{_weak_state.lock()}) {
-            state->send_to_client(msg_id, message);
-            return true;
+        if(EAGINE_LIKELY(_state)) {
+            return _state->send_to_client(msg_id, message);
         }
         return false;
     }
 
     auto fetch_messages(connection::fetch_handler handler) -> bool final {
-        if(auto state{_weak_state.lock()}) {
-            return state->fetch_from_client(handler);
+        bool result = false;
+        if(EAGINE_LIKELY(_state)) {
+            std::tie(result, _is_usable) = _state->fetch_from_client(handler);
         }
-        return false;
+        return result;
     }
 
 private:
-    std::weak_ptr<direct_connection_state> _weak_state;
+    std::shared_ptr<direct_connection_state> _state;
+    bool _is_usable{true};
 };
 //------------------------------------------------------------------------------
 /// @brief Implementation of acceptor for direct connections.

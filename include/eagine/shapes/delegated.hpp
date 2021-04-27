@@ -124,7 +124,8 @@ public:
     }
 
 protected:
-    auto base_generator() const noexcept -> std::shared_ptr<generator> {
+    [[nodiscard]] auto base_generator() const noexcept
+      -> std::shared_ptr<generator> {
         return _gen;
     }
 

@@ -123,15 +123,13 @@ example_picking::example_picking(execution_context& ec, video_context& vc)
     ec.connect_inputs()
       .map_inputs()
       .connect_input(
-        EAGINE_MSG_ID(Example, MotionX),
-        {this, EAGINE_THIS_MEM_FUNC_C(motion_x)})
+        EAGINE_MSG_ID(Example, MotionX), EAGINE_THIS_MEM_FUNC_REF(motion_x))
       .map_input(
         EAGINE_MSG_ID(Example, MotionX),
         EAGINE_MSG_ID(Cursor, PositionX),
         input_setup().absolute_norm())
       .connect_input(
-        EAGINE_MSG_ID(Example, MotionY),
-        {this, EAGINE_THIS_MEM_FUNC_C(motion_y)})
+        EAGINE_MSG_ID(Example, MotionY), EAGINE_THIS_MEM_FUNC_REF(motion_y))
       .map_input(
         EAGINE_MSG_ID(Example, MotionY),
         EAGINE_MSG_ID(Cursor, PositionY),

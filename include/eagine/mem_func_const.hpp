@@ -202,6 +202,7 @@ struct member_function_constant<RV (C::*)(P...) const noexcept, Ptr> {
 /// @brief Macro for creating object of member_function_constant in member functions.
 /// @ingroup functional
 /// @see EAGINE_MEM_FUNC_C
+/// @see EAGINE_THIS_MEM_FUNC_REF
 /// @see EAGINE_THIS_T
 #define EAGINE_THIS_MEM_FUNC_C(FUNC) \
     EAGINE_THIS_MEM_FUNC_T(FUNC) {}

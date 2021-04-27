@@ -9,6 +9,7 @@
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
+#include <eagine/message_bus/service/application_info.hpp>
 #include <eagine/message_bus/service/build_info.hpp>
 #include <eagine/message_bus/service/endpoint_info.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
@@ -23,8 +24,9 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using pingable_node_base = service_composition<shutdown_target<
-  pingable<build_info_provider<host_info_provider<endpoint_info_provider<>>>>>>;
+using pingable_node_base =
+  service_composition<shutdown_target<pingable<build_info_provider<
+    host_info_provider<application_info_provider<endpoint_info_provider<>>>>>>>;
 
 class pingable_node
   : public main_ctx_object
@@ -32,9 +34,15 @@ class pingable_node
     using base = pingable_node_base;
 
 public:
+    auto on_shutdown_slot() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(on_shutdown);
+    }
+
     pingable_node(endpoint& bus)
       : main_ctx_object{EAGINE_ID(PngablNode), bus}
-      , base{bus} {}
+      , base{bus} {
+        shutdown_requested.connect(on_shutdown_slot());
+    }
 
     auto respond_to_ping(identifier_t, message_sequence_t, verification_bits)
       -> bool final {
@@ -47,7 +55,7 @@ public:
     void on_shutdown(
       std::chrono::milliseconds age,
       identifier_t source_id,
-      verification_bits verified) final {
+      verification_bits verified) {
         log_info("received shutdown request from ${source}")
           .arg(EAGINE_ID(age), age)
           .arg(EAGINE_ID(source), source_id)

@@ -76,11 +76,18 @@ public:
       , base{bus}
       , _max{extract_or(max, 100000)} {
         object_description("Pinger", "Ping example");
+
+        subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_subscribed));
+        unsubscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_unsubscribed));
+        not_subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_not_subscribed));
+        ping_responded.connect(EAGINE_THIS_MEM_FUNC_REF(on_ping_response));
+        ping_timeouted.connect(EAGINE_THIS_MEM_FUNC_REF(on_ping_timeout));
+        host_id_received.connect(EAGINE_THIS_MEM_FUNC_REF(on_host_id_received));
+        hostname_received.connect(
+          EAGINE_THIS_MEM_FUNC_REF(on_hostname_received));
     }
 
-    void is_alive(const subscriber_info&) final {}
-
-    void on_subscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_subscribed(const subscriber_info& info, message_id sub_msg) {
         if(sub_msg == this->ping_msg_id()) {
             if(_targets.try_emplace(info.endpoint_id, ping_stats{}).second) {
                 log_info("new pingable ${id} appeared")
@@ -89,14 +96,14 @@ public:
         }
     }
 
-    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) {
         if(sub_msg == this->ping_msg_id()) {
             log_info("pingable ${id} disappeared")
               .arg(EAGINE_ID(id), info.endpoint_id);
         }
     }
 
-    void not_subscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_not_subscribed(const subscriber_info& info, message_id sub_msg) {
         if(sub_msg == this->ping_msg_id()) {
             log_info("target ${id} is not pingable")
               .arg(EAGINE_ID(id), info.endpoint_id);
@@ -105,7 +112,7 @@ public:
 
     void on_host_id_received(
       const result_context& res_ctx,
-      valid_if_positive<host_id_t>&& host_id) final {
+      const valid_if_positive<host_id_t>& host_id) {
         if(host_id) {
             auto& stats = _targets[res_ctx.source_id()];
             stats.host_id = extract(host_id);
@@ -114,10 +121,10 @@ public:
 
     void on_hostname_received(
       const result_context& res_ctx,
-      valid_if_not_empty<std::string>&& hostname) final {
+      const valid_if_not_empty<std::string>& hostname) {
         if(hostname) {
             auto& stats = _targets[res_ctx.source_id()];
-            stats.hostname = extract(std::move(hostname));
+            stats.hostname = extract(hostname);
         }
     }
 
@@ -125,7 +132,7 @@ public:
       identifier_t pinger_id,
       message_sequence_t,
       std::chrono::microseconds age,
-      verification_bits) final {
+      verification_bits) {
         auto& stats = _targets[pinger_id];
         stats.responded++;
         stats.min_time = std::min(stats.min_time, age);
@@ -153,7 +160,7 @@ public:
     void on_ping_timeout(
       identifier_t pinger_id,
       message_sequence_t,
-      std::chrono::microseconds) final {
+      std::chrono::microseconds) {
         auto& stats = _targets[pinger_id];
         stats.timeouted++;
         if(EAGINE_UNLIKELY((++_tout % _mod) == 0)) {

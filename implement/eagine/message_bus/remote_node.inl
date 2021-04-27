@@ -7,6 +7,7 @@
 ///
 #include <eagine/branch_predict.hpp>
 #include <eagine/timeout.hpp>
+#include <eagine/value_with_history.hpp>
 #include <set>
 
 namespace eagine::msgbus {
@@ -14,28 +15,34 @@ namespace eagine::msgbus {
 class remote_instance_impl {
 public:
     timeout is_alive{std::chrono::seconds{180}};
+    string_view app_name;
     optionally_valid<build_info> bld_info;
     host_id_t host_id{0U};
+
+    remote_instance_changes changes{};
+    bool was_alive{false};
 };
 //------------------------------------------------------------------------------
 class remote_host_impl {
 public:
     timeout is_alive{std::chrono::seconds{300}};
-    timeout should_query_sensors{std::chrono::seconds{30}};
+    timeout should_query_sensors{std::chrono::seconds{15}};
     std::string hostname;
     span_size_t cpu_concurrent_threads{-1};
-    float short_average_load{-1.F};
-    float long_average_load{-1.F};
     span_size_t total_ram_size{-1};
-    span_size_t free_ram_size{-1};
     span_size_t total_swap_size{-1};
-    span_size_t free_swap_size{-1};
+    variable_with_history<span_size_t, 2> free_ram_size{-1};
+    variable_with_history<span_size_t, 2> free_swap_size{-1};
+    variable_with_history<float, 2> short_average_load{-1.F};
+    variable_with_history<float, 2> long_average_load{-1.F};
+
+    remote_host_changes changes{};
+    bool was_alive{false};
 };
 //------------------------------------------------------------------------------
 class remote_node_impl {
 public:
     process_instance_id_t instance_id{0U};
-    string_view app_name;
     string_view display_name;
     string_view description;
     tribool is_router_node{indeterminate};
@@ -120,6 +127,16 @@ auto remote_instance::host() const noexcept -> remote_host {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_instance::application_name() const noexcept
+  -> valid_if_not_empty<string_view> {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        return {i.app_name};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_instance::build() const noexcept
   -> optional_reference_wrapper<const build_info> {
     if(auto impl{_impl()}) {
@@ -134,9 +151,47 @@ auto remote_instance::build() const noexcept
 // remote_instance_state
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_instance_state::update() -> remote_instance_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        const auto alive = i.is_alive.is_expired();
+        if(i.was_alive != alive) {
+            i.was_alive = alive;
+            i.changes |= alive ? remote_instance_change::started_responding
+                               : remote_instance_change::stopped_responding;
+        }
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_instance_state::changes() -> remote_instance_changes {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        const auto result = i.changes;
+        i.changes.clear();
+        return result;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_instance_state::add_change(remote_instance_change change)
+  -> remote_instance_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).changes |= change;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_instance_state::notice_alive() -> remote_instance_state& {
     if(auto impl{_impl()}) {
-        extract(impl).is_alive.reset();
+        auto& i = extract(impl);
+        if(!i.is_alive) {
+            i.changes |= remote_instance_change::started_responding;
+        }
+        i.is_alive.reset();
     }
     return *this;
 }
@@ -148,6 +203,21 @@ auto remote_instance_state::set_host_id(host_id_t host_id)
         auto& i = extract(impl);
         if(i.host_id != host_id) {
             i.host_id = host_id;
+            i.changes |= remote_instance_change::host_id;
+        }
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_instance_state::set_app_name(const std::string& new_app_name)
+  -> remote_instance_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        auto app_name = _tracker.cached(new_app_name);
+        if(!are_equal(app_name, i.app_name)) {
+            i.app_name = app_name;
+            i.changes |= remote_instance_change::application_info;
         }
     }
     return *this;
@@ -159,6 +229,7 @@ auto remote_instance_state::assign(build_info info) -> remote_instance_state& {
         auto& i = extract(impl);
         if(!i.bld_info) {
             i.bld_info = {std::move(info), true};
+            i.changes |= remote_instance_change::build_info;
         }
     }
     return *this;
@@ -179,6 +250,40 @@ inline auto remote_host::_impl() noexcept -> remote_host_impl* {
     } catch(...) {
     }
     return nullptr;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::update() -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        const auto alive = i.is_alive.is_expired();
+        if(i.was_alive != alive) {
+            i.was_alive = alive;
+            i.changes |= alive ? remote_host_change::started_responding
+                               : remote_host_change::stopped_responding;
+        }
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::changes() -> remote_host_changes {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        const auto result = i.changes;
+        i.changes.clear();
+        return result;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::add_change(remote_host_change change)
+  -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).changes |= change;
+    }
+    return *this;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -210,7 +315,19 @@ EAGINE_LIB_FUNC
 auto remote_host::short_average_load() const noexcept
   -> valid_if_nonnegative<float> {
     if(auto impl{_impl()}) {
-        return {extract(impl).short_average_load};
+        return {extract(impl).short_average_load.value()};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::short_average_load_change() const noexcept
+  -> optionally_valid<float> {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        return {
+          i.short_average_load.delta(),
+          i.short_average_load.old_value() >= 0.F};
     }
     return {};
 }
@@ -219,7 +336,18 @@ EAGINE_LIB_FUNC
 auto remote_host::long_average_load() const noexcept
   -> valid_if_nonnegative<float> {
     if(auto impl{_impl()}) {
-        return {extract(impl).long_average_load};
+        return {extract(impl).long_average_load.value()};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::long_average_load_change() const noexcept
+  -> optionally_valid<float> {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        return {
+          i.long_average_load.delta(), i.long_average_load.old_value() >= 0.F};
     }
     return {};
 }
@@ -237,9 +365,19 @@ EAGINE_LIB_FUNC
 auto remote_host::free_ram_size() const noexcept
   -> valid_if_positive<span_size_t> {
     if(auto impl{_impl()}) {
-        return {extract(impl).free_ram_size};
+        return {extract(impl).free_ram_size.value()};
     }
     return {-1};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::free_ram_size_change() const noexcept
+  -> optionally_valid<span_size_t> {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        return {i.free_ram_size.delta(), i.free_ram_size.old_value() > 0};
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -255,9 +393,19 @@ EAGINE_LIB_FUNC
 auto remote_host::free_swap_size() const noexcept
   -> valid_if_nonnegative<span_size_t> {
     if(auto impl{_impl()}) {
-        return {extract(impl).free_swap_size};
+        return {extract(impl).free_swap_size.value()};
     }
     return {-1};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::free_swap_size_change() const noexcept
+  -> optionally_valid<span_size_t> {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        return {i.free_swap_size.delta(), i.free_swap_size.old_value() >= 0};
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 // remote_node
@@ -298,19 +446,10 @@ EAGINE_LIB_FUNC
 auto remote_node::has_endpoint_info() const noexcept -> bool {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        return !i.app_name.empty() && !i.display_name.empty() &&
-               !i.is_router_node.is(indeterminate) &&
-               !i.is_bridge_node.is(indeterminate);
+        return !i.is_router_node.is(indeterminate) &&
+               !i.is_bridge_node.is(indeterminate) && !i.display_name.empty();
     }
     return false;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto remote_node::app_name() const noexcept -> valid_if_not_empty<string_view> {
-    if(auto impl{_impl()}) {
-        return extract(impl).app_name;
-    }
-    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -468,6 +607,23 @@ auto remote_node_state::host_state() const noexcept -> remote_host_state {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node_state::instance_state() const noexcept
+  -> remote_instance_state {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.instance_id) {
+            return _tracker.get_instance(i.instance_id);
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::update() -> remote_node_state& {
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node_state::changes() -> remote_node_changes {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
@@ -506,7 +662,7 @@ auto remote_node_state::set_host_id(host_id_t host_id) -> remote_node_state& {
         auto& i = extract(impl);
         if(i.host_id != host_id) {
             i.host_id = host_id;
-            i.changes |= remote_node_change::host_info;
+            i.changes |= remote_node_change::host_id;
             if(i.instance_id) {
                 _tracker.get_instance(i.instance_id).set_host_id(host_id);
             }
@@ -532,11 +688,6 @@ auto remote_node_state::assign(const endpoint_info& info)
   -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        auto app_name = _tracker.cached(info.app_name);
-        if(!are_equal(app_name, i.app_name)) {
-            i.app_name = app_name;
-            i.changes |= remote_node_change::endpoint_info;
-        }
         auto display_name = _tracker.cached(info.display_name);
         if(!are_equal(display_name, i.display_name)) {
             i.display_name = display_name;
@@ -609,6 +760,10 @@ auto remote_node_state::notice_alive() -> remote_node_state& {
         i.ping_bits |= 1U;
         if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::started_responding;
+            if(i.instance_id) {
+                _tracker.get_instance(i.instance_id)
+                  .add_change(remote_instance_change::started_responding);
+            }
         }
     }
     return *this;
@@ -689,7 +844,9 @@ auto remote_host_state::notice_alive() -> remote_host_state& {
 EAGINE_LIB_FUNC
 auto remote_host_state::set_hostname(std::string hn) -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).hostname = std::move(hn);
+        auto& i = extract(impl);
+        i.hostname = std::move(hn);
+        i.changes |= remote_host_change::hostname;
     }
     return *this;
 }
@@ -698,7 +855,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_cpu_concurrent_threads(span_size_t value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).cpu_concurrent_threads = value;
+        auto& i = extract(impl);
+        i.cpu_concurrent_threads = value;
+        i.changes |= remote_host_change::hardware_config;
     }
     return *this;
 }
@@ -707,7 +866,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_short_average_load(float value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).short_average_load = value;
+        auto& i = extract(impl);
+        i.short_average_load = value;
+        i.changes |= remote_host_change::sensor_values;
     }
     return *this;
 }
@@ -716,7 +877,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_long_average_load(float value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).long_average_load = value;
+        auto& i = extract(impl);
+        i.long_average_load = value;
+        i.changes |= remote_host_change::sensor_values;
     }
     return *this;
 }
@@ -725,7 +888,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_total_ram_size(span_size_t value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).total_ram_size = value;
+        auto& i = extract(impl);
+        i.total_ram_size = value;
+        i.changes |= remote_host_change::hardware_config;
     }
     return *this;
 }
@@ -734,7 +899,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_total_swap_size(span_size_t value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).total_swap_size = value;
+        auto& i = extract(impl);
+        i.total_swap_size = value;
+        i.changes |= remote_host_change::hardware_config;
     }
     return *this;
 }
@@ -743,7 +910,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_free_ram_size(span_size_t value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).free_ram_size = value;
+        auto& i = extract(impl);
+        i.free_ram_size = value;
+        i.changes |= remote_host_change::sensor_values;
     }
     return *this;
 }
@@ -752,7 +921,9 @@ EAGINE_LIB_FUNC
 auto remote_host_state::set_free_swap_size(span_size_t value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
-        extract(impl).free_swap_size = value;
+        auto& i = extract(impl);
+        i.free_swap_size = value;
+        i.changes |= remote_host_change::sensor_values;
     }
     return *this;
 }
@@ -840,6 +1011,13 @@ auto remote_node_tracker::_get_nodes() noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node_tracker::_get_instances() noexcept
+  -> flat_map<process_instance_id_t, remote_instance_state>& {
+    EAGINE_ASSERT(_pimpl);
+    return _pimpl->instances;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node_tracker::_get_hosts() noexcept
   -> flat_map<host_id_t, remote_host_state>& {
     EAGINE_ASSERT(_pimpl);
@@ -870,6 +1048,12 @@ auto remote_node_tracker::get_node(identifier_t node_id) -> remote_node_state& {
     }
     EAGINE_ASSERT(pos->second.id() == node_id);
     return pos->second;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::remove_node(identifier_t node_id) -> bool {
+    EAGINE_ASSERT(_pimpl);
+    return _pimpl->nodes.erase(node_id) > 0;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -972,6 +1156,9 @@ auto remote_node_tracker::notice_instance(
         }
     } else {
         node.set_instance_id(instance_id);
+        if(auto host_id{node.host_id()}) {
+            get_instance(instance_id).set_host_id(extract(host_id));
+        }
     }
     return node.notice_alive();
 }

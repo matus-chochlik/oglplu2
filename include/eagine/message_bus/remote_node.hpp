@@ -33,44 +33,48 @@ namespace eagine::msgbus {
 /// @brief Enumeration of changes tracked about remote message bus nodes.
 /// @ingroup msgbus
 /// @see remote_node_changes
+/// @see remote_host_change
 enum class remote_node_change : std::uint16_t {
     /// @brief The node kind has appeared or changed.
     /// @see node_kind
     kind = 1U << 0U,
-    /// @brief The host identifier has appeared or changed.
-    host_id = 1U << 1U,
-    /// @brief The host information has appeared or changed.
-    host_info = 1U << 2U,
-    /// @brief The build information has appeared or changed.
-    build_info = 1U << 3U,
-    /// @brief The endpoint information has appeared or changed.
-    endpoint_info = 1U << 4U,
-    /// @brief New remotly callable methods have been added.
-    methods_added = 1U << 5U,
-    /// @brief New remotly callable methods have been removed.
-    methods_removed = 1U << 6U,
-    /// @brief Node started responding to pings.
-    started_responding = 1U << 7U,
-    /// @brief Node stopped responding to pings.
-    stopped_responding = 1U << 8U,
-    /// @brief The hardware configuration information has appeared or changed.
-    hardware_config = 1U << 9U,
-    /// @brief New sensor values have appeared or changed.
-    sensor_values = 1U << 10U,
-    /// @brief The bus connection information has appeared or changed.
-    connection_info = 1U << 11U,
     /// @brief The endpoint instance id has changed.
-    instance_id = 1U << 12U
+    instance_id = 1U << 1U,
+    /// @brief The host identifier has appeared or changed.
+    host_id = 1U << 2U,
+    /// @brief The host information has appeared or changed.
+    host_info = 1U << 3U,
+    /// @brief The build information has appeared or changed.
+    build_info = 1U << 4U,
+    /// @brief The application information has appeared or changed.
+    application_info = 1U << 5U,
+    /// @brief The endpoint information has appeared or changed.
+    endpoint_info = 1U << 6U,
+    /// @brief New remotly callable methods have been added.
+    methods_added = 1U << 7U,
+    /// @brief New remotly callable methods have been removed.
+    methods_removed = 1U << 8U,
+    /// @brief Node started responding to pings.
+    started_responding = 1U << 9U,
+    /// @brief Node stopped responding to pings.
+    stopped_responding = 1U << 10U,
+    /// @brief The hardware configuration information has appeared or changed.
+    hardware_config = 1U << 11U,
+    /// @brief New sensor values have appeared or changed.
+    sensor_values = 1U << 12U,
+    /// @brief The bus connection information has appeared or changed.
+    connection_info = 1U << 13U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
 enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
-    return enumerator_map_type<remote_node_change, 13>{
+    return enumerator_map_type<remote_node_change, 14>{
       {{"kind", remote_node_change::kind},
        {"host_id", remote_node_change::host_id},
        {"host_info", remote_node_change::host_info},
        {"build_info", remote_node_change::build_info},
+       {"application_info", remote_node_change::application_info},
        {"endpoint_info", remote_node_change::endpoint_info},
        {"methods_added", remote_node_change::methods_added},
        {"methods_removed", remote_node_change::methods_removed},
@@ -82,8 +86,10 @@ enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
        {"instance_id", remote_node_change::instance_id}}};
 }
 //------------------------------------------------------------------------------
-/// @brief Class providin and manipulating information about remote node changes.
+/// @brief Class providing and manipulating information about remote node changes.
 /// @ingroup msgbus
+/// @see remote_host_changes
+/// @see remote_instance_changes
 struct remote_node_changes : bitfield<remote_node_change> {
     using base = bitfield<remote_node_change>;
     using base::base;
@@ -106,6 +112,107 @@ static inline auto operator|(remote_node_change l, remote_node_change r) noexcep
     return {l, r};
 }
 //------------------------------------------------------------------------------
+/// @brief Enumeration of changes tracked about remote message bus instances.
+/// @ingroup msgbus
+/// @see remote_instance_changes
+/// @see remote_node_change
+enum class remote_instance_change : std::uint16_t {
+    /// @brief The host identifier has appeared or changed.
+    host_id = 1U << 0U,
+    /// @brief Instance started responding.
+    started_responding = 1U << 1U,
+    /// @brief Instance stopped responding.
+    stopped_responding = 1U << 2U,
+    /// @brief The build information has appeared or changed.
+    build_info = 1U << 3U,
+    /// @brief The application information has appeared or changed.
+    application_info = 1U << 4U,
+    /// @brief New statistics have appeared or changed.
+    statistics = 1U << 5U
+};
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto
+enumerator_mapping(type_identity<remote_instance_change>, Selector) noexcept {
+    return enumerator_map_type<remote_instance_change, 5>{
+      {{"host_id", remote_instance_change::host_id},
+       {"started_responding", remote_instance_change::started_responding},
+       {"stopped_responding", remote_instance_change::stopped_responding},
+       {"application_info", remote_instance_change::application_info},
+       {"statistics", remote_instance_change::statistics}}};
+}
+//------------------------------------------------------------------------------
+/// @brief Class providing and manipulating information about remote instance changes.
+/// @ingroup msgbus
+/// @see remote_node_changes
+/// @see remote_host_changes
+struct remote_instance_changes : bitfield<remote_instance_change> {
+    using base = bitfield<remote_instance_change>;
+    using base::base;
+
+    /// @brief Remote instance responsivity has changed.
+    auto responsivity() const noexcept -> bool {
+        return has_any(
+          remote_instance_change::started_responding,
+          remote_instance_change::stopped_responding);
+    }
+};
+
+static inline auto
+operator|(remote_instance_change l, remote_instance_change r) noexcept
+  -> remote_instance_changes {
+    return {l, r};
+}
+//------------------------------------------------------------------------------
+/// @brief Enumeration of changes tracked about remote message bus hosts.
+/// @ingroup msgbus
+/// @see remote_host_changes
+/// @see remote_node_change
+enum class remote_host_change : std::uint16_t {
+    /// @brief The host name has appeared or changed.
+    hostname = 1U << 0U,
+    /// @brief Host started responding.
+    started_responding = 1U << 1U,
+    /// @brief Host stopped responding.
+    stopped_responding = 1U << 2U,
+    /// @brief The hardware configuration information has appeared or changed.
+    hardware_config = 1U << 3U,
+    /// @brief New sensor values have appeared or changed.
+    sensor_values = 1U << 4U
+};
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto
+enumerator_mapping(type_identity<remote_host_change>, Selector) noexcept {
+    return enumerator_map_type<remote_host_change, 5>{
+      {{"hostname", remote_host_change::hostname},
+       {"started_responding", remote_host_change::started_responding},
+       {"stopped_responding", remote_host_change::stopped_responding},
+       {"hardware_config", remote_host_change::hardware_config},
+       {"sensor_values", remote_host_change::sensor_values}}};
+}
+//------------------------------------------------------------------------------
+/// @brief Class providing and manipulating information about remote host changes.
+/// @ingroup msgbus
+/// @see remote_node_changes
+/// @see remote_instance_changes
+struct remote_host_changes : bitfield<remote_host_change> {
+    using base = bitfield<remote_host_change>;
+    using base::base;
+
+    /// @brief Remote host responsivity has changed.
+    auto responsivity() const noexcept -> bool {
+        return has_any(
+          remote_host_change::started_responding,
+          remote_host_change::stopped_responding);
+    }
+};
+
+static inline auto operator|(remote_host_change l, remote_host_change r) noexcept
+  -> remote_host_changes {
+    return {l, r};
+}
+//------------------------------------------------------------------------------
 class remote_node_tracker_impl;
 class remote_host_impl;
 class remote_host;
@@ -124,6 +231,7 @@ class node_connections;
 /// @brief Class tracking the state of remote message bus nodes.
 /// @ingroup msgbus
 /// @see remote_node_changes
+/// @see remote_host_changes
 class remote_node_tracker {
 public:
     /// @brief Default constructor.
@@ -142,7 +250,12 @@ public:
     /// @see get_instance
     /// @see get_connection
     /// @see for_each_node
+    /// @see remove_node
     auto get_node(identifier_t node_id) -> remote_node_state&;
+
+    /// @brief Removes tracked node with the specified id.
+    /// @see get_node
+    auto remove_node(identifier_t node_id) -> bool;
 
     /// @brief Finds and returns the state information about a remote host.
     /// @see get_node
@@ -227,6 +340,16 @@ public:
     template <typename Function>
     void for_each_node_state(Function func);
 
+    /// @brief Calls a function on each tracked remote bus instance.
+    /// @see remote_instance_state
+    /// @see for_each_node_state
+    /// @see for_each_host_state
+    ///
+    /// The function is called with (process_instance_id_t, const remote_instance_state&)
+    /// as arguments. This function is subject to change without notice.
+    template <typename Function>
+    void for_each_instance_state(Function func);
+
     /// @brief Calls a function on tracked remote bus nodes of an instance (process).
     /// @see remote_node_state
     /// @see for_each_node_state
@@ -263,6 +386,8 @@ private:
     friend class node_connections;
 
     auto _get_nodes() noexcept -> flat_map<identifier_t, remote_node_state>&;
+    auto _get_instances() noexcept
+      -> flat_map<process_instance_id_t, remote_instance_state>&;
     auto _get_hosts() noexcept -> flat_map<host_id_t, remote_host_state>&;
     auto _get_connections() noexcept -> std::vector<node_connection_state>&;
     auto _get_connections() const noexcept
@@ -305,13 +430,22 @@ public:
 
     /// @brief Returns the short average load on the remote host.
     /// @see long_average_load
+    /// @see short_average_load_change
     /// @see system_info::short_average_load
     auto short_average_load() const noexcept -> valid_if_nonnegative<float>;
+
+    /// @brief Returns the change in short average load on the remote host.
+    /// @see short_average_load
+    auto short_average_load_change() const noexcept -> optionally_valid<float>;
 
     /// @brief Returns the long average load on the remote host.
     /// @see short_average_load
     /// @see system_info::long_average_load
     auto long_average_load() const noexcept -> valid_if_nonnegative<float>;
+
+    /// @brief Returns the change in long average load on the remote host.
+    /// @see long_average_load
+    auto long_average_load_change() const noexcept -> optionally_valid<float>;
 
     /// @brief Returns the total RAM size on the remote host.
     /// @see free_ram_size
@@ -323,25 +457,44 @@ public:
     /// @brief Returns the free RAM size on the remote host.
     /// @see total_ram_size
     /// @see free_swap_size
+    /// @see free_ram_size_change
     /// @see ram_usage
     /// @see system_info::free_ram_size
     auto free_ram_size() const noexcept -> valid_if_positive<span_size_t>;
 
+    /// @brief Returns the change in free RAM size on the remote host.
+    /// @see free_ram_size
+    auto free_ram_size_change() const noexcept -> optionally_valid<span_size_t>;
+
     /// @brief Returns the RAM usage on the remote host (0.0, 1.0).
+    /// @see ram_usage_change
     /// @see total_ram_size
     /// @see free_ram_size
     auto ram_usage() const noexcept -> valid_if_nonnegative<float> {
         if(const auto total{total_ram_size()}) {
             if(const auto free{free_ram_size()}) {
-                return 1.F - float(extract(free)) / float(extract(total));
+                return {1.F - float(extract(free)) / float(extract(total))};
             }
         }
         return {-1.F};
     }
 
+    /// @brief Returns the change in RAM usage on the remote host (-1.0, 1.0).
+    /// @see ram_usage
+    auto ram_usage_change() const noexcept -> optionally_valid<float> {
+        if(const auto total{total_ram_size()}) {
+            if(const auto change{free_ram_size_change()}) {
+                return {-float(extract(change)) / float(extract(total)), true};
+            }
+        }
+        return {};
+    }
+
     /// @brief Returns the total swap size on the remote host.
     /// @see free_swap_size
     /// @see total_ram_size
+    /// @see free_swap_size_change
+    /// @see ram_usage
     /// @see swap_usage
     /// @see system_info::total_swap_size
     auto total_swap_size() const noexcept -> valid_if_positive<span_size_t>;
@@ -349,9 +502,15 @@ public:
     /// @brief Returns the free swap size on the remote host.
     /// @see total_swap_size
     /// @see free_ram_size
+    /// @see free_swap_size_change
     /// @see swap_usage
     /// @see system_info::total_ram_size
     auto free_swap_size() const noexcept -> valid_if_nonnegative<span_size_t>;
+
+    /// @brief Returns the change in free swap size on the remote host.
+    /// @see free_swap_size
+    auto free_swap_size_change() const noexcept
+      -> optionally_valid<span_size_t>;
 
     /// @brief Returns the swap usage on the remote host (0.0, 1.0).
     /// @see total_swap_size
@@ -359,10 +518,21 @@ public:
     auto swap_usage() const noexcept -> valid_if_nonnegative<float> {
         if(const auto total{total_swap_size()}) {
             if(const auto free{free_swap_size()}) {
-                return 1.F - float(extract(free)) / float(extract(total));
+                return {1.F - float(extract(free)) / float(extract(total))};
             }
         }
         return {-1.F};
+    }
+
+    /// @brief Returns the change in swap usage on the remote host (-1.0, 1.0).
+    /// @see swap_usage
+    auto swap_usage_change() const noexcept -> optionally_valid<float> {
+        if(const auto total{total_swap_size()}) {
+            if(const auto change{free_swap_size_change()}) {
+                return {-float(extract(change)) / float(extract(total)), true};
+            }
+        }
+        return {};
     }
 
 protected:
@@ -382,6 +552,10 @@ private:
 class remote_host_state : public remote_host {
 public:
     using remote_host::remote_host;
+
+    auto update() -> remote_host_state&;
+    auto changes() -> remote_host_changes;
+    auto add_change(remote_host_change) -> remote_host_state&;
 
     auto should_query_sensors() -> bool;
     auto sensors_queried() -> remote_host_state&;
@@ -428,6 +602,9 @@ public:
     /// @brief Returns the information about the host where the instance is running.
     auto host() const noexcept -> remote_host;
 
+    /// @brief Returns the application name of this instance.
+    auto application_name() const noexcept -> valid_if_not_empty<string_view>;
+
     /// @brief Returns the build information about the program running in the instance.
     auto build() const noexcept -> optional_reference_wrapper<const build_info>;
 
@@ -450,8 +627,13 @@ class remote_instance_state : public remote_instance {
 public:
     using remote_instance::remote_instance;
 
+    auto update() -> remote_instance_state&;
+    auto changes() -> remote_instance_changes;
+    auto add_change(remote_instance_change) -> remote_instance_state&;
+
     auto notice_alive() -> remote_instance_state&;
     auto set_host_id(host_id_t) -> remote_instance_state&;
+    auto set_app_name(const std::string&) -> remote_instance_state&;
     auto assign(build_info) -> remote_instance_state&;
 };
 //------------------------------------------------------------------------------
@@ -486,9 +668,18 @@ public:
     auto host_id() const noexcept -> valid_if_not_zero<host_id_t>;
 
     /// @brief Returns the kind of the remote node.
+    /// @see has_known_kind
     /// @see is_router_node
     /// @see is_bridge_node
     auto kind() const noexcept -> node_kind;
+
+    /// @brief Indicates if the kind of the remote node is known.
+    /// @see kind
+    /// @see is_router_node
+    /// @see is_bridge_node
+    auto has_known_kind() const noexcept -> bool {
+        return kind() != node_kind::unknown;
+    }
 
     /// @brief Returns if the remote node is a router control node.
     /// @see is_bridge_node
@@ -502,9 +693,6 @@ public:
 
     /// @brief Indicates if endpoint information is available.
     auto has_endpoint_info() const noexcept -> bool;
-
-    /// @brief Returns the application name.
-    auto app_name() const noexcept -> valid_if_not_empty<string_view>;
 
     /// @brief Returns the user-readable display name of the application.
     auto display_name() const noexcept -> valid_if_not_empty<string_view>;
@@ -570,7 +758,9 @@ public:
     auto clear() noexcept -> remote_node_state&;
 
     auto host_state() const noexcept -> remote_host_state;
+    auto instance_state() const noexcept -> remote_instance_state;
 
+    auto update() -> remote_node_state&;
     auto changes() -> remote_node_changes;
     auto add_change(remote_node_change) -> remote_node_state&;
 
@@ -755,6 +945,15 @@ void remote_node_tracker::for_each_node_state(Function func) {
     if(EAGINE_LIKELY(_pimpl)) {
         for(auto& [node_id, node] : _get_nodes()) {
             func(node_id, node);
+        }
+    }
+}
+//------------------------------------------------------------------------------
+template <typename Function>
+void remote_node_tracker::for_each_instance_state(Function func) {
+    if(EAGINE_LIKELY(_pimpl)) {
+        for(auto& [inst_id, inst] : _get_instances()) {
+            func(inst_id, inst);
         }
     }
 }

@@ -10,7 +10,9 @@
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
+#include <eagine/message_bus/service/application_info.hpp>
 #include <eagine/message_bus/service/discovery.hpp>
+#include <eagine/message_bus/service/endpoint_info.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/signal_switch.hpp>
@@ -41,8 +43,11 @@ struct ping_state {
     resetting_timeout should_check_info{std::chrono::seconds(5), nothing};
     bool is_active{false};
 
-    auto avg_time() const noexcept {
-        return sum_time / responded;
+    auto avg_time() const noexcept -> std::chrono::microseconds {
+        if(responded) {
+            return sum_time / responded;
+        }
+        return {};
     }
 
     auto time_interval() const noexcept {
@@ -64,7 +69,8 @@ struct ping_state {
 };
 //------------------------------------------------------------------------------
 using pinger_base =
-  service_composition<pinger<host_info_consumer<subscriber_discovery<>>>>;
+  service_composition<pinger<host_info_consumer<host_info_provider<
+    application_info_provider<endpoint_info_provider<subscriber_discovery<>>>>>>>;
 
 class pinger_node
   : public main_ctx_object
@@ -81,11 +87,18 @@ public:
       , _limit{extract_or(limit, 1000)}
       , _max{extract_or(max, 100000)} {
         object_description("Pinger", "Message bus ping");
+
+        subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_subscribed));
+        unsubscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_unsubscribed));
+        not_subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_not_subscribed));
+        ping_responded.connect(EAGINE_THIS_MEM_FUNC_REF(on_ping_response));
+        ping_timeouted.connect(EAGINE_THIS_MEM_FUNC_REF(on_ping_timeout));
+        host_id_received.connect(EAGINE_THIS_MEM_FUNC_REF(on_host_id_received));
+        hostname_received.connect(
+          EAGINE_THIS_MEM_FUNC_REF(on_hostname_received));
     }
 
-    void is_alive(const subscriber_info&) final {}
-
-    void on_subscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_subscribed(const subscriber_info& info, message_id sub_msg) {
         if(sub_msg == this->ping_msg_id()) {
             auto& stats = _targets[info.endpoint_id];
             if(!stats.is_active) {
@@ -96,7 +109,7 @@ public:
         }
     }
 
-    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) {
         if(sub_msg == this->ping_msg_id()) {
             auto& state = _targets[info.endpoint_id];
             if(state.is_active) {
@@ -107,7 +120,7 @@ public:
         }
     }
 
-    void not_subscribed(const subscriber_info& info, message_id sub_msg) final {
+    void on_not_subscribed(const subscriber_info& info, message_id sub_msg) {
         if(sub_msg == this->ping_msg_id()) {
             auto& state = _targets[info.endpoint_id];
             state.is_active = false;
@@ -118,19 +131,21 @@ public:
 
     void on_host_id_received(
       const result_context& res_ctx,
-      valid_if_positive<host_id_t>&& host_id) final {
+      const valid_if_positive<host_id_t>& host_id) {
         if(host_id) {
-            auto& state = _targets[res_ctx.source_id()];
-            state.host_id = extract(host_id);
+            if(host_id != this->bus().get_id()) {
+                auto& state = _targets[res_ctx.source_id()];
+                state.host_id = extract(host_id);
+            }
         }
     }
 
     void on_hostname_received(
       const result_context& res_ctx,
-      valid_if_not_empty<std::string>&& hostname) final {
+      const valid_if_not_empty<std::string>& hostname) {
         if(hostname) {
             auto& state = _targets[res_ctx.source_id()];
-            state.hostname = extract(std::move(hostname));
+            state.hostname = extract(hostname);
         }
     }
 
@@ -138,7 +153,7 @@ public:
       identifier_t pinger_id,
       message_sequence_t,
       std::chrono::microseconds age,
-      verification_bits) final {
+      verification_bits) {
         auto& state = _targets[pinger_id];
         state.responded++;
         state.min_time = std::min(state.min_time, age);
@@ -166,7 +181,7 @@ public:
     void on_ping_timeout(
       identifier_t pinger_id,
       message_sequence_t,
-      std::chrono::microseconds) final {
+      std::chrono::microseconds) {
         auto& state = _targets[pinger_id];
         state.timeouted++;
         if(EAGINE_UNLIKELY((++_tout % _mod) == 0)) {
@@ -249,6 +264,13 @@ public:
     }
 
 private:
+    auto provide_endpoint_info() -> endpoint_info final {
+        endpoint_info result;
+        result.display_name = "pinger";
+        result.description = "node pinging all other nodes";
+        return result;
+    }
+
     resetting_timeout _should_query_pingable{std::chrono::seconds(3), nothing};
     std::chrono::steady_clock::time_point prev_log{
       std::chrono::steady_clock::now()};

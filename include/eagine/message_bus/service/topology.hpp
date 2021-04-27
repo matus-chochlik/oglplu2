@@ -10,6 +10,7 @@
 #define EAGINE_MESSAGE_BUS_SERVICE_TOPOLOGY_HPP
 
 #include "../serialize.hpp"
+#include "../signal.hpp"
 #include "../subscriber.hpp"
 
 namespace eagine::msgbus {
@@ -17,6 +18,25 @@ namespace eagine::msgbus {
 template <typename Base = subscriber>
 class network_topology : public Base {
     using This = network_topology;
+
+public:
+    void query_topology(identifier_t node_id) {
+        message_view message{};
+        message.set_target_id(node_id);
+        const auto msg_id{EAGINE_MSGBUS_ID(topoQuery)};
+        this->bus().post(msg_id, message);
+    }
+    void discover_topology() {
+        query_topology(broadcast_endpoint_id());
+    }
+
+    signal<void(const router_topology_info&)> router_appeared;
+    signal<void(const bridge_topology_info&)> bridge_appeared;
+    signal<void(const endpoint_topology_info&)> endpoint_appeared;
+
+    signal<void(identifier_t)> router_disappeared;
+    signal<void(identifier_t)> bridge_disappeared;
+    signal<void(identifier_t)> endpoint_disappeared;
 
 protected:
     using Base::Base;
@@ -29,19 +49,16 @@ protected:
           this, EAGINE_MSG_MAP(eagiMsgBus, topoBrdgCn, This, _handle_bridge));
         Base::add_method(
           this, EAGINE_MSG_MAP(eagiMsgBus, topoEndpt, This, _handle_endpoint));
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(eagiMsgBus, byeByeRutr, This, _handle_router_bye));
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(eagiMsgBus, byeByeBrdg, This, _handle_bridge_bye));
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(eagiMsgBus, byeByeEndp, This, _handle_endpoint_bye));
     }
-
-public:
-    void discover_topology() {
-        message_view message{};
-        message.set_target_id(broadcast_endpoint_id());
-        const auto msg_id{EAGINE_MSGBUS_ID(topoQuery)};
-        this->bus().post(msg_id, message);
-    }
-
-    virtual void router_appeared(const router_topology_info& info) = 0;
-    virtual void bridge_appeared(const bridge_topology_info& info) = 0;
-    virtual void endpoint_appeared(const endpoint_topology_info& info) = 0;
 
 private:
     auto _handle_router(const message_context&, stored_message& message)
@@ -68,6 +85,24 @@ private:
         if(default_deserialize(info, message.content())) {
             endpoint_appeared(info);
         }
+        return true;
+    }
+
+    auto _handle_router_bye(const message_context&, stored_message& message)
+      -> bool {
+        router_disappeared(message.source_id);
+        return true;
+    }
+
+    auto _handle_bridge_bye(const message_context&, stored_message& message)
+      -> bool {
+        bridge_disappeared(message.source_id);
+        return true;
+    }
+
+    auto _handle_endpoint_bye(const message_context&, stored_message& message)
+      -> bool {
+        endpoint_disappeared(message.source_id);
         return true;
     }
 };

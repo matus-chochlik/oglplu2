@@ -12,6 +12,7 @@
 #include <eagine/message_bus/router.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
+#include <eagine/message_bus/service/application_info.hpp>
 #include <eagine/message_bus/service/build_info.hpp>
 #include <eagine/message_bus/service/endpoint_info.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
@@ -27,9 +28,9 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using sudoku_helper_base =
-  service_composition<shutdown_target<pingable<build_info_provider<
-    host_info_provider<endpoint_info_provider<sudoku_helper<>>>>>>>;
+using sudoku_helper_base = service_composition<
+  shutdown_target<pingable<build_info_provider<host_info_provider<
+    application_info_provider<endpoint_info_provider<sudoku_helper<>>>>>>>>;
 
 class sudoku_helper_node
   : public main_ctx_object
@@ -37,7 +38,9 @@ class sudoku_helper_node
 public:
     sudoku_helper_node(endpoint& bus)
       : main_ctx_object{EAGINE_ID(SudokuNode), bus}
-      , sudoku_helper_base{bus} {}
+      , sudoku_helper_base{bus} {
+        shutdown_requested.connect(EAGINE_THIS_MEM_FUNC_REF(on_shutdown));
+    }
 
     auto is_shut_down() const noexcept -> bool {
         return _do_shutdown;
@@ -47,7 +50,7 @@ private:
     void on_shutdown(
       std::chrono::milliseconds age,
       identifier_t source_id,
-      verification_bits verified) final {
+      verification_bits verified) {
         log_info("received shutdown request from ${source}")
           .arg(EAGINE_ID(age), age)
           .arg(EAGINE_ID(source), source_id)
@@ -58,7 +61,7 @@ private:
 
     auto provide_endpoint_info() -> endpoint_info final {
         endpoint_info result;
-        result.display_name = "sudoku node";
+        result.display_name = "sudoku helper";
         result.description = "helper node for the sudoku solver service";
         return result;
     }
@@ -91,45 +94,49 @@ auto main(main_ctx& ctx) -> int {
     helpers.reserve(std_size(helper_count));
 
     volatile auto remaining = helper_count + 1;
+
+    auto helper_main = [&]() {
+        std::unique_lock init_lock{helper_mutex};
+        msgbus::endpoint helper_endpoint{EAGINE_ID(SdkHlpEndp), ctx};
+        helper_endpoint.add_connection(acceptor->make_connection());
+        msgbus::sudoku_helper_node helper_node{helper_endpoint};
+        remaining--;
+        helper_cond.notify_all();
+        init_lock.unlock();
+
+        if(std::unique_lock latch_lock{helper_mutex}) {
+            while(remaining > 0) {
+                helper_cond.wait(latch_lock);
+            }
+        }
+
+        int idle_streak = 0;
+        auto keep_running = [&]() {
+            if(idle_streak > 5) {
+                std::unique_lock check_lock{helper_mutex};
+                if(interrupted) {
+                    return false;
+                }
+            }
+            return !(
+              helper_node.is_shut_down() ||
+              (shutdown_when_idle &&
+               (helper_node.idle_time() > max_idle_time)));
+        };
+
+        while(keep_running()) {
+            if(helper_node.update_and_process_all()) {
+                idle_streak = 0;
+            } else {
+                std::this_thread::sleep_for(
+                  std::chrono::milliseconds(math::minimum(++idle_streak, 100)));
+            }
+        }
+    };
+
     for(span_size_t i = 0; i < helper_count; ++i) {
         helpers.emplace_back([&]() {
-            std::unique_lock init_lock{helper_mutex};
-            msgbus::endpoint helper_endpoint{EAGINE_ID(SdkHlpEndp), ctx};
-            helper_endpoint.add_connection(acceptor->make_connection());
-            msgbus::sudoku_helper_node helper_node{helper_endpoint};
-            remaining--;
-            helper_cond.notify_all();
-            init_lock.unlock();
-
-            if(std::unique_lock latch_lock{helper_mutex}) {
-                while(remaining > 0) {
-                    helper_cond.wait(latch_lock);
-                }
-            }
-
-            int idle_streak = 0;
-            auto keep_running = [&]() {
-                if(idle_streak > 5) {
-                    std::unique_lock check_lock{helper_mutex};
-                    if(interrupted) {
-                        return false;
-                    }
-                }
-                return !(
-                  helper_node.is_shut_down() ||
-                  (shutdown_when_idle &&
-                   (helper_node.idle_time() > max_idle_time)));
-            };
-
-            while(keep_running()) {
-                if(helper_node.update_and_process_all()) {
-                    idle_streak = 0;
-                } else {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(
-                      math::minimum(++idle_streak, 100)));
-                }
-            }
-
+            helper_main();
             std::unique_lock finish_lock{helper_mutex};
             helper_count--;
             helper_cond.notify_one();
@@ -173,12 +180,13 @@ auto main(main_ctx& ctx) -> int {
             break;
         }
     }
-
     wd.announce_shutdown();
 
     for(auto& helper : helpers) {
         helper.join();
+        router.update(8);
     }
+    router.finish();
 
     return 0;
 }

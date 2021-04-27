@@ -1,0 +1,45 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+	<file>qtquickcontrols2.conf</file>
+	<file>monitor.qml</file>
+	<file>icons/UnknownHostItem.svg</file>
+	<file>icons/HostItem.svg</file>
+	<file>icons/InstanceItem.svg</file>
+	<file>icons/UnknownNode.svg</file>
+	<file>icons/RouterNode.svg</file>
+	<file>icons/BridgeNode.svg</file>
+	<file>icons/EndpointNode.svg</file>
+	<file>icons/Responsive.svg</file>
+	<file>icons/Unresponsive.svg</file>
+
+	<file>views/AliveIndicator.qml</file>
+	<file>views/NodeListIcon.qml</file>
+	<file>views/NodeListHeading.qml</file>
+	<file>views/ItemViewHeading.qml</file>
+	<file>views/UnknownItemViewHeading.qml</file>
+
+	<file>views/MonitorView.qml</file>
+	<file>views/NodeListView.qml</file>
+	<file>views/NodeListItem.qml</file>
+	<file>views/HostListItem.qml</file>
+	<file>views/InstanceListItem.qml</file>
+	<file>views/RouterListItem.qml</file>
+	<file>views/BridgeListItem.qml</file>
+	<file>views/EndpointListItem.qml</file>
+	<file>views/UnknownHostListItem.qml</file>
+	<file>views/UnknownInstanceListItem.qml</file>
+	<file>views/UnknownNodeListItem.qml</file>
+
+	<file>views/NoItemView.qml</file>
+	<file>views/HostView.qml</file>
+	<file>views/InstanceView.qml</file>
+	<file>views/RouterView.qml</file>
+	<file>views/BridgeView.qml</file>
+	<file>views/EndpointView.qml</file>
+	<file>views/ParentHostView.qml</file>
+	<file>views/ParentInstanceView.qml</file>
+	<file>views/UnknownHostView.qml</file>
+	<file>views/UnknownInstanceView.qml</file>
+	<file>views/UnknownNodeView.qml</file>
+</qresource>
+</RCC>

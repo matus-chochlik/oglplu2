@@ -10,6 +10,7 @@
 #define EAGINE_MESSAGE_BUS_SERVICE_SHUTDOWN_HPP
 
 #include "../serialize.hpp"
+#include "../signal.hpp"
 #include "../subscriber.hpp"
 #include <chrono>
 
@@ -36,10 +37,11 @@ protected:
     }
 
 public:
-    virtual void on_shutdown(
+    signal<void(
       std::chrono::milliseconds age,
       identifier_t source_id,
-      verification_bits verified) = 0;
+      verification_bits verified)>
+      shutdown_requested;
 
 private:
     auto _handle_shutdown(const message_context&, stored_message& message)
@@ -49,7 +51,7 @@ private:
             const shutdown_service_duration ticks{count};
             const typename shutdown_service_clock::time_point ts{ticks};
             const auto age{this->now() - ts};
-            on_shutdown(
+            shutdown_requested(
               std::chrono::duration_cast<std::chrono::milliseconds>(age),
               message.source_id,
               this->verify_bits(message));

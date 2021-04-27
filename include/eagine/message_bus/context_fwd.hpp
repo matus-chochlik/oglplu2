@@ -20,7 +20,7 @@ class context;
 //------------------------------------------------------------------------------
 using shared_context = std::shared_ptr<context>;
 //------------------------------------------------------------------------------
-auto make_context(main_ctx_parent) -> std::shared_ptr<context>;
+[[nodiscard]] auto make_context(main_ctx_parent) -> std::shared_ptr<context>;
 //------------------------------------------------------------------------------
 } // namespace msgbus
 } // namespace eagine
