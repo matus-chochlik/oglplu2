@@ -221,6 +221,45 @@ auto NodeListViewModel::Data::findSelectedRow() const noexcept -> int {
     return rowOf(selectedHostId);
 }
 //------------------------------------------------------------------------------
+void NodeListViewModel::Data::fixupHierarchy(
+  eagine::identifier_t hostId,
+  eagine::identifier_t instId,
+  eagine::identifier_t nodeId) {
+    for(auto& hostEntry : hosts) {
+        auto& hostInfo = hostEntry.second;
+        for(auto& instEntry : hostInfo.instances) {
+            auto& instInfo = instEntry.second;
+
+            if(instEntry.first != instId) {
+                instInfo.nodes.erase(
+                  std::remove_if(
+                    instInfo.nodes.begin(),
+                    instInfo.nodes.end(),
+                    [nodeId](auto& nodeEntry) {
+                        return nodeEntry.first == nodeId;
+                    }),
+                  instInfo.nodes.end());
+            }
+        }
+        if(hostEntry.first != hostId) {
+            hostInfo.instances.erase(
+              std::remove_if(
+                hostInfo.instances.begin(),
+                hostInfo.instances.end(),
+                [instId](auto& instEntry) {
+                    return instEntry.first == instId;
+                }),
+              hostInfo.instances.end());
+        }
+    }
+    hosts.erase(
+      std::remove_if(
+        hosts.begin(),
+        hosts.end(),
+        [](auto& hostEntry) { return hostEntry.second.instances.empty(); }),
+      hosts.end());
+}
+//------------------------------------------------------------------------------
 auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
     const auto nodeId = extract(node.id());
     const auto instId = extract_or(node.instance().id(), 0U);
@@ -244,21 +283,25 @@ auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
             const auto prevInstPos = prevHostInfo.instances.find(prevInstId);
             EAGINE_ASSERT(prevInstPos != prevHostInfo.instances.end());
             auto& prevInstInfo = prevInstPos->second;
-            const auto prevNodePos = prevInstInfo.nodes.find(nodeId);
-            EAGINE_ASSERT(prevNodePos != prevInstInfo.nodes.end());
-            auto& prevNodeInfo = prevNodePos->second;
 
             if(instId != prevInstId) {
                 if(!instInfo.instance) {
                     instInfo.instance = node.instance();
                 }
-                auto& nodeInfo = instInfo.nodes[nodeId];
-                nodeInfo = std::move(prevNodeInfo);
-                EAGINE_ASSERT(nodeInfo.node);
-
                 node2Inst[nodeId] = instId;
                 inst2Host[instId] = hostId;
-                prevInstInfo.nodes.erase(prevNodePos);
+
+                auto& nodeInfo = instInfo.nodes[nodeId];
+                const auto prevNodePos = prevInstInfo.nodes.find(nodeId);
+                if(prevNodePos != prevInstInfo.nodes.end()) {
+                    auto& prevNodeInfo = prevNodePos->second;
+                    nodeInfo = std::move(prevNodeInfo);
+                    prevInstInfo.nodes.erase(prevNodePos);
+                } else {
+                    nodeInfo.node = node;
+                }
+                EAGINE_ASSERT(nodeInfo.node);
+
                 relocated = true;
             }
 
@@ -287,6 +330,7 @@ auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
             }
 
             if(relocated) {
+                fixupHierarchy(hostId, instId, nodeId);
                 return -1;
             }
         }
@@ -298,6 +342,7 @@ auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
     nodeInfo.node = node;
     node2Inst[nodeId] = instId;
     inst2Host[instId] = hostId;
+    fixupHierarchy(hostId, instId, nodeId);
     return -1;
 }
 //------------------------------------------------------------------------------

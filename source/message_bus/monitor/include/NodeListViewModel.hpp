@@ -141,6 +141,11 @@ private:
 
         auto findSelectedRow() const noexcept -> int;
 
+        void fixupHierarchy(
+          eagine::identifier_t hostId,
+          eagine::identifier_t instId,
+          eagine::identifier_t nodeId);
+
         auto updateNode(const remote_node&) -> int;
         auto removeNode(eagine::identifier_t) -> bool;
         auto updateInst(const remote_inst&) -> int;
