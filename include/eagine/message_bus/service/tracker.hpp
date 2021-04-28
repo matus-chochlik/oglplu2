@@ -12,11 +12,8 @@
 #include "../remote_node.hpp"
 #include "../serialize.hpp"
 #include "../subscriber.hpp"
-#include "application_info.hpp"
-#include "build_info.hpp"
-#include "compiler_info.hpp"
+#include "common_info.hpp"
 #include "discovery.hpp"
-#include "endpoint_info.hpp"
 #include "host_info.hpp"
 #include "ping_pong.hpp"
 #include "system_info.hpp"
@@ -25,9 +22,8 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename Base>
-using node_tracker_base = pinger<system_info_consumer<host_info_consumer<
-  compiler_info_consumer<build_info_consumer<application_info_consumer<
-    endpoint_info_consumer<network_topology<subscriber_discovery<Base>>>>>>>>>;
+using node_tracker_base = pinger<system_info_consumer<
+  common_info_consumers<network_topology<subscriber_discovery<Base>>>>>;
 //------------------------------------------------------------------------------
 template <typename Base = subscriber>
 class node_tracker : public node_tracker_base<Base> {
