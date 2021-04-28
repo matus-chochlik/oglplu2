@@ -238,6 +238,7 @@ protected:
         this->endpoint_appeared.connect(on_endpoint_appeared());
         this->application_name_received.connect(on_application_name_received());
         this->endpoint_info_received.connect(on_endpoint_info_received());
+        this->compiler_info_received.connect(on_compiler_info_received());
         this->build_info_received.connect(on_build_info_received());
         this->cpu_concurrent_threads_received.connect(
           on_cpu_concurrent_threads_received());
