@@ -24,6 +24,12 @@ template <typename Base = subscriber>
 class subscriber_discovery : public Base {
     using This = subscriber_discovery;
 
+public:
+    signal<void(const subscriber_info&)> reported_alive;
+    signal<void(const subscriber_info&, message_id)> subscribed;
+    signal<void(const subscriber_info&, message_id)> unsubscribed;
+    signal<void(const subscriber_info&, message_id)> not_subscribed;
+
 protected:
     using Base::Base;
 
@@ -41,12 +47,6 @@ protected:
           this,
           EAGINE_MSG_MAP(eagiMsgBus, notSubTo, This, _handle_not_subscribed));
     }
-
-public:
-    signal<void(const subscriber_info&)> reported_alive;
-    signal<void(const subscriber_info&, message_id)> subscribed;
-    signal<void(const subscriber_info&, message_id)> unsubscribed;
-    signal<void(const subscriber_info&, message_id)> not_subscribed;
 
 private:
     auto _handle_alive(const message_context&, stored_message& message)

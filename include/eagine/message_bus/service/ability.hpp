@@ -18,6 +18,9 @@ template <typename Base = subscriber>
 class ability_provider : public Base {
     using This = ability_provider;
 
+public:
+    virtual auto can_handle(message_id) -> bool = 0;
+
 protected:
     using Base::Base;
 
@@ -26,9 +29,6 @@ protected:
         Base::add_method(
           this, EAGINE_MSG_MAP(Ability, query, This, _handle_query));
     }
-
-public:
-    virtual auto can_handle(message_id) -> bool = 0;
 
 private:
     auto _handle_query(const message_context& msg_ctx, stored_message& message)
@@ -51,15 +51,6 @@ class ability_tester : public Base {
 
     using This = ability_tester;
 
-protected:
-    using Base::Base;
-
-    void add_methods() {
-        Base::add_methods();
-        Base::add_method(
-          this, EAGINE_MSG_MAP(Ability, response, This, _handle_response));
-    }
-
 public:
     void find_handler(message_id msg_id) {
         std::array<byte, 32> temp{};
@@ -71,6 +62,15 @@ public:
     }
 
     signal<void(identifier_t target_id, message_id)> handler_found;
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+        Base::add_method(
+          this, EAGINE_MSG_MAP(Ability, response, This, _handle_response));
+    }
 
 private:
     auto _handle_response(const message_context&, stored_message& message)

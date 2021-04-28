@@ -55,19 +55,6 @@ class host_info_consumer : public Base {
 
     using This = host_info_consumer;
 
-protected:
-    using Base::Base;
-
-    void add_methods() {
-        Base::add_methods();
-
-        Base::add_method(
-          _host_id(host_id_received)[EAGINE_MSG_ID(eagiSysInf, hostId)]);
-
-        Base::add_method(
-          _hostname(hostname_received)[EAGINE_MSG_ID(eagiSysInf, hostname)]);
-    }
-
 public:
     void query_host_id(identifier_t endpoint_id) {
         _host_id.invoke_on(
@@ -84,6 +71,19 @@ public:
 
     signal<void(const result_context&, const valid_if_not_empty<std::string>&)>
       hostname_received;
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+
+        Base::add_method(
+          _host_id(host_id_received)[EAGINE_MSG_ID(eagiSysInf, hostId)]);
+
+        Base::add_method(
+          _hostname(hostname_received)[EAGINE_MSG_ID(eagiSysInf, hostname)]);
+    }
 
 private:
     default_callback_invoker<valid_if_positive<host_id_t>(), 32> _host_id;

@@ -27,6 +27,13 @@ class shutdown_target
   , protected shutdown_service_clock {
     using This = shutdown_target;
 
+public:
+    signal<void(
+      std::chrono::milliseconds age,
+      identifier_t source_id,
+      verification_bits verified)>
+      shutdown_requested;
+
 protected:
     using Base::Base;
 
@@ -35,13 +42,6 @@ protected:
         Base::add_method(
           this, EAGINE_MSG_MAP(Shutdown, shutdown, This, _handle_shutdown));
     }
-
-public:
-    signal<void(
-      std::chrono::milliseconds age,
-      identifier_t source_id,
-      verification_bits verified)>
-      shutdown_requested;
 
 private:
     auto _handle_shutdown(const message_context&, stored_message& message)
@@ -67,9 +67,6 @@ class shutdown_invoker
 
     using This = shutdown_invoker;
 
-protected:
-    using Base::Base;
-
 public:
     void shutdown_one(identifier_t target_id) {
         std::array<byte, 32> temp{};
@@ -84,6 +81,9 @@ public:
         message.set_target_id(target_id);
         this->bus().post_signed(EAGINE_MSG_ID(Shutdown, shutdown), message);
     }
+
+protected:
+    using Base::Base;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

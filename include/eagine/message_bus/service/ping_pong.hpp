@@ -23,15 +23,6 @@ template <typename Base = subscriber>
 class pingable : public Base {
     using This = pingable;
 
-protected:
-    using Base::Base;
-
-    void add_methods() {
-        Base::add_methods();
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiMsgBus, ping, This, _handle_ping));
-    }
-
 public:
     virtual auto respond_to_ping(
       identifier_t pinger_id,
@@ -39,6 +30,15 @@ public:
       verification_bits) -> bool {
         EAGINE_MAYBE_UNUSED(pinger_id);
         return true;
+    }
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+        Base::add_method(
+          this, EAGINE_MSG_MAP(eagiMsgBus, ping, This, _handle_ping));
     }
 
 private:
@@ -62,15 +62,6 @@ class pinger
 
     std::vector<std::tuple<identifier_t, message_sequence_t, timeout>>
       _pending{};
-
-protected:
-    using Base::Base;
-
-    void add_methods() {
-        Base::add_methods();
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiMsgBus, pong, This, _handle_pong));
-    }
 
 public:
     static constexpr auto ping_msg_id() noexcept {
@@ -136,6 +127,15 @@ public:
       message_sequence_t sequence_no,
       std::chrono::microseconds age)>
       ping_timeouted;
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+        Base::add_method(
+          this, EAGINE_MSG_MAP(eagiMsgBus, pong, This, _handle_pong));
+    }
 
 private:
     auto _handle_pong(const message_context&, stored_message& message) -> bool {

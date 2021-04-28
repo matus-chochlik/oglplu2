@@ -23,6 +23,9 @@ template <typename Base = subscriber>
 class endpoint_info_provider : public Base {
     using This = endpoint_info_provider;
 
+public:
+    virtual auto provide_endpoint_info() -> endpoint_info = 0;
+
 protected:
     using Base::Base;
 
@@ -35,9 +38,6 @@ protected:
           EAGINE_MEM_FUNC_C(
             This, _get_endpoint_info))[EAGINE_MSG_ID(eagiEptInf, request)]);
     }
-
-public:
-    virtual auto provide_endpoint_info() -> endpoint_info = 0;
 
 private:
     auto _get_endpoint_info() -> endpoint_info {
@@ -52,6 +52,15 @@ class endpoint_info_consumer : public Base {
 
     using This = endpoint_info_consumer;
 
+public:
+    void query_endpoint_info(identifier_t endpoint_id) {
+        _info.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiEptInf, request));
+    }
+
+    signal<void(const result_context&, const endpoint_info&)>
+      endpoint_info_received;
+
 protected:
     using Base::Base;
 
@@ -61,15 +70,6 @@ protected:
         Base::add_method(
           _info(endpoint_info_received)[EAGINE_MSG_ID(eagiEptInf, response)]);
     }
-
-public:
-    void query_endpoint_info(identifier_t endpoint_id) {
-        _info.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiEptInf, request));
-    }
-
-    signal<void(const result_context&, const endpoint_info&)>
-      endpoint_info_received;
 
 private:
     default_callback_invoker<endpoint_info(), 1024> _info;

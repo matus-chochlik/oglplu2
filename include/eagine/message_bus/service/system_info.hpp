@@ -123,41 +123,6 @@ private:
 template <typename Base = subscriber>
 class system_info_consumer : public Base {
 
-protected:
-    using Base::Base;
-
-    void add_methods() {
-        Base::add_methods();
-
-        Base::add_method(
-          _uptime(uptime_received)[EAGINE_MSG_ID(eagiSysInf, uptime)]);
-
-        Base::add_method(_cpu_concurrent_threads(
-          cpu_concurrent_threads_received)[EAGINE_MSG_ID(
-          eagiSysInf, cpuThreads)]);
-
-        Base::add_method(_short_average_load(
-          short_average_load_received)[EAGINE_MSG_ID(eagiSysInf, shortLoad)]);
-
-        Base::add_method(_long_average_load(
-          long_average_load_received)[EAGINE_MSG_ID(eagiSysInf, longLoad)]);
-
-        Base::add_method(_memory_page_size(
-          memory_page_size_received)[EAGINE_MSG_ID(eagiSysInf, memPageSz)]);
-
-        Base::add_method(_free_ram_size(
-          free_ram_size_received)[EAGINE_MSG_ID(eagiSysInf, freeRamSz)]);
-
-        Base::add_method(_total_ram_size(
-          total_ram_size_received)[EAGINE_MSG_ID(eagiSysInf, totalRamSz)]);
-
-        Base::add_method(_free_swap_size(
-          free_swap_size_received)[EAGINE_MSG_ID(eagiSysInf, freeSwpSz)]);
-
-        Base::add_method(_total_swap_size(
-          total_swap_size_received)[EAGINE_MSG_ID(eagiSysInf, totalSwpSz)]);
-    }
-
 public:
     void query_uptime(identifier_t endpoint_id) {
         _uptime.invoke_on(
@@ -257,6 +222,41 @@ private:
 
     default_callback_invoker<valid_if_nonnegative<span_size_t>(), 32>
       _total_swap_size;
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+
+        Base::add_method(
+          _uptime(uptime_received)[EAGINE_MSG_ID(eagiSysInf, uptime)]);
+
+        Base::add_method(_cpu_concurrent_threads(
+          cpu_concurrent_threads_received)[EAGINE_MSG_ID(
+          eagiSysInf, cpuThreads)]);
+
+        Base::add_method(_short_average_load(
+          short_average_load_received)[EAGINE_MSG_ID(eagiSysInf, shortLoad)]);
+
+        Base::add_method(_long_average_load(
+          long_average_load_received)[EAGINE_MSG_ID(eagiSysInf, longLoad)]);
+
+        Base::add_method(_memory_page_size(
+          memory_page_size_received)[EAGINE_MSG_ID(eagiSysInf, memPageSz)]);
+
+        Base::add_method(_free_ram_size(
+          free_ram_size_received)[EAGINE_MSG_ID(eagiSysInf, freeRamSz)]);
+
+        Base::add_method(_total_ram_size(
+          total_ram_size_received)[EAGINE_MSG_ID(eagiSysInf, totalRamSz)]);
+
+        Base::add_method(_free_swap_size(
+          free_swap_size_received)[EAGINE_MSG_ID(eagiSysInf, freeSwpSz)]);
+
+        Base::add_method(_total_swap_size(
+          total_swap_size_received)[EAGINE_MSG_ID(eagiSysInf, totalSwpSz)]);
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

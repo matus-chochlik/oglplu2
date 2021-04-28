@@ -43,6 +43,15 @@ class application_info_consumer : public Base {
 
     using This = application_info_consumer;
 
+public:
+    void query_application_name(identifier_t endpoint_id) {
+        _app_name.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiAppInf, rqAppName));
+    }
+
+    signal<void(const result_context&, const valid_if_not_empty<std::string>&)>
+      application_name_received;
+
 protected:
     using Base::Base;
 
@@ -52,15 +61,6 @@ protected:
         Base::add_method(_app_name(
           application_name_received)[EAGINE_MSG_ID(eagiAppInf, appName)]);
     }
-
-public:
-    void query_application_name(identifier_t endpoint_id) {
-        _app_name.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiAppInf, rqAppName));
-    }
-
-    signal<void(const result_context&, const valid_if_not_empty<std::string>&)>
-      application_name_received;
 
 private:
     default_callback_invoker<std::string(), 256> _app_name;

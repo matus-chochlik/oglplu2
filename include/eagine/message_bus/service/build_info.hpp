@@ -46,6 +46,14 @@ class build_info_consumer : public Base {
 
     using This = build_info_consumer;
 
+public:
+    void query_build_info(identifier_t endpoint_id) {
+        _build.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiBldInf, request));
+    }
+
+    signal<void(const result_context&, const build_info&)> build_info_received;
+
 protected:
     using Base::Base;
 
@@ -55,14 +63,6 @@ protected:
         Base::add_method(
           _build(build_info_received)[EAGINE_MSG_ID(eagiBldInf, response)]);
     }
-
-public:
-    void query_build_info(identifier_t endpoint_id) {
-        _build.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiBldInf, request));
-    }
-
-    signal<void(const result_context&, const build_info&)> build_info_received;
 
 private:
     default_callback_invoker<build_info(), 32> _build;
