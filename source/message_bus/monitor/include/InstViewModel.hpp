@@ -26,6 +26,16 @@ class InstViewModel
     Q_PROPERTY(QVariant displayName READ getDisplayName NOTIFY infoChanged)
     Q_PROPERTY(QVariant description READ getDescription NOTIFY infoChanged)
 
+    Q_PROPERTY(QVariant architecture READ getArchitecture NOTIFY infoChanged)
+
+    Q_PROPERTY(QVariant compilerName READ getCompilerName NOTIFY infoChanged)
+    Q_PROPERTY(QVariant compilerVersionMajor READ getCompilerVersionMajor NOTIFY
+                 infoChanged)
+    Q_PROPERTY(QVariant compilerVersionMinor READ getCompilerVersionMinor NOTIFY
+                 infoChanged)
+    Q_PROPERTY(QVariant compilerVersionPatch READ getCompilerVersionPatch NOTIFY
+                 infoChanged)
+
     Q_PROPERTY(QVariant versionMajor READ getVersionMajor NOTIFY infoChanged)
     Q_PROPERTY(QVariant versionMinor READ getVersionMinor NOTIFY infoChanged)
     Q_PROPERTY(QVariant versionPatch READ getVersionPatch NOTIFY infoChanged)
@@ -44,6 +54,13 @@ public:
     auto getIdentifier() -> QVariant;
     auto getDisplayName() -> QVariant;
     auto getDescription() -> QVariant;
+
+    auto getArchitecture() -> QVariant;
+
+    auto getCompilerName() -> QVariant;
+    auto getCompilerVersionMajor() -> QVariant;
+    auto getCompilerVersionMinor() -> QVariant;
+    auto getCompilerVersionPatch() -> QVariant;
 
     auto getVersionMajor() -> QVariant;
     auto getVersionMinor() -> QVariant;
