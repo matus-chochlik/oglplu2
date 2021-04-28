@@ -21,6 +21,7 @@ private:
     const process_instance_id_t _instance_id{make_process_instance_id()};
     program_args _args;
     root_logger _log_root;
+    compiler_info _cmplr_info;
     build_info _bld_info;
     process_watchdog _watchdog;
     application_config _app_config;
@@ -75,6 +76,10 @@ public:
         return _app_config;
     }
 
+    auto compiler() noexcept -> auto& {
+        return _cmplr_info;
+    }
+
     auto build() noexcept -> auto& {
         return _bld_info;
     }
@@ -117,6 +122,7 @@ main_ctx::main_ctx(master_ctx& master) noexcept
   , _log{master.log()}
   , _watchdog{master.watchdog()}
   , _app_config{master.config()}
+  , _cmplr_info{master.compiler()}
   , _bld_info{master.build()}
   , _sys_info{master.system()}
   , _usr_info{master.user()}
