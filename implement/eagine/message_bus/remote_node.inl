@@ -16,6 +16,7 @@ class remote_instance_impl {
 public:
     timeout is_alive{std::chrono::seconds{180}};
     string_view app_name;
+    optionally_valid<compiler_info> cmplr_info;
     optionally_valid<build_info> bld_info;
     host_id_t host_id{0U};
 
@@ -137,6 +138,18 @@ auto remote_instance::application_name() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_instance::compiler() const noexcept
+  -> optional_reference_wrapper<const compiler_info> {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.cmplr_info) {
+            return {extract(i.cmplr_info)};
+        }
+    }
+    return {nothing};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_instance::build() const noexcept
   -> optional_reference_wrapper<const build_info> {
     if(auto impl{_impl()}) {
@@ -218,6 +231,19 @@ auto remote_instance_state::set_app_name(const std::string& new_app_name)
         if(!are_equal(app_name, i.app_name)) {
             i.app_name = app_name;
             i.changes |= remote_instance_change::application_info;
+        }
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_instance_state::assign(compiler_info info)
+  -> remote_instance_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(!i.cmplr_info) {
+            i.cmplr_info = {std::move(info), true};
+            i.changes |= remote_instance_change::build_info;
         }
     }
     return *this;

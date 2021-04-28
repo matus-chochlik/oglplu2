@@ -14,6 +14,7 @@
 #include "../subscriber.hpp"
 #include "application_info.hpp"
 #include "build_info.hpp"
+#include "compiler_info.hpp"
 #include "discovery.hpp"
 #include "endpoint_info.hpp"
 #include "host_info.hpp"
@@ -24,9 +25,9 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename Base>
-using node_tracker_base = pinger<system_info_consumer<
-  host_info_consumer<build_info_consumer<application_info_consumer<
-    endpoint_info_consumer<network_topology<subscriber_discovery<Base>>>>>>>>;
+using node_tracker_base = pinger<system_info_consumer<host_info_consumer<
+  compiler_info_consumer<build_info_consumer<application_info_consumer<
+    endpoint_info_consumer<network_topology<subscriber_discovery<Base>>>>>>>>>;
 //------------------------------------------------------------------------------
 template <typename Base = subscriber>
 class node_tracker : public node_tracker_base<Base> {
@@ -81,6 +82,10 @@ public:
 
     auto on_endpoint_info_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_info_received);
+    }
+
+    auto on_compiler_info_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_compiler_info_received);
     }
 
     auto on_build_info_received() noexcept {
@@ -153,6 +158,9 @@ public:
                 }
                 if(!node.has_endpoint_info()) {
                     this->query_endpoint_info(node_id);
+                }
+                if(!node.instance().compiler()) {
+                    this->query_compiler_info(node_id);
                 }
                 if(!node.instance().build()) {
                     this->query_build_info(node_id);
@@ -400,6 +408,20 @@ private:
                       host_node.add_change(remote_node_change::host_info);
                   });
             }
+        }
+    }
+
+    void _handle_compiler_info_received(
+      const result_context& ctx,
+      const compiler_info& info) {
+        auto& node = _get_node(ctx.source_id()).notice_alive();
+        if(auto inst_id{node.instance_id()}) {
+            auto& inst = _get_instance(extract(inst_id));
+            inst.assign(info);
+            _tracker.for_each_instance_node_state(
+              extract(inst_id), [&](auto, auto& inst_node) {
+                  inst_node.add_change(remote_node_change::build_info);
+              });
         }
     }
 

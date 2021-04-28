@@ -295,7 +295,7 @@ struct serializer<std::basic_string<Char, Traits, Alloc>>
     template <typename Backend>
     auto write(
       const std::basic_string<Char, Traits, Alloc>& value,
-      Backend& backend) {
+      Backend& backend) const {
         return _serializer.write(value, backend);
     }
 

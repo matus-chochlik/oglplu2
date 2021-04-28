@@ -12,6 +12,7 @@
 #include "../bitfield.hpp"
 #include "../build_info.hpp"
 #include "../callable_ref.hpp"
+#include "../compiler_info.hpp"
 #include "../flat_map.hpp"
 #include "../identifier_t.hpp"
 #include "../message_id.hpp"
@@ -608,6 +609,10 @@ public:
     /// @brief Returns the application name of this instance.
     auto application_name() const noexcept -> valid_if_not_empty<string_view>;
 
+    /// @brief Returns the compiler information about the program running in the instance.
+    auto compiler() const noexcept
+      -> optional_reference_wrapper<const compiler_info>;
+
     /// @brief Returns the build information about the program running in the instance.
     auto build() const noexcept -> optional_reference_wrapper<const build_info>;
 
@@ -637,6 +642,7 @@ public:
     auto notice_alive() -> remote_instance_state&;
     auto set_host_id(host_id_t) -> remote_instance_state&;
     auto set_app_name(const std::string&) -> remote_instance_state&;
+    auto assign(compiler_info) -> remote_instance_state&;
     auto assign(build_info) -> remote_instance_state&;
 };
 //------------------------------------------------------------------------------

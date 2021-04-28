@@ -11,6 +11,7 @@
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/application_info.hpp>
 #include <eagine/message_bus/service/build_info.hpp>
+#include <eagine/message_bus/service/compiler_info.hpp>
 #include <eagine/message_bus/service/endpoint_info.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
@@ -24,9 +25,9 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using pingable_node_base =
-  service_composition<shutdown_target<pingable<build_info_provider<
-    host_info_provider<application_info_provider<endpoint_info_provider<>>>>>>>;
+using pingable_node_base = service_composition<
+  shutdown_target<pingable<compiler_info_provider<build_info_provider<
+    host_info_provider<application_info_provider<endpoint_info_provider<>>>>>>>>;
 
 class pingable_node
   : public main_ctx_object
