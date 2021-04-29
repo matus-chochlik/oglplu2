@@ -17,7 +17,14 @@ auto main() -> int {
     while((std::cin >> line).good()) {
         url u{line};
 
-        std::cout << "scheme:   " << u.scheme() << std::endl;
+        std::cout << "scheme:     " << u.scheme() << std::endl;
+        std::cout << "login:      " << u.login() << std::endl;
+        std::cout << "password:   " << u.password() << std::endl;
+        std::cout << "host:       " << u.host() << std::endl;
+        std::cout << "port:       " << u.port() << std::endl;
+        std::cout << "path:       " << u.path() << std::endl;
+        std::cout << "query:      " << u.query() << std::endl;
+        std::cout << "fragment:   " << u.fragment() << std::endl;
     }
 
     return 0;
