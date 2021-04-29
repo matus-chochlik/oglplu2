@@ -20,6 +20,10 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Service providing information about endpoint build version.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see build_info_consumer
 template <typename Base = subscriber>
 class build_info_provider : public Base {
     using This = build_info_provider;
@@ -41,17 +45,26 @@ private:
     default_function_skeleton<const build_info&() noexcept, 256> _respond;
 };
 //------------------------------------------------------------------------------
+/// @brief Service consuming information about endpoint build version.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see build_info_provider
+/// @see build_info
 template <typename Base = subscriber>
 class build_info_consumer : public Base {
 
     using This = build_info_consumer;
 
 public:
+    /// @brief Queries endpoint's build version information.
+    /// @see build_info_received
     void query_build_info(identifier_t endpoint_id) {
         _build.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiBldInf, request));
     }
 
+    /// @brief Triggered on receipt of endpoint's build version information.
+    /// @see query_build_info
     signal<void(const result_context&, const build_info&)> build_info_received;
 
 protected:

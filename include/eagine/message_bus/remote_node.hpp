@@ -696,7 +696,7 @@ public:
     auto is_router_node() const noexcept -> tribool;
 
     /// @brief Returns if the remote node is a router control node.
-    /// @see is_bridge_node
+    /// @see is_router_node
     /// @see kind
     auto is_bridge_node() const noexcept -> tribool;
 

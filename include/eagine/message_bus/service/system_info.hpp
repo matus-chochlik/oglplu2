@@ -19,6 +19,11 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Service providing basic information about endpoint's host system.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see system_info_consumer
+/// @see system_info
 template <typename Base = subscriber>
 class system_info_provider : public Base {
 
@@ -120,79 +125,124 @@ private:
       _total_swap_size;
 };
 //------------------------------------------------------------------------------
+/// @brief Service consuming basic information about endpoint's host system.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see system_info_provider
+/// @see system_info
 template <typename Base = subscriber>
 class system_info_consumer : public Base {
 
 public:
+    /// @brief Queries the endpoint's host system uptime.
+    /// @see uptime_received
     void query_uptime(identifier_t endpoint_id) {
         _uptime.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqUptime));
     }
 
+    /// @brief Triggered on receipt of endpoint's system uptime.
+    /// @see query_uptime
     signal<void(const result_context&, const std::chrono::duration<float>&)>
       uptime_received;
 
+    /// @brief Queries the endpoint's host CPU's supported concurrent thread count.
+    /// @see cpu_concurrent_threads_received
     void query_cpu_concurrent_threads(identifier_t endpoint_id) {
         _cpu_concurrent_threads.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqCpuThrds));
     }
 
+    /// @brief Triggered on receipt of CPU's supported concurrent thread count.
+    /// @see query_cpu_concurrent_threads
     signal<void(const result_context&, const valid_if_positive<span_size_t>&)>
       cpu_concurrent_threads_received;
 
+    /// @brief Queries the endpoint's host system short average load (0.0 - 1.0)
+    /// @see short_average_load_received
     void query_short_average_load(identifier_t endpoint_id) {
         _short_average_load.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqShrtLoad));
     }
 
+    /// @brief Triggered on receipt of endpoint's host short average load.
+    /// @see query_short_average_load
     signal<void(const result_context&, const valid_if_nonnegative<float>&)>
       short_average_load_received;
 
+    /// @brief Queries the endpoint's host system long average load (0.0 - 1.0)
+    /// @see long_average_load_received
     void query_long_average_load(identifier_t endpoint_id) {
         _long_average_load.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqLongLoad));
     }
 
+    /// @brief Triggered on receipt of endpoint's host long average load.
+    /// @see query_long_average_load
     signal<void(const result_context&, const valid_if_nonnegative<float>&)>
       long_average_load_received;
 
+    /// @brief Queries the endpoint's host system memory page size in bytes.
+    /// @see memory_page_size_received
     void query_memory_page_size(identifier_t endpoint_id) {
         _memory_page_size.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqMemPgSz));
     }
 
+    /// @brief Triggered on receipt of endpoint's host system memory page size
+    /// @see query_memory_page_size
     signal<void(const result_context&, const valid_if_positive<span_size_t>&)>
       memory_page_size_received;
 
+    /// @brief Queries the endpoint's host system free RAM size in bytes.
+    /// @see free_ram_size_received
+    /// @see query_total_ram_size
     void query_free_ram_size(identifier_t endpoint_id) {
         _free_ram_size.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqFreRamSz));
     }
 
+    /// @brief Triggered on receipt of endpoint's host system free RAM size
+    /// @see query_free_ram_size
     signal<void(const result_context&, const valid_if_positive<span_size_t>&)>
       free_ram_size_received;
 
+    /// @brief Queries the endpoint's host system total RAM size in bytes.
+    /// @see total_ram_size_received
+    /// @see query_free_ram_size
     void query_total_ram_size(identifier_t endpoint_id) {
         _total_ram_size.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTtlRamSz));
     }
 
+    /// @brief Triggered on receipt of endpoint's host system total RAM size
+    /// @see query_total_ram_size
     signal<void(const result_context&, const valid_if_positive<span_size_t>&)>
       total_ram_size_received;
 
+    /// @brief Queries the endpoint's host system free swap size in bytes.
+    /// @see free_swap_size_received
+    /// @see query_total_swap_size
     void query_free_swap_size(identifier_t endpoint_id) {
         _free_swap_size.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqFreSwpSz));
     }
 
+    /// @brief Triggered on receipt of endpoint's host system free swap size
+    /// @see query_free_swap_size
     signal<void(const result_context&, const valid_if_nonnegative<span_size_t>&)>
       free_swap_size_received;
 
+    /// @brief Queries the endpoint's host system total swap size in bytes.
+    /// @see total_swap_size_received
+    /// @see query_free_swap_size
     void query_total_swap_size(identifier_t endpoint_id) {
         _total_swap_size.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTtlSwpSz));
     }
 
+    /// @brief Triggered on receipt of endpoint's host system total swap size
+    /// @see query_total_swap_size
     signal<void(const result_context&, const valid_if_nonnegative<span_size_t>&)>
       total_swap_size_received;
 

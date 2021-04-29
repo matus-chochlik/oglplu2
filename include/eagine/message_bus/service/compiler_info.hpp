@@ -20,6 +20,10 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Service providing information about endpoint compiler info.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see compiler_info_consumer
 template <typename Base = subscriber>
 class compiler_info_provider : public Base {
     using This = compiler_info_provider;
@@ -41,17 +45,26 @@ private:
     default_function_skeleton<const compiler_info&() noexcept, 256> _respond;
 };
 //------------------------------------------------------------------------------
+/// @brief Service consuming information about endpoint compiler info.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see compiler_info_provider
+/// @see compiler_info
 template <typename Base = subscriber>
 class compiler_info_consumer : public Base {
 
     using This = compiler_info_consumer;
 
 public:
+    /// @brief Queries information about compiler used to build given endpoint.
+    /// @see compiler_info_received
     void query_compiler_info(identifier_t endpoint_id) {
         _compiler.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiCplInf, request));
     }
 
+    /// @brief Triggered on receipt of endpoints compiler information.
+    /// @see query_compiler_info
     signal<void(const result_context&, const compiler_info&)>
       compiler_info_received;
 
