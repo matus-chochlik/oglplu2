@@ -15,27 +15,63 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Service observing message bus node network topology.
+/// @ingroup msgbus
+/// @see service_composition
 template <typename Base = subscriber>
 class network_topology : public Base {
     using This = network_topology;
 
 public:
+    /// @brief Queries the topology information of the specified bus node.
+    /// @see discover_topology
     void query_topology(identifier_t node_id) {
         message_view message{};
         message.set_target_id(node_id);
         const auto msg_id{EAGINE_MSGBUS_ID(topoQuery)};
         this->bus().post(msg_id, message);
     }
+
+    /// @brief Broadcasts network topology query to all message bus nodes.
+    /// @see query_topology
     void discover_topology() {
         query_topology(broadcast_endpoint_id());
     }
 
+    /// @brief Triggered on receipt of router node topology information.
+    /// @see router_disappeared
+    /// @see bridge_appeared
+    /// @see endpoint_appeared
     signal<void(const router_topology_info&)> router_appeared;
+
+    /// @brief Triggered on receipt of bridge node topology information.
+    /// @see bridge_disappeared
+    /// @see router_appeared
+    /// @see endpoint_appeared
     signal<void(const bridge_topology_info&)> bridge_appeared;
+
+    /// @brief Triggered on receipt of endpoint node topology information.
+    /// @see endpoint_disappeared
+    /// @see router_appeared
+    /// @see bridge_appeared
     signal<void(const endpoint_topology_info&)> endpoint_appeared;
 
+    /// @brief Triggered on receipt of bye-bye message from a router node.
+    /// @see router_appeared
+    /// @see bridge_disappeared
+    /// @see endpoint_disappeared
     signal<void(identifier_t)> router_disappeared;
+
+    /// @brief Triggered on receipt of bye-bye message from a bridge node.
+    /// @see bridge_appeared
+    /// @see router_disappeared
+    /// @see endpoint_disappeared
     signal<void(identifier_t)> bridge_disappeared;
+
+    /// @brief Triggered on receipt of bye-bye message from an endpoint node.
+    /// @see endpoint_appeared
+    /// @see router_disappeared
+    /// @see bridge_disappeared
     signal<void(identifier_t)> endpoint_disappeared;
 
 protected:

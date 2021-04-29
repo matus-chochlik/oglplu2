@@ -171,26 +171,14 @@ sudoku_response_msg(unsigned_constant<S> rank, bool is_solved) noexcept
     return is_solved ? sudoku_solved_msg(rank) : sudoku_candidate_msg(rank);
 }
 //------------------------------------------------------------------------------
+/// @brief Service helping to partially solve sudoku boards sent by sudoku_solver.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see sudoku_solver
+/// @see sudoku_tiling
 template <typename Base = subscriber>
 class sudoku_helper : public Base {
     using This = sudoku_helper;
-
-protected:
-    using Base::Base;
-
-    void add_methods() {
-        Base::add_methods();
-
-        sudoku_rank_tuple<unsigned_constant> ranks;
-        for_each_sudoku_rank_unit(
-          [&](auto rank) {
-              Base::add_method(this, _bind_handle_search(rank));
-              Base::add_method(this, _bind_handle_board(rank));
-          },
-          ranks);
-
-        mark_activity();
-    }
 
 public:
     auto update() -> bool {
@@ -212,8 +200,26 @@ public:
         _activity_time = std::chrono::steady_clock::now();
     }
 
+    /// @brief Returns current idle time interval.
     auto idle_time() const noexcept {
         return std::chrono::steady_clock::now() - _activity_time;
+    }
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+
+        sudoku_rank_tuple<unsigned_constant> ranks;
+        for_each_sudoku_rank_unit(
+          [&](auto rank) {
+              Base::add_method(this, _bind_handle_search(rank));
+              Base::add_method(this, _bind_handle_board(rank));
+          },
+          ranks);
+
+        mark_activity();
     }
 
 private:
@@ -340,28 +346,20 @@ private:
       std::chrono::steady_clock::now()};
 };
 //------------------------------------------------------------------------------
+/// @brief Service solving sudoku boards with the help of helper service on message bus.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see sudoku_helper
+/// @see sudoku_tiling
 template <typename Base = subscriber, typename Key = int>
 class sudoku_solver : public Base {
     using This = sudoku_solver;
 
-protected:
-    using Base::Base;
-
-    void add_methods() {
-        Base::add_methods();
-
-        sudoku_rank_tuple<unsigned_constant> ranks;
-        for_each_sudoku_rank_unit(
-          [&](auto rank) {
-              Base::add_method(this, _bind_handle_alive(rank));
-              Base::add_method(this, _bind_handle_candidate(rank));
-              Base::add_method(this, _bind_handle_solved(rank));
-              Base::add_method(this, _bind_handle_done(rank));
-          },
-          ranks);
-    }
-
 public:
+    /// @brief Enqueues a Sudoku board for solution under the specified unique key.
+    /// @see has_enqueued
+    /// @see has_work
+    /// @see is_done
     template <unsigned S>
     auto enqueue(Key key, basic_sudoku_board<S> board) -> auto& {
         _infos.get(unsigned_constant<S>{})
@@ -369,6 +367,9 @@ public:
         return *this;
     }
 
+    /// @brief Indicates if there are pending boards being solved.
+    /// @see enqueue
+    /// @see is_done
     auto has_work() const noexcept -> bool {
         bool result = false;
         for_each_sudoku_rank_unit(
@@ -377,6 +378,9 @@ public:
         return result;
     }
 
+    /// @brief Indicates if there is not work being done. Opposite of has_work.
+    /// @see enqueue
+    /// @see has_work.
     auto is_done() const noexcept -> bool {
         return !has_work();
     }
@@ -396,17 +400,21 @@ public:
         return something_done;
     }
 
+    /// @brief Resets all boards with the given rank.
     template <unsigned S>
     auto reset(unsigned_constant<S> rank) noexcept -> auto& {
         _infos.get(rank).reset(*this);
         return *this;
     }
 
+    /// @brief Indicates if a board with the given rank and key is enqueued.
+    /// @see enqueue
     template <unsigned S>
     auto has_enqueued(const Key& key, unsigned_constant<S> rank) -> bool {
         return _infos.get(rank).has_enqueued(key);
     }
 
+    /// @brief Sets the solution timeout for the specified rank.
     template <unsigned S>
     auto set_solution_timeout(
       unsigned_constant<S> rank,
@@ -414,28 +422,54 @@ public:
         return _infos.get(rank).solution_timeout.reset(sec);
     }
 
+    /// @brief Indicates if the solution of board with the specified rank timeouted.
     template <unsigned S>
     auto solution_timeouted(unsigned_constant<S> rank) const noexcept -> bool {
         return _infos.get(rank).solution_timeout.is_expired();
     }
 
+    /// @brief Indicates if board with the specified rank is already solved.
     virtual auto already_done(const Key&, unsigned_constant<3>) -> bool {
         return false;
     }
+    /// @brief Indicates if board with the specified rank is already solved.
     virtual auto already_done(const Key&, unsigned_constant<4>) -> bool {
         return false;
     }
+    /// @brief Indicates if board with the specified rank is already solved.
     virtual auto already_done(const Key&, unsigned_constant<5>) -> bool {
         return false;
     }
+    /// @brief Indicates if board with the specified rank is already solved.
     virtual auto already_done(const Key&, unsigned_constant<6>) -> bool {
         return false;
     }
 
+    /// @brief Called when the board with the specified key is solved.
     virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<3>&) {}
+    /// @brief Called when the board with the specified key is solved.
     virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<4>&) {}
+    /// @brief Called when the board with the specified key is solved.
     virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<5>&) {}
+    /// @brief Called when the board with the specified key is solved.
     virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<6>&) {}
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+
+        sudoku_rank_tuple<unsigned_constant> ranks;
+        for_each_sudoku_rank_unit(
+          [&](auto rank) {
+              Base::add_method(this, _bind_handle_alive(rank));
+              Base::add_method(this, _bind_handle_candidate(rank));
+              Base::add_method(this, _bind_handle_solved(rank));
+              Base::add_method(this, _bind_handle_done(rank));
+          },
+          ranks);
+    }
 
 private:
     template <unsigned S>
