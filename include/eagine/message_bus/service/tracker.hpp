@@ -21,10 +21,21 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Alias for base service composition for the message bus node tracker.
+/// @ingroup msgbus
+/// @see node_tracker
+/// @see service_composition
 template <typename Base>
 using node_tracker_base = pinger<system_info_consumer<
   common_info_consumers<network_topology<subscriber_discovery<Base>>>>>;
 //------------------------------------------------------------------------------
+/// @brief Service that consumes bus topology information and provides it via an API.
+/// @ingroup msgbus
+/// @see service_composition
+///
+/// This class subscribes to the signals inherited from the node_tracker_base
+/// and tracks the information about the message bus topology, routers, bridges
+/// and endpoints, etc.
 template <typename Base = subscriber>
 class node_tracker : public node_tracker_base<Base> {
 
@@ -32,95 +43,122 @@ class node_tracker : public node_tracker_base<Base> {
     using base = node_tracker_base<Base>;
 
 public:
+    /// @brief Triggered when message bus host information changes.
     signal<void(remote_host&, remote_host_changes)> host_changed;
+
+    /// @brief Triggered when message bus instance information changes.
     signal<void(remote_instance&, remote_instance_changes)> instance_changed;
+
+    /// @brief Triggered when message bus node information changes.
     signal<void(remote_node&, remote_node_changes)> node_changed;
 
+    /// @brief Returns handler for the node alive message.
     auto on_alive() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_alive);
     }
 
+    /// @brief Returns handler for the endpoint subscribed message.
     auto on_subscribed() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_subscribed);
     }
 
+    /// @brief Returns handler for the endpoint unsubscribed message.
     auto on_unsubscribed() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_unsubscribed);
     }
 
+    /// @brief Returns handler for the endpoint not subscribed message.
     auto on_not_subscribed() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_not_subscribed);
     }
 
+    /// @brief Returns handler for the host id message.
     auto on_host_id_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_host_id_received);
     }
 
+    /// @brief Returns handler for the host name message.
     auto on_hostname_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_hostname_received);
     }
 
+    /// @brief Returns handler for the router appeared message.
     auto on_router_appeared() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_router_appeared);
     }
 
+    /// @brief Returns handler for the bridge appeared message.
     auto on_bridge_appeared() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_bridge_appeared);
     }
 
+    /// @brief Returns handler for the endpoint appeared message.
     auto on_endpoint_appeared() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_appeared);
     }
 
+    /// @brief Returns handler for the application name message.
     auto on_application_name_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_application_name_received);
     }
 
+    /// @brief Returns handler for the endpoint info message.
     auto on_endpoint_info_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_info_received);
     }
 
+    /// @brief Returns handler for the compiler info message.
     auto on_compiler_info_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_compiler_info_received);
     }
 
+    /// @brief Returns handler for the build info message.
     auto on_build_info_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_build_info_received);
     }
 
+    /// @brief Returns handler for the CPU concurent threads message.
     auto on_cpu_concurrent_threads_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(
           _handle_cpu_concurrent_threads_received);
     }
 
+    /// @brief Returns handler for the host short load message.
     auto on_short_average_load_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_short_average_load_received);
     }
 
+    /// @brief Returns handler for the host long load message.
     auto on_long_average_load_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_long_average_load_received);
     }
 
+    /// @brief Returns handler for the free ram size message.
     auto on_free_ram_size_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_free_ram_size_received);
     }
 
+    /// @brief Returns handler for the total ram size message.
     auto on_total_ram_size_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_total_ram_size_received);
     }
 
+    /// @brief Returns handler for the free swap size message.
     auto on_free_swap_size_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_free_swap_size_received);
     }
 
+    /// @brief Returns handler for the total swap size message.
     auto on_total_swap_size_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_total_swap_size_received);
     }
 
+    /// @brief Returns handler for the ping response message.
     auto on_ping_response() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_ping_response);
     }
 
+    /// @brief Returns handler for the ping timeout event.
     auto on_ping_timeout() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_ping_timeout);
     }
@@ -207,19 +245,23 @@ public:
         return something_done;
     }
 
+    /// @brief Calls the specified function for each tracked node.
     template <typename Function>
     void for_each_node(Function function) {
         _tracker.for_each_node(std::move(function));
     }
 
+    /// @brief Returns information about a host with the specified id.
     auto get_host(identifier_t id) -> const remote_host& {
         return _tracker.get_host(id);
     }
 
+    /// @brief Returns information about an instance with the specified id.
     auto get_instance(identifier_t id) -> const remote_instance& {
         return _tracker.get_instance(id);
     }
 
+    /// @brief Returns information about a node with the specified id.
     auto get_node(identifier_t id) -> const remote_node& {
         return _tracker.get_node(id);
     }
