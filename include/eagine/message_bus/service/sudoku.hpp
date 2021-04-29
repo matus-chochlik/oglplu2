@@ -774,11 +774,16 @@ private:
     }
 };
 //------------------------------------------------------------------------------
+/// @brie Class representing a set of related Sudoku tiles.
+/// @ingroup msgbus
+/// @see sudoku_tiling
 template <unsigned S>
 class sudoku_tiles {
 public:
+    /// @brief The board coordinate/key type.
     using Coord = std::tuple<int, int>;
 
+    /// @brief Get the board at the specified coordinate if it is solved.
     auto get_board(Coord coord) const noexcept -> const basic_sudoku_board<S>* {
         const auto pos = _boards.find(coord);
         if(pos != _boards.end()) {
@@ -787,14 +792,17 @@ public:
         return nullptr;
     }
 
+    /// @brief Get the board at the specified coordinate if it is solved.
     auto get_board(int x, int y) const noexcept {
         return get_board({x, y});
     }
 
+    /// @brief Sets the board at the specified coordinate.
     auto set_board(Coord coord, basic_sudoku_board<S> board) -> bool {
         return _boards.try_emplace(std::move(coord), std::move(board)).second;
     }
 
+    /// @brief Sets the extent (number of tiles in x and y dimension) of the tiling.
     void set_extent(Coord min, Coord max) noexcept {
         _minu = std::get<0>(min);
         _minv = std::get<1>(min);
@@ -802,16 +810,21 @@ public:
         _maxv = std::get<1>(max);
     }
 
+    /// @brief Sets the extent (number of tiles in x and y dimension) of the tiling.
+    /// @see is_in_extent
     void set_extent(Coord max) noexcept {
         set_extent({0, 0}, max);
     }
 
+    /// @brief Indicates in the specified coordinate is in the extent of this tiling.
+    /// @see set_extent
     auto is_in_extent(int x, int y) const noexcept -> bool {
         const int u = x * S * (S - 2);
         const int v = y * S * (S - 2);
         return (u >= _minu) && (u < _maxu) && (v >= _minv) && (v < _maxv);
     }
 
+    /// @brief Returns the extent between min and max in units of boards.
     auto boards_extent(Coord min, Coord max) const
       -> std::tuple<int, int, int, int> {
         const auto conv = [](int c) {
@@ -828,10 +841,12 @@ public:
           conv(std::get<1>(max))};
     }
 
+    /// @brief Returns the extent of this tiling in units of boards.
     auto boards_extent() const {
         return boards_extent({_minu, _minv}, {_maxu, _maxv});
     }
 
+    /// @brief Indicates if the boards between the min and max coordinates are solved.
     auto are_complete(Coord min, Coord max) const -> bool {
         const auto [xmin, ymin, xmax, ymax] = boards_extent(min, max);
         for(auto y : integer_range(ymin, ymax)) {
@@ -844,10 +859,12 @@ public:
         return true;
     }
 
+    /// @brief Indicates if the boards in this tiling's extent are solved.
     auto are_complete() const -> bool {
         return are_complete({_minu, _minv}, {_maxu, _maxv});
     }
 
+    /// @brief Prints the current tiling using the specified sudoku board traits.
     auto print(
       std::ostream& out,
       Coord min,
@@ -879,6 +896,7 @@ public:
         return out;
     }
 
+    /// @brief Shows which tiles are solved and which unsolved.
     auto print_progress(std::ostream& out, Coord min, Coord max) const
       -> std::ostream& {
         const auto [xmin, ymin, xmax, ymax] = boards_extent(min, max);
@@ -896,24 +914,29 @@ public:
         return out;
     }
 
+    /// @brief Prints the current tiling using the specified sudoku board traits.
     auto print(std::ostream& out, Coord min, Coord max) const -> std::ostream& {
         return print(out, min, max, _traits);
     }
 
+    /// @brief Prints the current tiling using the specified sudoku board traits.
     auto
     print(std::ostream& out, const basic_sudoku_board_traits<S>& traits) const
       -> auto& {
         return print(out, {_minu, _minv}, {_maxu, _maxv}, traits);
     }
 
+    /// @brief Prints the current tiling using the specified sudoku board traits.
     auto print(std::ostream& out) const -> auto& {
         return print(out, {_minu, _minv}, {_maxu, _maxv});
     }
 
+    /// @brief Shows which tiles are solved and which unsolved.
     auto print_progress(std::ostream& out) const -> auto& {
         return print_progress(out, {_minu, _minv}, {_maxu, _maxv});
     }
 
+    /// @brief Resets all pending tilings.
     auto reset() noexcept -> auto& {
         _boards.clear();
         return *this;
@@ -933,16 +956,19 @@ private:
     default_sudoku_board_traits<S> _traits;
 };
 //------------------------------------------------------------------------------
+/// @brief Service generating a sudoku tiling using helper message bus nodes.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see sudoku_helper
+/// @see sudoku_solver
 template <typename Base = subscriber>
 class sudoku_tiling : public sudoku_solver<Base, std::tuple<int, int>> {
     using base = sudoku_solver<Base, std::tuple<int, int>>;
     using This = sudoku_tiling;
     using Coord = std::tuple<int, int>;
 
-protected:
-    using base::base;
-
 public:
+    /// @brief Initializes the tiling to be generated with initial board.
     template <unsigned S>
     auto
     initialize(Coord min, Coord max, Coord coord, basic_sudoku_board<S> board)
@@ -954,11 +980,13 @@ public:
         return *this;
     }
 
+    /// @brief Initializes the tiling to be generated with initial board.
     template <unsigned S>
     auto initialize(Coord max, basic_sudoku_board<S> board) -> auto& {
         return initialize({0, 0}, max, {0, 0}, std::move(board));
     }
 
+    /// @brief Resets the tiling with the specified rank.
     template <unsigned S>
     auto reset(unsigned_constant<S> rank) -> auto& {
         base::reset(rank);
@@ -966,17 +994,20 @@ public:
         return *this;
     }
 
+    /// @brief Re-initializes the tiling with the specified board.
     template <unsigned S>
     auto reinitialize(Coord max, basic_sudoku_board<S> board) -> auto& {
         reset(unsigned_constant<S>{});
         return initialize(max, board);
     }
 
+    /// @brief Indicates that pending tiling with the specified rank is complete.
     template <unsigned S>
     auto tiling_complete(unsigned_constant<S> rank) const noexcept -> bool {
         return _infos.get(rank).are_complete();
     }
 
+    /// @brief Indicates that all pending tilings are complete.
     auto tiling_complete() const noexcept -> bool {
         bool result = true;
         sudoku_rank_tuple<unsigned_constant> ranks;
@@ -985,16 +1016,24 @@ public:
         return result;
     }
 
+    /// @brief Called then all tiles with rank 3 are generated.
     virtual void on_tiles_generated(const sudoku_tiles<3>&) {}
+    /// @brief Called then all tiles with rank 4 are generated.
     virtual void on_tiles_generated(const sudoku_tiles<4>&) {}
+    /// @brief Called then all tiles with rank 5 are generated.
     virtual void on_tiles_generated(const sudoku_tiles<5>&) {}
+    /// @brief Called then all tiles with rank 6 are generated.
     virtual void on_tiles_generated(const sudoku_tiles<6>&) {}
 
+    /// @brief Logs the contributions of the helpers to the solution.
     template <unsigned S>
     auto log_contribution_histogram(unsigned_constant<S> rank) -> auto& {
         _infos.get(rank).log_contribution_histogram(*this);
         return *this;
     }
+
+protected:
+    using base::base;
 
 private:
     template <unsigned S>

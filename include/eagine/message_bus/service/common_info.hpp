@@ -17,10 +17,18 @@
 
 namespace eagine::msgbus {
 
+/// @brief Alias for a common composition of information provider services.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see common_info_consumers
 template <typename Base = subscriber>
 using common_info_providers = compiler_info_provider<build_info_provider<
   host_info_provider<application_info_provider<endpoint_info_provider<Base>>>>>;
 
+/// @brief Alias for a common composition of information consumer services.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see common_info_providers
 template <typename Base = subscriber>
 using common_info_consumers = compiler_info_consumer<build_info_consumer<
   host_info_consumer<application_info_consumer<endpoint_info_consumer<Base>>>>>;
