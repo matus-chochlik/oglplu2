@@ -10,8 +10,14 @@
 #define EAGINE_URL_HPP
 
 #include "diagnostic.hpp"
+#include "flat_map.hpp"
+#include "maybe_unused.hpp"
 #include "memory/span_algo.hpp"
+#include "string_path.hpp"
 #include "string_span.hpp"
+#include "valid_if/not_empty.hpp"
+#include "valid_if/not_zero.hpp"
+#include <charconv>
 #include <regex>
 
 namespace eagine {
@@ -38,43 +44,70 @@ public:
     }
 
     /// @brief Returns the scheme.
-    auto scheme() const noexcept -> string_view {
-        return _scheme;
+    auto scheme() const noexcept -> valid_if_not_empty<string_view> {
+        return {_scheme};
     }
 
     /// @brief Returns the login name.
-    auto login() const noexcept -> string_view {
-        return _login;
+    auto login() const noexcept -> valid_if_not_empty<string_view> {
+        return {_login};
     }
 
     /// @brief Returns the login password.
-    auto password() const noexcept -> string_view {
-        return _passwd;
+    auto password() const noexcept -> valid_if_not_empty<string_view> {
+        return {_passwd};
     }
 
     /// @brief Returns the host name or IP address.
-    auto host() const noexcept -> string_view {
-        return _host;
+    auto host() const noexcept -> valid_if_not_empty<string_view> {
+        return {_host};
+    }
+
+    /// @brief Returns the port string.
+    auto port_str() const noexcept -> valid_if_not_empty<string_view> {
+        return {_port};
     }
 
     /// @brief Returns the port.
-    auto port() const noexcept -> string_view {
-        return _port;
+    auto port() const noexcept -> valid_if_not_zero<int> {
+        int result = 0;
+        EAGINE_MAYBE_UNUSED(
+          std::from_chars(_port.begin(), _port.end(), result));
+        return {result};
+    }
+
+    /// @brief Returns the path string.
+    auto path_str() const noexcept -> valid_if_not_empty<string_view> {
+        return {_path};
     }
 
     /// @brief Returns the path.
-    auto path() const noexcept -> string_view {
-        return _path;
+    auto path() const noexcept -> basic_string_path {
+        return {basic_string_path{_path, EAGINE_TAG(split_by), "/"}};
     }
 
+    /// @brief Returns the query string.
+    auto query_str() const noexcept -> valid_if_not_empty<string_view> {
+        return {_query};
+    }
+
+    /// @brief Name to value map for storing URL query parts.
+    using query_args =
+      flat_map<string_view, string_view, basic_view_less<string_view>>;
+
     /// @brief Returns the query.
-    auto query() const noexcept -> string_view {
-        return _query;
+    auto query() const noexcept -> query_args {
+        query_args result;
+        for_each_delimited(_query, string_view{"+"}, [&result](auto part) {
+            auto [name, value] = split_by_first(part, string_view{"="});
+            result[name] = value;
+        });
+        return result;
     }
 
     /// @brief Returns the fragment.
-    auto fragment() const noexcept -> string_view {
-        return _fragment;
+    auto fragment() const noexcept -> valid_if_not_empty<string_view> {
+        return {_fragment};
     }
 
 private:
@@ -120,9 +153,8 @@ private:
         static const std::regex re{
           // clang-format off
           R"(^((([\w]+):)?\/\/)(([^:]+)(:(\S+))?@)?((((\w[\w_-]{0,62}(\.\w[\w_-]{0,62})*))|((10|127)(\.\d{1,3}){3})|((169\.254|192\.168)(\.\d{1,3}){2})|(172\.(1[6-9]|2\d|3[0-1])(\.\d{1,3}){2})|([1-9]\d?|1\d\d|2[01]\d|22[0-3])(\.(1?\d{1,2}|2[0-4]\d|25[0-5])){2}(\.([1-9]\d?|1\d\d|2[0-4]\d|25[0-4])))(:(\d{1,5}))?)?((/[\w_-]+)*/?)?(\?(([\w_]+=[^+#]*)(\+([\w_]+=[^+#]*))*))?(#([\w_-]*))?$)",
-		  std::regex::ECMAScript
           // clang-format on
-        };
+          std::regex::ECMAScript};
 #ifdef __clang__
         EAGINE_DIAG_POP()
 #endif
