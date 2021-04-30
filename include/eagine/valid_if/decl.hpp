@@ -293,6 +293,17 @@ static inline auto either_or(valid_if<T, P> vi, F f) noexcept(
     return {std::move(vi), std::move(f)};
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename F>
+auto operator<<(std::ostream& out, const valid_if_or_fallback<T, P, F>& viof)
+  -> std::ostream& {
+    if(viof.has_value()) {
+        out << viof.value();
+    } else {
+        out << viof.fallback();
+    }
+    return out;
+}
+//------------------------------------------------------------------------------
 /// @brief Specialization of valid_if with flag indicating validity.
 /// @ingroup valid_if
 /// @see valid_if_indicated

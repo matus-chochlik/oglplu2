@@ -16,28 +16,28 @@ auto main(main_ctx& ctx) -> int {
 
     auto& sys = ctx.system();
 
-    std::cout << "host id: " << std::hex << extract_or(sys.host_id(), 0U)
+    std::cout << "host id: " << std::hex << either_or(sys.host_id(), na)
               << std::dec << std::endl;
-    std::cout << "hostname: " << extract_or(sys.hostname(), na) << std::endl;
+    std::cout << "hostname: " << either_or(sys.hostname(), na) << std::endl;
     std::cout << "number of CPU cores: "
-              << extract_or(sys.cpu_concurrent_threads(), 0) << std::endl;
+              << either_or(sys.cpu_concurrent_threads(), na) << std::endl;
 
     std::cout << "short time average load: "
-              << extract_or(sys.short_average_load(), 0.0F) << std::endl;
+              << either_or(sys.short_average_load(), na) << std::endl;
     std::cout << "long time average load: "
-              << extract_or(sys.long_average_load(), 0.0F) << std::endl;
+              << either_or(sys.long_average_load(), na) << std::endl;
 
-    std::cout << "memory page size: " << extract_or(sys.memory_page_size(), 0)
-              << std::endl;
-
-    std::cout << "free RAM size: " << extract_or(sys.free_ram_size(), 0)
-              << std::endl;
-    std::cout << "total RAM size: " << extract_or(sys.total_ram_size(), 0)
+    std::cout << "memory page size: " << either_or(sys.memory_page_size(), na)
               << std::endl;
 
-    std::cout << "free swap size: " << extract_or(sys.free_swap_size(), 0)
+    std::cout << "free RAM size: " << either_or(sys.free_ram_size(), na)
               << std::endl;
-    std::cout << "total swap size: " << extract_or(sys.total_swap_size(), 0)
+    std::cout << "total RAM size: " << either_or(sys.total_ram_size(), na)
+              << std::endl;
+
+    std::cout << "free swap size: " << either_or(sys.free_swap_size(), na)
+              << std::endl;
+    std::cout << "total swap size: " << either_or(sys.total_swap_size(), na)
               << std::endl;
 
     std::cout << "temperatures from " << sys.thermal_sensor_count()

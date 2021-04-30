@@ -16,22 +16,22 @@ auto main(main_ctx& ctx) -> int {
     auto& compiler = ctx.compiler();
     auto& build = ctx.build();
 
-    std::cout << "architecture: "
-              << extract_or(compiler.architecture_name(), na) << std::endl;
-    std::cout << "compiler name: " << extract_or(compiler.name(), na)
+    std::cout << "architecture: " << either_or(compiler.architecture_name(), na)
+              << std::endl;
+    std::cout << "compiler name: " << either_or(compiler.name(), na)
               << std::endl;
     std::cout << "compiler version major: "
-              << extract_or(compiler.version_major(), 0) << std::endl;
+              << either_or(compiler.version_major(), na) << std::endl;
     std::cout << "compiler version minor: "
-              << extract_or(compiler.version_minor(), 0) << std::endl;
+              << either_or(compiler.version_minor(), na) << std::endl;
     std::cout << "compiler version patch: "
-              << extract_or(compiler.version_patch(), 0) << std::endl;
+              << either_or(compiler.version_patch(), na) << std::endl;
 
-    std::cout << "version major: " << extract_or(build.version_major(), 0)
+    std::cout << "version major: " << either_or(build.version_major(), na)
               << std::endl;
-    std::cout << "version minor: " << extract_or(build.version_minor(), 0)
+    std::cout << "version minor: " << either_or(build.version_minor(), na)
               << std::endl;
-    std::cout << "version patch: " << extract_or(build.version_patch(), 0)
+    std::cout << "version patch: " << either_or(build.version_patch(), na)
               << std::endl;
 
     return 0;
