@@ -30,7 +30,7 @@ public:
 
     /// @brief Construction from a string.
     url(std::string url_str) noexcept
-      : url{std::move(url_str), {}} {}
+      : url{std::move(url_str), std::match_results<std::string::iterator>{}} {}
 
     /// @brief Indicates if the URL was parsed successfully.
     auto is_valid() const noexcept {
