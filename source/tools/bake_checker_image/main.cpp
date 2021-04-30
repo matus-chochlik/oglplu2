@@ -124,7 +124,7 @@ auto main(main_ctx& ctx) -> int {
             std::ofstream output_file(c_str(opts.output_path.value()));
             write_output(output_file, opts);
         }
-    } catch(std::exception& err) {
+    } catch(const std::exception& err) {
         std::cerr << "error: " << err.what() << std::endl;
     }
     return 0;

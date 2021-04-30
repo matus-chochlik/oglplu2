@@ -28,7 +28,7 @@ inline auto make_file_contents_impl(string_view path)
   -> std::shared_ptr<file_contents_intf> {
     try {
         return std::make_shared<buffered_file_contents>(path);
-    } catch(std::system_error&) {
+    } catch(const std::system_error&) {
         return {};
     }
 }

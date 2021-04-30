@@ -229,7 +229,7 @@ auto main(main_ctx& ctx) -> int {
 
     try {
         return run(ctx.args());
-    } catch(std::exception& err) {
+    } catch(const std::exception& err) {
         std::cerr << "Error: " << err.what() << std::endl;
     }
     return 1;

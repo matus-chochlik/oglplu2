@@ -305,7 +305,7 @@ auto proxy_log_choose_backend(
 #if EAGINE_HAS_ASIO_LOCAL_LOG_BACKEND
     try {
         return std::make_unique<asio_local_ostream_log_backend<>>(min_severity);
-    } catch(std::system_error& err) {
+    } catch(const std::system_error& err) {
         if(err.code().value() != ENOENT) {
             throw;
         }
@@ -314,7 +314,7 @@ auto proxy_log_choose_backend(
     try {
         return std::make_unique<asio_tcpipv4_ostream_log_backend<>>(
           min_severity);
-    } catch(std::system_error& err) {
+    } catch(const std::system_error& err) {
         if(err.code().value() != ENOENT) {
             throw;
         }

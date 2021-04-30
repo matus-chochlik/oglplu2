@@ -184,11 +184,11 @@ auto main_impl(int argc, const char** argv, const main_ctx_options& options)
     main_ctx ctx{master};
     try {
         return eagine::main(ctx);
-    } catch(std::system_error& sys_err) {
+    } catch(const std::system_error& sys_err) {
         ctx.log()
           .error("unhandled system error: ${error}")
           .arg(EAGINE_ID(error), sys_err);
-    } catch(std::exception& err) {
+    } catch(const std::exception& err) {
         ctx.log()
           .error("unhandled generic error: ${error}")
           .arg(EAGINE_ID(error), err);
