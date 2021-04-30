@@ -44,6 +44,10 @@ if(TARGET eagine-message_bus-monitor)
 	list(APPEND OGLPLUS_EXPORT_TARGETS eagine-message_bus-monitor)
 endif()
 
+if(TARGET eagine-message_bus-tiling)
+	list(APPEND OGLPLUS_EXPORT_TARGETS eagine-message_bus-tiling)
+endif()
+
 install(
 	TARGETS ${OGLPLUS_EXPORT_TARGETS}
 	EXPORT OGLplusTargets
