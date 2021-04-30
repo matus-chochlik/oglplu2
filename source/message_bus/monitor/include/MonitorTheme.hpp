@@ -8,7 +8,6 @@
 #ifndef EAGINE_MESSAGE_BUS_MONITOR_THEME
 #define EAGINE_MESSAGE_BUS_MONITOR_THEME
 
-#include "MonitorViewModel.hpp"
 #include <eagine/main_ctx_object.hpp>
 #include <QObject>
 

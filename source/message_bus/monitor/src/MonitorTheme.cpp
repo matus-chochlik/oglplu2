@@ -6,9 +6,6 @@
 ///
 
 #include "MonitorTheme.hpp"
-#include <QDebug>
-#include <QFont>
-#include <QGuiApplication>
 //------------------------------------------------------------------------------
 MonitorTheme::MonitorTheme(eagine::main_ctx_parent parent)
   : QObject{nullptr}
