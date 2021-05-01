@@ -5,8 +5,9 @@ import "qrc:///views"
 TableView {
 	rowSpacing: 0
 	columnSpacing: 0
+	columnWidthProvider: function() { return backend.theme.tileWidth; }
+	rowHeightProvider: function() { return backend.theme.tileHeight; }
 	clip: true
 
-	delegate: Tile {
-	}
+	delegate: Tile { }
 }

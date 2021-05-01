@@ -18,12 +18,19 @@ class TilingTheme
     Q_OBJECT
 
     Q_PROPERTY(bool light READ getLight WRITE setLight NOTIFY lightChanged)
+    Q_PROPERTY(QString tileset READ getTileset CONSTANT)
+    Q_PROPERTY(int tileWidth READ getTileWidth CONSTANT)
+    Q_PROPERTY(int tileHeight READ getTileHeight CONSTANT)
 
 public:
     TilingTheme(eagine::main_ctx_parent);
 
     void setLight(bool);
     auto getLight() const -> bool;
+
+    auto getTileset() const -> QString;
+    auto getTileWidth() const -> int;
+    auto getTileHeight() const -> int;
 
 signals:
     void lightChanged();

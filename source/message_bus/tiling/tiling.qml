@@ -48,11 +48,8 @@ ApplicationWindow {
         }
     }
 
-    contentData: ScrollView {
+    contentData: TilingView {
 		anchors.fill: parent
-		clip: true
-		TilingView {
-			model: backend.tiling
-		}
+		model: backend.tiling
     }
 }

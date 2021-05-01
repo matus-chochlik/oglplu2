@@ -3,5 +3,7 @@ import QtQuick.Controls 2.4
 import "qrc:///views"
 
 Image {
-	source: "qrc:/tiles/b16_%1.svg".arg(tile)
+	source: "qrc:/tiles/%1_%2.svg"
+		.arg(backend.theme.tileset)
+		.arg(tile)
 }

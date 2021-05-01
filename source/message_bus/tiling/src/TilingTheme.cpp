@@ -20,3 +20,15 @@ auto TilingTheme::getLight() const -> bool {
     return _light;
 }
 //------------------------------------------------------------------------------
+auto TilingTheme::getTileset() const -> QString {
+    return "b16";
+}
+//------------------------------------------------------------------------------
+auto TilingTheme::getTileWidth() const -> int {
+    return 16;
+}
+//------------------------------------------------------------------------------
+auto TilingTheme::getTileHeight() const -> int {
+    return 16;
+}
+//------------------------------------------------------------------------------
