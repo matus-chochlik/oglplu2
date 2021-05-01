@@ -461,6 +461,14 @@ class VoronoiArgumentParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            '--scale-mode', '-Q',
+            type=str,
+            choices=["constant", "linear", "sqrt", "pow2", "exp", "sigmoid"],
+            action="store",
+            default="constant"
+        )
+
+        self.add_argument(
             '--seed', '-rs',
             type=float,
             action="store",
@@ -616,6 +624,21 @@ class Renderer(object):
         return s
 
     # --------------------------------------------------------------------------
+    def cell_scale(self, x, y):
+        coef = 1.0
+        if self.scale_mode == "linear":
+            coef = self.cell_value(x, y)
+        elif self.scale_mode == "sqrt":
+            coef = math.sqrt(self.cell_value(x, y))
+        elif self.scale_mode == "pow2":
+            coef = math.pow(self.cell_value(x, y), 2)
+        elif self.scale_mode == "exp":
+            coef = math.exp(self.cell_value(x, y)) / math.exp(1)
+        elif self.scale_mode == "sigmoid":
+            coef = 0.5 - 0.5*math.cos(self.cell_value(x, y)*math.pi)
+        return self.scale * coef
+
+    # --------------------------------------------------------------------------
     def full_cell_element_str(self, x, y, unused, corners, offs):
         clist = ["%.3f %.3f" % (c[0], c[1]) for c in corners]
         pathstr = "M"+" L".join(clist)+" Z"
@@ -628,7 +651,7 @@ class Renderer(object):
     # --------------------------------------------------------------------------
     def scaled_cell_element_str(self, x, y, center, corners, offs):
         m = set_center(corners)
-        newcorners = [segment_point(m, c, self.scale) for c in corners]
+        newcorners = [segment_point(m, c, self.cell_scale(x, y)) for c in corners]
         yield self.full_cell_element_str(x, y, center, newcorners);
 
     # --------------------------------------------------------------------------
@@ -641,7 +664,7 @@ class Renderer(object):
     # --------------------------------------------------------------------------
     def pebble_cell_element_str(self, x, y, center, corners, offs):
         m = set_center(corners)
-        apoints = [segment_point(m, c, self.scale) for c in corners]
+        apoints = [segment_point(m, c, self.cell_scale(x, y)) for c in corners]
         bpoints = apoints[1:] + [apoints[0]]
         c = self.cell_value(x, y)
         zpoints = zip(apoints, bpoints)
