@@ -176,7 +176,7 @@ class Randomized(object):
 # ------------------------------------------------------------------------------
 class RandomCellValues(Randomized):
     # --------------------------------------------------------------------------
-    def _gen_values(self, w, h):
+    def _gen_values(self, w, h, transformable):
 
         rc = self.get_rng()
 
@@ -187,12 +187,25 @@ class RandomCellValues(Randomized):
                 rim = x <= 0 or y <= 0 or x+1 >= w or y+1 >= h
                 r.append(rc.get(rim))
             cell_data.append(r)
+
+        if transformable:
+            r = range(int(w/2)+1)
+            rv = [rc.get(True) for i in r]
+            for i in r:
+                cell_data[i][0] = rv[i]
+                cell_data[h-i-1][0] = rv[i]
+                cell_data[i][w-1] = rv[i]
+                cell_data[h-i-1][w-1] = rv[i]
+                cell_data[0][i] = rv[i]
+                cell_data[0][w-i-1] = rv[i]
+                cell_data[h-1][i] = rv[i]
+                cell_data[h-1][w-i-1] = rv[i]
         return cell_data
 
     # --------------------------------------------------------------------------
     def __init__(self, options, w, h):
         Randomized.__init__(self, options)
-        self._values = self._gen_values(w, h)
+        self._values = self._gen_values(w, h, options.transformable)
 
     # --------------------------------------------------------------------------
     def get(self, x, y):
@@ -201,7 +214,7 @@ class RandomCellValues(Randomized):
 # ------------------------------------------------------------------------------
 class RandomCellOffsets(Randomized):
     # --------------------------------------------------------------------------
-    def _gen_offsets(self, w, h):
+    def _gen_offsets(self, w, h, transformable):
 
         rx = self.get_rng()
         ry = self.get_rng()
@@ -213,11 +226,26 @@ class RandomCellOffsets(Randomized):
                 rim = x <= 0 or y <= 0 or x+1 >= w or y+1 >= h
                 row.append((rx.get(rim), ry.get(rim)))
             cell_data.append(row)
+
+        if transformable:
+            r = range(int(w/2)+1)
+            rv = [(rx.get(True), ry.get(True)) for i in r]
+            for i in r:
+                xo, yo = rv[i]
+                l = 0.9
+                cell_data[i][0] = (xo, (1.0-l)*yo)
+                cell_data[h-i-1][0] = (1.0-xo, (1.0-l)*yo)
+                cell_data[i][w-1] = (xo, l*yo)
+                cell_data[h-i-1][w-1] = (1.0-xo, l*yo)
+                cell_data[0][i] = ((1.0-l)*xo, yo)
+                cell_data[0][w-i-1] = ((1.0-l)*xo, 1.0-yo)
+                cell_data[h-1][i] = (l*xo, yo)
+                cell_data[h-1][w-i-1] = (l*xo, 1.0-yo)
         return cell_data
     # --------------------------------------------------------------------------
     def __init__(self, options, w, h):
         Randomized.__init__(self, options)
-        self._offsets = self._gen_offsets(w, h)
+        self._offsets = self._gen_offsets(w, h, options.transformable)
 
     # --------------------------------------------------------------------------
     def get(self, x, y):
@@ -445,6 +473,12 @@ class VoronoiArgumentParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            '--transformable', '-T',
+            action="store_true",
+            default=False
+        )
+
+        self.add_argument(
             '--color-mode', '-M',
             type=str,
             choices=["grayscale", "cell-coord", "image-rgb"],
@@ -483,6 +517,12 @@ class VoronoiArgumentParser(argparse.ArgumentParser):
         )
     # --------------------------------------------------------------------------
     def process_parsed_options(self, options):
+        if options.transformable:
+            if options.width != options.height:
+                self.error("width and height must be the same in transformable mode")
+            if options.x_cells != options.y_cells:
+                self.error("X-cells and Y-cells must be the same in transformable mode")
+
         if options.image_path is not None:
             options.image = ImageSampler.from_file(
                 options.image_path,
@@ -663,7 +703,6 @@ class Renderer(object):
             self.x_cells,
             self.y_cells
         )
-
 
         if self.offs_mode == "honeycomb-x":
             self.cell_offsets = HoneycombXCellOffsets(
