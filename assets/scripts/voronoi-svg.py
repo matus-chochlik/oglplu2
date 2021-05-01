@@ -192,14 +192,17 @@ class RandomCellValues(Randomized):
             r = range(int(w/2)+1)
             rv = [rc.get(True) for i in r]
             for i in r:
-                cell_data[i][0] = rv[i]
-                cell_data[h-i-1][0] = rv[i]
-                cell_data[i][w-1] = rv[i]
-                cell_data[h-i-1][w-1] = rv[i]
-                cell_data[0][i] = rv[i]
-                cell_data[0][w-i-1] = rv[i]
-                cell_data[h-1][i] = rv[i]
-                cell_data[h-1][w-i-1] = rv[i]
+                v = rv[i]
+                u = v + 0.25*(0.5 - v) if i % 2 == 0 else v
+
+                cell_data[i][0] = v
+                cell_data[h-i-1][0] = u
+                cell_data[i][w-1] = v
+                cell_data[h-i-1][w-1] = u
+                cell_data[0][i] = v
+                cell_data[0][w-i-1] = u
+                cell_data[h-1][i] = v
+                cell_data[h-1][w-i-1] = u
         return cell_data
 
     # --------------------------------------------------------------------------
@@ -232,15 +235,15 @@ class RandomCellOffsets(Randomized):
             rv = [(rx.get(True), ry.get(True)) for i in r]
             for i in r:
                 xo, yo = rv[i]
-                l = 0.9
-                cell_data[i][0] = (xo, (1.0-l)*yo)
-                cell_data[h-i-1][0] = (1.0-xo, (1.0-l)*yo)
-                cell_data[i][w-1] = (xo, l*yo)
-                cell_data[h-i-1][w-1] = (1.0-xo, l*yo)
-                cell_data[0][i] = ((1.0-l)*xo, yo)
-                cell_data[0][w-i-1] = ((1.0-l)*xo, 1.0-yo)
-                cell_data[h-1][i] = (l*xo, yo)
-                cell_data[h-1][w-i-1] = (l*xo, 1.0-yo)
+                l = 0.8
+                cell_data[i][0] = ((1.0-l)*xo, yo)
+                cell_data[h-i-1][0] = ((1.0-l)*xo, 1.0-yo)
+                cell_data[i][w-1] = (l*xo, yo)
+                cell_data[h-i-1][w-1] = (l*xo, 1.0-yo)
+                cell_data[0][i] = (xo, (1.0-l)*yo)
+                cell_data[0][w-i-1] = (1.0-xo, (1.0-l)*yo)
+                cell_data[h-1][i] = (xo, l*yo)
+                cell_data[h-1][w-i-1] = (1.0-xo, l*yo)
         return cell_data
     # --------------------------------------------------------------------------
     def __init__(self, options, w, h):
