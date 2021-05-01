@@ -1,4 +1,5 @@
 #include "TilingBackend.hpp"
+#include "TilingViewModel.hpp"
 #include <eagine/main_ctx.hpp>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -21,6 +22,8 @@ auto main(main_ctx& ctx) -> int {
 
     qmlRegisterUncreatableType<TilingTheme>(
       registerId, 1, 0, "TilingTheme", {});
+    qmlRegisterUncreatableType<TilingViewModel>(
+      registerId, 1, 0, "TilingViewModel", {});
 
     TilingBackend backend(ctx);
     QQmlApplicationEngine engine;

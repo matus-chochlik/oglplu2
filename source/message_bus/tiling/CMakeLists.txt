@@ -11,10 +11,12 @@ set(MONITOR_SOURCES
 	tiling.cpp
 	src/TilingTheme.cpp
 	src/TilingBackend.cpp
+	src/TilingViewModel.cpp
 )
 set(MONITOR_HEADERS
 	include/TilingTheme.hpp
 	include/TilingBackend.hpp
+	include/TilingViewModel.hpp
 )
 add_executable(
 	eagine-message_bus-tiling

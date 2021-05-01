@@ -10,8 +10,9 @@
 TilingBackend::TilingBackend(eagine::main_ctx_parent parent)
   : QObject{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(Backend), parent}
-  , _tilingTheme{*this} {
-    _timerId = startTimer(10);
+  , _tilingTheme{*this}
+  , _tilingViewModel{*this} {
+    _timerId = startTimer(20);
 }
 //------------------------------------------------------------------------------
 TilingBackend::~TilingBackend() {
@@ -24,5 +25,9 @@ void TilingBackend::timerEvent(QTimerEvent*) {
 //------------------------------------------------------------------------------
 auto TilingBackend::getTilingTheme() noexcept -> TilingTheme* {
     return &_tilingTheme;
+}
+//------------------------------------------------------------------------------
+auto TilingBackend::getTilingViewModel() noexcept -> TilingViewModel* {
+    return &_tilingViewModel;
 }
 //------------------------------------------------------------------------------

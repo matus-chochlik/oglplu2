@@ -47,4 +47,12 @@ ApplicationWindow {
 			}
         }
     }
+
+    contentData: ScrollView {
+		anchors.fill: parent
+		clip: true
+		TilingView {
+			model: backend.tiling
+		}
+    }
 }

@@ -19,7 +19,7 @@ MonitorViewModel::MonitorViewModel(MonitorBackend& backend)
 auto MonitorViewModel::getNodeListViewModel() -> NodeListViewModel* {
     return &_nodeListViewModel;
 }
-//------------------------------------------------------------------------------auto
+//------------------------------------------------------------------------------
 auto MonitorViewModel::getSelectedItemViewModel() -> SelectedItemViewModel* {
     return &_selectedItemViewModel;
 }
