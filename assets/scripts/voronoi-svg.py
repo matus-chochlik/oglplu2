@@ -192,17 +192,16 @@ class RandomCellValues(Randomized):
             r = range(int(w/2)+1)
             rv = [rc.get(True) for i in r]
             for i in r:
-                v = rv[i]
-                u = v + 0.25*(0.5 - v) if i % 2 == 0 else v
+                v = 0.5 + (rv[i]-0.5)*0.75
 
                 cell_data[i][0] = v
-                cell_data[h-i-1][0] = u
+                cell_data[h-i-1][0] = v
                 cell_data[i][w-1] = v
-                cell_data[h-i-1][w-1] = u
+                cell_data[h-i-1][w-1] = v
                 cell_data[0][i] = v
-                cell_data[0][w-i-1] = u
+                cell_data[0][w-i-1] = v
                 cell_data[h-1][i] = v
-                cell_data[h-1][w-i-1] = u
+                cell_data[h-1][w-i-1] = v
         return cell_data
 
     # --------------------------------------------------------------------------
@@ -236,14 +235,14 @@ class RandomCellOffsets(Randomized):
             for i in r:
                 xo, yo = rv[i]
                 l = 0.8
-                cell_data[i][0] = ((1.0-l)*xo, yo)
-                cell_data[h-i-1][0] = ((1.0-l)*xo, 1.0-yo)
-                cell_data[i][w-1] = (l*xo, yo)
-                cell_data[h-i-1][w-1] = (l*xo, 1.0-yo)
-                cell_data[0][i] = (xo, (1.0-l)*yo)
-                cell_data[0][w-i-1] = (1.0-xo, (1.0-l)*yo)
-                cell_data[h-1][i] = (xo, l*yo)
-                cell_data[h-1][w-i-1] = (1.0-xo, l*yo)
+                cell_data[i][0] = (l*xo, yo)
+                cell_data[h-i-1][0] = (l*xo, 1.0-yo)
+                cell_data[i][w-1] = (1.0-l*xo, 1.0-yo)
+                cell_data[h-i-1][w-1] = (1.0-l*xo, yo)
+                cell_data[0][i] = (xo, l*yo)
+                cell_data[0][w-i-1] = (1.0-xo, l*yo)
+                cell_data[h-1][i] = (1.0-xo, 1.0-l*yo)
+                cell_data[h-1][w-i-1] = (xo, 1.0-l*yo)
         return cell_data
     # --------------------------------------------------------------------------
     def __init__(self, options, w, h):
@@ -544,7 +543,11 @@ class VoronoiArgumentParser(argparse.ArgumentParser):
             if options.y_cells is None:
                 options.y_cells = 32
 
-        options.need_neighbors = options.cell_mode in ["worley"]
+        if options.cell_mode in ["worley"]:
+            options.need_neighbors = True
+            options.job_count = 1
+        else:
+            options.need_neighbors = False
 
         return options
     # --------------------------------------------------------------------------
@@ -952,6 +955,7 @@ def print_svg(renderer):
     if renderer.cell_mode in ["worley"]:
         make_gradients(renderer)
     renderer.output.write("</defs>\n")
+    renderer.output.flush()
 
     try:
         output_lock = multiprocessing.Lock()
