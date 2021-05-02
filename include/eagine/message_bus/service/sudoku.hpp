@@ -17,6 +17,7 @@
 #include "../../serialize/type/sudoku.hpp"
 #include "../../sudoku.hpp"
 #include "../serialize.hpp"
+#include "../signal.hpp"
 #include "../subscriber.hpp"
 #include <algorithm>
 #include <chrono>
@@ -445,14 +446,38 @@ public:
         return false;
     }
 
-    /// @brief Called when the board with the specified key is solved.
-    virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<3>&) {}
-    /// @brief Called when the board with the specified key is solved.
-    virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<4>&) {}
-    /// @brief Called when the board with the specified key is solved.
-    virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<5>&) {}
-    /// @brief Called when the board with the specified key is solved.
-    virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<6>&) {}
+    /// @brief Triggered when the board with the specified key is solved.
+    signal<void(identifier_t, const Key&, basic_sudoku_board<3>&)> solved_3;
+    /// @brief Triggered when the board with the specified key is solved.
+    signal<void(identifier_t, const Key&, basic_sudoku_board<4>&)> solved_4;
+    /// @brief Triggered when the board with the specified key is solved.
+    signal<void(identifier_t, const Key&, basic_sudoku_board<5>&)> solved_5;
+    /// @brief Triggered when the board with the specified key is solved.
+    signal<void(identifier_t, const Key&, basic_sudoku_board<6>&)> solved_6;
+
+    /// @brief Returns a reference to the solved_3 signal.
+    /// @see solved_3
+    auto solved_signal(unsigned_constant<3> = {}) noexcept -> auto& {
+        return solved_3;
+    }
+
+    /// @brief Returns a reference to the solved_4 signal.
+    /// @see solved_4
+    auto solved_signal(unsigned_constant<4> = {}) noexcept -> auto& {
+        return solved_4;
+    }
+
+    /// @brief Returns a reference to the solved_5 signal.
+    /// @see solved_5
+    auto solved_signal(unsigned_constant<5> = {}) noexcept -> auto& {
+        return solved_5;
+    }
+
+    /// @brief Returns a reference to the solved_6 signal.
+    /// @see solved_6
+    auto solved_signal(unsigned_constant<6> = {}) noexcept -> auto& {
+        return solved_6;
+    }
 
 protected:
     using Base::Base;
@@ -540,7 +565,7 @@ private:
                               entry.board.find_unsolved(),
                               [&](auto& candidate) {
                                   if(candidate.is_solved()) {
-                                      solver.on_solved(
+                                      solver.solved_signal(rank)(
                                         entry.used_helper,
                                         entry.key,
                                         candidate);
@@ -600,7 +625,8 @@ private:
                                 return pos->key == std::get<0>(entry);
                             }),
                           key_boards.end());
-                        parent.on_solved(pos->used_helper, pos->key, board);
+                        parent.solved_signal(rank)(
+                          pos->used_helper, pos->key, board);
                         solution_timeout.reset();
                     } else {
                         add_board(pos->key, std::move(board));
@@ -1016,14 +1042,38 @@ public:
         return result;
     }
 
-    /// @brief Called then all tiles with rank 3 are generated.
-    virtual void on_tiles_generated(const sudoku_tiles<3>&) {}
-    /// @brief Called then all tiles with rank 4 are generated.
-    virtual void on_tiles_generated(const sudoku_tiles<4>&) {}
-    /// @brief Called then all tiles with rank 5 are generated.
-    virtual void on_tiles_generated(const sudoku_tiles<5>&) {}
-    /// @brief Called then all tiles with rank 6 are generated.
-    virtual void on_tiles_generated(const sudoku_tiles<6>&) {}
+    /// @brief Triggered then all tiles with rank 3 are generated.
+    signal<void(const sudoku_tiles<3>&)> tiles_generated_3;
+    /// @brief Triggered then all tiles with rank 4 are generated.
+    signal<void(const sudoku_tiles<4>&)> tiles_generated_4;
+    /// @brief Triggered then all tiles with rank 5 are generated.
+    signal<void(const sudoku_tiles<5>&)> tiles_generated_5;
+    /// @brief Triggered then all tiles with rank 6 are generated.
+    signal<void(const sudoku_tiles<6>&)> tiles_generated_6;
+
+    /// @brief Returns a reference to the tiles_generated_3 signal.
+    /// @see tiles_generated_3
+    auto tiles_generated_signal(unsigned_constant<3>) noexcept -> auto& {
+        return tiles_generated_3;
+    }
+
+    /// @brief Returns a reference to the tiles_generated_4 signal.
+    /// @see tiles_generated_4
+    auto tiles_generated_signal(unsigned_constant<4>) noexcept -> auto& {
+        return tiles_generated_4;
+    }
+
+    /// @brief Returns a reference to the tiles_generated_5 signal.
+    /// @see tiles_generated_5
+    auto tiles_generated_signal(unsigned_constant<5>) noexcept -> auto& {
+        return tiles_generated_5;
+    }
+
+    /// @brief Returns a reference to the tiles_generated_6 signal.
+    /// @see tiles_generated_6
+    auto tiles_generated_signal(unsigned_constant<6>) noexcept -> auto& {
+        return tiles_generated_6;
+    }
 
     /// @brief Logs the contributions of the helpers to the solution.
     template <unsigned S>
@@ -1033,7 +1083,17 @@ public:
     }
 
 protected:
-    using base::base;
+    sudoku_tiling(endpoint& bus)
+      : base{bus} {
+        this->solved_3.connect(
+          EAGINE_THIS_MEM_FUNC_REF(template _handle_solved<3>));
+        this->solved_4.connect(
+          EAGINE_THIS_MEM_FUNC_REF(template _handle_solved<4>));
+        this->solved_5.connect(
+          EAGINE_THIS_MEM_FUNC_REF(template _handle_solved<5>));
+        this->solved_6.connect(
+          EAGINE_THIS_MEM_FUNC_REF(template _handle_solved<6>));
+    }
 
 private:
     template <unsigned S>
@@ -1198,7 +1258,7 @@ private:
 
             enqueue_incomplete(solver);
 
-            solver.on_tiles_generated(*this);
+            solver.tiles_generated_signal(unsigned_constant<S>{})(*this);
         }
 
         void log_contribution_histogram(This& solver) {
@@ -1247,31 +1307,6 @@ private:
     auto _is_already_done(const Coord& coord, unsigned_constant<S>& rank)
       const noexcept -> bool {
         return _infos.get(rank).get_board(coord);
-    }
-
-    void on_solved(
-      identifier_t helper_id,
-      const Coord& coord,
-      basic_sudoku_board<3>& board) final {
-        _handle_solved(helper_id, coord, board);
-    }
-    void on_solved(
-      identifier_t helper_id,
-      const Coord& coord,
-      basic_sudoku_board<4>& board) final {
-        _handle_solved(helper_id, coord, board);
-    }
-    void on_solved(
-      identifier_t helper_id,
-      const Coord& coord,
-      basic_sudoku_board<5>& board) final {
-        _handle_solved(helper_id, coord, board);
-    }
-    void on_solved(
-      identifier_t helper_id,
-      const Coord& coord,
-      basic_sudoku_board<6>& board) final {
-        _handle_solved(helper_id, coord, board);
     }
 
     template <unsigned S>

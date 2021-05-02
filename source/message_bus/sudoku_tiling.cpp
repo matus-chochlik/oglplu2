@@ -27,12 +27,29 @@ class sudoku_tiling_node
   : public main_ctx_object
   , public sudoku_tiling_base {
 public:
+    auto on_tiles_generated_3() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_generated<3>);
+    }
+
+    auto on_tiles_generated_4() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_generated<4>);
+    }
+
+    auto on_tiles_generated_5() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_generated<5>);
+    }
+
     sudoku_tiling_node(endpoint& bus)
       : main_ctx_object{EAGINE_ID(TilingNode), bus}
-      , sudoku_tiling_base{bus} {}
+      , sudoku_tiling_base{bus} {
+        tiles_generated_3.connect(on_tiles_generated_3());
+        tiles_generated_4.connect(on_tiles_generated_4());
+        tiles_generated_5.connect(on_tiles_generated_5());
+    }
 
+private:
     template <unsigned S>
-    void handle_generated(const sudoku_tiles<S>& tiles) {
+    void _handle_generated(const sudoku_tiles<S>& tiles) {
         if(_print_progress) {
             tiles.print_progress(std::cerr) << std::flush;
         }
@@ -46,19 +63,6 @@ public:
         }
     }
 
-    void on_tiles_generated(const sudoku_tiles<3>& tiles) final {
-        handle_generated(tiles);
-    }
-
-    void on_tiles_generated(const sudoku_tiles<4>& tiles) final {
-        handle_generated(tiles);
-    }
-
-    void on_tiles_generated(const sudoku_tiles<5>& tiles) final {
-        handle_generated(tiles);
-    }
-
-private:
     auto provide_endpoint_info() -> endpoint_info final {
         endpoint_info result;
         result.display_name = "sudoku tiling generator";

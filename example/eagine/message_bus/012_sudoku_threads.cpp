@@ -25,26 +25,17 @@ using example_helper = service_composition<sudoku_helper<>>;
 class example_solver : public service_composition<sudoku_solver<>> {
 public:
     using base = service_composition<sudoku_solver<>>;
-    using base::base;
+
+    example_solver(endpoint& bus)
+      : base{bus} {
+        solved_3.connect(EAGINE_THIS_MEM_FUNC_REF(print<3>));
+        solved_4.connect(EAGINE_THIS_MEM_FUNC_REF(print<4>));
+        solved_5.connect(EAGINE_THIS_MEM_FUNC_REF(print<5>));
+    }
 
     template <unsigned S>
-    void print(const int& id, basic_sudoku_board<S>& board) {
+    void print(identifier_t, const int& id, basic_sudoku_board<S>& board) {
         std::cout << "board: " << id << '\n' << board << std::endl;
-    }
-
-    void
-    on_solved(identifier_t, const int& id, basic_sudoku_board<3>& board) final {
-        print(id, board);
-    }
-
-    void
-    on_solved(identifier_t, const int& id, basic_sudoku_board<4>& board) final {
-        print(id, board);
-    }
-
-    void
-    on_solved(identifier_t, const int& id, basic_sudoku_board<5>& board) final {
-        print(id, board);
     }
 };
 
