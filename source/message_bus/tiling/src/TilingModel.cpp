@@ -25,13 +25,16 @@ auto TilingModel::getHeight() const noexcept -> int {
 }
 //------------------------------------------------------------------------------
 auto TilingModel::getTile(int row, int column) const noexcept -> QVariant {
-    // clang-format off
-	const QString t[4][4] = {
-		{"0", "1", "2", "3"},
-		{"4", "5", "6", "7"},
-		{"8", "9", "A", "B"},
-		{"C", "D", "E", "F"}};
-    // clang-format on
-    return {t[row % 4][(row + column) % 4]};
+    if(column < 255 - row) {
+        // clang-format off
+		const QString t[4][4] = {
+			{"0", "1", "2", "3"},
+			{"4", "5", "6", "7"},
+			{"8", "9", "A", "B"},
+			{"C", "D", "E", "F"}};
+        // clang-format on
+        return {t[row % 4][(row + column) % 4]};
+    }
+    return {};
 }
 //------------------------------------------------------------------------------

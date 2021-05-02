@@ -4,6 +4,8 @@
 	<file>tiling.qml</file>
 
 	<file>views/TilingView.qml</file>
+	<file>views/EmptyTile.qml</file>
+	<file>views/KnownTile.qml</file>
 	<file>views/Tile.qml</file>
 
 	<file>tiles/b16_0.svg</file>
