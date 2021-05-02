@@ -25,7 +25,8 @@ public:
     auto columnCount(const QModelIndex&) const -> int final;
     auto data(const QModelIndex& index, int role) const -> QVariant final;
     auto roleNames() const -> QHash<int, QByteArray> final;
-public slots:
+private slots:
+    void onTilingModelChanged();
 
 private:
     TilingBackend& _backend;

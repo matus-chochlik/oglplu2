@@ -14,6 +14,7 @@
 #include <QObject>
 #include <memory>
 
+class TilingModel;
 //------------------------------------------------------------------------------
 class TilingBackend
   : public QObject
@@ -26,13 +27,17 @@ public:
     TilingBackend(eagine::main_ctx_parent);
     ~TilingBackend() final;
 
+    auto getTilingModel() noexcept -> TilingModel*;
     auto getTilingTheme() noexcept -> TilingTheme*;
     auto getTilingViewModel() noexcept -> TilingViewModel*;
+signals:
+    void tilingModelChanged();
 public slots:
 private:
     void timerEvent(QTimerEvent*) final;
 
     int _timerId{0};
+    std::shared_ptr<TilingModel> _tilingModel;
     TilingTheme _tilingTheme;
     TilingViewModel _tilingViewModel;
 };

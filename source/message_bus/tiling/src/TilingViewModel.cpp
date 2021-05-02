@@ -7,6 +7,7 @@
 
 #include "TilingViewModel.hpp"
 #include "TilingBackend.hpp"
+#include "TilingModel.hpp"
 //------------------------------------------------------------------------------
 TilingViewModel::TilingViewModel(TilingBackend& backend)
   : QAbstractTableModel{nullptr}
@@ -14,30 +15,35 @@ TilingViewModel::TilingViewModel(TilingBackend& backend)
   , _backend{backend} {}
 //------------------------------------------------------------------------------
 auto TilingViewModel::rowCount(const QModelIndex&) const -> int {
-    return 256;
+    if(auto tilingModel{_backend.getTilingModel()}) {
+        return extract(tilingModel).getHeight();
+    }
+    return 0;
 }
 //------------------------------------------------------------------------------
 auto TilingViewModel::columnCount(const QModelIndex&) const -> int {
-    return 256;
+    if(auto tilingModel{_backend.getTilingModel()}) {
+        return extract(tilingModel).getWidth();
+    }
+    return 0;
 }
 //------------------------------------------------------------------------------
 auto TilingViewModel::data(const QModelIndex& index, int role) const
   -> QVariant {
     if(role == Qt::DisplayRole) {
-        // clang-format off
-        const QString t[4][4] = {
-			{"0", "1", "2", "3"},
-			{"4", "5", "6", "7"},
-			{"8", "9", "A", "B"},
-			{"C", "D", "E", "F"}};
-        // clang-format on
-        return {t[index.row() % 4][(index.row() + index.column()) % 4]};
+        if(auto tilingModel{_backend.getTilingModel()}) {
+            return extract(tilingModel).getTile(index.row(), index.column());
+        }
     }
     return {};
 }
 //------------------------------------------------------------------------------
 auto TilingViewModel::roleNames() const -> QHash<int, QByteArray> {
     return {{Qt::DisplayRole, "tile"}};
+}
+//------------------------------------------------------------------------------
+void TilingViewModel::onTilingModelChanged() {
+    emit modelReset({});
 }
 //------------------------------------------------------------------------------
 
