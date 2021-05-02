@@ -29,8 +29,10 @@ class endpoint_info_provider : public Base {
     using This = endpoint_info_provider;
 
 public:
-    /// @brief Provides the endpoint info. Shall be implemented by derived services.
-    virtual auto provide_endpoint_info() -> endpoint_info = 0;
+    /// @brief Sets the endpoint info to be provided.
+    auto provided_endpoint_info() noexcept -> endpoint_info& {
+        return _info;
+    }
 
 protected:
     using Base::Base;
@@ -46,11 +48,12 @@ protected:
     }
 
 private:
-    auto _get_endpoint_info() -> endpoint_info {
-        return provide_endpoint_info();
+    auto _get_endpoint_info() -> const endpoint_info& {
+        return _info;
     }
 
-    default_function_skeleton<endpoint_info(), 1024> _respond;
+    default_function_skeleton<const endpoint_info&(), 1024> _respond;
+    endpoint_info _info;
 };
 //------------------------------------------------------------------------------
 /// @brief Service consuming basic information about message bus endpoint.

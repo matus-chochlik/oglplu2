@@ -45,6 +45,10 @@ public:
         tiles_generated_3.connect(on_tiles_generated_3());
         tiles_generated_4.connect(on_tiles_generated_4());
         tiles_generated_5.connect(on_tiles_generated_5());
+
+        auto& info = provided_endpoint_info();
+        info.display_name = "sudoku tiling generator";
+        info.description = "helper node for the sudoku solver service";
     }
 
 private:
@@ -61,13 +65,6 @@ private:
                 tiles.print(std::cout) << std::endl;
             }
         }
-    }
-
-    auto provide_endpoint_info() -> endpoint_info final {
-        endpoint_info result;
-        result.display_name = "sudoku tiling generator";
-        result.description = "node for generating sudoku block tiles";
-        return result;
     }
 
     bool _block_cells{cfg_init("msg_bus.sudoku.solver.block_cells", false)};

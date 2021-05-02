@@ -50,6 +50,11 @@ public:
 
             shutdown_requested.connect(EAGINE_THIS_MEM_FUNC_REF(on_shutdown));
         }
+        auto& info = provided_endpoint_info();
+        info.display_name = "router control node";
+        info.description =
+          "endpoint monitoring and controlling a message bus router";
+        info.is_router_node = true;
     }
 
     auto update() -> bool {
@@ -64,15 +69,6 @@ public:
     }
 
 private:
-    auto provide_endpoint_info() -> endpoint_info final {
-        endpoint_info result;
-        result.display_name = "router control node";
-        result.description =
-          "endpoint monitoring and controlling a message bus router";
-        result.is_router_node = true;
-        return result;
-    }
-
     timeout _shutdown_timeout{
       cfg_init("msg_bus.router.shutdown.delay", std::chrono::seconds(60))};
     const std::chrono::milliseconds _shutdown_max_age{cfg_init(

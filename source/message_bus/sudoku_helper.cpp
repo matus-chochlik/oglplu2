@@ -36,6 +36,10 @@ public:
       : main_ctx_object{EAGINE_ID(SudokuNode), bus}
       , sudoku_helper_base{bus} {
         shutdown_requested.connect(EAGINE_THIS_MEM_FUNC_REF(on_shutdown));
+
+        auto& info = provided_endpoint_info();
+        info.display_name = "sudoku helper";
+        info.description = "helper node for the sudoku solver service";
     }
 
     auto is_shut_down() const noexcept -> bool {
@@ -53,13 +57,6 @@ private:
           .arg(EAGINE_ID(verified), verified);
 
         _do_shutdown = true;
-    }
-
-    auto provide_endpoint_info() -> endpoint_info final {
-        endpoint_info result;
-        result.display_name = "sudoku helper";
-        result.description = "helper node for the sudoku solver service";
-        return result;
     }
 
     bool _do_shutdown{false};

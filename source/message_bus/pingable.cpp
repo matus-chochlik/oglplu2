@@ -38,6 +38,9 @@ public:
       : main_ctx_object{EAGINE_ID(PngablNode), bus}
       , base{bus} {
         shutdown_requested.connect(on_shutdown_slot());
+        auto& info = provided_endpoint_info();
+        info.display_name = "pingable node";
+        info.description = "simple generic pingable node";
     }
 
     auto respond_to_ping(identifier_t, message_sequence_t, verification_bits)
@@ -78,13 +81,6 @@ public:
     }
 
 private:
-    auto provide_endpoint_info() -> endpoint_info final {
-        endpoint_info result;
-        result.display_name = "pingable node";
-        result.description = "simple generic pingable node";
-        return result;
-    }
-
     std::intmax_t _mod{10000};
     std::intmax_t _sent{0};
     timeout _announce_timeout{std::chrono::seconds(5)};
