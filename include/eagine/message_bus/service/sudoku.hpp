@@ -809,6 +809,16 @@ public:
     /// @brief The board coordinate/key type.
     using Coord = std::tuple<int, int>;
 
+    /// @brief Returns the width (in tiles) of the board.
+    auto width() const noexcept -> int {
+        return _maxu - _minu;
+    }
+
+    /// @brief Returns the height (in tiles) of the board.
+    auto height() const noexcept -> int {
+        return _maxv - _minv;
+    }
+
     /// @brief Get the board at the specified coordinate if it is solved.
     auto get_board(Coord coord) const noexcept -> const basic_sudoku_board<S>* {
         const auto pos = _boards.find(coord);

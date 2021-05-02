@@ -9,6 +9,10 @@
 #define EAGINE_MESSAGE_BUS_TILING_MODEL
 
 #include <eagine/main_ctx_object.hpp>
+#include <eagine/message_bus/service.hpp>
+#include <eagine/message_bus/service/common_info.hpp>
+#include <eagine/message_bus/service/ping_pong.hpp>
+#include <eagine/message_bus/service/sudoku.hpp>
 #include <QObject>
 
 //------------------------------------------------------------------------------
@@ -29,6 +33,14 @@ public:
 signals:
 public slots:
 private:
+    eagine::msgbus::endpoint _bus;
+
+    eagine::msgbus::service_composition<eagine::msgbus::pingable<
+      eagine::msgbus::common_info_providers<eagine::msgbus::sudoku_tiling<>>>>
+      _tiling;
+
+    int _width{256};
+    int _height{256};
 };
 //------------------------------------------------------------------------------
 #endif
