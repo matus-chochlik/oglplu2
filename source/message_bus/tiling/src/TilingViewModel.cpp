@@ -20,6 +20,12 @@ TilingViewModel::TilingViewModel(TilingBackend& backend)
       &TilingViewModel::onTilingModelChanged);
 }
 //------------------------------------------------------------------------------
+void TilingViewModel::reinitialize(int w, int h) {
+    if(auto tilingModel{_backend.getTilingModel()}) {
+        extract(tilingModel).reinitialize(w, h);
+    }
+}
+//------------------------------------------------------------------------------
 auto TilingViewModel::rowCount(const QModelIndex&) const -> int {
     if(auto tilingModel{_backend.getTilingModel()}) {
         return extract(tilingModel).getHeight();
@@ -51,13 +57,18 @@ auto TilingViewModel::roleNames() const -> QHash<int, QByteArray> {
 void TilingViewModel::onTilingModelChanged() {
     connect(
       _backend.getTilingModel(),
+      &TilingModel::reinitialized,
+      this,
+      &TilingViewModel::onTilingChanged);
+    connect(
+      _backend.getTilingModel(),
       &TilingModel::fragmentAdded,
       this,
-      &TilingViewModel::onFragmentAdded);
+      &TilingViewModel::onTilingChanged);
     emit modelReset({});
 }
 //------------------------------------------------------------------------------
-void TilingViewModel::onFragmentAdded() {
+void TilingViewModel::onTilingChanged() {
     emit modelReset({});
 }
 //------------------------------------------------------------------------------

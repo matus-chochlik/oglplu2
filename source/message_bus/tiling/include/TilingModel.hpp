@@ -26,12 +26,13 @@ public:
 
     void update();
 
-    void reinit(int w, int h);
+    void reinitialize(int w, int h);
     auto getWidth() const noexcept -> int;
     auto getHeight() const noexcept -> int;
     auto getTile(int row, int column) const noexcept -> QVariant;
 
 signals:
+    void reinitialized();
     void fragmentAdded();
 
 private:

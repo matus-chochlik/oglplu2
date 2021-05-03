@@ -23,28 +23,31 @@ TilingModel::TilingModel(eagine::main_ctx_parent parent)
     _tiling.tiles_generated_4.connect(
       EAGINE_THIS_MEM_FUNC_REF(onFragmentAdded));
 
-    reinit(256, 256);
+    reinitialize(64, 64);
 }
 //------------------------------------------------------------------------------
 void TilingModel::update() {
     _tiling.process_all();
     _tiling.update();
     if(_tiling.solution_timeouted(eagine::unsigned_constant<4>{})) {
-        reinit(256, 256);
+        reinitialize(_width, _height);
     }
 }
 //------------------------------------------------------------------------------
-void TilingModel::reinit(int w, int h) {
-    _width = w;
-    _height = h;
-    _cellCache.resize(eagine::std_size(w * h));
-    zero(eagine::cover(_cellCache));
+void TilingModel::reinitialize(int w, int h) {
+    if((_width != w) || (_height != h)) {
+        _width = w;
+        _height = h;
+        _cellCache.resize(eagine::std_size(w * h));
+        zero(eagine::cover(_cellCache));
+    }
 
     _tiling.reinitialize(
       {_width, _height},
       eagine::default_sudoku_board_traits<4>()
         .make_generator()
         .generate_medium());
+    emit reinitialized();
 }
 //------------------------------------------------------------------------------
 auto TilingModel::getWidth() const noexcept -> int {
