@@ -27,24 +27,15 @@ class sudoku_tiling_node
   : public main_ctx_object
   , public sudoku_tiling_base {
 public:
-    auto on_tiles_generated_3() noexcept {
-        return EAGINE_THIS_MEM_FUNC_REF(_handle_generated<3>);
-    }
-
-    auto on_tiles_generated_4() noexcept {
-        return EAGINE_THIS_MEM_FUNC_REF(_handle_generated<4>);
-    }
-
-    auto on_tiles_generated_5() noexcept {
-        return EAGINE_THIS_MEM_FUNC_REF(_handle_generated<5>);
-    }
-
     sudoku_tiling_node(endpoint& bus)
       : main_ctx_object{EAGINE_ID(TilingNode), bus}
       , sudoku_tiling_base{bus} {
-        tiles_generated_3.connect(on_tiles_generated_3());
-        tiles_generated_4.connect(on_tiles_generated_4());
-        tiles_generated_5.connect(on_tiles_generated_5());
+        tiles_generated_3.connect(
+          EAGINE_THIS_MEM_FUNC_REF(_handle_generated<3>));
+        tiles_generated_4.connect(
+          EAGINE_THIS_MEM_FUNC_REF(_handle_generated<4>));
+        tiles_generated_5.connect(
+          EAGINE_THIS_MEM_FUNC_REF(_handle_generated<5>));
 
         auto& info = provided_endpoint_info();
         info.display_name = "sudoku tiling generator";
@@ -53,7 +44,9 @@ public:
 
 private:
     template <unsigned S>
-    void _handle_generated(const sudoku_tiles<S>& tiles) {
+    void _handle_generated(
+      const sudoku_tiles<S>& tiles,
+      const std::tuple<int, int>&) {
         if(_print_progress) {
             tiles.print_progress(std::cerr) << std::flush;
         }

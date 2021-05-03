@@ -800,6 +800,49 @@ private:
     }
 };
 //------------------------------------------------------------------------------
+template <unsigned S>
+class sudoku_tiles;
+//------------------------------------------------------------------------------
+/// @brief Class providing view to a solved fragment in sudoku_tiles.
+/// @ingroup msgbus
+/// @see sudoku_tiles
+template <unsigned S>
+class sudoku_fragment_view {
+public:
+    /// @brief The board/cell coordinate type.
+    using Coord = std::tuple<int, int>;
+
+    /// @brief Returns the width (in cells) of the tile.
+    constexpr auto width() const noexcept -> int {
+        return limit_cast<int>(S * (S - 2));
+    }
+
+    /// @brief Returns the height (in cells) of the tile.
+    constexpr auto height() const noexcept -> int {
+        return limit_cast<int>(S * (S - 2));
+    }
+
+    /// @brief Calls the specified function for each cell in the fragment.
+    /// The function should have the following arguments:
+    /// - std::tuple<int, int> the fragment coordinate (in cell units),
+    /// - std::tuple<int, int> the cell offset within the fragment,
+    /// - basic_sudoku_glyph<S> the glyph at the cell.
+    template <typename Function>
+    void for_each_cell(Function function) const;
+
+private:
+    friend class sudoku_tiles<S>;
+
+    sudoku_fragment_view(
+      const sudoku_tiles<S>& tiles,
+      Coord board_coord) noexcept
+      : _tiles{tiles}
+      , _board_coord{std::move(board_coord)} {}
+
+    const sudoku_tiles<S>& _tiles;
+    Coord _board_coord;
+};
+//------------------------------------------------------------------------------
 /// @brie Class representing a set of related Sudoku tiles.
 /// @ingroup msgbus
 /// @see sudoku_tiling
@@ -809,12 +852,12 @@ public:
     /// @brief The board coordinate/key type.
     using Coord = std::tuple<int, int>;
 
-    /// @brief Returns the width (in tiles) of the board.
+    /// @brief Returns the width (in cells) of the tiling.
     auto width() const noexcept -> int {
         return _maxu - _minu;
     }
 
-    /// @brief Returns the height (in tiles) of the board.
+    /// @brief Returns the height (in cells) of the tiling.
     auto height() const noexcept -> int {
         return _maxv - _minv;
     }
@@ -836,6 +879,11 @@ public:
     /// @brief Sets the board at the specified coordinate.
     auto set_board(Coord coord, basic_sudoku_board<S> board) -> bool {
         return _boards.try_emplace(std::move(coord), std::move(board)).second;
+    }
+
+    /// @brief Return a view of the fragment at the specified board coordinate.
+    auto get_fragment(Coord coord) const noexcept -> sudoku_fragment_view<S> {
+        return {*this, coord};
     }
 
     /// @brief Sets the extent (number of tiles in x and y dimension) of the tiling.
@@ -992,6 +1040,28 @@ private:
     default_sudoku_board_traits<S> _traits;
 };
 //------------------------------------------------------------------------------
+template <unsigned S>
+template <typename Function>
+void sudoku_fragment_view<S>::for_each_cell(Function function) const {
+    if(auto board{_tiles.get_board(_board_coord)}) {
+        const auto [bx, by] = _board_coord;
+        const Coord frag_coord{
+          limit_cast<int>(bx * width()), limit_cast<int>(by * height())};
+        for(auto y : integer_range(height())) {
+            for(auto x : integer_range(width())) {
+                const Coord cell_offset{x, y};
+                std::array<unsigned, 4> cell_coord{
+                  limit_cast<unsigned>(1 + x / S),
+                  limit_cast<unsigned>(1 + y / S),
+                  limit_cast<unsigned>(x % S),
+                  limit_cast<unsigned>(y % S)};
+                function(
+                  frag_coord, cell_offset, extract(board).get(cell_coord));
+            }
+        }
+    }
+}
+//------------------------------------------------------------------------------
 /// @brief Service generating a sudoku tiling using helper message bus nodes.
 /// @ingroup msgbus
 /// @see service_composition
@@ -1053,13 +1123,13 @@ public:
     }
 
     /// @brief Triggered then all tiles with rank 3 are generated.
-    signal<void(const sudoku_tiles<3>&)> tiles_generated_3;
+    signal<void(const sudoku_tiles<3>&, const Coord&)> tiles_generated_3;
     /// @brief Triggered then all tiles with rank 4 are generated.
-    signal<void(const sudoku_tiles<4>&)> tiles_generated_4;
+    signal<void(const sudoku_tiles<4>&, const Coord&)> tiles_generated_4;
     /// @brief Triggered then all tiles with rank 5 are generated.
-    signal<void(const sudoku_tiles<5>&)> tiles_generated_5;
+    signal<void(const sudoku_tiles<5>&, const Coord&)> tiles_generated_5;
     /// @brief Triggered then all tiles with rank 6 are generated.
-    signal<void(const sudoku_tiles<6>&)> tiles_generated_6;
+    signal<void(const sudoku_tiles<6>&, const Coord&)> tiles_generated_6;
 
     /// @brief Returns a reference to the tiles_generated_3 signal.
     /// @see tiles_generated_3
@@ -1264,11 +1334,12 @@ private:
                     helper_pos = helper_contrib.emplace(helper_id, 0).first;
                 }
                 ++helper_pos->second;
+
+                const unsigned_constant<S> rank{};
+                solver.tiles_generated_signal(rank)(*this, coord);
             }
 
             enqueue_incomplete(solver);
-
-            solver.tiles_generated_signal(unsigned_constant<S>{})(*this);
         }
 
         void log_contribution_histogram(This& solver) {
