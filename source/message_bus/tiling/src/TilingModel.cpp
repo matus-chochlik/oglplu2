@@ -6,6 +6,7 @@
 ///
 
 #include "TilingModel.hpp"
+#include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <QVariant>
@@ -19,16 +20,31 @@ TilingModel::TilingModel(eagine::main_ctx_parent parent)
     eagine::msgbus::connection_setup conn_setup{*this};
     conn_setup.setup_connectors(_tiling, address);
 
-    _tiling.reinitialize(
-      {_width, _height},
-      eagine::default_sudoku_board_traits<4>()
-        .make_generator()
-        .generate_medium());
+    _tiling.tiles_generated_4.connect(
+      EAGINE_THIS_MEM_FUNC_REF(onFragmentAdded));
+
+    reinit(256, 256);
 }
 //------------------------------------------------------------------------------
 void TilingModel::update() {
     _tiling.process_all();
     _tiling.update();
+    if(_tiling.solution_timeouted(eagine::unsigned_constant<4>{})) {
+        reinit(256, 256);
+    }
+}
+//------------------------------------------------------------------------------
+void TilingModel::reinit(int w, int h) {
+    _width = w;
+    _height = h;
+    _cellCache.resize(eagine::std_size(w * h));
+    zero(eagine::cover(_cellCache));
+
+    _tiling.reinitialize(
+      {_width, _height},
+      eagine::default_sudoku_board_traits<4>()
+        .make_generator()
+        .generate_medium());
 }
 //------------------------------------------------------------------------------
 auto TilingModel::getWidth() const noexcept -> int {
@@ -40,16 +56,28 @@ auto TilingModel::getHeight() const noexcept -> int {
 }
 //------------------------------------------------------------------------------
 auto TilingModel::getTile(int row, int column) const noexcept -> QVariant {
-    if(column < 2 * _width - row) {
-        // clang-format off
-		const QString t[4][4] = {
-			{"0", "1", "2", "3"},
-			{"4", "5", "6", "7"},
-			{"8", "9", "A", "B"},
-			{"C", "D", "E", "F"}};
-        // clang-format on
-        return {t[row % 4][(row + column) % 4]};
+    const auto k = eagine::std_size(row * _width + column);
+    const auto c = _cellCache[k];
+    if(c) {
+        const char s[2] = {c, '\0'};
+        return {static_cast<const char*>(s)};
     }
     return {};
+}
+//------------------------------------------------------------------------------
+void TilingModel::onFragmentAdded(
+  const eagine::msgbus::sudoku_tiles<4>& tiles,
+  const std::tuple<int, int>& frag_coord) {
+    const auto fragment = tiles.get_fragment(frag_coord);
+    fragment.for_each_cell(
+      [this](const auto& coord, const auto& offs, const auto& glyph) {
+          if(auto glyphStr{_traits_4.to_string(glyph)}) {
+              const auto column = std::get<0>(coord) + std::get<0>(offs);
+              const auto row = std::get<1>(coord) + std::get<1>(offs);
+              const auto k = eagine::std_size(row * _width + column);
+              _cellCache[k] = extract(glyphStr).front();
+          }
+      });
+    emit fragmentAdded();
 }
 //------------------------------------------------------------------------------

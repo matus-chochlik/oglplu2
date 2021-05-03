@@ -12,7 +12,13 @@
 TilingViewModel::TilingViewModel(TilingBackend& backend)
   : QAbstractTableModel{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(TilingVM), backend}
-  , _backend{backend} {}
+  , _backend{backend} {
+    connect(
+      &_backend,
+      &TilingBackend::tilingModelChanged,
+      this,
+      &TilingViewModel::onTilingModelChanged);
+}
 //------------------------------------------------------------------------------
 auto TilingViewModel::rowCount(const QModelIndex&) const -> int {
     if(auto tilingModel{_backend.getTilingModel()}) {
@@ -43,6 +49,15 @@ auto TilingViewModel::roleNames() const -> QHash<int, QByteArray> {
 }
 //------------------------------------------------------------------------------
 void TilingViewModel::onTilingModelChanged() {
+    connect(
+      _backend.getTilingModel(),
+      &TilingModel::fragmentAdded,
+      this,
+      &TilingViewModel::onFragmentAdded);
+    emit modelReset({});
+}
+//------------------------------------------------------------------------------
+void TilingViewModel::onFragmentAdded() {
     emit modelReset({});
 }
 //------------------------------------------------------------------------------

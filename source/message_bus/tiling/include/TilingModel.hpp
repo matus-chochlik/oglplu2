@@ -26,21 +26,30 @@ public:
 
     void update();
 
+    void reinit(int w, int h);
     auto getWidth() const noexcept -> int;
     auto getHeight() const noexcept -> int;
     auto getTile(int row, int column) const noexcept -> QVariant;
 
 signals:
-public slots:
+    void fragmentAdded();
+
 private:
+    void onFragmentAdded(
+      const eagine::msgbus::sudoku_tiles<4>&,
+      const std::tuple<int, int>&);
+
     eagine::msgbus::endpoint _bus;
 
     eagine::msgbus::service_composition<eagine::msgbus::pingable<
       eagine::msgbus::common_info_providers<eagine::msgbus::sudoku_tiling<>>>>
       _tiling;
 
-    int _width{256};
-    int _height{256};
+    eagine::default_sudoku_board_traits<4> _traits_4;
+
+    std::vector<char> _cellCache;
+    int _width{0};
+    int _height{0};
 };
 //------------------------------------------------------------------------------
 #endif

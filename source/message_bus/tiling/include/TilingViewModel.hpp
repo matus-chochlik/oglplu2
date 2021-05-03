@@ -27,6 +27,7 @@ public:
     auto roleNames() const -> QHash<int, QByteArray> final;
 private slots:
     void onTilingModelChanged();
+    void onFragmentAdded();
 
 private:
     TilingBackend& _backend;
