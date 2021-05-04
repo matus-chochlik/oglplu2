@@ -59,10 +59,10 @@ example_cubes::example_cubes(execution_context& ec, video_context& vc)
       .set_far(50.F)
       .set_orbit_min(10.2F)
       .set_orbit_max(16.0F)
-      .set_fov(right_angle_());
+      .set_fov(degrees_(70));
     prog.set_projection(vc, camera);
 
-    gl.clear_color(0.45F, 0.45F, 0.45F, 0.0F);
+    gl.clear_color(0.45F, 0.45F, 0.45F, 1.0F);
     gl.enable(GL.depth_test);
     gl.enable(GL.cull_face);
     gl.cull_face(GL.back);
@@ -82,7 +82,7 @@ void example_cubes::update() noexcept {
         _is_done.reset();
     }
     if(state.user_idle_too_long()) {
-        camera.idle_update(state);
+        camera.idle_update(state, 3.F);
     }
 
     auto& glapi = _video.gl_api();
