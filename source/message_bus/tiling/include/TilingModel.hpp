@@ -27,9 +27,11 @@ public:
     void update();
 
     void reinitialize(int w, int h);
+
     auto getWidth() const noexcept -> int;
     auto getHeight() const noexcept -> int;
-    auto getTile(int row, int column) const noexcept -> QVariant;
+    auto getCellChar(int row, int column) const noexcept -> char;
+    auto getCell(int row, int column) const noexcept -> QVariant;
 
 signals:
     void reinitialized();

@@ -10,6 +10,7 @@
 
 #include <eagine/main_ctx_object.hpp>
 #include <QAbstractTableModel>
+#include <QUrl>
 
 class TilingBackend;
 //------------------------------------------------------------------------------
@@ -27,6 +28,7 @@ public:
     auto roleNames() const -> QHash<int, QByteArray> final;
 
     Q_INVOKABLE void reinitialize(int w, int h);
+    Q_INVOKABLE void saveAs(const QUrl& filePath);
 private slots:
     void onTilingModelChanged();
     void onTilingChanged();

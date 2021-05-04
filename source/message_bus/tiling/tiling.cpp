@@ -16,6 +16,9 @@ auto main(main_ctx& ctx) -> int {
 
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app{argc_copy, const_cast<char**>(argv_copy)};
+    app.setOrganizationName("OGLplus");
+    app.setOrganizationDomain("oglplus.org");
+    app.setApplicationName("Tiling");
     std::setlocale(LC_NUMERIC, "C");
 
     const auto registerId = "com.github.matus-chochlik.oglplu2";

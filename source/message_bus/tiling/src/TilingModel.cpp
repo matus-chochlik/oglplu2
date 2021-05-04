@@ -39,8 +39,8 @@ void TilingModel::reinitialize(int w, int h) {
         _width = w;
         _height = h;
         _cellCache.resize(eagine::std_size(w * h));
-        zero(eagine::cover(_cellCache));
     }
+    zero(eagine::cover(_cellCache));
 
     _tiling.reinitialize(
       {_width, _height},
@@ -58,10 +58,13 @@ auto TilingModel::getHeight() const noexcept -> int {
     return _height;
 }
 //------------------------------------------------------------------------------
-auto TilingModel::getTile(int row, int column) const noexcept -> QVariant {
+auto TilingModel::getCellChar(int row, int column) const noexcept -> char {
     const auto k = eagine::std_size(row * _width + column);
-    const auto c = _cellCache[k];
-    if(c) {
+    return _cellCache[k];
+}
+//------------------------------------------------------------------------------
+auto TilingModel::getCell(int row, int column) const noexcept -> QVariant {
+    if(const char c{getCellChar(row, column)}) {
         const char s[2] = {c, '\0'};
         return {static_cast<const char*>(s)};
     }
