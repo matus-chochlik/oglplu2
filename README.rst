@@ -74,6 +74,20 @@ For other configurations using SDL, wxWidgets, GLUT, etc. you need to install
 the appropriate packages (the names vary between distributions or even
 between versions of the same distribution so they are not listed here).
 
+In order to build the Qt/QML applications you need to additionally install
+the following packages:
+
+::
+
+ sudo apt install \
+    qt5-default \
+    qtdeclarative5-dev \
+    qml-module-qtquick-controls \
+    qml-module-qtquick-controls2 \
+    qml-module-qtquick-dialogs \
+    qml-module-qt-labs-folderlistmodel \
+    qml-module-qt-labs-settings
+
 Building
 ========
 
