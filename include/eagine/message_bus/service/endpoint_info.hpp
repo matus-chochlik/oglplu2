@@ -26,7 +26,6 @@ namespace eagine::msgbus {
 /// @see endpoint_info
 template <typename Base = subscriber>
 class endpoint_info_provider : public Base {
-    using This = endpoint_info_provider;
 
 public:
     /// @brief Sets the endpoint info to be provided.
@@ -42,9 +41,8 @@ protected:
 
         Base::add_method(_respond(
           EAGINE_MSG_ID(eagiEptInf, response),
-          this,
-          EAGINE_MEM_FUNC_C(
-            This, _get_endpoint_info))[EAGINE_MSG_ID(eagiEptInf, request)]);
+          EAGINE_THIS_MEM_FUNC_REF(
+            _get_endpoint_info))[EAGINE_MSG_ID(eagiEptInf, request)]);
     }
 
 private:
@@ -63,8 +61,6 @@ private:
 /// @see endpoint_info
 template <typename Base = subscriber>
 class endpoint_info_consumer : public Base {
-
-    using This = endpoint_info_consumer;
 
 public:
     /// @brief Queries basic information about the specified endpoint.

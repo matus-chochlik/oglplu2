@@ -129,6 +129,13 @@ public:
       : _response_id{std::move(response_id)}
       , _function{std::move(function)} {}
 
+    auto operator()(message_id response_id, _function_t function)
+      -> function_skeleton& {
+        _response_id = std::move(response_id);
+        _function = function;
+        return *this;
+    }
+
     template <typename Class, typename MfcT, MfcT Mfc>
     auto operator()(
       message_id response_id,
