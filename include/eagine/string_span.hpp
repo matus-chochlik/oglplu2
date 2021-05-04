@@ -159,11 +159,33 @@ struct cmp_decay_to<basic_string_span<T, P, S>>
 //------------------------------------------------------------------------------
 // less
 //------------------------------------------------------------------------------
+/// @brief Comparator template for string span - string span comparisons.
+/// @ingroup string_utils
+template <typename Spn>
+struct basic_view_less {
+    using is_transparent = std::true_type;
+
+    constexpr auto
+    _helper(int cmp, span_size_t lsz, span_size_t rsz) const noexcept -> bool {
+        return cmp < 0 ? true : cmp > 0 ? false : (lsz < rsz);
+    }
+
+    constexpr auto operator()(Spn l, Spn r) const noexcept -> bool {
+        return _helper(
+          std::strncmp(
+            l.data(), r.data(), std_size(std::min(l.size(), r.size()))),
+          l.size(),
+          r.size());
+    }
+};
+//------------------------------------------------------------------------------
 /// @brief Comparator template for standard string - string span comparisons.
 /// @ingroup string_utils
 template <typename Str, typename Spn>
-struct basic_str_view_less {
-    using is_transparent = std::true_type;
+struct basic_str_view_less : basic_view_less<Spn> {
+    using base = basic_view_less<Spn>;
+
+    using base::operator();
 
     constexpr auto operator()(const Str& l, const Str& r) const noexcept
       -> bool {
@@ -171,11 +193,11 @@ struct basic_str_view_less {
     }
 
     constexpr auto operator()(const Str& l, Spn r) const noexcept -> bool {
-        return std::strncmp(l.data(), r.data(), std_size(r.size())) < 0;
+        return (*this)(Spn(l), r);
     }
 
     constexpr auto operator()(Spn l, const Str& r) const noexcept -> bool {
-        return std::strncmp(l.data(), r.data(), std_size(l.size())) < 0;
+        return (*this)(l, Spn(r));
     }
 };
 //------------------------------------------------------------------------------

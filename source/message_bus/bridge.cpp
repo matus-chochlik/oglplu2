@@ -14,10 +14,7 @@
 #include <eagine/message_bus/bridge.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
-#include <eagine/message_bus/service/application_info.hpp>
-#include <eagine/message_bus/service/build_info.hpp>
-#include <eagine/message_bus/service/endpoint_info.hpp>
-#include <eagine/message_bus/service/host_info.hpp>
+#include <eagine/message_bus/service/common_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/signal_switch.hpp>
@@ -27,8 +24,7 @@ namespace eagine {
 //------------------------------------------------------------------------------
 namespace msgbus {
 using bridge_node_base =
-  service_composition<shutdown_target<pingable<build_info_provider<
-    host_info_provider<application_info_provider<endpoint_info_provider<>>>>>>>;
+  service_composition<shutdown_target<pingable<common_info_providers<>>>>;
 //------------------------------------------------------------------------------
 class bridge_node
   : public main_ctx_object
@@ -52,6 +48,11 @@ public:
 
             shutdown_requested.connect(EAGINE_THIS_MEM_FUNC_REF(on_shutdown));
         }
+        auto& info = provided_endpoint_info();
+        info.display_name = "bridge control node";
+        info.description =
+          "endpoint monitoring and controlling a message bus bridge";
+        info.is_bridge_node = true;
     }
 
     auto update() -> bool {
@@ -66,15 +67,6 @@ public:
     }
 
 private:
-    auto provide_endpoint_info() -> endpoint_info final {
-        endpoint_info result;
-        result.display_name = "bridge control node";
-        result.description =
-          "endpoint monitoring and controlling a message bus bridge";
-        result.is_bridge_node = true;
-        return result;
-    }
-
     timeout _shutdown_timeout{
       cfg_init("msg_bus.bridge.shutdown.delay", std::chrono::seconds(30))};
     const std::chrono::milliseconds _shutdown_max_age{cfg_init(

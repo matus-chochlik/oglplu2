@@ -1,0 +1,28 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+	<file>qtquickcontrols2.conf</file>
+	<file>tiling.qml</file>
+
+	<file>views/TilingView.qml</file>
+	<file>views/EmptyTile.qml</file>
+	<file>views/KnownTile.qml</file>
+	<file>views/Tile.qml</file>
+
+	<file>tiles/b16_0.svg</file>
+	<file>tiles/b16_1.svg</file>
+	<file>tiles/b16_2.svg</file>
+	<file>tiles/b16_3.svg</file>
+	<file>tiles/b16_4.svg</file>
+	<file>tiles/b16_5.svg</file>
+	<file>tiles/b16_6.svg</file>
+	<file>tiles/b16_7.svg</file>
+	<file>tiles/b16_8.svg</file>
+	<file>tiles/b16_9.svg</file>
+	<file>tiles/b16_A.svg</file>
+	<file>tiles/b16_B.svg</file>
+	<file>tiles/b16_C.svg</file>
+	<file>tiles/b16_D.svg</file>
+	<file>tiles/b16_E.svg</file>
+	<file>tiles/b16_F.svg</file>
+</qresource>
+</RCC>

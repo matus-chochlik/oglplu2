@@ -21,11 +21,23 @@ using shutdown_service_clock = std::chrono::system_clock;
 using shutdown_service_duration =
   std::chrono::duration<std::int64_t, std::milli>;
 //------------------------------------------------------------------------------
+/// @brief Service allowing an endpoint to be shut down over the message bus.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see shutdown_invoker
 template <typename Base = subscriber>
 class shutdown_target
   : public Base
   , protected shutdown_service_clock {
     using This = shutdown_target;
+
+public:
+    /// @brief Triggered when a shutdown request is received.
+    signal<void(
+      std::chrono::milliseconds age,
+      identifier_t source_id,
+      verification_bits verified)>
+      shutdown_requested;
 
 protected:
     using Base::Base;
@@ -35,13 +47,6 @@ protected:
         Base::add_method(
           this, EAGINE_MSG_MAP(Shutdown, shutdown, This, _handle_shutdown));
     }
-
-public:
-    signal<void(
-      std::chrono::milliseconds age,
-      identifier_t source_id,
-      verification_bits verified)>
-      shutdown_requested;
 
 private:
     auto _handle_shutdown(const message_context&, stored_message& message)
@@ -60,6 +65,10 @@ private:
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Service allowing to shut down other endpoints over the message bus.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see shutdown_target
 template <typename Base = subscriber>
 class shutdown_invoker
   : public Base
@@ -67,10 +76,8 @@ class shutdown_invoker
 
     using This = shutdown_invoker;
 
-protected:
-    using Base::Base;
-
 public:
+    /// @brief Sends shutdown request to the specified target endpoint.
     void shutdown_one(identifier_t target_id) {
         std::array<byte, 32> temp{};
         const auto ts{this->now()};
@@ -84,6 +91,9 @@ public:
         message.set_target_id(target_id);
         this->bus().post_signed(EAGINE_MSG_ID(Shutdown, shutdown), message);
     }
+
+protected:
+    using Base::Base;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

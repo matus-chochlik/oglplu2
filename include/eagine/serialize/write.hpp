@@ -295,7 +295,7 @@ struct serializer<std::basic_string<Char, Traits, Alloc>>
     template <typename Backend>
     auto write(
       const std::basic_string<Char, Traits, Alloc>& value,
-      Backend& backend) {
+      Backend& backend) const {
         return _serializer.write(value, backend);
     }
 
@@ -477,7 +477,7 @@ struct serializer
 /// @see deserialize
 /// @see serializer_backend
 template <typename T, typename Backend>
-auto serialize(T& value, Backend& backend) -> std::enable_if_t<
+auto serialize(const T& value, Backend& backend) -> std::enable_if_t<
   std::is_base_of_v<serializer_backend, Backend>,
   serialization_errors> {
     serialization_errors errors{};

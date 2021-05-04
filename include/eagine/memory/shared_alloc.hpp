@@ -76,8 +76,9 @@ public:
     }
 
     auto has_allocated(const owned_block& b, size_type a) noexcept -> tribool {
-        return _pballoc ? _pballoc->has_allocated(b, a)
-                        : bool(b) ? tribool{false} : tribool{indeterminate};
+        return _pballoc  ? _pballoc->has_allocated(b, a)
+               : bool(b) ? tribool{false}
+                         : tribool{indeterminate};
     }
 
     auto allocate(size_type n, size_type a) noexcept -> owned_block {
@@ -145,7 +146,7 @@ private:
       -> enable_if_compatible_t<X, byte_allocator*> {
         try {
             return that.accomodate_self();
-        } catch(std::bad_alloc&) {
+        } catch(const std::bad_alloc&) {
         }
         return nullptr;
     }

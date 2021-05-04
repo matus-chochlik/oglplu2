@@ -48,6 +48,7 @@ set(EAGINE_LIB_SOURCES
 	shapes_to_patches.cpp
 	random.cpp
 	resources.cpp
+	url.cpp
 	value_tree_json.cpp
 	value_tree_yaml.cpp
 	value_tree_filesystem.cpp

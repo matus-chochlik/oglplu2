@@ -19,6 +19,10 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Service providing basic information about message bus endpoint's host.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see host_info_consumer
 template <typename Base = subscriber>
 class host_info_provider : public Base {
     using This = host_info_provider;
@@ -50,10 +54,41 @@ private:
       _hostname;
 };
 //------------------------------------------------------------------------------
+/// @brief Service consuming basic information about message bus endpoint's host.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see host_info_provider
 template <typename Base = subscriber>
 class host_info_consumer : public Base {
 
     using This = host_info_consumer;
+
+public:
+    /// @brief Queries the endpoint's host identifier.
+    /// @see host_id_received
+    /// @see query_hostname
+    void query_host_id(identifier_t endpoint_id) {
+        _host_id.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqHostId));
+    }
+
+    /// @brief Triggered on receipt of endpoint's host identifier.
+    /// @see query_host_id
+    signal<void(const result_context&, const valid_if_positive<host_id_t>&)>
+      host_id_received;
+
+    /// @brief Queries the endpoint's host name.
+    /// @see hostname_received
+    /// @see query_host_id
+    void query_hostname(identifier_t endpoint_id) {
+        _hostname.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqHostname));
+    }
+
+    /// @brief Triggered on receipt of endpoint's host name.
+    /// @see query_hostname
+    signal<void(const result_context&, const valid_if_not_empty<std::string>&)>
+      hostname_received;
 
 protected:
     using Base::Base;
@@ -67,23 +102,6 @@ protected:
         Base::add_method(
           _hostname(hostname_received)[EAGINE_MSG_ID(eagiSysInf, hostname)]);
     }
-
-public:
-    void query_host_id(identifier_t endpoint_id) {
-        _host_id.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqHostId));
-    }
-
-    signal<void(const result_context&, const valid_if_positive<host_id_t>&)>
-      host_id_received;
-
-    void query_hostname(identifier_t endpoint_id) {
-        _hostname.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqHostname));
-    }
-
-    signal<void(const result_context&, const valid_if_not_empty<std::string>&)>
-      hostname_received;
 
 private:
     default_callback_invoker<valid_if_positive<host_id_t>(), 32> _host_id;

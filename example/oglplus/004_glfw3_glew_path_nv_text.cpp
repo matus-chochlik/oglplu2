@@ -201,9 +201,9 @@ auto main() -> int {
           "%(message)",
           std::cerr)
           << std::endl;
-    } catch(std::runtime_error& sre) {
+    } catch(const std::runtime_error& sre) {
         std::cerr << "Runtime error: " << sre.what() << std::endl;
-    } catch(std::exception& se) {
+    } catch(const std::exception& se) {
         std::cerr << "Unknown error: " << se.what() << std::endl;
     }
     return 1;

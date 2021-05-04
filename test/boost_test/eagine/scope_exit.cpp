@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(scope_exit_f) {
         ++passed;
 
         throw std::exception();
-    } catch(std::exception&) {
+    } catch(const std::exception&) {
         BOOST_CHECK_EQUAL(i, 11);
         ++passed;
     }
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(scope_exit_t) {
         ++passed;
 
         throw std::exception();
-    } catch(std::exception&) {
+    } catch(const std::exception&) {
         BOOST_CHECK_EQUAL(i, 12);
         ++passed;
     }
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE(scope_exit_t) {
         se.cancel();
 
         throw std::exception();
-    } catch(std::exception&) {
+    } catch(const std::exception&) {
         BOOST_CHECK_EQUAL(i, 12);
         ++passed;
     }
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE(scope_exit_n) {
         ++passed;
 
         throw std::exception();
-    } catch(std::exception&) {
+    } catch(const std::exception&) {
         BOOST_CHECK_EQUAL(i, 43);
         ++passed;
     }
@@ -133,7 +133,7 @@ BOOST_AUTO_TEST_CASE(scope_exit_n) {
         se.cancel();
 
         throw std::exception();
-    } catch(std::exception&) {
+    } catch(const std::exception&) {
         BOOST_CHECK_EQUAL(i, 43);
         ++passed;
     }
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE(func_on_scope_exit) {
         ++passed;
 
         throw std::exception();
-    } catch(std::exception&) {
+    } catch(const std::exception&) {
         BOOST_CHECK_EQUAL(i, 42);
         ++passed;
     }
@@ -180,7 +180,7 @@ BOOST_AUTO_TEST_CASE(func_on_scope_exit) {
         fse.cancel();
 
         throw std::exception();
-    } catch(std::exception&) {
+    } catch(const std::exception&) {
         BOOST_CHECK_EQUAL(i, 42);
         ++passed;
     }

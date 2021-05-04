@@ -66,11 +66,12 @@ private:
         if(request.has_serializer_id(read_backend.type_id())) {
             const auto read_errors = deserialize(args, read_backend);
             if(!read_errors) {
-                const auto result{std::apply(func, args)};
                 _sink.reset(buffer);
                 Serializer write_backend(_sink);
 
-                const auto errors = serialize(result, write_backend);
+                const auto errors =
+                  serialize(std::apply(func, args), write_backend);
+
                 EAGINE_ASSERT(!errors);
                 EAGINE_MAYBE_UNUSED(errors);
                 message_view msg_out{_sink.done()};
@@ -90,11 +91,10 @@ private:
       callable_ref<Signature> func,
       std::tuple<>) -> bool {
 
-        const auto result{func()};
         _sink.reset(buffer);
         Serializer write_backend(_sink);
 
-        const auto errors = serialize(result, write_backend);
+        const auto errors = serialize(func(), write_backend);
         EAGINE_ASSERT(!errors);
         EAGINE_MAYBE_UNUSED(errors);
         message_view msg_out{_sink.done()};
@@ -197,7 +197,7 @@ public:
         auto [pos, emplaced] = _pending.try_emplace(request.sequence_no);
 
         if(emplaced) {
-            if constexpr(std::tuple_size_v<argument_tuple_type> > 0) {
+            if constexpr(std::tuple_size_v < argument_tuple_type >> 0) {
                 _source.reset(request.content());
                 Deserializer read_backend(_source);
 
@@ -234,11 +234,12 @@ public:
             const auto& call = pos->second;
             ++pos;
             if(!call.too_late) {
-                const auto result{std::apply(call.func, call.args)};
                 _sink.reset(cover(buffer));
                 Serializer write_backend(_sink);
 
-                const auto errors = serialize(result, write_backend);
+                const auto errors =
+                  serialize(std::apply(call.func, call.args), write_backend);
+
                 EAGINE_ASSERT(!errors);
                 EAGINE_MAYBE_UNUSED(errors);
                 message_view msg_out{_sink.done()};

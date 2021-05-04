@@ -11,6 +11,7 @@
 #include "assert.hpp"
 #include "flat_map.hpp"
 #include "integer_range.hpp"
+#include "optional_ref.hpp"
 #include "serialize/fwd.hpp"
 #include <array>
 #include <cstdint>
@@ -51,6 +52,9 @@ public:
 
     auto make_diagonal() const -> board_type;
     auto make_generator() const -> generator;
+
+    auto to_string(const basic_sudoku_glyph<S>& glyph) const
+      -> optional_reference_wrapper<const std::string>;
 
     auto print(std::ostream&, const basic_sudoku_glyph<S>& glyph) const
       -> std::ostream&;
@@ -583,6 +587,15 @@ auto basic_sudoku_board_traits<S>::make_diagonal() const -> board_type {
 template <unsigned S>
 auto basic_sudoku_board_traits<S>::make_generator() const -> generator {
     return {*this};
+}
+//------------------------------------------------------------------------------
+template <unsigned S>
+auto basic_sudoku_board_traits<S>::to_string(const basic_sudoku_glyph<S>& glyph)
+  const -> optional_reference_wrapper<const std::string> {
+    if(glyph.is_single()) {
+        return {_glyphs[glyph.get_index()]};
+    }
+    return {nullptr};
 }
 //------------------------------------------------------------------------------
 template <unsigned S>

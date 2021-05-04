@@ -289,7 +289,7 @@ public:
             tree.resolve();
             return std::make_shared<rapidyaml_tree_compound>(
               std::move(tree), parent);
-        } catch(std::runtime_error& err) {
+        } catch(const std::runtime_error& err) {
             main_ctx_object(EAGINE_ID(YamlParse), parent)
               .log_error("YAML parse error: ${message}")
               .arg(EAGINE_ID(message), string_view(err.what()));

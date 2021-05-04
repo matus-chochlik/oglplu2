@@ -9,10 +9,7 @@
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
-#include <eagine/message_bus/service/application_info.hpp>
-#include <eagine/message_bus/service/build_info.hpp>
-#include <eagine/message_bus/service/endpoint_info.hpp>
-#include <eagine/message_bus/service/host_info.hpp>
+#include <eagine/message_bus/service/common_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/timeout.hpp>
@@ -25,8 +22,7 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 using pingable_node_base =
-  service_composition<shutdown_target<pingable<build_info_provider<
-    host_info_provider<application_info_provider<endpoint_info_provider<>>>>>>>;
+  service_composition<shutdown_target<pingable<common_info_providers<>>>>;
 
 class pingable_node
   : public main_ctx_object
@@ -42,6 +38,9 @@ public:
       : main_ctx_object{EAGINE_ID(PngablNode), bus}
       , base{bus} {
         shutdown_requested.connect(on_shutdown_slot());
+        auto& info = provided_endpoint_info();
+        info.display_name = "pingable node";
+        info.description = "simple generic pingable node";
     }
 
     auto respond_to_ping(identifier_t, message_sequence_t, verification_bits)
@@ -82,13 +81,6 @@ public:
     }
 
 private:
-    auto provide_endpoint_info() -> endpoint_info final {
-        endpoint_info result;
-        result.display_name = "pingable node";
-        result.description = "simple generic pingable node";
-        return result;
-    }
-
     std::intmax_t _mod{10000};
     std::intmax_t _sent{0};
     timeout _announce_timeout{std::chrono::seconds(5)};

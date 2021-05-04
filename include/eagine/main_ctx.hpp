@@ -9,6 +9,7 @@
 #define EAGINE_MAIN_CTX_HPP
 
 #include "build_info.hpp"
+#include "compiler_info.hpp"
 #include "identifier_t.hpp"
 #include "logging/logger.hpp"
 #include "logging/root_logger_opts.hpp"
@@ -74,7 +75,14 @@ public:
     /// @brief Does potentially expensive initialization and caching.
     auto preinitialize() noexcept -> main_ctx&;
 
+    /// @brief Returns a reference to compiler information instance.
+    /// @see build
+    auto compiler() const noexcept -> const compiler_info& {
+        return _cmplr_info;
+    }
+
     /// @brief Returns a reference to build information instance.
+    /// @see compiler
     auto build() const noexcept -> const build_info& {
         return _bld_info;
     }
@@ -135,6 +143,7 @@ private:
     logger& _log;
     process_watchdog& _watchdog;
     application_config& _app_config;
+    compiler_info& _cmplr_info;
     build_info& _bld_info;
     system_info& _sys_info;
     user_info& _usr_info;

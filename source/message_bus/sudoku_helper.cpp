@@ -12,10 +12,7 @@
 #include <eagine/message_bus/router.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
-#include <eagine/message_bus/service/application_info.hpp>
-#include <eagine/message_bus/service/build_info.hpp>
-#include <eagine/message_bus/service/endpoint_info.hpp>
-#include <eagine/message_bus/service/host_info.hpp>
+#include <eagine/message_bus/service/common_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/sudoku.hpp>
@@ -29,8 +26,7 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 using sudoku_helper_base = service_composition<
-  shutdown_target<pingable<build_info_provider<host_info_provider<
-    application_info_provider<endpoint_info_provider<sudoku_helper<>>>>>>>>;
+  shutdown_target<pingable<common_info_providers<sudoku_helper<>>>>>;
 
 class sudoku_helper_node
   : public main_ctx_object
@@ -40,6 +36,10 @@ public:
       : main_ctx_object{EAGINE_ID(SudokuNode), bus}
       , sudoku_helper_base{bus} {
         shutdown_requested.connect(EAGINE_THIS_MEM_FUNC_REF(on_shutdown));
+
+        auto& info = provided_endpoint_info();
+        info.display_name = "sudoku helper";
+        info.description = "helper node for the sudoku solver service";
     }
 
     auto is_shut_down() const noexcept -> bool {
@@ -57,13 +57,6 @@ private:
           .arg(EAGINE_ID(verified), verified);
 
         _do_shutdown = true;
-    }
-
-    auto provide_endpoint_info() -> endpoint_info final {
-        endpoint_info result;
-        result.display_name = "sudoku helper";
-        result.description = "helper node for the sudoku solver service";
-        return result;
     }
 
     bool _do_shutdown{false};

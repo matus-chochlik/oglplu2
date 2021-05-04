@@ -96,6 +96,10 @@ public:
         host_id_received.connect(EAGINE_THIS_MEM_FUNC_REF(on_host_id_received));
         hostname_received.connect(
           EAGINE_THIS_MEM_FUNC_REF(on_hostname_received));
+
+        auto& info = provided_endpoint_info();
+        info.display_name = "pinger";
+        info.description = "node pinging all other nodes";
     }
 
     void on_subscribed(const subscriber_info& info, message_id sub_msg) {
@@ -264,13 +268,6 @@ public:
     }
 
 private:
-    auto provide_endpoint_info() -> endpoint_info final {
-        endpoint_info result;
-        result.display_name = "pinger";
-        result.description = "node pinging all other nodes";
-        return result;
-    }
-
     resetting_timeout _should_query_pingable{std::chrono::seconds(3), nothing};
     std::chrono::steady_clock::time_point prev_log{
       std::chrono::steady_clock::now()};

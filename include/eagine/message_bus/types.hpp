@@ -99,6 +99,7 @@ data_member_mapping(type_identity<endpoint_topology_info>, Selector) noexcept {
 }
 //------------------------------------------------------------------------------
 /// @brief Message bus endpoint information.
+/// @ingroup msgbus
 struct endpoint_info {
     /// @brief User-readable display name of the endpoint.
     std::string display_name;

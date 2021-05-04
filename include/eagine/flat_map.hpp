@@ -10,6 +10,7 @@
 #define EAGINE_FLAT_MAP_HPP
 
 #include "assert.hpp"
+#include "compare.hpp"
 #include "types.hpp"
 #include <algorithm>
 #include <stdexcept>
@@ -227,7 +228,7 @@ private:
         const auto e = _vec.end();
         const auto p = _ops().lower_bound(b, e, k);
 
-        return std::pair{p, (p == e) || (k != p->first)};
+        return std::pair{p, (p == e) || !are_equal(k, p->first)};
     }
 
     template <typename I>

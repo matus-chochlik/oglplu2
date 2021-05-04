@@ -10,10 +10,7 @@
 #include <eagine/message_bus/endpoint.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
-#include <eagine/message_bus/service/application_info.hpp>
-#include <eagine/message_bus/service/build_info.hpp>
-#include <eagine/message_bus/service/endpoint_info.hpp>
-#include <eagine/message_bus/service/host_info.hpp>
+#include <eagine/message_bus/service/common_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/sudoku.hpp>
 #include <eagine/signal_switch.hpp>
@@ -24,8 +21,7 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 using sudoku_tiling_base =
-  service_composition<pingable<build_info_provider<host_info_provider<
-    application_info_provider<endpoint_info_provider<sudoku_tiling<>>>>>>>;
+  service_composition<pingable<common_info_providers<sudoku_tiling<>>>>;
 
 class sudoku_tiling_node
   : public main_ctx_object
@@ -33,10 +29,24 @@ class sudoku_tiling_node
 public:
     sudoku_tiling_node(endpoint& bus)
       : main_ctx_object{EAGINE_ID(TilingNode), bus}
-      , sudoku_tiling_base{bus} {}
+      , sudoku_tiling_base{bus} {
+        tiles_generated_3.connect(
+          EAGINE_THIS_MEM_FUNC_REF(_handle_generated<3>));
+        tiles_generated_4.connect(
+          EAGINE_THIS_MEM_FUNC_REF(_handle_generated<4>));
+        tiles_generated_5.connect(
+          EAGINE_THIS_MEM_FUNC_REF(_handle_generated<5>));
 
+        auto& info = provided_endpoint_info();
+        info.display_name = "sudoku tiling generator";
+        info.description = "helper node for the sudoku solver service";
+    }
+
+private:
     template <unsigned S>
-    void handle_generated(const sudoku_tiles<S>& tiles) {
+    void _handle_generated(
+      const sudoku_tiles<S>& tiles,
+      const std::tuple<int, int>&) {
         if(_print_progress) {
             tiles.print_progress(std::cerr) << std::flush;
         }
@@ -48,26 +58,6 @@ public:
                 tiles.print(std::cout) << std::endl;
             }
         }
-    }
-
-    void on_tiles_generated(const sudoku_tiles<3>& tiles) final {
-        handle_generated(tiles);
-    }
-
-    void on_tiles_generated(const sudoku_tiles<4>& tiles) final {
-        handle_generated(tiles);
-    }
-
-    void on_tiles_generated(const sudoku_tiles<5>& tiles) final {
-        handle_generated(tiles);
-    }
-
-private:
-    auto provide_endpoint_info() -> endpoint_info final {
-        endpoint_info result;
-        result.display_name = "sudoku tiling generator";
-        result.description = "node for generating sudoku block tiles";
-        return result;
     }
 
     bool _block_cells{cfg_init("msg_bus.sudoku.solver.block_cells", false)};

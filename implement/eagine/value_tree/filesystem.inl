@@ -62,7 +62,7 @@ public:
                 const auto iter =
                   std::filesystem::directory_iterator(_node_path);
                 return span_size(std::distance(begin(iter), end(iter)));
-            } catch(std::filesystem::filesystem_error& err) {
+            } catch(const std::filesystem::filesystem_error& err) {
                 filesystem_object_of(owner)
                   .log_debug("failed to get filesystem node count")
                   .arg(EAGINE_ID(path), _node_path)
@@ -85,7 +85,7 @@ public:
                     }
                 }
             }
-        } catch(std::filesystem::filesystem_error& err) {
+        } catch(const std::filesystem::filesystem_error& err) {
             filesystem_object_of(owner)
               .log_debug("failed to get nested filesystem node for '${path}'")
               .arg(EAGINE_ID(index), index)
@@ -108,7 +108,7 @@ public:
                     }
                 }
             }
-        } catch(std::filesystem::filesystem_error& err) {
+        } catch(const std::filesystem::filesystem_error& err) {
             filesystem_object_of(owner)
               .log_debug("failed to get nested filesystem node for '${path}'")
               .arg(EAGINE_ID(name), name)
@@ -322,7 +322,7 @@ static inline auto filesystem_make_node(
     if(!fs_path.empty()) {
         try {
             return owner.make_node(fs_path, canonical(fs_path));
-        } catch(std::filesystem::filesystem_error&) {
+        } catch(const std::filesystem::filesystem_error&) {
             owner.log_debug("failed to create filesystem node '${path}'")
               .arg(EAGINE_ID(path), EAGINE_ID(FsPath), fs_path);
         }

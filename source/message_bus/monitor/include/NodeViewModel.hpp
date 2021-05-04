@@ -25,6 +25,9 @@ class NodeViewModel
     Q_PROPERTY(QVariant displayName READ getDisplayName NOTIFY infoChanged)
     Q_PROPERTY(QVariant description READ getDescription NOTIFY infoChanged)
 
+    Q_PROPERTY(
+      QVariant pingSuccessRate READ getPingSuccessRate NOTIFY infoChanged)
+
     using remote_node = eagine::msgbus::remote_node;
 
 public:
@@ -38,6 +41,8 @@ public:
     auto getIdentifier() -> QVariant;
     auto getDisplayName() -> QVariant;
     auto getDescription() -> QVariant;
+
+    auto getPingSuccessRate() -> QVariant;
 
 signals:
     void infoChanged();

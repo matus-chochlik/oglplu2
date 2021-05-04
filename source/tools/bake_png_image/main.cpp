@@ -291,7 +291,7 @@ auto main(main_ctx& ctx) -> int {
                 do_convert_image(input_file, output_file, header, layer++);
             }
         }
-    } catch(std::exception& err) {
+    } catch(const std::exception& err) {
         std::cerr << "error: " << err.what() << std::endl;
     }
     return 0;

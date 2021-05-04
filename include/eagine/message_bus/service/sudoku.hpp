@@ -17,6 +17,7 @@
 #include "../../serialize/type/sudoku.hpp"
 #include "../../sudoku.hpp"
 #include "../serialize.hpp"
+#include "../signal.hpp"
 #include "../subscriber.hpp"
 #include <algorithm>
 #include <chrono>
@@ -171,26 +172,14 @@ sudoku_response_msg(unsigned_constant<S> rank, bool is_solved) noexcept
     return is_solved ? sudoku_solved_msg(rank) : sudoku_candidate_msg(rank);
 }
 //------------------------------------------------------------------------------
+/// @brief Service helping to partially solve sudoku boards sent by sudoku_solver.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see sudoku_solver
+/// @see sudoku_tiling
 template <typename Base = subscriber>
 class sudoku_helper : public Base {
     using This = sudoku_helper;
-
-protected:
-    using Base::Base;
-
-    void add_methods() {
-        Base::add_methods();
-
-        sudoku_rank_tuple<unsigned_constant> ranks;
-        for_each_sudoku_rank_unit(
-          [&](auto rank) {
-              Base::add_method(this, _bind_handle_search(rank));
-              Base::add_method(this, _bind_handle_board(rank));
-          },
-          ranks);
-
-        mark_activity();
-    }
 
 public:
     auto update() -> bool {
@@ -212,8 +201,26 @@ public:
         _activity_time = std::chrono::steady_clock::now();
     }
 
+    /// @brief Returns current idle time interval.
     auto idle_time() const noexcept {
         return std::chrono::steady_clock::now() - _activity_time;
+    }
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+
+        sudoku_rank_tuple<unsigned_constant> ranks;
+        for_each_sudoku_rank_unit(
+          [&](auto rank) {
+              Base::add_method(this, _bind_handle_search(rank));
+              Base::add_method(this, _bind_handle_board(rank));
+          },
+          ranks);
+
+        mark_activity();
     }
 
 private:
@@ -340,28 +347,20 @@ private:
       std::chrono::steady_clock::now()};
 };
 //------------------------------------------------------------------------------
+/// @brief Service solving sudoku boards with the help of helper service on message bus.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see sudoku_helper
+/// @see sudoku_tiling
 template <typename Base = subscriber, typename Key = int>
 class sudoku_solver : public Base {
     using This = sudoku_solver;
 
-protected:
-    using Base::Base;
-
-    void add_methods() {
-        Base::add_methods();
-
-        sudoku_rank_tuple<unsigned_constant> ranks;
-        for_each_sudoku_rank_unit(
-          [&](auto rank) {
-              Base::add_method(this, _bind_handle_alive(rank));
-              Base::add_method(this, _bind_handle_candidate(rank));
-              Base::add_method(this, _bind_handle_solved(rank));
-              Base::add_method(this, _bind_handle_done(rank));
-          },
-          ranks);
-    }
-
 public:
+    /// @brief Enqueues a Sudoku board for solution under the specified unique key.
+    /// @see has_enqueued
+    /// @see has_work
+    /// @see is_done
     template <unsigned S>
     auto enqueue(Key key, basic_sudoku_board<S> board) -> auto& {
         _infos.get(unsigned_constant<S>{})
@@ -369,6 +368,9 @@ public:
         return *this;
     }
 
+    /// @brief Indicates if there are pending boards being solved.
+    /// @see enqueue
+    /// @see is_done
     auto has_work() const noexcept -> bool {
         bool result = false;
         for_each_sudoku_rank_unit(
@@ -377,6 +379,9 @@ public:
         return result;
     }
 
+    /// @brief Indicates if there is not work being done. Opposite of has_work.
+    /// @see enqueue
+    /// @see has_work.
     auto is_done() const noexcept -> bool {
         return !has_work();
     }
@@ -396,17 +401,21 @@ public:
         return something_done;
     }
 
+    /// @brief Resets all boards with the given rank.
     template <unsigned S>
     auto reset(unsigned_constant<S> rank) noexcept -> auto& {
         _infos.get(rank).reset(*this);
         return *this;
     }
 
+    /// @brief Indicates if a board with the given rank and key is enqueued.
+    /// @see enqueue
     template <unsigned S>
     auto has_enqueued(const Key& key, unsigned_constant<S> rank) -> bool {
         return _infos.get(rank).has_enqueued(key);
     }
 
+    /// @brief Sets the solution timeout for the specified rank.
     template <unsigned S>
     auto set_solution_timeout(
       unsigned_constant<S> rank,
@@ -414,28 +423,78 @@ public:
         return _infos.get(rank).solution_timeout.reset(sec);
     }
 
+    /// @brief Indicates if the solution of board with the specified rank timeouted.
     template <unsigned S>
     auto solution_timeouted(unsigned_constant<S> rank) const noexcept -> bool {
         return _infos.get(rank).solution_timeout.is_expired();
     }
 
+    /// @brief Indicates if board with the specified rank is already solved.
     virtual auto already_done(const Key&, unsigned_constant<3>) -> bool {
         return false;
     }
+    /// @brief Indicates if board with the specified rank is already solved.
     virtual auto already_done(const Key&, unsigned_constant<4>) -> bool {
         return false;
     }
+    /// @brief Indicates if board with the specified rank is already solved.
     virtual auto already_done(const Key&, unsigned_constant<5>) -> bool {
         return false;
     }
+    /// @brief Indicates if board with the specified rank is already solved.
     virtual auto already_done(const Key&, unsigned_constant<6>) -> bool {
         return false;
     }
 
-    virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<3>&) {}
-    virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<4>&) {}
-    virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<5>&) {}
-    virtual void on_solved(identifier_t, const Key&, basic_sudoku_board<6>&) {}
+    /// @brief Triggered when the board with the specified key is solved.
+    signal<void(identifier_t, const Key&, basic_sudoku_board<3>&)> solved_3;
+    /// @brief Triggered when the board with the specified key is solved.
+    signal<void(identifier_t, const Key&, basic_sudoku_board<4>&)> solved_4;
+    /// @brief Triggered when the board with the specified key is solved.
+    signal<void(identifier_t, const Key&, basic_sudoku_board<5>&)> solved_5;
+    /// @brief Triggered when the board with the specified key is solved.
+    signal<void(identifier_t, const Key&, basic_sudoku_board<6>&)> solved_6;
+
+    /// @brief Returns a reference to the solved_3 signal.
+    /// @see solved_3
+    auto solved_signal(unsigned_constant<3> = {}) noexcept -> auto& {
+        return solved_3;
+    }
+
+    /// @brief Returns a reference to the solved_4 signal.
+    /// @see solved_4
+    auto solved_signal(unsigned_constant<4> = {}) noexcept -> auto& {
+        return solved_4;
+    }
+
+    /// @brief Returns a reference to the solved_5 signal.
+    /// @see solved_5
+    auto solved_signal(unsigned_constant<5> = {}) noexcept -> auto& {
+        return solved_5;
+    }
+
+    /// @brief Returns a reference to the solved_6 signal.
+    /// @see solved_6
+    auto solved_signal(unsigned_constant<6> = {}) noexcept -> auto& {
+        return solved_6;
+    }
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+
+        sudoku_rank_tuple<unsigned_constant> ranks;
+        for_each_sudoku_rank_unit(
+          [&](auto rank) {
+              Base::add_method(this, _bind_handle_alive(rank));
+              Base::add_method(this, _bind_handle_candidate(rank));
+              Base::add_method(this, _bind_handle_solved(rank));
+              Base::add_method(this, _bind_handle_done(rank));
+          },
+          ranks);
+    }
 
 private:
     template <unsigned S>
@@ -506,7 +565,7 @@ private:
                               entry.board.find_unsolved(),
                               [&](auto& candidate) {
                                   if(candidate.is_solved()) {
-                                      solver.on_solved(
+                                      solver.solved_signal(rank)(
                                         entry.used_helper,
                                         entry.key,
                                         candidate);
@@ -566,7 +625,8 @@ private:
                                 return pos->key == std::get<0>(entry);
                             }),
                           key_boards.end());
-                        parent.on_solved(pos->used_helper, pos->key, board);
+                        parent.solved_signal(rank)(
+                          pos->used_helper, pos->key, board);
                         solution_timeout.reset();
                     } else {
                         add_board(pos->key, std::move(board));
@@ -741,10 +801,68 @@ private:
 };
 //------------------------------------------------------------------------------
 template <unsigned S>
-class sudoku_tiles {
+class sudoku_tiles;
+//------------------------------------------------------------------------------
+/// @brief Class providing view to a solved fragment in sudoku_tiles.
+/// @ingroup msgbus
+/// @see sudoku_tiles
+template <unsigned S>
+class sudoku_fragment_view {
 public:
+    /// @brief The board/cell coordinate type.
     using Coord = std::tuple<int, int>;
 
+    /// @brief Returns the width (in cells) of the tile.
+    constexpr auto width() const noexcept -> int {
+        return limit_cast<int>(S * (S - 2));
+    }
+
+    /// @brief Returns the height (in cells) of the tile.
+    constexpr auto height() const noexcept -> int {
+        return limit_cast<int>(S * (S - 2));
+    }
+
+    /// @brief Calls the specified function for each cell in the fragment.
+    /// The function should have the following arguments:
+    /// - std::tuple<int, int> the fragment coordinate (in cell units),
+    /// - std::tuple<int, int> the cell offset within the fragment,
+    /// - basic_sudoku_glyph<S> the glyph at the cell.
+    template <typename Function>
+    void for_each_cell(Function function) const;
+
+private:
+    friend class sudoku_tiles<S>;
+
+    sudoku_fragment_view(
+      const sudoku_tiles<S>& tiles,
+      Coord board_coord) noexcept
+      : _tiles{tiles}
+      , _board_coord{std::move(board_coord)} {}
+
+    const sudoku_tiles<S>& _tiles;
+    Coord _board_coord;
+};
+//------------------------------------------------------------------------------
+/// @brie Class representing a set of related Sudoku tiles.
+/// @ingroup msgbus
+/// @see sudoku_tiling
+template <unsigned S>
+class sudoku_tiles {
+public:
+    /// @brief The board coordinate/key type.
+    using Coord = std::tuple<int, int>;
+
+    /// @brief Returns the width (in cells) of the tiling.
+    auto width() const noexcept -> int {
+        return _maxu - _minu;
+    }
+
+    /// @brief Returns the height (in cells) of the tiling.
+    auto height() const noexcept -> int {
+        return _maxv - _minv;
+    }
+
+    /// @brief Get the board at the specified coordinate if it is solved.
     auto get_board(Coord coord) const noexcept -> const basic_sudoku_board<S>* {
         const auto pos = _boards.find(coord);
         if(pos != _boards.end()) {
@@ -753,14 +871,22 @@ public:
         return nullptr;
     }
 
+    /// @brief Get the board at the specified coordinate if it is solved.
     auto get_board(int x, int y) const noexcept {
         return get_board({x, y});
     }
 
+    /// @brief Sets the board at the specified coordinate.
     auto set_board(Coord coord, basic_sudoku_board<S> board) -> bool {
         return _boards.try_emplace(std::move(coord), std::move(board)).second;
     }
 
+    /// @brief Return a view of the fragment at the specified board coordinate.
+    auto get_fragment(Coord coord) const noexcept -> sudoku_fragment_view<S> {
+        return {*this, coord};
+    }
+
+    /// @brief Sets the extent (number of tiles in x and y dimension) of the tiling.
     void set_extent(Coord min, Coord max) noexcept {
         _minu = std::get<0>(min);
         _minv = std::get<1>(min);
@@ -768,16 +894,21 @@ public:
         _maxv = std::get<1>(max);
     }
 
+    /// @brief Sets the extent (number of tiles in x and y dimension) of the tiling.
+    /// @see is_in_extent
     void set_extent(Coord max) noexcept {
         set_extent({0, 0}, max);
     }
 
+    /// @brief Indicates in the specified coordinate is in the extent of this tiling.
+    /// @see set_extent
     auto is_in_extent(int x, int y) const noexcept -> bool {
         const int u = x * S * (S - 2);
         const int v = y * S * (S - 2);
         return (u >= _minu) && (u < _maxu) && (v >= _minv) && (v < _maxv);
     }
 
+    /// @brief Returns the extent between min and max in units of boards.
     auto boards_extent(Coord min, Coord max) const
       -> std::tuple<int, int, int, int> {
         const auto conv = [](int c) {
@@ -794,10 +925,12 @@ public:
           conv(std::get<1>(max))};
     }
 
+    /// @brief Returns the extent of this tiling in units of boards.
     auto boards_extent() const {
         return boards_extent({_minu, _minv}, {_maxu, _maxv});
     }
 
+    /// @brief Indicates if the boards between the min and max coordinates are solved.
     auto are_complete(Coord min, Coord max) const -> bool {
         const auto [xmin, ymin, xmax, ymax] = boards_extent(min, max);
         for(auto y : integer_range(ymin, ymax)) {
@@ -810,10 +943,12 @@ public:
         return true;
     }
 
+    /// @brief Indicates if the boards in this tiling's extent are solved.
     auto are_complete() const -> bool {
         return are_complete({_minu, _minv}, {_maxu, _maxv});
     }
 
+    /// @brief Prints the current tiling using the specified sudoku board traits.
     auto print(
       std::ostream& out,
       Coord min,
@@ -845,6 +980,7 @@ public:
         return out;
     }
 
+    /// @brief Shows which tiles are solved and which unsolved.
     auto print_progress(std::ostream& out, Coord min, Coord max) const
       -> std::ostream& {
         const auto [xmin, ymin, xmax, ymax] = boards_extent(min, max);
@@ -862,24 +998,29 @@ public:
         return out;
     }
 
+    /// @brief Prints the current tiling using the specified sudoku board traits.
     auto print(std::ostream& out, Coord min, Coord max) const -> std::ostream& {
         return print(out, min, max, _traits);
     }
 
+    /// @brief Prints the current tiling using the specified sudoku board traits.
     auto
     print(std::ostream& out, const basic_sudoku_board_traits<S>& traits) const
       -> auto& {
         return print(out, {_minu, _minv}, {_maxu, _maxv}, traits);
     }
 
+    /// @brief Prints the current tiling using the specified sudoku board traits.
     auto print(std::ostream& out) const -> auto& {
         return print(out, {_minu, _minv}, {_maxu, _maxv});
     }
 
+    /// @brief Shows which tiles are solved and which unsolved.
     auto print_progress(std::ostream& out) const -> auto& {
         return print_progress(out, {_minu, _minv}, {_maxu, _maxv});
     }
 
+    /// @brief Resets all pending tilings.
     auto reset() noexcept -> auto& {
         _boards.clear();
         return *this;
@@ -899,16 +1040,41 @@ private:
     default_sudoku_board_traits<S> _traits;
 };
 //------------------------------------------------------------------------------
+template <unsigned S>
+template <typename Function>
+void sudoku_fragment_view<S>::for_each_cell(Function function) const {
+    if(auto board{_tiles.get_board(_board_coord)}) {
+        const auto [bx, by] = _board_coord;
+        const Coord frag_coord{
+          limit_cast<int>(bx * width()), limit_cast<int>(by * height())};
+        for(auto y : integer_range(height())) {
+            for(auto x : integer_range(width())) {
+                const Coord cell_offset{x, y};
+                std::array<unsigned, 4> cell_coord{
+                  limit_cast<unsigned>(1 + x / S),
+                  limit_cast<unsigned>(1 + y / S),
+                  limit_cast<unsigned>(x % S),
+                  limit_cast<unsigned>(y % S)};
+                function(
+                  frag_coord, cell_offset, extract(board).get(cell_coord));
+            }
+        }
+    }
+}
+//------------------------------------------------------------------------------
+/// @brief Service generating a sudoku tiling using helper message bus nodes.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see sudoku_helper
+/// @see sudoku_solver
 template <typename Base = subscriber>
 class sudoku_tiling : public sudoku_solver<Base, std::tuple<int, int>> {
     using base = sudoku_solver<Base, std::tuple<int, int>>;
     using This = sudoku_tiling;
     using Coord = std::tuple<int, int>;
 
-protected:
-    using base::base;
-
 public:
+    /// @brief Initializes the tiling to be generated with initial board.
     template <unsigned S>
     auto
     initialize(Coord min, Coord max, Coord coord, basic_sudoku_board<S> board)
@@ -920,11 +1086,13 @@ public:
         return *this;
     }
 
+    /// @brief Initializes the tiling to be generated with initial board.
     template <unsigned S>
     auto initialize(Coord max, basic_sudoku_board<S> board) -> auto& {
         return initialize({0, 0}, max, {0, 0}, std::move(board));
     }
 
+    /// @brief Resets the tiling with the specified rank.
     template <unsigned S>
     auto reset(unsigned_constant<S> rank) -> auto& {
         base::reset(rank);
@@ -932,17 +1100,20 @@ public:
         return *this;
     }
 
+    /// @brief Re-initializes the tiling with the specified board.
     template <unsigned S>
     auto reinitialize(Coord max, basic_sudoku_board<S> board) -> auto& {
         reset(unsigned_constant<S>{});
         return initialize(max, board);
     }
 
+    /// @brief Indicates that pending tiling with the specified rank is complete.
     template <unsigned S>
     auto tiling_complete(unsigned_constant<S> rank) const noexcept -> bool {
         return _infos.get(rank).are_complete();
     }
 
+    /// @brief Indicates that all pending tilings are complete.
     auto tiling_complete() const noexcept -> bool {
         bool result = true;
         sudoku_rank_tuple<unsigned_constant> ranks;
@@ -951,15 +1122,57 @@ public:
         return result;
     }
 
-    virtual void on_tiles_generated(const sudoku_tiles<3>&) {}
-    virtual void on_tiles_generated(const sudoku_tiles<4>&) {}
-    virtual void on_tiles_generated(const sudoku_tiles<5>&) {}
-    virtual void on_tiles_generated(const sudoku_tiles<6>&) {}
+    /// @brief Triggered then all tiles with rank 3 are generated.
+    signal<void(const sudoku_tiles<3>&, const Coord&)> tiles_generated_3;
+    /// @brief Triggered then all tiles with rank 4 are generated.
+    signal<void(const sudoku_tiles<4>&, const Coord&)> tiles_generated_4;
+    /// @brief Triggered then all tiles with rank 5 are generated.
+    signal<void(const sudoku_tiles<5>&, const Coord&)> tiles_generated_5;
+    /// @brief Triggered then all tiles with rank 6 are generated.
+    signal<void(const sudoku_tiles<6>&, const Coord&)> tiles_generated_6;
 
+    /// @brief Returns a reference to the tiles_generated_3 signal.
+    /// @see tiles_generated_3
+    auto tiles_generated_signal(unsigned_constant<3>) noexcept -> auto& {
+        return tiles_generated_3;
+    }
+
+    /// @brief Returns a reference to the tiles_generated_4 signal.
+    /// @see tiles_generated_4
+    auto tiles_generated_signal(unsigned_constant<4>) noexcept -> auto& {
+        return tiles_generated_4;
+    }
+
+    /// @brief Returns a reference to the tiles_generated_5 signal.
+    /// @see tiles_generated_5
+    auto tiles_generated_signal(unsigned_constant<5>) noexcept -> auto& {
+        return tiles_generated_5;
+    }
+
+    /// @brief Returns a reference to the tiles_generated_6 signal.
+    /// @see tiles_generated_6
+    auto tiles_generated_signal(unsigned_constant<6>) noexcept -> auto& {
+        return tiles_generated_6;
+    }
+
+    /// @brief Logs the contributions of the helpers to the solution.
     template <unsigned S>
     auto log_contribution_histogram(unsigned_constant<S> rank) -> auto& {
         _infos.get(rank).log_contribution_histogram(*this);
         return *this;
+    }
+
+protected:
+    sudoku_tiling(endpoint& bus)
+      : base{bus} {
+        this->solved_3.connect(
+          EAGINE_THIS_MEM_FUNC_REF(template _handle_solved<3>));
+        this->solved_4.connect(
+          EAGINE_THIS_MEM_FUNC_REF(template _handle_solved<4>));
+        this->solved_5.connect(
+          EAGINE_THIS_MEM_FUNC_REF(template _handle_solved<5>));
+        this->solved_6.connect(
+          EAGINE_THIS_MEM_FUNC_REF(template _handle_solved<6>));
     }
 
 private:
@@ -1121,11 +1334,12 @@ private:
                     helper_pos = helper_contrib.emplace(helper_id, 0).first;
                 }
                 ++helper_pos->second;
+
+                const unsigned_constant<S> rank{};
+                solver.tiles_generated_signal(rank)(*this, coord);
             }
 
             enqueue_incomplete(solver);
-
-            solver.on_tiles_generated(*this);
         }
 
         void log_contribution_histogram(This& solver) {
@@ -1174,31 +1388,6 @@ private:
     auto _is_already_done(const Coord& coord, unsigned_constant<S>& rank)
       const noexcept -> bool {
         return _infos.get(rank).get_board(coord);
-    }
-
-    void on_solved(
-      identifier_t helper_id,
-      const Coord& coord,
-      basic_sudoku_board<3>& board) final {
-        _handle_solved(helper_id, coord, board);
-    }
-    void on_solved(
-      identifier_t helper_id,
-      const Coord& coord,
-      basic_sudoku_board<4>& board) final {
-        _handle_solved(helper_id, coord, board);
-    }
-    void on_solved(
-      identifier_t helper_id,
-      const Coord& coord,
-      basic_sudoku_board<5>& board) final {
-        _handle_solved(helper_id, coord, board);
-    }
-    void on_solved(
-      identifier_t helper_id,
-      const Coord& coord,
-      basic_sudoku_board<6>& board) final {
-        _handle_solved(helper_id, coord, board);
     }
 
     template <unsigned S>

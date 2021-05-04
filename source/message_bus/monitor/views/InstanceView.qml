@@ -17,10 +17,34 @@ Pane {
 		}
 		GridLayout {
 			Layout.fillWidth: true
-			columns: 6
+			columns: 4
 			rowSpacing: 10
 			columnSpacing: 20
 
+			Label {
+				text: qsTr("Compiler")
+			}
+			Label {
+				text: instanceView.model.inst &&
+					instanceView.model.inst.compilerName
+					? instanceView.model.inst.compilerName
+					: "-"
+			}
+			Label {
+				text: qsTr("Compiler version")
+			}
+			Label {
+				text: getCompilerVersion()
+			}
+			Label {
+				text: qsTr("Architecture")
+			}
+			Label {
+				text: instanceView.model.inst &&
+					instanceView.model.inst.architecture
+					? instanceView.model.inst.architecture
+					: "-"
+			}
 			Label {
 				text: qsTr("OGLplus version")
 			}
@@ -35,6 +59,21 @@ Pane {
 		Item {
 			Layout.fillHeight: true
 		}
+	}
+
+	function getCompilerVersion() {
+		var result = "-"
+		var m = instanceView.model.inst
+		if(m && m.compilerVersionMajor != null) {
+			result = "%1".arg(m.compilerVersionMajor)
+			if(m.compilerVersionMinor != null) {
+				result += ".%1".arg(m.compilerVersionMinor)
+				if(m.compilerVersionPatch != null) {
+					result += ".%1".arg(m.compilerVersionPatch)
+				}
+			}
+		}
+		return result
 	}
 
 	function getOGLplusVersion() {

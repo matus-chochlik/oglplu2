@@ -12,6 +12,7 @@
 #include "../bitfield.hpp"
 #include "../build_info.hpp"
 #include "../callable_ref.hpp"
+#include "../compiler_info.hpp"
 #include "../flat_map.hpp"
 #include "../identifier_t.hpp"
 #include "../message_id.hpp"
@@ -58,18 +59,20 @@ enum class remote_node_change : std::uint16_t {
     started_responding = 1U << 9U,
     /// @brief Node stopped responding to pings.
     stopped_responding = 1U << 10U,
+    /// @brief Node ping response rate.
+    response_rate = 1U << 11U,
     /// @brief The hardware configuration information has appeared or changed.
-    hardware_config = 1U << 11U,
+    hardware_config = 1U << 12U,
     /// @brief New sensor values have appeared or changed.
-    sensor_values = 1U << 12U,
+    sensor_values = 1U << 13U,
     /// @brief The bus connection information has appeared or changed.
-    connection_info = 1U << 13U
+    connection_info = 1U << 14U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
 enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
-    return enumerator_map_type<remote_node_change, 14>{
+    return enumerator_map_type<remote_node_change, 15>{
       {{"kind", remote_node_change::kind},
        {"host_id", remote_node_change::host_id},
        {"host_info", remote_node_change::host_info},
@@ -80,6 +83,7 @@ enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
        {"methods_removed", remote_node_change::methods_removed},
        {"started_responding", remote_node_change::started_responding},
        {"stopped_responding", remote_node_change::stopped_responding},
+       {"response_rate", remote_node_change::response_rate},
        {"hardware_config", remote_node_change::hardware_config},
        {"sensor_values", remote_node_change::sensor_values},
        {"connection_info", remote_node_change::connection_info},
@@ -605,6 +609,10 @@ public:
     /// @brief Returns the application name of this instance.
     auto application_name() const noexcept -> valid_if_not_empty<string_view>;
 
+    /// @brief Returns the compiler information about the program running in the instance.
+    auto compiler() const noexcept
+      -> optional_reference_wrapper<const compiler_info>;
+
     /// @brief Returns the build information about the program running in the instance.
     auto build() const noexcept -> optional_reference_wrapper<const build_info>;
 
@@ -634,6 +642,7 @@ public:
     auto notice_alive() -> remote_instance_state&;
     auto set_host_id(host_id_t) -> remote_instance_state&;
     auto set_app_name(const std::string&) -> remote_instance_state&;
+    auto assign(compiler_info) -> remote_instance_state&;
     auto assign(build_info) -> remote_instance_state&;
 };
 //------------------------------------------------------------------------------
@@ -687,7 +696,7 @@ public:
     auto is_router_node() const noexcept -> tribool;
 
     /// @brief Returns if the remote node is a router control node.
-    /// @see is_bridge_node
+    /// @see is_router_node
     /// @see kind
     auto is_bridge_node() const noexcept -> tribool;
 

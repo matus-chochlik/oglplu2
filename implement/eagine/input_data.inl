@@ -22,7 +22,7 @@ do_read_stream_data(std::istream& input, memory::buffer& dest) {
         input.read(
           static_cast<char*>(dest.addr()),
           static_cast<std::streamsize>(dest.size()));
-    } catch(std::ios_base::failure&) {
+    } catch(const std::ios_base::failure&) {
         std::vector<char> temp;
         temp.insert(
           temp.begin(),

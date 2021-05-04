@@ -19,9 +19,23 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Service responding to pings from the pinger counterpart.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see pinger
 template <typename Base = subscriber>
 class pingable : public Base {
     using This = pingable;
+
+public:
+    /// @brief Decides if a ping request should be responded.
+    virtual auto respond_to_ping(
+      identifier_t pinger_id,
+      message_sequence_t,
+      verification_bits) -> bool {
+        EAGINE_MAYBE_UNUSED(pinger_id);
+        return true;
+    }
 
 protected:
     using Base::Base;
@@ -30,15 +44,6 @@ protected:
         Base::add_methods();
         Base::add_method(
           this, EAGINE_MSG_MAP(eagiMsgBus, ping, This, _handle_ping));
-    }
-
-public:
-    virtual auto respond_to_ping(
-      identifier_t pinger_id,
-      message_sequence_t,
-      verification_bits) -> bool {
-        EAGINE_MAYBE_UNUSED(pinger_id);
-        return true;
     }
 
 private:
@@ -53,6 +58,10 @@ private:
     }
 };
 //------------------------------------------------------------------------------
+/// @brief Service sending to pings from the pingable counterparts.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see pingable
 template <typename Base = subscriber>
 class pinger
   : public Base
@@ -63,24 +72,21 @@ class pinger
     std::vector<std::tuple<identifier_t, message_sequence_t, timeout>>
       _pending{};
 
-protected:
-    using Base::Base;
-
-    void add_methods() {
-        Base::add_methods();
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiMsgBus, pong, This, _handle_pong));
-    }
-
 public:
+    /// @brief Returns the ping message type id.
     static constexpr auto ping_msg_id() noexcept {
         return EAGINE_MSGBUS_ID(ping);
     }
 
+    /// @brief Broadcasts a query searching for pingable message bus nodes.
     void query_pingables() {
         this->bus().query_subscribers_of(ping_msg_id());
     }
 
+    /// @brief Sends a pings request and tracks it for the specified maximum time.
+    /// @see ping_responded
+    /// @see ping_timeouted
+    /// @see has_pending_pings
     void ping(identifier_t pingable_id, std::chrono::milliseconds max_time) {
         message_view message{};
         auto msg_id{EAGINE_MSGBUS_ID(ping)};
@@ -91,6 +97,10 @@ public:
         _pending.emplace_back(message.target_id, message.sequence_no, max_time);
     }
 
+    /// @brief Sends a pings request and tracks it for a default time period.
+    /// @see ping_responded
+    /// @see ping_timeouted
+    /// @see has_pending_pings
     void ping(identifier_t pingable_id) {
         ping(pingable_id, std::chrono::milliseconds{5000});
     }
@@ -120,10 +130,17 @@ public:
         return something_done;
     }
 
+    /// @brief Indicates if there are yet unresponded pending ping requests.
+    /// @see ping_responded
+    /// @see ping_timeouted
     auto has_pending_pings() const noexcept -> bool {
         return !_pending.empty();
     }
 
+    /// @brief Triggered on receipt of ping response.
+    /// @see ping
+    /// @see ping_timeouted
+    /// @see has_pending_pings
     signal<void(
       identifier_t pingable_id,
       message_sequence_t sequence_no,
@@ -131,11 +148,24 @@ public:
       verification_bits)>
       ping_responded;
 
+    /// @brief Triggered on timeout of ping response.
+    /// @see ping
+    /// @see ping_responded
+    /// @see has_pending_pings
     signal<void(
       identifier_t pingable_id,
       message_sequence_t sequence_no,
       std::chrono::microseconds age)>
       ping_timeouted;
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+        Base::add_method(
+          this, EAGINE_MSG_MAP(eagiMsgBus, pong, This, _handle_pong));
+    }
 
 private:
     auto _handle_pong(const message_context&, stored_message& message) -> bool {

@@ -19,9 +19,20 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Service providing basic information about message bus endpoint.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see endpoint_info_consumer
+/// @see endpoint_info
 template <typename Base = subscriber>
 class endpoint_info_provider : public Base {
     using This = endpoint_info_provider;
+
+public:
+    /// @brief Sets the endpoint info to be provided.
+    auto provided_endpoint_info() noexcept -> endpoint_info& {
+        return _info;
+    }
 
 protected:
     using Base::Base;
@@ -36,21 +47,37 @@ protected:
             This, _get_endpoint_info))[EAGINE_MSG_ID(eagiEptInf, request)]);
     }
 
-public:
-    virtual auto provide_endpoint_info() -> endpoint_info = 0;
-
 private:
-    auto _get_endpoint_info() -> endpoint_info {
-        return provide_endpoint_info();
+    auto _get_endpoint_info() -> const endpoint_info& {
+        return _info;
     }
 
-    default_function_skeleton<endpoint_info(), 1024> _respond;
+    default_function_skeleton<const endpoint_info&(), 1024> _respond;
+    endpoint_info _info;
 };
 //------------------------------------------------------------------------------
+/// @brief Service consuming basic information about message bus endpoint.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see endpoint_info_provider
+/// @see endpoint_info
 template <typename Base = subscriber>
 class endpoint_info_consumer : public Base {
 
     using This = endpoint_info_consumer;
+
+public:
+    /// @brief Queries basic information about the specified endpoint.
+    /// @see endpoint_info_received
+    void query_endpoint_info(identifier_t endpoint_id) {
+        _info.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiEptInf, request));
+    }
+
+    /// @brief Triggered on receipt of basic endpoint information.
+    /// @see query_endpoint_info
+    signal<void(const result_context&, const endpoint_info&)>
+      endpoint_info_received;
 
 protected:
     using Base::Base;
@@ -61,15 +88,6 @@ protected:
         Base::add_method(
           _info(endpoint_info_received)[EAGINE_MSG_ID(eagiEptInf, response)]);
     }
-
-public:
-    void query_endpoint_info(identifier_t endpoint_id) {
-        _info.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiEptInf, request));
-    }
-
-    signal<void(const result_context&, const endpoint_info&)>
-      endpoint_info_received;
 
 private:
     default_callback_invoker<endpoint_info(), 1024> _info;

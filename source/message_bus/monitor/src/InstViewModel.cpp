@@ -52,6 +52,51 @@ auto InstViewModel::getDescription() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto InstViewModel::getArchitecture() -> QVariant {
+    if(auto optCompiler{_inst.compiler()}) {
+        if(auto optArchName{extract(optCompiler).architecture_name()}) {
+            return {c_str(extract(optArchName))};
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto InstViewModel::getCompilerName() -> QVariant {
+    if(auto optCompiler{_inst.compiler()}) {
+        if(auto optCompilerName{extract(optCompiler).name()}) {
+            return {c_str(extract(optCompilerName))};
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto InstViewModel::getCompilerVersionMajor() -> QVariant {
+    if(auto optCompiler{_inst.compiler()}) {
+        if(auto optVerMajor{extract(optCompiler).version_major()}) {
+            return {extract(optVerMajor)};
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto InstViewModel::getCompilerVersionMinor() -> QVariant {
+    if(auto optCompiler{_inst.compiler()}) {
+        if(auto optVerMinor{extract(optCompiler).version_minor()}) {
+            return {extract(optVerMinor)};
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto InstViewModel::getCompilerVersionPatch() -> QVariant {
+    if(auto optCompiler{_inst.compiler()}) {
+        if(auto optVerPatch{extract(optCompiler).version_patch()}) {
+            return {extract(optVerPatch)};
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 auto InstViewModel::getVersionMajor() -> QVariant {
     if(auto optBuild{_inst.build()}) {
         if(auto optVerMajor{extract(optBuild).version_major()}) {

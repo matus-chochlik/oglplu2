@@ -15,14 +15,34 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+/// @brief Structure containing basic information about a message bus endpoint.
 struct subscriber_info {
+    /// @brief The endpoint id.
     identifier_t endpoint_id{0U};
+    /// @brief The endpoint's instance (process) id.
     process_instance_id_t instance_id{0U};
 };
 //------------------------------------------------------------------------------
+/// @brief Service discovering information about endpoint status and subscriptions.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see subscriber_info
 template <typename Base = subscriber>
 class subscriber_discovery : public Base {
     using This = subscriber_discovery;
+
+public:
+    /// @brief Triggered on receipt of notification that an endpoint is alive.
+    signal<void(const subscriber_info&)> reported_alive;
+
+    /// @brief Triggered on receipt of info that endpoint subscribes to message.
+    signal<void(const subscriber_info&, message_id)> subscribed;
+
+    /// @brief Triggered on receipt of info that endpoint unsubscribes from message.
+    signal<void(const subscriber_info&, message_id)> unsubscribed;
+
+    /// @brief Triggered on receipt of info that endpoint doesn't handle message type.
+    signal<void(const subscriber_info&, message_id)> not_subscribed;
 
 protected:
     using Base::Base;
@@ -41,12 +61,6 @@ protected:
           this,
           EAGINE_MSG_MAP(eagiMsgBus, notSubTo, This, _handle_not_subscribed));
     }
-
-public:
-    signal<void(const subscriber_info&)> reported_alive;
-    signal<void(const subscriber_info&, message_id)> subscribed;
-    signal<void(const subscriber_info&, message_id)> unsubscribed;
-    signal<void(const subscriber_info&, message_id)> not_subscribed;
 
 private:
     auto _handle_alive(const message_context&, stored_message& message)
