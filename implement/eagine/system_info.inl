@@ -95,8 +95,16 @@ public:
                     }
                 }
                 if(is_ps) {
-                    if(auto cap_a{c.nested(a, "capacity")}) {
-                        _bat_cap_a.emplace_back(cap_a);
+                    if(auto type_a{c.nested(a, "type")}) {
+                        if(c.has_value(type_a, "Battery")) {
+                            if(auto cap_a{c.nested(a, "capacity")}) {
+                                _bat_cap_a.emplace_back(cap_a);
+                            }
+                        } else if(c.has_value(type_a, "Mains")) {
+                            if(auto onl_a{c.nested(a, "online")}) {
+                                _ac_online_a.emplace_back(onl_a);
+                            }
+                        }
                     }
                 }
                 return true;
@@ -195,6 +203,22 @@ public:
         return {-1.F};
     }
 
+    auto acps_count() noexcept -> span_size_t {
+        return span_size(_ac_online_a.size());
+    }
+
+    auto acps_online(span_size_t index) noexcept -> tribool {
+        EAGINE_ASSERT((index >= 0) && (index < acps_count()));
+        auto& onl_a = _ac_online_a[index];
+        if(onl_a) {
+            int online{0};
+            if(_sysfs.fetch_value(onl_a, online)) {
+                return {online != 0};
+            }
+        }
+        return indeterminate;
+    }
+
 private:
     host_id_t _host_id{0};
     valtree::compound _sysfs;
@@ -205,6 +229,7 @@ private:
     std::vector<std::tuple<valtree::attribute, valtree::attribute>> _cd_cm_a;
 
     std::vector<valtree::attribute> _bat_cap_a;
+    std::vector<valtree::attribute> _ac_online_a;
 };
 //------------------------------------------------------------------------------
 #else
@@ -426,6 +451,27 @@ auto system_info::battery_capacity(span_size_t index) noexcept
 #endif
     EAGINE_MAYBE_UNUSED(index);
     return {-1.F};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::ac_supply_count() noexcept -> span_size_t {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).acps_count();
+    }
+#endif
+    return 0;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::ac_supply_online(span_size_t index) noexcept -> tribool {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).acps_online(index);
+    }
+#endif
+    EAGINE_MAYBE_UNUSED(index);
+    return indeterminate;
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

@@ -10,8 +10,11 @@
 
 #include "config/basic.hpp"
 #include "config/platform.hpp"
+#include "integer_range.hpp"
 #include "main_ctx_object.hpp"
+#include "power_supply_kind.hpp"
 #include "quantities.hpp"
+#include "tribool.hpp"
 #include "types.hpp"
 #include "valid_if/ge0_le1.hpp"
 #include "valid_if/nonnegative.hpp"
@@ -103,6 +106,27 @@ public:
 
     /// @brief Returns the capacity of the i-th battery.
     auto battery_capacity(span_size_t) noexcept -> valid_if_between_0_1<float>;
+
+    /// @brief Returns the count of AC power supplies in the system.
+    auto ac_supply_count() noexcept -> span_size_t;
+
+    /// @brief Indicates whether the i-th power supply is online
+    auto ac_supply_online(span_size_t) noexcept -> tribool;
+
+    /// @brief Returns the currently user power supply kind.
+    auto power_supply() noexcept -> power_supply_kind {
+        for(auto i : integer_range(ac_supply_count())) {
+            if(ac_supply_online(i)) {
+                return power_supply_kind::ac_supply;
+            }
+        }
+        for(auto i : integer_range(battery_count())) {
+            if(battery_capacity(i) > 0.F) {
+                return power_supply_kind::battery;
+            }
+        }
+        return power_supply_kind::unknown;
+    }
 
 private:
     std::shared_ptr<system_info_impl> _pimpl;
