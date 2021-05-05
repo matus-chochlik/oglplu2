@@ -17,6 +17,7 @@
 #include "../identifier_t.hpp"
 #include "../message_id.hpp"
 #include "../optional_ref.hpp"
+#include "../power_supply_kind.hpp"
 #include "../tribool.hpp"
 #include "../types.hpp"
 #include "../valid_if/ge0_le1.hpp"
@@ -539,6 +540,8 @@ public:
         return {};
     }
 
+    auto power_supply() const noexcept -> power_supply_kind;
+
 protected:
     auto _impl() const noexcept -> const remote_host_impl*;
     auto _impl() noexcept -> remote_host_impl*;
@@ -573,6 +576,7 @@ public:
     auto set_total_swap_size(span_size_t) -> remote_host_state&;
     auto set_free_ram_size(span_size_t) -> remote_host_state&;
     auto set_free_swap_size(span_size_t) -> remote_host_state&;
+    auto set_power_supply(power_supply_kind) -> remote_host_state&;
 };
 //------------------------------------------------------------------------------
 /// @brief Class providing information about a remote instance running bus nodes.

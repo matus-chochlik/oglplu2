@@ -153,6 +153,11 @@ public:
         return EAGINE_THIS_MEM_FUNC_REF(_handle_total_swap_size_received);
     }
 
+    /// @brief Returns handler for the power supply kind message.
+    auto on_power_supply_kind_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_power_supply_kind_received);
+    }
+
     /// @brief Returns handler for the ping response message.
     auto on_ping_response() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_ping_response);
@@ -225,6 +230,7 @@ public:
                             this->query_long_average_load(node_id);
                             this->query_free_ram_size(node_id);
                             this->query_free_swap_size(node_id);
+                            this->query_power_supply_kind(node_id);
                             host.sensors_queried();
                         }
                     }
@@ -292,6 +298,8 @@ protected:
         this->total_ram_size_received.connect(on_total_ram_size_received());
         this->free_swap_size_received.connect(on_free_swap_size_received());
         this->total_swap_size_received.connect(on_total_swap_size_received());
+        this->power_supply_kind_received.connect(
+          on_power_supply_kind_received());
         this->ping_responded.connect(on_ping_response());
         this->ping_timeouted.connect(on_ping_timeout());
     }
@@ -587,6 +595,20 @@ private:
                       host_node.add_change(remote_node_change::hardware_config);
                   });
             }
+        }
+    }
+
+    void _handle_power_supply_kind_received(
+      const result_context& ctx,
+      power_supply_kind value) {
+        auto& node = _get_node(ctx.source_id()).notice_alive();
+        if(auto host_id{node.host_id()}) {
+            auto& host = _get_host(extract(host_id)).notice_alive();
+            host.set_power_supply(value);
+            _tracker.for_each_host_node_state(
+              extract(host_id), [&](auto, auto& host_node) {
+                  host_node.add_change(remote_node_change::sensor_values);
+              });
         }
     }
 

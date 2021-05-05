@@ -38,6 +38,7 @@ public:
     variable_with_history<float, 2> long_average_load{-1.F};
 
     remote_host_changes changes{};
+    power_supply_kind power_supply{power_supply_kind::unknown};
     bool was_alive{false};
 };
 //------------------------------------------------------------------------------
@@ -430,6 +431,15 @@ auto remote_host::free_swap_size_change() const noexcept
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         return {i.free_swap_size.delta(), i.free_swap_size.old_value() >= 0};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::power_supply() const noexcept -> power_supply_kind {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        return i.power_supply;
     }
     return {};
 }
@@ -951,6 +961,17 @@ auto remote_host_state::set_free_swap_size(span_size_t value)
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         i.free_swap_size = value;
+        i.changes |= remote_host_change::sensor_values;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::set_power_supply(power_supply_kind value)
+  -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        i.power_supply = value;
         i.changes |= remote_host_change::sensor_values;
     }
     return *this;
