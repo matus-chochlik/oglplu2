@@ -85,6 +85,7 @@ the following packages:
     qml-module-qtquick-controls \
     qml-module-qtquick-controls2 \
     qml-module-qtquick-dialogs \
+    qml-module-qtcharts \
     qml-module-qt-labs-folderlistmodel \
     qml-module-qt-labs-settings
 
