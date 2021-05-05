@@ -39,8 +39,8 @@ auto generator::bounding_sphere() -> math::sphere<float, true> {
     auto pos = cover(temp);
     attrib_values(attrib, pos);
 
-    for(auto v : integer_range(n)) {
-        for(auto c : integer_range(m)) {
+    for(const auto v : integer_range(n)) {
+        for(const auto c : integer_range(m)) {
             const auto k = std_size(c);
 
             min[k] = eagine::math::minimum(min[k], pos[v * m + c]);
@@ -54,7 +54,7 @@ auto generator::bounding_sphere() -> math::sphere<float, true> {
       (min[2] + max[2]) * 0.5F};
 
     float radius{0.F};
-    for(auto c : integer_range(m)) {
+    for(const auto c : integer_range(m)) {
         const auto k = std_size(c);
         const auto q = (max[k] - min[k]) * 0.5F;
         radius += q * q;
@@ -88,7 +88,7 @@ void generator::ray_intersections(
 
     const auto bs = bounding_sphere();
 
-    for(auto i : integer_range(rays.size())) {
+    for(const auto i : integer_range(rays.size())) {
         const auto nparam = math::nearest_ray_param(
           math::line_sphere_intersection_params(rays[i], bs));
         if(nparam >= 0.F) {
@@ -129,9 +129,9 @@ void generator::ray_intersections(
         if(op.mode == primitive_type::triangles) {
             std::array<std::array<float, 4>, 3> tri{};
             span_size_t t = 0;
-            for(auto v : integer_range(op.count)) {
+            for(const auto v : integer_range(op.count)) {
                 const auto w = v + op.first;
-                for(auto c : integer_range(3)) {
+                for(const auto c : integer_range(3)) {
                     tri[std_size(t)][std_size(c)] = coord(w, c, indexed);
                 }
                 if(++t >= 3) {
@@ -144,7 +144,7 @@ void generator::ray_intersections(
                 }
             }
         } else if(op.mode == primitive_type::triangle_strip) {
-            for(auto v : integer_range(2, op.count)) {
+            for(const auto v : integer_range(2, op.count)) {
                 span_size_t w = v + op.first;
                 span_size_t o0 = -2, o1 = -1, o2 = 0;
                 if(v % 2 != 0) {

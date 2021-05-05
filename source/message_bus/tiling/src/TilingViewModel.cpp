@@ -33,8 +33,9 @@ void TilingViewModel::saveAs(const QUrl& filePath) {
         QFile tilingFile(QDir::toNativeSeparators(filePath.toLocalFile()));
         if(tilingFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
             auto& tilingModel = extract(optTilingModel);
-            for(int row : eagine::integer_range(tilingModel.getHeight())) {
-                for(int column :
+            for(const auto row :
+                eagine::integer_range(tilingModel.getHeight())) {
+                for(const auto column :
                     eagine::integer_range(tilingModel.getWidth())) {
                     tilingFile.putChar(tilingModel.getCellChar(row, column));
                 }

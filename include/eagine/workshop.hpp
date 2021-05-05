@@ -111,7 +111,7 @@ public:
 
     auto add_workers(span_size_t n) -> workshop& {
         _workers.reserve(_workers.size() + std_size(n));
-        for(auto i : integer_range(n)) {
+        for(const auto i : integer_range(n)) {
             EAGINE_MAYBE_UNUSED(i);
             add_worker();
         }

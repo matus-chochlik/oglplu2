@@ -18,12 +18,12 @@ namespace eagine {
 template <typename SortingNetwork>
 static inline std::ostream&
 print_sorting_network(std::ostream& out, const SortingNetwork& sn) {
-    for(auto r : integer_range(sn.rounds())) {
-        for(auto j : integer_range(sn.size())) {
+    for(const auto r : integer_range(sn.rounds())) {
+        for(const auto i : integer_range(sn.size())) {
             span_size_t j = sn.index(r, i);
 
             if(i < j) {
-                for(auto m : integer_range(sn.size())) {
+                for(const auto m : integer_range(sn.size())) {
                     span_size_t k = sn.size() - m - 1;
                     if(i == k) {
                         if(sn.min(r, i, j)) {
@@ -55,7 +55,7 @@ print_sorting_network(std::ostream& out, const SortingNetwork& sn) {
             }
         }
         out << "=";
-        for(auto k : integer_range(1, sn.size())) {
+        for(const auto k : integer_range(1, sn.size())) {
             out << "==";
         }
         out << std::endl;

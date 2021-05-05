@@ -115,12 +115,12 @@ public:
 
     /// @brief Returns the currently user power supply kind.
     auto power_supply() noexcept -> power_supply_kind {
-        for(auto i : integer_range(ac_supply_count())) {
+        for(const auto i : integer_range(ac_supply_count())) {
             if(ac_supply_online(i)) {
                 return power_supply_kind::ac_supply;
             }
         }
-        for(auto i : integer_range(battery_count())) {
+        for(const auto i : integer_range(battery_count())) {
             if(battery_capacity(i) > 0.F) {
                 return power_supply_kind::battery;
             }

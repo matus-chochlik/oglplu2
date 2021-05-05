@@ -555,7 +555,7 @@ public:
 
         string_view parsed;
         if(do_consume_next(parsed, symbols, handle_missing, handle_invalid)) {
-            for(auto i : integer_range(symbols.size())) {
+            for(const auto i : integer_range(symbols.size())) {
                 if(are_equal(parsed, symbols[i])) {
                     dest = translations[i];
                     return true;

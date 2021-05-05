@@ -10,6 +10,7 @@
 #define EAGINE_VALUE_WITH_HISTORY_HPP
 
 #include "compare.hpp"
+#include "integer_range.hpp"
 #include "valid_if/decl.hpp"
 #include <cmath>
 #include <utility>
@@ -60,7 +61,7 @@ public:
 
     /// @brief Initializes all revisions with the same initial value.
     constexpr value_with_history_storage(const T& initial) noexcept {
-        for(std::size_t i = 0; i < N; ++i) {
+        for(const auto i : integer_range(N)) {
             _values[i] = initial;
         }
     }
@@ -80,7 +81,7 @@ public:
     /// @brief Move the stored revisions by one, to make place for new value.
     /// @see sync
     void make_history() noexcept {
-        for(std::size_t i = 1; i < N; ++i) {
+        for(const auto i : integer_range(1U, N)) {
             _values[N - i] = _values[N - i - 1];
         }
     }
@@ -88,7 +89,7 @@ public:
     /// @brief Synchronize the historic revisions to the current value.
     /// @see make_history
     void sync() noexcept {
-        for(std::size_t i = 1; i < N; ++i) {
+        for(const auto i : integer_range(1U, N)) {
             _values[i] = _values[0];
         }
     }
@@ -106,7 +107,7 @@ static inline auto transform_stored_values(
       N>
       result;
 
-    for(std::size_t i = 0; i < N; ++i) {
+    for(const auto i : integer_range(N)) {
         result.set(i, transform_op(v.get(i)...));
     }
     return result;
@@ -121,7 +122,7 @@ static inline auto differentiate_stored_values(
       N - 1>
       result;
 
-    for(std::size_t i = 1; i < N; ++i) {
+    for(const auto i : integer_range(1U, N)) {
         result.set(i - 1, delta_op(v.get(i - 1), v.get(i)));
     }
     return result;

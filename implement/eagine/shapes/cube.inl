@@ -136,19 +136,19 @@ void unit_cube_gen::positions(span<float> dest) noexcept {
     if(_only_shared_attribs()) {
         EAGINE_ASSERT(dest.size() >= 8 * 3);
 
-        for(auto v : integer_range(8)) {
-            for(auto c : integer_range(3)) {
+        for(const auto v : integer_range(8)) {
+            for(const auto c : integer_range(3)) {
                 dest[k++] = float(_coord_c(v, c)) - 0.5F;
             }
         }
     } else {
         EAGINE_ASSERT(dest.size() >= 6 * 2 * 3 * 3);
 
-        for(auto f : integer_range(6)) {
-            for(auto t : integer_range(2)) {
-                for(auto i : integer_range(3)) {
+        for(const auto f : integer_range(6)) {
+            for(const auto t : integer_range(2)) {
+                for(const auto i : integer_range(3)) {
                     span_size_t v = _face_vert(f, t, i);
-                    for(auto c : integer_range(3)) {
+                    for(const auto c : integer_range(3)) {
                         dest[k++] = float(_coord_c(v, c)) - 0.5F;
                     }
                 }
@@ -189,10 +189,10 @@ void unit_cube_gen::normals(span<float> dest) noexcept {
     span_size_t k = 0;
     span_size_t n = 2 * 3;
 
-    for(auto f : integer_range(6)) {
-        for(auto i : integer_range(n)) {
+    for(const auto f : integer_range(6)) {
+        for(const auto i : integer_range(n)) {
             EAGINE_MAYBE_UNUSED(i);
-            for(auto c : integer_range(3)) {
+            for(const auto c : integer_range(3)) {
                 dest[k++] = float(_normal_c(f, c));
             }
         }
@@ -232,10 +232,10 @@ void unit_cube_gen::tangentials(span<float> dest) noexcept {
     span_size_t k = 0;
     span_size_t n = 2 * 3;
 
-    for(auto f : integer_range(6)) {
-        for(auto i : integer_range(n)) {
+    for(const auto f : integer_range(6)) {
+        for(const auto i : integer_range(n)) {
             EAGINE_MAYBE_UNUSED(i);
-            for(auto c : integer_range(3)) {
+            for(const auto c : integer_range(3)) {
                 dest[k++] = float(_tangential_c(f, c));
             }
         }
@@ -275,10 +275,10 @@ void unit_cube_gen::bitangentials(span<float> dest) noexcept {
     span_size_t k = 0;
     span_size_t n = 2 * 3;
 
-    for(auto f : integer_range(6)) {
-        for(auto i : integer_range(n)) {
+    for(const auto f : integer_range(6)) {
+        for(const auto i : integer_range(n)) {
             EAGINE_MAYBE_UNUSED(i);
-            for(auto c : integer_range(3)) {
+            for(const auto c : integer_range(3)) {
                 dest[k++] = float(_bitangential_c(f, c));
             }
         }
@@ -312,7 +312,7 @@ void unit_cube_gen::face_coords(span<float> dest) noexcept {
 
     span_size_t k = 0;
 
-    for(auto f : integer_range(6)) {
+    for(const auto f : integer_range(6)) {
         for(const auto& ftv : ftvi) {
             for(const auto v : ftv) {
                 dest[k++] = uv[v][0];
@@ -396,16 +396,16 @@ inline void unit_cube_gen::_indices(drawing_variant var, span<T> dest) noexcept 
 
     if(var == 0) {
         if(_only_shared_attribs()) {
-            for(auto f : integer_range(6)) {
-                for(auto t : integer_range(2)) {
-                    for(auto v : integer_range(3)) {
+            for(const auto f : integer_range(6)) {
+                for(const auto t : integer_range(2)) {
+                    for(const auto v : integer_range(3)) {
                         dest[k++] = T(_face_vert(f, t, v));
                     }
                 }
             }
         }
     } else if(var == 1) {
-        for(auto f : integer_range(6)) {
+        for(const auto f : integer_range(6)) {
             dest[k++] = T(_face_vert(f, 0, 0));
             dest[k++] = T(_face_vert(f, 0, 2));
 

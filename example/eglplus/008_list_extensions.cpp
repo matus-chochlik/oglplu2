@@ -36,7 +36,7 @@ auto main() -> int {
         const auto n = std_size(dev_count.get());
         devices.resize(n);
         if(egl.query_devices(cover(devices))) {
-            for(auto d : integer_range(n)) {
+            for(const auto d : integer_range(n)) {
                 std::cout << "Device: " << d << std::endl;
 
                 std::cout << " Device extensions: " << std::endl;

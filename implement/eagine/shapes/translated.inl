@@ -21,8 +21,8 @@ void translated_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) 
     if(is_translated_attrib) {
         const auto m = values_per_vertex(vav);
         const auto n = vertex_count();
-        for(auto v : integer_range(n)) {
-            for(auto c : integer_range(m)) {
+        for(const auto v : integer_range(n)) {
+            for(const auto c : integer_range(m)) {
                 dest[v * m + c] += _d[std_size(c)];
             }
         }

@@ -83,7 +83,7 @@ struct generator : interface<generator> {
       -> vertex_attrib_variant {
         const span_size_t n = attribute_variants(attrib);
         span_size_t index{-1};
-        for(auto i : integer_range(n)) {
+        for(const auto i : integer_range(n)) {
             if(are_equal(name, variant_name({attrib, i}))) {
                 index = i;
                 break;

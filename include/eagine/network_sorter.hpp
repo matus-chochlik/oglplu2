@@ -102,7 +102,7 @@ public:
 
     auto sort_round() -> auto& {
         EAGINE_ASSERT(!done());
-        for(auto i : integer_range(span_size(N))) {
+        for(const auto i : integer_range(span_size(N))) {
             sort_single(i);
         }
         return *this;

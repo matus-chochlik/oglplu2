@@ -69,7 +69,7 @@ public:
         out << data_type_name(value_type());
         out << "(";
         out << _coords[0];
-        for(auto i : integer_range(1, N)) {
+        for(const auto i : integer_range(1, N)) {
             out << ", " << _coords[std_size(i)];
         }
         return out << ")";

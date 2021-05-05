@@ -58,11 +58,11 @@ void unit_torus_gen::vertex_pivots(span<float> dest) noexcept {
 
     const auto s_step = 2 * math::pi / _sections;
 
-    for(auto s : integer_range(_sections + 1)) {
+    for(const auto s : integer_range(_sections + 1)) {
         const auto vx = std::cos(s * s_step) * rc;
         const auto vz = -std::sin(s * s_step) * rc;
 
-        for(auto r : integer_range(_rings + 1)) {
+        for(const auto r : integer_range(_rings + 1)) {
             EAGINE_MAYBE_UNUSED(r);
             dest[k++] = float(vx);
             dest[k++] = float(0);
@@ -90,8 +90,8 @@ void unit_torus_gen::positions(
         return 3 * (s * (_rings + 1) + r) + c;
     };
 
-    for(auto s : integer_range(_sections)) {
-        for(auto r : integer_range(_rings)) {
+    for(const auto s : integer_range(_sections)) {
+        for(const auto r : integer_range(_rings)) {
             const auto [rd, sd, td] = get_offs(s, r);
 
             const auto vr = -std::cos((r + rd) * r_step);
@@ -108,7 +108,7 @@ void unit_torus_gen::positions(
         dest[k(s, _rings, 1)] = dest[k(s, 0, 1)];
         dest[k(s, _rings, 2)] = dest[k(s, 0, 2)];
     }
-    for(auto r : integer_range(_rings + 1)) {
+    for(const auto r : integer_range(_rings + 1)) {
         dest[k(_sections, r, 0)] = dest[k(0, r, 0)];
         dest[k(_sections, r, 1)] = dest[k(0, r, 1)];
         dest[k(_sections, r, 2)] = dest[k(0, r, 2)];
@@ -129,8 +129,8 @@ void unit_torus_gen::normals(
         return 3 * (s * (_rings + 1) + r) + c;
     };
 
-    for(auto s : integer_range(_sections)) {
-        for(auto r : integer_range(_rings)) {
+    for(const auto s : integer_range(_sections)) {
+        for(const auto r : integer_range(_rings)) {
             const auto [rd, sd, td] = get_offs(s, r);
             EAGINE_MAYBE_UNUSED(td);
 
@@ -147,7 +147,7 @@ void unit_torus_gen::normals(
         dest[k(s, _rings, 1)] = dest[k(s, 0, 1)];
         dest[k(s, _rings, 2)] = dest[k(s, 0, 2)];
     }
-    for(auto r : integer_range(_rings + 1)) {
+    for(const auto r : integer_range(_rings + 1)) {
         dest[k(_sections, r, 0)] = dest[k(0, r, 0)];
         dest[k(_sections, r, 1)] = dest[k(0, r, 1)];
         dest[k(_sections, r, 2)] = dest[k(0, r, 2)];
@@ -167,8 +167,8 @@ void unit_torus_gen::tangentials(
 
     const auto s_step = 2 * math::pi / _sections;
 
-    for(auto s : integer_range(_sections)) {
-        for(auto r : integer_range(_rings)) {
+    for(const auto s : integer_range(_sections)) {
+        for(const auto r : integer_range(_rings)) {
             const auto [rd, sd, td] = get_offs(s, r);
             EAGINE_MAYBE_UNUSED(rd);
             EAGINE_MAYBE_UNUSED(td);
@@ -184,7 +184,7 @@ void unit_torus_gen::tangentials(
         dest[k(s, _rings, 1)] = dest[k(s, 0, 1)];
         dest[k(s, _rings, 2)] = dest[k(s, 0, 2)];
     }
-    for(auto r : integer_range(_rings + 1)) {
+    for(const auto r : integer_range(_rings + 1)) {
         dest[k(_sections, r, 0)] = dest[k(0, r, 0)];
         dest[k(_sections, r, 1)] = dest[k(0, r, 1)];
         dest[k(_sections, r, 2)] = dest[k(0, r, 2)];
@@ -207,8 +207,8 @@ void unit_torus_gen::bitangentials(
 
     const auto ty = 0;
 
-    for(auto s : integer_range(_sections)) {
-        for(auto r : integer_range(_rings)) {
+    for(const auto s : integer_range(_sections)) {
+        for(const auto r : integer_range(_rings)) {
             const auto [rd, sd, td] = get_offs(s, r);
             EAGINE_MAYBE_UNUSED(td);
 
@@ -227,7 +227,7 @@ void unit_torus_gen::bitangentials(
         dest[k(s, _rings, 1)] = dest[k(s, 0, 1)];
         dest[k(s, _rings, 2)] = dest[k(s, 0, 2)];
     }
-    for(auto r : integer_range(_rings + 1)) {
+    for(const auto r : integer_range(_rings + 1)) {
         dest[k(_sections, r, 0)] = dest[k(0, r, 0)];
         dest[k(_sections, r, 1)] = dest[k(0, r, 1)];
         dest[k(_sections, r, 2)] = dest[k(0, r, 2)];
@@ -244,8 +244,8 @@ void unit_torus_gen::wrap_coords(span<float> dest) noexcept {
     const auto s_step = 1.F / _sections;
     const auto r_step = 1.F / _rings;
 
-    for(auto s : integer_range(_sections + 1)) {
-        for(auto r : integer_range(_rings + 1)) {
+    for(const auto s : integer_range(_sections + 1)) {
+        for(const auto r : integer_range(_rings + 1)) {
             dest[k++] = s * s_step;
             dest[k++] = r * r_step;
         }
@@ -427,8 +427,8 @@ void unit_torus_gen::_indices(drawing_variant var, span<T> dest) noexcept {
 
     if(var == 0) {
         span_size_t step = _rings + 1;
-        for(auto s : integer_range(_sections)) {
-            for(auto r : integer_range(step)) {
+        for(const auto s : integer_range(_sections)) {
+            for(const auto r : integer_range(step)) {
                 dest[k++] = limit_cast<T>((s + 0) * step + r);
                 dest[k++] = limit_cast<T>((s + 1) * step + r);
             }
@@ -438,8 +438,8 @@ void unit_torus_gen::_indices(drawing_variant var, span<T> dest) noexcept {
             }
         }
     } else if(var == 1) {
-        for(auto s : integer_range(_sections)) {
-            for(auto r : integer_range(_rings)) {
+        for(const auto s : integer_range(_sections)) {
+            for(const auto r : integer_range(_rings)) {
                 dest[k++] = limit_cast<T>(s * (_rings + 1) + r);
             }
 
@@ -447,8 +447,8 @@ void unit_torus_gen::_indices(drawing_variant var, span<T> dest) noexcept {
                 dest[k++] = pri;
             }
         }
-        for(auto r : integer_range(_rings)) {
-            for(auto s : integer_range(_sections)) {
+        for(const auto r : integer_range(_rings)) {
+            for(const auto s : integer_range(_sections)) {
                 dest[k++] = limit_cast<T>(s * (_rings + 1) + r);
             }
 
@@ -512,7 +512,7 @@ void unit_torus_gen::instructions(
             op.cw_face_winding = true;
         } else {
             span_size_t step = 2 * (_rings + 1);
-            for(auto s : integer_range(_sections)) {
+            for(const auto s : integer_range(_sections)) {
                 draw_operation& op = ops[s];
                 op.mode = primitive_type::triangle_strip;
                 op.idx_type = index_type(var);
@@ -533,7 +533,7 @@ void unit_torus_gen::instructions(
             op.primitive_restart = true;
         } else {
             span_size_t k = 0;
-            for(auto s : integer_range(_sections)) {
+            for(const auto s : integer_range(_sections)) {
                 draw_operation& op = ops[k++];
                 op.mode = primitive_type::line_loop;
                 op.idx_type = index_type(var);
@@ -541,7 +541,7 @@ void unit_torus_gen::instructions(
                 op.count = _rings;
                 op.primitive_restart = false;
             }
-            for(auto r : integer_range(_rings)) {
+            for(const auto r : integer_range(_rings)) {
                 draw_operation& op = ops[k++];
                 op.mode = primitive_type::line_loop;
                 op.idx_type = index_type(var);

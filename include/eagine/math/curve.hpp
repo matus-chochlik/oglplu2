@@ -185,10 +185,10 @@ public:
         auto p = dest.begin();
         const Parameter t_step = Parameter(1) / extract(n);
 
-        for(auto i : integer_range(s)) {
+        for(const auto i : integer_range(s)) {
             const auto poffs = i * sstep;
             auto t_sub = Parameter(0);
-            for(auto j : integer_range(extract(n))) {
+            for(const auto j : integer_range(extract(n))) {
                 EAGINE_MAYBE_UNUSED(j);
                 EAGINE_ASSERT(p != dest.end());
                 *p = Type(_bezier(t_sub, skip(view(_points), poffs)));
@@ -220,8 +220,8 @@ public:
         std::vector<Type> new_points(std_size(s * Order));
         auto p = new_points.begin();
 
-        for(auto i : integer_range(s)) {
-            for(auto j : integer_range(Order)) {
+        for(const auto i : integer_range(s)) {
+            for(const auto j : integer_range(Order)) {
                 const auto k = i * sstep + j;
                 EAGINE_ASSERT(p != new_points.end());
                 *p = (_points[std_size(k + 1)] - _points[std_size(k)]) * Order;
