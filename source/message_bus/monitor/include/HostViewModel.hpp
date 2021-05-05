@@ -40,6 +40,8 @@ class HostViewModel
     Q_PROPERTY(QVariant swapUsage READ getSwapUsage NOTIFY infoChanged)
     Q_PROPERTY(QVariant swapUsageDelta READ getSwapUsageDelta NOTIFY infoChanged)
 
+    Q_PROPERTY(QVariant powerSupply READ getPowerSupply NOTIFY infoChanged)
+
     using remote_host = eagine::msgbus::remote_host;
 
 public:
@@ -68,6 +70,8 @@ public:
     auto getSwapFreeDelta() -> QVariant;
     auto getSwapUsage() -> QVariant;
     auto getSwapUsageDelta() -> QVariant;
+
+    auto getPowerSupply() -> QVariant;
 
 signals:
     void infoChanged();

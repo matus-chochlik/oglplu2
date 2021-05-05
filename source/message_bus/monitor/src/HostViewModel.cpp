@@ -157,6 +157,18 @@ auto HostViewModel::getSwapUsageDelta() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto HostViewModel::getPowerSupply() -> QVariant {
+    switch(_host.power_supply()) {
+        case eagine::power_supply_kind::ac_supply:
+            return {"ACSupply"};
+        case eagine::power_supply_kind::battery:
+            return {"Battery"};
+        case eagine::power_supply_kind::unknown:
+            break;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 void HostViewModel::onTrackerModelChanged() {
     if(auto trackerModel{_backend.trackerModel()}) {
         connect(

@@ -328,6 +328,9 @@ protected:
 
         Base::add_method(_total_swap_size(
           total_swap_size_received)[EAGINE_MSG_ID(eagiSysInf, totalSwpSz)]);
+
+        Base::add_method(_power_supply_kind(
+          power_supply_kind_received)[EAGINE_MSG_ID(eagiSysInf, powerSuply)]);
     }
 };
 //------------------------------------------------------------------------------

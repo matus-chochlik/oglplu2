@@ -222,6 +222,16 @@ Pane {
 							.toLocaleString(lc, "f", 2))
 					: "-"
 			}
+
+			Label {
+				text: qsTr("Power supply")
+			}
+			Label {
+				Layout.fillWidth: true
+				text: info.host && info.host.powerSupply
+					? info.host.powerSupply
+					: qsTr("-")
+			}
 		}
 		Item {
 			Layout.fillHeight: true
