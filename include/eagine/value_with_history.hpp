@@ -12,6 +12,8 @@
 #include "compare.hpp"
 #include "integer_range.hpp"
 #include "valid_if/decl.hpp"
+#include <algorithm>
+#include <array>
 #include <cmath>
 #include <utility>
 
@@ -61,9 +63,17 @@ public:
 
     /// @brief Initializes all revisions with the same initial value.
     constexpr value_with_history_storage(const T& initial) noexcept {
-        for(const auto i : integer_range(N)) {
-            _values[i] = initial;
-        }
+        std::fill(_values.begin(), _values.end(), initial);
+    }
+
+    /// @brief Returns an iterator to the first (newest) value.
+    auto begin() const noexcept {
+        return _values.begin();
+    }
+
+    /// @brief Returns an iterator past the last (oldest) value.
+    auto end() const noexcept {
+        return _values.end();
     }
 
     /// @brief Returns the i-th revision of the stored value (0 = current value).
@@ -82,20 +92,18 @@ public:
     /// @see sync
     void make_history() noexcept {
         for(const auto i : integer_range(1U, N)) {
-            _values[N - i] = _values[N - i - 1];
+            _values[N - i] = std::move(_values[N - i - 1]);
         }
     }
 
     /// @brief Synchronize the historic revisions to the current value.
     /// @see make_history
     void sync() noexcept {
-        for(const auto i : integer_range(1U, N)) {
-            _values[i] = _values[0];
-        }
+        std::fill(_values.begin() + 1, _values.end(), _values.front());
     }
 
 private:
-    T _values[N]{};
+    std::array<T, N> _values{};
 };
 //------------------------------------------------------------------------------
 template <typename Transform, typename... T, std::size_t N>
@@ -152,6 +160,16 @@ public:
     /// @brief Returns a reference to the value storage.
     auto values() const noexcept -> const value_with_history_storage<T, N>& {
         return _values;
+    }
+
+    /// @brief Returns an iterator to the first (newest) value.
+    auto begin() const noexcept {
+        return values().begin();
+    }
+
+    /// @brief Returns an iterator past the last (oldest) value.
+    auto end() const noexcept {
+        return values().end();
     }
 
     /// @brief Returns the current revision of the value.
@@ -297,6 +315,11 @@ public:
     /// @brief Initialize the all revisions to the initial value.
     constexpr variable_with_history(const T& initial) noexcept
       : value_with_history<T, N>(initial) {}
+
+    /// @brief Returns this as a const reference to the base value with history.
+    auto as_value() const noexcept -> const value_with_history<T, N>& {
+        return *this;
+    }
 
     /// @brief Shifts the revisions and assigns a new value.
     auto assign(const T& new_value) -> bool {
