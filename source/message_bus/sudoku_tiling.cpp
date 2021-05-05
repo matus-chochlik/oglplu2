@@ -39,7 +39,7 @@ public:
 
         auto& info = provided_endpoint_info();
         info.display_name = "sudoku tiling generator";
-        info.description = "helper node for the sudoku solver service";
+        info.description = "sudoku solver tiling generator application";
     }
 
 private:
