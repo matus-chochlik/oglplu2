@@ -247,14 +247,17 @@ private:
         auto& info = _infos.get(rank);
         basic_sudoku_board<S> board{info.traits};
 
-        const auto serialized{
+        const auto deserialized{
           (S >= 4)
             ? default_deserialize_packed(board, message.content(), _compressor)
             : default_deserialize(board, message.content())};
 
-        if(EAGINE_LIKELY(serialized)) {
+        if(EAGINE_LIKELY(deserialized)) {
             info.add_board(
-              message.source_id, message.sequence_no, std::move(board));
+              this->bus(),
+              message.source_id,
+              message.sequence_no,
+              std::move(board));
             mark_activity();
         }
         return true;
@@ -284,11 +287,18 @@ private:
         }
 
         void add_board(
+          endpoint& bus,
           identifier_t source_id,
           message_sequence_t sequence_no,
           basic_sudoku_board<S> board) {
-            searches.insert(source_id);
-            boards.emplace_back(source_id, sequence_no, std::move(board));
+            if(EAGINE_LIKELY(boards.size() < 8)) {
+                searches.insert(source_id);
+                boards.emplace_back(source_id, sequence_no, std::move(board));
+            } else {
+                bus.log_warning("too many boards in backlog")
+                  .arg(EAGINE_ID(rank), S)
+                  .arg(EAGINE_ID(count), boards.size());
+            }
         }
 
         auto update(endpoint& bus, const data_compressor& compressor) -> bool {
