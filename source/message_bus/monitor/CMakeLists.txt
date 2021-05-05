@@ -49,6 +49,7 @@ target_link_libraries(
 	PUBLIC
 		eagine
 		Qt5::Core
+		Qt5::Widgets
 		Qt5::Qml
 		Qt5::Quick
 )

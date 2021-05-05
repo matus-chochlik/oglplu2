@@ -34,6 +34,21 @@ TrackerModel::TrackerModel(MonitorBackend& backend)
       EAGINE_THIS_MEM_FUNC_REF(handleNodeDisappeared));
 }
 //------------------------------------------------------------------------------
+auto TrackerModel::hostParameters(eagine::identifier_t hostId) noexcept
+  -> std::shared_ptr<HostParameterModel> {
+    auto pos = _host_parameters.find(hostId);
+    std::shared_ptr<HostParameterModel> result;
+    if(pos == _host_parameters.end()) {
+        pos = _host_parameters.emplace(hostId, result).first;
+    }
+    result = pos->second.lock();
+    if(!result) {
+        result = std::make_shared<HostParameterModel>();
+        pos->second = result;
+    }
+    return result;
+}
+//------------------------------------------------------------------------------
 void TrackerModel::handleHostChanged(
   eagine::msgbus::remote_host& host,
   eagine::msgbus::remote_host_changes changes) {
@@ -41,6 +56,25 @@ void TrackerModel::handleHostChanged(
 
     if(changes) {
         emit hostInfoChanged(host);
+    }
+
+    if(changes.has(remote_host_change::sensor_values)) {
+        using eagine::extract;
+        if(auto id{host.id()}) {
+            const auto pos = _host_parameters.find(extract(id));
+            if(pos != _host_parameters.end()) {
+                if(auto model{pos->second.lock()}) {
+                    if(auto value{host.short_average_load()}) {
+                        extract(model)._short_average_load_history =
+                          extract(value);
+                    }
+                    if(auto value{host.long_average_load()}) {
+                        extract(model)._long_average_load_history =
+                          extract(value);
+                    }
+                }
+            }
+        }
     }
 }
 //------------------------------------------------------------------------------

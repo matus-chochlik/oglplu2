@@ -60,6 +60,17 @@ auto NodeListViewModel::HostInfo::totalCount() const noexcept -> int {
       });
 }
 //------------------------------------------------------------------------------
+void NodeListViewModel::HostInfo::update(MonitorBackend& backend) noexcept {
+    if(!parameters) {
+        if(auto hostId{host.id()}) {
+            if(auto trackerModel{backend.trackerModel()}) {
+                parameters =
+                  extract(trackerModel).hostParameters(extract(hostId));
+            }
+        }
+    }
+}
+//------------------------------------------------------------------------------
 // Data
 //------------------------------------------------------------------------------
 auto NodeListViewModel::Data::totalCount() const noexcept -> int {
@@ -260,15 +271,18 @@ void NodeListViewModel::Data::fixupHierarchy(
       hosts.end());
 }
 //------------------------------------------------------------------------------
-auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
+auto NodeListViewModel::Data::updateNode(
+  MonitorBackend& backend,
+  const remote_node& node) -> int {
     const auto nodeId = extract(node.id());
     const auto instId = extract_or(node.instance().id(), 0U);
     const auto hostId = instId ? extract_or(node.host().id(), 0U) : 0U;
 
     const auto prevInstIdPos = node2Inst.find(nodeId);
+    auto& hostInfo = hosts[hostId];
+    hostInfo.update(backend);
+    auto& instInfo = hostInfo.instances[instId];
     if(prevInstIdPos != node2Inst.end()) {
-        auto& hostInfo = hosts[hostId];
-        auto& instInfo = hostInfo.instances[instId];
 
         if(hostId && instId) {
             bool relocated = false;
@@ -338,7 +352,7 @@ auto NodeListViewModel::Data::updateNode(const remote_node& node) -> int {
         return rowOf(hostId, instId, nodeId);
     }
 
-    auto& nodeInfo = hosts[hostId].instances[instId].nodes[nodeId];
+    auto& nodeInfo = instInfo.nodes[nodeId];
     nodeInfo.node = node;
     node2Inst[nodeId] = instId;
     inst2Host[instId] = hostId;
@@ -383,7 +397,9 @@ auto NodeListViewModel::Data::removeNode(eagine::identifier_t nodeId) -> bool {
     return erased > 0;
 }
 //------------------------------------------------------------------------------
-auto NodeListViewModel::Data::updateInst(const remote_inst& inst) -> int {
+auto NodeListViewModel::Data::updateInst(
+  MonitorBackend&,
+  const remote_inst& inst) -> int {
     const auto instId = extract_or(inst.id(), 0U);
     const auto hostId = instId ? extract_or(inst.host().id(), 0U) : 0U;
 
@@ -410,7 +426,9 @@ auto NodeListViewModel::Data::updateInst(const remote_inst& inst) -> int {
     return -1;
 }
 //------------------------------------------------------------------------------
-auto NodeListViewModel::Data::updateHost(const remote_host& host) -> int {
+auto NodeListViewModel::Data::updateHost(
+  MonitorBackend&,
+  const remote_host& host) -> int {
     const auto hostId = extract_or(host.id(), 0U);
     const auto hostPos = hosts.find(hostId);
     if(hostPos != hosts.end()) {
@@ -494,7 +512,7 @@ void NodeListViewModel::afterHierarchyChanged() {
 //------------------------------------------------------------------------------
 void NodeListViewModel::onNodeChanged(const remote_node& node) {
     if(node) {
-        if(int row = _model.updateNode(node); row >= 0) {
+        if(int row = _model.updateNode(_backend, node); row >= 0) {
             const auto nodeId = extract(node.id());
             emit dataChanged(
               QAbstractItemModel::createIndex(row, 0, nodeId),
@@ -513,7 +531,7 @@ void NodeListViewModel::onNodeDisappeared(eagine::identifier_t nodeId) {
 //------------------------------------------------------------------------------
 void NodeListViewModel::onInstanceInfoChanged(const remote_inst& inst) {
     if(inst) {
-        if(const auto row = _model.updateInst(inst); row >= 0) {
+        if(const auto row = _model.updateInst(_backend, inst); row >= 0) {
             const auto instId = extract_or(inst.id(), 0U);
             emit dataChanged(
               QAbstractItemModel::createIndex(row, 0, instId),
@@ -524,7 +542,7 @@ void NodeListViewModel::onInstanceInfoChanged(const remote_inst& inst) {
 //------------------------------------------------------------------------------
 void NodeListViewModel::onHostInfoChanged(const remote_host& host) {
     if(host) {
-        if(const auto row = _model.updateHost(host); row >= 0) {
+        if(const auto row = _model.updateHost(_backend, host); row >= 0) {
             const auto hostId = extract_or(host.id(), 0U);
             emit dataChanged(
               QAbstractItemModel::createIndex(row, 0, hostId),

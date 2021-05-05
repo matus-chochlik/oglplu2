@@ -8,7 +8,7 @@
 #include "MonitorViewModel.hpp"
 #include "SelectedItemViewModel.hpp"
 #include <eagine/main_ctx.hpp>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <clocale>
@@ -21,8 +21,8 @@ const char** argv_copy = nullptr;
 auto main(main_ctx& ctx) -> int {
     ctx.log().info("message bus monitor starting");
 
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app{argc_copy, const_cast<char**>(argv_copy)};
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication app{argc_copy, const_cast<char**>(argv_copy)};
     std::setlocale(LC_NUMERIC, "C");
 
     const auto registerId = "com.github.matus-chochlik.oglplu2";

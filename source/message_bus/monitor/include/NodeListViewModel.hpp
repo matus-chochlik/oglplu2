@@ -15,6 +15,7 @@
 #include <QObject>
 
 class MonitorBackend;
+class HostParameterModel;
 //------------------------------------------------------------------------------
 class NodeListViewModel
   : public QAbstractItemModel
@@ -99,11 +100,13 @@ private:
 
     struct HostInfo {
         remote_host host;
+        std::shared_ptr<HostParameterModel> parameters;
         eagine::flat_map<eagine::identifier_t, InstanceInfo> instances;
 
         auto count() const noexcept -> int;
         auto subCount() const noexcept -> int;
         auto totalCount() const noexcept -> int;
+        void update(MonitorBackend&) noexcept;
     };
 
     struct Data {
@@ -146,10 +149,10 @@ private:
           eagine::identifier_t instId,
           eagine::identifier_t nodeId);
 
-        auto updateNode(const remote_node&) -> int;
+        auto updateNode(MonitorBackend&, const remote_node&) -> int;
         auto removeNode(eagine::identifier_t) -> bool;
-        auto updateInst(const remote_inst&) -> int;
-        auto updateHost(const remote_host&) -> int;
+        auto updateInst(MonitorBackend&, const remote_inst&) -> int;
+        auto updateHost(MonitorBackend&, const remote_host&) -> int;
     } _model;
 
     int _selectedRow{-1};

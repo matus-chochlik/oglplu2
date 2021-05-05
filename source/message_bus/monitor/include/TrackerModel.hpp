@@ -12,9 +12,29 @@
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/tracker.hpp>
+#include <eagine/value_with_history.hpp>
 #include <QObject>
+#include <map>
 
 class MonitorBackend;
+class TrackerModel;
+//------------------------------------------------------------------------------
+class HostParameterModel {
+public:
+    auto shortAverageLoadHistory() const noexcept -> auto& {
+        return _short_average_load_history.as_value();
+    }
+
+    auto longAverageLoadHistory() const noexcept -> auto& {
+        return _long_average_load_history.as_value();
+    }
+
+private:
+    friend class TrackerModel;
+
+    eagine::variable_with_history<float, 128> _short_average_load_history;
+    eagine::variable_with_history<float, 128> _long_average_load_history;
+};
 //------------------------------------------------------------------------------
 class TrackerModel
   : public QObject
@@ -32,6 +52,9 @@ public:
     auto tracker() const noexcept -> auto& {
         return _tracker;
     }
+
+    auto hostParameters(eagine::identifier_t hostId) noexcept
+      -> std::shared_ptr<HostParameterModel>;
 signals:
     void nodeKindChanged(const eagine::msgbus::remote_node&);
     void nodeRelocated(const eagine::msgbus::remote_node&);
@@ -62,6 +85,9 @@ private:
     eagine::msgbus::service_composition<
       eagine::msgbus::node_tracker<eagine::msgbus::shutdown_invoker<>>>
       _tracker;
+
+    std::map<eagine::identifier_t, std::weak_ptr<HostParameterModel>>
+      _host_parameters;
 };
 //------------------------------------------------------------------------------
 #endif
