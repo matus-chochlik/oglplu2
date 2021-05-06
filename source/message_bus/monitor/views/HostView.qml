@@ -33,15 +33,11 @@ Pane {
 			Label {
 				text: qsTr("Load")
 			}
-			ProgressBar {
+			PlainBarChart {
 				Layout.columnSpan: 5
+				Layout.preferredHeight: 25
 				Layout.fillWidth: true
-				from: 0.0
-				to: 1.0
-				value: info.host && info.host.shortLoad
-					? info.host.shortLoad
-					: 0.0
-				indeterminate: !(info.host && info.host.shortLoad)
+				model: info.host.parameters.shortLoad
 			}
 
 			Label {

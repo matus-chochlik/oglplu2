@@ -13,7 +13,8 @@ HostViewModel::HostViewModel(
   SelectedItemViewModel& selectedItemViewModel)
   : QObject{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(HostVM), backend}
-  , _backend{backend} {
+  , _backend{backend}
+  , _parameters{backend} {
     connect(
       &_backend,
       &MonitorBackend::trackerModelChanged,
@@ -168,6 +169,10 @@ auto HostViewModel::getPowerSupply() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto HostViewModel::getParameters() -> QAbstractItemModel* {
+    return &_parameters;
+}
+//------------------------------------------------------------------------------
 void HostViewModel::onTrackerModelChanged() {
     if(auto trackerModel{_backend.trackerModel()}) {
         connect(
@@ -188,11 +193,14 @@ void HostViewModel::onHostIdChanged(eagine::identifier_t hostId) {
         _host = {};
     }
     emit infoChanged();
+
+    _parameters.setHostId(hostId);
 }
 //------------------------------------------------------------------------------
 void HostViewModel::onHostInfoChanged(const remote_host& host) {
     if(host.id() == _host.id()) {
         emit infoChanged();
+        _parameters.notifyUpdated();
     }
 }
 //------------------------------------------------------------------------------

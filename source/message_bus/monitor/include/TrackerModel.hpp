@@ -19,7 +19,12 @@ class MonitorBackend;
 class TrackerModel;
 //------------------------------------------------------------------------------
 class HostParameterModel {
+
 public:
+    auto count() const noexcept {
+        return 128;
+    }
+
     auto shortAverageLoadHistory() const noexcept -> auto& {
         return _short_average_load_history.as_value();
     }

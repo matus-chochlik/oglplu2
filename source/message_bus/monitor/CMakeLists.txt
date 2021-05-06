@@ -9,6 +9,7 @@ set(MONITOR_RESOURCES
 )
 set(MONITOR_SOURCES
 	monitor.cpp
+	src/PickRoleProxyModel.cpp
 	src/MonitorTheme.cpp
 	src/MonitorBackend.cpp
 	src/TrackerModel.cpp
@@ -16,10 +17,12 @@ set(MONITOR_SOURCES
 	src/MonitorViewModel.cpp
 	src/SelectedItemViewModel.cpp
 	src/HostViewModel.cpp
+	src/HostParameterViewModel.cpp
 	src/InstViewModel.cpp
 	src/NodeViewModel.cpp
 )
 set(MONITOR_HEADERS
+	include/PickRoleProxyModel.hpp
 	include/MonitorTheme.hpp
 	include/MonitorBackend.hpp
 	include/TrackerModel.hpp
@@ -27,6 +30,7 @@ set(MONITOR_HEADERS
 	include/MonitorViewModel.hpp
 	include/SelectedItemViewModel.hpp
 	include/HostViewModel.hpp
+	include/HostParameterViewModel.hpp
 	include/InstViewModel.hpp
 	include/NodeViewModel.hpp
 )
