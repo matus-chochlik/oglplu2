@@ -38,11 +38,16 @@ public:
     auto data(const QModelIndex& index, int role) const -> QVariant final;
 
 private:
-    enum { shortLoadRole = Qt::UserRole + 0, longLoadRole = Qt::UserRole + 1 };
+    enum {
+        reservedValueRole = Qt::UserRole,
+        shortLoadRole = Qt::UserRole + 1,
+        longLoadRole = Qt::UserRole + 2
+    };
 
     MonitorBackend& _backend;
     PickRoleProxyModel _shortLoadModel;
 
+    eagine::identifier_t _hostId{0U};
     std::shared_ptr<HostParameterModel> _parameters;
 };
 //------------------------------------------------------------------------------

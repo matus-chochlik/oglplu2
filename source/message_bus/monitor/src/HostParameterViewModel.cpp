@@ -16,16 +16,19 @@ HostParameterViewModel::HostParameterViewModel(MonitorBackend& backend)
   , _shortLoadModel{*this, shortLoadRole} {}
 //------------------------------------------------------------------------------
 void HostParameterViewModel::notifyUpdated() {
+    if(_hostId && !_parameters) {
+        if(auto tracker{_backend.trackerModel()}) {
+            _parameters = tracker->hostParameters(_hostId);
+        }
+    } else if(!_hostId && _parameters) {
+        _parameters.reset();
+    }
     emit modelReset({});
-    emit _shortLoadModel.modelReset({});
+    _shortLoadModel.notifyUpdated();
 }
 //------------------------------------------------------------------------------
 void HostParameterViewModel::setHostId(eagine::identifier_t hostId) {
-    if(auto tracker{_backend.trackerModel()}) {
-        _parameters = tracker->hostParameters(hostId);
-    } else {
-        _parameters.reset();
-    }
+    _hostId = hostId;
     notifyUpdated();
 }
 //------------------------------------------------------------------------------
@@ -70,8 +73,6 @@ auto HostParameterViewModel::data(const QModelIndex& index, int role) const
                 return QVariant{*(v.begin() + (params.count() - row - 1))};
             };
             switch(role) {
-                case Qt::DisplayRole:
-                    return {0.F};
                 case shortLoadRole:
                     return get(params.shortAverageLoadHistory());
                 case longLoadRole:

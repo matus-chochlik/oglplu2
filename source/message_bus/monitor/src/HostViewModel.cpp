@@ -193,7 +193,6 @@ void HostViewModel::onHostIdChanged(eagine::identifier_t hostId) {
         _host = {};
     }
     emit infoChanged();
-
     _parameters.setHostId(hostId);
 }
 //------------------------------------------------------------------------------

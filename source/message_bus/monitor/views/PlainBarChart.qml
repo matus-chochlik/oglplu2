@@ -32,7 +32,7 @@ Row {
 			color: plainBarChart.barColor
 
 			width: bars.barWidth()
-			height: plainBarChart.height * (0.05 + 0.95 * display)
+			height: plainBarChart.height * (0.05 + 0.95 * (value ? value : 0))
 		}
 }
 }
