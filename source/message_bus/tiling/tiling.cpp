@@ -1,3 +1,9 @@
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the GNU GENERAL PUBLIC LICENSE version 3.
+/// See http://www.gnu.org/licenses/gpl-3.0.txt
+///
+
 #include "TilingBackend.hpp"
 #include "TilingViewModel.hpp"
 #include <eagine/main_ctx.hpp>
