@@ -75,6 +75,7 @@ auto NodeParameterViewModel::data(const QModelIndex& index, int role) const
             switch(role) {
                 case pingSuccessRateRole:
                     return get(params.pingSuccessRateHistory());
+                case pingResponseTimeRole:
                 default:
                     break;
             }

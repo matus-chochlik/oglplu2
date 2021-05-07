@@ -41,7 +41,8 @@ public:
 private:
     enum {
         reservedValueRole = Qt::UserRole,
-        pingSuccessRateRole = Qt::UserRole + 1
+        pingSuccessRateRole = Qt::UserRole + 1,
+        pingResponseTimeRole = Qt::UserRole + 2
     };
 
     MonitorBackend& _backend;
