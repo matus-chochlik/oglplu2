@@ -7,32 +7,43 @@ import QtQuick 2.2
 import QtQuick.Controls 2.4
 import "qrc:///views"
 
-Row {
+Pane {
 	id: plainBarChart
-    property variant model: null
+	property variant model: null
 	property color barColor: "gray"
-	
-	spacing: 2
 
-	Repeater {
-		id: bars
+	background: Rectangle {
+		color: "gray"
+		opacity: 0.1
+		radius: 2
+	}
+
+	contentItem: Row {
+		id: barArea
 		anchors.fill: parent
-		model: plainBarChart.model
 
-		function barWidth() {
-			return (
-				plainBarChart.width -
-				(bars.count - 1) * plainBarChart.spacing
-			) / (bars.count > 0 ? bars.count : 1)
+		spacing: 2
+
+		Repeater {
+			id: bars
+			anchors.fill: parent
+			model: plainBarChart.model
+
+			function barWidth() {
+				return (
+					barArea.width -
+					(bars.count - 1) * barArea.spacing
+				) / (bars.count > 0 ? bars.count : 1)
+			}
+
+			Rectangle {
+				id: bar
+				anchors.bottom: bars.bottom
+				color: plainBarChart.barColor
+
+				width: bars.barWidth()
+				height: barArea.height * (0.05 + 0.95 * (value ? value : 0))
+			}
 		}
-
-		Rectangle {
-			id: bar
-			anchors.bottom: bars.bottom
-			color: plainBarChart.barColor
-
-			width: bars.barWidth()
-			height: plainBarChart.height * (0.05 + 0.95 * (value ? value : 0))
-		}
-}
+	}
 }
