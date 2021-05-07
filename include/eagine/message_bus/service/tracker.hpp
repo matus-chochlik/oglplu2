@@ -223,14 +223,9 @@ public:
                         if(!host.total_swap_size()) {
                             this->query_total_swap_size(node_id);
                         }
-                        const bool should_query_sensors =
-                          host.should_query_sensors();
-                        if(should_query_sensors) {
-                            this->query_short_average_load(node_id);
-                            this->query_long_average_load(node_id);
-                            this->query_free_ram_size(node_id);
-                            this->query_free_swap_size(node_id);
-                            this->query_power_supply_kind(node_id);
+
+                        if(host.should_query_sensors()) {
+                            this->query_sensors(node_id);
                             host.sensors_queried();
                         }
                     }

@@ -100,6 +100,16 @@ protected:
           &main_ctx::get().system(),
           EAGINE_MEM_FUNC_C(
             system_info, power_supply))[EAGINE_MSG_ID(eagiSysInf, rqPwrSuply)]);
+
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(
+            eagiSysInf, qryStats, system_info_provider, _handle_stats_query));
+
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(
+            eagiSysInf, qrySensors, system_info_provider, _handle_sensor_query));
     }
 
 private:
@@ -132,6 +142,27 @@ private:
 
     default_function_skeleton<power_supply_kind() noexcept, 32>
       _power_supply_kind;
+
+    auto
+    _handle_stats_query(const message_context& msg_ctx, stored_message& message)
+      -> bool {
+        _cpu_concurrent_threads.invoke_by(msg_ctx, message);
+        _memory_page_size.invoke_by(msg_ctx, message);
+        _total_ram_size.invoke_by(msg_ctx, message);
+        _total_swap_size.invoke_by(msg_ctx, message);
+        return true;
+    }
+
+    auto _handle_sensor_query(
+      const message_context& msg_ctx,
+      stored_message& message) -> bool {
+        _short_average_load.invoke_by(msg_ctx, message);
+        _long_average_load.invoke_by(msg_ctx, message);
+        _free_ram_size.invoke_by(msg_ctx, message);
+        _free_swap_size.invoke_by(msg_ctx, message);
+        _power_supply_kind.invoke_by(msg_ctx, message);
+        return true;
+    }
 };
 //------------------------------------------------------------------------------
 /// @brief Service consuming basic information about endpoint's host system.
@@ -265,6 +296,31 @@ public:
     /// @see query_power_supply_kind
     signal<void(const result_context&, power_supply_kind)>
       power_supply_kind_received;
+
+    /// @brief Queries all endpoint's system stats information.
+    /// @see query_cpu_concurrent_threads
+    /// @see query_memory_page_size
+    /// @see query_total_ram_size
+    /// @see query_total_swap_size
+    void query_stats(identifier_t endpoint_id) {
+        message_view message{};
+        auto msg_id{EAGINE_MSG_ID(eagiSysInf, qryStats)};
+        message.set_target_id(endpoint_id);
+        this->bus().post(msg_id, message);
+    }
+
+    /// @brief Queries all endpoint's sensor information.
+    /// @see query_short_average_load
+    /// @see query_long_average_load
+    /// @see query_free_ram_size
+    /// @see query_free_swap_size
+    /// @see query_power_supply_kind
+    void query_sensors(identifier_t endpoint_id) {
+        message_view message{};
+        auto msg_id{EAGINE_MSG_ID(eagiSysInf, qrySensors)};
+        message.set_target_id(endpoint_id);
+        this->bus().post(msg_id, message);
+    }
 
 private:
     default_callback_invoker<std::chrono::duration<float>(), 32> _uptime;
