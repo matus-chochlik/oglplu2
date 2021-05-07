@@ -27,7 +27,7 @@ public:
 class remote_host_impl {
 public:
     timeout is_alive{std::chrono::seconds{300}};
-    timeout should_query_sensors{std::chrono::seconds{15}};
+    timeout should_query_sensors{std::chrono::seconds{10}};
     std::string hostname;
     span_size_t cpu_concurrent_threads{-1};
     span_size_t total_ram_size{-1};

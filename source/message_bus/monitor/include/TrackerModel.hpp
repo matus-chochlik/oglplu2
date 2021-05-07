@@ -7,38 +7,14 @@
 #ifndef EAGINE_MESSAGE_BUS_MONITOR_TRACKER_MODEL
 #define EAGINE_MESSAGE_BUS_MONITOR_TRACKER_MODEL
 
+#include "HostParameterModel.hpp"
 #include <eagine/main_ctx_object.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/tracker.hpp>
-#include <eagine/value_with_history.hpp>
 #include <QObject>
-#include <map>
 
 class MonitorBackend;
-class TrackerModel;
-//------------------------------------------------------------------------------
-class HostParameterModel {
-
-public:
-    auto count() const noexcept {
-        return 128;
-    }
-
-    auto shortAverageLoadHistory() const noexcept -> auto& {
-        return _short_average_load_history.as_value();
-    }
-
-    auto longAverageLoadHistory() const noexcept -> auto& {
-        return _long_average_load_history.as_value();
-    }
-
-private:
-    friend class TrackerModel;
-
-    eagine::variable_with_history<float, 128> _short_average_load_history;
-    eagine::variable_with_history<float, 128> _long_average_load_history;
-};
 //------------------------------------------------------------------------------
 class TrackerModel
   : public QObject

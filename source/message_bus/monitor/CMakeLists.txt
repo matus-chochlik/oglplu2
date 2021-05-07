@@ -30,6 +30,7 @@ set(MONITOR_HEADERS
 	include/MonitorViewModel.hpp
 	include/SelectedItemViewModel.hpp
 	include/HostViewModel.hpp
+	include/HostParameterModel.hpp
 	include/HostParameterViewModel.hpp
 	include/InstViewModel.hpp
 	include/NodeViewModel.hpp

@@ -40,6 +40,7 @@ Pane {
 				id: bar
 				anchors.bottom: bars.bottom
 				color: plainBarChart.barColor
+				antialiasing: true
 
 				width: bars.barWidth()
 				height: barArea.height * (0.05 + 0.95 * (value ? value : 0))

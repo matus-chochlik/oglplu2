@@ -13,7 +13,7 @@ TilingBackend::TilingBackend(eagine::main_ctx_parent parent)
   , _tilingModel{std::make_shared<TilingModel>(*this)}
   , _tilingTheme{*this}
   , _tilingViewModel{*this} {
-    _timerId = startTimer(20);
+    _timerId = startTimer(10);
     emit tilingModelChanged();
 }
 //------------------------------------------------------------------------------
