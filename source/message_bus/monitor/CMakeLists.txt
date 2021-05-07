@@ -20,12 +20,14 @@ set(MONITOR_SOURCES
 	src/HostParameterViewModel.cpp
 	src/InstViewModel.cpp
 	src/NodeViewModel.cpp
+	src/NodeParameterViewModel.cpp
 )
 set(MONITOR_HEADERS
 	include/PickRoleProxyModel.hpp
 	include/MonitorTheme.hpp
 	include/MonitorBackend.hpp
 	include/TrackerModel.hpp
+	include/NodeParameterModel.hpp
 	include/NodeListViewModel.hpp
 	include/MonitorViewModel.hpp
 	include/SelectedItemViewModel.hpp
@@ -34,6 +36,7 @@ set(MONITOR_HEADERS
 	include/HostParameterViewModel.hpp
 	include/InstViewModel.hpp
 	include/NodeViewModel.hpp
+	include/NodeParameterViewModel.hpp
 )
 add_executable(
 	eagine-message_bus-monitor

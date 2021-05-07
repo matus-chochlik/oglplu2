@@ -725,9 +725,17 @@ public:
     /// @see is_pingable
     void set_ping_interval(std::chrono::milliseconds) noexcept;
 
+    /// @brief Returns the last ping roundtrip time.
+    /// @see is_responsive
+    /// @see is_pingable
+    /// @see ping_success_rate
+    auto ping_roundtrip_time() const noexcept
+      -> valid_if_not_zero<std::chrono::microseconds>;
+
     /// @brief Returns the ping success rate for the remote node (0.0, 1.0).
     /// @see is_responsive
     /// @see is_pingable
+    /// @see ping_roundtrip_time
     auto ping_success_rate() const noexcept -> valid_if_between_0_1<float>;
 
     /// @brief Indicates if the remote node is responsive.

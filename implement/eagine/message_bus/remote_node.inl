@@ -51,7 +51,7 @@ public:
     tribool is_bridge_node{indeterminate};
     host_id_t host_id{0U};
 
-    timeout should_ping{std::chrono::seconds{15}};
+    timeout should_ping{std::chrono::seconds{5}};
     span_size_t pings_sent{0};
     span_size_t pings_responded{0};
     span_size_t pings_timeouted{0};
@@ -598,6 +598,17 @@ void remote_node::set_ping_interval(std::chrono::milliseconds ms) noexcept {
     if(auto impl{_impl()}) {
         extract(impl).should_ping.reset(ms, nothing);
     }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::ping_roundtrip_time() const noexcept
+  -> valid_if_not_zero<std::chrono::microseconds> {
+    if(auto impl{_impl()}) {
+        if(extract(impl).pings_responded > 0) {
+            return {extract(impl).last_ping_time};
+        }
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

@@ -8,11 +8,13 @@
 #define EAGINE_MESSAGE_BUS_MONITOR_TRACKER_MODEL
 
 #include "HostParameterModel.hpp"
+#include "NodeParameterModel.hpp"
 #include <eagine/main_ctx_object.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/tracker.hpp>
 #include <QObject>
+#include <map>
 
 class MonitorBackend;
 //------------------------------------------------------------------------------
@@ -35,6 +37,8 @@ public:
 
     auto hostParameters(eagine::identifier_t hostId) noexcept
       -> std::shared_ptr<HostParameterModel>;
+    auto nodeParameters(eagine::identifier_t nodeId) noexcept
+      -> std::shared_ptr<NodeParameterModel>;
 signals:
     void nodeKindChanged(const eagine::msgbus::remote_node&);
     void nodeRelocated(const eagine::msgbus::remote_node&);
@@ -68,6 +72,8 @@ private:
 
     std::map<eagine::identifier_t, std::weak_ptr<HostParameterModel>>
       _host_parameters;
+    std::map<eagine::identifier_t, std::weak_ptr<NodeParameterModel>>
+      _node_parameters;
 };
 //------------------------------------------------------------------------------
 #endif

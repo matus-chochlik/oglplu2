@@ -13,7 +13,8 @@ NodeViewModel::NodeViewModel(
   SelectedItemViewModel& selectedItemViewModel)
   : QObject{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(NodeVM), backend}
-  , _backend{backend} {
+  , _backend{backend}
+  , _parameters{backend} {
     connect(
       &_backend,
       &MonitorBackend::trackerModelChanged,
@@ -91,6 +92,10 @@ auto NodeViewModel::getPingSuccessRate() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto NodeViewModel::getParameters() -> QAbstractItemModel* {
+    return &_parameters;
+}
+//------------------------------------------------------------------------------
 void NodeViewModel::onTrackerModelChanged() {
     if(auto trackerModel{_backend.trackerModel()}) {
         connect(
@@ -121,11 +126,13 @@ void NodeViewModel::onNodeIdChanged(eagine::identifier_t nodeId) {
         _node = {};
     }
     emit infoChanged();
+    _parameters.setNodeId(nodeId);
 }
 //------------------------------------------------------------------------------
 void NodeViewModel::onNodeInfoChanged(const remote_node& node) {
     if(node.id() == _node.id()) {
         emit infoChanged();
+        _parameters.notifyUpdated();
     }
 }
 //------------------------------------------------------------------------------

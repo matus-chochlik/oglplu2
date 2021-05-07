@@ -4,9 +4,10 @@
 /// See accompanying file LICENSE_1_0.txt or copy at
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
+#include <QDebug>
 
-#include "NodeListViewModel.hpp"
 #include "MonitorBackend.hpp"
+#include "NodeListViewModel.hpp"
 #include "TrackerModel.hpp"
 #include <algorithm>
 //------------------------------------------------------------------------------
@@ -14,6 +15,17 @@
 //------------------------------------------------------------------------------
 auto NodeListViewModel::NodeInfo::totalCount() const noexcept -> int {
     return 1;
+}
+//------------------------------------------------------------------------------
+void NodeListViewModel::NodeInfo::update(MonitorBackend& backend) noexcept {
+    if(!parameters) {
+        if(auto nodeId{node.id()}) {
+            if(auto trackerModel{backend.trackerModel()}) {
+                parameters =
+                  extract(trackerModel).nodeParameters(extract(nodeId));
+            }
+        }
+    }
 }
 //------------------------------------------------------------------------------
 // InstanceInfo
@@ -306,6 +318,7 @@ auto NodeListViewModel::Data::updateNode(
                 inst2Host[instId] = hostId;
 
                 auto& nodeInfo = instInfo.nodes[nodeId];
+                nodeInfo.update(backend);
                 const auto prevNodePos = prevInstInfo.nodes.find(nodeId);
                 if(prevNodePos != prevInstInfo.nodes.end()) {
                     auto& prevNodeInfo = prevNodePos->second;
@@ -324,7 +337,9 @@ auto NodeListViewModel::Data::updateNode(
                     hostInfo.host = node.host();
                 }
                 for(auto& [otherNodeId, otherNodeInfo] : prevInstInfo.nodes) {
-                    instInfo.nodes[otherNodeId] = std::move(otherNodeInfo);
+                    auto& nodeInfo = instInfo.nodes[otherNodeId];
+                    nodeInfo = std::move(otherNodeInfo);
+                    nodeInfo.update(backend);
                     node2Inst[otherNodeId] = instId;
                 }
 
@@ -353,6 +368,7 @@ auto NodeListViewModel::Data::updateNode(
     }
 
     auto& nodeInfo = instInfo.nodes[nodeId];
+    nodeInfo.update(backend);
     nodeInfo.node = node;
     node2Inst[nodeId] = instId;
     inst2Host[instId] = hostId;

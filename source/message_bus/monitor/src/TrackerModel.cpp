@@ -48,6 +48,21 @@ auto TrackerModel::hostParameters(eagine::identifier_t hostId) noexcept
     return result;
 }
 //------------------------------------------------------------------------------
+auto TrackerModel::nodeParameters(eagine::identifier_t nodeId) noexcept
+  -> std::shared_ptr<NodeParameterModel> {
+    auto pos = _node_parameters.find(nodeId);
+    std::shared_ptr<NodeParameterModel> result;
+    if(pos == _node_parameters.end()) {
+        pos = _node_parameters.emplace(nodeId, result).first;
+    }
+    result = pos->second.lock();
+    if(!result) {
+        result = std::make_shared<NodeParameterModel>();
+        pos->second = result;
+    }
+    return result;
+}
+//------------------------------------------------------------------------------
 void TrackerModel::handleHostChanged(
   eagine::msgbus::remote_host& host,
   eagine::msgbus::remote_host_changes changes) {
@@ -99,6 +114,21 @@ void TrackerModel::handleNodeChanged(
   eagine::msgbus::remote_node& node,
   eagine::msgbus::remote_node_changes changes) {
     using eagine::msgbus::remote_node_change;
+
+    if(changes.has(remote_node_change::response_rate)) {
+        using eagine::extract;
+        if(auto id{node.id()}) {
+            const auto pos = _node_parameters.find(extract(id));
+            if(pos != _node_parameters.end()) {
+                if(auto model{pos->second.lock()}) {
+                    if(auto value{node.ping_success_rate()}) {
+                        extract(model)._ping_success_rate_history =
+                          extract(value);
+                    }
+                }
+            }
+        }
+    }
 
     if(changes.has(remote_node_change::kind)) {
         emit nodeKindChanged(node);

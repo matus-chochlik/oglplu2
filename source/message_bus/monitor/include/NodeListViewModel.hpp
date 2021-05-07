@@ -14,6 +14,7 @@
 #include <QObject>
 
 class MonitorBackend;
+class NodeParameterModel;
 class HostParameterModel;
 //------------------------------------------------------------------------------
 class NodeListViewModel
@@ -83,7 +84,9 @@ private:
 
     struct NodeInfo {
         remote_node node;
+        std::shared_ptr<NodeParameterModel> parameters;
         auto totalCount() const noexcept -> int;
+        void update(MonitorBackend&) noexcept;
     };
 
     struct InstanceInfo {

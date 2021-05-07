@@ -31,15 +31,11 @@ Pane {
 			Label {
 				text: qsTr("Responsivity")
 			}
-			ProgressBar {
+			PlainBarChart {
 				Layout.columnSpan: 5
+				Layout.preferredHeight: 25
 				Layout.fillWidth: true
-				from: 0.0
-				to: 1.0
-				value: info.node && info.node.pingSuccessRate
-					? info.node.pingSuccessRate
-					: 0.0
-				indeterminate: !(info.node && info.node.pingSuccessRate)
+				model: info.node.parameters.pingSuccessRate
 			}
 		}
 		ParentInstanceView {
