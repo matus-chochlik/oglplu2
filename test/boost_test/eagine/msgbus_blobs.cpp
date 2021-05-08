@@ -94,7 +94,8 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
         }
     }
 
-    msgbus::blob_manipulator blobs{};
+    test_main_ctx_object tmo;
+    msgbus::blob_manipulator blobs{tmo};
 
     for(const auto& [key, blob] : test_blobs) {
         blobs.push_outgoing(
@@ -117,11 +118,12 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
           msgbus::blob_manipulator::filter_function(allow), msg);
     };
 
-    blobs.process_outgoing(
-      msgbus::blob_manipulator::send_handler(fake_send), 8 * 1024);
+    blobs.process_outgoing({construct_from, fake_send}, 8 * 1024);
 
-    auto test_fetch =
-      [&test_blobs](message_id mid, const msgbus::message_view& msg) -> bool {
+    auto test_fetch = [&test_blobs](
+                        message_id mid,
+                        msgbus::message_age,
+                        const msgbus::message_view& msg) -> bool {
         BOOST_CHECK(msg.priority == msgbus::message_priority::critical);
 
         auto pos = test_blobs.find(mid);
@@ -134,8 +136,7 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
         return true;
     };
 
-    const auto count =
-      blobs.fetch_all(msgbus::blob_manipulator::fetch_handler(test_fetch));
+    const auto count = blobs.fetch_all({construct_from, test_fetch});
 
     BOOST_CHECK_EQUAL(count, test_blobs.size());
 }
@@ -157,7 +158,8 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_2) {
         }
     }
 
-    msgbus::blob_manipulator blobs{};
+    test_main_ctx_object tmo;
+    msgbus::blob_manipulator blobs{tmo};
 
     auto fake_send =
       [&blobs](message_id mid, const msgbus::message_view& msg) -> bool {
@@ -170,8 +172,10 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_2) {
           msgbus::blob_manipulator::filter_function(allow), msg);
     };
 
-    auto test_fetch =
-      [&test_blobs](message_id mid, const msgbus::message_view& msg) -> bool {
+    auto test_fetch = [&test_blobs](
+                        message_id mid,
+                        msgbus::message_age,
+                        const msgbus::message_view& msg) -> bool {
         BOOST_CHECK(msg.priority == msgbus::message_priority::high);
 
         auto pos = test_blobs.find(mid);
@@ -195,11 +199,9 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_2) {
           {std::chrono::seconds(3600)},
           msgbus::message_priority::high);
 
-        blobs.process_outgoing(
-          msgbus::blob_manipulator::send_handler(fake_send), 8 * 1024);
+        blobs.process_outgoing({construct_from, fake_send}, 8 * 1024);
 
-        count +=
-          blobs.fetch_all(msgbus::blob_manipulator::fetch_handler(test_fetch));
+        count += blobs.fetch_all({construct_from, test_fetch});
     }
 
     BOOST_CHECK_EQUAL(count, test_blobs.size());

@@ -39,8 +39,6 @@ private:
     logger_backend* const _backend{nullptr};
 };
 
-class application_config;
-
 /// @brief Base class for main context objects.
 /// @ingroup main_context
 ///
