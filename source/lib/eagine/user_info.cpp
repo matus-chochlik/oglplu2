@@ -12,6 +12,6 @@
 #include <eagine/main_ctx.hpp>
 
 #include "implement.inl"
-#include <eagine/watchdog.hpp>
+#include <eagine/user_info.hpp>
 #include "epilogue.inl"
 // clang-format on

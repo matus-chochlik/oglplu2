@@ -10,6 +10,7 @@
 #include "prologue.inl"
 #include <eagine/application_config.hpp>
 #include <eagine/main_ctx.hpp>
+#include <eagine/system_info.hpp>
 #include <eagine/message_bus/serialize.hpp>
 #include <eagine/message_bus/context.hpp>
 #include <eagine/logging/entry.hpp>

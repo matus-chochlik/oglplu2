@@ -9,6 +9,7 @@
 #include <eagine/data_baking.hpp>
 #include <eagine/input_data.hpp>
 #include <eagine/main_ctx.hpp>
+#include <eagine/main_fwd.hpp>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <eagine/valid_if/one_of.hpp>

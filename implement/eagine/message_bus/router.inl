@@ -11,6 +11,7 @@
 #include <eagine/main_ctx.hpp>
 #include <eagine/message_bus/context.hpp>
 #include <eagine/message_bus/serialize.hpp>
+#include <eagine/system_info.hpp>
 #include <thread>
 
 namespace eagine::msgbus {

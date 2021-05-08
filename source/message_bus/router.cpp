@@ -8,6 +8,7 @@
 #include "lib_common_pki.hpp"
 #include <eagine/logging/root_logger.hpp>
 #include <eagine/main_ctx.hpp>
+#include <eagine/main_fwd.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/direct.hpp>

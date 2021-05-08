@@ -6,6 +6,7 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/file_contents.hpp>
+#include <eagine/logging/logger.hpp>
 #include <eagine/main.hpp>
 
 #include <eagine/ssl.hpp>

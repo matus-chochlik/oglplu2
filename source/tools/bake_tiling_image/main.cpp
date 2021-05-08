@@ -8,6 +8,7 @@
 
 #include <eagine/integer_range.hpp>
 #include <eagine/main_ctx.hpp>
+#include <eagine/main_fwd.hpp>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/one_of.hpp>
 #include <eagine/valid_if/positive.hpp>

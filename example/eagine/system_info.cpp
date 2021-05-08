@@ -7,6 +7,7 @@
 ///
 #include <eagine/main.hpp>
 #include <eagine/reflect/enumerators.hpp>
+#include <eagine/system_info.hpp>
 #include <iomanip>
 #include <iostream>
 

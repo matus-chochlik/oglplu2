@@ -7,6 +7,7 @@
 ///
 #include <eagine/identifier_ctr.hpp>
 #include <eagine/main_ctx.hpp>
+#include <eagine/main_fwd.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>

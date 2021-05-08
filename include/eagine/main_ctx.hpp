@@ -8,15 +8,11 @@
 #ifndef EAGINE_MAIN_CTX_HPP
 #define EAGINE_MAIN_CTX_HPP
 
-#include "build_info.hpp"
-#include "compiler_info.hpp"
-#include "identifier_t.hpp"
-#include "logging/logger.hpp"
+#include "identifier.hpp"
 #include "logging/root_logger_opts.hpp"
+#include "main_ctx_fwd.hpp"
 #include "memory/buffer_fwd.hpp"
 #include "program_args.hpp"
-#include "system_info.hpp"
-#include "user_info.hpp"
 
 namespace eagine {
 
@@ -34,9 +30,6 @@ struct main_ctx_options {
     root_logger_options logger_opts{};
 };
 
-class data_compressor;
-class process_watchdog;
-
 /// @brief Class for a single-instance object providing useful information ans services.
 /// @ingroup main_context
 ///
@@ -45,7 +38,7 @@ class process_watchdog;
 /// throughout the system.
 class main_ctx {
 public:
-    main_ctx(master_ctx&) noexcept;
+    main_ctx(main_ctx_storage&) noexcept;
 
     /// @brief Not move constructible.
     main_ctx(main_ctx&&) = delete;
@@ -154,10 +147,6 @@ private:
 
     static auto _single_ptr() noexcept -> main_ctx*&;
 };
-
-#if !EAGINE_IMPLEMENTING_LIBRARY
-extern auto main_impl(int, const char**, const main_ctx_options&) -> int;
-#endif
 
 } // namespace eagine
 

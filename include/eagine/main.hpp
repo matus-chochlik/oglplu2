@@ -10,11 +10,18 @@
 
 #include "config/basic.hpp"
 #include "main_ctx.hpp"
+#include "main_fwd.hpp"
 
+#ifndef EAGINE_IMPLEMENTING_LIBRARY
 // NOLINTNEXTLINE(misc-definitions-in-headers)
 auto main(int argc, const char** argv) -> int {
     eagine::main_ctx_options options;
     return eagine::main_impl(argc, argv, options);
 }
+#endif
+
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/main.inl>
+#endif
 
 #endif // EAGINE_MAIN_HPP

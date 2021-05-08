@@ -7,6 +7,7 @@
 #include "TilingBackend.hpp"
 #include "TilingViewModel.hpp"
 #include <eagine/main_ctx.hpp>
+#include <eagine/main_fwd.hpp>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>

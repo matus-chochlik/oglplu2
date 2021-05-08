@@ -14,6 +14,7 @@
 #include <eagine/ecs/entity/string.hpp>
 #include <eagine/ecs/rel_storage.hpp>
 #include <eagine/ecs/storage_caps.hpp>
+#include <eagine/logging/logger.hpp>
 #include <eagine/main.hpp>
 #include <iostream>
 

@@ -9,6 +9,7 @@
 #include <eagine/config/platform.hpp>
 #include <eagine/logging/root_logger.hpp>
 #include <eagine/main_ctx.hpp>
+#include <eagine/main_fwd.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <eagine/message_bus/bridge.hpp>

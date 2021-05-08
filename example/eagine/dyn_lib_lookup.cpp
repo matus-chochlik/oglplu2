@@ -7,6 +7,7 @@
 ///
 
 #include <eagine/dynamic_library.hpp>
+#include <eagine/logging/logger.hpp>
 #include <eagine/main.hpp>
 #include <iostream>
 

@@ -29,7 +29,7 @@ auto application_config_initial(
 class main_ctx_log_backend_getter {
 public:
     main_ctx_log_backend_getter() noexcept;
-    main_ctx_log_backend_getter(master_ctx&) noexcept;
+    main_ctx_log_backend_getter(main_ctx_storage&) noexcept;
 
     auto operator()() noexcept -> auto* {
         return _backend;
@@ -37,28 +37,6 @@ public:
 
 private:
     logger_backend* const _backend{nullptr};
-};
-
-/// @brief Helper class used to initialize main context objects.
-/// @ingroup main_context
-/// @see main_ctx_object
-class main_ctx_object_parent_info {
-public:
-    /// @brief Construction from main_ctx instance.
-    main_ctx_object_parent_info(main_ctx&) noexcept {}
-
-    main_ctx_object_parent_info(master_ctx& ctx) noexcept
-      : _context{&ctx} {}
-
-    /// @brief Construction from main context object.
-    main_ctx_object_parent_info(const main_ctx_object& obj) noexcept
-      : _object{&obj} {}
-
-private:
-    friend class main_ctx_object;
-
-    master_ctx* _context{nullptr};
-    const main_ctx_object* _object{nullptr};
 };
 
 class application_config;

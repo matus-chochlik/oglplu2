@@ -7,6 +7,7 @@
 #include "MonitorViewModel.hpp"
 #include "SelectedItemViewModel.hpp"
 #include <eagine/main_ctx.hpp>
+#include <eagine/main_fwd.hpp>
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>

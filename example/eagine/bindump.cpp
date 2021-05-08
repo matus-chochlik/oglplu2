@@ -7,15 +7,15 @@
 ///
 #include <eagine/bindump.hpp>
 #include <eagine/file_contents.hpp>
+#include <eagine/main.hpp>
 #include <eagine/program_args.hpp>
 #include <iostream>
 
-auto main(int argc, const char** argv) -> int {
-    using namespace eagine;
+namespace eagine {
 
-    program_args args(argc, argv);
+auto main(main_ctx& ctx) -> int {
 
-    for(auto& arg : args) {
+    for(auto& arg : ctx.args()) {
         if(!arg.starts_with("-")) {
             if(arg.prev().is_tag("-f", "--file")) {
                 file_contents fc(arg.get());
@@ -41,3 +41,5 @@ auto main(int argc, const char** argv) -> int {
 
     return 0;
 }
+
+} // namespace eagine
