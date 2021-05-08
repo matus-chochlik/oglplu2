@@ -315,7 +315,6 @@ auto NodeListViewModel::Data::updateNode(
                     instInfo.instance = node.instance();
                 }
                 node2Inst[nodeId] = instId;
-                inst2Host[instId] = hostId;
 
                 auto& nodeInfo = instInfo.nodes[nodeId];
                 nodeInfo.update(backend);
@@ -327,8 +326,8 @@ auto NodeListViewModel::Data::updateNode(
                 } else {
                     nodeInfo.node = node;
                 }
-                EAGINE_ASSERT(nodeInfo.node);
 
+                EAGINE_ASSERT(nodeInfo.node);
                 relocated = true;
             }
 
@@ -336,6 +335,8 @@ auto NodeListViewModel::Data::updateNode(
                 if(!hostInfo.host) {
                     hostInfo.host = node.host();
                 }
+                inst2Host[instId] = hostId;
+
                 for(auto& [otherNodeId, otherNodeInfo] : prevInstInfo.nodes) {
                     auto& nodeInfo = instInfo.nodes[otherNodeId];
                     nodeInfo = std::move(otherNodeInfo);
@@ -343,7 +344,6 @@ auto NodeListViewModel::Data::updateNode(
                     node2Inst[otherNodeId] = instId;
                 }
 
-                inst2Host[instId] = hostId;
                 prevInstInfo.nodes.clear();
                 relocated = true;
             }

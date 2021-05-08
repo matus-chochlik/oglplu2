@@ -582,6 +582,12 @@ auto remote_node::subscribes_to(message_id msg_id) const noexcept -> tribool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node::can_query_system_info() const noexcept -> tribool {
+    return subscribes_to(EAGINE_MSG_ID(eagiSysInf, qryStats)) ||
+           subscribes_to(EAGINE_MSG_ID(eagiSysInf, qrySensors));
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node::is_pingable() const noexcept -> tribool {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);

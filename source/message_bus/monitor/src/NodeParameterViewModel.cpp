@@ -28,8 +28,11 @@ void NodeParameterViewModel::notifyUpdated() {
 }
 //------------------------------------------------------------------------------
 void NodeParameterViewModel::setNodeId(eagine::identifier_t nodeId) {
-    _nodeId = nodeId;
-    notifyUpdated();
+    if(_nodeId != nodeId) {
+        _nodeId = nodeId;
+        _parameters.reset();
+        notifyUpdated();
+    }
 }
 //------------------------------------------------------------------------------
 auto NodeParameterViewModel::getPingSuccessRate() -> QAbstractItemModel* {

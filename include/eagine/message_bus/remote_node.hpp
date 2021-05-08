@@ -716,6 +716,10 @@ public:
     /// @brief Indicates if the remote node subscribes to the specified message type.
     auto subscribes_to(message_id msg_id) const noexcept -> tribool;
 
+    /// @brief Indicates if the remote node can query system info
+    /// @see subscribes_to
+    auto can_query_system_info() const noexcept -> tribool;
+
     /// @brief Indicates if the remote node is pingable.
     /// @see set_ping_interval
     /// @see is_responsive

@@ -28,8 +28,11 @@ void HostParameterViewModel::notifyUpdated() {
 }
 //------------------------------------------------------------------------------
 void HostParameterViewModel::setHostId(eagine::identifier_t hostId) {
-    _hostId = hostId;
-    notifyUpdated();
+    if(_hostId != hostId) {
+        _hostId = hostId;
+        _parameters.reset();
+        notifyUpdated();
+    }
 }
 //------------------------------------------------------------------------------
 auto HostParameterViewModel::getShortLoad() -> QAbstractItemModel* {

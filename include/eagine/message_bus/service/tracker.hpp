@@ -224,9 +224,11 @@ public:
                             this->query_total_swap_size(node_id);
                         }
 
-                        if(host.should_query_sensors()) {
-                            this->query_sensors(node_id);
-                            host.sensors_queried();
+                        if(node.can_query_system_info()) {
+                            if(host.should_query_sensors()) {
+                                this->query_sensors(node_id);
+                                host.sensors_queried();
+                            }
                         }
                     }
                 }
@@ -305,7 +307,7 @@ protected:
 
 private:
     resetting_timeout _should_query_topology{std::chrono::seconds{15}, nothing};
-    resetting_timeout _should_query_info{std::chrono::seconds{10}};
+    resetting_timeout _should_query_info{std::chrono::seconds{5}};
 
     remote_node_tracker _tracker{};
 
