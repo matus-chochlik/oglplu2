@@ -253,27 +253,27 @@ void NodeListViewModel::Data::fixupHierarchy(
         for(auto& instEntry : hostInfo.instances) {
             auto& instInfo = instEntry.second;
 
-            if(instEntry.first != instId) {
-                instInfo.nodes.erase(
-                  std::remove_if(
-                    instInfo.nodes.begin(),
-                    instInfo.nodes.end(),
-                    [nodeId](auto& nodeEntry) {
-                        return nodeEntry.first == nodeId;
-                    }),
-                  instInfo.nodes.end());
-            }
-        }
-        if(hostEntry.first != hostId) {
-            hostInfo.instances.erase(
+            instInfo.nodes.erase(
               std::remove_if(
-                hostInfo.instances.begin(),
-                hostInfo.instances.end(),
-                [instId](auto& instEntry) {
-                    return instEntry.first == instId;
+                instInfo.nodes.begin(),
+                instInfo.nodes.end(),
+                [this, nodeId, instId, &instEntry](auto& nodeEntry) {
+                    node2Inst[nodeId] = instId;
+                    return (instEntry.first != instId) &&
+                           (nodeEntry.first == nodeId);
                 }),
-              hostInfo.instances.end());
+              instInfo.nodes.end());
         }
+        hostInfo.instances.erase(
+          std::remove_if(
+            hostInfo.instances.begin(),
+            hostInfo.instances.end(),
+            [this, instId, hostId, &hostEntry](auto& instEntry) {
+                inst2Host[instId] = hostId;
+                return (hostEntry.first != hostId) &&
+                       (instEntry.first == instId);
+            }),
+          hostInfo.instances.end());
     }
     hosts.erase(
       std::remove_if(
