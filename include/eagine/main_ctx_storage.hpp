@@ -21,7 +21,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-class main_ctx_storage {
+class main_ctx_storage : public main_ctx_getters {
 public:
     main_ctx_storage(
       int argc,
@@ -46,55 +46,55 @@ public:
           .arg(EAGINE_ID(exePath), _exe_path);
     }
 
-    auto instance_id() const noexcept {
+    auto instance_id() const noexcept -> process_instance_id_t final {
         return _instance_id;
     }
 
-    auto args() noexcept -> auto& {
+    auto args() const noexcept -> const program_args& final {
         return _args;
     }
 
-    auto log() noexcept -> auto& {
+    auto log() noexcept -> logger& final {
         return _log_root;
     }
 
-    auto watchdog() noexcept -> auto& {
+    auto watchdog() noexcept -> process_watchdog& final {
         return _watchdog;
     }
 
-    auto config() noexcept -> auto& {
+    auto config() noexcept -> application_config& final {
         return _app_config;
     }
 
-    auto compiler() noexcept -> auto& {
+    auto compiler() const noexcept -> const compiler_info& final {
         return _cmplr_info;
     }
 
-    auto build() noexcept -> auto& {
+    auto build() const noexcept -> const build_info& final {
         return _bld_info;
     }
 
-    auto system() noexcept -> auto& {
+    auto system() noexcept -> system_info& final {
         return _sys_info;
     }
 
-    auto user() noexcept -> auto& {
+    auto user() noexcept -> user_info& final {
         return _usr_info;
     }
 
-    auto scratch_space() noexcept -> auto& {
+    auto scratch_space() noexcept -> memory::buffer& final {
         return _scratch_space;
     }
 
-    auto compressor() noexcept -> auto& {
+    auto compressor() noexcept -> data_compressor& final {
         return _compressor;
     }
 
-    auto exe_path() const noexcept -> string_view {
+    auto exe_path() const noexcept -> string_view final {
         return {_exe_path};
     }
 
-    auto app_name() const noexcept -> string_view {
+    auto app_name() const noexcept -> string_view final {
         return {_app_name};
     }
 

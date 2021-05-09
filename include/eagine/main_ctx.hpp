@@ -11,7 +11,6 @@
 #include "identifier.hpp"
 #include "logging/root_logger_opts.hpp"
 #include "main_ctx_fwd.hpp"
-#include "memory/buffer_fwd.hpp"
 #include "program_args.hpp"
 
 namespace eagine {
@@ -36,9 +35,9 @@ struct main_ctx_options {
 /// A single instance of this class is initialized in the main function
 /// and constructs several useful utility service objects that can be shared
 /// throughout the system.
-class main_ctx {
+class main_ctx : public main_ctx_getters {
 public:
-    main_ctx(main_ctx_storage&) noexcept;
+    main_ctx(main_ctx_getters&) noexcept;
 
     /// @brief Not move constructible.
     main_ctx(main_ctx&&) = delete;
@@ -52,7 +51,7 @@ public:
     /// @brief Not copy asignable.
     auto operator=(const main_ctx&) = delete;
 
-    ~main_ctx() noexcept;
+    ~main_ctx() noexcept final;
 
     /// @brief Returns the single instance.
     static inline auto get() noexcept -> main_ctx& {
@@ -60,84 +59,69 @@ public:
         return *_single_ptr();
     }
 
-    /// @brief Returns this process instance id. Not equal to system PID.
-    auto instance_id() const noexcept -> process_instance_id_t {
-        return _instance_id;
-    }
-
     /// @brief Does potentially expensive initialization and caching.
     auto preinitialize() noexcept -> main_ctx&;
 
-    /// @brief Returns a reference to compiler information instance.
-    /// @see build
-    auto compiler() const noexcept -> const compiler_info& {
-        return _cmplr_info;
+    auto instance_id() const noexcept -> process_instance_id_t final {
+        return _instance_id;
     }
 
-    /// @brief Returns a reference to build information instance.
-    /// @see compiler
-    auto build() const noexcept -> const build_info& {
-        return _bld_info;
-    }
-
-    /// @brief Returns a reference to program arguments wrapper.
-    auto args() noexcept -> program_args& {
-        return _args;
-    }
-
-    /// @brief Returns a reference to the root logger object.
-    auto log() noexcept -> logger& {
-        return _log;
-    }
-
-    /// @brief Returns a reference to process watchdog object.
-    auto watchdog() noexcept -> process_watchdog& {
-        return _watchdog;
-    }
-
-    /// @brief Returns a reference to application config object.
-    auto config() noexcept -> application_config& {
-        return _app_config;
-    }
-
-    /// @brief Returns a reference to system information object.
-    auto system() noexcept -> system_info& {
-        return _sys_info;
-    }
-
-    /// @brief Returns a reference to user information object.
-    auto user() noexcept -> user_info& {
-        return _usr_info;
-    }
-
-    /// @brief Returns a reference to shared temporary buffer.
-    auto scratch_space() noexcept -> memory::buffer& {
-        return _scratch_space;
-    }
-
-    /// @brief Returns a reference to shared data compressor object.
-    auto compressor() noexcept -> data_compressor& {
-        return _compressor;
-    }
-
-    /// @brief Returns the executable path.
-    auto exe_path() const noexcept -> string_view {
+    auto exe_path() const noexcept -> string_view final {
         return _exe_path;
     }
 
-    /// @brief Returns the application name.
-    auto app_name() const noexcept -> string_view {
+    auto app_name() const noexcept -> string_view final {
         return _app_name;
     }
 
+    auto args() const noexcept -> const program_args& final {
+        return _args;
+    }
+
+    auto compiler() const noexcept -> const compiler_info& final {
+        return _cmplr_info;
+    }
+
+    auto build() const noexcept -> const build_info& final {
+        return _bld_info;
+    }
+
+    auto system() noexcept -> system_info& final {
+        return _sys_info;
+    }
+
+    auto user() noexcept -> user_info& final {
+        return _usr_info;
+    }
+
+    auto log() noexcept -> logger& final {
+        return _log;
+    }
+
+    auto config() noexcept -> application_config& final {
+        return _app_config;
+    }
+
+    auto watchdog() noexcept -> process_watchdog& final {
+        return _watchdog;
+    }
+
+    auto compressor() noexcept -> data_compressor& final {
+        return _compressor;
+    }
+
+    auto scratch_space() noexcept -> memory::buffer& final {
+        return _scratch_space;
+    }
+
 private:
-    process_instance_id_t _instance_id{};
-    program_args& _args;
+    const process_instance_id_t _instance_id{};
+    const program_args& _args;
+    const compiler_info& _cmplr_info;
+    const build_info& _bld_info;
     logger& _log;
     process_watchdog& _watchdog;
     application_config& _app_config;
-    compiler_info& _cmplr_info;
-    build_info& _bld_info;
     system_info& _sys_info;
     user_info& _usr_info;
     memory::buffer& _scratch_space;

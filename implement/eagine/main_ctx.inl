@@ -16,20 +16,20 @@ auto main_ctx::_single_ptr() noexcept -> main_ctx*& {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-main_ctx::main_ctx(main_ctx_storage& storage) noexcept
-  : _instance_id{storage.instance_id()}
-  , _args{storage.args()}
-  , _log{storage.log()}
-  , _watchdog{storage.watchdog()}
-  , _app_config{storage.config()}
-  , _cmplr_info{storage.compiler()}
-  , _bld_info{storage.build()}
-  , _sys_info{storage.system()}
-  , _usr_info{storage.user()}
-  , _scratch_space{storage.scratch_space()}
-  , _compressor{storage.compressor()}
-  , _exe_path{storage.exe_path()}
-  , _app_name{storage.app_name()} {
+main_ctx::main_ctx(main_ctx_getters& src) noexcept
+  : _instance_id{src.instance_id()}
+  , _args{src.args()}
+  , _cmplr_info{src.compiler()}
+  , _bld_info{src.build()}
+  , _log{src.log()}
+  , _watchdog{src.watchdog()}
+  , _app_config{src.config()}
+  , _sys_info{src.system()}
+  , _usr_info{src.user()}
+  , _scratch_space{src.scratch_space()}
+  , _compressor{src.compressor()}
+  , _exe_path{src.exe_path()}
+  , _app_name{src.app_name()} {
     EAGINE_ASSERT(!_single_ptr());
     _single_ptr() = this;
     _log.configure(_app_config);
