@@ -51,7 +51,7 @@ public:
     /// @brief Not copy asignable.
     auto operator=(const main_ctx&) = delete;
 
-    ~main_ctx() noexcept final;
+    ~main_ctx() noexcept override;
 
     /// @brief Returns the single instance.
     static inline auto get() noexcept -> main_ctx& {
@@ -59,8 +59,7 @@ public:
         return *_single_ptr();
     }
 
-    /// @brief Does potentially expensive initialization and caching.
-    auto preinitialize() noexcept -> main_ctx&;
+    auto preinitialize() noexcept -> main_ctx& final;
 
     auto instance_id() const noexcept -> process_instance_id_t final {
         return _instance_id;
@@ -115,7 +114,8 @@ public:
     }
 
 private:
-    const process_instance_id_t _instance_id{};
+    const process_instance_id_t _instance_id;
+    main_ctx_getters& _source;
     const program_args& _args;
     const compiler_info& _cmplr_info;
     const build_info& _bld_info;

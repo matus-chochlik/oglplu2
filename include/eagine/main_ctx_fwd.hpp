@@ -34,35 +34,13 @@ class main_ctx_object_parent_info;
 /// @ingroup main_context
 using main_ctx_parent = const main_ctx_object_parent_info&;
 
-/// @brief Helper class used to initialize main context objects.
-/// @ingroup main_context
-/// @see main_ctx_object
-class main_ctx_object_parent_info {
-public:
-    /// @brief Construction from main_ctx instance.
-    main_ctx_object_parent_info(main_ctx&) noexcept {}
-
-    main_ctx_object_parent_info(main_ctx_storage& ctx) noexcept
-      : _context{&ctx} {}
-
-    /// @brief Construction from main context object.
-    main_ctx_object_parent_info(const main_ctx_object& obj) noexcept
-      : _object{&obj} {}
-
-protected:
-    main_ctx_object_parent_info() noexcept = default;
-
-private:
-    friend class main_ctx_object;
-
-    main_ctx_storage* _context{nullptr};
-    const main_ctx_object* _object{nullptr};
-};
-
 /// @brief Interface for classes providing access to some singletons.
 /// @ingroup main_context
 /// @see main_ctx
 struct main_ctx_getters : interface<main_ctx_getters> {
+
+    /// @brief Does potentially expensive initialization and caching.
+    virtual auto preinitialize() noexcept -> main_ctx_getters& = 0;
 
     /// @brief Returns this process instance id. Not equal to system PID.
     virtual auto instance_id() const noexcept -> process_instance_id_t = 0;
@@ -106,6 +84,29 @@ struct main_ctx_getters : interface<main_ctx_getters> {
 
     /// @brief Returns a reference to shared temporary buffer.
     virtual auto scratch_space() noexcept -> memory::buffer& = 0;
+};
+
+/// @brief Helper class used to initialize main context objects.
+/// @ingroup main_context
+/// @see main_ctx_object
+class main_ctx_object_parent_info {
+public:
+    /// @brief Construction from main_ctx instance.
+    main_ctx_object_parent_info(main_ctx_getters& ctx) noexcept
+      : _context{&ctx} {}
+
+    /// @brief Construction from main context object.
+    main_ctx_object_parent_info(const main_ctx_object& obj) noexcept
+      : _object{&obj} {}
+
+protected:
+    main_ctx_object_parent_info() noexcept = default;
+
+private:
+    friend class main_ctx_object;
+
+    main_ctx_getters* _context{nullptr};
+    const main_ctx_object* _object{nullptr};
 };
 
 } // namespace eagine

@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include "../../main_ctx.hpp"
 #include <eagine/message_bus/blobs.hpp>
 #define BOOST_TEST_MODULE EAGINE_msgbus_blobs
 #include "../unit_test_begin.inl"
@@ -94,8 +95,8 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
         }
     }
 
-    test_main_ctx_object tmo;
-    msgbus::blob_manipulator blobs{tmo};
+    test_main_ctx tmc;
+    msgbus::blob_manipulator blobs{tmc};
 
     for(const auto& [key, blob] : test_blobs) {
         blobs.push_outgoing(
@@ -158,8 +159,8 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_2) {
         }
     }
 
-    test_main_ctx_object tmo;
-    msgbus::blob_manipulator blobs{tmo};
+    test_main_ctx tmc;
+    msgbus::blob_manipulator blobs{tmc};
 
     auto fake_send =
       [&blobs](message_id mid, const msgbus::message_view& msg) -> bool {

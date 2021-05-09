@@ -9,7 +9,6 @@
 #include "../random.hpp"
 #include <eagine/diagnostic.hpp>
 #include <eagine/interop/valgrind.hpp>
-#include <eagine/main_ctx_object.hpp>
 #include <eagine/maybe_unused.hpp>
 
 #ifdef __clang__
@@ -26,19 +25,5 @@ template <typename T>
 static inline T test_repeats(T min, T max) noexcept {
     return running_on_valgrind() ? min : max;
 }
-//------------------------------------------------------------------------------
-class test_main_ctx_object_parent_info : public main_ctx_object_parent_info {
-public:
-    test_main_ctx_object_parent_info() noexcept
-      : main_ctx_object_parent_info{} {}
-};
-//------------------------------------------------------------------------------
-class test_main_ctx_object : public main_ctx_object {
-public:
-    test_main_ctx_object()
-      : main_ctx_object(
-          EAGINE_ID(TestObject),
-          test_main_ctx_object_parent_info{}) {}
-};
 //------------------------------------------------------------------------------
 } // namespace eagine

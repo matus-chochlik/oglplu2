@@ -5,6 +5,7 @@
 /// See accompanying file LICENSE_1_0.txt or copy at
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
+#include <eagine/logging/logger.hpp>
 #include <eagine/main_ctx_storage.hpp>
 
 namespace eagine {
@@ -18,6 +19,7 @@ auto main_ctx::_single_ptr() noexcept -> main_ctx*& {
 EAGINE_LIB_FUNC
 main_ctx::main_ctx(main_ctx_getters& src) noexcept
   : _instance_id{src.instance_id()}
+  , _source{src}
   , _args{src.args()}
   , _cmplr_info{src.compiler()}
   , _bld_info{src.build()}
@@ -43,7 +45,7 @@ main_ctx::~main_ctx() noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto main_ctx::preinitialize() noexcept -> main_ctx& {
-    _sys_info.preinitialize();
+    _source.preinitialize();
     return *this;
 }
 //------------------------------------------------------------------------------
@@ -51,7 +53,7 @@ auto main_ctx::preinitialize() noexcept -> main_ctx& {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 main_ctx_log_backend_getter::main_ctx_log_backend_getter(
-  main_ctx_storage& c) noexcept
+  main_ctx_getters& c) noexcept
   : _backend{c.log().backend()} {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

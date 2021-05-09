@@ -46,6 +46,11 @@ public:
           .arg(EAGINE_ID(exePath), _exe_path);
     }
 
+    auto preinitialize() noexcept -> main_ctx_storage& final {
+        _sys_info.preinitialize();
+        return *this;
+    }
+
     auto instance_id() const noexcept -> process_instance_id_t final {
         return _instance_id;
     }

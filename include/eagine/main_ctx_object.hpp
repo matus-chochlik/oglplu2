@@ -29,7 +29,7 @@ auto application_config_initial(
 class main_ctx_log_backend_getter {
 public:
     main_ctx_log_backend_getter() noexcept;
-    main_ctx_log_backend_getter(main_ctx_storage&) noexcept;
+    main_ctx_log_backend_getter(main_ctx_getters&) noexcept;
 
     auto operator()() noexcept -> auto* {
         return _backend;
