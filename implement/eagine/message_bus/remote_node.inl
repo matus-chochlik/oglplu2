@@ -1217,13 +1217,22 @@ auto remote_node_tracker::notice_instance(
                 connections.end(),
                 [=](const auto& conn) { return conn.connects(node_id); }),
               connections.end());
+
+            node.set_instance_id(instance_id);
+            if(auto host_id{node.host_id()}) {
+                get_instance(instance_id)
+                  .notice_alive()
+                  .set_host_id(extract(host_id));
+            }
         } else {
             get_instance(instance_id).notice_alive();
         }
     } else {
         node.set_instance_id(instance_id);
         if(auto host_id{node.host_id()}) {
-            get_instance(instance_id).set_host_id(extract(host_id));
+            get_instance(instance_id)
+              .notice_alive()
+              .set_host_id(extract(host_id));
         }
     }
     return node.notice_alive();

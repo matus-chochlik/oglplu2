@@ -258,9 +258,12 @@ void NodeListViewModel::Data::fixupHierarchy(
                 instInfo.nodes.begin(),
                 instInfo.nodes.end(),
                 [this, nodeId, instId, &instEntry](auto& nodeEntry) {
-                    node2Inst[nodeId] = instId;
-                    return (instEntry.first != instId) &&
-                           (nodeEntry.first == nodeId);
+                    if((instEntry.first != instId) && (nodeEntry.first == nodeId)) {
+                        node2Inst.erase(nodeId);
+                        return true;
+                    }
+                    node2Inst[nodeEntry.first] = instEntry.first;
+                    return false;
                 }),
               instInfo.nodes.end());
         }
@@ -269,9 +272,12 @@ void NodeListViewModel::Data::fixupHierarchy(
             hostInfo.instances.begin(),
             hostInfo.instances.end(),
             [this, instId, hostId, &hostEntry](auto& instEntry) {
-                inst2Host[instId] = hostId;
-                return (hostEntry.first != hostId) &&
-                       (instEntry.first == instId);
+                if((hostEntry.first != hostId) && (instEntry.first == instId)) {
+                    inst2Host.erase(instId);
+                    return true;
+                }
+                inst2Host[instEntry.first] = hostEntry.first;
+                return false;
             }),
           hostInfo.instances.end());
     }
@@ -286,9 +292,10 @@ void NodeListViewModel::Data::fixupHierarchy(
 auto NodeListViewModel::Data::updateNode(
   MonitorBackend& backend,
   const remote_node& node) -> int {
+    const auto inst = node.instance();
     const auto nodeId = extract(node.id());
-    const auto instId = extract_or(node.instance().id(), 0U);
-    const auto hostId = instId ? extract_or(node.host().id(), 0U) : 0U;
+    const auto instId = extract_or(inst.id(), 0U);
+    const auto hostId = instId ? extract_or(inst.host().id(), 0U) : 0U;
 
     const auto prevInstIdPos = node2Inst.find(nodeId);
     auto& hostInfo = hosts[hostId];
@@ -333,18 +340,21 @@ auto NodeListViewModel::Data::updateNode(
 
             if(hostId != prevHostId) {
                 if(!hostInfo.host) {
-                    hostInfo.host = node.host();
+                    hostInfo.host = inst.host();
                 }
                 inst2Host[instId] = hostId;
 
-                for(auto& [otherNodeId, otherNodeInfo] : prevInstInfo.nodes) {
-                    auto& nodeInfo = instInfo.nodes[otherNodeId];
-                    nodeInfo = std::move(otherNodeInfo);
-                    nodeInfo.update(backend);
-                    node2Inst[otherNodeId] = instId;
-                }
+                if(prevInstId) {
+                    for(auto& [otherNodeId, otherNodeInfo] :
+                        prevInstInfo.nodes) {
+                        auto& nodeInfo = instInfo.nodes[otherNodeId];
+                        nodeInfo = std::move(otherNodeInfo);
+                        nodeInfo.update(backend);
+                        node2Inst[otherNodeId] = instId;
+                    }
 
-                prevInstInfo.nodes.clear();
+                    prevInstInfo.nodes.clear();
+                }
                 relocated = true;
             }
 
@@ -532,7 +542,7 @@ void NodeListViewModel::onNodeChanged(const remote_node& node) {
             const auto nodeId = extract(node.id());
             emit dataChanged(
               QAbstractItemModel::createIndex(row, 0, nodeId),
-              QAbstractItemModel::createIndex(row, 2, nodeId));
+              QAbstractItemModel::createIndex(row + 1, 2, nodeId));
         } else {
             afterHierarchyChanged();
         }
@@ -551,7 +561,7 @@ void NodeListViewModel::onInstanceInfoChanged(const remote_inst& inst) {
             const auto instId = extract_or(inst.id(), 0U);
             emit dataChanged(
               QAbstractItemModel::createIndex(row, 0, instId),
-              QAbstractItemModel::createIndex(row, 2, instId));
+              QAbstractItemModel::createIndex(row + 1, 2, instId));
         }
     }
 }
@@ -562,7 +572,7 @@ void NodeListViewModel::onHostInfoChanged(const remote_host& host) {
             const auto hostId = extract_or(host.id(), 0U);
             emit dataChanged(
               QAbstractItemModel::createIndex(row, 0, hostId),
-              QAbstractItemModel::createIndex(row, 2, hostId));
+              QAbstractItemModel::createIndex(row + 1, 2, hostId));
         }
     }
 }
