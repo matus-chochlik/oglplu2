@@ -56,9 +56,7 @@ BOOST_AUTO_TEST_CASE(msgbus_serialized_storage_1) {
         return true;
     };
 
-    // for(int i = 0; i < test_repeats(100, 1000); ++i) {
-    for(int i = 0; i < test_repeats(1, 1); ++i) {
-
+    for(int i = 0; i < test_repeats(100, 1000); ++i) {
         for(int s = 0, n = rg.get_int(20, 100); s < n; ++s) {
             const auto size = rg.get_span_size(1, 3 * 1024);
             test_data.resize(size);
