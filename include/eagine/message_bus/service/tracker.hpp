@@ -16,6 +16,7 @@
 #include "discovery.hpp"
 #include "host_info.hpp"
 #include "ping_pong.hpp"
+#include "statistics.hpp"
 #include "system_info.hpp"
 #include "topology.hpp"
 
@@ -26,8 +27,8 @@ namespace eagine::msgbus {
 /// @see node_tracker
 /// @see service_composition
 template <typename Base>
-using node_tracker_base = pinger<system_info_consumer<
-  common_info_consumers<network_topology<subscriber_discovery<Base>>>>>;
+using node_tracker_base = pinger<system_info_consumer<common_info_consumers<
+  statistics_consumer<network_topology<subscriber_discovery<Base>>>>>>;
 //------------------------------------------------------------------------------
 /// @brief Service that consumes bus topology information and provides it via an API.
 /// @ingroup msgbus
@@ -95,6 +96,36 @@ public:
     /// @brief Returns handler for the endpoint appeared message.
     auto on_endpoint_appeared() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_appeared);
+    }
+
+    /// @brief Returns handler for the router bye message.
+    auto on_router_disappeared() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_router_disappeared);
+    }
+
+    /// @brief Returns handler for the bridge bye message.
+    auto on_bridge_disappeared() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_bridge_disappeared);
+    }
+
+    /// @brief Returns handler for the endpoint bye message.
+    auto on_endpoint_disappeared() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_disappeared);
+    }
+
+    /// @brief Returns handler for the router statistics message.
+    auto on_router_stats_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_router_stats_received);
+    }
+
+    /// @brief Returns handler for the bridge statistics message.
+    auto on_bridge_stats_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_bridge_stats_received);
+    }
+
+    /// @brief Returns handler for the endpoint statistics message.
+    auto on_endpoint_stats_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_stats_received);
     }
 
     /// @brief Returns handler for the application name message.
@@ -281,6 +312,12 @@ protected:
         this->router_appeared.connect(on_router_appeared());
         this->bridge_appeared.connect(on_bridge_appeared());
         this->endpoint_appeared.connect(on_endpoint_appeared());
+        this->router_disappeared.connect(on_router_disappeared());
+        this->bridge_disappeared.connect(on_bridge_disappeared());
+        this->endpoint_disappeared.connect(on_endpoint_disappeared());
+        this->router_stats_received.connect(on_router_stats_received());
+        this->bridge_stats_received.connect(on_bridge_stats_received());
+        this->endpoint_stats_received.connect(on_endpoint_stats_received());
         this->application_name_received.connect(on_application_name_received());
         this->endpoint_info_received.connect(on_endpoint_info_received());
         this->compiler_info_received.connect(on_compiler_info_received());
@@ -381,18 +418,6 @@ private:
         }
     }
 
-    void _handle_router_disappeared(identifier_t router_id) {
-        _tracker.remove_node(router_id);
-    }
-
-    void _handle_bridge_disappeared(identifier_t bridge_id) {
-        _tracker.remove_node(bridge_id);
-    }
-
-    void _handle_endpoint_disappeared(identifier_t endpoint_id) {
-        _tracker.remove_node(endpoint_id);
-    }
-
     void _handle_bridge_appeared(const bridge_topology_info& info) {
         _tracker.notice_instance(info.bridge_id, info.instance_id)
           .assign(node_kind::bridge);
@@ -405,6 +430,30 @@ private:
     void _handle_endpoint_appeared(const endpoint_topology_info& info) {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .assign(node_kind::endpoint);
+    }
+
+    void _handle_router_disappeared(identifier_t router_id) {
+        _tracker.remove_node(router_id);
+    }
+
+    void _handle_bridge_disappeared(identifier_t bridge_id) {
+        _tracker.remove_node(bridge_id);
+    }
+
+    void _handle_endpoint_disappeared(identifier_t endpoint_id) {
+        _tracker.remove_node(endpoint_id);
+    }
+
+    void _handle_router_stats_received(const router_statistics& stats) {
+        _get_node(stats.router_id).assign(stats).notice_alive();
+    }
+
+    void _handle_bridge_stats_received(const bridge_statistics& stats) {
+        _get_node(stats.bridge_id).assign(stats).notice_alive();
+    }
+
+    void _handle_endpoint_stats_received(const endpoint_statistics& stats) {
+        _get_node(stats.endpoint_id).assign(stats).notice_alive();
     }
 
     void _handle_application_name_received(

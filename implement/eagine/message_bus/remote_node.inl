@@ -768,6 +768,22 @@ auto remote_node_state::assign(const endpoint_info& info)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node_state::assign(const router_statistics&) -> remote_node_state& {
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::assign(const bridge_statistics&) -> remote_node_state& {
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::assign(const endpoint_statistics&)
+  -> remote_node_state& {
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node_state::add_subscription(message_id msg_id)
   -> remote_node_state& {
     if(auto impl{_impl()}) {

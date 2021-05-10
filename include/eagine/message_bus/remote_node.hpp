@@ -795,6 +795,10 @@ public:
     auto assign(node_kind) -> remote_node_state&;
     auto assign(const endpoint_info&) -> remote_node_state&;
 
+    auto assign(const router_statistics&) -> remote_node_state&;
+    auto assign(const bridge_statistics&) -> remote_node_state&;
+    auto assign(const endpoint_statistics&) -> remote_node_state&;
+
     auto add_subscription(message_id) -> remote_node_state&;
     auto remove_subscription(message_id) -> remote_node_state&;
 

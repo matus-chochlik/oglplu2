@@ -73,27 +73,27 @@ protected:
 private:
     auto _handle_router(const message_context&, stored_message& message)
       -> bool {
-        router_statistics_info info{};
-        if(default_deserialize(info, message.content())) {
-            router_stats_received(info);
+        router_statistics stats{};
+        if(default_deserialize(stats, message.content())) {
+            router_stats_received(stats);
         }
         return true;
     }
 
     auto _handle_bridge(const message_context&, stored_message& message)
       -> bool {
-        bridge_statistics_info info{};
-        if(default_deserialize(info, message.content())) {
-            bridge_stats_received(info);
+        bridge_statistics stats{};
+        if(default_deserialize(stats, message.content())) {
+            bridge_stats_received(stats);
         }
         return true;
     }
 
     auto _handle_endpoint(const message_context&, stored_message& message)
       -> bool {
-        endpoint_statistics_info info{};
-        if(default_deserialize(info, message.content())) {
-            endpoint_stats_received(info);
+        endpoint_statistics stats{};
+        if(default_deserialize(stats, message.content())) {
+            endpoint_stats_received(stats);
         }
         return true;
     }
