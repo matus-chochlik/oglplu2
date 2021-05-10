@@ -201,6 +201,13 @@ private:
 // bridge
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto bridge::_uptime_seconds() -> std::int64_t {
+    return std::chrono::duration_cast<std::chrono::seconds>(
+             std::chrono::steady_clock::now() - _startup_time)
+      .count();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void bridge::add_certificate_pem(memory::const_block blk) {
     if(_context) {
         _context->add_own_certificate_pem(blk);
@@ -295,6 +302,25 @@ auto bridge::_handle_special(
                     _do_push(EAGINE_MSGBUS_ID(topoBrdgCn), response);
                 } else {
                     _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                }
+            }
+        } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
+            bridge_statistics stats{};
+
+            stats.bridge_id = _id;
+            stats.forwarded_messages = _forwarded_messages_i2c;
+            stats.dropped_messages = _dropped_messages_i2c;
+            stats.uptime_seconds = _uptime_seconds();
+
+            auto temp{default_serialize_buffer_for(stats)};
+            if(auto serialized{default_serialize(stats, cover(temp))}) {
+                message_view response{extract(serialized)};
+                response.setup_response(message);
+                response.set_source_id(_id);
+                if(to_connection) {
+                    _do_push(EAGINE_MSGBUS_ID(statsBrdg), response);
+                } else {
+                    _send(EAGINE_MSGBUS_ID(statsBrdg), response);
                 }
             }
         }
