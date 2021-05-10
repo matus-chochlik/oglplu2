@@ -353,7 +353,8 @@ private:
     }
 
     void _handle_alive(const subscriber_info& info) {
-        _tracker.notice_instance(info.endpoint_id, info.instance_id);
+        _tracker.notice_instance(info.endpoint_id, info.instance_id)
+          .assign(node_kind::endpoint);
     }
 
     void _handle_subscribed(const subscriber_info& info, message_id msg_id) {

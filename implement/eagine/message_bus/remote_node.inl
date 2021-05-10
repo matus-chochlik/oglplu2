@@ -741,6 +741,10 @@ auto remote_node_state::assign(const endpoint_info& info)
   -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
+        if(i.kind != node_kind::endpoint) {
+            i.kind = node_kind::endpoint;
+            i.changes |= remote_node_change::kind;
+        }
         auto display_name = _tracker.cached(info.display_name);
         if(!are_equal(display_name, i.display_name)) {
             i.display_name = display_name;
