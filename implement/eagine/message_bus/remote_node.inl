@@ -12,18 +12,6 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
-class remote_instance_impl {
-public:
-    timeout is_alive{std::chrono::seconds{180}};
-    string_view app_name;
-    optionally_valid<compiler_info> cmplr_info;
-    optionally_valid<build_info> bld_info;
-    host_id_t host_id{0U};
-
-    remote_instance_changes changes{};
-    bool was_alive{false};
-};
-//------------------------------------------------------------------------------
 class remote_host_impl {
 public:
     timeout is_alive{std::chrono::seconds{300}};
@@ -42,6 +30,30 @@ public:
     bool was_alive{false};
 };
 //------------------------------------------------------------------------------
+class remote_instance_impl {
+public:
+    timeout is_alive{std::chrono::seconds{180}};
+    string_view app_name;
+    optionally_valid<compiler_info> cmplr_info;
+    optionally_valid<build_info> bld_info;
+    host_id_t host_id{0U};
+
+    remote_instance_changes changes{};
+    bool was_alive{false};
+};
+//------------------------------------------------------------------------------
+struct remote_router_info {
+    optionally_valid<router_statistics> stats;
+};
+//------------------------------------------------------------------------------
+struct remote_bridge_info {
+    optionally_valid<bridge_statistics> stats;
+};
+//------------------------------------------------------------------------------
+struct remote_endpoint_info {
+    optionally_valid<endpoint_statistics> stats;
+};
+//------------------------------------------------------------------------------
 class remote_node_impl {
 public:
     process_instance_id_t instance_id{0U};
@@ -57,10 +69,53 @@ public:
     span_size_t pings_timeouted{0};
     std::chrono::microseconds last_ping_time{};
     std::chrono::microseconds last_ping_timeout{};
+
     std::uint8_t ping_bits{0};
     node_kind kind{node_kind::unknown};
 
     remote_node_changes changes{};
+
+    auto router_info() -> remote_router_info& {
+        if(!_router_info) {
+            _router_info = std::make_unique<remote_router_info>();
+        }
+        return *_router_info;
+    }
+
+    auto router_info() const noexcept -> remote_router_info* {
+        if(_router_info) {
+            return _router_info.get();
+        }
+        return nullptr;
+    }
+
+    auto bridge_info() -> remote_bridge_info& {
+        if(!_bridge_info) {
+            _bridge_info = std::make_unique<remote_bridge_info>();
+        }
+        return *_bridge_info;
+    }
+
+    auto bridge_info() const noexcept -> remote_bridge_info* {
+        if(_bridge_info) {
+            return _bridge_info.get();
+        }
+        return nullptr;
+    }
+
+    auto endpoint_info() -> remote_endpoint_info& {
+        if(!_endpoint_info) {
+            _endpoint_info = std::make_unique<remote_endpoint_info>();
+        }
+        return *_endpoint_info;
+    }
+
+    auto endpoint_info() const noexcept -> remote_endpoint_info* {
+        if(_endpoint_info) {
+            return _endpoint_info.get();
+        }
+        return nullptr;
+    }
 
     auto get_sub(message_id msg_id) const noexcept -> tribool {
         auto pos = _subscriptions.find(msg_id);
@@ -83,6 +138,9 @@ public:
     }
 
 private:
+    std::unique_ptr<remote_router_info> _router_info;
+    std::unique_ptr<remote_bridge_info> _bridge_info;
+    std::unique_ptr<remote_endpoint_info> _endpoint_info;
     flat_map<message_id, tribool> _subscriptions;
 };
 //------------------------------------------------------------------------------
@@ -563,6 +621,42 @@ auto remote_node::instance() const noexcept -> remote_instance {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node::router_stats() const noexcept
+  -> optional_reference_wrapper<const router_statistics> {
+    if(auto impl{_impl()}) {
+        const auto& i = extract(impl);
+        if(auto info{i.router_info()}) {
+            return {extract(info).stats};
+        }
+    }
+    return {nothing};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::bridge_stats() const noexcept
+  -> optional_reference_wrapper<const bridge_statistics> {
+    if(auto impl{_impl()}) {
+        const auto& i = extract(impl);
+        if(auto info{i.bridge_info()}) {
+            return {extract(info).stats};
+        }
+    }
+    return {nothing};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::endpoint_stats() const noexcept
+  -> optional_reference_wrapper<const endpoint_statistics> {
+    if(auto impl{_impl()}) {
+        const auto& i = extract(impl);
+        if(auto info{i.endpoint_info()}) {
+            return {extract(info).stats};
+        }
+    }
+    return {nothing};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node::connections() const noexcept -> node_connections {
     std::vector<identifier_t> remote_ids;
     _tracker.for_each_connection([&](const auto& conn) {
@@ -768,18 +862,47 @@ auto remote_node_state::assign(const endpoint_info& info)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node_state::assign(const router_statistics&) -> remote_node_state& {
-    return *this;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto remote_node_state::assign(const bridge_statistics&) -> remote_node_state& {
-    return *this;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto remote_node_state::assign(const endpoint_statistics&)
+auto remote_node_state::assign(const router_statistics& stats)
   -> remote_node_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.kind != node_kind::router) {
+            i.kind = node_kind::router;
+            i.changes |= remote_node_change::kind;
+        }
+        i.router_info().stats = stats;
+        i.changes |= remote_node_change::statistics;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::assign(const bridge_statistics& stats)
+  -> remote_node_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.kind != node_kind::bridge) {
+            i.kind = node_kind::bridge;
+            i.changes |= remote_node_change::kind;
+        }
+        i.bridge_info().stats = stats;
+        i.changes |= remote_node_change::statistics;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::assign(const endpoint_statistics& stats)
+  -> remote_node_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.kind != node_kind::endpoint) {
+            i.kind = node_kind::endpoint;
+            i.changes |= remote_node_change::kind;
+        }
+        i.endpoint_info().stats = stats;
+        i.changes |= remote_node_change::statistics;
+    }
     return *this;
 }
 //------------------------------------------------------------------------------

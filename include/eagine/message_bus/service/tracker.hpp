@@ -208,6 +208,11 @@ public:
             something_done();
         }
 
+        if(_should_query_stats) {
+            this->discover_statistics();
+            something_done();
+        }
+
         const bool should_query_info{_should_query_info};
 
         _tracker.for_each_host_state([&](auto host_id, auto& host) {
@@ -344,6 +349,7 @@ protected:
 
 private:
     resetting_timeout _should_query_topology{std::chrono::seconds{15}, nothing};
+    resetting_timeout _should_query_stats{std::chrono::seconds{30}, nothing};
     resetting_timeout _should_query_info{std::chrono::seconds{5}};
 
     remote_node_tracker _tracker{};

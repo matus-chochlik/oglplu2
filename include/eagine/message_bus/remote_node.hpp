@@ -66,15 +66,18 @@ enum class remote_node_change : std::uint16_t {
     hardware_config = 1U << 12U,
     /// @brief New sensor values have appeared or changed.
     sensor_values = 1U << 13U,
+    /// @brief New statistic values have appeared or changed.
+    statistics = 1U << 14U,
     /// @brief The bus connection information has appeared or changed.
-    connection_info = 1U << 14U
+    connection_info = 1U << 15U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
 enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
-    return enumerator_map_type<remote_node_change, 15>{
+    return enumerator_map_type<remote_node_change, 16>{
       {{"kind", remote_node_change::kind},
+       {"instance_id", remote_node_change::instance_id},
        {"host_id", remote_node_change::host_id},
        {"host_info", remote_node_change::host_info},
        {"build_info", remote_node_change::build_info},
@@ -87,8 +90,8 @@ enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
        {"response_rate", remote_node_change::response_rate},
        {"hardware_config", remote_node_change::hardware_config},
        {"sensor_values", remote_node_change::sensor_values},
-       {"connection_info", remote_node_change::connection_info},
-       {"instance_id", remote_node_change::instance_id}}};
+       {"statistics", remote_node_change::statistics},
+       {"connection_info", remote_node_change::connection_info}}};
 }
 //------------------------------------------------------------------------------
 /// @brief Class providing and manipulating information about remote node changes.
@@ -755,6 +758,18 @@ public:
     /// @see host
     /// @see connections
     auto instance() const noexcept -> remote_instance;
+
+    /// @brief Returns the router statistics from this node.
+    auto router_stats() const noexcept
+      -> optional_reference_wrapper<const router_statistics>;
+
+    /// @brief Returns the bridge statistics from this node.
+    auto bridge_stats() const noexcept
+      -> optional_reference_wrapper<const bridge_statistics>;
+
+    /// @brief Returns the endpoint statistics from this node.
+    auto endpoint_stats() const noexcept
+      -> optional_reference_wrapper<const endpoint_statistics>;
 
     /// @brief Return information about the connections of this node.
     /// @see host
