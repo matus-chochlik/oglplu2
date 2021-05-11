@@ -392,6 +392,16 @@ public:
     /// @brief Processes all received messages regardles of type with a handler.
     auto process_everything(method_handler handler) -> span_size_t;
 
+    void ensure_queue(message_id msg_id) {
+        _incoming.try_emplace(msg_id);
+    }
+
+    auto get_queue(message_id msg_id) noexcept -> message_priority_queue& {
+        const auto pos = _incoming.find(msg_id);
+        EAGINE_ASSERT(pos != _incoming.end());
+        return _get_queue(*pos);
+    }
+
 private:
     friend class friend_of_endpoint;
 
@@ -426,7 +436,8 @@ private:
     }
 
     template <typename Entry>
-    static inline auto _get_queue(Entry& entry) -> auto& {
+    static inline auto _get_queue(Entry& entry) noexcept
+      -> message_priority_queue& {
         return std::get<1>(std::get<1>(entry));
     }
 
