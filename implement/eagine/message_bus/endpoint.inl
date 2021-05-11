@@ -11,6 +11,15 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+// endpoint
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto endpoint::_uptime_seconds() -> std::int64_t {
+    return std::chrono::duration_cast<std::chrono::seconds>(
+             std::chrono::steady_clock::now() - _startup_time)
+      .count();
+}
+//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto endpoint::_cleanup_blobs() -> bool {
     return _blobs.cleanup();
@@ -193,6 +202,25 @@ auto endpoint::_handle_special(
                 }
             }
             log_warning("failed to respond to topology query from ${source}")
+              .arg(EAGINE_ID(bufSize), temp.size())
+              .arg(EAGINE_ID(source), message.source_id);
+        } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
+            endpoint_statistics stats{};
+
+            stats.endpoint_id = _endpoint_id;
+            stats.sent_messages = 0;     // TODO
+            stats.received_messages = 0; // TODO
+            stats.uptime_seconds = _uptime_seconds();
+
+            auto temp{default_serialize_buffer_for(stats)};
+            if(auto serialized{default_serialize(stats, cover(temp))}) {
+                message_view response{extract(serialized)};
+                response.setup_response(message);
+                if(post(EAGINE_MSGBUS_ID(statsEndpt), response)) {
+                    return true;
+                }
+            }
+            log_warning("failed to respond to statistics query from ${source}")
               .arg(EAGINE_ID(bufSize), temp.size())
               .arg(EAGINE_ID(source), message.source_id);
         }

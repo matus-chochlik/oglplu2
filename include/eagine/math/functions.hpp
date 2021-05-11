@@ -212,6 +212,22 @@ static constexpr auto binomial(T n, T k) noexcept
 /// @see bezier_curves
 template <typename Type, typename Parameter, int N>
 struct bezier_t {
+public:
+    /// @brief Interpolate from control points in pack @p p at position @p t.
+    template <
+      typename... Points,
+      typename = std::enable_if_t<sizeof...(Points) == N>>
+    constexpr auto operator()(Parameter t, Points&&... p) const noexcept {
+        return _calc(N - 1, 0, t, std::forward<Points>(p)...);
+    }
+
+    /// @brief Interpolate from control points in span @p p at position @p t.
+    template <typename P, typename S>
+    auto operator()(Parameter t, memory::basic_span<const Type, P, S> p)
+      const noexcept {
+        return _calc(N - 1, 0, t, p, std::make_index_sequence<N>());
+    }
+
 private:
     static constexpr auto _coef(int m, int i, Parameter t) noexcept {
         using std::pow;
@@ -237,23 +253,14 @@ private:
       std::index_sequence<I...>) noexcept -> Type {
         return _calc(m, i, t, p[I]...);
     }
-
-public:
-    /// @brief Interpolate from control points in pack @p p at position @p t.
-    template <
-      typename... Points,
-      typename = std::enable_if_t<sizeof...(Points) == N>>
-    constexpr auto operator()(Parameter t, Points&&... p) const noexcept {
-        return _calc(N - 1, 0, t, std::forward<Points>(p)...);
-    }
-
-    /// @brief Interpolate from control points in span @p p at position @p t.
-    template <typename P, typename S>
-    auto operator()(Parameter t, memory::basic_span<const Type, P, S> p)
-      const noexcept {
-        return _calc(N - 1, 0, t, p, std::make_index_sequence<N>());
-    }
 };
+//------------------------------------------------------------------------------
+template <typename Parameter, typename... CP>
+static constexpr inline auto bezier_point(Parameter t, CP... cps)
+  -> std::common_type_t<CP...> {
+    using bt = bezier_t<std::common_type_t<CP...>, Parameter, sizeof...(CP)>;
+    return bt{}(t, cps...);
+}
 //------------------------------------------------------------------------------
 } // namespace eagine::math
 

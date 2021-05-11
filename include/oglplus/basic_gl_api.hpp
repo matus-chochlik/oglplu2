@@ -99,7 +99,7 @@ public:
       const program_source_block& prog_src_blk) const -> combined_result<void> {
         if(prog_src_blk.is_valid()) {
             const span_size_t n = prog_src_blk.shader_source_count();
-            for(auto i : integer_range(n)) {
+            for(const auto i : integer_range(n)) {
                 auto shdr_src_blk{prog_src_blk.shader_source(i)};
                 owned_shader_name shdr;
                 this->create_shader(shdr_src_blk.type()) >> shdr;

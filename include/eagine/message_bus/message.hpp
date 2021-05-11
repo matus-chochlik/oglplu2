@@ -529,7 +529,11 @@ public:
     message_pack_info(span_size_t total_size) noexcept
       : _total_size{limit_cast<std::uint16_t>(total_size)} {}
 
-    auto is_empty() const noexcept {
+    operator bool() const noexcept {
+        return !is_empty();
+    }
+
+    auto is_empty() const noexcept -> bool {
         return _packed_bits == 0U;
     }
 

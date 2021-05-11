@@ -37,8 +37,8 @@ void centered_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 
         const span_size_t m = values_per_vertex(vav);
 
-        for(auto v : integer_range(vertex_count())) {
-            for(auto c : integer_range(m)) {
+        for(const auto v : integer_range(vertex_count())) {
+            for(const auto c : integer_range(m)) {
                 const auto k = std_size(c);
 
                 min[k] = eagine::math::minimum(min[k], dest[v * m + c]);
@@ -47,7 +47,7 @@ void centered_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
         }
 
         std::array<float, 4> offs{{}};
-        for(auto c : integer_range(m)) {
+        for(const auto c : integer_range(m)) {
             const auto k = std_size(c);
             offs[k] = (min[k] + max[k]) * 0.5F;
         }
@@ -56,8 +56,8 @@ void centered_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
             delegated_gen::attrib_values(vav, dest);
         }
 
-        for(auto v : integer_range(vertex_count())) {
-            for(auto c : integer_range(m)) {
+        for(const auto v : integer_range(vertex_count())) {
+            for(const auto c : integer_range(m)) {
                 dest[v * m + c] -= offs[std_size(c)];
             }
         }

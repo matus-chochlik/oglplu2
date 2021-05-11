@@ -17,6 +17,7 @@
 #include "../identifier_t.hpp"
 #include "../message_id.hpp"
 #include "../optional_ref.hpp"
+#include "../power_supply_kind.hpp"
 #include "../tribool.hpp"
 #include "../types.hpp"
 #include "../valid_if/ge0_le1.hpp"
@@ -539,6 +540,8 @@ public:
         return {};
     }
 
+    auto power_supply() const noexcept -> power_supply_kind;
+
 protected:
     auto _impl() const noexcept -> const remote_host_impl*;
     auto _impl() noexcept -> remote_host_impl*;
@@ -573,6 +576,7 @@ public:
     auto set_total_swap_size(span_size_t) -> remote_host_state&;
     auto set_free_ram_size(span_size_t) -> remote_host_state&;
     auto set_free_swap_size(span_size_t) -> remote_host_state&;
+    auto set_power_supply(power_supply_kind) -> remote_host_state&;
 };
 //------------------------------------------------------------------------------
 /// @brief Class providing information about a remote instance running bus nodes.
@@ -712,6 +716,10 @@ public:
     /// @brief Indicates if the remote node subscribes to the specified message type.
     auto subscribes_to(message_id msg_id) const noexcept -> tribool;
 
+    /// @brief Indicates if the remote node can query system info
+    /// @see subscribes_to
+    auto can_query_system_info() const noexcept -> tribool;
+
     /// @brief Indicates if the remote node is pingable.
     /// @see set_ping_interval
     /// @see is_responsive
@@ -721,9 +729,17 @@ public:
     /// @see is_pingable
     void set_ping_interval(std::chrono::milliseconds) noexcept;
 
+    /// @brief Returns the last ping roundtrip time.
+    /// @see is_responsive
+    /// @see is_pingable
+    /// @see ping_success_rate
+    auto ping_roundtrip_time() const noexcept
+      -> valid_if_not_zero<std::chrono::microseconds>;
+
     /// @brief Returns the ping success rate for the remote node (0.0, 1.0).
     /// @see is_responsive
     /// @see is_pingable
+    /// @see ping_roundtrip_time
     auto ping_success_rate() const noexcept -> valid_if_between_0_1<float>;
 
     /// @brief Indicates if the remote node is responsive.
@@ -778,6 +794,10 @@ public:
 
     auto assign(node_kind) -> remote_node_state&;
     auto assign(const endpoint_info&) -> remote_node_state&;
+
+    auto assign(const router_statistics&) -> remote_node_state&;
+    auto assign(const bridge_statistics&) -> remote_node_state&;
+    auto assign(const endpoint_statistics&) -> remote_node_state&;
 
     auto add_subscription(message_id) -> remote_node_state&;
     auto remove_subscription(message_id) -> remote_node_state&;

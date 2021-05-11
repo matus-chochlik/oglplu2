@@ -1,8 +1,7 @@
 ///
 /// Copyright Matus Chochlik.
-/// Distributed under the Boost Software License, Version 1.0.
-/// See accompanying file LICENSE_1_0.txt or copy at
-///  http://www.boost.org/LICENSE_1_0.txt
+/// Distributed under the GNU GENERAL PUBLIC LICENSE version 3.
+/// See http://www.gnu.org/licenses/gpl-3.0.txt
 ///
 
 #ifndef EAGINE_MESSAGE_BUS_MONITOR_NODE_LIST_VIEW_MODEL
@@ -15,6 +14,8 @@
 #include <QObject>
 
 class MonitorBackend;
+class NodeParameterModel;
+class HostParameterModel;
 //------------------------------------------------------------------------------
 class NodeListViewModel
   : public QAbstractItemModel
@@ -83,7 +84,9 @@ private:
 
     struct NodeInfo {
         remote_node node;
+        std::shared_ptr<NodeParameterModel> parameters;
         auto totalCount() const noexcept -> int;
+        void update(MonitorBackend&) noexcept;
     };
 
     struct InstanceInfo {
@@ -99,11 +102,13 @@ private:
 
     struct HostInfo {
         remote_host host;
+        std::shared_ptr<HostParameterModel> parameters;
         eagine::flat_map<eagine::identifier_t, InstanceInfo> instances;
 
         auto count() const noexcept -> int;
         auto subCount() const noexcept -> int;
         auto totalCount() const noexcept -> int;
+        void update(MonitorBackend&) noexcept;
     };
 
     struct Data {
@@ -146,10 +151,10 @@ private:
           eagine::identifier_t instId,
           eagine::identifier_t nodeId);
 
-        auto updateNode(const remote_node&) -> int;
+        auto updateNode(MonitorBackend&, const remote_node&) -> int;
         auto removeNode(eagine::identifier_t) -> bool;
-        auto updateInst(const remote_inst&) -> int;
-        auto updateHost(const remote_host&) -> int;
+        auto updateInst(MonitorBackend&, const remote_inst&) -> int;
+        auto updateHost(MonitorBackend&, const remote_host&) -> int;
     } _model;
 
     int _selectedRow{-1};

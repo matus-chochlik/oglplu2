@@ -8,6 +8,7 @@
 #ifndef EAGINE_MESSAGE_BUS_MONITOR_NODE_VIEW_MODEL
 #define EAGINE_MESSAGE_BUS_MONITOR_NODE_VIEW_MODEL
 
+#include "NodeParameterViewModel.hpp"
 #include <eagine/main_ctx_object.hpp>
 #include <eagine/message_bus/remote_node.hpp>
 #include <QObject>
@@ -28,6 +29,8 @@ class NodeViewModel
     Q_PROPERTY(
       QVariant pingSuccessRate READ getPingSuccessRate NOTIFY infoChanged)
 
+    Q_PROPERTY(QAbstractItemModel* parameters READ getParameters CONSTANT)
+
     using remote_node = eagine::msgbus::remote_node;
 
 public:
@@ -44,6 +47,7 @@ public:
 
     auto getPingSuccessRate() -> QVariant;
 
+    auto getParameters() -> QAbstractItemModel*;
 signals:
     void infoChanged();
 
@@ -54,6 +58,7 @@ private slots:
 
 private:
     MonitorBackend& _backend;
+    NodeParameterViewModel _parameters;
     remote_node _node;
 };
 //------------------------------------------------------------------------------

@@ -400,6 +400,12 @@ private:
     const process_instance_id_t _instance_id{process_instance_id()};
     identifier_t _preconfd_id{invalid_id()};
     identifier_t _endpoint_id{invalid_id()};
+
+    std::chrono::steady_clock::time_point _startup_time{
+      std::chrono::steady_clock::now()};
+
+    auto _uptime_seconds() -> std::int64_t;
+
     timeout _no_id_timeout{
       cfg_init("msg_bus.endpoint.no_id_timeout", std::chrono::seconds{2}),
       nothing};

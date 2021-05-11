@@ -27,7 +27,7 @@ public:
 class remote_host_impl {
 public:
     timeout is_alive{std::chrono::seconds{300}};
-    timeout should_query_sensors{std::chrono::seconds{15}};
+    timeout should_query_sensors{std::chrono::seconds{10}};
     std::string hostname;
     span_size_t cpu_concurrent_threads{-1};
     span_size_t total_ram_size{-1};
@@ -38,6 +38,7 @@ public:
     variable_with_history<float, 2> long_average_load{-1.F};
 
     remote_host_changes changes{};
+    power_supply_kind power_supply{power_supply_kind::unknown};
     bool was_alive{false};
 };
 //------------------------------------------------------------------------------
@@ -50,7 +51,7 @@ public:
     tribool is_bridge_node{indeterminate};
     host_id_t host_id{0U};
 
-    timeout should_ping{std::chrono::seconds{15}};
+    timeout should_ping{std::chrono::seconds{5}};
     span_size_t pings_sent{0};
     span_size_t pings_responded{0};
     span_size_t pings_timeouted{0};
@@ -434,6 +435,15 @@ auto remote_host::free_swap_size_change() const noexcept
     return {};
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::power_supply() const noexcept -> power_supply_kind {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        return i.power_supply;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 // remote_node
 //------------------------------------------------------------------------------
 inline auto remote_node::_impl() const noexcept -> const remote_node_impl* {
@@ -572,6 +582,12 @@ auto remote_node::subscribes_to(message_id msg_id) const noexcept -> tribool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node::can_query_system_info() const noexcept -> tribool {
+    return subscribes_to(EAGINE_MSG_ID(eagiSysInf, qryStats)) ||
+           subscribes_to(EAGINE_MSG_ID(eagiSysInf, qrySensors));
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node::is_pingable() const noexcept -> tribool {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
@@ -588,6 +604,17 @@ void remote_node::set_ping_interval(std::chrono::milliseconds ms) noexcept {
     if(auto impl{_impl()}) {
         extract(impl).should_ping.reset(ms, nothing);
     }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::ping_roundtrip_time() const noexcept
+  -> valid_if_not_zero<std::chrono::microseconds> {
+    if(auto impl{_impl()}) {
+        if(extract(impl).pings_responded > 0) {
+            return {extract(impl).last_ping_time};
+        }
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -714,6 +741,10 @@ auto remote_node_state::assign(const endpoint_info& info)
   -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
+        if(i.kind != node_kind::endpoint) {
+            i.kind = node_kind::endpoint;
+            i.changes |= remote_node_change::kind;
+        }
         auto display_name = _tracker.cached(info.display_name);
         if(!are_equal(display_name, i.display_name)) {
             i.display_name = display_name;
@@ -733,6 +764,22 @@ auto remote_node_state::assign(const endpoint_info& info)
             i.changes |= remote_node_change::endpoint_info;
         }
     }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::assign(const router_statistics&) -> remote_node_state& {
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::assign(const bridge_statistics&) -> remote_node_state& {
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::assign(const endpoint_statistics&)
+  -> remote_node_state& {
     return *this;
 }
 //------------------------------------------------------------------------------
@@ -951,6 +998,17 @@ auto remote_host_state::set_free_swap_size(span_size_t value)
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         i.free_swap_size = value;
+        i.changes |= remote_host_change::sensor_values;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::set_power_supply(power_supply_kind value)
+  -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        i.power_supply = value;
         i.changes |= remote_host_change::sensor_values;
     }
     return *this;
@@ -1179,13 +1237,22 @@ auto remote_node_tracker::notice_instance(
                 connections.end(),
                 [=](const auto& conn) { return conn.connects(node_id); }),
               connections.end());
+
+            node.set_instance_id(instance_id);
+            if(auto host_id{node.host_id()}) {
+                get_instance(instance_id)
+                  .notice_alive()
+                  .set_host_id(extract(host_id));
+            }
         } else {
             get_instance(instance_id).notice_alive();
         }
     } else {
         node.set_instance_id(instance_id);
         if(auto host_id{node.host_id()}) {
-            get_instance(instance_id).set_host_id(extract(host_id));
+            get_instance(instance_id)
+              .notice_alive()
+              .set_host_id(extract(host_id));
         }
     }
     return node.notice_alive();

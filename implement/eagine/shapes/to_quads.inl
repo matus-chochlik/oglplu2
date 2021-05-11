@@ -78,7 +78,7 @@ void to_quads_gen::_indices(drawing_variant var, span<T> dest) noexcept {
     for(const auto& op : ops) {
         if(op.mode == primitive_type::triangle_strip) {
             if(op.idx_type == index_data_type::none) {
-                for(auto p : integer_range(1, op.count / 2)) {
+                for(const auto p : integer_range(1, op.count / 2)) {
                     dest[i++] = limit_cast<T>(op.first + p * 2 - 2);
                     dest[i++] = limit_cast<T>(op.first + p * 2 - 1);
                     dest[i++] = limit_cast<T>(op.first + p * 2 + 0);
@@ -88,7 +88,7 @@ void to_quads_gen::_indices(drawing_variant var, span<T> dest) noexcept {
                 span_size_t curr{0};
 
                 while(curr + 4 <= op.count) {
-                    for(auto t : integer_range(4)) {
+                    for(const auto t : integer_range(4)) {
                         if(
                           op.primitive_restart &&
                           delegated_gen::primitive_restart() &&
@@ -115,11 +115,11 @@ void to_quads_gen::_indices(drawing_variant var, span<T> dest) noexcept {
             }
         } else {
             if(op.idx_type == index_data_type::none) {
-                for(auto p : integer_range(op.count)) {
+                for(const auto p : integer_range(op.count)) {
                     dest[i++] = limit_cast<T>(op.first + p);
                 }
             } else {
-                for(auto p : integer_range(op.count)) {
+                for(const auto p : integer_range(op.count)) {
                     dest[i++] = limit_cast<T>(del_idx[op.first + p]);
                 }
             }

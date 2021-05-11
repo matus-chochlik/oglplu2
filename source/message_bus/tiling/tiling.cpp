@@ -1,6 +1,13 @@
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the GNU GENERAL PUBLIC LICENSE version 3.
+/// See http://www.gnu.org/licenses/gpl-3.0.txt
+///
+
 #include "TilingBackend.hpp"
 #include "TilingViewModel.hpp"
 #include <eagine/main_ctx.hpp>
+#include <eagine/main_fwd.hpp>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -16,6 +23,9 @@ auto main(main_ctx& ctx) -> int {
 
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app{argc_copy, const_cast<char**>(argv_copy)};
+    app.setOrganizationName("OGLplus");
+    app.setOrganizationDomain("oglplus.org");
+    app.setApplicationName("Tiling");
     std::setlocale(LC_NUMERIC, "C");
 
     const auto registerId = "com.github.matus-chochlik.oglplu2";

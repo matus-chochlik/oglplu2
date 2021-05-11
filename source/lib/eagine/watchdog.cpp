@@ -8,6 +8,8 @@
 
 // clang-format off
 #include "prologue.inl"
+#include <eagine/logging/entry.hpp>
+#include <eagine/main_ctx.hpp>
 
 #include "implement.inl"
 #include <eagine/watchdog.hpp>

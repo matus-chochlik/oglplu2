@@ -1,8 +1,7 @@
 ///
 /// Copyright Matus Chochlik.
-/// Distributed under the Boost Software License, Version 1.0.
-/// See accompanying file LICENSE_1_0.txt or copy at
-///  http://www.boost.org/LICENSE_1_0.txt
+/// Distributed under the GNU GENERAL PUBLIC LICENSE version 3.
+/// See http://www.gnu.org/licenses/gpl-3.0.txt
 ///
 
 #include "TilingBackend.hpp"
@@ -14,7 +13,7 @@ TilingBackend::TilingBackend(eagine::main_ctx_parent parent)
   , _tilingModel{std::make_shared<TilingModel>(*this)}
   , _tilingTheme{*this}
   , _tilingViewModel{*this} {
-    _timerId = startTimer(20);
+    _timerId = startTimer(10);
     emit tilingModelChanged();
 }
 //------------------------------------------------------------------------------

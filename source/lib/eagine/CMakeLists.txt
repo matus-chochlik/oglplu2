@@ -14,7 +14,10 @@ set(EAGINE_LIB_SOURCES
 	main_wrap.cpp
 	debug.cpp
 	git_info.cpp
+	build_info.cpp
 	compiler_info.cpp
+	system_info.cpp
+	user_info.cpp
 	identifier.cpp
 	from_string.cpp
 	edit_distance.cpp

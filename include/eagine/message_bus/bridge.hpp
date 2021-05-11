@@ -57,6 +57,7 @@ public:
     }
 
 private:
+    auto _uptime_seconds() -> std::int64_t;
     void _setup_from_config();
 
     auto _recoverable_state() const noexcept -> bool;
@@ -75,6 +76,8 @@ private:
     identifier_t _id{invalid_id()};
     timeout _no_id_timeout{std::chrono::seconds{2}, nothing};
 
+    std::chrono::steady_clock::time_point _startup_time{
+      std::chrono::steady_clock::now()};
     std::chrono::steady_clock::time_point _forwarded_since_i2c{
       std::chrono::steady_clock::now()};
     std::chrono::steady_clock::time_point _forwarded_since_c2o{

@@ -1,3 +1,8 @@
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the GNU GENERAL PUBLIC LICENSE version 3.
+/// See http://www.gnu.org/licenses/gpl-3.0.txt
+///
 import QtQuick 2.2
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.2
@@ -28,15 +33,11 @@ Pane {
 			Label {
 				text: qsTr("Load")
 			}
-			ProgressBar {
+			PlainBarChart {
 				Layout.columnSpan: 5
+				Layout.preferredHeight: 25
 				Layout.fillWidth: true
-				from: 0.0
-				to: 1.0
-				value: info.host && info.host.shortLoad
-					? info.host.shortLoad
-					: 0.0
-				indeterminate: !(info.host && info.host.shortLoad)
+				model: info.host.parameters.shortLoad
 			}
 
 			Label {
@@ -221,6 +222,16 @@ Pane {
 						Number(info.host.swapUsageDelta*100.0)
 							.toLocaleString(lc, "f", 2))
 					: "-"
+			}
+
+			Label {
+				text: qsTr("Power supply")
+			}
+			Label {
+				Layout.fillWidth: true
+				text: info.host && info.host.powerSupply
+					? info.host.powerSupply
+					: qsTr("-")
 			}
 		}
 		Item {

@@ -65,7 +65,7 @@ install(
 	COMPONENT tools
 )
 
-find_package(Qt5 COMPONENTS Core Qml Quick)
+find_package(Qt5 COMPONENTS Core Widgets Qml Quick)
 if(Qt5_FOUND)
 	set(CMAKE_AUTOMOC ON)
 	set(CMAKE_AUTORCC ON)

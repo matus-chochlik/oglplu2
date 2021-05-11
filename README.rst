@@ -74,6 +74,21 @@ For other configurations using SDL, wxWidgets, GLUT, etc. you need to install
 the appropriate packages (the names vary between distributions or even
 between versions of the same distribution so they are not listed here).
 
+In order to build the Qt/QML applications you need to additionally install
+the following packages:
+
+::
+
+ sudo apt install \
+    qt5-default \
+    qtdeclarative5-dev \
+    qml-module-qtquick-controls \
+    qml-module-qtquick-controls2 \
+    qml-module-qtquick-dialogs \
+    qml-module-qtcharts \
+    qml-module-qt-labs-folderlistmodel \
+    qml-module-qt-labs-settings
+
 Building
 ========
 
@@ -213,4 +228,8 @@ Copyright Matus Chochlik, 2015-2021.
 Distributed under the Boost Software License, Version 1.0.
 See accompanying file LICENSE_1_0.txt or copy at
 http://www.boost.org/LICENSE_1_0.txt
+
+The applications using Qt5 are distributed under
+the GNU GENERAL PUBLIC LICENSE version 3.
+See http://www.gnu.org/licenses/gpl-3.0.txt
 

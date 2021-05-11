@@ -6,6 +6,7 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/main_ctx.hpp>
+#include <eagine/main_fwd.hpp>
 #include <eagine/message_bus/registry.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/build_info.hpp>

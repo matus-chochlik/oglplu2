@@ -8,6 +8,7 @@
 
 #include <eagine/integer_range.hpp>
 #include <eagine/main_ctx.hpp>
+#include <eagine/main_fwd.hpp>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/one_of.hpp>
 #include <eagine/valid_if/positive.hpp>
@@ -102,8 +103,8 @@ auto write_output(std::ostream& output, const options& opts) -> int {
     for(auto input_path : input_paths) {
         std::ifstream input{c_str(input_path)};
         char c{};
-        for(int y : integer_range(opts.height.value())) {
-            for(int x : integer_range(opts.width.value())) {
+        for(const int y : integer_range(opts.height.value())) {
+            for(const int x : integer_range(opts.width.value())) {
                 if(!(input >> c).good()) {
                     std::cerr << "error: failed to read from input file '"
                               << input_path << "' at position " << x << "," << y

@@ -131,9 +131,9 @@ struct storage<Entity, Component, false> : base_storage<Entity, false> {
     using entity_param = entity_param_t<Entity>;
     using iterator_t = storage_iterator<Entity, false>;
 
-    virtual auto store(entity_param, Component &&) -> bool = 0;
+    virtual auto store(entity_param, Component&&) -> bool = 0;
 
-    virtual auto store(iterator_t&, entity_param, Component &&) -> bool = 0;
+    virtual auto store(iterator_t&, entity_param, Component&&) -> bool = 0;
 
     virtual void for_single(
       callable_ref<void(entity_param, manipulator<const Component>&)>,

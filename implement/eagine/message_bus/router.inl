@@ -11,6 +11,7 @@
 #include <eagine/main_ctx.hpp>
 #include <eagine/message_bus/context.hpp>
 #include <eagine/message_bus/serialize.hpp>
+#include <eagine/system_info.hpp>
 #include <thread>
 
 namespace eagine::msgbus {
@@ -170,6 +171,13 @@ auto parent_router::send(
 }
 //------------------------------------------------------------------------------
 // router
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_uptime_seconds() -> std::int64_t {
+    return std::chrono::duration_cast<std::chrono::seconds>(
+             std::chrono::steady_clock::now() - _startup_time)
+      .count();
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void router::add_certificate_pem(memory::const_block blk) {
@@ -687,10 +695,29 @@ auto router::_handle_special_common(
             respond(_parent_router.confirmed_id, _parent_router.the_connection);
         }
         return false;
+    } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
+        router_statistics stats{};
+
+        stats.router_id = _id_base;
+        stats.forwarded_messages = _forwarded_messages;
+        stats.dropped_messages = _dropped_messages;
+        stats.uptime_seconds = _uptime_seconds();
+
+        auto temp{default_serialize_buffer_for(stats)};
+        if(auto serialized{default_serialize(stats, cover(temp))}) {
+            message_view response{extract(serialized)};
+            response.setup_response(message);
+            response.set_source_id(_id_base);
+            this->_do_route_message(
+              EAGINE_MSGBUS_ID(statsRutr), _id_base, response);
+        }
     } else if(
       msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
       msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
-      msg_id.has_method(EAGINE_ID(topoEndpt))) {
+      msg_id.has_method(EAGINE_ID(topoEndpt)) ||
+      msg_id.has_method(EAGINE_ID(statsRutr)) ||
+      msg_id.has_method(EAGINE_ID(statsBrdg)) ||
+      msg_id.has_method(EAGINE_ID(statsEndpt))) {
         // this should be forwarded
         return false;
     } else if(msg_id.has_method(EAGINE_ID(annEndptId))) {

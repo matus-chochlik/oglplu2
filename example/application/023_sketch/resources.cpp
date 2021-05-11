@@ -165,7 +165,7 @@ void sketch_texture::init(execution_context& ec, video_context& vc) {
         }
     };
 
-    for(auto i : integer_range(3000)) {
+    for(const auto i : integer_range(3000)) {
         std::array<float, 6> rand{};
         ec.random_uniform_01(cover(rand));
 

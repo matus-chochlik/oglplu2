@@ -113,7 +113,7 @@ public:
                 const auto n = span_size(val.Size());
                 if(n > 0) {
                     const auto common_type = get_type(val[0]);
-                    for(auto i : integer_range(n)) {
+                    for(const auto i : integer_range(n)) {
                         if(get_type(val[rapidjson_size(i)]) != common_type) {
                             return value_type::composite;
                         }

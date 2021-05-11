@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(interleaved_call_1) {
         std::string s1, s2;
         const std::string sep = rg.get_string(1, 5);
 
-        auto fn = make_interleaved(
+        auto fn = interleaved_call(
           [&s1](const std::string& s) { s1.append(s); },
           [&s1, &sep]() { s1.append(sep); });
 

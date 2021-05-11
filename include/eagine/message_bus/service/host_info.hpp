@@ -12,6 +12,7 @@
 #include "../../bool_aggregate.hpp"
 #include "../../main_ctx.hpp"
 #include "../../maybe_unused.hpp"
+#include "../../system_info.hpp"
 #include "../service.hpp"
 #include "../signal.hpp"
 #include <array>

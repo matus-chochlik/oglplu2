@@ -342,7 +342,7 @@ auto eglplus_opengl_surface::initialize(
             std::vector<eglp::egl_types::device_type> devices;
             devices.resize(n);
             if(egl.query_devices(cover(devices))) {
-                for(auto cur_dev_idx : integer_range(n)) {
+                for(const auto cur_dev_idx : integer_range(n)) {
                     bool matching_device = true;
                     auto device = eglp::device_handle(devices[cur_dev_idx]);
 

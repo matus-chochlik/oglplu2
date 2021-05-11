@@ -14,6 +14,7 @@
 #include "identifier.hpp"
 #include "int_constant.hpp"
 #include "main_ctx.hpp"
+#include "main_ctx_object.hpp"
 #include "memory/copy.hpp"
 #include "string_span.hpp"
 

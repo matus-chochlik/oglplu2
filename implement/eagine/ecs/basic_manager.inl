@@ -315,7 +315,10 @@ basic_manager<Entity>::_do_get_c(T C::*mvp, entity_param_t<Entity> ent, T res)
         res = cmp.read().*mvp;
     };
 
-    _call_for_single_c<C>(ent, {construct_from, getter});
+    _call_for_single_c<C>(
+      ent,
+      callable_ref<void(entity_param, manipulator<const C>&)>{
+        construct_from, getter});
     return res;
 }
 //------------------------------------------------------------------------------

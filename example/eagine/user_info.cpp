@@ -6,6 +6,7 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/main.hpp>
+#include <eagine/user_info.hpp>
 #include <iostream>
 
 namespace eagine {

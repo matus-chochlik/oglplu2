@@ -18,6 +18,7 @@
 #include <eagine/serialize/fast_backend.hpp>
 #include <eagine/serialize/read.hpp>
 #include <eagine/serialize/write.hpp>
+#include <eagine/system_info.hpp>
 #include <iostream>
 #include <queue>
 #include <set>

@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_CASE(callable_ref_foo_4) {
 
     bar br{123};
 
-    callable_ref<float(float, float, float)> cr4(br);
+    callable_ref<float(float, float, float)> cr4(construct_from, br);
 
     BOOST_CHECK(bool(cr4) == true);
     BOOST_CHECK(!(cr4) == false);

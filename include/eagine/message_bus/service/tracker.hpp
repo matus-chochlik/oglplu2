@@ -16,6 +16,7 @@
 #include "discovery.hpp"
 #include "host_info.hpp"
 #include "ping_pong.hpp"
+#include "statistics.hpp"
 #include "system_info.hpp"
 #include "topology.hpp"
 
@@ -26,8 +27,8 @@ namespace eagine::msgbus {
 /// @see node_tracker
 /// @see service_composition
 template <typename Base>
-using node_tracker_base = pinger<system_info_consumer<
-  common_info_consumers<network_topology<subscriber_discovery<Base>>>>>;
+using node_tracker_base = pinger<system_info_consumer<common_info_consumers<
+  statistics_consumer<network_topology<subscriber_discovery<Base>>>>>>;
 //------------------------------------------------------------------------------
 /// @brief Service that consumes bus topology information and provides it via an API.
 /// @ingroup msgbus
@@ -97,6 +98,36 @@ public:
         return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_appeared);
     }
 
+    /// @brief Returns handler for the router bye message.
+    auto on_router_disappeared() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_router_disappeared);
+    }
+
+    /// @brief Returns handler for the bridge bye message.
+    auto on_bridge_disappeared() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_bridge_disappeared);
+    }
+
+    /// @brief Returns handler for the endpoint bye message.
+    auto on_endpoint_disappeared() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_disappeared);
+    }
+
+    /// @brief Returns handler for the router statistics message.
+    auto on_router_stats_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_router_stats_received);
+    }
+
+    /// @brief Returns handler for the bridge statistics message.
+    auto on_bridge_stats_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_bridge_stats_received);
+    }
+
+    /// @brief Returns handler for the endpoint statistics message.
+    auto on_endpoint_stats_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_stats_received);
+    }
+
     /// @brief Returns handler for the application name message.
     auto on_application_name_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_application_name_received);
@@ -151,6 +182,11 @@ public:
     /// @brief Returns handler for the total swap size message.
     auto on_total_swap_size_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_total_swap_size_received);
+    }
+
+    /// @brief Returns handler for the power supply kind message.
+    auto on_power_supply_kind_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_power_supply_kind_received);
     }
 
     /// @brief Returns handler for the ping response message.
@@ -218,14 +254,12 @@ public:
                         if(!host.total_swap_size()) {
                             this->query_total_swap_size(node_id);
                         }
-                        const bool should_query_sensors =
-                          host.should_query_sensors();
-                        if(should_query_sensors) {
-                            this->query_short_average_load(node_id);
-                            this->query_long_average_load(node_id);
-                            this->query_free_ram_size(node_id);
-                            this->query_free_swap_size(node_id);
-                            host.sensors_queried();
+
+                        if(node.can_query_system_info()) {
+                            if(host.should_query_sensors()) {
+                                this->query_sensors(node_id);
+                                host.sensors_queried();
+                            }
                         }
                     }
                 }
@@ -278,6 +312,12 @@ protected:
         this->router_appeared.connect(on_router_appeared());
         this->bridge_appeared.connect(on_bridge_appeared());
         this->endpoint_appeared.connect(on_endpoint_appeared());
+        this->router_disappeared.connect(on_router_disappeared());
+        this->bridge_disappeared.connect(on_bridge_disappeared());
+        this->endpoint_disappeared.connect(on_endpoint_disappeared());
+        this->router_stats_received.connect(on_router_stats_received());
+        this->bridge_stats_received.connect(on_bridge_stats_received());
+        this->endpoint_stats_received.connect(on_endpoint_stats_received());
         this->application_name_received.connect(on_application_name_received());
         this->endpoint_info_received.connect(on_endpoint_info_received());
         this->compiler_info_received.connect(on_compiler_info_received());
@@ -292,6 +332,8 @@ protected:
         this->total_ram_size_received.connect(on_total_ram_size_received());
         this->free_swap_size_received.connect(on_free_swap_size_received());
         this->total_swap_size_received.connect(on_total_swap_size_received());
+        this->power_supply_kind_received.connect(
+          on_power_supply_kind_received());
         this->ping_responded.connect(on_ping_response());
         this->ping_timeouted.connect(on_ping_timeout());
     }
@@ -302,7 +344,7 @@ protected:
 
 private:
     resetting_timeout _should_query_topology{std::chrono::seconds{15}, nothing};
-    resetting_timeout _should_query_info{std::chrono::seconds{10}};
+    resetting_timeout _should_query_info{std::chrono::seconds{5}};
 
     remote_node_tracker _tracker{};
 
@@ -348,7 +390,8 @@ private:
     }
 
     void _handle_alive(const subscriber_info& info) {
-        _tracker.notice_instance(info.endpoint_id, info.instance_id);
+        _tracker.notice_instance(info.endpoint_id, info.instance_id)
+          .assign(node_kind::endpoint);
     }
 
     void _handle_subscribed(const subscriber_info& info, message_id msg_id) {
@@ -375,18 +418,6 @@ private:
         }
     }
 
-    void _handle_router_disappeared(identifier_t router_id) {
-        _tracker.remove_node(router_id);
-    }
-
-    void _handle_bridge_disappeared(identifier_t bridge_id) {
-        _tracker.remove_node(bridge_id);
-    }
-
-    void _handle_endpoint_disappeared(identifier_t endpoint_id) {
-        _tracker.remove_node(endpoint_id);
-    }
-
     void _handle_bridge_appeared(const bridge_topology_info& info) {
         _tracker.notice_instance(info.bridge_id, info.instance_id)
           .assign(node_kind::bridge);
@@ -399,6 +430,30 @@ private:
     void _handle_endpoint_appeared(const endpoint_topology_info& info) {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .assign(node_kind::endpoint);
+    }
+
+    void _handle_router_disappeared(identifier_t router_id) {
+        _tracker.remove_node(router_id);
+    }
+
+    void _handle_bridge_disappeared(identifier_t bridge_id) {
+        _tracker.remove_node(bridge_id);
+    }
+
+    void _handle_endpoint_disappeared(identifier_t endpoint_id) {
+        _tracker.remove_node(endpoint_id);
+    }
+
+    void _handle_router_stats_received(const router_statistics& stats) {
+        _get_node(stats.router_id).assign(stats).notice_alive();
+    }
+
+    void _handle_bridge_stats_received(const bridge_statistics& stats) {
+        _get_node(stats.bridge_id).assign(stats).notice_alive();
+    }
+
+    void _handle_endpoint_stats_received(const endpoint_statistics& stats) {
+        _get_node(stats.endpoint_id).assign(stats).notice_alive();
     }
 
     void _handle_application_name_received(
@@ -587,6 +642,20 @@ private:
                       host_node.add_change(remote_node_change::hardware_config);
                   });
             }
+        }
+    }
+
+    void _handle_power_supply_kind_received(
+      const result_context& ctx,
+      power_supply_kind value) {
+        auto& node = _get_node(ctx.source_id()).notice_alive();
+        if(auto host_id{node.host_id()}) {
+            auto& host = _get_host(extract(host_id)).notice_alive();
+            host.set_power_supply(value);
+            _tracker.for_each_host_node_state(
+              extract(host_id), [&](auto, auto& host_node) {
+                  host_node.add_change(remote_node_change::sensor_values);
+              });
         }
     }
 

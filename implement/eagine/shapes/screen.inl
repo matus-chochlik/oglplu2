@@ -74,7 +74,7 @@ void unit_screen_gen::normals(span<float> dest) noexcept {
     EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
-    for(auto i : integer_range(4)) {
+    for(const auto i : integer_range(4)) {
         EAGINE_MAYBE_UNUSED(i);
         dest[k++] = 0.F;
         dest[k++] = 0.F;
@@ -90,7 +90,7 @@ void unit_screen_gen::tangentials(span<float> dest) noexcept {
     EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
-    for(auto i : integer_range(4)) {
+    for(const auto i : integer_range(4)) {
         EAGINE_MAYBE_UNUSED(i);
         dest[k++] = 1.F;
         dest[k++] = 0.F;
@@ -106,7 +106,7 @@ void unit_screen_gen::bitangentials(span<float> dest) noexcept {
     EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
-    for(auto i : integer_range(4)) {
+    for(const auto i : integer_range(4)) {
         EAGINE_MAYBE_UNUSED(i);
         dest[k++] = 0.F;
         dest[k++] = 1.F;

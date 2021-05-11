@@ -6,6 +6,8 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/main.hpp>
+#include <eagine/reflect/enumerators.hpp>
+#include <eagine/system_info.hpp>
 #include <iomanip>
 #include <iostream>
 
@@ -67,8 +69,23 @@ auto main(main_ctx& ctx) -> int {
     for(span_size_t i = 0, n = sys.cooling_device_count(); i < n; ++i) {
         std::cout << "  " << i << ": ";
         if(auto opt_val{sys.cooling_device_state(i)}) {
-
             std::cout << extract(opt_val) * 100.F << "%";
+        } else {
+            std::cout << "N/A";
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << "status of " << sys.ac_supply_count()
+              << " AC power supplies: " << std::endl;
+
+    for(span_size_t i = 0, n = sys.ac_supply_count(); i < n; ++i) {
+        std::cout << "  " << i << ": ";
+        auto online = sys.ac_supply_online(i);
+        if(online) {
+            std::cout << "online";
+        } else if(!online) {
+            std::cout << "offline";
         } else {
             std::cout << "N/A";
         }
@@ -88,6 +105,9 @@ auto main(main_ctx& ctx) -> int {
         }
         std::cout << std::endl;
     }
+
+    std::cout << "used power supply: " << enumerator_name(sys.power_supply())
+              << std::endl;
 
     return 0;
 }

@@ -86,13 +86,13 @@ void unit_round_cube_gen::positions(span<float> dest) noexcept {
         return adjust(float(q) / float(_divisions) - 0.5F);
     };
 
-    for(auto f : integer_range(6)) {
+    for(const auto f : integer_range(6)) {
         const auto vx = unit_round_cube_face_tangential(f);
         const auto vy = unit_round_cube_face_bitangential(f);
         const auto vz = unit_round_cube_face_normal(f);
-        for(auto y : integer_range(_divisions + 1)) {
+        for(const auto y : integer_range(_divisions + 1)) {
             const float j = frac(y);
-            for(auto x : integer_range(_divisions + 1)) {
+            for(const auto x : integer_range(_divisions + 1)) {
                 const float i = frac(x);
                 const auto vp = normalized((vz * 0.5F) + (vy * j) + (vx * i));
                 dest[k++] = vp.x();
@@ -118,11 +118,11 @@ void unit_round_cube_gen::face_coords(span<float> dest) noexcept {
 
     span_size_t k = 0;
 
-    for(auto f : integer_range(6)) {
+    for(const auto f : integer_range(6)) {
         const auto l = _divisions + 1;
-        for(auto y : integer_range(l)) {
+        for(const auto y : integer_range(l)) {
             const float j = float(y) / float(_divisions);
-            for(auto x : integer_range(l)) {
+            for(const auto x : integer_range(l)) {
                 const float i = float(x) / float(_divisions);
                 dest[k++] = i;
                 dest[k++] = j;
@@ -192,10 +192,10 @@ unit_round_cube_gen::_indices(drawing_variant var, span<T> dest) noexcept {
     EAGINE_MAYBE_UNUSED(var);
 
     span_size_t k = 0;
-    for(auto f : integer_range(6)) {
-        for(auto d : integer_range(_divisions)) {
-            for(auto l : integer_range(_divisions + 1)) {
-                for(auto s : integer_range(2)) {
+    for(const auto f : integer_range(6)) {
+        for(const auto d : integer_range(_divisions)) {
+            for(const auto l : integer_range(_divisions + 1)) {
+                for(const auto s : integer_range(2)) {
                     dest[k++] = limit_cast<T>(
                       (f * (_divisions + 1) * (_divisions + 1)) +
                       ((d + s) * (_divisions + 1)) + l);
@@ -256,9 +256,9 @@ void unit_round_cube_gen::instructions(
         span_size_t o = 0;
         span_size_t offs = 0;
         const span_size_t len = (_divisions + 1) * 2;
-        for(auto f : integer_range(6)) {
+        for(const auto f : integer_range(6)) {
             EAGINE_MAYBE_UNUSED(f);
-            for(auto d : integer_range(_divisions)) {
+            for(const auto d : integer_range(_divisions)) {
                 EAGINE_MAYBE_UNUSED(d);
                 draw_operation& op = ops[o++];
                 op.mode = primitive_type::triangle_strip;

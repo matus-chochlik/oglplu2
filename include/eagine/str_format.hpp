@@ -69,7 +69,7 @@ public:
       format_string_and_list<N - 1>&& prev,
       std::string&& val) noexcept
       : format_string_and_list_base(prev) {
-        for(auto i : integer_range(N - 1)) {
+        for(const auto i : integer_range(N - 1)) {
             _list[i] = std::move(prev._list[i]);
         }
         _list[N - 1] = std::move(val);

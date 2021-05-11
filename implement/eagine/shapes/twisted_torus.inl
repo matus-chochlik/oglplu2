@@ -61,16 +61,16 @@ void unit_twisted_torus_gen::positions(span<float> dest) noexcept {
     const double s_step = (2 * math::pi) / double(_sections);
     const double s_slip = s_step * _thickness_ratio * 2.0;
 
-    for(auto f : integer_range(2)) {
+    for(const auto f : integer_range(2)) {
         const double f_sign = (f == 0) ? 1.0 : -1.0;
         const double fdt = s_slip * f_sign * 0.25;
 
-        for(auto s : integer_range(_sections)) {
+        for(const auto s : integer_range(_sections)) {
             const double s_angle = s_step * 0.5 + s * s_step;
             const double sa[2] = {
               s_angle + s_slip * f_sign, s_angle - s_slip * f_sign};
 
-            for(auto r : integer_range(_rings + 1)) {
+            for(const auto r : integer_range(_rings + 1)) {
                 const double r_angle = r * r_step;
 
                 const double vx = std::cos(r_angle);
@@ -78,7 +78,7 @@ void unit_twisted_torus_gen::positions(span<float> dest) noexcept {
 
                 const double ta = s_step * r * r_twist;
 
-                for(auto d : integer_range(2)) {
+                for(const auto d : integer_range(2)) {
                     double vr = std::cos(sa[d] + ta);
                     double vy = std::sin(sa[d] + ta);
 
@@ -90,14 +90,14 @@ void unit_twisted_torus_gen::positions(span<float> dest) noexcept {
         }
     }
 
-    for(auto d : integer_range(2)) {
+    for(const auto d : integer_range(2)) {
         const double d_sign = (d == 0) ? 1.0 : -1.0;
 
-        for(auto s : integer_range(_sections)) {
+        for(const auto s : integer_range(_sections)) {
             const double s_angle = s_step * 0.5 + s * s_step;
             const double sa = s_angle + s_slip * d_sign;
 
-            for(auto r : integer_range(_rings + 1)) {
+            for(const auto r : integer_range(_rings + 1)) {
                 const double r_angle = r * r_step;
                 const double ta = s_step * r * r_twist;
                 const double vr = std::cos(sa + ta);
@@ -133,22 +133,22 @@ void unit_twisted_torus_gen::normals(span<float> dest) noexcept {
     const double s_step = (2.0 * math::pi) / double(_sections);
     const double s_slip = s_step * _thickness_ratio * 2.0;
 
-    for(auto f : integer_range(2)) {
+    for(const auto f : integer_range(2)) {
         const double f_sign = (f == 0) ? 1.0 : -1.0;
 
-        for(auto s : integer_range(_sections)) {
+        for(const auto s : integer_range(_sections)) {
             const double s_angle = s_step * 0.5 + s * s_step;
             const double sa[2] = {
               s_angle + s_slip * f_sign, s_angle - s_slip * f_sign};
 
-            for(auto r : integer_range(_rings + 1)) {
+            for(const auto r : integer_range(_rings + 1)) {
                 const double r_angle = r * r_step;
                 double vx = std::cos(r_angle);
                 double vz = std::sin(r_angle);
 
                 const double ta = s_step * r * r_twist;
 
-                for(auto d : integer_range(2)) {
+                for(const auto d : integer_range(2)) {
                     double vr = std::cos(sa[d] + ta);
                     double vy = std::sin(sa[d] + ta);
 
@@ -160,14 +160,14 @@ void unit_twisted_torus_gen::normals(span<float> dest) noexcept {
         }
     }
 
-    for(auto d : integer_range(2)) {
+    for(const auto d : integer_range(2)) {
         const double d_sign = (d == 0) ? 1.0 : -1.0;
 
-        for(auto s : integer_range(_sections)) {
+        for(const auto s : integer_range(_sections)) {
             const double s_angle = s_step * 0.5 + s * s_step;
             const double sa = s_angle + s_slip * d_sign;
 
-            for(auto r : integer_range(_rings + 1)) {
+            for(const auto r : integer_range(_rings + 1)) {
                 const double ta = s_step * r * r_twist;
                 const double vr = std::sin(sa + ta);
                 const double vy = std::cos(sa + ta);
@@ -175,7 +175,7 @@ void unit_twisted_torus_gen::normals(span<float> dest) noexcept {
                 double vx = std::cos(r_angle);
                 double vz = std::sin(r_angle);
 
-                for(auto f : integer_range(2)) {
+                for(const auto f : integer_range(2)) {
                     EAGINE_MAYBE_UNUSED(f);
                     dest[k++] = float(d_sign * -vx * vr);
                     dest[k++] = float(d_sign * vy);
@@ -199,19 +199,19 @@ void unit_twisted_torus_gen::wrap_coords(span<float> dest) noexcept {
     const double s_step = 1.0 / double(_sections);
     const double s_slip = s_step * _thickness_ratio * 2.0;
 
-    for(auto f : integer_range(4)) {
+    for(const auto f : integer_range(4)) {
         const double f_sign = (f == 0) ? 1.0 : -1.0;
 
-        for(auto s : integer_range(_sections)) {
+        for(const auto s : integer_range(_sections)) {
             const double s_angle = s_step * 0.5 + s * s_step;
             const double sa[2] = {
               s_angle + s_slip * f_sign, s_angle - s_slip * f_sign};
 
-            for(auto r : integer_range(_rings + 1)) {
+            for(const auto r : integer_range(_rings + 1)) {
                 const double r_angle = 2.0 * r * r_step;
                 const double u = r_angle;
 
-                for(auto d : integer_range(2)) {
+                for(const auto d : integer_range(2)) {
                     const double v = sa[d];
                     dest[k++] = float(u);
                     dest[k++] = float(v);
@@ -271,8 +271,8 @@ void unit_twisted_torus_gen::instructions(
         span_size_t offs = 0;
 
         auto opi = ops.begin();
-        for(auto f : integer_range(4)) {
-            for(auto s : integer_range(_sections)) {
+        for(const auto f : integer_range(4)) {
+            for(const auto s : integer_range(_sections)) {
                 EAGINE_ASSERT(opi != ops.end());
                 EAGINE_MAYBE_UNUSED(s);
                 draw_operation& op = *opi++;
@@ -305,7 +305,7 @@ void unit_twisted_torus_gen::ray_intersections(
 
     const auto bs = bounding_sphere();
 
-    for(auto i : integer_range(intersections.size())) {
+    for(const auto i : integer_range(intersections.size())) {
         const auto& ray = rays[i];
         const auto nparam = math::nearest_ray_param(
           math::line_sphere_intersection_params(ray, bs));

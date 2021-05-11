@@ -234,17 +234,17 @@ public:
         return false;
     }
 
-    constexpr auto compress(
+    auto compress(
       memory::const_block input,
       memory::buffer& output,
-      data_compression_level level) const -> memory::const_block {
+      data_compression_level level) -> memory::const_block {
         output.resize(input.size() + 1);
         copy(input, skip(cover(output), 1));
         cover(output).front() = 0x00U;
         return view(output);
     }
 
-    constexpr auto compress(memory::const_block, data_compression_level) const
+    auto compress(memory::const_block block, data_compression_level level)
       -> memory::const_block {
         return compress(block, _buff, level);
     }
@@ -253,8 +253,7 @@ public:
         return false;
     }
 
-    constexpr auto
-    decompress(memory::const_block input, memory::buffer& output) const
+    auto decompress(memory::const_block input, memory::buffer& output) const
       -> memory::const_block {
         if(input.front() == 0x00U) {
             output.resize(input.size() - 1);
@@ -264,8 +263,7 @@ public:
         return {};
     }
 
-    constexpr auto decompress(memory::const_block input) const
-      -> memory::const_block {
+    auto decompress(memory::const_block input) const -> memory::const_block {
         if(input.front() == 0x00U) {
             return skip(input, 1);
         }

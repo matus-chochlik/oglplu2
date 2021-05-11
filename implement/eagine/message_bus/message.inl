@@ -200,18 +200,21 @@ auto serialized_message_storage::pack_into(memory::block dest)
 EAGINE_LIB_FUNC
 void serialized_message_storage::cleanup(const message_pack_info& packed) {
     auto to_be_removed = packed.bits();
+    span_size_t i = 0;
+
+    // don't try to "optimize" this into the remove_if predicate
+    while(to_be_removed) {
+        if((to_be_removed & 1U) == 1U) {
+            _buffers.eat(std::move(std::get<0>(_messages[i])));
+        }
+        ++i;
+        to_be_removed >>= 1U;
+    }
     _messages.erase(
       std::remove_if(
         _messages.begin(),
         _messages.end(),
-        [this, to_be_removed](auto& entry) mutable {
-            const bool do_remove = (to_be_removed & 1U) == 1U;
-            if(do_remove) {
-                _buffers.eat(std::move(std::get<0>(entry)));
-            }
-            to_be_removed >>= 1U;
-            return do_remove;
-        }),
+        [](auto& entry) mutable { return std::get<0>(entry).empty(); }),
       _messages.end());
 }
 //------------------------------------------------------------------------------

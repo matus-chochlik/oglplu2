@@ -6,6 +6,7 @@
 ///
 
 #include <eagine/main_ctx.hpp>
+#include <eagine/main_fwd.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/endpoint.hpp>
 #include <eagine/message_bus/router_address.hpp>
@@ -39,7 +40,7 @@ public:
 
         auto& info = provided_endpoint_info();
         info.display_name = "sudoku tiling generator";
-        info.description = "helper node for the sudoku solver service";
+        info.description = "sudoku solver tiling generator application";
     }
 
 private:

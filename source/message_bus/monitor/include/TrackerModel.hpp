@@ -1,18 +1,20 @@
 ///
 /// Copyright Matus Chochlik.
-/// Distributed under the Boost Software License, Version 1.0.
-/// See accompanying file LICENSE_1_0.txt or copy at
-///  http://www.boost.org/LICENSE_1_0.txt
-///
+//// Distributed under the GNU GENERAL PUBLIC LICENSE version 3.
+/// See http://www.gnu.org/licenses/gpl-3.0.txt
+//
 
 #ifndef EAGINE_MESSAGE_BUS_MONITOR_TRACKER_MODEL
 #define EAGINE_MESSAGE_BUS_MONITOR_TRACKER_MODEL
 
+#include "HostParameterModel.hpp"
+#include "NodeParameterModel.hpp"
 #include <eagine/main_ctx_object.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/tracker.hpp>
 #include <QObject>
+#include <map>
 
 class MonitorBackend;
 //------------------------------------------------------------------------------
@@ -32,6 +34,11 @@ public:
     auto tracker() const noexcept -> auto& {
         return _tracker;
     }
+
+    auto hostParameters(eagine::identifier_t hostId) noexcept
+      -> std::shared_ptr<HostParameterModel>;
+    auto nodeParameters(eagine::identifier_t nodeId) noexcept
+      -> std::shared_ptr<NodeParameterModel>;
 signals:
     void nodeKindChanged(const eagine::msgbus::remote_node&);
     void nodeRelocated(const eagine::msgbus::remote_node&);
@@ -62,6 +69,11 @@ private:
     eagine::msgbus::service_composition<
       eagine::msgbus::node_tracker<eagine::msgbus::shutdown_invoker<>>>
       _tracker;
+
+    std::map<eagine::identifier_t, std::weak_ptr<HostParameterModel>>
+      _host_parameters;
+    std::map<eagine::identifier_t, std::weak_ptr<NodeParameterModel>>
+      _node_parameters;
 };
 //------------------------------------------------------------------------------
 #endif

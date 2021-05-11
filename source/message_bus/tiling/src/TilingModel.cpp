@@ -1,8 +1,7 @@
 ///
 /// Copyright Matus Chochlik.
-/// Distributed under the Boost Software License, Version 1.0.
-/// See accompanying file LICENSE_1_0.txt or copy at
-///  http://www.boost.org/LICENSE_1_0.txt
+/// Distributed under the GNU GENERAL PUBLIC LICENSE version 3.
+/// See http://www.gnu.org/licenses/gpl-3.0.txt
 ///
 
 #include "TilingModel.hpp"
@@ -19,6 +18,10 @@ TilingModel::TilingModel(eagine::main_ctx_parent parent)
     eagine::msgbus::router_address address{*this};
     eagine::msgbus::connection_setup conn_setup{*this};
     conn_setup.setup_connectors(_tiling, address);
+
+    auto& info = _tiling.provided_endpoint_info();
+    info.display_name = "sudoku tiling generator";
+    info.description = "sudoku tiling solver/generator GUI application";
 
     _tiling.tiles_generated_4.connect(
       EAGINE_THIS_MEM_FUNC_REF(onFragmentAdded));
@@ -39,8 +42,8 @@ void TilingModel::reinitialize(int w, int h) {
         _width = w;
         _height = h;
         _cellCache.resize(eagine::std_size(w * h));
-        zero(eagine::cover(_cellCache));
     }
+    zero(eagine::cover(_cellCache));
 
     _tiling.reinitialize(
       {_width, _height},
@@ -58,10 +61,13 @@ auto TilingModel::getHeight() const noexcept -> int {
     return _height;
 }
 //------------------------------------------------------------------------------
-auto TilingModel::getTile(int row, int column) const noexcept -> QVariant {
+auto TilingModel::getCellChar(int row, int column) const noexcept -> char {
     const auto k = eagine::std_size(row * _width + column);
-    const auto c = _cellCache[k];
-    if(c) {
+    return _cellCache[k];
+}
+//------------------------------------------------------------------------------
+auto TilingModel::getCell(int row, int column) const noexcept -> QVariant {
+    if(const char c{getCellChar(row, column)}) {
         const char s[2] = {c, '\0'};
         return {static_cast<const char*>(s)};
     }

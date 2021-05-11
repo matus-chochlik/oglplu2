@@ -7,6 +7,7 @@
 ///
 #include <eagine/file_contents.hpp>
 #include <eagine/identifier_ctr.hpp>
+#include <eagine/logging/logger.hpp>
 #include <eagine/main.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/memory/span_algo.hpp>

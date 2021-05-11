@@ -7,6 +7,7 @@
 ///
 #include <eagine/embed.hpp>
 #include <eagine/file_contents.hpp>
+#include <eagine/logging/logger.hpp>
 #include <eagine/main.hpp>
 
 #include <eagine/ssl.hpp>

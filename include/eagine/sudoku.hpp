@@ -253,7 +253,7 @@ public:
     template <typename Function>
     void for_each_alternative(Function func) const noexcept {
 
-        for(auto index : integer_range(glyph_count)) {
+        for(const auto index : integer_range(glyph_count)) {
             const auto mask = to_cell_type(index);
             if((_cel_val & mask) == mask) {
                 func(index);
@@ -302,10 +302,10 @@ public:
 
     template <typename Function>
     void for_each_coord(Function func) const noexcept {
-        for(auto by : integer_range(S)) {
-            for(auto bx : integer_range(S)) {
-                for(auto cy : integer_range(S)) {
-                    for(auto cx : integer_range(S)) {
+        for(const auto by : integer_range(S)) {
+            for(const auto bx : integer_range(S)) {
+                for(const auto cy : integer_range(S)) {
+                    for(const auto cx : integer_range(S)) {
                         if(!func(coord_type{{bx, by, cx, cy}})) {
                             return;
                         }
@@ -340,8 +340,8 @@ public:
         const auto [cbx, cby, ccx, ccy] = coord;
         const auto cel_val = value.cell_value();
 
-        for(auto cy : integer_range(S)) {
-            for(auto cx : integer_range(S)) {
+        for(const auto cy : integer_range(S)) {
+            for(const auto cx : integer_range(S)) {
                 if((cx != ccx) || (cy != ccy)) {
                     if(_cell_val({cbx, cby, cx, cy}) == cel_val) {
                         return false;
@@ -350,8 +350,8 @@ public:
             }
         }
 
-        for(auto bx : integer_range(S)) {
-            for(auto cx : integer_range(S)) {
+        for(const auto bx : integer_range(S)) {
+            for(const auto cx : integer_range(S)) {
                 if((bx != cbx) || (cx != ccx)) {
                     if(_cell_val({bx, cby, cx, ccy}) == cel_val) {
                         return false;
@@ -360,8 +360,8 @@ public:
             }
         }
 
-        for(auto by : integer_range(S)) {
-            for(auto cy : integer_range(S)) {
+        for(const auto by : integer_range(S)) {
+            for(const auto cy : integer_range(S)) {
                 if((by != cby) || (cy != ccy)) {
                     if(_cell_val({cbx, by, ccx, cy}) == cel_val) {
                         return false;
@@ -408,7 +408,7 @@ public:
 
     auto set_available_alternatives(const coord_type& coord) noexcept -> auto& {
         glyph_type alternatives;
-        for(auto value : integer_range(glyph_count)) {
+        for(const auto value : integer_range(glyph_count)) {
             if(is_possible(coord, value)) {
                 alternatives.add(value);
             }
@@ -576,8 +576,8 @@ template <unsigned S>
 auto basic_sudoku_board_traits<S>::make_diagonal() const -> board_type {
     board_type result{*this};
     unsigned g = 0;
-    for(auto b : integer_range(S)) {
-        for(auto c : integer_range(S)) {
+    for(const auto b : integer_range(S)) {
+        for(const auto c : integer_range(S)) {
             result.set({{b, b, c, c}}, g++);
         }
     }
@@ -616,10 +616,10 @@ template <unsigned S>
 auto basic_sudoku_board_traits<S>::print(
   std::ostream& out,
   const basic_sudoku_board<S, false>& board) const -> std::ostream& {
-    for(auto by : integer_range(S)) {
-        for(auto cy : integer_range(S)) {
-            for(auto bx : integer_range(S)) {
-                for(auto cx : integer_range(S)) {
+    for(const auto by : integer_range(S)) {
+        for(const auto cy : integer_range(S)) {
+            for(const auto bx : integer_range(S)) {
+                for(const auto cx : integer_range(S)) {
                     print(out << ' ', board.get({{bx, by, cx, cy}}));
                 }
                 if(bx + 1 < S) {
@@ -629,8 +629,8 @@ auto basic_sudoku_board_traits<S>::print(
             out << '\n';
         }
         if(by + 1 < S) {
-            for(auto s1 : integer_range(S)) {
-                for(auto s2 : integer_range(S)) {
+            for(const auto s1 : integer_range(S)) {
+                for(const auto s2 : integer_range(S)) {
                     if(s1 == 0 && s2 == 0) {
                         out << " -";
                     } else {
@@ -651,10 +651,10 @@ template <unsigned S>
 auto basic_sudoku_board_traits<S>::print(
   std::ostream& out,
   const basic_sudoku_board<S, true>& board) const -> std::ostream& {
-    for(auto by : integer_range(S)) {
-        for(auto cy : integer_range(S)) {
-            for(auto bx : integer_range(S)) {
-                for(auto cx : integer_range(S)) {
+    for(const auto by : integer_range(S)) {
+        for(const auto cy : integer_range(S)) {
+            for(const auto bx : integer_range(S)) {
+                for(const auto cx : integer_range(S)) {
                     print(out, board.get({{bx, by, cx, cy}}));
                 }
             }
@@ -727,8 +727,8 @@ public:
     operator<<(std::ostream& out, const basic_sudoku_tile_patch& that)
       -> std::ostream& {
         std::size_t k = 0;
-        for(auto y : integer_range(that._height)) {
-            for(auto x : integer_range(that._width)) {
+        for(const auto y : integer_range(that._height)) {
+            for(const auto x : integer_range(that._width)) {
                 EAGINE_MAYBE_UNUSED(x);
                 EAGINE_MAYBE_UNUSED(y);
                 EAGINE_ASSERT(k < that._cells.size());
@@ -767,8 +767,8 @@ public:
     }
 
     auto generate(int xmin, int ymin, int xmax, int ymax) -> auto& {
-        for(auto y : integer_range(ymin, ymax + 1)) {
-            for(auto x : integer_range(xmin, xmax + 1)) {
+        for(const auto y : integer_range(ymin, ymax + 1)) {
+            for(const auto x : integer_range(xmin, xmax + 1)) {
                 _get(x, y);
             }
         }
@@ -781,12 +781,12 @@ public:
         const int xmax = xmin + patch.width() / (S * (S - 2));
         std::size_t k = 0;
         for(int y = ymax - 1; y >= ymin; --y) {
-            for(auto by : integer_range(1U, S - 1U)) {
-                for(auto cy : integer_range(S)) {
-                    for(auto x : integer_range(xmin, xmax)) {
+            for(const auto by : integer_range(1U, S - 1U)) {
+                for(const auto cy : integer_range(S)) {
+                    for(const auto x : integer_range(xmin, xmax)) {
                         auto& board = _get(x, y);
-                        for(auto bx : integer_range(1U, S - 1U)) {
-                            for(auto cx : integer_range(S)) {
+                        for(const auto bx : integer_range(1U, S - 1U)) {
+                            for(const auto cx : integer_range(S)) {
                                 EAGINE_ASSERT(k < patch._cells.size());
                                 patch._cells[k++] =
                                   board.get({bx, by, cx, cy}).get_index();
@@ -801,13 +801,13 @@ public:
 
     auto print(std::ostream& out, int xmin, int ymin, int xmax, int ymax)
       -> std::ostream& {
-        for(auto y : integer_range(ymin, ymax + 1)) {
-            for(auto by : integer_range(1U, S - 1U)) {
-                for(auto cy : integer_range(S)) {
-                    for(auto x : integer_range(xmin, xmax + 1)) {
+        for(const auto y : integer_range(ymin, ymax + 1)) {
+            for(const auto by : integer_range(1U, S - 1U)) {
+                for(const auto cy : integer_range(S)) {
+                    for(const auto x : integer_range(xmin, xmax + 1)) {
                         auto& board = _get(x, y);
-                        for(auto bx : integer_range(1U, S - 1U)) {
-                            for(auto cx : integer_range(S)) {
+                        for(const auto bx : integer_range(1U, S - 1U)) {
+                            for(const auto cx : integer_range(S)) {
                                 _traits.get().print(
                                   out, board.get({bx, by, cx, cy}));
                             }
@@ -828,27 +828,27 @@ private:
             if(y > 0) {
                 if(x > 0) {
                     auto& left = _get(x - 1, y);
-                    for(auto by : integer_range(S - 1U)) {
+                    for(const auto by : integer_range(S - 1U)) {
                         added.set_block(0U, by, left.get_block(S - 1U, by));
                     }
                     auto& down = _get(x, y - 1);
-                    for(auto bx : integer_range(1U, S)) {
+                    for(const auto bx : integer_range(1U, S)) {
                         added.set_block(bx, S - 1U, down.get_block(bx, 0U));
                     }
                     pos = _emplace(x, y, added);
                 } else if(x < 0) {
                     auto& right = _get(x + 1, y);
-                    for(auto by : integer_range(S - 1U)) {
+                    for(const auto by : integer_range(S - 1U)) {
                         added.set_block(S - 1U, by, right.get_block(0U, by));
                     }
                     auto& down = _get(x, y - 1);
-                    for(auto bx : integer_range(S - 1U)) {
+                    for(const auto bx : integer_range(S - 1U)) {
                         added.set_block(bx, S - 1U, down.get_block(bx, 0U));
                     }
                     pos = _emplace(x, y, added);
                 } else {
                     auto& down = _get(x, y - 1);
-                    for(auto bx : integer_range(S)) {
+                    for(const auto bx : integer_range(S)) {
                         added.set_block(bx, S - 1U, down.get_block(bx, 0U));
                     }
                     pos = _emplace(x, y, added);
@@ -856,27 +856,27 @@ private:
             } else if(y < 0) {
                 if(x > 0) {
                     auto& left = _get(x - 1, y);
-                    for(auto by : integer_range(1U, S)) {
+                    for(const auto by : integer_range(1U, S)) {
                         added.set_block(0U, by, left.get_block(S - 1U, by));
                     }
                     auto& up = _get(x, y + 1);
-                    for(auto bx : integer_range(1U, S)) {
+                    for(const auto bx : integer_range(1U, S)) {
                         added.set_block(bx, 0U, up.get_block(bx, S - 1U));
                     }
                     pos = _emplace(x, y, added);
                 } else if(x < 0) {
                     auto& right = _get(x + 1, y);
-                    for(auto by : integer_range(1U, S)) {
+                    for(const auto by : integer_range(1U, S)) {
                         added.set_block(S - 1U, by, right.get_block(0U, by));
                     }
                     auto& up = _get(x, y + 1);
-                    for(auto bx : integer_range(S - 1U)) {
+                    for(const auto bx : integer_range(S - 1U)) {
                         added.set_block(bx, 0U, up.get_block(bx, S - 1U));
                     }
                     pos = _emplace(x, y, added);
                 } else {
                     auto& up = _get(x, y + 1);
-                    for(auto bx : integer_range(S)) {
+                    for(const auto bx : integer_range(S)) {
                         added.set_block(bx, 0U, up.get_block(bx, S - 1U));
                     }
                     pos = _emplace(x, y, added);
@@ -884,13 +884,13 @@ private:
             } else {
                 if(x > 0) {
                     auto& left = _get(x - 1, y);
-                    for(auto by : integer_range(S)) {
+                    for(const auto by : integer_range(S)) {
                         added.set_block(0U, by, left.get_block(S - 1U, by));
                     }
                     pos = _emplace(x, y, added);
                 } else if(x < 0) {
                     auto& right = _get(x + 1, y);
-                    for(auto by : integer_range(S)) {
+                    for(const auto by : integer_range(S)) {
                         added.set_block(S - 1U, by, right.get_block(0U, by));
                     }
                     pos = _emplace(x, y, added);

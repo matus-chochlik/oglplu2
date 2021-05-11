@@ -94,6 +94,22 @@ protected:
           EAGINE_MEM_FUNC_C(
             system_info,
             total_swap_size))[EAGINE_MSG_ID(eagiSysInf, rqTtlSwpSz)]);
+
+        Base::add_method(_power_supply_kind(
+          EAGINE_MSG_ID(eagiSysInf, powerSuply),
+          &main_ctx::get().system(),
+          EAGINE_MEM_FUNC_C(
+            system_info, power_supply))[EAGINE_MSG_ID(eagiSysInf, rqPwrSuply)]);
+
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(
+            eagiSysInf, qryStats, system_info_provider, _handle_stats_query));
+
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(
+            eagiSysInf, qrySensors, system_info_provider, _handle_sensor_query));
     }
 
 private:
@@ -123,6 +139,30 @@ private:
 
     default_function_skeleton<valid_if_nonnegative<span_size_t>() noexcept, 32>
       _total_swap_size;
+
+    default_function_skeleton<power_supply_kind() noexcept, 32>
+      _power_supply_kind;
+
+    auto
+    _handle_stats_query(const message_context& msg_ctx, stored_message& message)
+      -> bool {
+        _cpu_concurrent_threads.invoke_by(msg_ctx, message);
+        _memory_page_size.invoke_by(msg_ctx, message);
+        _total_ram_size.invoke_by(msg_ctx, message);
+        _total_swap_size.invoke_by(msg_ctx, message);
+        return true;
+    }
+
+    auto _handle_sensor_query(
+      const message_context& msg_ctx,
+      stored_message& message) -> bool {
+        _short_average_load.invoke_by(msg_ctx, message);
+        _long_average_load.invoke_by(msg_ctx, message);
+        _free_ram_size.invoke_by(msg_ctx, message);
+        _free_swap_size.invoke_by(msg_ctx, message);
+        _power_supply_kind.invoke_by(msg_ctx, message);
+        return true;
+    }
 };
 //------------------------------------------------------------------------------
 /// @brief Service consuming basic information about endpoint's host system.
@@ -158,7 +198,7 @@ public:
     signal<void(const result_context&, const valid_if_positive<span_size_t>&)>
       cpu_concurrent_threads_received;
 
-    /// @brief Queries the endpoint's host system short average load (0.0 - 1.0)
+    /// @brief Queries the endpoint's host system short average load (0.0 - 1.0).
     /// @see short_average_load_received
     void query_short_average_load(identifier_t endpoint_id) {
         _short_average_load.invoke_on(
@@ -170,7 +210,7 @@ public:
     signal<void(const result_context&, const valid_if_nonnegative<float>&)>
       short_average_load_received;
 
-    /// @brief Queries the endpoint's host system long average load (0.0 - 1.0)
+    /// @brief Queries the endpoint's host system long average load (0.0 - 1.0).
     /// @see long_average_load_received
     void query_long_average_load(identifier_t endpoint_id) {
         _long_average_load.invoke_on(
@@ -189,7 +229,7 @@ public:
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqMemPgSz));
     }
 
-    /// @brief Triggered on receipt of endpoint's host system memory page size
+    /// @brief Triggered on receipt of endpoint's host system memory page size.
     /// @see query_memory_page_size
     signal<void(const result_context&, const valid_if_positive<span_size_t>&)>
       memory_page_size_received;
@@ -202,7 +242,7 @@ public:
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqFreRamSz));
     }
 
-    /// @brief Triggered on receipt of endpoint's host system free RAM size
+    /// @brief Triggered on receipt of endpoint's host system free RAM size.
     /// @see query_free_ram_size
     signal<void(const result_context&, const valid_if_positive<span_size_t>&)>
       free_ram_size_received;
@@ -215,7 +255,7 @@ public:
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTtlRamSz));
     }
 
-    /// @brief Triggered on receipt of endpoint's host system total RAM size
+    /// @brief Triggered on receipt of endpoint's host system total RAM size.
     /// @see query_total_ram_size
     signal<void(const result_context&, const valid_if_positive<span_size_t>&)>
       total_ram_size_received;
@@ -228,7 +268,7 @@ public:
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqFreSwpSz));
     }
 
-    /// @brief Triggered on receipt of endpoint's host system free swap size
+    /// @brief Triggered on receipt of endpoint's host system free swap size.
     /// @see query_free_swap_size
     signal<void(const result_context&, const valid_if_nonnegative<span_size_t>&)>
       free_swap_size_received;
@@ -241,10 +281,46 @@ public:
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTtlSwpSz));
     }
 
-    /// @brief Triggered on receipt of endpoint's host system total swap size
+    /// @brief Triggered on receipt of endpoint's host system total swap size.
     /// @see query_total_swap_size
     signal<void(const result_context&, const valid_if_nonnegative<span_size_t>&)>
       total_swap_size_received;
+
+    /// @brief Queries the endpoint's host system power supply kind information.
+    void query_power_supply_kind(identifier_t endpoint_id) {
+        _power_supply_kind.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqPwrSuply));
+    }
+
+    /// @brief Triggered on receipt of endpoint's host system power supply kind.
+    /// @see query_power_supply_kind
+    signal<void(const result_context&, power_supply_kind)>
+      power_supply_kind_received;
+
+    /// @brief Queries all endpoint's system stats information.
+    /// @see query_cpu_concurrent_threads
+    /// @see query_memory_page_size
+    /// @see query_total_ram_size
+    /// @see query_total_swap_size
+    void query_stats(identifier_t endpoint_id) {
+        message_view message{};
+        auto msg_id{EAGINE_MSG_ID(eagiSysInf, qryStats)};
+        message.set_target_id(endpoint_id);
+        this->bus().post(msg_id, message);
+    }
+
+    /// @brief Queries all endpoint's sensor information.
+    /// @see query_short_average_load
+    /// @see query_long_average_load
+    /// @see query_free_ram_size
+    /// @see query_free_swap_size
+    /// @see query_power_supply_kind
+    void query_sensors(identifier_t endpoint_id) {
+        message_view message{};
+        auto msg_id{EAGINE_MSG_ID(eagiSysInf, qrySensors)};
+        message.set_target_id(endpoint_id);
+        this->bus().post(msg_id, message);
+    }
 
 private:
     default_callback_invoker<std::chrono::duration<float>(), 32> _uptime;
@@ -272,6 +348,8 @@ private:
 
     default_callback_invoker<valid_if_nonnegative<span_size_t>(), 32>
       _total_swap_size;
+
+    default_callback_invoker<power_supply_kind(), 32> _power_supply_kind;
 
 protected:
     using Base::Base;
@@ -306,6 +384,9 @@ protected:
 
         Base::add_method(_total_swap_size(
           total_swap_size_received)[EAGINE_MSG_ID(eagiSysInf, totalSwpSz)]);
+
+        Base::add_method(_power_supply_kind(
+          power_supply_kind_received)[EAGINE_MSG_ID(eagiSysInf, powerSuply)]);
     }
 };
 //------------------------------------------------------------------------------

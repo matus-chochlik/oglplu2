@@ -143,6 +143,8 @@ public:
     }
 
 private:
+    auto _uptime_seconds() -> std::int64_t;
+
     void _setup_from_config();
 
     auto _handle_accept() -> bool;
@@ -193,6 +195,8 @@ private:
     identifier_t _id_base{0};
     identifier_t _id_end{0};
     identifier_t _id_sequence{0};
+    std::chrono::steady_clock::time_point _startup_time{
+      std::chrono::steady_clock::now()};
     std::chrono::steady_clock::time_point _forwarded_since{
       std::chrono::steady_clock::now()};
     std::intmax_t _forwarded_messages{0};

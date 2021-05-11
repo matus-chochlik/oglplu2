@@ -1,15 +1,16 @@
 ///
 /// Copyright Matus Chochlik.
-/// Distributed under the Boost Software License, Version 1.0.
-/// See accompanying file LICENSE_1_0.txt or copy at
-///  http://www.boost.org/LICENSE_1_0.txt
+/// Distributed under the GNU GENERAL PUBLIC LICENSE version 3.
+/// See http://www.gnu.org/licenses/gpl-3.0.txt
 ///
 
 #ifndef EAGINE_MESSAGE_BUS_MONITOR_HOST_VIEW_MODEL
 #define EAGINE_MESSAGE_BUS_MONITOR_HOST_VIEW_MODEL
 
+#include "HostParameterViewModel.hpp"
 #include <eagine/main_ctx_object.hpp>
 #include <eagine/message_bus/remote_node.hpp>
+#include <QAbstractItemModel>
 #include <QObject>
 #include <QVariant>
 
@@ -40,6 +41,10 @@ class HostViewModel
     Q_PROPERTY(QVariant swapUsage READ getSwapUsage NOTIFY infoChanged)
     Q_PROPERTY(QVariant swapUsageDelta READ getSwapUsageDelta NOTIFY infoChanged)
 
+    Q_PROPERTY(QVariant powerSupply READ getPowerSupply NOTIFY infoChanged)
+
+    Q_PROPERTY(QAbstractItemModel* parameters READ getParameters CONSTANT)
+
     using remote_host = eagine::msgbus::remote_host;
 
 public:
@@ -69,6 +74,10 @@ public:
     auto getSwapUsage() -> QVariant;
     auto getSwapUsageDelta() -> QVariant;
 
+    auto getPowerSupply() -> QVariant;
+
+    auto getParameters() -> QAbstractItemModel*;
+
 signals:
     void infoChanged();
 
@@ -79,6 +88,7 @@ private slots:
 
 private:
     MonitorBackend& _backend;
+    HostParameterViewModel _parameters;
     remote_host _host;
 };
 //------------------------------------------------------------------------------

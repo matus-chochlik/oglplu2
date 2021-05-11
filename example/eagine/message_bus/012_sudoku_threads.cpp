@@ -12,6 +12,7 @@
 #include <eagine/message_bus/router.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/sudoku.hpp>
+#include <eagine/system_info.hpp>
 #include <atomic>
 #include <iostream>
 #include <mutex>

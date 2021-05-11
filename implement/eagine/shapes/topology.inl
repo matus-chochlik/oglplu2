@@ -63,8 +63,8 @@ auto mesh_triangle::setup_adjacent(
   -> std::tuple<bool, std::uint8_t, std::uint8_t, std::uint8_t, std::uint8_t> {
     EAGINE_ASSERT(l.index() != r.index());
     const auto delta = topo.distance_delta(l);
-    for(auto i : integer_range(std_size(3))) {
-        for(auto j : integer_range(std_size(3))) {
+    for(const auto i : integer_range(std_size(3))) {
+        for(const auto j : integer_range(std_size(3))) {
             if(topo.is_same_vertex(l.curri(i), r.curri(j), delta)) {
                 if(topo.is_same_vertex(l.previ(i), r.previ(j), delta)) {
                     l._adjacent[prevv(i)] = &r;
@@ -134,7 +134,7 @@ auto topology::print_dot(std::ostream& out) const -> std::ostream& {
 
         out << "et" << lidx << "t" << ridx << ";\n";
 
-        for(auto t : integer_range(std_size(2))) {
+        for(const auto t : integer_range(std_size(2))) {
             auto [bi, ei] = edg.edge_vertices(t);
             auto& tri = edg.triangle(t);
             out << "et" << lidx << "t" << ridx << " -- "

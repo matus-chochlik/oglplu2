@@ -28,7 +28,7 @@ auto main() -> int {
     while(std::getline(std::cin, word).good()) {
         std::size_t min_idx = words.size();
         auto min_dist = float(word.length() + 1);
-        for(auto idx : integer_range(words.size())) {
+        for(const auto idx : integer_range(words.size())) {
             const auto dist = kb_dist(view(word), view(words[idx]));
             if(min_dist > dist) {
                 min_dist = dist;

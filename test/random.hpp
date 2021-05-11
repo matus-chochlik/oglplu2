@@ -167,6 +167,11 @@ public:
         return fill(
           a, std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
     }
+
+    template <typename T, std::size_t N>
+    auto pick_one_of(const std::array<T, N>& a) {
+        return a[get<std::size_t>(0U, N - 1)];
+    }
 };
 
 } // namespace eagine

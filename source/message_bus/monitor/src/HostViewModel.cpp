@@ -1,8 +1,7 @@
 ///
 /// Copyright Matus Chochlik.
-/// Distributed under the Boost Software License, Version 1.0.
-/// See accompanying file LICENSE_1_0.txt or copy at
-///  http://www.boost.org/LICENSE_1_0.txt
+/// Distributed under the GNU GENERAL PUBLIC LICENSE version 3.
+/// See http://www.gnu.org/licenses/gpl-3.0.txt
 ///
 
 #include "HostViewModel.hpp"
@@ -14,7 +13,8 @@ HostViewModel::HostViewModel(
   SelectedItemViewModel& selectedItemViewModel)
   : QObject{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(HostVM), backend}
-  , _backend{backend} {
+  , _backend{backend}
+  , _parameters{backend} {
     connect(
       &_backend,
       &MonitorBackend::trackerModelChanged,
@@ -157,6 +157,22 @@ auto HostViewModel::getSwapUsageDelta() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto HostViewModel::getPowerSupply() -> QVariant {
+    switch(_host.power_supply()) {
+        case eagine::power_supply_kind::ac_supply:
+            return {"ACSupply"};
+        case eagine::power_supply_kind::battery:
+            return {"Battery"};
+        case eagine::power_supply_kind::unknown:
+            break;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto HostViewModel::getParameters() -> QAbstractItemModel* {
+    return &_parameters;
+}
+//------------------------------------------------------------------------------
 void HostViewModel::onTrackerModelChanged() {
     if(auto trackerModel{_backend.trackerModel()}) {
         connect(
@@ -177,11 +193,13 @@ void HostViewModel::onHostIdChanged(eagine::identifier_t hostId) {
         _host = {};
     }
     emit infoChanged();
+    _parameters.setHostId(hostId);
 }
 //------------------------------------------------------------------------------
 void HostViewModel::onHostInfoChanged(const remote_host& host) {
     if(host.id() == _host.id()) {
         emit infoChanged();
+        _parameters.notifyUpdated();
     }
 }
 //------------------------------------------------------------------------------

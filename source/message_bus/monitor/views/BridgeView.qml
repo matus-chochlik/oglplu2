@@ -1,3 +1,8 @@
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the GNU GENERAL PUBLIC LICENSE version 3.
+/// See http://www.gnu.org/licenses/gpl-3.0.txt
+///
 import QtQuick 2.2
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.2
@@ -26,15 +31,11 @@ Pane {
 			Label {
 				text: qsTr("Responsivity")
 			}
-			ProgressBar {
+			PlainBarChart {
 				Layout.columnSpan: 5
+				Layout.preferredHeight: 25
 				Layout.fillWidth: true
-				from: 0.0
-				to: 1.0
-				value: info.node && info.node.pingSuccessRate
-					? info.node.pingSuccessRate
-					: 0.0
-				indeterminate: !(info.node && info.node.pingSuccessRate)
+				model: info.node.parameters.pingSuccessRate
 			}
 		}
 		ParentInstanceView {

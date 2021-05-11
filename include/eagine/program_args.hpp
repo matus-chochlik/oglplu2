@@ -69,8 +69,8 @@ protected:
     constexpr basic_program_parameter(
       string_view short_tag,
       string_view long_tag) noexcept
-      : _short_tag(short_tag)
-      , _long_tag(long_tag) {}
+      : _short_tag{short_tag}
+      , _long_tag{long_tag} {}
 };
 //------------------------------------------------------------------------------
 /// @brief Class template for pre-declared program parameter.
@@ -85,11 +85,13 @@ template <typename T>
 class program_parameter : public basic_program_parameter {
 public:
     /// @brief Construction from short and long tag strings.
-    program_parameter(string_view short_tag, string_view long_tag) noexcept
+    constexpr program_parameter(
+      string_view short_tag,
+      string_view long_tag) noexcept
       : basic_program_parameter{short_tag, long_tag} {}
 
     /// @brief Construction from short and long tag strings and the initial value.
-    program_parameter(
+    constexpr program_parameter(
       string_view short_tag,
       string_view long_tag,
       T initial) noexcept
@@ -97,7 +99,7 @@ public:
       , _value{std::move(initial)} {}
 
     /// @brief Returns a reference to the parameter value.
-    auto ref() noexcept -> T& {
+    constexpr auto ref() noexcept -> T& {
         return _value;
     }
 
@@ -206,6 +208,7 @@ public:
         return true;
     }
 
+    /// @brief Returns the number of times the option has been found in arguments.
     auto value() const noexcept -> span_size_t {
         return _count;
     }
@@ -233,8 +236,8 @@ public:
       string_view short_tag,
       string_view long_tag,
       program_parameter<T>& that) noexcept
-      : basic_program_parameter(short_tag, long_tag)
-      , _aliased(that) {}
+      : basic_program_parameter{short_tag, long_tag}
+      , _aliased{that} {}
 
     /// @brief Returns a reference to the value in the aliased program parameter.
     auto ref() noexcept -> auto& {
@@ -268,9 +271,9 @@ public:
     constexpr program_arg() noexcept = default;
 
     program_arg(int argi, int argc, const char** argv) noexcept
-      : _argi(argi)
-      , _argc(argc)
-      , _argv(argv) {}
+      : _argi{argi}
+      , _argc{argc}
+      , _argv{argv} {}
 
     /// @brief Alias for the argument value type.
     using value_type = string_view;
@@ -555,7 +558,7 @@ public:
 
         string_view parsed;
         if(do_consume_next(parsed, symbols, handle_missing, handle_invalid)) {
-            for(auto i : integer_range(symbols.size())) {
+            for(const auto i : integer_range(symbols.size())) {
                 if(are_equal(parsed, symbols[i])) {
                     dest = translations[i];
                     return true;
@@ -751,7 +754,7 @@ class program_arg_iterator {
     using this_class = program_arg_iterator;
 
 public:
-    program_arg_iterator(program_arg arg) noexcept
+    constexpr program_arg_iterator(program_arg arg) noexcept
       : _a{arg} {}
 
     /// @brief Alias for the referenced value type.
@@ -776,114 +779,199 @@ public:
     using iterator_category = std::random_access_iterator_tag;
 
     /// @brief Equality comparison.
-    friend auto operator==(const this_class& l, const this_class& r) noexcept {
+    friend constexpr auto
+    operator==(const this_class& l, const this_class& r) noexcept {
         return _cmp(l._a, r._a) == 0;
     }
 
     /// @brief Nonequality comparison.
-    friend auto operator!=(const this_class& l, const this_class& r) noexcept {
+    friend constexpr auto
+    operator!=(const this_class& l, const this_class& r) noexcept {
         return _cmp(l._a, r._a) != 0;
     }
 
     /// @brief Less-than comparison.
-    friend auto operator<(const this_class& l, const this_class& r) noexcept {
+    friend constexpr auto
+    operator<(const this_class& l, const this_class& r) noexcept {
         return _cmp(l._a, r._a) < 0;
     }
 
     /// @brief Less-equal comparison.
-    friend auto operator<=(const this_class& l, const this_class& r) noexcept {
+    friend constexpr auto
+    operator<=(const this_class& l, const this_class& r) noexcept {
         return _cmp(l._a, r._a) <= 0;
     }
 
     /// @brief Greater-than comparison.
-    friend auto operator>(const this_class& l, const this_class& r) noexcept {
+    friend constexpr auto
+    operator>(const this_class& l, const this_class& r) noexcept {
         return _cmp(l._a, r._a) > 0;
     }
 
     /// @brief Greater-equal comparison.
-    friend auto operator>=(const this_class& l, const this_class& r) noexcept {
+    friend constexpr auto
+    operator>=(const this_class& l, const this_class& r) noexcept {
         return _cmp(l._a, r._a) >= 0;
     }
 
     /// @brief Difference.
-    friend auto operator-(const this_class& l, const this_class& r) noexcept
+    friend constexpr auto
+    operator-(const this_class& l, const this_class& r) noexcept
       -> difference_type {
         return _cmp(l._a, r._a);
     }
 
     /// @brief Pre-increment operator.
-    auto operator++() noexcept -> this_class& {
+    constexpr auto operator++() noexcept -> this_class& {
         ++_a._argi;
         return *this;
     }
 
     /// @brief Pre-decrement operator.
-    auto operator--() noexcept -> this_class& {
+    constexpr auto operator--() noexcept -> this_class& {
         --_a._argi;
         return *this;
     }
 
     /// @brief Post-increment operator.
-    auto operator++(int) noexcept -> this_class {
+    constexpr auto operator++(int) noexcept -> this_class {
         this_class result{*this};
         ++_a._argi;
         return result;
     }
 
     /// @brief Post-decrement operator.
-    auto operator--(int) noexcept -> this_class {
+    constexpr auto operator--(int) noexcept -> this_class {
         this_class result{*this};
         --_a._argi;
         return result;
     }
 
     /// @brief Increment operator.
-    auto operator+=(difference_type dist) noexcept -> this_class& {
+    constexpr auto operator+=(difference_type dist) noexcept -> this_class& {
         _a._argi += dist;
         return *this;
     }
 
     /// @brief Decrement operator.
-    auto operator-=(difference_type dist) noexcept -> this_class& {
+    constexpr auto operator-=(difference_type dist) noexcept -> this_class& {
         _a._argi -= dist;
         return *this;
     }
 
     /// @brief Difference addition.
-    auto operator+(difference_type dist) noexcept -> this_class {
+    constexpr auto operator+(difference_type dist) noexcept -> this_class {
         this_class result{*this};
         result._a._argi += dist;
         return result;
     }
 
     /// @brief Difference subtraction.
-    auto operator-(difference_type dist) noexcept -> this_class {
+    constexpr auto operator-(difference_type dist) noexcept -> this_class {
         this_class result{*this};
         result._a._argi -= dist;
         return result;
     }
 
     /// @brief Dereference operator.
-    auto operator*() noexcept -> reference {
+    constexpr auto operator*() noexcept -> reference {
         return _a;
     }
 
     /// @brief Const dereference operator.
-    auto operator*() const noexcept -> const_reference {
+    constexpr auto operator*() const noexcept -> const_reference {
         return _a;
     }
 
 private:
-    static auto _cmp(const program_arg& l, const program_arg& r) noexcept
-      -> int {
-        EAGINE_ASSERT(l._argv == r._argv);
-        return l._argi - r._argi;
+    static constexpr auto
+    _cmp(const program_arg& l, const program_arg& r) noexcept -> int {
+        return EAGINE_CONSTEXPR_ASSERT(l._argv == r._argv, l._argi - r._argi);
     }
 
     program_arg _a{};
 };
 //------------------------------------------------------------------------------
 class program_parameters {
+public:
+    template <typename... T>
+    program_parameters(program_parameter<T>&... params)
+      : _params(_make(std::unique_ptr<_intf>(new _impl<T>(params))...)) {}
+
+    auto size() const noexcept -> span_size_t {
+        return span_size(_params.size());
+    }
+
+    auto parse(program_arg& arg, std::ostream& log) -> bool {
+        for(auto& param : _params) {
+            EAGINE_ASSERT(param != nullptr);
+            if(param->parse(arg, log)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    auto validate(std::ostream& log) const -> bool {
+        bool all_ok = true;
+        for(const auto& param : _params) {
+            EAGINE_ASSERT(param != nullptr);
+            all_ok &= param->validate(log);
+        }
+        return all_ok;
+    }
+
+    auto print_usage(std::ostream& out, string_view command) -> std::ostream& {
+        out << "Usage: " << command;
+
+        span_size_t stag_maxl = 0;
+        span_size_t ltag_maxl = 0;
+
+        for(const auto& param : _params) {
+            EAGINE_ASSERT(param != nullptr);
+
+            out << " ";
+
+            bool mandatory = !param->has_valid_value();
+
+            out << (mandatory ? '<' : '[');
+
+            out << param->short_tag() << "|" << param->long_tag();
+            out << " " << param->placeholder();
+
+            out << (mandatory ? '>' : ']');
+
+            if(stag_maxl < param->short_tag().size()) {
+                stag_maxl = param->short_tag().size();
+            }
+
+            if(ltag_maxl < param->long_tag().size()) {
+                ltag_maxl = param->long_tag().size();
+            }
+        }
+        out << std::endl;
+        out << "  Options:" << std::endl;
+
+        span_size_t padl;
+
+        for(const auto& param : _params) {
+            padl = 4 + stag_maxl - param->short_tag().size();
+            while(padl-- > 0) {
+                out << " ";
+            }
+            out << param->short_tag() << "|";
+
+            out << param->long_tag();
+            padl = ltag_maxl - param->long_tag().size();
+            while(padl-- > 0) {
+                out << " ";
+            }
+            out << ": " << param->description() << std::endl;
+        }
+
+        return out;
+    }
+
 private:
     struct _intf : interface<_intf> {
         virtual auto parse(program_arg&, std::ostream&) -> bool = 0;
@@ -996,85 +1084,6 @@ private:
         result.reserve(sizeof...(params));
         return std::move(_insert(result, std::move(params)...));
     }
-
-public:
-    template <typename... T>
-    program_parameters(program_parameter<T>&... params)
-      : _params(_make(std::unique_ptr<_intf>(new _impl<T>(params))...)) {}
-
-    auto size() const noexcept -> span_size_t {
-        return span_size(_params.size());
-    }
-
-    auto parse(program_arg& arg, std::ostream& log) -> bool {
-        for(auto& param : _params) {
-            EAGINE_ASSERT(param != nullptr);
-            if(param->parse(arg, log)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    auto validate(std::ostream& log) const -> bool {
-        bool all_ok = true;
-        for(const auto& param : _params) {
-            EAGINE_ASSERT(param != nullptr);
-            all_ok &= param->validate(log);
-        }
-        return all_ok;
-    }
-
-    auto print_usage(std::ostream& out, string_view command) -> std::ostream& {
-        out << "Usage: " << command;
-
-        span_size_t stag_maxl = 0;
-        span_size_t ltag_maxl = 0;
-
-        for(const auto& param : _params) {
-            EAGINE_ASSERT(param != nullptr);
-
-            out << " ";
-
-            bool mandatory = !param->has_valid_value();
-
-            out << (mandatory ? '<' : '[');
-
-            out << param->short_tag() << "|" << param->long_tag();
-            out << " " << param->placeholder();
-
-            out << (mandatory ? '>' : ']');
-
-            if(stag_maxl < param->short_tag().size()) {
-                stag_maxl = param->short_tag().size();
-            }
-
-            if(ltag_maxl < param->long_tag().size()) {
-                ltag_maxl = param->long_tag().size();
-            }
-        }
-        out << std::endl;
-        out << "  Options:" << std::endl;
-
-        span_size_t padl;
-
-        for(const auto& param : _params) {
-            padl = 4 + stag_maxl - param->short_tag().size();
-            while(padl-- > 0) {
-                out << " ";
-            }
-            out << param->short_tag() << "|";
-
-            out << param->long_tag();
-            padl = ltag_maxl - param->long_tag().size();
-            while(padl-- > 0) {
-                out << " ";
-            }
-            out << ": " << param->description() << std::endl;
-        }
-
-        return out;
-    }
 };
 //------------------------------------------------------------------------------
 /// @brief Class wrapping the main function arguments, providing a convenient API.
@@ -1087,13 +1096,13 @@ public:
 
     /// @brief  Construction from the length and pointer to the argument list.
     program_args(span_size_t argn, char** args) noexcept
-      : _argc(int(argn))
-      , _argv(const_cast<const char**>(args)) {}
+      : _argc{int(argn)}
+      , _argv{const_cast<const char**>(args)} {}
 
     /// @brief  Construction from the length and const pointer to the argument list.
     program_args(span_size_t argn, const char** args) noexcept
-      : _argc(int(argn))
-      , _argv(args) {}
+      : _argc{int(argn)}
+      , _argv{args} {}
 
     /// @brief Alias for the element value type.
     using value_type = string_view;
