@@ -759,17 +759,22 @@ public:
     /// @see connections
     auto instance() const noexcept -> remote_instance;
 
-    /// @brief Returns the router statistics from this node.
-    auto router_stats() const noexcept
-      -> optional_reference_wrapper<const router_statistics>;
+    /// @brief Returns the total number of messages sent or forwarded.
+    auto sent_messages() const noexcept -> valid_if_nonnegative<std::int64_t>;
 
-    /// @brief Returns the bridge statistics from this node.
-    auto bridge_stats() const noexcept
-      -> optional_reference_wrapper<const bridge_statistics>;
+    /// @brief Returns the total number of messages dropped.
+    auto dropped_messages() const noexcept
+      -> valid_if_nonnegative<std::int64_t>;
 
-    /// @brief Returns the endpoint statistics from this node.
-    auto endpoint_stats() const noexcept
-      -> optional_reference_wrapper<const endpoint_statistics>;
+    /// @brief Returns the number of messages sent or forwarded per second.
+    auto messages_per_second() const noexcept -> valid_if_nonnegative<int>;
+
+    /// @brief Returns the average message age.
+    auto average_message_age() const noexcept
+      -> valid_if_not_zero<std::chrono::milliseconds>;
+
+    /// @brief Returns node uptime in seconds.
+    auto uptime() const noexcept -> valid_if_not_zero<std::chrono::seconds>;
 
     /// @brief Return information about the connections of this node.
     /// @see host
