@@ -30,6 +30,11 @@ struct serialize_size_constant : size_constant<S> {
     static constexpr auto get(const X&) noexcept {
         return std_size(S);
     }
+
+    template <typename X>
+    static constexpr auto get(std::pair<string_view, const X&> mapped) noexcept {
+        return std_size(12 + mapped.first.size() + 2 + span_size(S));
+    }
 };
 //------------------------------------------------------------------------------
 template <identifier_t SerializerId, typename T, typename Selector>
