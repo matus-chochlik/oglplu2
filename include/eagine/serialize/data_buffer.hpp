@@ -73,27 +73,35 @@ struct get_serialize_buffer_size<Sid, char, Selector>
   : serialize_size_constant<4> {};
 
 template <identifier_t Sid, typename Selector>
-struct get_serialize_buffer_size<Sid, std::int16_t, Selector>
+struct get_serialize_buffer_size<Sid, short int, Selector>
   : serialize_size_constant<6> {};
 
 template <identifier_t Sid, typename Selector>
-struct get_serialize_buffer_size<Sid, std::uint16_t, Selector>
+struct get_serialize_buffer_size<Sid, unsigned short int, Selector>
   : serialize_size_constant<6> {};
 
 template <identifier_t Sid, typename Selector>
-struct get_serialize_buffer_size<Sid, std::int32_t, Selector>
+struct get_serialize_buffer_size<Sid, int, Selector>
   : serialize_size_constant<12> {};
 
 template <identifier_t Sid, typename Selector>
-struct get_serialize_buffer_size<Sid, std::uint32_t, Selector>
+struct get_serialize_buffer_size<Sid, unsigned int, Selector>
   : serialize_size_constant<12> {};
 
 template <identifier_t Sid, typename Selector>
-struct get_serialize_buffer_size<Sid, std::int64_t, Selector>
+struct get_serialize_buffer_size<Sid, long int, Selector>
   : serialize_size_constant<24> {};
 
 template <identifier_t Sid, typename Selector>
-struct get_serialize_buffer_size<Sid, std::uint64_t, Selector>
+struct get_serialize_buffer_size<Sid, unsigned long int, Selector>
+  : serialize_size_constant<24> {};
+
+template <identifier_t Sid, typename Selector>
+struct get_serialize_buffer_size<Sid, long long int, Selector>
+  : serialize_size_constant<24> {};
+
+template <identifier_t Sid, typename Selector>
+struct get_serialize_buffer_size<Sid, unsigned long long int, Selector>
   : serialize_size_constant<24> {};
 
 template <identifier_t Sid, typename Selector>
