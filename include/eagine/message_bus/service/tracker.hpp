@@ -450,16 +450,22 @@ private:
         _tracker.remove_node(endpoint_id);
     }
 
-    void _handle_router_stats_received(const router_statistics& stats) {
-        _get_node(stats.router_id).assign(stats).notice_alive();
+    void _handle_router_stats_received(
+      identifier_t router_id,
+      const router_statistics& stats) {
+        _get_node(router_id).assign(stats).notice_alive();
     }
 
-    void _handle_bridge_stats_received(const bridge_statistics& stats) {
-        _get_node(stats.bridge_id).assign(stats).notice_alive();
+    void _handle_bridge_stats_received(
+      identifier_t bridge_id,
+      const bridge_statistics& stats) {
+        _get_node(bridge_id).assign(stats).notice_alive();
     }
 
-    void _handle_endpoint_stats_received(const endpoint_statistics& stats) {
-        _get_node(stats.endpoint_id).assign(stats).notice_alive();
+    void _handle_endpoint_stats_received(
+      identifier_t endpoint_id,
+      const endpoint_statistics& stats) {
+        _get_node(endpoint_id).assign(stats).notice_alive();
     }
 
     void _handle_application_name_received(

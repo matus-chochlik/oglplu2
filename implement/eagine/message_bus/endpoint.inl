@@ -60,6 +60,7 @@ auto endpoint::_do_send(message_id msg_id, message_view message) -> bool {
     message.set_source_id(_endpoint_id);
     if(EAGINE_LIKELY(_connection)) {
         if(_connection->send(msg_id, message)) {
+            ++_stats.sent_messages;
             log_trace("sending message ${message}")
               .arg(EAGINE_ID(message), msg_id)
               .arg(EAGINE_ID(target), message.target_id)
@@ -205,15 +206,11 @@ auto endpoint::_handle_special(
               .arg(EAGINE_ID(bufSize), temp.size())
               .arg(EAGINE_ID(source), message.source_id);
         } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
-            endpoint_statistics stats{};
+            _stats.sent_messages = _stats.sent_messages;
+            _stats.uptime_seconds = _uptime_seconds();
 
-            stats.endpoint_id = _endpoint_id;
-            stats.sent_messages = 0;     // TODO
-            stats.received_messages = 0; // TODO
-            stats.uptime_seconds = _uptime_seconds();
-
-            auto temp{default_serialize_buffer_for(stats)};
-            if(auto serialized{default_serialize(stats, cover(temp))}) {
+            auto temp{default_serialize_buffer_for(_stats)};
+            if(auto serialized{default_serialize(_stats, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);
                 if(post(EAGINE_MSGBUS_ID(statsEndpt), response)) {
@@ -413,6 +410,7 @@ auto endpoint::update() -> bool {
             if(!has_preconfigured_id()) {
                 log_debug("requesting endpoint id");
                 _connection->send(EAGINE_MSGBUS_ID(requestId), {});
+                ++_stats.sent_messages;
                 _no_id_timeout.reset();
                 something_done();
             }
@@ -440,6 +438,7 @@ auto endpoint::update() -> bool {
                     message_view ann_in_msg{};
                     ann_in_msg.set_source_id(get_preconfigured_id());
                     _connection->send(EAGINE_MSGBUS_ID(annEndptId), ann_in_msg);
+                    ++_stats.sent_messages;
                     _no_id_timeout.reset();
                     something_done();
                 }

@@ -407,12 +407,14 @@ private:
 
     shared_context _context{make_context(*this)};
 
-    const process_instance_id_t _instance_id{process_instance_id()};
     identifier_t _preconfd_id{invalid_id()};
     identifier_t _endpoint_id{invalid_id()};
+    const process_instance_id_t _instance_id{process_instance_id()};
 
     std::chrono::steady_clock::time_point _startup_time{
       std::chrono::steady_clock::now()};
+
+    endpoint_statistics _stats{};
 
     auto _uptime_seconds() -> std::int64_t;
 

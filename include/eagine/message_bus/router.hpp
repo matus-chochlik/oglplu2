@@ -199,9 +199,9 @@ private:
       std::chrono::steady_clock::now()};
     std::chrono::steady_clock::time_point _forwarded_since{
       std::chrono::steady_clock::now()};
-    std::intmax_t _forwarded_messages{0};
-    std::intmax_t _dropped_messages{0};
     float _message_age_sum{0.F};
+    router_statistics _stats{};
+
     parent_router _parent_router;
     std::vector<std::shared_ptr<acceptor>> _acceptors;
     std::vector<router_pending> _pending;

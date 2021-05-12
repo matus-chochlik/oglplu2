@@ -305,15 +305,12 @@ auto bridge::_handle_special(
                 }
             }
         } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
-            bridge_statistics stats{};
+            _stats.forwarded_messages = _forwarded_messages_i2c;
+            _stats.dropped_messages = _dropped_messages_i2c;
+            _stats.uptime_seconds = _uptime_seconds();
 
-            stats.bridge_id = _id;
-            stats.forwarded_messages = _forwarded_messages_i2c;
-            stats.dropped_messages = _dropped_messages_i2c;
-            stats.uptime_seconds = _uptime_seconds();
-
-            auto temp{default_serialize_buffer_for(stats)};
-            if(auto serialized{default_serialize(stats, cover(temp))}) {
+            auto temp{default_serialize_buffer_for(_stats)};
+            if(auto serialized{default_serialize(_stats, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);
                 response.set_source_id(_id);
@@ -424,6 +421,11 @@ auto bridge::_forward_messages() -> bool {
                   const auto avg_msg_age =
                     _message_age_sum_i2c /
                     float(_forwarded_messages_i2c + _dropped_messages_i2c + 1);
+
+                  _stats.message_age_milliseconds =
+                    static_cast<std::int32_t>(avg_msg_age * 1000.F);
+                  _stats.messages_per_second =
+                    static_cast<std::int32_t>(msgs_per_sec);
 
                   log_chart_sample(EAGINE_ID(msgPerSecI), msgs_per_sec);
                   log_stat("forwarded ${count} messages from input")

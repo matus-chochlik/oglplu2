@@ -696,15 +696,10 @@ auto router::_handle_special_common(
         }
         return false;
     } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
-        router_statistics stats{};
+        _stats.uptime_seconds = _uptime_seconds();
 
-        stats.router_id = _id_base;
-        stats.forwarded_messages = _forwarded_messages;
-        stats.dropped_messages = _dropped_messages;
-        stats.uptime_seconds = _uptime_seconds();
-
-        auto temp{default_serialize_buffer_for(stats)};
-        if(auto serialized{default_serialize(stats, cover(temp))}) {
+        auto temp{default_serialize_buffer_for(_stats)};
+        if(auto serialized{default_serialize(_stats, cover(temp))}) {
             message_view response{extract(serialized)};
             response.setup_response(message);
             response.set_source_id(_id_base);
@@ -839,14 +834,14 @@ auto router::_do_route_message(
     if(EAGINE_UNLIKELY(message.too_many_hops())) {
         log_warning("message ${message} discarded after too many hops")
           .arg(EAGINE_ID(message), msg_id);
-        ++_dropped_messages;
+        ++_stats.dropped_messages;
     } else {
         const auto& nodes = this->_nodes;
         message.add_hop();
         const bool is_targeted = (message.target_id != broadcast_endpoint_id());
 
         const auto forward_to = [&](auto& node_out) {
-            if(EAGINE_UNLIKELY(++_forwarded_messages % 1000000 == 0)) {
+            if(EAGINE_UNLIKELY(++_stats.forwarded_messages % 1000000 == 0)) {
                 const auto now{std::chrono::steady_clock::now()};
                 const std::chrono::duration<float> interval{
                   now - _forwarded_since};
@@ -854,13 +849,19 @@ auto router::_do_route_message(
                 if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                     const auto msgs_per_sec{1000000.F / interval.count()};
                     const auto avg_msg_age =
-                      _message_age_sum /
-                      float(_forwarded_messages + _dropped_messages + 1);
+                      _message_age_sum / float(
+                                           _stats.forwarded_messages +
+                                           _stats.dropped_messages + 1);
+
+                    _stats.message_age_milliseconds =
+                      static_cast<std::int32_t>(avg_msg_age * 1000.F);
+                    _stats.messages_per_second =
+                      static_cast<std::int32_t>(msgs_per_sec);
 
                     log_chart_sample(EAGINE_ID(msgsPerSec), msgs_per_sec);
                     log_stat("forwarded ${count} messages")
-                      .arg(EAGINE_ID(count), _forwarded_messages)
-                      .arg(EAGINE_ID(dropped), _dropped_messages)
+                      .arg(EAGINE_ID(count), _stats.forwarded_messages)
+                      .arg(EAGINE_ID(dropped), _stats.dropped_messages)
                       .arg(EAGINE_ID(interval), interval)
                       .arg(EAGINE_ID(avgMsgAge), avg_msg_age)
                       .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
@@ -946,7 +947,7 @@ auto router::_route_messages() -> bool {
                   return true;
               }
               if(EAGINE_UNLIKELY(message.too_old())) {
-                  ++_dropped_messages;
+                  ++_stats.dropped_messages;
                   return true;
               }
               return this->_do_route_message(msg_id, incoming_id, message);
@@ -966,7 +967,7 @@ auto router::_route_messages() -> bool {
               return true;
           }
           if(EAGINE_UNLIKELY(message.too_old())) {
-              ++_dropped_messages;
+              ++_stats.dropped_messages;
               return true;
           }
           return this->_do_route_message(msg_id, _id_base, message);
@@ -1063,11 +1064,12 @@ void router::cleanup() {
         }
     }
     const auto avg_msg_age =
-      _message_age_sum / float(_forwarded_messages + _dropped_messages + 1);
+      _message_age_sum /
+      float(_stats.forwarded_messages + _stats.dropped_messages + 1);
 
     log_stat("forwarded ${count} messages in total")
-      .arg(EAGINE_ID(count), _forwarded_messages)
-      .arg(EAGINE_ID(dropped), _dropped_messages)
+      .arg(EAGINE_ID(count), _stats.forwarded_messages)
+      .arg(EAGINE_ID(dropped), _stats.dropped_messages)
       .arg(EAGINE_ID(avgMsgAge), avg_msg_age);
 }
 //------------------------------------------------------------------------------
