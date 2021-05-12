@@ -74,8 +74,9 @@ class asio_acceptor;
 template <typename Socket>
 class asio_flushing_sockets {
 public:
-    void adopt(Socket& sckt) {
-        _waiting.emplace_back(std::chrono::seconds(10), std::move(sckt));
+    void adopt(Socket& sckt, memory::buffer& buf) {
+        _waiting.emplace_back(
+          std::chrono::seconds(10), std::move(sckt), std::move(buf));
     }
 
     auto empty() const noexcept -> bool {
@@ -92,7 +93,7 @@ public:
     }
 
 private:
-    std::vector<std::tuple<timeout, Socket>> _waiting;
+    std::vector<std::tuple<timeout, Socket, memory::buffer>> _waiting;
 };
 //------------------------------------------------------------------------------
 struct asio_common_state {
@@ -112,8 +113,8 @@ struct asio_common_state {
     }
 
     template <typename Socket>
-    void adopt_flushing(Socket& sckt) {
-        std::get<asio_flushing_sockets<Socket>>(_flushing).adopt(sckt);
+    void adopt_flushing(Socket& sckt, memory::buffer& buf) {
+        std::get<asio_flushing_sockets<Socket>>(_flushing).adopt(sckt, buf);
     }
 
     void update() noexcept {
@@ -467,7 +468,7 @@ struct asio_connection_state
             update();
         }
         if(is_usable()) {
-            common->adopt_flushing(socket);
+            common->adopt_flushing(socket, read_buffer);
         }
         common->update();
     }
