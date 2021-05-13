@@ -61,6 +61,7 @@ public:
     std::chrono::seconds uptime{};
 
     std::int64_t sent_messages{-1};
+    std::int64_t received_messages{-1};
     std::int64_t dropped_messages{-1};
     std::int32_t messages_per_second{-1};
     std::uint8_t ping_bits{0};
@@ -579,6 +580,16 @@ auto remote_node::sent_messages() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node::received_messages() const noexcept
+  -> valid_if_nonnegative<std::int64_t> {
+    if(auto impl{_impl()}) {
+        const auto& i = extract(impl);
+        return {i.received_messages};
+    }
+    return {-1};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node::dropped_messages() const noexcept
   -> valid_if_nonnegative<std::int64_t> {
     if(auto impl{_impl()}) {
@@ -832,6 +843,9 @@ auto remote_node_state::assign(const router_statistics& stats)
             i.kind = node_kind::router;
             i.changes |= remote_node_change::kind;
         }
+        i.sent_messages = stats.forwarded_messages;
+        i.dropped_messages = stats.dropped_messages;
+        i.messages_per_second = stats.messages_per_second;
         i.message_age =
           std::chrono::milliseconds{stats.message_age_milliseconds};
         i.uptime = std::chrono::seconds{stats.uptime_seconds};
@@ -849,6 +863,9 @@ auto remote_node_state::assign(const bridge_statistics& stats)
             i.kind = node_kind::bridge;
             i.changes |= remote_node_change::kind;
         }
+        i.sent_messages = stats.forwarded_messages;
+        i.dropped_messages = stats.dropped_messages;
+        i.messages_per_second = stats.messages_per_second;
         i.message_age =
           std::chrono::milliseconds{stats.message_age_milliseconds};
         i.uptime = std::chrono::seconds{stats.uptime_seconds};
@@ -866,6 +883,9 @@ auto remote_node_state::assign(const endpoint_statistics& stats)
             i.kind = node_kind::endpoint;
             i.changes |= remote_node_change::kind;
         }
+        i.sent_messages = stats.sent_messages;
+        i.received_messages = stats.received_messages;
+        i.dropped_messages = stats.dropped_messages;
         i.uptime = std::chrono::seconds{stats.uptime_seconds};
         i.changes |= remote_node_change::statistics;
     }

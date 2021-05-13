@@ -178,6 +178,12 @@ struct endpoint_statistics {
     /// @brief Number of sent messages.
     std::int64_t sent_messages{0};
 
+    /// @brief Number of received messages.
+    std::int64_t received_messages{0};
+
+    /// @brief Number of dropped messages.
+    std::int64_t dropped_messages{0};
+
     /// @brief Uptime in seconds.
     std::int64_t uptime_seconds{0};
 };
@@ -186,8 +192,15 @@ template <typename Selector>
 constexpr auto
 data_member_mapping(type_identity<endpoint_statistics>, Selector) noexcept {
     using S = endpoint_statistics;
-    return make_data_member_mapping<S, std::int64_t, std::int64_t>(
+    return make_data_member_mapping<
+      S,
+      std::int64_t,
+      std::int64_t,
+      std::int64_t,
+      std::int64_t>(
       {"sent_messages", &S::sent_messages},
+      {"received_messages", &S::received_messages},
+      {"dropped_messages", &S::dropped_messages},
       {"uptime_seconds", &S::uptime_seconds});
 }
 //------------------------------------------------------------------------------

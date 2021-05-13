@@ -759,10 +759,14 @@ public:
     /// @see connections
     auto instance() const noexcept -> remote_instance;
 
-    /// @brief Returns the total number of messages sent or forwarded.
+    /// @brief Returns the total number of messages sent or forwarded by node.
     auto sent_messages() const noexcept -> valid_if_nonnegative<std::int64_t>;
 
-    /// @brief Returns the total number of messages dropped.
+    /// @brief Returns the total number of messages received by node.
+    auto received_messages() const noexcept
+      -> valid_if_nonnegative<std::int64_t>;
+
+    /// @brief Returns the total number of messages dropped by node.
     auto dropped_messages() const noexcept
       -> valid_if_nonnegative<std::int64_t>;
 

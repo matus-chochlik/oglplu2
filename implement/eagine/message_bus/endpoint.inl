@@ -85,6 +85,7 @@ auto endpoint::_handle_special(
           .arg(EAGINE_ID(source), message.source_id);
 
         if(EAGINE_UNLIKELY(has_id() && (message.source_id == _endpoint_id))) {
+            ++_stats.dropped_messages;
             log_warning("received own special message ${message}")
               .arg(EAGINE_ID(message), msg_id);
             return true;
@@ -234,6 +235,7 @@ auto endpoint::_store_message(
   message_id msg_id,
   message_age msg_age,
   const message_view& message) -> bool {
+    ++_stats.received_messages;
     if(!_handle_special(msg_id, message)) {
         if((message.target_id == _endpoint_id) || !is_valid_id(message.target_id)) {
             auto pos = _incoming.find(msg_id);
@@ -251,6 +253,7 @@ auto endpoint::_store_message(
                 _get_queue(*newpos).push(message).add_age(msg_age);
             }
         } else {
+            ++_stats.dropped_messages;
             log_warning("trying to store message for target ${target}")
               .arg(EAGINE_ID(self), _endpoint_id)
               .arg(EAGINE_ID(target), message.target_id)
