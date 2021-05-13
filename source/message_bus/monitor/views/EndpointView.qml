@@ -65,7 +65,7 @@ Pane {
 			NumericLabel {
 				Layout.fillWidth: true
 
-				text: info.node.droppedMessages
+				value: info.node.droppedMessages
 				format: Math.trunc
 			}
 

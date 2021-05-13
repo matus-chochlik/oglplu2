@@ -62,10 +62,21 @@ Pane {
 			}
 
 			Label {
+				text: qsTr("Messages per second:")
+			}
+			NumericLabel {
+				Layout.columnSpan: 2
+				Layout.fillWidth: true
+
+				value: info.node.messagesPerSecond
+				format: Math.trunc
+			}
+
+			Label {
 				text: qsTr("Uptime")
 			}
 			NumericLabel {
-				Layout.columnSpan: 5
+				Layout.columnSpan: 2
 				Layout.fillWidth: true
 
 				value: info.node.uptime

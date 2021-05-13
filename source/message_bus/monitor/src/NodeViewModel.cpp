@@ -114,6 +114,13 @@ auto NodeViewModel::getDroppedMessages() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto NodeViewModel::getMessagesPerSecond() -> QVariant {
+    if(auto optNum{_node.messages_per_second()}) {
+        return {extract(optNum)};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 auto NodeViewModel::getPingSuccessRate() -> QVariant {
     if(auto optNum{_node.ping_success_rate()}) {
         return {extract(optNum)};

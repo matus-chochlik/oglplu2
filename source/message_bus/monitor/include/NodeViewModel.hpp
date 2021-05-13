@@ -31,6 +31,8 @@ class NodeViewModel
       QVariant receivedMessages READ getReceivedMessages NOTIFY infoChanged)
     Q_PROPERTY(
       QVariant droppedMessages READ getDroppedMessages NOTIFY infoChanged)
+    Q_PROPERTY(
+      QVariant messagesPerSecond READ getMessagesPerSecond NOTIFY infoChanged)
 
     Q_PROPERTY(
       QVariant pingSuccessRate READ getPingSuccessRate NOTIFY infoChanged)
@@ -54,6 +56,7 @@ public:
     auto getSentMessages() -> QVariant;
     auto getReceivedMessages() -> QVariant;
     auto getDroppedMessages() -> QVariant;
+    auto getMessagesPerSecond() -> QVariant;
 
     auto getPingSuccessRate() -> QVariant;
 
