@@ -7,6 +7,7 @@ import QtQuick 2.2
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.2
 import "qrc:///views"
+import "qrc:///scripts/Format.js" as Format
 
 Pane {
 	id: routerView
@@ -36,6 +37,38 @@ Pane {
 				Layout.preferredHeight: 25
 				Layout.fillWidth: true
 				model: info.node.parameters.pingSuccessRate
+			}
+
+			Label {
+				text: qsTr("Forwarded:")
+			}
+			Label {
+				Layout.columnSpan: 2
+				Layout.fillWidth: true
+				text: info.node.sentMessages
+					? info.node.sentMessages
+					: "-"
+			}
+
+			Label {
+				text: qsTr("Dropped:")
+			}
+			Label {
+				Layout.columnSpan: 2
+				Layout.fillWidth: true
+				text: info.node.droppedMessages
+					? info.node.droppedMessages
+					: "-"
+			}
+
+			Label {
+				text: qsTr("Uptime")
+			}
+			Label {
+				Layout.columnSpan: 5
+				text: info.node.uptime
+					? Format.durationStr(info.node.uptime)
+					: "-"
 			}
 		}
 		ParentInstanceView {
