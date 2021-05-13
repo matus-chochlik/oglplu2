@@ -7,6 +7,7 @@ import QtQuick 2.2
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.2
 import "qrc:///views"
+import "qrc:///scripts/Format.js" as Format
 
 Pane {
 	id: hostView
@@ -53,25 +54,25 @@ Pane {
 			Label {
 				text: qsTr("Short average load")
 			}
-			Label {
+			NumericLabel {
 				Layout.fillWidth: true
-				text: info.host && info.host.shortLoad
-					? "%1 %".arg(
-						Number(info.host.shortLoad*100.0)
-							.toLocaleString(lc, "f", 1))
-					: "-"
+
+				value: info.host 
+					? info.host.shortLoad
+					: null
+				format: Format.percentStr
 			}
 
 			Label {
 				text: qsTr("Long average load")
 			}
-			Label {
+			NumericLabel {
 				Layout.fillWidth: true
-				text: info.host && info.host.longLoad
-					? "%1 %".arg(
-						Number(info.host.longLoad*100.0)
-							.toLocaleString(lc, "f", 1))
-					: "-"
+
+				value: info.host
+					? info.host.longLoad
+					: null
+				format: Format.percentStr
 			}
 
 			Label {
@@ -81,58 +82,61 @@ Pane {
 			Label {
 				text: qsTr("Change")
 			}
-			Label {
+			NumericLabel {
 				Layout.fillWidth: true
-				text: info.host && info.host.shortLoadDelta
-					? "%1 %".arg(
-						Number(info.host.shortLoadDelta*100.0)
-							.toLocaleString(lc, "f", 1))
-					: "-"
+
+				value: info.host
+					? info.host.shortLoadDelta
+					: null
+				format: Format.percentStr
 			}
 
 			Label {
 				text: qsTr("Change")
 			}
-			Label {
+			NumericLabel {
 				Layout.fillWidth: true
-				text: info.host && info.host.longLoadDelta
-					? "%1 %".arg(
-						Number(info.host.longLoadDelta*100.0)
-							.toLocaleString(lc, "f", 1))
-					: "-"
+
+				value: info.host
+					? info.host.longLoadDelta
+					: null
+				format: Format.percentStr
 			}
 
 			Label {
 				text: qsTr("Total RAM size")
 			}
-			Label {
-				text: info.host && info.host.ramTotal
-					? "%1 MB".arg(
-						Number(info.host.ramTotal/1000000)
-							.toLocaleString(lc, "f", 0))
-					: "-"
+			NumericLabel {
+				Layout.fillWidth: true
+
+				value: info.host
+					? info.host.ramTotal
+					: null
+				format: Format.megabyteStr
 			}
 
 			Label {
 				text: qsTr("Free RAM size")
 			}
-			Label {
-				text: info.host && info.host.ramFree
-					? "%1 MB".arg(
-						Number(info.host.ramFree/1000000)
-							.toLocaleString(lc, "f", 1))
-					: "-"
+			NumericLabel {
+				Layout.fillWidth: true
+
+				value: info.host
+					? info.host.ramFree
+					: null
+				format: Format.megabyteStr
 			}
 
 			Label {
 				text: qsTr("RAM usage")
 			}
-			Label {
-				text: info.host && info.host.ramUsage
-					? "%1 %".arg(
-						Number(info.host.ramUsage*100.0)
-							.toLocaleString(lc, "f", 1))
-					: "-"
+			NumericLabel {
+				Layout.fillWidth: true
+
+				value: info.host
+					? info.host.ramUsage
+					: null
+				format: Format.percentStr
 			}
 
 			Label {
@@ -142,58 +146,61 @@ Pane {
 			Label {
 				text: qsTr("Change")
 			}
-			Label {
+			NumericLabel {
 				Layout.fillWidth: true
-				text: info.host && info.host.ramFreeDelta
-					? "%1 MB".arg(
-						Number(info.host.ramFreeDelta/1000000)
-							.toLocaleString(lc, "f", 1))
-					: "-"
+
+				value: info.host
+					? info.host.ramFreeDelta
+					: null
+				format: Format.megabyteStr
 			}
 
 			Label {
 				text: qsTr("Change")
 			}
-			Label {
+			NumericLabel {
 				Layout.fillWidth: true
-				text: info.host && info.host.ramUsageDelta
-					? "%1 %".arg(
-						Number(info.host.ramUsageDelta*100.0)
-							.toLocaleString(lc, "f", 2))
-					: "-"
+
+				value: info.host
+					? info.host.ramUsageDelta
+					: null
+				format: Format.percentStr
 			}
 
 			Label {
 				text: qsTr("Total swap size")
 			}
-			Label {
-				text: info.host && info.host.swapTotal
-					? "%1 MB".arg(
-						Number(info.host.swapTotal/1000000)
-							.toLocaleString(lc, "f", 0))
-					: "-"
+			NumericLabel {
+				Layout.fillWidth: true
+
+				value: info.host
+					? info.host.swapTotal
+					: null
+				format: Format.megabyteStr
 			}
 
 			Label {
 				text: qsTr("Free swap size")
 			}
-			Label {
-				text: info.host && info.host.swapFree
-					? "%1 MB".arg(
-						Number(info.host.swapFree/1000000)
-							.toLocaleString(lc, "f", 1))
-					: "-"
+			NumericLabel {
+				Layout.fillWidth: true
+
+				value: info.host
+					? info.host.swapFree
+					: null
+				format: Format.megabyteStr
 			}
 
 			Label {
 				text: qsTr("Swap usage")
 			}
-			Label {
-				text: info.host && info.host.swapUsage
-					? "%1 %".arg(
-						Number(info.host.swapUsage*100.0)
-							.toLocaleString(lc, "f", 1))
-					: "-"
+			NumericLabel {
+				Layout.fillWidth: true
+
+				value: info.host
+					? info.host.swapUsage
+					: null
+				format: Format.percentStr
 			}
 
 			Label {
@@ -203,25 +210,25 @@ Pane {
 			Label {
 				text: qsTr("Change")
 			}
-			Label {
+			NumericLabel {
 				Layout.fillWidth: true
-				text: info.host && info.host.swapFreeDelta
-					? "%1 MB".arg(
-						Number(info.host.swapFreeDelta/1000000)
-							.toLocaleString(lc, "f", 1))
-					: "-"
+
+				value: info.host
+					? info.host.swapFreeDelta
+					: null
+				format: Format.megabyteStr
 			}
 
 			Label {
 				text: qsTr("Change")
 			}
-			Label {
+			NumericLabel {
 				Layout.fillWidth: true
-				text: info.host && info.host.swapUsageDelta
-					? "%1 %".arg(
-						Number(info.host.swapUsageDelta*100.0)
-							.toLocaleString(lc, "f", 2))
-					: "-"
+
+				value: info.host
+					? info.host.swapUsageDelta
+					: null
+				format: Format.percentStr
 			}
 
 			Label {

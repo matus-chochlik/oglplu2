@@ -42,41 +42,42 @@ Pane {
 			Label {
 				text: qsTr("Sent:")
 			}
-			Label {
+			NumericLabel {
 				Layout.fillWidth: true
-				text: info.node.sentMessages
-					? info.node.sentMessages
-					: "-"
+
+				value: info.node.sentMessages
+				format: Math.trunc
 			}
 
 			Label {
 				text: qsTr("Received:")
 			}
-			Label {
+			NumericLabel {
 				Layout.fillWidth: true
-				text: info.node.receivedMessages
-					? info.node.receivedMessages
-					: "-"
+
+				value: info.node.receivedMessages
+				format: Math.trunc
 			}
 
 			Label {
 				text: qsTr("Dropped:")
 			}
-			Label {
+			NumericLabel {
 				Layout.fillWidth: true
+
 				text: info.node.droppedMessages
-					? info.node.droppedMessages
-					: "-"
+				format: Math.trunc
 			}
 
 			Label {
 				text: qsTr("Uptime")
 			}
-			Label {
+			NumericLabel {
 				Layout.columnSpan: 5
-				text: info.node.uptime
-					? Format.durationStr(info.node.uptime)
-					: "-"
+				Layout.fillWidth: true
+
+				value: info.node.uptime
+				format: Format.durationStr
 			}
 		}
 		ParentInstanceView {
