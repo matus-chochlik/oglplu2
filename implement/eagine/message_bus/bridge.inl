@@ -309,6 +309,18 @@ auto bridge::_handle_special(
             _stats.dropped_messages = _dropped_messages_i2c;
             _stats.uptime_seconds = _uptime_seconds();
 
+            const auto now = std::chrono::steady_clock::now();
+            const std::chrono::duration<float> seconds{
+              now - _forwarded_since_stat};
+            if(EAGINE_LIKELY(seconds.count() > 15.F)) {
+                _forwarded_since_stat = now;
+
+                _stats.messages_per_second = static_cast<std::int32_t>(
+                  float(_stats.forwarded_messages - _prev_forwarded_messages) /
+                  seconds.count());
+                _prev_forwarded_messages = _stats.forwarded_messages;
+            }
+
             auto temp{default_serialize_buffer_for(_stats)};
             if(auto serialized{default_serialize(_stats, cover(temp))}) {
                 message_view response{extract(serialized)};
@@ -424,8 +436,6 @@ auto bridge::_forward_messages() -> bool {
 
                   _stats.message_age_milliseconds =
                     static_cast<std::int32_t>(avg_msg_age * 1000.F);
-                  _stats.messages_per_second =
-                    static_cast<std::int32_t>(msgs_per_sec);
 
                   log_chart_sample(EAGINE_ID(msgPerSecI), msgs_per_sec);
                   log_stat("forwarded ${count} messages from input")

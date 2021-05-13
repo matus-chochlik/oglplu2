@@ -696,6 +696,16 @@ auto router::_handle_special_common(
         }
         return false;
     } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
+        const auto now = std::chrono::steady_clock::now();
+        const std::chrono::duration<float> seconds{now - _forwarded_since_stat};
+        if(EAGINE_LIKELY(seconds.count() >= 15.F)) {
+            _forwarded_since_stat = now;
+
+            _stats.messages_per_second = static_cast<std::int32_t>(
+              float(_stats.forwarded_messages - _prev_forwarded_messages) /
+              seconds.count());
+            _prev_forwarded_messages = _stats.forwarded_messages;
+        }
         _stats.uptime_seconds = _uptime_seconds();
 
         auto temp{default_serialize_buffer_for(_stats)};
@@ -844,7 +854,7 @@ auto router::_do_route_message(
             if(EAGINE_UNLIKELY(++_stats.forwarded_messages % 1000000 == 0)) {
                 const auto now{std::chrono::steady_clock::now()};
                 const std::chrono::duration<float> interval{
-                  now - _forwarded_since};
+                  now - _forwarded_since_log};
 
                 if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                     const auto msgs_per_sec{1000000.F / interval.count()};
@@ -855,8 +865,6 @@ auto router::_do_route_message(
 
                     _stats.message_age_milliseconds =
                       static_cast<std::int32_t>(avg_msg_age * 1000.F);
-                    _stats.messages_per_second =
-                      static_cast<std::int32_t>(msgs_per_sec);
 
                     log_chart_sample(EAGINE_ID(msgsPerSec), msgs_per_sec);
                     log_stat("forwarded ${count} messages")
@@ -867,7 +875,7 @@ auto router::_do_route_message(
                       .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
                 }
 
-                _forwarded_since = now;
+                _forwarded_since_log = now;
             }
             return node_out.send(*this, msg_id, message);
         };

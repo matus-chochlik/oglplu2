@@ -197,8 +197,11 @@ private:
     identifier_t _id_sequence{0};
     std::chrono::steady_clock::time_point _startup_time{
       std::chrono::steady_clock::now()};
-    std::chrono::steady_clock::time_point _forwarded_since{
+    std::chrono::steady_clock::time_point _forwarded_since_log{
       std::chrono::steady_clock::now()};
+    std::chrono::steady_clock::time_point _forwarded_since_stat{
+      std::chrono::steady_clock::now()};
+    std::int64_t _prev_forwarded_messages{0};
     float _message_age_sum{0.F};
     router_statistics _stats{};
 
