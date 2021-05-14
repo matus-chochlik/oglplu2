@@ -238,19 +238,16 @@ auto endpoint::_store_message(
     ++_stats.received_messages;
     if(!_handle_special(msg_id, message)) {
         if((message.target_id == _endpoint_id) || !is_valid_id(message.target_id)) {
-            auto pos = _incoming.find(msg_id);
-            if(pos != _incoming.end()) {
+            if(auto found{_find_incoming(msg_id)}) {
                 log_trace("stored message ${message}")
                   .arg(EAGINE_ID(message), msg_id);
-                _get_queue(*pos).push(message).add_age(msg_age);
+                extract(found).queue.push(message).add_age(msg_age);
             } else if(_allow_blob && _allow_blob(msg_id)) {
-                auto [newpos, newone] = _incoming.try_emplace(msg_id);
-                EAGINE_MAYBE_UNUSED(newone);
-                EAGINE_ASSERT(newone);
-                _get_counter(*newpos) = 0;
+                auto& state = _ensure_incoming(msg_id);
+                EAGINE_ASSERT(state.subscription_count == 0);
                 log_debug("storing new type of message ${message}")
                   .arg(EAGINE_ID(message), msg_id);
-                _get_queue(*newpos).push(message).add_age(msg_age);
+                state.queue.push(message).add_age(msg_age);
             }
         } else {
             ++_stats.dropped_messages;
@@ -270,12 +267,11 @@ auto endpoint::_accept_message(message_id msg_id, const message_view& message)
     if(_handle_special(msg_id, message)) {
         return true;
     }
-    auto pos = _incoming.find(msg_id);
-    if(pos != _incoming.end()) {
+    if(auto found{_find_incoming(msg_id)}) {
         if((message.target_id == _endpoint_id) || !is_valid_id(message.target_id)) {
             log_trace("accepted message ${message}")
               .arg(EAGINE_ID(message), msg_id);
-            _get_queue(*pos).push(message);
+            extract(found).queue.push(message);
         }
         return true;
     }
@@ -466,20 +462,21 @@ auto endpoint::update() -> bool {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::subscribe(message_id msg_id) {
-    auto [pos, newone] = _incoming.try_emplace(msg_id);
-    if(newone) {
-        _get_counter(*pos) = 0;
+    auto& state = _ensure_incoming(msg_id);
+    if(!state.subscription_count) {
         log_debug("subscribing to message ${message}")
           .arg(EAGINE_ID(message), msg_id);
     }
-    ++_get_counter(*pos);
+    ++state.subscription_count;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::unsubscribe(message_id msg_id) {
     auto pos = _incoming.find(msg_id);
     if(pos != _incoming.end()) {
-        if(--_get_counter(*pos) <= 0) {
+        EAGINE_ASSERT(pos->second);
+        auto& state = *pos->second;
+        if(--state.subscription_count <= 0) {
             _incoming.erase(pos);
             log_debug("unsubscribing from message ${message}")
               .arg(EAGINE_ID(message), msg_id);
@@ -649,10 +646,9 @@ void endpoint::query_certificate_of(identifier_t endpoint_id) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto endpoint::process_one(message_id msg_id, method_handler handler) -> bool {
-    auto pos = _incoming.find(msg_id);
-    if(pos != _incoming.end()) {
+    if(auto found{_find_incoming(msg_id)}) {
         const message_context msg_ctx{*this, msg_id};
-        return _get_queue(*pos).process_one(msg_ctx, handler);
+        return extract(found).queue.process_one(msg_ctx, handler);
     }
     return false;
 }
@@ -660,10 +656,9 @@ auto endpoint::process_one(message_id msg_id, method_handler handler) -> bool {
 EAGINE_LIB_FUNC
 auto endpoint::process_all(message_id msg_id, method_handler handler)
   -> span_size_t {
-    auto pos = _incoming.find(msg_id);
-    if(pos != _incoming.end()) {
+    if(auto found{_find_incoming(msg_id)}) {
         const message_context msg_ctx{*this, msg_id};
-        return _get_queue(*pos).process_all(msg_ctx, handler);
+        return extract(found).queue.process_all(msg_ctx, handler);
     }
     return 0;
 }
@@ -672,9 +667,9 @@ EAGINE_LIB_FUNC
 auto endpoint::process_everything(method_handler handler) -> span_size_t {
     span_size_t result = 0;
 
-    for(auto& incoming : _incoming) {
-        const message_context msg_ctx{*this, std::get<0>(incoming)};
-        result += _get_queue(incoming).process_all(msg_ctx, handler);
+    for(auto& [msg_id, state] : _incoming) {
+        const message_context msg_ctx{*this, msg_id};
+        result += extract(state).queue.process_all(msg_ctx, handler);
     }
     return result;
 }

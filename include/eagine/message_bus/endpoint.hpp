@@ -392,14 +392,8 @@ public:
     /// @brief Processes all received messages regardles of type with a handler.
     auto process_everything(method_handler handler) -> span_size_t;
 
-    void ensure_queue(message_id msg_id) {
-        _incoming.try_emplace(msg_id);
-    }
-
-    auto get_queue(message_id msg_id) noexcept -> message_priority_queue& {
-        const auto pos = _incoming.find(msg_id);
-        EAGINE_ASSERT(pos != _incoming.end());
-        return _get_queue(*pos);
+    auto ensure_queue(message_id msg_id) noexcept -> message_priority_queue& {
+        return _ensure_incoming(msg_id).queue;
     }
 
 private:
@@ -429,18 +423,33 @@ private:
 
     message_storage _outgoing{};
 
-    flat_map<message_id, std::tuple<span_size_t, message_priority_queue>>
-      _incoming{};
+    struct incoming_state {
+        span_size_t subscription_count{0};
+        message_priority_queue queue{};
+    };
 
-    template <typename Entry>
-    static inline auto _get_counter(Entry& entry) -> auto& {
-        return std::get<0>(std::get<1>(entry));
+    flat_map<message_id, std::unique_ptr<incoming_state>> _incoming{};
+
+    auto _ensure_incoming(message_id msg_id) -> incoming_state& {
+        auto pos = _incoming.find(msg_id);
+        if(pos == _incoming.end()) {
+            pos = _incoming.emplace(msg_id, std::make_unique<incoming_state>())
+                    .first;
+        }
+        EAGINE_ASSERT(pos->second);
+        return *pos->second;
     }
 
-    template <typename Entry>
-    static inline auto _get_queue(Entry& entry) noexcept
-      -> message_priority_queue& {
-        return std::get<1>(std::get<1>(entry));
+    auto _find_incoming(message_id msg_id) const noexcept -> incoming_state* {
+        const auto pos = _incoming.find(msg_id);
+        return (pos != _incoming.end()) ? pos->second.get() : nullptr;
+    }
+
+    auto _get_incoming(message_id msg_id) const noexcept -> incoming_state& {
+        const auto pos = _incoming.find(msg_id);
+        EAGINE_ASSERT(pos != _incoming.end());
+        EAGINE_ASSERT(pos->second);
+        return *pos->second;
     }
 
     blob_manipulator _blobs{*this};

@@ -238,10 +238,7 @@ protected:
 
     void _setup_queues(span<handler_entry> msg_handlers) noexcept {
         for(auto& entry : msg_handlers) {
-            this->bus().ensure_queue(entry.msg_id);
-        }
-        for(auto& entry : msg_handlers) {
-            entry.queue = &this->bus().get_queue(entry.msg_id);
+            entry.queue = &this->bus().ensure_queue(entry.msg_id);
         }
     }
 
