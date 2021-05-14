@@ -26,13 +26,13 @@ struct pending_blob {
     message_id msg_id{};
     identifier_t source_id{0U};
     identifier_t target_id{0U};
-    std::uint64_t blob_id{0U};
     memory::buffer blob{};
     memory::const_split_block current{};
     // TODO: recycle the done parts vectors?
     double_buffer<std::vector<std::tuple<span_size_t, span_size_t>>>
       done_parts{};
     timeout max_time{};
+    std::uint32_t blob_id{0U};
     message_priority priority{message_priority::normal};
 
     void init();
@@ -63,18 +63,18 @@ public:
 
     auto cleanup() -> bool;
 
-    void push_outgoing(
+    auto push_outgoing(
       message_id msg_id,
       identifier_t source_id,
       identifier_t target_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
-      message_priority priority);
+      message_priority priority) -> message_sequence_t;
 
     auto push_incoming_fragment(
       message_id msg_id,
       identifier_t source_id,
-      identifier_t blob_id,
+      std::uint32_t blob_id,
       std::int64_t offset,
       std::int64_t total,
       memory::const_block fragment,
@@ -98,7 +98,7 @@ public:
 
 private:
     std::int64_t _max_blob_size{16 * 1024 * 1024};
-    std::uint64_t _blob_id_sequence{0};
+    std::uint32_t _blob_id_sequence{0};
     memory::buffer _scratch_buffer{};
     memory::buffer_pool _buffers{};
     std::vector<pending_blob> _outgoing{};

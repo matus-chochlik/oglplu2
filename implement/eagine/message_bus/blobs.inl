@@ -140,7 +140,7 @@ EAGINE_LIB_FUNC
 auto blob_manipulator::push_incoming_fragment(
   message_id msg_id,
   identifier_t source_id,
-  identifier_t blob_id,
+  std::uint32_t blob_id,
   std::int64_t offset,
   std::int64_t total_size,
   memory::const_block fragment,
@@ -221,7 +221,7 @@ auto blob_manipulator::process_incoming(
 
     identifier class_id{};
     identifier method_id{};
-    identifier_t blob_id{0U};
+    std::uint32_t blob_id{0U};
     std::int64_t offset{0};
     std::int64_t total_size{0};
 
@@ -294,13 +294,13 @@ inline auto blob_manipulator::_scratch_block(span_size_t size)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void blob_manipulator::push_outgoing(
+auto blob_manipulator::push_outgoing(
   message_id msg_id,
   identifier_t source_id,
   identifier_t target_id,
   memory::const_block blob,
   std::chrono::seconds max_time,
-  message_priority priority) {
+  message_priority priority) -> message_sequence_t {
     _outgoing.emplace_back();
     auto& pending = _outgoing.back();
     pending.msg_id = msg_id;
@@ -312,6 +312,7 @@ void blob_manipulator::push_outgoing(
     pending.current = {view(pending.blob)};
     pending.max_time = timeout{max_time};
     pending.priority = priority;
+    return limit_cast<identifier_t>(pending.blob_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -375,6 +376,7 @@ auto blob_manipulator::fetch_all(blob_manipulator::fetch_handler handle_fetch)
             message_view message{view(pending.blob)};
             message.set_source_id(pending.source_id);
             message.set_target_id(pending.target_id);
+            message.set_sequence_no(pending.blob_id);
             message.set_priority(pending.priority);
             handle_fetch(pending.msg_id, pending.age(), message);
             _buffers.eat(std::move(pending.blob));

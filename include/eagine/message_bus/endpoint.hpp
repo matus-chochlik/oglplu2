@@ -215,10 +215,9 @@ public:
       identifier_t target_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
-      message_priority priority) -> bool {
-        _blobs.push_outgoing(
+      message_priority priority) -> message_sequence_t {
+        return _blobs.push_outgoing(
           msg_id, _endpoint_id, target_id, blob, max_time, priority);
-        return true;
     }
 
     /// @brief Enqueues a BLOB that is larger than max_data_size for broadcast.
