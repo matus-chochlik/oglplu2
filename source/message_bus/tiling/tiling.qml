@@ -80,9 +80,34 @@ ApplicationWindow {
         }
     }
 
-    contentData: TilingView {
+    contentData: ColumnLayout {
         anchors.fill: parent
-        model: backend.tiling
+
+		TilingView {
+			Layout.fillWidth: true
+			Layout.fillHeight: true
+
+        	model: backend.tiling
+		}
+		ProgressBar {
+			Layout.fillWidth: true
+			Layout.preferredHeight: 25
+
+			property real progress: backend.tiling.progress
+				? backend.tiling.progress
+				: 0.0
+
+			from: 0
+			to: 1
+			value: progress
+			indeterminate: !backend.tiling.progress
+
+			Behavior on progress {
+				NumberAnimation {
+					duration: 1000
+				}
+			}
+		}
     }
 
     FileDialog {
