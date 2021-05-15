@@ -13,12 +13,70 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+// buffer blob i/o
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+buffer_blob_io::buffer_blob_io(memory::buffer buf) noexcept
+  : _buf{std::move(buf)} {
+    zero(cover(_buf));
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+buffer_blob_io::buffer_blob_io(memory::buffer buf, memory::const_block src)
+  : _buf{std::move(buf)} {
+    copy(src, cover(_buf));
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto buffer_blob_io::is_at_eod(span_size_t offs) -> bool {
+    return offs >= _buf.size();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto buffer_blob_io::total_size() -> span_size_t {
+    return _buf.size();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto buffer_blob_io::fetch_fragment(span_size_t offs, memory::block dst)
+  -> span_size_t {
+    const auto src = head(skip(view(_buf), offs), dst.size());
+    copy(src, dst);
+    return src.size();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto buffer_blob_io::store_fragment(span_size_t offs, memory::const_block src)
+  -> bool {
+    auto dst = skip(cover(_buf), offs);
+    if(EAGINE_LIKELY(src.size() <= dst.size())) {
+        copy(src, dst);
+        return true;
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto buffer_blob_io::check_stored(span_size_t offs, memory::const_block blk)
+  -> bool {
+    return are_equal(head(skip(view(_buf), offs), blk.size()), blk);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto buffer_blob_io::release_buffer() noexcept -> memory::buffer {
+    return std::move(_buf);
+}
+//------------------------------------------------------------------------------
+// blob manipulator
+//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto blob_manipulator::cleanup() -> bool {
     some_true something_done{};
     auto predicate = [this, &something_done](auto& pending) {
         if(pending.max_time.is_expired()) {
-            _buffers.eat(std::move(pending.blob));
+            if(auto buf_io{pending.buffer_io()}) {
+                _buffers.eat(extract(buf_io).release_buffer());
+            }
             something_done();
             return true;
         }
@@ -37,13 +95,6 @@ auto blob_manipulator::cleanup() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void pending_blob::init() {
-    zero(cover(blob));
-    current = view(blob);
-    done_parts.front().clear();
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 auto pending_blob::done_size() const noexcept -> span_size_t {
     span_size_t result = 0;
     for(const auto& [bgn, end] : done_parts.front()) {
@@ -56,7 +107,7 @@ EAGINE_LIB_FUNC
 auto pending_blob::is_complete() const noexcept -> bool {
     if(done_parts.front().size() == 1) {
         const auto [bgn, end] = done_parts.front().front();
-        return (bgn == 0) && (end >= blob.size());
+        return (bgn == 0) && (end >= total_size());
     }
     return false;
 }
@@ -74,7 +125,7 @@ auto pending_blob::merge_fragment(span_size_t bgn, memory::const_block fragment)
 
     if(src.empty()) {
         dst.emplace_back(bgn, end);
-        copy(fragment, head(skip(cover(blob), bgn), end - bgn));
+        result &= store(bgn, fragment);
     }
     bool new_done = false;
     for(const auto& [src_bgn, src_end] : src) {
@@ -82,51 +133,38 @@ auto pending_blob::merge_fragment(span_size_t bgn, memory::const_block fragment)
             if(end < src_bgn) {
                 if(!new_done) {
                     dst.emplace_back(bgn, end);
-                    copy(fragment, head(skip(cover(blob), bgn), end - bgn));
+                    result &= store(bgn, fragment);
                     new_done = true;
                 }
                 dst.emplace_back(src_bgn, src_end);
             } else if(end <= src_end) {
                 if(!new_done) {
                     dst.emplace_back(bgn, src_end);
-                    copy(
-                      head(fragment, src_bgn - bgn),
-                      head(skip(cover(blob), bgn), src_bgn - bgn));
+                    result &= store(bgn, head(fragment, src_bgn - bgn));
                     new_done = true;
                 }
-                result &= are_equal(
-                  skip(fragment, src_bgn - bgn),
-                  head(skip(view(blob), src_bgn), end - src_bgn));
+                result &= check(src_bgn, skip(fragment, src_bgn - bgn));
             } else {
                 if(!new_done) {
                     dst.emplace_back(bgn, end);
-                    copy(
-                      head(fragment, src_bgn - bgn),
-                      head(skip(cover(blob), bgn), src_bgn - bgn));
-                    copy(
-                      skip(fragment, src_end - bgn),
-                      head(skip(cover(blob), src_end), end - src_end));
+                    result &= store(bgn, head(fragment, src_bgn - bgn));
+                    result &= store(src_end, skip(fragment, src_end - bgn));
                     new_done = true;
                 }
-                result &= are_equal(
-                  head(skip(fragment, src_bgn - bgn), src_end - src_bgn),
-                  head(skip(view(blob), src_bgn), src_end - src_bgn));
+                result &= check(
+                  src_bgn,
+                  head(skip(fragment, src_bgn - bgn), src_end - src_bgn));
             }
         } else if(bgn <= src_end) {
             if(end <= src_end) {
                 dst.emplace_back(src_bgn, src_end);
                 new_done = true;
-                result &=
-                  are_equal(fragment, head(skip(view(blob), bgn), end - bgn));
+                result &= check(bgn, fragment);
             } else {
                 dst.emplace_back(src_bgn, end);
-                copy(
-                  skip(fragment, src_end - bgn),
-                  head(skip(cover(blob), src_end), end - src_end));
+                result &= store(src_end, skip(fragment, src_end - bgn));
+                result &= check(bgn, head(fragment, src_end - bgn));
                 new_done = true;
-                result &= are_equal(
-                  head(fragment, src_end - bgn),
-                  head(skip(view(blob), bgn), src_end - bgn));
             }
         } else {
             dst.emplace_back(src_bgn, src_end);
@@ -137,12 +175,19 @@ auto pending_blob::merge_fragment(span_size_t bgn, memory::const_block fragment)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto blob_manipulator::_make_io(span_size_t total_size)
+  -> std::unique_ptr<blob_io> {
+    return std::make_unique<buffer_blob_io>(_buffers.get(total_size));
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto blob_manipulator::push_incoming_fragment(
   message_id msg_id,
   identifier_t source_id,
   std::uint32_t blob_id,
   std::int64_t offset,
   std::int64_t total_size,
+  io_getter get_io,
   memory::const_block fragment,
   message_priority priority) -> bool {
 
@@ -152,7 +197,7 @@ auto blob_manipulator::push_incoming_fragment(
       });
     if(pos != _incoming.end()) {
         auto& pending = *pos;
-        if(EAGINE_LIKELY(pending.blob.size() == span_size(total_size))) {
+        if(EAGINE_LIKELY(pending.total_size() == span_size(total_size))) {
             if(EAGINE_LIKELY(pending.msg_id == msg_id)) {
                 pending.max_time.reset();
                 if(EAGINE_UNLIKELY(pending.priority < priority)) {
@@ -172,7 +217,7 @@ auto blob_manipulator::push_incoming_fragment(
                             float(pending.total_size()));
                       });
                 } else {
-                    log_debug("failed to merge blob fragment")
+                    log_warning("failed to merge blob fragment")
                       .arg(EAGINE_ID(offset), offset)
                       .arg(EAGINE_ID(size), fragment.size());
                 }
@@ -183,8 +228,8 @@ auto blob_manipulator::push_incoming_fragment(
             }
         } else {
             log_debug("total size mismatch in blob fragment message")
-              .arg(EAGINE_ID(pending), identifier(pending.blob.size()))
-              .arg(EAGINE_ID(message), identifier(total_size));
+              .arg(EAGINE_ID(pending), pending.total_size())
+              .arg(EAGINE_ID(message), total_size);
         }
     } else {
         _incoming.emplace_back();
@@ -192,10 +237,11 @@ auto blob_manipulator::push_incoming_fragment(
         pending.msg_id = msg_id;
         pending.source_id = source_id;
         pending.blob_id = blob_id;
-        pending.blob = _buffers.get(span_size(total_size));
+        pending.io = get_io(span_size(total_size));
+        pending.current_position = 0;
         pending.max_time = timeout{std::chrono::seconds(60)};
         pending.priority = priority;
-        pending.init();
+        pending.done_parts.front().clear();
         if(pending.merge_fragment(span_size(offset), fragment)) {
             log_trace("merged first blob fragment")
               .arg(EAGINE_ID(blobId), blob_id)
@@ -217,6 +263,7 @@ auto blob_manipulator::push_incoming_fragment(
 EAGINE_LIB_FUNC
 auto blob_manipulator::process_incoming(
   blob_manipulator::filter_function filter,
+  blob_manipulator::io_getter get_io,
   const message_view& message) -> bool {
 
     identifier class_id{};
@@ -244,27 +291,28 @@ auto blob_manipulator::process_incoming(
                           blob_id,
                           offset,
                           total_size,
+                          get_io,
                           fragment,
                           message.priority);
                     } else {
-                        log_debug("invalid blob fragment size ${size}")
+                        log_error("invalid blob fragment size ${size}")
                           .arg(EAGINE_ID(size), fragment.size())
                           .arg(EAGINE_ID(offset), offset)
                           .arg(EAGINE_ID(total), total_size);
                     }
                 } else {
-                    log_debug("invalid blob fragment offset ${offset}")
+                    log_error("invalid blob fragment offset ${offset}")
                       .arg(EAGINE_ID(offset), offset)
                       .arg(EAGINE_ID(total), total_size);
                 }
             }
         } else {
-            log_debug("blob is too big ${total_size}")
+            log_warning("blob is too big ${total_size}")
               .arg(EAGINE_ID(total), total_size)
               .arg(EAGINE_ID(offset), _max_blob_size);
         }
     } else {
-        log_debug("failed to deserialize header of blob")
+        log_error("failed to deserialize header of blob")
           .arg(EAGINE_ID(errors), errors)
           .arg(EAGINE_ID(data), message.data);
     }
@@ -298,7 +346,7 @@ auto blob_manipulator::push_outgoing(
   message_id msg_id,
   identifier_t source_id,
   identifier_t target_id,
-  memory::const_block blob,
+  std::unique_ptr<blob_io> io,
   std::chrono::seconds max_time,
   message_priority priority) -> message_sequence_t {
     _outgoing.emplace_back();
@@ -307,12 +355,28 @@ auto blob_manipulator::push_outgoing(
     pending.source_id = source_id;
     pending.target_id = target_id;
     pending.blob_id = ++_blob_id_sequence;
-    pending.blob = _buffers.get(blob.size());
-    copy(blob, cover(pending.blob));
-    pending.current = {view(pending.blob)};
+    pending.io = std::move(io);
+    pending.current_position = 0;
     pending.max_time = timeout{max_time};
     pending.priority = priority;
     return limit_cast<identifier_t>(pending.blob_id);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto blob_manipulator::push_outgoing(
+  message_id msg_id,
+  identifier_t source_id,
+  identifier_t target_id,
+  memory::const_block src,
+  std::chrono::seconds max_time,
+  message_priority priority) -> message_sequence_t {
+    return push_outgoing(
+      msg_id,
+      source_id,
+      target_id,
+      std::make_unique<buffer_blob_io>(_buffers.get(src.size()), src),
+      max_time,
+      priority);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -324,13 +388,13 @@ auto blob_manipulator::process_outgoing(
     const auto msg_id = EAGINE_MSGBUS_ID(blobFrgmnt);
 
     for(auto& pending : _outgoing) {
-        if(pending.current.tail()) {
+        if(!pending.is_at_eod()) {
             const auto header = std::make_tuple(
               pending.msg_id.class_(),
               pending.msg_id.method(),
               pending.blob_id,
-              limit_cast<std::int64_t>(pending.current.split_position()),
-              limit_cast<std::int64_t>(pending.blob.size()));
+              limit_cast<std::int64_t>(pending.current_position),
+              limit_cast<std::int64_t>(pending.total_size()));
 
             block_data_sink sink(
               _scratch_block(message_size(pending, max_message_size)));
@@ -338,20 +402,23 @@ auto blob_manipulator::process_outgoing(
 
             auto errors = serialize(header, backend);
             if(!errors) {
-                if(auto written = sink.write_some(pending.current)) {
-                    pending.current = extract(written);
+
+                if(auto written_size{
+                     pending.fetch(pending.current_position, sink.free())}) {
+
+                    sink.mark_used(written_size);
+                    pending.current_position += written_size;
                     message_view message(sink.done());
                     message.set_source_id(pending.source_id);
                     message.set_target_id(pending.target_id);
                     message.set_priority(pending.priority);
                     something_done(do_send(msg_id, message));
                 } else {
-                    log_debug("failed to write fragment of blob ${message}")
-                      .arg(EAGINE_ID(errors), get_errors(written))
+                    log_error("failed to write fragment of blob ${message}")
                       .arg(EAGINE_ID(message), pending.msg_id);
                 }
             } else {
-                log_debug("failed to serialize header of blob ${message}")
+                log_error("failed to serialize header of blob ${message}")
                   .arg(EAGINE_ID(errors), errors)
                   .arg(EAGINE_ID(message), pending.msg_id);
             }
@@ -371,15 +438,26 @@ auto blob_manipulator::fetch_all(blob_manipulator::fetch_handler handle_fetch)
             log_debug("handling complete blob ${id}")
               .arg(EAGINE_ID(id), pending.blob_id)
               .arg(EAGINE_ID(message), pending.msg_id)
-              .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), pending.blob.size());
+              .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), pending.total_size());
 
-            message_view message{view(pending.blob)};
-            message.set_source_id(pending.source_id);
-            message.set_target_id(pending.target_id);
-            message.set_sequence_no(pending.blob_id);
-            message.set_priority(pending.priority);
-            handle_fetch(pending.msg_id, pending.age(), message);
-            _buffers.eat(std::move(pending.blob));
+            if(auto buf_io{pending.buffer_io()}) {
+                auto blob = extract(buf_io).release_buffer();
+                message_view message{view(blob)};
+                message.set_source_id(pending.source_id);
+                message.set_target_id(pending.target_id);
+                message.set_sequence_no(pending.blob_id);
+                message.set_priority(pending.priority);
+                handle_fetch(pending.msg_id, pending.age(), message);
+                _buffers.eat(std::move(blob));
+            } else if(auto fin_io{pending.finish_io()}) {
+                message_info info{};
+                info.set_source_id(pending.source_id);
+                info.set_target_id(pending.target_id);
+                info.set_sequence_no(pending.blob_id);
+                info.set_priority(pending.priority);
+                extract(fin_io).handle_finished(
+                  pending.msg_id, pending.age(), info);
+            }
             ++done_count;
             return true;
         }

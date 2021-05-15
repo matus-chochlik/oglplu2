@@ -26,26 +26,29 @@ auto main(main_ctx& ctx) -> int {
     auto log_byte_hist = [&ctx, &byte_counts](
                            const msgbus::message_context& mc,
                            msgbus::stored_message& msg) {
-        zero(cover(byte_counts));
+        if(msg.data().size()) {
+            zero(cover(byte_counts));
 
-        span_size_t max_count{0};
-        for(auto b : msg.content()) {
-            max_count = math::maximum(max_count, ++byte_counts[std_size(b)]);
+            span_size_t max_count{0};
+            for(auto b : msg.content()) {
+                max_count =
+                  math::maximum(max_count, ++byte_counts[std_size(b)]);
+            }
+
+            ctx.log()
+              .info("received blob message ${message}")
+              .arg(EAGINE_ID(message), mc.msg_id())
+              .arg_func([&byte_counts, max_count](logger_backend& backend) {
+                  for(std::size_t i = 0; i < 256; ++i) {
+                      backend.add_float(
+                        byte_to_identifier(i),
+                        EAGINE_ID(Histogram),
+                        float(0),
+                        float(byte_counts[i]),
+                        float(max_count));
+                  }
+              });
         }
-
-        ctx.log()
-          .info("received blob message ${message}")
-          .arg(EAGINE_ID(message), mc.msg_id())
-          .arg_func([&byte_counts, max_count](logger_backend& backend) {
-              for(std::size_t i = 0; i < 256; ++i) {
-                  backend.add_float(
-                    byte_to_identifier(i),
-                    EAGINE_ID(Histogram),
-                    float(0),
-                    float(byte_counts[i]),
-                    float(max_count));
-              }
-          });
 
         return true;
     };

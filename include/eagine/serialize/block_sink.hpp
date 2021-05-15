@@ -51,6 +51,16 @@ public:
         return skip(_dst, _done);
     }
 
+    /// @brief Returns the free part of the backing block and marks it as used.
+    /// @see done
+    /// @see remaining_size
+    /// @see free
+    auto mark_used(span_size_t size) noexcept -> auto& {
+        EAGINE_ASSERT(size <= remaining_size());
+        _done += size;
+        return *this;
+    }
+
     /// @brief Returns the size of the free part of the backing block.
     /// @see free
     /// @see done
