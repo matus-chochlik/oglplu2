@@ -9,6 +9,7 @@ log_args=("--use-asio-nw-log" "--min-log-severity" "debug")
 conn_type="--msg-bus-asio-local-stream"
 #
 pids=()
+termpids=()
 #
 "$(dirname ${0})/../tools/xml_logs-opt.sh" \
 	"--plot-charts" \
@@ -19,7 +20,7 @@ ${install_prefix}/bin/eagine-message_bus-router \
 	"${log_args[@]}" \
 	${conn_type} \
 	--msg-bus-router-shutdown-verify false \
-	& pids+=($!)
+	& termpids+=($!)
 sleep 1
 ${install_prefix}/share/oglplus/examples/eagine-005_byte_histogram\
 	"${log_args[@]}" \
@@ -39,6 +40,12 @@ do
 done
 
 for pid in ${pids[@]}
+do wait ${pid}
+done
+
+kill -TERM ${termpids[@]}
+
+for pid in ${termpids[@]}
 do wait ${pid}
 done
 
