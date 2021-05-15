@@ -363,7 +363,9 @@ class XmlLogFormatter(object):
 
     # --------------------------------------------------------------------------
     def _formatValueBar(self, mn, x, mx, width, invert):
-        coef = (x - mn) / (mx - mn)
+        try: coef = (x - mn) / (mx - mn)
+        except ZeroDivisionError:
+            coef = 0.0
         pos = coef * float(width)
         cnt = int(pos)
         lbl = " %.1f%% " % (100.0 * coef)
