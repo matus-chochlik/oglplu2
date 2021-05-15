@@ -489,13 +489,16 @@ auto router::_process_blobs() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_do_allow_blob(message_id msg_id) -> bool {
+auto router::_do_get_blob_io(
+  message_id msg_id,
+  span_size_t size,
+  blob_manipulator& blobs) -> std::unique_ptr<blob_io> {
     if(is_special_message(msg_id)) {
         if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
-            return true;
+            return blobs.make_io(size);
         }
     }
-    return false;
+    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -641,7 +644,7 @@ auto router::_handle_special_common(
         return false;
     } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
         if(_blobs.process_incoming(
-             EAGINE_THIS_MEM_FUNC_REF(_do_allow_blob), message)) {
+             EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io), message)) {
             _blobs.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_blob));
         }
         // this should be routed

@@ -36,22 +36,24 @@ auto endpoint::_process_blobs() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto endpoint::_do_allow_blob(message_id msg_id) -> bool {
+auto endpoint::_do_get_blob_io(
+  message_id msg_id,
+  span_size_t size,
+  blob_manipulator& blobs) -> std::unique_ptr<blob_io> {
+
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
-            return true;
-        }
-        if(msg_id.has_method(EAGINE_ID(eptSigNnce))) {
-            return true;
-        }
-        if(msg_id.has_method(EAGINE_ID(eptNnceSig))) {
-            return true;
-        }
-        if(msg_id.has_method(EAGINE_ID(rtrCertPem))) {
-            return true;
+        if(
+          msg_id.has_method(EAGINE_ID(eptCertPem)) ||
+          msg_id.has_method(EAGINE_ID(eptSigNnce)) ||
+          msg_id.has_method(EAGINE_ID(eptNnceSig)) ||
+          msg_id.has_method(EAGINE_ID(rtrCertPem))) {
+            return blobs.make_io(size);
         }
     }
-    return _allow_blob && _allow_blob(msg_id);
+    if(_get_blob_io) {
+        return _get_blob_io(msg_id, size, blobs);
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -91,7 +93,7 @@ auto endpoint::_handle_special(
             return true;
         } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
             if(_blobs.process_incoming(
-                 EAGINE_THIS_MEM_FUNC_REF(_do_allow_blob), message)) {
+                 EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io), message)) {
                 _blobs.fetch_all(_store_handler);
             }
             return true;
@@ -242,7 +244,7 @@ auto endpoint::_store_message(
                 log_trace("stored message ${message}")
                   .arg(EAGINE_ID(message), msg_id);
                 extract(found).queue.push(message).add_age(msg_age);
-            } else if(_allow_blob && _allow_blob(msg_id)) {
+            } else {
                 auto& state = _ensure_incoming(msg_id);
                 EAGINE_ASSERT(state.subscription_count == 0);
                 log_debug("storing new type of message ${message}")

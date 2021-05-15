@@ -127,11 +127,10 @@ public:
     auto message_size(const pending_blob&, span_size_t max_message_size)
       const noexcept -> span_size_t;
 
-    using io_getter = callable_ref<std::unique_ptr<blob_io>(span_size_t)>;
+    using io_getter = callable_ref<
+      std::unique_ptr<blob_io>(message_id, span_size_t, blob_manipulator&)>;
 
-    auto default_io_getter() noexcept -> io_getter {
-        return EAGINE_THIS_MEM_FUNC_REF(_make_io);
-    }
+    auto make_io(span_size_t total_size) -> std::unique_ptr<blob_io>;
 
     auto cleanup() -> bool;
 
@@ -161,17 +160,8 @@ public:
       memory::const_block fragment,
       message_priority priority) -> bool;
 
-    using filter_function = callable_ref<bool(message_id)>;
-
-    auto process_incoming(
-      filter_function filter,
-      io_getter get_io,
-      const message_view& message) -> bool;
-
-    auto process_incoming(filter_function filter, const message_view& message)
-      -> bool {
-        return process_incoming(filter, default_io_getter(), message);
-    }
+    auto process_incoming(io_getter get_io, const message_view& message)
+      -> bool;
 
     using fetch_handler =
       callable_ref<bool(message_id, message_age, const message_view&)>;
@@ -193,7 +183,6 @@ private:
     std::vector<pending_blob> _outgoing{};
     std::vector<pending_blob> _incoming{};
 
-    auto _make_io(span_size_t total_size) -> std::unique_ptr<blob_io>;
     auto _scratch_block(span_size_t size) -> memory::block;
 };
 //------------------------------------------------------------------------------

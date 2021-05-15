@@ -44,7 +44,7 @@ public:
     using fetch_handler = connection::fetch_handler;
 
     /// @brief Alias for blob message type filter callable reference.
-    using blob_filter_function = blob_manipulator::filter_function;
+    using blob_io_getter = blob_manipulator::io_getter;
 
     /// @brief Construction with a reference to parent main context object.
     endpoint(main_ctx_object obj) noexcept
@@ -54,11 +54,9 @@ public:
     endpoint(identifier id, main_ctx_parent parent) noexcept
       : main_ctx_object{id, parent} {}
 
-    explicit endpoint(
-      main_ctx_object obj,
-      blob_filter_function allow_blob) noexcept
+    explicit endpoint(main_ctx_object obj, blob_io_getter get_blob_io) noexcept
       : main_ctx_object{std::move(obj)}
-      , _allow_blob{std::move(allow_blob)} {}
+      , _get_blob_io{std::move(get_blob_io)} {}
 
     /// @brief Not copy constructible.
     endpoint(const endpoint&) = delete;
@@ -452,11 +450,12 @@ private:
     }
 
     blob_manipulator _blobs{*this};
-    blob_manipulator::filter_function _allow_blob{};
+    blob_io_getter _get_blob_io{};
 
     auto _cleanup_blobs() -> bool;
     auto _process_blobs() -> bool;
-    auto _do_allow_blob(message_id) -> bool;
+    auto _do_get_blob_io(message_id, span_size_t, blob_manipulator&)
+      -> std::unique_ptr<blob_io>;
 
     auto _default_store_handler() noexcept -> fetch_handler {
         return EAGINE_THIS_MEM_FUNC_REF(_store_message);
@@ -491,10 +490,10 @@ private:
 
     explicit endpoint(
       main_ctx_object obj,
-      blob_filter_function allow_blob,
+      blob_io_getter get_blob_io,
       fetch_handler store_message) noexcept
       : main_ctx_object{std::move(obj)}
-      , _allow_blob{std::move(allow_blob)}
+      , _get_blob_io{std::move(get_blob_io)}
       , _store_handler{std::move(store_message)} {}
 
     endpoint(endpoint&& temp) noexcept
@@ -509,7 +508,7 @@ private:
 
     endpoint(
       endpoint&& temp,
-      blob_filter_function allow_blob,
+      blob_io_getter get_blob_io,
       fetch_handler store_message) noexcept
       : main_ctx_object{static_cast<main_ctx_object&&>(temp)}
       , _context{std::move(temp._context)}
@@ -519,7 +518,7 @@ private:
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
       , _blobs{std::move(temp._blobs)}
-      , _allow_blob{std::move(allow_blob)}
+      , _get_blob_io{std::move(get_blob_io)}
       , _store_handler{std::move(store_message)} {}
 };
 //------------------------------------------------------------------------------
@@ -535,9 +534,9 @@ protected:
 
     static auto _make_endpoint(
       main_ctx_object obj,
-      endpoint::blob_filter_function allow_blob,
+      endpoint::blob_io_getter get_blob_io,
       endpoint::fetch_handler store_message) noexcept {
-        return endpoint{std::move(obj), allow_blob, store_message};
+        return endpoint{std::move(obj), get_blob_io, store_message};
     }
 
     static auto _move_endpoint(
@@ -548,9 +547,9 @@ protected:
 
     static auto _move_endpoint(
       endpoint&& bus,
-      endpoint::blob_filter_function allow_blob,
+      endpoint::blob_io_getter get_blob_io,
       endpoint::fetch_handler store_message) noexcept {
-        return endpoint{std::move(bus), allow_blob, store_message};
+        return endpoint{std::move(bus), get_blob_io, store_message};
     }
 
     inline auto _accept_message(

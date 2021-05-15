@@ -158,7 +158,8 @@ private:
 
     auto _cleanup_blobs() -> bool;
     auto _process_blobs() -> bool;
-    auto _do_allow_blob(message_id) -> bool;
+    auto _do_get_blob_io(message_id, span_size_t, blob_manipulator&)
+      -> std::unique_ptr<blob_io>;
     auto _handle_blob(message_id, message_age, const message_view&) -> bool;
 
     auto _update_endpoint_info(identifier_t incoming_id, const message_view&)

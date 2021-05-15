@@ -175,7 +175,7 @@ auto pending_blob::merge_fragment(span_size_t bgn, memory::const_block fragment)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto blob_manipulator::_make_io(span_size_t total_size)
+auto blob_manipulator::make_io(span_size_t total_size)
   -> std::unique_ptr<blob_io> {
     return std::make_unique<buffer_blob_io>(_buffers.get(total_size));
 }
@@ -232,29 +232,31 @@ auto blob_manipulator::push_incoming_fragment(
               .arg(EAGINE_ID(message), total_size);
         }
     } else {
-        _incoming.emplace_back();
-        auto& pending = _incoming.back();
-        pending.msg_id = msg_id;
-        pending.source_id = source_id;
-        pending.blob_id = blob_id;
-        pending.io = get_io(span_size(total_size));
-        pending.current_position = 0;
-        pending.max_time = timeout{std::chrono::seconds(60)};
-        pending.priority = priority;
-        pending.done_parts.front().clear();
-        if(pending.merge_fragment(span_size(offset), fragment)) {
-            log_trace("merged first blob fragment")
-              .arg(EAGINE_ID(blobId), blob_id)
-              .arg(EAGINE_ID(offset), offset)
-              .arg(EAGINE_ID(size), fragment.size())
-              .arg_func([&](logger_backend& backend) {
-                  backend.add_float(
-                    EAGINE_ID(complete),
-                    EAGINE_ID(Progress),
-                    0.f,
-                    float(pending.done_size()),
-                    float(pending.total_size()));
-              });
+        if(auto io{get_io(msg_id, span_size(total_size), *this)}) {
+            _incoming.emplace_back();
+            auto& pending = _incoming.back();
+            pending.msg_id = msg_id;
+            pending.source_id = source_id;
+            pending.blob_id = blob_id;
+            pending.io = std::move(io);
+            pending.current_position = 0;
+            pending.max_time = timeout{std::chrono::seconds(60)};
+            pending.priority = priority;
+            pending.done_parts.front().clear();
+            if(pending.merge_fragment(span_size(offset), fragment)) {
+                log_trace("merged first blob fragment")
+                  .arg(EAGINE_ID(blobId), blob_id)
+                  .arg(EAGINE_ID(offset), offset)
+                  .arg(EAGINE_ID(size), fragment.size())
+                  .arg_func([&](logger_backend& backend) {
+                      backend.add_float(
+                        EAGINE_ID(complete),
+                        EAGINE_ID(Progress),
+                        0.f,
+                        float(pending.done_size()),
+                        float(pending.total_size()));
+                  });
+            }
         }
     }
     return true;
@@ -262,7 +264,6 @@ auto blob_manipulator::push_incoming_fragment(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto blob_manipulator::process_incoming(
-  blob_manipulator::filter_function filter,
   blob_manipulator::io_getter get_io,
   const message_view& message) -> bool {
 
@@ -279,32 +280,29 @@ auto blob_manipulator::process_incoming(
     const message_id msg_id{class_id, method_id};
     if(EAGINE_LIKELY(!errors)) {
         if(EAGINE_LIKELY(total_size <= _max_blob_size)) {
-            const bool should_accept = !filter || filter(msg_id);
-            if(should_accept) {
-                if((offset >= 0) && (offset < total_size)) {
-                    const auto fragment = source.remaining();
-                    const auto max_frag_size = span_size(total_size - offset);
-                    if(EAGINE_LIKELY(fragment.size() <= max_frag_size)) {
-                        return push_incoming_fragment(
-                          msg_id,
-                          message.source_id,
-                          blob_id,
-                          offset,
-                          total_size,
-                          get_io,
-                          fragment,
-                          message.priority);
-                    } else {
-                        log_error("invalid blob fragment size ${size}")
-                          .arg(EAGINE_ID(size), fragment.size())
-                          .arg(EAGINE_ID(offset), offset)
-                          .arg(EAGINE_ID(total), total_size);
-                    }
+            if((offset >= 0) && (offset < total_size)) {
+                const auto fragment = source.remaining();
+                const auto max_frag_size = span_size(total_size - offset);
+                if(EAGINE_LIKELY(fragment.size() <= max_frag_size)) {
+                    return push_incoming_fragment(
+                      msg_id,
+                      message.source_id,
+                      blob_id,
+                      offset,
+                      total_size,
+                      get_io,
+                      fragment,
+                      message.priority);
                 } else {
-                    log_error("invalid blob fragment offset ${offset}")
+                    log_error("invalid blob fragment size ${size}")
+                      .arg(EAGINE_ID(size), fragment.size())
                       .arg(EAGINE_ID(offset), offset)
                       .arg(EAGINE_ID(total), total_size);
                 }
+            } else {
+                log_error("invalid blob fragment offset ${offset}")
+                  .arg(EAGINE_ID(offset), offset)
+                  .arg(EAGINE_ID(total), total_size);
             }
         } else {
             log_warning("blob is too big ${total_size}")

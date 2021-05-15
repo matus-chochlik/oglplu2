@@ -53,16 +53,17 @@ auto main(main_ctx& ctx) -> int {
         return true;
     };
 
-    auto allow_all_blobs = [](message_id) {
-        return true;
-    };
+    auto get_blob_io =
+      [](message_id, span_size_t size, msgbus::blob_manipulator& blobs) {
+          return blobs.make_io(size);
+      };
 
     msgbus::router_address address{ctx};
     msgbus::connection_setup conn_setup(ctx);
 
     msgbus::endpoint bus{
       main_ctx_object{EAGINE_ID(Temporary), ctx},
-      msgbus::endpoint::blob_filter_function{allow_all_blobs}};
+      msgbus::endpoint::blob_io_getter{get_blob_io}};
 
     conn_setup.setup_connectors(bus, address);
 
