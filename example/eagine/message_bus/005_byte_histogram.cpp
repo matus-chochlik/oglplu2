@@ -66,7 +66,7 @@ auto main(main_ctx& ctx) -> int {
 
     conn_setup.setup_connectors(bus, address);
 
-    timeout idle_too_long{std::chrono::minutes{1}};
+    timeout idle_too_long{std::chrono::seconds{4}};
     while(!idle_too_long) {
         if(
           bus.update() ||
