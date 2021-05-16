@@ -160,26 +160,43 @@ private:
     auto _process_blobs() -> bool;
     auto _do_get_blob_io(message_id, span_size_t, blob_manipulator&)
       -> std::unique_ptr<blob_io>;
+
+    enum message_handling_result { should_be_forwarded, was_handled };
+
     auto _handle_blob(message_id, message_age, const message_view&) -> bool;
 
     auto _update_endpoint_info(identifier_t incoming_id, const message_view&)
       -> router_endpoint_info&;
 
+    auto _handle_ping(const message_view&) -> message_handling_result;
+
+    auto _handle_subscribed(identifier_t incoming_id, const message_view&)
+      -> message_handling_result;
+
+    auto _handle_not_subscribed(identifier_t incoming_id, const message_view&)
+      -> message_handling_result;
+
+    auto _handle_query_subscribers(const message_view&)
+      -> message_handling_result;
+
+    auto _handle_query_subscriptions(const message_view&)
+      -> message_handling_result;
+
     auto _handle_special_common(
       message_id msg_id,
       identifier_t incoming_id,
-      const message_view&) -> bool;
+      const message_view&) -> message_handling_result;
 
     auto _handle_special(
       message_id msg_id,
       identifier_t incoming_id,
-      const message_view&) -> bool;
+      const message_view&) -> message_handling_result;
 
     auto _handle_special(
       message_id msg_id,
       identifier_t incoming_id,
       routed_node&,
-      const message_view&) -> bool;
+      const message_view&) -> message_handling_result;
 
     auto _do_route_message(
       message_id msg_id,

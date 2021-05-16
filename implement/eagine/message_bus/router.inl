@@ -545,110 +545,135 @@ auto router::_update_endpoint_info(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto router::_handle_ping(const message_view& message)
+  -> message_handling_result {
+    if(message.target_id == _id_base) {
+        message_view response{};
+        response.setup_response(message);
+        response.set_source_id(_id_base);
+        this->_do_route_message(EAGINE_MSGBUS_ID(pong), _id_base, response);
+        return was_handled;
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_handle_subscribed(
+  identifier_t incoming_id,
+  const message_view& message) -> message_handling_result {
+    message_id sub_msg_id{};
+    if(default_deserialize_message_type(sub_msg_id, message.data)) {
+        log_debug("endpoint ${source} subscribes to ${message}")
+          .arg(EAGINE_ID(source), message.source_id)
+          .arg(EAGINE_ID(message), sub_msg_id);
+
+        auto& info = _update_endpoint_info(incoming_id, message);
+        message_id_list_add(info.subscriptions, sub_msg_id);
+        message_id_list_remove(info.unsubscriptions, sub_msg_id);
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_handle_not_subscribed(
+  identifier_t incoming_id,
+  const message_view& message) -> message_handling_result {
+    message_id sub_msg_id{};
+    if(default_deserialize_message_type(sub_msg_id, message.data)) {
+        log_debug("endpoint ${source} unsubscribes from ${message}")
+          .arg(EAGINE_ID(source), message.source_id)
+          .arg(EAGINE_ID(message), sub_msg_id);
+
+        auto& info = _update_endpoint_info(incoming_id, message);
+        message_id_list_remove(info.subscriptions, sub_msg_id);
+        message_id_list_add(info.unsubscriptions, sub_msg_id);
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_handle_query_subscribers(const message_view& message)
+  -> message_handling_result {
+    const auto pos = _endpoint_infos.find(message.target_id);
+    if(pos != _endpoint_infos.end()) {
+        auto& info = pos->second;
+        if(info.instance_id) {
+            message_id sub_msg_id{};
+            if(default_deserialize_message_type(sub_msg_id, message.data)) {
+                // if we have the information cached, then respond
+                if(message_id_list_contains(info.subscriptions, sub_msg_id)) {
+                    message_view response{message.data};
+                    response.setup_response(message);
+                    response.set_source_id(message.target_id);
+                    response.set_sequence_no(info.instance_id);
+                    this->_do_route_message(
+                      EAGINE_MSGBUS_ID(subscribTo), _id_base, response);
+                }
+                if(message_id_list_contains(info.unsubscriptions, sub_msg_id)) {
+                    message_view response{message.data};
+                    response.setup_response(message);
+                    response.set_source_id(message.target_id);
+                    response.set_sequence_no(info.instance_id);
+                    this->_do_route_message(
+                      EAGINE_MSGBUS_ID(notSubTo), _id_base, response);
+                }
+            }
+        }
+    }
+
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_handle_query_subscriptions(const message_view& message)
+  -> message_handling_result {
+    const auto pos = _endpoint_infos.find(message.target_id);
+    if(pos != _endpoint_infos.end()) {
+        auto& info = pos->second;
+        if(info.instance_id) {
+            for(auto& sub_msg_id : info.subscriptions) {
+                auto temp{default_serialize_buffer_for(sub_msg_id)};
+                if(auto serialized{
+                     default_serialize_message_type(sub_msg_id, cover(temp))}) {
+                    message_view response{extract(serialized)};
+                    response.setup_response(message);
+                    response.set_source_id(message.target_id);
+                    response.set_sequence_no(info.instance_id);
+                    this->_do_route_message(
+                      EAGINE_MSGBUS_ID(subscribTo), _id_base, response);
+                }
+            }
+        }
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto router::_handle_special_common(
   message_id msg_id,
   identifier_t incoming_id,
-  const message_view& message) -> bool {
+  const message_view& message) -> message_handling_result {
 
     if(msg_id.has_method(EAGINE_ID(ping))) {
-        if(message.target_id == _id_base) {
-            message_view response{};
-            response.setup_response(message);
-            response.set_source_id(_id_base);
-            this->_do_route_message(EAGINE_MSGBUS_ID(pong), _id_base, response);
-            return true;
-        }
-        return false;
+        return _handle_ping(message);
     } else if(msg_id.has_method(EAGINE_ID(pong))) {
-        return false;
+        return should_be_forwarded;
     } else if(msg_id.has_method(EAGINE_ID(subscribTo))) {
-        message_id sub_msg_id{};
-        if(default_deserialize_message_type(sub_msg_id, message.data)) {
-            log_debug("endpoint ${source} subscribes to ${message}")
-              .arg(EAGINE_ID(source), message.source_id)
-              .arg(EAGINE_ID(message), sub_msg_id);
-
-            auto& info = _update_endpoint_info(incoming_id, message);
-            message_id_list_add(info.subscriptions, sub_msg_id);
-            message_id_list_remove(info.unsubscriptions, sub_msg_id);
-            // this should be routed
-            return false;
-        }
+        return _handle_subscribed(incoming_id, message);
     } else if(
       msg_id.has_method(EAGINE_ID(unsubFrom)) ||
       msg_id.has_method(EAGINE_ID(notSubTo))) {
-        message_id sub_msg_id{};
-        if(default_deserialize_message_type(sub_msg_id, message.data)) {
-            log_debug("endpoint ${source} unsubscribes from ${message}")
-              .arg(EAGINE_ID(source), message.source_id)
-              .arg(EAGINE_ID(message), sub_msg_id);
-
-            auto& info = _update_endpoint_info(incoming_id, message);
-            message_id_list_remove(info.subscriptions, sub_msg_id);
-            message_id_list_add(info.unsubscriptions, sub_msg_id);
-            // this should be routed
-            return false;
-        }
+        return _handle_not_subscribed(incoming_id, message);
     } else if(msg_id.has_method(EAGINE_ID(qrySubscrb))) {
-        // if we have endpoint info
-        const auto pos = _endpoint_infos.find(message.target_id);
-        if(pos != _endpoint_infos.end()) {
-            auto& info = pos->second;
-            if(info.instance_id) {
-                message_id sub_msg_id{};
-                if(default_deserialize_message_type(sub_msg_id, message.data)) {
-                    // if we have the information cached, then respond
-                    if(message_id_list_contains(
-                         info.subscriptions, sub_msg_id)) {
-                        message_view response{message.data};
-                        response.setup_response(message);
-                        response.set_source_id(message.target_id);
-                        response.set_sequence_no(info.instance_id);
-                        this->_do_route_message(
-                          EAGINE_MSGBUS_ID(subscribTo), _id_base, response);
-                    }
-                    if(message_id_list_contains(
-                         info.unsubscriptions, sub_msg_id)) {
-                        message_view response{message.data};
-                        response.setup_response(message);
-                        response.set_source_id(message.target_id);
-                        response.set_sequence_no(info.instance_id);
-                        this->_do_route_message(
-                          EAGINE_MSGBUS_ID(notSubTo), _id_base, response);
-                    }
-                }
-            }
-        }
-        // this still should be routed
-        return false;
+        return _handle_query_subscribers(message);
     } else if(msg_id.has_method(EAGINE_ID(qrySubscrp))) {
-        const auto pos = _endpoint_infos.find(message.target_id);
-        if(pos != _endpoint_infos.end()) {
-            auto& info = pos->second;
-            if(info.instance_id) {
-                for(auto& sub_msg_id : info.subscriptions) {
-                    auto temp{default_serialize_buffer_for(sub_msg_id)};
-                    if(auto serialized{default_serialize_message_type(
-                         sub_msg_id, cover(temp))}) {
-                        message_view response{extract(serialized)};
-                        response.setup_response(message);
-                        response.set_source_id(message.target_id);
-                        response.set_sequence_no(info.instance_id);
-                        this->_do_route_message(
-                          EAGINE_MSGBUS_ID(subscribTo), _id_base, response);
-                    }
-                }
-            }
-        }
-        // this should be routed
-        return false;
+        return _handle_query_subscriptions(message);
     } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
         if(_blobs.process_incoming(
              EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io), message)) {
             _blobs.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_blob));
         }
-        // this should be routed
-        return false;
+        return should_be_forwarded;
     } else if(msg_id.has_method(EAGINE_ID(rtrCertQry))) {
         post_blob(
           EAGINE_MSGBUS_ID(rtrCertPem),
@@ -657,7 +682,7 @@ auto router::_handle_special_common(
           _context->get_own_certificate_pem(),
           std::chrono::seconds(30),
           message_priority::high);
-        return true;
+        return was_handled;
     } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
         if(auto cert_pem{
              _context->get_remote_certificate_pem(message.target_id)}) {
@@ -668,11 +693,11 @@ auto router::_handle_special_common(
               cert_pem,
               std::chrono::seconds(30),
               message_priority::high);
-            return true;
+            return was_handled;
         }
-        return false;
+        return should_be_forwarded;
     } else if(msg_id.has_method(EAGINE_ID(requestId))) {
-        return true;
+        return was_handled;
     } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
         router_topology_info info{};
 
@@ -697,7 +722,7 @@ auto router::_handle_special_common(
         if(_parent_router.confirmed_id) {
             respond(_parent_router.confirmed_id, _parent_router.the_connection);
         }
-        return false;
+        return should_be_forwarded;
     } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
         const auto now = std::chrono::steady_clock::now();
         const std::chrono::duration<float> seconds{now - _forwarded_since_stat};
@@ -743,6 +768,7 @@ auto router::_handle_special_common(
         if(_parent_router.confirmed_id) {
             respond(_parent_router.confirmed_id, _parent_router.the_connection);
         }
+        return should_be_forwarded;
     } else if(
       msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
       msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
@@ -750,24 +776,23 @@ auto router::_handle_special_common(
       msg_id.has_method(EAGINE_ID(statsRutr)) ||
       msg_id.has_method(EAGINE_ID(statsBrdg)) ||
       msg_id.has_method(EAGINE_ID(statsEndpt))) {
-        // this should be forwarded
-        return false;
+        return should_be_forwarded;
     } else if(msg_id.has_method(EAGINE_ID(annEndptId))) {
-        return true;
+        return was_handled;
     } else {
         log_warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(source), message.source_id)
           .arg(EAGINE_ID(data), message.data);
     }
-    return false;
+    return should_be_forwarded;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto router::_handle_special(
   message_id msg_id,
   identifier_t incoming_id,
-  const message_view& message) -> bool {
+  const message_view& message) -> message_handling_result {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         log_debug("router handling special message ${message} from parent")
           .arg(EAGINE_ID(router), _id_base)
@@ -777,13 +802,12 @@ auto router::_handle_special(
 
         if(msg_id.has_method(EAGINE_ID(stillAlive))) {
             _update_endpoint_info(incoming_id, message);
-            // this should be forwarded
-            return false;
+            return should_be_forwarded;
         } else {
             return _handle_special_common(msg_id, incoming_id, message);
         }
     }
-    return false;
+    return should_be_forwarded;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -791,7 +815,7 @@ auto router::_handle_special(
   message_id msg_id,
   identifier_t incoming_id,
   routed_node& node,
-  const message_view& message) -> bool {
+  const message_view& message) -> message_handling_result {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         log_debug("router handling special message ${message} from node")
           .arg(EAGINE_ID(router), _id_base)
@@ -805,15 +829,15 @@ auto router::_handle_special(
                 log_debug("node ${source} is not a router")
                   .arg(EAGINE_ID(source), message.source_id);
             }
-            return true;
+            return was_handled;
         } else if(msg_id.has_method(EAGINE_ID(clrBlkList))) {
             log_debug("clearing router block_list");
             node.message_block_list.clear();
-            return true;
+            return was_handled;
         } else if(msg_id.has_method(EAGINE_ID(clrAlwList))) {
             log_debug("clearing router allow_list");
             node.message_allow_list.clear();
-            return true;
+            return was_handled;
         } else if(msg_id.has_method(EAGINE_ID(msgBlkList))) {
             message_id blk_msg_id{};
             if(default_deserialize_message_type(blk_msg_id, message.data)) {
@@ -823,7 +847,7 @@ auto router::_handle_special(
                       .arg(EAGINE_ID(source), message.source_id);
                     node.block_message(blk_msg_id);
                     _update_endpoint_info(incoming_id, message);
-                    return true;
+                    return was_handled;
                 }
             }
         } else if(msg_id.has_method(EAGINE_ID(msgAlwList))) {
@@ -834,12 +858,12 @@ auto router::_handle_special(
                   .arg(EAGINE_ID(source), message.source_id);
                 node.allow_message(alw_msg_id);
                 _update_endpoint_info(incoming_id, message);
-                return true;
+                return was_handled;
             }
         } else if(msg_id.has_method(EAGINE_ID(stillAlive))) {
             _update_endpoint_info(incoming_id, message);
-            // this should be forwarded
-            return false;
+
+            return should_be_forwarded;
         } else if(
           msg_id.has_method(EAGINE_ID(byeByeEndp)) ||
           msg_id.has_method(EAGINE_ID(byeByeRutr)) ||
@@ -852,13 +876,13 @@ auto router::_handle_special(
             }
             _endpoint_idx.erase(message.source_id);
             _endpoint_infos.erase(message.source_id);
-            // this should be forwarded
-            return false;
+
+            return should_be_forwarded;
         } else {
             return _handle_special_common(msg_id, incoming_id, message);
         }
     }
-    return false;
+    return should_be_forwarded;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -978,7 +1002,9 @@ auto router::_route_messages() -> bool {
             message_id msg_id, message_age msg_age, message_view message) {
               auto& [incoming_id, node_in] = nd;
               _message_age_sum += message.add_age(msg_age).age().count();
-              if(this->_handle_special(msg_id, incoming_id, node_in, message)) {
+              if(
+                this->_handle_special(msg_id, incoming_id, node_in, message) ==
+                was_handled) {
                   return true;
               }
               if(EAGINE_UNLIKELY(message.too_old())) {
@@ -997,8 +1023,9 @@ auto router::_route_messages() -> bool {
     auto handler =
       [&](message_id msg_id, message_age msg_age, message_view message) {
           _message_age_sum += message.add_age(msg_age).age().count();
-          if(this->_handle_special(
-               msg_id, _parent_router.confirmed_id, message)) {
+          if(
+            this->_handle_special(
+              msg_id, _parent_router.confirmed_id, message) == was_handled) {
               return true;
           }
           if(EAGINE_UNLIKELY(message.too_old())) {
