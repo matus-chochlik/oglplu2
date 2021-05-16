@@ -60,14 +60,21 @@ EAGINE_LIB_FUNC
 auto endpoint::_do_send(message_id msg_id, message_view message) -> bool {
     EAGINE_ASSERT(has_id());
     message.set_source_id(_endpoint_id);
-    if(EAGINE_LIKELY(_connection)) {
-        if(_connection->send(msg_id, message)) {
-            ++_stats.sent_messages;
-            log_trace("sending message ${message}")
-              .arg(EAGINE_ID(message), msg_id)
-              .arg(EAGINE_ID(target), message.target_id)
-              .arg(EAGINE_ID(source), message.source_id);
-            return true;
+    if(EAGINE_LIKELY(_connection && _connection->send(msg_id, message))) {
+        ++_stats.sent_messages;
+        if(EAGINE_UNLIKELY(!_had_working_connection)) {
+            _had_working_connection = true;
+            connection_established(has_id());
+        }
+        log_trace("sending message ${message}")
+          .arg(EAGINE_ID(message), msg_id)
+          .arg(EAGINE_ID(target), message.target_id)
+          .arg(EAGINE_ID(source), message.source_id);
+        return true;
+    } else {
+        if(_had_working_connection) {
+            _had_working_connection = false;
+            connection_lost();
         }
     }
     return false;
@@ -100,6 +107,7 @@ auto endpoint::_handle_special(
         } else if(msg_id.has_method(EAGINE_ID(assignId))) {
             if(!has_id()) {
                 _endpoint_id = message.target_id;
+                id_assigned(_endpoint_id);
                 log_debug("assigned endpoint id ${id} by router")
                   .arg(EAGINE_ID(id), get_id());
             }
@@ -108,6 +116,7 @@ auto endpoint::_handle_special(
             if(!has_id()) {
                 _endpoint_id = message.target_id;
                 if(EAGINE_LIKELY(get_id() == get_preconfigured_id())) {
+                    id_assigned(_endpoint_id);
                     log_debug("confirmed endpoint id ${id} by router")
                       .arg(EAGINE_ID(id), get_id());
                     // send request for router certificate
@@ -407,6 +416,10 @@ auto endpoint::update() -> bool {
 
     const bool had_id = has_id();
     if(EAGINE_LIKELY(_connection)) {
+        if(EAGINE_UNLIKELY(!_had_working_connection)) {
+            _had_working_connection = true;
+            connection_established(had_id);
+        }
         if(EAGINE_UNLIKELY(!had_id && _no_id_timeout)) {
             if(!has_preconfigured_id()) {
                 log_debug("requesting endpoint id");

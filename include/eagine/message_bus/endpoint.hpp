@@ -17,6 +17,7 @@
 #include "connection.hpp"
 #include "context_fwd.hpp"
 #include "serialize.hpp"
+#include "signal.hpp"
 #include <tuple>
 
 namespace eagine::msgbus {
@@ -45,6 +46,15 @@ public:
 
     /// @brief Alias for blob message type filter callable reference.
     using blob_io_getter = blob_manipulator::io_getter;
+
+    /// @brief Triggered when the id is confirmed or assigned to this endpoint.
+    signal<void(identifier_t)> id_assigned;
+
+    /// @brief Triggered when this endpoint's connection is established.
+    signal<void(bool)> connection_established;
+
+    /// @brief Triggered when this endpoint's connection is lost.
+    signal<void()> connection_lost;
 
     /// @brief Construction with a reference to parent main context object.
     endpoint(main_ctx_object obj) noexcept
@@ -417,6 +427,7 @@ private:
       nothing};
 
     std::unique_ptr<connection> _connection{};
+    bool _had_working_connection{false};
 
     message_storage _outgoing{};
 
