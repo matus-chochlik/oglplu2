@@ -803,7 +803,8 @@ auto router::_handle_special_common(
       msg_id.has_method(EAGINE_ID(topoEndpt)) ||
       msg_id.has_method(EAGINE_ID(statsRutr)) ||
       msg_id.has_method(EAGINE_ID(statsBrdg)) ||
-      msg_id.has_method(EAGINE_ID(statsEndpt))) {
+      msg_id.has_method(EAGINE_ID(statsEndpt)) ||
+      msg_id.has_method(EAGINE_ID(statsConn))) {
         return should_be_forwarded;
     } else if(msg_id.has_method(EAGINE_ID(annEndptId))) {
         return was_handled;
