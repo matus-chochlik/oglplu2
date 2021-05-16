@@ -66,7 +66,23 @@ private:
 
     auto _do_send(message_id, message_view&) -> bool;
     auto _send(message_id, message_view&) -> bool;
-    auto _handle_special(message_id, const message_view&, bool) -> bool;
+
+    enum message_handling_result { should_be_forwarded, was_handled };
+
+    auto _handle_id_assigned(const message_view&) -> message_handling_result;
+    auto _handle_id_confirmed(const message_view&) -> message_handling_result;
+    auto _handle_ping(const message_view&, bool) -> message_handling_result;
+
+    auto _handle_topo_bridge_conn(const message_view&, bool)
+      -> message_handling_result;
+    auto _handle_topology_query(const message_view&, bool)
+      -> message_handling_result;
+    auto _handle_stats_query(const message_view&, bool)
+      -> message_handling_result;
+
+    auto _handle_special(message_id, const message_view&, bool)
+      -> message_handling_result;
+
     auto _do_push(message_id, message_view&) -> bool;
     auto _forward_messages() -> bool;
 

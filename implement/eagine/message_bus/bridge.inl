@@ -233,10 +233,126 @@ void bridge::_setup_from_config() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto bridge::_handle_id_assigned(const message_view& message)
+  -> message_handling_result {
+    if(!has_id()) {
+        _id = message.target_id;
+        log_debug("assigned bridge id ${id} by router").arg(EAGINE_ID(id), _id);
+    }
+    return was_handled;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto bridge::_handle_id_confirmed(const message_view& message)
+  -> message_handling_result {
+    if(has_id()) {
+        if(_id != message.target_id) {
+            log_error("mismatching current and confirmed ids")
+              .arg(EAGINE_ID(current), _id)
+              .arg(EAGINE_ID(confirmed), message.target_id);
+        }
+    } else {
+        log_warning("confirming unset id ${newId}")
+          .arg(EAGINE_ID(confirmed), message.target_id);
+    }
+    return was_handled;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto bridge::_handle_ping(const message_view& message, bool to_connection)
+  -> message_handling_result {
+    if(has_id()) {
+        if(_id == message.target_id) {
+            message_view response{};
+            response.setup_response(message);
+            response.set_source_id(_id);
+            if(to_connection) {
+                _do_push(EAGINE_MSGBUS_ID(pong), response);
+            } else {
+                _send(EAGINE_MSGBUS_ID(pong), response);
+            }
+            return was_handled;
+        }
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto bridge::_handle_topo_bridge_conn(
+  const message_view& message,
+  bool to_connection) -> message_handling_result {
+    if(to_connection) {
+        bridge_topology_info info{};
+        if(default_deserialize(info, message.data)) {
+            info.opposite_id = _id;
+            auto temp{default_serialize_buffer_for(info)};
+            if(auto serialized{default_serialize(info, cover(temp))}) {
+                message_view response{message, extract(serialized)};
+                _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                return was_handled;
+            }
+        }
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto bridge::_handle_topology_query(
+  const message_view& message,
+  bool to_connection) -> message_handling_result {
+    bridge_topology_info info{};
+    info.bridge_id = _id;
+    info.instance_id = _instance_id;
+    auto temp{default_serialize_buffer_for(info)};
+    if(auto serialized{default_serialize(info, cover(temp))}) {
+        message_view response{extract(serialized)};
+        response.setup_response(message);
+        if(to_connection) {
+            _do_push(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+        } else {
+            _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+        }
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto bridge::_handle_stats_query(const message_view& message, bool to_connection)
+  -> message_handling_result {
+    _stats.forwarded_messages = _forwarded_messages_i2c;
+    _stats.dropped_messages = _dropped_messages_i2c;
+    _stats.uptime_seconds = _uptime_seconds();
+
+    const auto now = std::chrono::steady_clock::now();
+    const std::chrono::duration<float> seconds{now - _forwarded_since_stat};
+    if(EAGINE_LIKELY(seconds.count() > 15.F)) {
+        _forwarded_since_stat = now;
+
+        _stats.messages_per_second = static_cast<std::int32_t>(
+          float(_stats.forwarded_messages - _prev_forwarded_messages) /
+          seconds.count());
+        _prev_forwarded_messages = _stats.forwarded_messages;
+    }
+
+    auto bs_buf{default_serialize_buffer_for(_stats)};
+    if(auto serialized{default_serialize(_stats, cover(bs_buf))}) {
+        message_view response{extract(serialized)};
+        response.setup_response(message);
+        response.set_source_id(_id);
+        if(to_connection) {
+            _do_push(EAGINE_MSGBUS_ID(statsBrdg), response);
+        } else {
+            _send(EAGINE_MSGBUS_ID(statsBrdg), response);
+        }
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto bridge::_handle_special(
   message_id msg_id,
   const message_view& message,
-  bool to_connection) -> bool {
+  bool to_connection) -> message_handling_result {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         log_debug("bridge handling special message ${message}")
           .arg(EAGINE_ID(bridge), _id)
@@ -245,96 +361,20 @@ auto bridge::_handle_special(
           .arg(EAGINE_ID(source), message.source_id);
 
         if(msg_id.has_method(EAGINE_ID(assignId))) {
-            if(!has_id()) {
-                _id = message.target_id;
-                log_debug("assigned bridge id ${id} by router")
-                  .arg(EAGINE_ID(id), _id);
-            }
-            return true;
+            return _handle_id_assigned(message);
         } else if(msg_id.has_method(EAGINE_ID(confirmId))) {
-            if(has_id()) {
-                if(_id != message.target_id) {
-                    log_error("mismatching current and confirmed ids")
-                      .arg(EAGINE_ID(current), _id)
-                      .arg(EAGINE_ID(confirmed), message.target_id);
-                }
-            } else {
-                log_warning("confirming unset id ${newId}")
-                  .arg(EAGINE_ID(confirmed), message.target_id);
-            }
-            return true;
+            return _handle_id_confirmed(message);
         } else if(msg_id.has_method(EAGINE_ID(ping))) {
-            if(has_id()) {
-                if(_id == message.target_id) {
-                    message_view response{};
-                    response.setup_response(message);
-                    response.set_source_id(_id);
-                    if(to_connection) {
-                        _do_push(EAGINE_MSGBUS_ID(pong), response);
-                    } else {
-                        _send(EAGINE_MSGBUS_ID(pong), response);
-                    }
-                    return true;
-                }
-            }
+            return _handle_ping(message, to_connection);
         } else if(msg_id.has_method(EAGINE_ID(topoBrdgCn))) {
-            if(to_connection) {
-                bridge_topology_info info{};
-                if(default_deserialize(info, message.data)) {
-                    info.opposite_id = _id;
-                    auto temp{default_serialize_buffer_for(info)};
-                    if(auto serialized{default_serialize(info, cover(temp))}) {
-                        message_view response{message, extract(serialized)};
-                        _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
-                        return true;
-                    }
-                }
-            }
+            return _handle_topo_bridge_conn(message, to_connection);
         } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
-            bridge_topology_info info{};
-            info.bridge_id = _id;
-            info.instance_id = _instance_id;
-            auto temp{default_serialize_buffer_for(info)};
-            if(auto serialized{default_serialize(info, cover(temp))}) {
-                message_view response{extract(serialized)};
-                response.setup_response(message);
-                if(to_connection) {
-                    _do_push(EAGINE_MSGBUS_ID(topoBrdgCn), response);
-                } else {
-                    _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
-                }
-            }
+            return _handle_topology_query(message, to_connection);
         } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
-            _stats.forwarded_messages = _forwarded_messages_i2c;
-            _stats.dropped_messages = _dropped_messages_i2c;
-            _stats.uptime_seconds = _uptime_seconds();
-
-            const auto now = std::chrono::steady_clock::now();
-            const std::chrono::duration<float> seconds{
-              now - _forwarded_since_stat};
-            if(EAGINE_LIKELY(seconds.count() > 15.F)) {
-                _forwarded_since_stat = now;
-
-                _stats.messages_per_second = static_cast<std::int32_t>(
-                  float(_stats.forwarded_messages - _prev_forwarded_messages) /
-                  seconds.count());
-                _prev_forwarded_messages = _stats.forwarded_messages;
-            }
-
-            auto bs_buf{default_serialize_buffer_for(_stats)};
-            if(auto serialized{default_serialize(_stats, cover(bs_buf))}) {
-                message_view response{extract(serialized)};
-                response.setup_response(message);
-                response.set_source_id(_id);
-                if(to_connection) {
-                    _do_push(EAGINE_MSGBUS_ID(statsBrdg), response);
-                } else {
-                    _send(EAGINE_MSGBUS_ID(statsBrdg), response);
-                }
-            }
+            return _handle_stats_query(message, to_connection);
         }
     }
-    return false;
+    return should_be_forwarded;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -404,7 +444,7 @@ auto bridge::_forward_messages() -> bool {
 
               _forwarded_since_c2o = now;
           }
-          if(this->_handle_special(msg_id, message, false)) {
+          if(this->_handle_special(msg_id, message, false) == was_handled) {
               return true;
           }
           return this->_do_push(msg_id, message);
@@ -448,7 +488,7 @@ auto bridge::_forward_messages() -> bool {
 
               _forwarded_since_i2c = now;
           }
-          if(this->_handle_special(msg_id, message, true)) {
+          if(this->_handle_special(msg_id, message, true) == was_handled) {
               return true;
           }
           this->_do_send(msg_id, message);
