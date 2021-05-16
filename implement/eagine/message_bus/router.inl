@@ -592,7 +592,7 @@ auto router::_handle_not_subscribed(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_handle_query_subscribers(const message_view& message)
+auto router::_handle_subscribers_query(const message_view& message)
   -> message_handling_result {
     const auto pos = _endpoint_infos.find(message.target_id);
     if(pos != _endpoint_infos.end()) {
@@ -625,7 +625,7 @@ auto router::_handle_query_subscribers(const message_view& message)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_handle_query_subscriptions(const message_view& message)
+auto router::_handle_subscriptions_query(const message_view& message)
   -> message_handling_result {
     const auto pos = _endpoint_infos.find(message.target_id);
     if(pos != _endpoint_infos.end()) {
@@ -649,6 +649,123 @@ auto router::_handle_query_subscriptions(const message_view& message)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto router::_handle_router_certificate_query(const message_view& message)
+  -> message_handling_result {
+    post_blob(
+      EAGINE_MSGBUS_ID(rtrCertPem),
+      0U,
+      message.source_id,
+      _context->get_own_certificate_pem(),
+      std::chrono::seconds(30),
+      message_priority::high);
+    return was_handled;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_handle_endpoint_certificate_query(const message_view& message)
+  -> message_handling_result {
+    if(auto cert_pem{_context->get_remote_certificate_pem(message.target_id)}) {
+        post_blob(
+          EAGINE_MSGBUS_ID(eptCertPem),
+          message.target_id,
+          message.source_id,
+          cert_pem,
+          std::chrono::seconds(30),
+          message_priority::high);
+        return was_handled;
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_handle_topology_query(const message_view& message)
+  -> message_handling_result {
+    router_topology_info info{};
+
+    auto temp{default_serialize_buffer_for(info)};
+    auto respond = [&](identifier_t remote_id, const auto& conn) {
+        info.router_id = _id_base;
+        info.remote_id = remote_id;
+        info.instance_id = _instance_id;
+        info.connect_kind = conn->kind();
+        if(auto serialized{default_serialize(info, cover(temp))}) {
+            message_view response{extract(serialized)};
+            response.setup_response(message);
+            response.set_source_id(_id_base);
+            this->_do_route_message(
+              EAGINE_MSGBUS_ID(topoRutrCn), _id_base, response);
+        }
+    };
+
+    for(auto& [nd_id, nd] : this->_nodes) {
+        respond(nd_id, nd.the_connection);
+    }
+    if(_parent_router.confirmed_id) {
+        respond(_parent_router.confirmed_id, _parent_router.the_connection);
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_handle_stats_query(const message_view& message)
+  -> message_handling_result {
+    const auto now = std::chrono::steady_clock::now();
+    const std::chrono::duration<float> seconds{now - _forwarded_since_stat};
+    if(EAGINE_LIKELY(seconds.count() >= 15.F)) {
+        _forwarded_since_stat = now;
+
+        _stats.messages_per_second = static_cast<std::int32_t>(
+          float(_stats.forwarded_messages - _prev_forwarded_messages) /
+          seconds.count());
+        _prev_forwarded_messages = _stats.forwarded_messages;
+    }
+    _stats.uptime_seconds = _uptime_seconds();
+
+    auto rs_buf{default_serialize_buffer_for(_stats)};
+    if(auto serialized{default_serialize(_stats, cover(rs_buf))}) {
+        message_view response{extract(serialized)};
+        response.setup_response(message);
+        response.set_source_id(_id_base);
+        this->_do_route_message(
+          EAGINE_MSGBUS_ID(statsRutr), _id_base, response);
+    }
+
+    auto respond = [&](identifier_t remote_id, const auto& conn) {
+        connection_statistics conn_stats{};
+        conn_stats.local_id = _id_base;
+        conn_stats.remote_id = remote_id;
+        if(conn->query_statistics(conn_stats)) {
+            auto cs_buf{default_serialize_buffer_for(conn_stats)};
+            if(auto serialized{default_serialize(conn_stats, cover(cs_buf))}) {
+                message_view response{extract(serialized)};
+                response.setup_response(message);
+                response.set_source_id(_id_base);
+                this->_do_route_message(
+                  EAGINE_MSGBUS_ID(statsConn), _id_base, response);
+            }
+        }
+    };
+
+    for(auto& [nd_id, nd] : this->_nodes) {
+        respond(nd_id, nd.the_connection);
+    }
+    if(_parent_router.confirmed_id) {
+        respond(_parent_router.confirmed_id, _parent_router.the_connection);
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_handle_blob_fragment(const message_view& message)
+  -> message_handling_result {
+    if(_blobs.process_incoming(
+         EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io), message)) {
+        _blobs.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_blob));
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto router::_handle_special_common(
   message_id msg_id,
   identifier_t incoming_id,
@@ -665,110 +782,21 @@ auto router::_handle_special_common(
       msg_id.has_method(EAGINE_ID(notSubTo))) {
         return _handle_not_subscribed(incoming_id, message);
     } else if(msg_id.has_method(EAGINE_ID(qrySubscrb))) {
-        return _handle_query_subscribers(message);
+        return _handle_subscribers_query(message);
     } else if(msg_id.has_method(EAGINE_ID(qrySubscrp))) {
-        return _handle_query_subscriptions(message);
+        return _handle_subscriptions_query(message);
     } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
-        if(_blobs.process_incoming(
-             EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io), message)) {
-            _blobs.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_blob));
-        }
-        return should_be_forwarded;
+        return _handle_blob_fragment(message);
     } else if(msg_id.has_method(EAGINE_ID(rtrCertQry))) {
-        post_blob(
-          EAGINE_MSGBUS_ID(rtrCertPem),
-          0U,
-          incoming_id,
-          _context->get_own_certificate_pem(),
-          std::chrono::seconds(30),
-          message_priority::high);
-        return was_handled;
+        return _handle_router_certificate_query(message);
     } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
-        if(auto cert_pem{
-             _context->get_remote_certificate_pem(message.target_id)}) {
-            post_blob(
-              EAGINE_MSGBUS_ID(eptCertPem),
-              message.target_id,
-              incoming_id,
-              cert_pem,
-              std::chrono::seconds(30),
-              message_priority::high);
-            return was_handled;
-        }
-        return should_be_forwarded;
+        return _handle_endpoint_certificate_query(message);
     } else if(msg_id.has_method(EAGINE_ID(requestId))) {
         return was_handled;
     } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
-        router_topology_info info{};
-
-        auto temp{default_serialize_buffer_for(info)};
-        auto respond = [&](identifier_t remote_id, const auto& conn) {
-            info.router_id = _id_base;
-            info.remote_id = remote_id;
-            info.instance_id = _instance_id;
-            info.connect_kind = conn->kind();
-            if(auto serialized{default_serialize(info, cover(temp))}) {
-                message_view response{extract(serialized)};
-                response.setup_response(message);
-                response.set_source_id(_id_base);
-                this->_do_route_message(
-                  EAGINE_MSGBUS_ID(topoRutrCn), _id_base, response);
-            }
-        };
-
-        for(auto& [nd_id, nd] : this->_nodes) {
-            respond(nd_id, nd.the_connection);
-        }
-        if(_parent_router.confirmed_id) {
-            respond(_parent_router.confirmed_id, _parent_router.the_connection);
-        }
-        return should_be_forwarded;
+        return _handle_topology_query(message);
     } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
-        const auto now = std::chrono::steady_clock::now();
-        const std::chrono::duration<float> seconds{now - _forwarded_since_stat};
-        if(EAGINE_LIKELY(seconds.count() >= 15.F)) {
-            _forwarded_since_stat = now;
-
-            _stats.messages_per_second = static_cast<std::int32_t>(
-              float(_stats.forwarded_messages - _prev_forwarded_messages) /
-              seconds.count());
-            _prev_forwarded_messages = _stats.forwarded_messages;
-        }
-        _stats.uptime_seconds = _uptime_seconds();
-
-        auto rs_buf{default_serialize_buffer_for(_stats)};
-        if(auto serialized{default_serialize(_stats, cover(rs_buf))}) {
-            message_view response{extract(serialized)};
-            response.setup_response(message);
-            response.set_source_id(_id_base);
-            this->_do_route_message(
-              EAGINE_MSGBUS_ID(statsRutr), _id_base, response);
-        }
-
-        auto respond = [&](identifier_t remote_id, const auto& conn) {
-            connection_statistics conn_stats{};
-            conn_stats.local_id = _id_base;
-            conn_stats.remote_id = remote_id;
-            if(conn->query_statistics(conn_stats)) {
-                auto cs_buf{default_serialize_buffer_for(conn_stats)};
-                if(auto serialized{
-                     default_serialize(conn_stats, cover(cs_buf))}) {
-                    message_view response{extract(serialized)};
-                    response.setup_response(message);
-                    response.set_source_id(_id_base);
-                    this->_do_route_message(
-                      EAGINE_MSGBUS_ID(statsConn), _id_base, response);
-                }
-            }
-        };
-
-        for(auto& [nd_id, nd] : this->_nodes) {
-            respond(nd_id, nd.the_connection);
-        }
-        if(_parent_router.confirmed_id) {
-            respond(_parent_router.confirmed_id, _parent_router.the_connection);
-        }
-        return should_be_forwarded;
+        return _handle_stats_query(message);
     } else if(
       msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
       msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||

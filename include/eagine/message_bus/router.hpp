@@ -176,11 +176,21 @@ private:
     auto _handle_not_subscribed(identifier_t incoming_id, const message_view&)
       -> message_handling_result;
 
-    auto _handle_query_subscribers(const message_view&)
+    auto _handle_subscribers_query(const message_view&)
       -> message_handling_result;
 
-    auto _handle_query_subscriptions(const message_view&)
+    auto _handle_subscriptions_query(const message_view&)
       -> message_handling_result;
+
+    auto _handle_router_certificate_query(const message_view&)
+      -> message_handling_result;
+    auto _handle_endpoint_certificate_query(const message_view&)
+      -> message_handling_result;
+
+    auto _handle_topology_query(const message_view&) -> message_handling_result;
+    auto _handle_stats_query(const message_view&) -> message_handling_result;
+
+    auto _handle_blob_fragment(const message_view&) -> message_handling_result;
 
     auto _handle_special_common(
       message_id msg_id,
