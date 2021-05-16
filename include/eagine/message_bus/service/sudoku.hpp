@@ -396,6 +396,30 @@ public:
         return !has_work();
     }
 
+    void init() {
+        Base::init();
+        this->bus().id_assigned.connect(
+          EAGINE_THIS_MEM_FUNC_REF(on_id_assigned));
+        this->bus().connection_established.connect(
+          EAGINE_THIS_MEM_FUNC_REF(on_connection_established));
+        this->bus().connection_lost.connect(
+          EAGINE_THIS_MEM_FUNC_REF(on_connection_lost));
+    }
+
+    void on_id_assigned(identifier_t) {
+        _can_work = true;
+    }
+
+    void on_connection_established(bool usable) {
+        _can_work = usable;
+        this->bus().log_info("connection established");
+    }
+
+    void on_connection_lost() {
+        _can_work = false;
+        this->bus().log_warning("connection lost");
+    }
+
     auto update() -> bool {
         some_true something_done{};
         something_done(Base::update());
@@ -403,8 +427,10 @@ public:
         for_each_sudoku_rank_unit(
           [&](auto& info) {
               something_done(info.handle_timeouted(*this));
-              something_done(info.send_boards(this->bus(), _compressor));
-              something_done(info.search_helpers(this->bus()));
+              if(EAGINE_LIKELY(_can_work)) {
+                  something_done(info.send_boards(this->bus(), _compressor));
+                  something_done(info.search_helpers(this->bus()));
+              }
           },
           _infos);
 
@@ -755,6 +781,7 @@ private:
     data_compressor _compressor{};
 
     sudoku_rank_tuple<rank_info> _infos;
+    bool _can_work{false};
 
     template <unsigned S>
     auto _handle_alive(const message_context&, stored_message& message)
