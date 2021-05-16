@@ -242,6 +242,33 @@ data_member_mapping(type_identity<endpoint_info>, Selector) noexcept {
       {"is_bridge_node", &S::is_bridge_node});
 }
 //------------------------------------------------------------------------------
+/// @brief Structure holding message bus connection statistics.
+/// @ingroup msgbus
+struct connection_statistics {
+    /// @brief The local node message bus id.
+    identifier_t local_id{0};
+
+    /// @brief The remote node message bus id.
+    identifier_t remote_id{0};
+
+    /// @brief Ratio (0.0 - 1.0) of how much of each message data block is used.
+    float block_usage_ratio{-1.F};
+
+    /// @brief Number of bytes per second transfered.
+    float bytes_per_second{-1.F};
+};
+
+template <typename Selector>
+constexpr auto
+data_member_mapping(type_identity<connection_statistics>, Selector) noexcept {
+    using S = connection_statistics;
+    return make_data_member_mapping<S, identifier_t, identifier_t, float, float>(
+      {"local_id", &S::local_id},
+      {"remote_id", &S::remote_id},
+      {"block_usage_ratio", &S::block_usage_ratio},
+      {"bytes_per_second", &S::bytes_per_second});
+}
+//------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_TYPES_HPP

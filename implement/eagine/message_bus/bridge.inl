@@ -321,8 +321,8 @@ auto bridge::_handle_special(
                 _prev_forwarded_messages = _stats.forwarded_messages;
             }
 
-            auto temp{default_serialize_buffer_for(_stats)};
-            if(auto serialized{default_serialize(_stats, cover(temp))}) {
+            auto bs_buf{default_serialize_buffer_for(_stats)};
+            if(auto serialized{default_serialize(_stats, cover(bs_buf))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);
                 response.set_source_id(_id);

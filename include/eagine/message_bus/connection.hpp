@@ -146,6 +146,9 @@ struct connection : connection_info {
     /// @see send
     /// @see update
     virtual auto fetch_messages(fetch_handler handler) -> bool = 0;
+
+    /// @brief Fill in the available statistics information for this connection.
+    virtual auto query_statistics(connection_statistics&) -> bool = 0;
 };
 //------------------------------------------------------------------------------
 /// @brief Interface for classes that can use message bus connections.

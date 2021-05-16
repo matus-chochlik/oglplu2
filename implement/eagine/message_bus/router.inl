@@ -711,13 +711,37 @@ auto router::_handle_special_common(
         }
         _stats.uptime_seconds = _uptime_seconds();
 
-        auto temp{default_serialize_buffer_for(_stats)};
-        if(auto serialized{default_serialize(_stats, cover(temp))}) {
+        auto rs_buf{default_serialize_buffer_for(_stats)};
+        if(auto serialized{default_serialize(_stats, cover(rs_buf))}) {
             message_view response{extract(serialized)};
             response.setup_response(message);
             response.set_source_id(_id_base);
             this->_do_route_message(
               EAGINE_MSGBUS_ID(statsRutr), _id_base, response);
+        }
+
+        auto respond = [&](identifier_t remote_id, const auto& conn) {
+            connection_statistics conn_stats{};
+            conn_stats.local_id = _id_base;
+            conn_stats.remote_id = remote_id;
+            if(conn->query_statistics(conn_stats)) {
+                auto cs_buf{default_serialize_buffer_for(conn_stats)};
+                if(auto serialized{
+                     default_serialize(conn_stats, cover(cs_buf))}) {
+                    message_view response{extract(serialized)};
+                    response.setup_response(message);
+                    response.set_source_id(_id_base);
+                    this->_do_route_message(
+                      EAGINE_MSGBUS_ID(statsConn), _id_base, response);
+                }
+            }
+        };
+
+        for(auto& [nd_id, nd] : this->_nodes) {
+            respond(nd_id, nd.the_connection);
+        }
+        if(_parent_router.confirmed_id) {
+            respond(_parent_router.confirmed_id, _parent_router.the_connection);
         }
     } else if(
       msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
