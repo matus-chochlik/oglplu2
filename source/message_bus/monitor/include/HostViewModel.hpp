@@ -41,6 +41,13 @@ class HostViewModel
     Q_PROPERTY(QVariant swapUsage READ getSwapUsage NOTIFY infoChanged)
     Q_PROPERTY(QVariant swapUsageDelta READ getSwapUsageDelta NOTIFY infoChanged)
 
+    Q_PROPERTY(QVariant minTemperature READ getMinTemperature NOTIFY infoChanged)
+    Q_PROPERTY(QVariant maxTemperature READ getMaxTemperature NOTIFY infoChanged)
+    Q_PROPERTY(QVariant minTemperatureDelta READ getMinTemperatureDelta NOTIFY
+                 infoChanged)
+    Q_PROPERTY(QVariant maxTemperatureDelta READ getMaxTemperatureDelta NOTIFY
+                 infoChanged)
+
     Q_PROPERTY(QVariant powerSupply READ getPowerSupply NOTIFY infoChanged)
 
     Q_PROPERTY(QAbstractItemModel* parameters READ getParameters CONSTANT)
@@ -73,6 +80,11 @@ public:
     auto getSwapFreeDelta() -> QVariant;
     auto getSwapUsage() -> QVariant;
     auto getSwapUsageDelta() -> QVariant;
+
+    auto getMinTemperature() -> QVariant;
+    auto getMaxTemperature() -> QVariant;
+    auto getMinTemperatureDelta() -> QVariant;
+    auto getMaxTemperatureDelta() -> QVariant;
 
     auto getPowerSupply() -> QVariant;
 

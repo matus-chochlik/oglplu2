@@ -43,3 +43,18 @@ function durationStr(seconds) {
 	}
 	return "-"
 }
+
+function temperature(kelvins) {
+	if(kelvins) {
+		return"%1 °C"
+			.arg(Number(kelvins - 273.15).toLocaleString(lc, "f", 1))
+	}
+	return "-"
+}
+function temperatureDelta(kelvins) {
+	if(kelvins) {
+		return"%1 °C"
+			.arg(Number(kelvins).toLocaleString(lc, "f", 1))
+	}
+	return "-"
+}

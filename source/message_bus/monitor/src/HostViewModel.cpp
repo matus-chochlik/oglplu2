@@ -157,6 +157,34 @@ auto HostViewModel::getSwapUsageDelta() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto HostViewModel::getMinTemperature() -> QVariant {
+    if(auto optTemp{_host.min_temperature()}) {
+        return {extract(optTemp).value()};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto HostViewModel::getMaxTemperature() -> QVariant {
+    if(auto optTemp{_host.max_temperature()}) {
+        return {extract(optTemp).value()};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto HostViewModel::getMinTemperatureDelta() -> QVariant {
+    if(auto optTemp{_host.min_temperature_change()}) {
+        return {extract(optTemp).value()};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto HostViewModel::getMaxTemperatureDelta() -> QVariant {
+    if(auto optTemp{_host.max_temperature_change()}) {
+        return {extract(optTemp).value()};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 auto HostViewModel::getPowerSupply() -> QVariant {
     switch(_host.power_supply()) {
         case eagine::power_supply_kind::ac_supply:
