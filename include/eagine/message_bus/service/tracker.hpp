@@ -342,6 +342,8 @@ protected:
         this->total_ram_size_received.connect(on_total_ram_size_received());
         this->free_swap_size_received.connect(on_free_swap_size_received());
         this->total_swap_size_received.connect(on_total_swap_size_received());
+        this->temperature_min_max_received.connect(
+          on_temperature_min_max_received());
         this->power_supply_kind_received.connect(
           on_power_supply_kind_received());
         this->ping_responded.connect(on_ping_response());
@@ -667,15 +669,17 @@ private:
       std::tuple<
         valid_if_positive<kelvins_t<float>>,
         valid_if_positive<kelvins_t<float>>> value) {
-        auto& node = _get_node(ctx.source_id()).notice_alive();
-        if(auto host_id{node.host_id()}) {
-            auto& host = _get_host(extract(host_id)).notice_alive();
-            host.set_temperature_min_max(
-              std::get<0>(value), std::get<1>(value));
-            _tracker.for_each_host_node_state(
-              extract(host_id), [&](auto, auto& host_node) {
-                  host_node.add_change(remote_node_change::sensor_values);
-              });
+        const auto& [min, max] = value;
+        if(min && max) {
+            auto& node = _get_node(ctx.source_id()).notice_alive();
+            if(auto host_id{node.host_id()}) {
+                auto& host = _get_host(extract(host_id)).notice_alive();
+                host.set_temperature_min_max(extract(min), extract(max));
+                _tracker.for_each_host_node_state(
+                  extract(host_id), [&](auto, auto& host_node) {
+                      host_node.add_change(remote_node_change::sensor_values);
+                  });
+            }
         }
     }
 
