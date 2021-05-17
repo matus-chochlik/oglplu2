@@ -14,6 +14,7 @@
 #include "../nothing.hpp"
 #include "../reflect/data_members.hpp"
 #include "../reflect/enumerators.hpp"
+#include "../tagged_quantity.hpp"
 #include "../valid_if/decl.hpp"
 #include "fwd.hpp"
 #include "write_backend.hpp"
@@ -222,7 +223,7 @@ struct serializer<std::tuple<std::pair<string_view, T>...>>
     template <typename Backend>
     auto write(
       const std::tuple<std::pair<string_view, T>...>& members,
-      Backend& backend) {
+      Backend& backend) const {
         serialization_errors errors{};
         errors |= backend.begin_struct(span_size(sizeof...(T)));
         if(EAGINE_LIKELY(!errors)) {
@@ -242,7 +243,7 @@ private:
       serialization_errors& errors,
       Tuple& members,
       Backend& backend,
-      std::index_sequence<I...>) {
+      std::index_sequence<I...>) const {
         (...,
          _write_member(
            errors,
@@ -309,7 +310,7 @@ struct serializer<span<const T>> : common_serializer<span<const T>> {
     using common_serializer<span<const T>>::write;
 
     template <typename Backend>
-    auto write(span<const T> values, Backend& backend) {
+    auto write(span<const T> values, Backend& backend) const {
         serialization_errors errors{};
         errors |= backend.begin_list(values.size());
         if(EAGINE_LIKELY(!errors)) {
@@ -333,8 +334,9 @@ struct serializer<fragment_serialize_wrapper<span<const T>>>
     using common_serializer<fragment_serialize_wrapper<span<const T>>>::write;
 
     template <typename Backend>
-    auto
-    write(fragment_serialize_wrapper<span<const T>>& frag, Backend& backend) {
+    auto write(
+      fragment_serialize_wrapper<span<const T>>& frag,
+      Backend& backend) const {
         serialization_errors errors{};
         errors |= _size_serializer.write(frag.offset(), backend);
         if(EAGINE_LIKELY(!errors)) {
@@ -381,7 +383,7 @@ struct serializer<std::vector<T, A>> : common_serializer<std::vector<T, A>> {
     using common_serializer<std::vector<T, A>>::write;
 
     template <typename Backend>
-    auto write(const std::vector<T, A>& values, Backend& backend) {
+    auto write(const std::vector<T, A>& values, Backend& backend) const {
         serialization_errors errors{};
         errors |= backend.begin_list(values.size());
         if(EAGINE_LIKELY(!errors)) {
@@ -400,7 +402,7 @@ struct serializer<std::chrono::duration<Rep>>
   : common_serializer<std::chrono::duration<Rep>> {
 
     template <typename Backend>
-    auto write(std::chrono::duration<Rep> value, Backend& backend) {
+    auto write(std::chrono::duration<Rep> value, Backend& backend) const {
         return _serializer.write(value.count(), backend);
     }
 
@@ -412,7 +414,7 @@ template <typename T, typename P>
 struct serializer<valid_if<T, P>> : common_serializer<valid_if<T, P>> {
 
     template <typename Backend>
-    auto write(const valid_if<T, P>& value, Backend& backend) {
+    auto write(const valid_if<T, P>& value, Backend& backend) const {
         serialization_errors errors{};
         const bool is_valid = value.is_valid();
         errors |= backend.begin_list(is_valid ? 1 : 0);
@@ -423,6 +425,19 @@ struct serializer<valid_if<T, P>> : common_serializer<valid_if<T, P>> {
             errors |= backend.finish_list();
         }
         return errors;
+    }
+
+private:
+    serializer<T> _serializer{};
+};
+//------------------------------------------------------------------------------
+template <typename T, typename U>
+struct serializer<tagged_quantity<T, U>>
+  : common_serializer<tagged_quantity<T, U>> {
+
+    template <typename Backend>
+    auto write(const tagged_quantity<T, U>& qty, Backend& backend) const {
+        return _serializer.write(qty.value(), backend);
     }
 
 private:
@@ -453,7 +468,7 @@ template <typename T>
 struct struct_serializer {
 public:
     template <typename Backend>
-    auto write(const T& instance, Backend& backend) {
+    auto write(const T& instance, Backend& backend) const {
         auto member_map = map_data_members(instance);
         return _serializer.write(member_map, backend);
     }
