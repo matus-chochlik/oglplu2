@@ -184,6 +184,11 @@ public:
         return EAGINE_THIS_MEM_FUNC_REF(_handle_total_swap_size_received);
     }
 
+    /// @brief Returns handler for the temperature min/max message.
+    auto on_temperature_min_max_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_temperature_min_max_received);
+    }
+
     /// @brief Returns handler for the power supply kind message.
     auto on_power_supply_kind_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_power_supply_kind_received);
@@ -654,6 +659,23 @@ private:
                       host_node.add_change(remote_node_change::hardware_config);
                   });
             }
+        }
+    }
+
+    void _handle_temperature_min_max_received(
+      const result_context& ctx,
+      std::tuple<
+        valid_if_positive<kelvins_t<float>>,
+        valid_if_positive<kelvins_t<float>>> value) {
+        auto& node = _get_node(ctx.source_id()).notice_alive();
+        if(auto host_id{node.host_id()}) {
+            auto& host = _get_host(extract(host_id)).notice_alive();
+            host.set_temperature_min_max(
+              std::get<0>(value), std::get<1>(value));
+            _tracker.for_each_host_node_state(
+              extract(host_id), [&](auto, auto& host_node) {
+                  host_node.add_change(remote_node_change::sensor_values);
+              });
         }
     }
 

@@ -25,6 +25,9 @@ public:
     variable_with_history<float, 2> short_average_load{-1.F};
     variable_with_history<float, 2> long_average_load{-1.F};
 
+    variable_with_history<float, 2> min_temperature{0.F};
+    variable_with_history<float, 2> max_temperature{0.F};
+
     remote_host_changes changes{};
     power_supply_kind power_supply{power_supply_kind::unknown};
     bool was_alive{false};
@@ -438,6 +441,46 @@ auto remote_host::free_swap_size_change() const noexcept
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         return {i.free_swap_size.delta(), i.free_swap_size.old_value() >= 0};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::min_temperature() const noexcept
+  -> valid_if_positive<kelvins_t<float>> {
+    if(auto impl{_impl()}) {
+        return {kelvins_(extract(impl).min_temperature.value())};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::max_temperature() const noexcept
+  -> valid_if_positive<kelvins_t<float>> {
+    if(auto impl{_impl()}) {
+        return {kelvins_(extract(impl).max_temperature.value())};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::min_temperature_change() const noexcept
+  -> optionally_valid<kelvins_t<float>> {
+    if(auto impl{_impl()}) {
+        return {
+          kelvins_(extract(impl).min_temperature.delta()),
+          extract(impl).min_temperature.old_value() > 0.F};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::max_temperature_change() const noexcept
+  -> optionally_valid<kelvins_t<float>> {
+    if(auto impl{_impl()}) {
+        return {
+          kelvins_(extract(impl).max_temperature.delta()),
+          extract(impl).max_temperature.old_value() > 0.F};
     }
     return {};
 }
@@ -1107,6 +1150,19 @@ auto remote_host_state::set_free_swap_size(span_size_t value)
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         i.free_swap_size = value;
+        i.changes |= remote_host_change::sensor_values;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::set_temperature_min_max(
+  kelvins_t<float> min,
+  kelvins_t<float> max) -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        i.min_temperature = min.value();
+        i.max_temperature = max.value();
         i.changes |= remote_host_change::sensor_values;
     }
     return *this;

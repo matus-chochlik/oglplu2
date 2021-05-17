@@ -18,6 +18,7 @@
 #include "../message_id.hpp"
 #include "../optional_ref.hpp"
 #include "../power_supply_kind.hpp"
+#include "../quantities.hpp"
 #include "../tribool.hpp"
 #include "../types.hpp"
 #include "../valid_if/ge0_le1.hpp"
@@ -543,6 +544,29 @@ public:
         return {};
     }
 
+    /// @brief Returns the minimum temperature recorded on the remote host.
+    /// @see max_temperature
+    /// @see min_temperature_change
+    auto min_temperature() const noexcept
+      -> valid_if_positive<kelvins_t<float>>;
+
+    /// @brief Returns the maximum temperature recorded on the remote host.
+    /// @see min_temperature
+    /// @see max_temperature_change
+    auto max_temperature() const noexcept
+      -> valid_if_positive<kelvins_t<float>>;
+
+    /// @brief Returns the change in minimum temperature on the remote host.
+    /// @see min_temperature
+    auto min_temperature_change() const noexcept
+      -> optionally_valid<kelvins_t<float>>;
+
+    /// @brief Returns the change in maximum temperature on the remote host.
+    /// @see max_temperature
+    auto max_temperature_change() const noexcept
+      -> optionally_valid<kelvins_t<float>>;
+
+    /// @brief Returns the power supply kind used on the remote host.
     auto power_supply() const noexcept -> power_supply_kind;
 
 protected:
@@ -579,6 +603,8 @@ public:
     auto set_total_swap_size(span_size_t) -> remote_host_state&;
     auto set_free_ram_size(span_size_t) -> remote_host_state&;
     auto set_free_swap_size(span_size_t) -> remote_host_state&;
+    auto set_temperature_min_max(kelvins_t<float> min, kelvins_t<float> max)
+      -> remote_host_state&;
     auto set_power_supply(power_supply_kind) -> remote_host_state&;
 };
 //------------------------------------------------------------------------------
