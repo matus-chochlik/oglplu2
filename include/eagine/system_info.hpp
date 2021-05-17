@@ -88,6 +88,11 @@ public:
     auto sensor_temperature(span_size_t) noexcept
       -> valid_if_positive<kelvins_t<float>>;
 
+    /// @brief Returns the minimum and maximum temperature on the thermal sensors.
+    auto temperature_min_max() noexcept -> std::tuple<
+      valid_if_positive<kelvins_t<float>>,
+      valid_if_positive<kelvins_t<float>>>;
+
     /// @brief Returns the temperature on the CPU thermal sensor if present.
     auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
 
