@@ -666,9 +666,9 @@ private:
 
     void _handle_temperature_min_max_received(
       const result_context& ctx,
-      std::tuple<
+      const std::tuple<
         valid_if_positive<kelvins_t<float>>,
-        valid_if_positive<kelvins_t<float>>> value) {
+        valid_if_positive<kelvins_t<float>>>& value) {
         const auto& [min, max] = value;
         if(min && max) {
             auto& node = _get_node(ctx.source_id()).notice_alive();
