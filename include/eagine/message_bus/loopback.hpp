@@ -41,6 +41,11 @@ public:
         return _messages.fetch_all(handler);
     }
 
+    auto query_statistics(connection_statistics& stats) -> bool final {
+        stats.block_usage_ratio = 1.F;
+        return true;
+    }
+
 private:
     std::mutex _mutex;
     message_storage _messages;

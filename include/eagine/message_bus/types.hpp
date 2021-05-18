@@ -56,14 +56,17 @@ data_member_mapping(type_identity<router_topology_info>, Selector) noexcept {
 /// @brief Structure holding router statistics information.
 /// @ingroup msgbus
 struct router_statistics {
-    /// @brief The router message bus id.
-    identifier_t router_id{0};
-
     /// @brief Number of forwarded messages.
-    std::intmax_t forwarded_messages{0};
+    std::int64_t forwarded_messages{0};
 
     /// @brief Number of dropped messages.
-    std::intmax_t dropped_messages{0};
+    std::int64_t dropped_messages{0};
+
+    /// @brief Average message age in milliseconds
+    std::int32_t message_age_milliseconds{0};
+
+    /// @brief Number of forwarded messages per second.
+    std::int32_t messages_per_second{0};
 
     /// @brief Uptime in seconds.
     std::int64_t uptime_seconds{0};
@@ -75,13 +78,15 @@ data_member_mapping(type_identity<router_statistics>, Selector) noexcept {
     using S = router_statistics;
     return make_data_member_mapping<
       S,
-      identifier_t,
-      std::intmax_t,
-      std::intmax_t,
+      std::int64_t,
+      std::int64_t,
+      std::int32_t,
+      std::int32_t,
       std::int64_t>(
-      {"router_id", &S::router_id},
       {"forwarded_messages", &S::forwarded_messages},
       {"dropped_messages", &S::dropped_messages},
+      {"message_age_milliseconds", &S::message_age_milliseconds},
+      {"messages_per_second", &S::messages_per_second},
       {"uptime_seconds", &S::uptime_seconds});
 }
 //------------------------------------------------------------------------------
@@ -115,14 +120,17 @@ data_member_mapping(type_identity<bridge_topology_info>, Selector) noexcept {
 /// @brief Structure holding bridge statistics information.
 /// @ingroup msgbus
 struct bridge_statistics {
-    /// @brief The bridge message bus id.
-    identifier_t bridge_id{0};
-
     /// @brief Number of forwarded messages.
-    std::intmax_t forwarded_messages{0};
+    std::int64_t forwarded_messages{0};
 
     /// @brief Number of dropped messages.
-    std::intmax_t dropped_messages{0};
+    std::int64_t dropped_messages{0};
+
+    /// @brief Average message age in milliseconds
+    std::int32_t message_age_milliseconds{0};
+
+    /// @brief Number of forwarded messages per second.
+    std::int32_t messages_per_second{0};
 
     /// @brief Uptime in seconds.
     std::int64_t uptime_seconds{0};
@@ -134,13 +142,15 @@ data_member_mapping(type_identity<bridge_statistics>, Selector) noexcept {
     using S = bridge_statistics;
     return make_data_member_mapping<
       S,
-      identifier_t,
-      std::intmax_t,
-      std::intmax_t,
+      std::int64_t,
+      std::int64_t,
+      std::int32_t,
+      std::int32_t,
       std::int64_t>(
-      {"bridge_id", &S::bridge_id},
       {"forwarded_messages", &S::forwarded_messages},
       {"dropped_messages", &S::dropped_messages},
+      {"message_age_milliseconds", &S::message_age_milliseconds},
+      {"messages_per_second", &S::messages_per_second},
       {"uptime_seconds", &S::uptime_seconds});
 }
 //------------------------------------------------------------------------------
@@ -165,14 +175,14 @@ data_member_mapping(type_identity<endpoint_topology_info>, Selector) noexcept {
 /// @brief Structure holding endpoint statistics information.
 /// @ingroup msgbus
 struct endpoint_statistics {
-    /// @brief The endpoint message bus id.
-    identifier_t endpoint_id{0};
-
     /// @brief Number of sent messages.
-    std::intmax_t sent_messages{0};
+    std::int64_t sent_messages{0};
 
     /// @brief Number of received messages.
-    std::intmax_t received_messages{0};
+    std::int64_t received_messages{0};
+
+    /// @brief Number of dropped messages.
+    std::int64_t dropped_messages{0};
 
     /// @brief Uptime in seconds.
     std::int64_t uptime_seconds{0};
@@ -184,13 +194,13 @@ data_member_mapping(type_identity<endpoint_statistics>, Selector) noexcept {
     using S = endpoint_statistics;
     return make_data_member_mapping<
       S,
-      identifier_t,
-      std::intmax_t,
-      std::intmax_t,
+      std::int64_t,
+      std::int64_t,
+      std::int64_t,
       std::int64_t>(
-      {"endpoint_id", &S::endpoint_id},
       {"sent_messages", &S::sent_messages},
       {"received_messages", &S::received_messages},
+      {"dropped_messages", &S::dropped_messages},
       {"uptime_seconds", &S::uptime_seconds});
 }
 //------------------------------------------------------------------------------
@@ -230,6 +240,33 @@ data_member_mapping(type_identity<endpoint_info>, Selector) noexcept {
       {"description", &S::description},
       {"is_router_node", &S::is_router_node},
       {"is_bridge_node", &S::is_bridge_node});
+}
+//------------------------------------------------------------------------------
+/// @brief Structure holding message bus connection statistics.
+/// @ingroup msgbus
+struct connection_statistics {
+    /// @brief The local node message bus id.
+    identifier_t local_id{0};
+
+    /// @brief The remote node message bus id.
+    identifier_t remote_id{0};
+
+    /// @brief Ratio (0.0 - 1.0) of how much of each message data block is used.
+    float block_usage_ratio{-1.F};
+
+    /// @brief Number of bytes per second transfered.
+    float bytes_per_second{-1.F};
+};
+
+template <typename Selector>
+constexpr auto
+data_member_mapping(type_identity<connection_statistics>, Selector) noexcept {
+    using S = connection_statistics;
+    return make_data_member_mapping<S, identifier_t, identifier_t, float, float>(
+      {"local_id", &S::local_id},
+      {"remote_id", &S::remote_id},
+      {"block_usage_ratio", &S::block_usage_ratio},
+      {"bytes_per_second", &S::bytes_per_second});
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

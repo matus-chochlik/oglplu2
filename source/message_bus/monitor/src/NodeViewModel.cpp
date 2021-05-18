@@ -85,6 +85,42 @@ auto NodeViewModel::getDescription() -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+auto NodeViewModel::getUptime() -> QVariant {
+    if(const auto uptime{_node.uptime()}) {
+        const std::chrono::seconds secs{extract(uptime)};
+        return {static_cast<qulonglong>(secs.count())};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto NodeViewModel::getSentMessages() -> QVariant {
+    if(const auto count{_node.sent_messages()}) {
+        return {static_cast<qulonglong>(extract(count))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto NodeViewModel::getReceivedMessages() -> QVariant {
+    if(const auto count{_node.received_messages()}) {
+        return {static_cast<qulonglong>(extract(count))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto NodeViewModel::getDroppedMessages() -> QVariant {
+    if(const auto count{_node.dropped_messages()}) {
+        return {static_cast<qulonglong>(extract(count))};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+auto NodeViewModel::getMessagesPerSecond() -> QVariant {
+    if(auto optNum{_node.messages_per_second()}) {
+        return {extract(optNum)};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 auto NodeViewModel::getPingSuccessRate() -> QVariant {
     if(auto optNum{_node.ping_success_rate()}) {
         return {extract(optNum)};

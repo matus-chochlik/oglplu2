@@ -184,6 +184,11 @@ public:
         return EAGINE_THIS_MEM_FUNC_REF(_handle_total_swap_size_received);
     }
 
+    /// @brief Returns handler for the temperature min/max message.
+    auto on_temperature_min_max_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_temperature_min_max_received);
+    }
+
     /// @brief Returns handler for the power supply kind message.
     auto on_power_supply_kind_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_power_supply_kind_received);
@@ -205,6 +210,11 @@ public:
 
         if(_should_query_topology) {
             this->discover_topology();
+            something_done();
+        }
+
+        if(_should_query_stats) {
+            this->discover_statistics();
             something_done();
         }
 
@@ -332,6 +342,8 @@ protected:
         this->total_ram_size_received.connect(on_total_ram_size_received());
         this->free_swap_size_received.connect(on_free_swap_size_received());
         this->total_swap_size_received.connect(on_total_swap_size_received());
+        this->temperature_min_max_received.connect(
+          on_temperature_min_max_received());
         this->power_supply_kind_received.connect(
           on_power_supply_kind_received());
         this->ping_responded.connect(on_ping_response());
@@ -344,6 +356,7 @@ protected:
 
 private:
     resetting_timeout _should_query_topology{std::chrono::seconds{15}, nothing};
+    resetting_timeout _should_query_stats{std::chrono::seconds{30}, nothing};
     resetting_timeout _should_query_info{std::chrono::seconds{5}};
 
     remote_node_tracker _tracker{};
@@ -444,16 +457,22 @@ private:
         _tracker.remove_node(endpoint_id);
     }
 
-    void _handle_router_stats_received(const router_statistics& stats) {
-        _get_node(stats.router_id).assign(stats).notice_alive();
+    void _handle_router_stats_received(
+      identifier_t router_id,
+      const router_statistics& stats) {
+        _get_node(router_id).assign(stats).notice_alive();
     }
 
-    void _handle_bridge_stats_received(const bridge_statistics& stats) {
-        _get_node(stats.bridge_id).assign(stats).notice_alive();
+    void _handle_bridge_stats_received(
+      identifier_t bridge_id,
+      const bridge_statistics& stats) {
+        _get_node(bridge_id).assign(stats).notice_alive();
     }
 
-    void _handle_endpoint_stats_received(const endpoint_statistics& stats) {
-        _get_node(stats.endpoint_id).assign(stats).notice_alive();
+    void _handle_endpoint_stats_received(
+      identifier_t endpoint_id,
+      const endpoint_statistics& stats) {
+        _get_node(endpoint_id).assign(stats).notice_alive();
     }
 
     void _handle_application_name_received(
@@ -640,6 +659,25 @@ private:
                 _tracker.for_each_host_node_state(
                   extract(host_id), [&](auto, auto& host_node) {
                       host_node.add_change(remote_node_change::hardware_config);
+                  });
+            }
+        }
+    }
+
+    void _handle_temperature_min_max_received(
+      const result_context& ctx,
+      const std::tuple<
+        valid_if_positive<kelvins_t<float>>,
+        valid_if_positive<kelvins_t<float>>>& value) {
+        const auto& [min, max] = value;
+        if(min && max) {
+            auto& node = _get_node(ctx.source_id()).notice_alive();
+            if(auto host_id{node.host_id()}) {
+                auto& host = _get_host(extract(host_id)).notice_alive();
+                host.set_temperature_min_max(extract(min), extract(max));
+                _tracker.for_each_host_node_state(
+                  extract(host_id), [&](auto, auto& host_node) {
+                      host_node.add_change(remote_node_change::sensor_values);
                   });
             }
         }

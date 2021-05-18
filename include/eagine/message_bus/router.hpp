@@ -158,27 +158,55 @@ private:
 
     auto _cleanup_blobs() -> bool;
     auto _process_blobs() -> bool;
-    auto _do_allow_blob(message_id) -> bool;
+    auto _do_get_blob_io(message_id, span_size_t, blob_manipulator&)
+      -> std::unique_ptr<blob_io>;
+
+    enum message_handling_result { should_be_forwarded, was_handled };
+
     auto _handle_blob(message_id, message_age, const message_view&) -> bool;
 
     auto _update_endpoint_info(identifier_t incoming_id, const message_view&)
       -> router_endpoint_info&;
 
+    auto _handle_ping(const message_view&) -> message_handling_result;
+
+    auto _handle_subscribed(identifier_t incoming_id, const message_view&)
+      -> message_handling_result;
+
+    auto _handle_not_subscribed(identifier_t incoming_id, const message_view&)
+      -> message_handling_result;
+
+    auto _handle_subscribers_query(const message_view&)
+      -> message_handling_result;
+
+    auto _handle_subscriptions_query(const message_view&)
+      -> message_handling_result;
+
+    auto _handle_router_certificate_query(const message_view&)
+      -> message_handling_result;
+    auto _handle_endpoint_certificate_query(const message_view&)
+      -> message_handling_result;
+
+    auto _handle_topology_query(const message_view&) -> message_handling_result;
+    auto _handle_stats_query(const message_view&) -> message_handling_result;
+
+    auto _handle_blob_fragment(const message_view&) -> message_handling_result;
+
     auto _handle_special_common(
       message_id msg_id,
       identifier_t incoming_id,
-      const message_view&) -> bool;
+      const message_view&) -> message_handling_result;
 
     auto _handle_special(
       message_id msg_id,
       identifier_t incoming_id,
-      const message_view&) -> bool;
+      const message_view&) -> message_handling_result;
 
     auto _handle_special(
       message_id msg_id,
       identifier_t incoming_id,
       routed_node&,
-      const message_view&) -> bool;
+      const message_view&) -> message_handling_result;
 
     auto _do_route_message(
       message_id msg_id,
@@ -197,11 +225,14 @@ private:
     identifier_t _id_sequence{0};
     std::chrono::steady_clock::time_point _startup_time{
       std::chrono::steady_clock::now()};
-    std::chrono::steady_clock::time_point _forwarded_since{
+    std::chrono::steady_clock::time_point _forwarded_since_log{
       std::chrono::steady_clock::now()};
-    std::intmax_t _forwarded_messages{0};
-    std::intmax_t _dropped_messages{0};
+    std::chrono::steady_clock::time_point _forwarded_since_stat{
+      std::chrono::steady_clock::now()};
+    std::int64_t _prev_forwarded_messages{0};
     float _message_age_sum{0.F};
+    router_statistics _stats{};
+
     parent_router _parent_router;
     std::vector<std::shared_ptr<acceptor>> _acceptors;
     std::vector<router_pending> _pending;

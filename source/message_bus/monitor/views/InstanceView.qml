@@ -22,7 +22,7 @@ Pane {
 		}
 		GridLayout {
 			Layout.fillWidth: true
-			columns: 4
+			columns: 8
 			rowSpacing: 10
 			columnSpacing: 20
 

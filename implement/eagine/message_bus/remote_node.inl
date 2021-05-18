@@ -12,18 +12,6 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
-class remote_instance_impl {
-public:
-    timeout is_alive{std::chrono::seconds{180}};
-    string_view app_name;
-    optionally_valid<compiler_info> cmplr_info;
-    optionally_valid<build_info> bld_info;
-    host_id_t host_id{0U};
-
-    remote_instance_changes changes{};
-    bool was_alive{false};
-};
-//------------------------------------------------------------------------------
 class remote_host_impl {
 public:
     timeout is_alive{std::chrono::seconds{300}};
@@ -37,8 +25,23 @@ public:
     variable_with_history<float, 2> short_average_load{-1.F};
     variable_with_history<float, 2> long_average_load{-1.F};
 
+    variable_with_history<float, 2> min_temperature{0.F};
+    variable_with_history<float, 2> max_temperature{0.F};
+
     remote_host_changes changes{};
     power_supply_kind power_supply{power_supply_kind::unknown};
+    bool was_alive{false};
+};
+//------------------------------------------------------------------------------
+class remote_instance_impl {
+public:
+    timeout is_alive{std::chrono::seconds{180}};
+    string_view app_name;
+    optionally_valid<compiler_info> cmplr_info;
+    optionally_valid<build_info> bld_info;
+    host_id_t host_id{0U};
+
+    remote_instance_changes changes{};
     bool was_alive{false};
 };
 //------------------------------------------------------------------------------
@@ -57,6 +60,13 @@ public:
     span_size_t pings_timeouted{0};
     std::chrono::microseconds last_ping_time{};
     std::chrono::microseconds last_ping_timeout{};
+    std::chrono::milliseconds message_age{};
+    std::chrono::seconds uptime{};
+
+    std::int64_t sent_messages{-1};
+    std::int64_t received_messages{-1};
+    std::int64_t dropped_messages{-1};
+    std::int32_t messages_per_second{-1};
     std::uint8_t ping_bits{0};
     node_kind kind{node_kind::unknown};
 
@@ -436,6 +446,46 @@ auto remote_host::free_swap_size_change() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_host::min_temperature() const noexcept
+  -> valid_if_positive<kelvins_t<float>> {
+    if(auto impl{_impl()}) {
+        return {kelvins_(extract(impl).min_temperature.value())};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::max_temperature() const noexcept
+  -> valid_if_positive<kelvins_t<float>> {
+    if(auto impl{_impl()}) {
+        return {kelvins_(extract(impl).max_temperature.value())};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::min_temperature_change() const noexcept
+  -> optionally_valid<kelvins_t<float>> {
+    if(auto impl{_impl()}) {
+        return {
+          kelvins_(extract(impl).min_temperature.delta()),
+          extract(impl).min_temperature.old_value() > 0.F};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::max_temperature_change() const noexcept
+  -> optionally_valid<kelvins_t<float>> {
+    if(auto impl{_impl()}) {
+        return {
+          kelvins_(extract(impl).max_temperature.delta()),
+          extract(impl).max_temperature.old_value() > 0.F};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_host::power_supply() const noexcept -> power_supply_kind {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
@@ -558,6 +608,66 @@ EAGINE_LIB_FUNC
 auto remote_node::instance() const noexcept -> remote_instance {
     if(auto impl{_impl()}) {
         return _tracker.get_instance(extract(impl).instance_id);
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::sent_messages() const noexcept
+  -> valid_if_nonnegative<std::int64_t> {
+    if(auto impl{_impl()}) {
+        const auto& i = extract(impl);
+        return {i.sent_messages};
+    }
+    return {-1};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::received_messages() const noexcept
+  -> valid_if_nonnegative<std::int64_t> {
+    if(auto impl{_impl()}) {
+        const auto& i = extract(impl);
+        return {i.received_messages};
+    }
+    return {-1};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::dropped_messages() const noexcept
+  -> valid_if_nonnegative<std::int64_t> {
+    if(auto impl{_impl()}) {
+        const auto& i = extract(impl);
+        return {i.dropped_messages};
+    }
+    return {-1};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::messages_per_second() const noexcept
+  -> valid_if_nonnegative<int> {
+    if(auto impl{_impl()}) {
+        const auto& i = extract(impl);
+        return {eagine::limit_cast<int>(i.messages_per_second)};
+    }
+    return {-1};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::average_message_age() const noexcept
+  -> valid_if_not_zero<std::chrono::milliseconds> {
+    if(auto impl{_impl()}) {
+        const auto& i = extract(impl);
+        return {i.message_age};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::uptime() const noexcept
+  -> valid_if_not_zero<std::chrono::seconds> {
+    if(auto impl{_impl()}) {
+        const auto& i = extract(impl);
+        return {i.uptime};
     }
     return {};
 }
@@ -768,18 +878,60 @@ auto remote_node_state::assign(const endpoint_info& info)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node_state::assign(const router_statistics&) -> remote_node_state& {
-    return *this;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto remote_node_state::assign(const bridge_statistics&) -> remote_node_state& {
-    return *this;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto remote_node_state::assign(const endpoint_statistics&)
+auto remote_node_state::assign(const router_statistics& stats)
   -> remote_node_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.kind != node_kind::router) {
+            i.kind = node_kind::router;
+            i.changes |= remote_node_change::kind;
+        }
+        i.sent_messages = stats.forwarded_messages;
+        i.dropped_messages = stats.dropped_messages;
+        i.messages_per_second = stats.messages_per_second;
+        i.message_age =
+          std::chrono::milliseconds{stats.message_age_milliseconds};
+        i.uptime = std::chrono::seconds{stats.uptime_seconds};
+        i.changes |= remote_node_change::statistics;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::assign(const bridge_statistics& stats)
+  -> remote_node_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.kind != node_kind::bridge) {
+            i.kind = node_kind::bridge;
+            i.changes |= remote_node_change::kind;
+        }
+        i.sent_messages = stats.forwarded_messages;
+        i.dropped_messages = stats.dropped_messages;
+        i.messages_per_second = stats.messages_per_second;
+        i.message_age =
+          std::chrono::milliseconds{stats.message_age_milliseconds};
+        i.uptime = std::chrono::seconds{stats.uptime_seconds};
+        i.changes |= remote_node_change::statistics;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::assign(const endpoint_statistics& stats)
+  -> remote_node_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.kind != node_kind::endpoint) {
+            i.kind = node_kind::endpoint;
+            i.changes |= remote_node_change::kind;
+        }
+        i.sent_messages = stats.sent_messages;
+        i.received_messages = stats.received_messages;
+        i.dropped_messages = stats.dropped_messages;
+        i.uptime = std::chrono::seconds{stats.uptime_seconds};
+        i.changes |= remote_node_change::statistics;
+    }
     return *this;
 }
 //------------------------------------------------------------------------------
@@ -998,6 +1150,19 @@ auto remote_host_state::set_free_swap_size(span_size_t value)
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         i.free_swap_size = value;
+        i.changes |= remote_host_change::sensor_values;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::set_temperature_min_max(
+  kelvins_t<float> min,
+  kelvins_t<float> max) -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        i.min_temperature = min.value();
+        i.max_temperature = max.value();
         i.changes |= remote_host_change::sensor_values;
     }
     return *this;

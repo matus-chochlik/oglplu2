@@ -94,6 +94,7 @@ protected:
     struct handler_entry {
         message_id msg_id{};
         method_handler handler{};
+        message_priority_queue* queue{nullptr};
 
         constexpr handler_entry() noexcept = default;
 
@@ -216,7 +217,9 @@ protected:
 
     auto _process_one(span<const handler_entry> msg_handlers) -> bool {
         for(auto& entry : msg_handlers) {
-            if(bus().process_one(entry.msg_id, entry.handler)) {
+            EAGINE_ASSERT(entry.queue);
+            const message_context msg_ctx{this->bus(), entry.msg_id};
+            if(extract(entry.queue).process_all(msg_ctx, entry.handler)) {
                 return true;
             }
         }
@@ -226,9 +229,17 @@ protected:
     auto _process_all(span<const handler_entry> msg_handlers) -> span_size_t {
         span_size_t result{0};
         for(auto& entry : msg_handlers) {
-            result += bus().process_all(entry.msg_id, entry.handler);
+            EAGINE_ASSERT(entry.queue);
+            const message_context msg_ctx{this->bus(), entry.msg_id};
+            result += extract(entry.queue).process_all(msg_ctx, entry.handler);
         }
         return result;
+    }
+
+    void _setup_queues(span<handler_entry> msg_handlers) noexcept {
+        for(auto& entry : msg_handlers) {
+            entry.queue = &this->bus().ensure_queue(entry.msg_id);
+        }
     }
 
     void _finish() noexcept {
@@ -261,6 +272,7 @@ public:
     static_subscriber(endpoint& bus, MsgHandlers&&... msg_handlers)
       : subscriber_base{bus}
       , _msg_handlers{{std::forward<MsgHandlers>(msg_handlers)...}} {
+        this->_setup_queues(cover(_msg_handlers));
         this->_subscribe_to(view(_msg_handlers));
     }
 
@@ -476,6 +488,7 @@ protected:
     void add_methods() {}
 
     void init() {
+        this->_setup_queues(cover(_msg_handlers));
         this->_subscribe_to(view(_msg_handlers));
     }
 

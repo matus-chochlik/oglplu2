@@ -18,6 +18,7 @@
 #include "../message_id.hpp"
 #include "../optional_ref.hpp"
 #include "../power_supply_kind.hpp"
+#include "../quantities.hpp"
 #include "../tribool.hpp"
 #include "../types.hpp"
 #include "../valid_if/ge0_le1.hpp"
@@ -66,15 +67,18 @@ enum class remote_node_change : std::uint16_t {
     hardware_config = 1U << 12U,
     /// @brief New sensor values have appeared or changed.
     sensor_values = 1U << 13U,
+    /// @brief New statistic values have appeared or changed.
+    statistics = 1U << 14U,
     /// @brief The bus connection information has appeared or changed.
-    connection_info = 1U << 14U
+    connection_info = 1U << 15U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
 enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
-    return enumerator_map_type<remote_node_change, 15>{
+    return enumerator_map_type<remote_node_change, 16>{
       {{"kind", remote_node_change::kind},
+       {"instance_id", remote_node_change::instance_id},
        {"host_id", remote_node_change::host_id},
        {"host_info", remote_node_change::host_info},
        {"build_info", remote_node_change::build_info},
@@ -87,8 +91,8 @@ enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
        {"response_rate", remote_node_change::response_rate},
        {"hardware_config", remote_node_change::hardware_config},
        {"sensor_values", remote_node_change::sensor_values},
-       {"connection_info", remote_node_change::connection_info},
-       {"instance_id", remote_node_change::instance_id}}};
+       {"statistics", remote_node_change::statistics},
+       {"connection_info", remote_node_change::connection_info}}};
 }
 //------------------------------------------------------------------------------
 /// @brief Class providing and manipulating information about remote node changes.
@@ -540,6 +544,29 @@ public:
         return {};
     }
 
+    /// @brief Returns the minimum temperature recorded on the remote host.
+    /// @see max_temperature
+    /// @see min_temperature_change
+    auto min_temperature() const noexcept
+      -> valid_if_positive<kelvins_t<float>>;
+
+    /// @brief Returns the maximum temperature recorded on the remote host.
+    /// @see min_temperature
+    /// @see max_temperature_change
+    auto max_temperature() const noexcept
+      -> valid_if_positive<kelvins_t<float>>;
+
+    /// @brief Returns the change in minimum temperature on the remote host.
+    /// @see min_temperature
+    auto min_temperature_change() const noexcept
+      -> optionally_valid<kelvins_t<float>>;
+
+    /// @brief Returns the change in maximum temperature on the remote host.
+    /// @see max_temperature
+    auto max_temperature_change() const noexcept
+      -> optionally_valid<kelvins_t<float>>;
+
+    /// @brief Returns the power supply kind used on the remote host.
     auto power_supply() const noexcept -> power_supply_kind;
 
 protected:
@@ -576,6 +603,8 @@ public:
     auto set_total_swap_size(span_size_t) -> remote_host_state&;
     auto set_free_ram_size(span_size_t) -> remote_host_state&;
     auto set_free_swap_size(span_size_t) -> remote_host_state&;
+    auto set_temperature_min_max(kelvins_t<float> min, kelvins_t<float> max)
+      -> remote_host_state&;
     auto set_power_supply(power_supply_kind) -> remote_host_state&;
 };
 //------------------------------------------------------------------------------
@@ -755,6 +784,27 @@ public:
     /// @see host
     /// @see connections
     auto instance() const noexcept -> remote_instance;
+
+    /// @brief Returns the total number of messages sent or forwarded by node.
+    auto sent_messages() const noexcept -> valid_if_nonnegative<std::int64_t>;
+
+    /// @brief Returns the total number of messages received by node.
+    auto received_messages() const noexcept
+      -> valid_if_nonnegative<std::int64_t>;
+
+    /// @brief Returns the total number of messages dropped by node.
+    auto dropped_messages() const noexcept
+      -> valid_if_nonnegative<std::int64_t>;
+
+    /// @brief Returns the number of messages sent or forwarded per second.
+    auto messages_per_second() const noexcept -> valid_if_nonnegative<int>;
+
+    /// @brief Returns the average message age.
+    auto average_message_age() const noexcept
+      -> valid_if_not_zero<std::chrono::milliseconds>;
+
+    /// @brief Returns node uptime in seconds.
+    auto uptime() const noexcept -> valid_if_not_zero<std::chrono::seconds>;
 
     /// @brief Return information about the connections of this node.
     /// @see host

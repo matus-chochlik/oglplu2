@@ -359,6 +359,10 @@ public:
         return _incoming.fetch_all(handler);
     }
 
+    auto query_statistics(connection_statistics&) -> bool final {
+        return false;
+    }
+
 protected:
     auto _checkup(posix_mqueue& connect_queue) -> bool {
         some_true something_done{};

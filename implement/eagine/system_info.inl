@@ -16,6 +16,7 @@
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/value_tree/filesystem.hpp>
 #include <eagine/value_tree/wrappers.hpp>
+#include <limits>
 #include <sys/sysinfo.h>
 #endif
 
@@ -149,6 +150,26 @@ public:
             }
         }
         return {kelvins_(0.F)};
+    }
+
+    auto tz_min_max() noexcept -> std::tuple<
+      valid_if_positive<kelvins_t<float>>,
+      valid_if_positive<kelvins_t<float>>> {
+        auto min{std::numeric_limits<float>::max()};
+        auto max{std::numeric_limits<float>::min()};
+        for(auto& temp_a : _tz_temp_a) {
+            float millicelsius{0.F};
+            if(_sysfs.fetch_value(temp_a, millicelsius)) {
+                min = std::min(min, millicelsius);
+                max = std::max(max, millicelsius);
+            }
+        }
+        if(min <= max) {
+            return {
+              kelvins_(min * 0.001F + 273.15F),
+              kelvins_(max * 0.001F + 273.15F)};
+        }
+        return {{kelvins_(0.F)}, {kelvins_(0.F)}};
     }
 
     auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>> {
@@ -385,6 +406,18 @@ auto system_info::sensor_temperature(span_size_t index) noexcept
 #endif
     EAGINE_MAYBE_UNUSED(index);
     return {kelvins_(0.F)};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::temperature_min_max() noexcept -> std::tuple<
+  valid_if_positive<kelvins_t<float>>,
+  valid_if_positive<kelvins_t<float>>> {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).tz_min_max();
+    }
+#endif
+    return {{kelvins_(0.F)}, {kelvins_(0.F)}};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

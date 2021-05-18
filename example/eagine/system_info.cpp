@@ -45,9 +45,8 @@ auto main(main_ctx& ctx) -> int {
     std::cout << "temperatures from " << sys.thermal_sensor_count()
               << " sensors: " << std::endl;
 
-    for(span_size_t i = 0, n = sys.thermal_sensor_count(); i < n; ++i) {
-        std::cout << "  " << i << ": ";
-        if(auto opt_t_kelvin{sys.sensor_temperature(i)}) {
+    auto print_temperature = [](auto opt_t_kelvin) {
+        if(opt_t_kelvin) {
             const auto t_k{extract(opt_t_kelvin)};
 
             tagged_quantity<float, units::degree_celsius> t_c{t_k};
@@ -60,8 +59,20 @@ auto main(main_ctx& ctx) -> int {
         } else {
             std::cout << "N/A";
         }
+    };
+
+    for(span_size_t i = 0, n = sys.thermal_sensor_count(); i < n; ++i) {
+        std::cout << "  " << i << ": ";
+        print_temperature(sys.sensor_temperature(i));
         std::cout << std::endl;
     }
+
+    const auto [opt_t_k_min, opt_t_k_max] = sys.temperature_min_max();
+    std::cout << "minimum / maximum temperature: ";
+    print_temperature(opt_t_k_min);
+    std::cout << " / ";
+    print_temperature(opt_t_k_max);
+    std::cout << std::endl;
 
     std::cout << "state of " << sys.cooling_device_count()
               << " cooling devices: " << std::endl;

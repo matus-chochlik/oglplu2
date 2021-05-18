@@ -74,8 +74,9 @@ class asio_acceptor;
 template <typename Socket>
 class asio_flushing_sockets {
 public:
-    void adopt(Socket& sckt) {
-        _waiting.emplace_back(std::chrono::seconds(10), std::move(sckt));
+    void adopt(Socket& sckt, memory::buffer& buf) {
+        _waiting.emplace_back(
+          std::chrono::seconds(10), std::move(sckt), std::move(buf));
     }
 
     auto empty() const noexcept -> bool {
@@ -92,7 +93,7 @@ public:
     }
 
 private:
-    std::vector<std::tuple<timeout, Socket>> _waiting;
+    std::vector<std::tuple<timeout, Socket, memory::buffer>> _waiting;
 };
 //------------------------------------------------------------------------------
 struct asio_common_state {
@@ -112,8 +113,8 @@ struct asio_common_state {
     }
 
     template <typename Socket>
-    void adopt_flushing(Socket& sckt) {
-        std::get<asio_flushing_sockets<Socket>>(_flushing).adopt(sckt);
+    void adopt_flushing(Socket& sckt, memory::buffer& buf) {
+        std::get<asio_flushing_sockets<Socket>>(_flushing).adopt(sckt, buf);
     }
 
     void update() noexcept {
@@ -195,6 +196,8 @@ struct asio_connection_state
     clock_time send_start_time{clock_type::now()};
     std::int32_t total_sent_messages{0};
     std::int32_t total_sent_blocks{0};
+    float usage_ratio{-1.F};
+    float used_per_sec{-1.F};
     float send_pack_ratio{1.F};
     const float send_pack_factr{0.5F};
     bool is_sending{false};
@@ -252,13 +255,13 @@ struct asio_connection_state
 
     auto log_usage_stats(span_size_t threshold = 0) -> bool {
         if(EAGINE_UNLIKELY(total_sent_size >= threshold)) {
-            const auto slack =
-              1.F - float(total_used_size) / float(total_sent_size);
+            usage_ratio = float(total_used_size) / float(total_sent_size);
+            const auto slack = 1.F - usage_ratio;
             const auto msgs_per_block =
               total_sent_blocks
                 ? float(total_sent_messages) / float(total_sent_blocks)
                 : 0.F;
-            const auto used_per_sec =
+            used_per_sec =
               total_used_size /
               std::chrono::duration<float>(clock_type::now() - send_start_time)
                 .count();
@@ -467,7 +470,7 @@ struct asio_connection_state
             update();
         }
         if(is_usable()) {
-            common->adopt_flushing(socket);
+            common->adopt_flushing(socket, read_buffer);
         }
         common->update();
     }
@@ -581,6 +584,13 @@ public:
         return _incoming.fetch_messages(*this, handler);
     }
 
+    auto query_statistics(connection_statistics& stats) -> bool final {
+        auto& state = conn_state();
+        stats.block_usage_ratio = state.usage_ratio;
+        stats.bytes_per_second = state.used_per_sec;
+        return true;
+    }
+
     void cleanup() final {
         timeout too_long{std::chrono::seconds{5}};
         while(!_outgoing.empty() && !too_long) {
@@ -662,6 +672,13 @@ public:
         return _incoming->fetch_messages(*this, handler);
     }
 
+    auto query_statistics(connection_statistics& stats) -> bool final {
+        auto& state = conn_state();
+        stats.block_usage_ratio = state.usage_ratio;
+        stats.bytes_per_second = state.used_per_sec;
+        return true;
+    }
+
     auto update() -> bool final {
         some_true something_done{};
         something_done(conn_state().update());
@@ -740,6 +757,10 @@ public:
 
     auto fetch_messages(connection::fetch_handler) -> bool final {
         EAGINE_UNREACHABLE();
+        return false;
+    }
+
+    auto query_statistics(connection_statistics&) -> bool final {
         return false;
     }
 

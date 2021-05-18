@@ -66,7 +66,23 @@ private:
 
     auto _do_send(message_id, message_view&) -> bool;
     auto _send(message_id, message_view&) -> bool;
-    auto _handle_special(message_id, const message_view&, bool) -> bool;
+
+    enum message_handling_result { should_be_forwarded, was_handled };
+
+    auto _handle_id_assigned(const message_view&) -> message_handling_result;
+    auto _handle_id_confirmed(const message_view&) -> message_handling_result;
+    auto _handle_ping(const message_view&, bool) -> message_handling_result;
+
+    auto _handle_topo_bridge_conn(const message_view&, bool)
+      -> message_handling_result;
+    auto _handle_topology_query(const message_view&, bool)
+      -> message_handling_result;
+    auto _handle_stats_query(const message_view&, bool)
+      -> message_handling_result;
+
+    auto _handle_special(message_id, const message_view&, bool)
+      -> message_handling_result;
+
     auto _do_push(message_id, message_view&) -> bool;
     auto _forward_messages() -> bool;
 
@@ -82,13 +98,17 @@ private:
       std::chrono::steady_clock::now()};
     std::chrono::steady_clock::time_point _forwarded_since_c2o{
       std::chrono::steady_clock::now()};
-    std::intmax_t _state_count{0};
-    std::intmax_t _forwarded_messages_i2c{0};
-    std::intmax_t _forwarded_messages_c2o{0};
-    std::intmax_t _dropped_messages_i2c{0};
-    std::intmax_t _dropped_messages_c2o{0};
+    std::chrono::steady_clock::time_point _forwarded_since_stat{
+      std::chrono::steady_clock::now()};
+    std::int64_t _state_count{0};
+    std::int64_t _forwarded_messages_i2c{0};
+    std::int64_t _forwarded_messages_c2o{0};
+    std::int64_t _prev_forwarded_messages{0};
+    std::int64_t _dropped_messages_i2c{0};
+    std::int64_t _dropped_messages_c2o{0};
     float _message_age_sum_i2c{0.F};
     float _message_age_sum_c2o{0.F};
+    bridge_statistics _stats{};
 
     std::shared_ptr<bridge_state> _state{};
     timeout _no_connection_timeout{std::chrono::seconds{30}};

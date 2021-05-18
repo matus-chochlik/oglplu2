@@ -9,6 +9,7 @@
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <QVariant>
+#include <algorithm>
 //------------------------------------------------------------------------------
 TilingModel::TilingModel(eagine::main_ctx_parent parent)
   : QObject{nullptr}
@@ -44,6 +45,7 @@ void TilingModel::reinitialize(int w, int h) {
         _cellCache.resize(eagine::std_size(w * h));
     }
     zero(eagine::cover(_cellCache));
+    _progress = -1.F;
 
     _tiling.reinitialize(
       {_width, _height},
@@ -64,6 +66,13 @@ auto TilingModel::getHeight() const noexcept -> int {
 auto TilingModel::getCellChar(int row, int column) const noexcept -> char {
     const auto k = eagine::std_size(row * _width + column);
     return _cellCache[k];
+}
+//------------------------------------------------------------------------------
+auto TilingModel::getProgress() const noexcept -> QVariant {
+    if(_progress >= 0.F) {
+        return {_progress};
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 auto TilingModel::getCell(int row, int column) const noexcept -> QVariant {
@@ -87,6 +96,13 @@ void TilingModel::onFragmentAdded(
               _cellCache[k] = extract(glyphStr).front();
           }
       });
+    if(const auto total = _cellCache.size()) {
+        const auto todo =
+          std::count(_cellCache.begin(), _cellCache.end(), '\0');
+        _progress = {float(total - todo) / float(total)};
+    } else {
+        _progress = -1.F;
+    }
     emit fragmentAdded();
 }
 //------------------------------------------------------------------------------

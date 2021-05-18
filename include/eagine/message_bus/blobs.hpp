@@ -11,6 +11,7 @@
 
 #include "../callable_ref.hpp"
 #include "../double_buffer.hpp"
+#include "../interface.hpp"
 #include "../main_ctx_object.hpp"
 #include "../memory/buffer_pool.hpp"
 #include "../memory/split_block.hpp"
@@ -22,23 +23,88 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+struct blob_io : interface<blob_io> {
+
+    virtual auto is_at_eod(span_size_t offs) -> bool = 0;
+    virtual auto total_size() -> span_size_t = 0;
+
+    virtual auto fetch_fragment(span_size_t offs, memory::block dst)
+      -> span_size_t = 0;
+    virtual auto store_fragment(span_size_t offs, memory::const_block src)
+      -> bool = 0;
+    virtual auto check_stored(span_size_t offs, memory::const_block src)
+      -> bool = 0;
+};
+//------------------------------------------------------------------------------
+struct finishing_blob_io : blob_io {
+    virtual void
+    handle_finished(message_id, message_age, const message_info&) = 0;
+};
+//------------------------------------------------------------------------------
+class buffer_blob_io : public blob_io {
+public:
+    buffer_blob_io(memory::buffer buf) noexcept;
+
+    buffer_blob_io(memory::buffer buf, memory::const_block src);
+
+    auto is_at_eod(span_size_t offs) -> bool final;
+    auto total_size() -> span_size_t final;
+
+    auto fetch_fragment(span_size_t offs, memory::block) -> span_size_t final;
+    auto store_fragment(span_size_t offs, memory::const_block) -> bool final;
+    auto check_stored(span_size_t offs, memory::const_block) -> bool final;
+
+    auto release_buffer() noexcept -> memory::buffer;
+
+private:
+    memory::buffer _buf;
+};
+//------------------------------------------------------------------------------
 struct pending_blob {
     message_id msg_id{};
     identifier_t source_id{0U};
     identifier_t target_id{0U};
-    std::uint64_t blob_id{0U};
-    memory::buffer blob{};
-    memory::const_split_block current{};
+    std::unique_ptr<blob_io> io{};
+    span_size_t current_position{0};
     // TODO: recycle the done parts vectors?
     double_buffer<std::vector<std::tuple<span_size_t, span_size_t>>>
       done_parts{};
     timeout max_time{};
+    std::uint32_t blob_id{0U};
     message_priority priority{message_priority::normal};
 
-    void init();
     auto done_size() const noexcept -> span_size_t;
     auto total_size() const noexcept -> span_size_t {
-        return blob.size();
+        EAGINE_ASSERT(io);
+        return io->total_size();
+    }
+
+    auto buffer_io() noexcept -> buffer_blob_io* {
+        return dynamic_cast<buffer_blob_io*>(io.get());
+    }
+
+    auto finish_io() noexcept -> finishing_blob_io* {
+        return dynamic_cast<finishing_blob_io*>(io.get());
+    }
+
+    auto is_at_eod() {
+        EAGINE_ASSERT(io);
+        return io->is_at_eod(current_position);
+    }
+
+    auto fetch(span_size_t offs, memory::block dst) {
+        EAGINE_ASSERT(io);
+        return io->fetch_fragment(offs, dst);
+    }
+
+    auto store(span_size_t offs, memory::const_block src) {
+        EAGINE_ASSERT(io);
+        return io->store_fragment(offs, src);
+    }
+
+    auto check(span_size_t offs, memory::const_block blk) {
+        EAGINE_ASSERT(io);
+        return io->check_stored(offs, blk);
     }
 
     auto age() const noexcept -> message_age {
@@ -61,28 +127,41 @@ public:
     auto message_size(const pending_blob&, span_size_t max_message_size)
       const noexcept -> span_size_t;
 
+    using io_getter = callable_ref<
+      std::unique_ptr<blob_io>(message_id, span_size_t, blob_manipulator&)>;
+
+    auto make_io(span_size_t total_size) -> std::unique_ptr<blob_io>;
+
     auto cleanup() -> bool;
 
-    void push_outgoing(
+    auto push_outgoing(
       message_id msg_id,
       identifier_t source_id,
       identifier_t target_id,
-      memory::const_block blob,
+      std::unique_ptr<blob_io> io,
       std::chrono::seconds max_time,
-      message_priority priority);
+      message_priority priority) -> message_sequence_t;
+
+    auto push_outgoing(
+      message_id msg_id,
+      identifier_t source_id,
+      identifier_t target_id,
+      memory::const_block src,
+      std::chrono::seconds max_time,
+      message_priority priority) -> message_sequence_t;
 
     auto push_incoming_fragment(
       message_id msg_id,
       identifier_t source_id,
-      identifier_t blob_id,
+      std::uint32_t blob_id,
       std::int64_t offset,
       std::int64_t total,
+      io_getter get_io,
       memory::const_block fragment,
       message_priority priority) -> bool;
 
-    using filter_function = callable_ref<bool(message_id)>;
-
-    auto process_incoming(filter_function, const message_view&) -> bool;
+    auto process_incoming(io_getter get_io, const message_view& message)
+      -> bool;
 
     using fetch_handler =
       callable_ref<bool(message_id, message_age, const message_view&)>;
@@ -97,8 +176,8 @@ public:
     auto process_outgoing(send_handler, span_size_t max_data_size) -> bool;
 
 private:
-    std::int64_t _max_blob_size{16 * 1024 * 1024};
-    std::uint64_t _blob_id_sequence{0};
+    std::int64_t _max_blob_size{1024 * 1024 * 1024};
+    std::uint32_t _blob_id_sequence{0};
     memory::buffer _scratch_buffer{};
     memory::buffer_pool _buffers{};
     std::vector<pending_blob> _outgoing{};

@@ -51,40 +51,13 @@ ApplicationWindow {
             title: qsTr("&File")
             Menu {
                 title: qsTr("&New tiling")
-                MenuItem {
-                    text: qsTr("16x16")
-                    onTriggered: {
-                        backend.tiling.reinitialize(32, 32)
-                    }
-                }
-                MenuItem {
-                    text: qsTr("32x32")
-                    onTriggered: {
-                        backend.tiling.reinitialize(32, 32)
-                    }
-                }
-                MenuItem {
-                    text: qsTr("64x64")
-                    onTriggered: {
-                        backend.tiling.reinitialize(64, 64)
-                    }
-                }
-                MenuItem {
-                    text: qsTr("128x128")
-                    onTriggered: {
-                        backend.tiling.reinitialize(128, 128)
-                    }
-                }
-                MenuItem {
-                    text: qsTr("256x256")
-                    onTriggered: {
-                        backend.tiling.reinitialize(256, 256)
-                    }
-                }
-                MenuItem {
-                    text: qsTr("512x512")
-                    onTriggered: {
-                        backend.tiling.reinitialize(256, 256)
+                Repeater {
+                    model: [16, 32, 64, 128, 256, 512, 1024]
+                    MenuItem {
+                        text: qsTr("%1x%1").arg(modelData)
+                        onTriggered: {
+                            backend.tiling.reinitialize(modelData, modelData)
+                        }
                     }
                 }
             }
@@ -107,9 +80,34 @@ ApplicationWindow {
         }
     }
 
-    contentData: TilingView {
+    contentData: ColumnLayout {
         anchors.fill: parent
-        model: backend.tiling
+
+		TilingView {
+			Layout.fillWidth: true
+			Layout.fillHeight: true
+
+        	model: backend.tiling
+		}
+		ProgressBar {
+			Layout.fillWidth: true
+			Layout.preferredHeight: 25
+
+			property real progress: backend.tiling.progress
+				? backend.tiling.progress
+				: 0.0
+
+			from: 0
+			to: 1
+			value: progress
+			indeterminate: !backend.tiling.progress
+
+			Behavior on progress {
+				NumberAnimation {
+					duration: 1000
+				}
+			}
+		}
     }
 
     FileDialog {

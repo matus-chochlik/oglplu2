@@ -95,6 +95,13 @@ protected:
             system_info,
             total_swap_size))[EAGINE_MSG_ID(eagiSysInf, rqTtlSwpSz)]);
 
+        Base::add_method(_temperature_min_max(
+          EAGINE_MSG_ID(eagiSysInf, tempMinMax),
+          &main_ctx::get().system(),
+          EAGINE_MEM_FUNC_C(
+            system_info,
+            temperature_min_max))[EAGINE_MSG_ID(eagiSysInf, rqTempMnMx)]);
+
         Base::add_method(_power_supply_kind(
           EAGINE_MSG_ID(eagiSysInf, powerSuply),
           &main_ctx::get().system(),
@@ -140,6 +147,13 @@ private:
     default_function_skeleton<valid_if_nonnegative<span_size_t>() noexcept, 32>
       _total_swap_size;
 
+    default_function_skeleton<
+      std::tuple<
+        valid_if_positive<kelvins_t<float>>,
+        valid_if_positive<kelvins_t<float>>>() noexcept,
+      64>
+      _temperature_min_max;
+
     default_function_skeleton<power_supply_kind() noexcept, 32>
       _power_supply_kind;
 
@@ -160,6 +174,7 @@ private:
         _long_average_load.invoke_by(msg_ctx, message);
         _free_ram_size.invoke_by(msg_ctx, message);
         _free_swap_size.invoke_by(msg_ctx, message);
+        _temperature_min_max.invoke_by(msg_ctx, message);
         _power_supply_kind.invoke_by(msg_ctx, message);
         return true;
     }
@@ -286,6 +301,21 @@ public:
     signal<void(const result_context&, const valid_if_nonnegative<span_size_t>&)>
       total_swap_size_received;
 
+    /// @brief Queries the endpoint's host system minimum and maximum temperature.
+    void query_temperature_min_max(identifier_t endpoint_id) {
+        _temperature_min_max.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTempMnMx));
+    }
+
+    /// @brief Triggered on receipt of endpoint's host system min/max temperatures.
+    /// @see query_power_supply_kind
+    signal<void(
+      const result_context&,
+      const std::tuple<
+        valid_if_positive<kelvins_t<float>>,
+        valid_if_positive<kelvins_t<float>>>&)>
+      temperature_min_max_received;
+
     /// @brief Queries the endpoint's host system power supply kind information.
     void query_power_supply_kind(identifier_t endpoint_id) {
         _power_supply_kind.invoke_on(
@@ -349,6 +379,13 @@ private:
     default_callback_invoker<valid_if_nonnegative<span_size_t>(), 32>
       _total_swap_size;
 
+    default_callback_invoker<
+      std::tuple<
+        valid_if_positive<kelvins_t<float>>,
+        valid_if_positive<kelvins_t<float>>>(),
+      64>
+      _temperature_min_max;
+
     default_callback_invoker<power_supply_kind(), 32> _power_supply_kind;
 
 protected:
@@ -384,6 +421,9 @@ protected:
 
         Base::add_method(_total_swap_size(
           total_swap_size_received)[EAGINE_MSG_ID(eagiSysInf, totalSwpSz)]);
+
+        Base::add_method(_temperature_min_max(
+          temperature_min_max_received)[EAGINE_MSG_ID(eagiSysInf, tempMinMax)]);
 
         Base::add_method(_power_supply_kind(
           power_supply_kind_received)[EAGINE_MSG_ID(eagiSysInf, powerSuply)]);

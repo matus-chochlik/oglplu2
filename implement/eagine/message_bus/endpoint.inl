@@ -36,35 +36,45 @@ auto endpoint::_process_blobs() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto endpoint::_do_allow_blob(message_id msg_id) -> bool {
+auto endpoint::_do_get_blob_io(
+  message_id msg_id,
+  span_size_t size,
+  blob_manipulator& blobs) -> std::unique_ptr<blob_io> {
+
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
-            return true;
-        }
-        if(msg_id.has_method(EAGINE_ID(eptSigNnce))) {
-            return true;
-        }
-        if(msg_id.has_method(EAGINE_ID(eptNnceSig))) {
-            return true;
-        }
-        if(msg_id.has_method(EAGINE_ID(rtrCertPem))) {
-            return true;
+        if(
+          msg_id.has_method(EAGINE_ID(eptCertPem)) ||
+          msg_id.has_method(EAGINE_ID(eptSigNnce)) ||
+          msg_id.has_method(EAGINE_ID(eptNnceSig)) ||
+          msg_id.has_method(EAGINE_ID(rtrCertPem))) {
+            return blobs.make_io(size);
         }
     }
-    return _allow_blob && _allow_blob(msg_id);
+    if(_get_blob_io) {
+        return _get_blob_io(msg_id, size, blobs);
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto endpoint::_do_send(message_id msg_id, message_view message) -> bool {
     EAGINE_ASSERT(has_id());
     message.set_source_id(_endpoint_id);
-    if(EAGINE_LIKELY(_connection)) {
-        if(_connection->send(msg_id, message)) {
-            log_trace("sending message ${message}")
-              .arg(EAGINE_ID(message), msg_id)
-              .arg(EAGINE_ID(target), message.target_id)
-              .arg(EAGINE_ID(source), message.source_id);
-            return true;
+    if(EAGINE_LIKELY(_connection && _connection->send(msg_id, message))) {
+        ++_stats.sent_messages;
+        if(EAGINE_UNLIKELY(!_had_working_connection)) {
+            _had_working_connection = true;
+            connection_established(has_id());
+        }
+        log_trace("sending message ${message}")
+          .arg(EAGINE_ID(message), msg_id)
+          .arg(EAGINE_ID(target), message.target_id)
+          .arg(EAGINE_ID(source), message.source_id);
+        return true;
+    } else {
+        if(_had_working_connection) {
+            _had_working_connection = false;
+            connection_lost();
         }
     }
     return false;
@@ -84,18 +94,20 @@ auto endpoint::_handle_special(
           .arg(EAGINE_ID(source), message.source_id);
 
         if(EAGINE_UNLIKELY(has_id() && (message.source_id == _endpoint_id))) {
+            ++_stats.dropped_messages;
             log_warning("received own special message ${message}")
               .arg(EAGINE_ID(message), msg_id);
             return true;
         } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
             if(_blobs.process_incoming(
-                 EAGINE_THIS_MEM_FUNC_REF(_do_allow_blob), message)) {
+                 EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io), message)) {
                 _blobs.fetch_all(_store_handler);
             }
             return true;
         } else if(msg_id.has_method(EAGINE_ID(assignId))) {
             if(!has_id()) {
                 _endpoint_id = message.target_id;
+                id_assigned(_endpoint_id);
                 log_debug("assigned endpoint id ${id} by router")
                   .arg(EAGINE_ID(id), get_id());
             }
@@ -104,6 +116,7 @@ auto endpoint::_handle_special(
             if(!has_id()) {
                 _endpoint_id = message.target_id;
                 if(EAGINE_LIKELY(get_id() == get_preconfigured_id())) {
+                    id_assigned(_endpoint_id);
                     log_debug("confirmed endpoint id ${id} by router")
                       .arg(EAGINE_ID(id), get_id());
                     // send request for router certificate
@@ -205,15 +218,11 @@ auto endpoint::_handle_special(
               .arg(EAGINE_ID(bufSize), temp.size())
               .arg(EAGINE_ID(source), message.source_id);
         } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
-            endpoint_statistics stats{};
+            _stats.sent_messages = _stats.sent_messages;
+            _stats.uptime_seconds = _uptime_seconds();
 
-            stats.endpoint_id = _endpoint_id;
-            stats.sent_messages = 0;     // TODO
-            stats.received_messages = 0; // TODO
-            stats.uptime_seconds = _uptime_seconds();
-
-            auto temp{default_serialize_buffer_for(stats)};
-            if(auto serialized{default_serialize(stats, cover(temp))}) {
+            auto temp{default_serialize_buffer_for(_stats)};
+            if(auto serialized{default_serialize(_stats, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);
                 if(post(EAGINE_MSGBUS_ID(statsEndpt), response)) {
@@ -237,23 +246,22 @@ auto endpoint::_store_message(
   message_id msg_id,
   message_age msg_age,
   const message_view& message) -> bool {
+    ++_stats.received_messages;
     if(!_handle_special(msg_id, message)) {
         if((message.target_id == _endpoint_id) || !is_valid_id(message.target_id)) {
-            auto pos = _incoming.find(msg_id);
-            if(pos != _incoming.end()) {
+            if(auto found{_find_incoming(msg_id)}) {
                 log_trace("stored message ${message}")
                   .arg(EAGINE_ID(message), msg_id);
-                _get_queue(*pos).push(message).add_age(msg_age);
-            } else if(_allow_blob && _allow_blob(msg_id)) {
-                auto [newpos, newone] = _incoming.try_emplace(msg_id);
-                EAGINE_MAYBE_UNUSED(newone);
-                EAGINE_ASSERT(newone);
-                _get_counter(*newpos) = 0;
+                extract(found).queue.push(message).add_age(msg_age);
+            } else {
+                auto& state = _ensure_incoming(msg_id);
+                EAGINE_ASSERT(state.subscription_count == 0);
                 log_debug("storing new type of message ${message}")
                   .arg(EAGINE_ID(message), msg_id);
-                _get_queue(*newpos).push(message).add_age(msg_age);
+                state.queue.push(message).add_age(msg_age);
             }
         } else {
+            ++_stats.dropped_messages;
             log_warning("trying to store message for target ${target}")
               .arg(EAGINE_ID(self), _endpoint_id)
               .arg(EAGINE_ID(target), message.target_id)
@@ -270,12 +278,11 @@ auto endpoint::_accept_message(message_id msg_id, const message_view& message)
     if(_handle_special(msg_id, message)) {
         return true;
     }
-    auto pos = _incoming.find(msg_id);
-    if(pos != _incoming.end()) {
+    if(auto found{_find_incoming(msg_id)}) {
         if((message.target_id == _endpoint_id) || !is_valid_id(message.target_id)) {
             log_trace("accepted message ${message}")
               .arg(EAGINE_ID(message), msg_id);
-            _get_queue(*pos).push(message);
+            extract(found).queue.push(message);
         }
         return true;
     }
@@ -409,10 +416,15 @@ auto endpoint::update() -> bool {
 
     const bool had_id = has_id();
     if(EAGINE_LIKELY(_connection)) {
+        if(EAGINE_UNLIKELY(!_had_working_connection)) {
+            _had_working_connection = true;
+            connection_established(had_id);
+        }
         if(EAGINE_UNLIKELY(!had_id && _no_id_timeout)) {
             if(!has_preconfigured_id()) {
                 log_debug("requesting endpoint id");
                 _connection->send(EAGINE_MSGBUS_ID(requestId), {});
+                ++_stats.sent_messages;
                 _no_id_timeout.reset();
                 something_done();
             }
@@ -440,6 +452,7 @@ auto endpoint::update() -> bool {
                     message_view ann_in_msg{};
                     ann_in_msg.set_source_id(get_preconfigured_id());
                     _connection->send(EAGINE_MSGBUS_ID(annEndptId), ann_in_msg);
+                    ++_stats.sent_messages;
                     _no_id_timeout.reset();
                     something_done();
                 }
@@ -464,20 +477,21 @@ auto endpoint::update() -> bool {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::subscribe(message_id msg_id) {
-    auto [pos, newone] = _incoming.try_emplace(msg_id);
-    if(newone) {
-        _get_counter(*pos) = 0;
+    auto& state = _ensure_incoming(msg_id);
+    if(!state.subscription_count) {
         log_debug("subscribing to message ${message}")
           .arg(EAGINE_ID(message), msg_id);
     }
-    ++_get_counter(*pos);
+    ++state.subscription_count;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::unsubscribe(message_id msg_id) {
     auto pos = _incoming.find(msg_id);
     if(pos != _incoming.end()) {
-        if(--_get_counter(*pos) <= 0) {
+        EAGINE_ASSERT(pos->second);
+        auto& state = *pos->second;
+        if(--state.subscription_count <= 0) {
             _incoming.erase(pos);
             log_debug("unsubscribing from message ${message}")
               .arg(EAGINE_ID(message), msg_id);
@@ -647,10 +661,9 @@ void endpoint::query_certificate_of(identifier_t endpoint_id) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto endpoint::process_one(message_id msg_id, method_handler handler) -> bool {
-    auto pos = _incoming.find(msg_id);
-    if(pos != _incoming.end()) {
+    if(auto found{_find_incoming(msg_id)}) {
         const message_context msg_ctx{*this, msg_id};
-        return _get_queue(*pos).process_one(msg_ctx, handler);
+        return extract(found).queue.process_one(msg_ctx, handler);
     }
     return false;
 }
@@ -658,10 +671,9 @@ auto endpoint::process_one(message_id msg_id, method_handler handler) -> bool {
 EAGINE_LIB_FUNC
 auto endpoint::process_all(message_id msg_id, method_handler handler)
   -> span_size_t {
-    auto pos = _incoming.find(msg_id);
-    if(pos != _incoming.end()) {
+    if(auto found{_find_incoming(msg_id)}) {
         const message_context msg_ctx{*this, msg_id};
-        return _get_queue(*pos).process_all(msg_ctx, handler);
+        return extract(found).queue.process_all(msg_ctx, handler);
     }
     return 0;
 }
@@ -670,9 +682,9 @@ EAGINE_LIB_FUNC
 auto endpoint::process_everything(method_handler handler) -> span_size_t {
     span_size_t result = 0;
 
-    for(auto& incoming : _incoming) {
-        const message_context msg_ctx{*this, std::get<0>(incoming)};
-        result += _get_queue(incoming).process_all(msg_ctx, handler);
+    for(auto& [msg_id, state] : _incoming) {
+        const message_context msg_ctx{*this, msg_id};
+        result += extract(state).queue.process_all(msg_ctx, handler);
     }
     return result;
 }

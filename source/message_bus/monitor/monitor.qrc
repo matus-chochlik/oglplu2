@@ -12,6 +12,9 @@
 	<file>icons/Responsive.svg</file>
 	<file>icons/Unresponsive.svg</file>
 
+	<file>scripts/Format.js</file>
+
+	<file>views/NumericLabel.qml</file>
 	<file>views/AliveIndicator.qml</file>
 	<file>views/NodeListIcon.qml</file>
 	<file>views/NodeListHeading.qml</file>

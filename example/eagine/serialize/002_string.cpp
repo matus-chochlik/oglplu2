@@ -7,13 +7,13 @@
 ///
 #include <eagine/hexdump.hpp>
 #include <eagine/reflect/data_members.hpp>
-#include <eagine/serialize/istream_source.hpp>
-#include <eagine/serialize/ostream_sink.hpp>
+#include <eagine/serialize/block_sink.hpp>
+#include <eagine/serialize/block_source.hpp>
+#include <eagine/serialize/data_buffer.hpp>
 #include <eagine/serialize/read.hpp>
 #include <eagine/serialize/string_backend.hpp>
 #include <eagine/serialize/write.hpp>
 #include <iostream>
-#include <sstream>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -60,8 +60,8 @@ void baz(const my_struct& instance) {
     std::cout << std::endl;
 }
 //------------------------------------------------------------------------------
-void bar(std::istream& data) {
-    istream_data_source source(data);
+void bar(memory::const_block data) {
+    block_data_source source(data);
     string_deserializer_backend backend(source);
     my_struct instance;
     auto member_map = map_data_members(instance);
@@ -71,13 +71,14 @@ void bar(std::istream& data) {
 //------------------------------------------------------------------------------
 void foo(const my_struct& instance) {
 
-    std::stringstream data;
-    ostream_data_sink sink(data);
+    auto data =
+      serialize_buffer_for<string_serializer_backend::id_value>(instance);
+    block_data_sink sink(cover(data));
     string_serializer_backend backend(sink);
     auto member_map = map_data_members(instance);
     serialize(member_map, backend);
-    std::cout << hexdump(as_bytes(view(data.str())));
-    bar(data);
+    std::cout << hexdump(as_bytes(view(data)));
+    bar(view(data));
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

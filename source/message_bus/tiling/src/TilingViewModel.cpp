@@ -72,6 +72,13 @@ auto TilingViewModel::roleNames() const -> QHash<int, QByteArray> {
     return {{Qt::DisplayRole, "tile"}};
 }
 //------------------------------------------------------------------------------
+auto TilingViewModel::getProgress() const -> QVariant {
+    if(auto tilingModel{_backend.getTilingModel()}) {
+        return extract(tilingModel).getProgress();
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 void TilingViewModel::onTilingModelChanged() {
     connect(
       _backend.getTilingModel(),
@@ -84,10 +91,12 @@ void TilingViewModel::onTilingModelChanged() {
       this,
       &TilingViewModel::onTilingChanged);
     emit modelReset({});
+    emit progressChanged();
 }
 //------------------------------------------------------------------------------
 void TilingViewModel::onTilingChanged() {
     emit modelReset({});
+    emit progressChanged();
 }
 //------------------------------------------------------------------------------
 

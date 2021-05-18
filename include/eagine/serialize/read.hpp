@@ -13,6 +13,7 @@
 #include "../memory/span_algo.hpp"
 #include "../reflect/data_members.hpp"
 #include "../reflect/enumerators.hpp"
+#include "../tagged_quantity.hpp"
 #include "../valid_if/decl.hpp"
 #include "fwd.hpp"
 #include "read_backend.hpp"
@@ -405,6 +406,25 @@ private:
         }
     }
 
+    deserializer<T> _deserializer{};
+};
+//------------------------------------------------------------------------------
+template <typename T, typename U>
+struct deserializer<tagged_quantity<T, U>>
+  : common_deserializer<tagged_quantity<T, U>> {
+
+    template <typename Backend>
+    auto read(tagged_quantity<T, U>& value, Backend& backend) const {
+        deserialization_errors errors{};
+        T temp{};
+        errors |= _deserializer.read(temp, backend);
+        if(EAGINE_LIKELY(!errors)) {
+            value = tagged_quantity<T, U>{std::move(temp)};
+        }
+        return errors;
+    }
+
+private:
     deserializer<T> _deserializer{};
 };
 //------------------------------------------------------------------------------

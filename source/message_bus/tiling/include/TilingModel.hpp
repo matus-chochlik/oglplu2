@@ -32,6 +32,8 @@ public:
     auto getCellChar(int row, int column) const noexcept -> char;
     auto getCell(int row, int column) const noexcept -> QVariant;
 
+    auto getProgress() const noexcept -> QVariant;
+
 signals:
     void reinitialized();
     void fragmentAdded();
@@ -52,6 +54,7 @@ private:
     std::vector<char> _cellCache;
     int _width{0};
     int _height{0};
+    float _progress{-1.F};
 };
 //------------------------------------------------------------------------------
 #endif

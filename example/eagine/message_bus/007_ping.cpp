@@ -78,6 +78,12 @@ public:
       , _max{extract_or(max, 100000)} {
         object_description("Pinger", "Ping example");
 
+        bus.id_assigned.connect(EAGINE_THIS_MEM_FUNC_REF(on_id_assigned));
+        bus.connection_lost.connect(
+          EAGINE_THIS_MEM_FUNC_REF(on_connection_lost));
+        bus.connection_established.connect(
+          EAGINE_THIS_MEM_FUNC_REF(on_connection_established));
+
         subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_subscribed));
         unsubscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_unsubscribed));
         not_subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_not_subscribed));
@@ -86,6 +92,21 @@ public:
         host_id_received.connect(EAGINE_THIS_MEM_FUNC_REF(on_host_id_received));
         hostname_received.connect(
           EAGINE_THIS_MEM_FUNC_REF(on_hostname_received));
+    }
+
+    void on_id_assigned(identifier_t endpoint_id) {
+        log_info("new id ${id} assigned").arg(EAGINE_ID(id), endpoint_id);
+        _do_ping = true;
+    }
+
+    void on_connection_established(bool usable) {
+        log_info("connection established");
+        _do_ping = usable;
+    }
+
+    void on_connection_lost() {
+        log_info("connection lost");
+        _do_ping = false;
     }
 
     void on_subscribed(const subscriber_info& info, message_id sub_msg) {
@@ -176,37 +197,39 @@ public:
     auto update() -> bool {
         some_true something_done{};
         something_done(base::update());
-        if(EAGINE_UNLIKELY(_should_query_pingable)) {
-            log_info("searching for pingables");
-            query_pingables();
-        }
-        if(!_targets.empty()) {
-            for(auto& [pingable_id, entry] : _targets) {
-                if(_rcvd < _max) {
-                    const auto lim{
-                      _rcvd +
-                      static_cast<std::intmax_t>(
-                        _mod * (1 + std::log(float(1 + _targets.size()))))};
+        if(_do_ping) {
+            if(EAGINE_UNLIKELY(_should_query_pingable)) {
+                log_info("searching for pingables");
+                query_pingables();
+            }
+            if(!_targets.empty()) {
+                for(auto& [pingable_id, entry] : _targets) {
+                    if(_rcvd < _max) {
+                        const auto lim{
+                          _rcvd +
+                          static_cast<std::intmax_t>(
+                            _mod * (1 + std::log(float(1 + _targets.size()))))};
 
-                    if(_sent < lim) {
-                        this->ping(pingable_id, std::chrono::seconds(5));
-                        if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
-                            log_info("sent ${sent} pings")
-                              .arg(EAGINE_ID(sent), _sent);
-                        }
+                        if(_sent < lim) {
+                            this->ping(pingable_id, std::chrono::seconds(5));
+                            if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
+                                log_info("sent ${sent} pings")
+                                  .arg(EAGINE_ID(sent), _sent);
+                            }
 
-                        if(EAGINE_UNLIKELY(entry.should_check_info)) {
-                            if(!entry.host_id) {
-                                this->query_host_id(pingable_id);
+                            if(EAGINE_UNLIKELY(entry.should_check_info)) {
+                                if(!entry.host_id) {
+                                    this->query_host_id(pingable_id);
+                                }
+                                if(entry.hostname.empty()) {
+                                    this->query_hostname(pingable_id);
+                                }
                             }
-                            if(entry.hostname.empty()) {
-                                this->query_hostname(pingable_id);
-                            }
+                            something_done();
                         }
-                        something_done();
+                    } else {
+                        break;
                     }
-                } else {
-                    break;
                 }
             }
         }
@@ -258,6 +281,7 @@ private:
     std::intmax_t _sent{0};
     std::intmax_t _rcvd{0};
     std::intmax_t _tout{0};
+    bool _do_ping{false};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus

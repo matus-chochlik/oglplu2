@@ -230,6 +230,11 @@ public:
         return false;
     }
 
+    auto query_statistics(connection_statistics& stats) -> bool final {
+        stats.block_usage_ratio = 1.F;
+        return true;
+    }
+
     void cleanup() final {
         if(EAGINE_LIKELY(_state)) {
             _state->log_message_counts();
@@ -282,6 +287,10 @@ public:
             std::tie(result, _is_usable) = _state->fetch_from_client(handler);
         }
         return result;
+    }
+
+    auto query_statistics(connection_statistics&) -> bool final {
+        return false;
     }
 
 private:

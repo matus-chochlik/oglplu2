@@ -89,6 +89,12 @@ public:
       , _max{extract_or(max, 100000)} {
         object_description("Pinger", "Message bus ping");
 
+        bus.id_assigned.connect(EAGINE_THIS_MEM_FUNC_REF(on_id_assigned));
+        bus.connection_lost.connect(
+          EAGINE_THIS_MEM_FUNC_REF(on_connection_lost));
+        bus.connection_established.connect(
+          EAGINE_THIS_MEM_FUNC_REF(on_connection_established));
+
         subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_subscribed));
         unsubscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_unsubscribed));
         not_subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_not_subscribed));
@@ -101,6 +107,21 @@ public:
         auto& info = provided_endpoint_info();
         info.display_name = "pinger";
         info.description = "node pinging all other nodes";
+    }
+
+    void on_id_assigned(identifier_t endpoint_id) {
+        log_info("new id ${id} assigned").arg(EAGINE_ID(id), endpoint_id);
+        _can_ping = true;
+    }
+
+    void on_connection_established(bool usable) {
+        log_info("connection established");
+        _can_ping = usable;
+    }
+
+    void on_connection_lost() {
+        log_info("connection lost");
+        _can_ping = false;
     }
 
     void on_subscribed(const subscriber_info& info, message_id sub_msg) {
@@ -198,9 +219,8 @@ public:
         return !(((_rcvd + _tout + _mod) < _max) || this->has_pending_pings());
     }
 
-    auto update() -> bool {
+    auto do_ping() -> bool {
         some_true something_done{};
-        something_done(base::update());
         if(EAGINE_UNLIKELY(_should_query_pingable)) {
             log_info("searching for pingable nodes");
             query_pingables();
@@ -236,6 +256,15 @@ public:
                     break;
                 }
             }
+        }
+        return something_done;
+    }
+
+    auto update() -> bool {
+        some_true something_done{};
+        something_done(base::update());
+        if(EAGINE_LIKELY(_can_ping)) {
+            something_done(do_ping());
         }
         something_done(base::process_all() > 0);
         return something_done;
@@ -279,6 +308,7 @@ private:
     std::intmax_t _sent{0};
     std::intmax_t _rcvd{0};
     std::intmax_t _tout{0};
+    bool _can_ping{false};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus

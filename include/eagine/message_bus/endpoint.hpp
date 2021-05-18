@@ -17,6 +17,7 @@
 #include "connection.hpp"
 #include "context_fwd.hpp"
 #include "serialize.hpp"
+#include "signal.hpp"
 #include <tuple>
 
 namespace eagine::msgbus {
@@ -44,7 +45,16 @@ public:
     using fetch_handler = connection::fetch_handler;
 
     /// @brief Alias for blob message type filter callable reference.
-    using blob_filter_function = blob_manipulator::filter_function;
+    using blob_io_getter = blob_manipulator::io_getter;
+
+    /// @brief Triggered when the id is confirmed or assigned to this endpoint.
+    signal<void(identifier_t)> id_assigned;
+
+    /// @brief Triggered when this endpoint's connection is established.
+    signal<void(bool)> connection_established;
+
+    /// @brief Triggered when this endpoint's connection is lost.
+    signal<void()> connection_lost;
 
     /// @brief Construction with a reference to parent main context object.
     endpoint(main_ctx_object obj) noexcept
@@ -54,11 +64,9 @@ public:
     endpoint(identifier id, main_ctx_parent parent) noexcept
       : main_ctx_object{id, parent} {}
 
-    explicit endpoint(
-      main_ctx_object obj,
-      blob_filter_function allow_blob) noexcept
+    explicit endpoint(main_ctx_object obj, blob_io_getter get_blob_io) noexcept
       : main_ctx_object{std::move(obj)}
-      , _allow_blob{std::move(allow_blob)} {}
+      , _get_blob_io{std::move(get_blob_io)} {}
 
     /// @brief Not copy constructible.
     endpoint(const endpoint&) = delete;
@@ -215,10 +223,9 @@ public:
       identifier_t target_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
-      message_priority priority) -> bool {
-        _blobs.push_outgoing(
+      message_priority priority) -> message_sequence_t {
+        return _blobs.push_outgoing(
           msg_id, _endpoint_id, target_id, blob, max_time, priority);
-        return true;
     }
 
     /// @brief Enqueues a BLOB that is larger than max_data_size for broadcast.
@@ -392,17 +399,23 @@ public:
     /// @brief Processes all received messages regardles of type with a handler.
     auto process_everything(method_handler handler) -> span_size_t;
 
+    auto ensure_queue(message_id msg_id) noexcept -> message_priority_queue& {
+        return _ensure_incoming(msg_id).queue;
+    }
+
 private:
     friend class friend_of_endpoint;
 
     shared_context _context{make_context(*this)};
 
-    const process_instance_id_t _instance_id{process_instance_id()};
     identifier_t _preconfd_id{invalid_id()};
     identifier_t _endpoint_id{invalid_id()};
+    const process_instance_id_t _instance_id{process_instance_id()};
 
     std::chrono::steady_clock::time_point _startup_time{
       std::chrono::steady_clock::now()};
+
+    endpoint_statistics _stats{};
 
     auto _uptime_seconds() -> std::int64_t;
 
@@ -414,28 +427,46 @@ private:
       nothing};
 
     std::unique_ptr<connection> _connection{};
+    bool _had_working_connection{false};
 
     message_storage _outgoing{};
 
-    flat_map<message_id, std::tuple<span_size_t, message_priority_queue>>
-      _incoming{};
+    struct incoming_state {
+        span_size_t subscription_count{0};
+        message_priority_queue queue{};
+    };
 
-    template <typename Entry>
-    static inline auto _get_counter(Entry& entry) -> auto& {
-        return std::get<0>(std::get<1>(entry));
+    flat_map<message_id, std::unique_ptr<incoming_state>> _incoming{};
+
+    auto _ensure_incoming(message_id msg_id) -> incoming_state& {
+        auto pos = _incoming.find(msg_id);
+        if(pos == _incoming.end()) {
+            pos = _incoming.emplace(msg_id, std::make_unique<incoming_state>())
+                    .first;
+        }
+        EAGINE_ASSERT(pos->second);
+        return *pos->second;
     }
 
-    template <typename Entry>
-    static inline auto _get_queue(Entry& entry) -> auto& {
-        return std::get<1>(std::get<1>(entry));
+    auto _find_incoming(message_id msg_id) const noexcept -> incoming_state* {
+        const auto pos = _incoming.find(msg_id);
+        return (pos != _incoming.end()) ? pos->second.get() : nullptr;
+    }
+
+    auto _get_incoming(message_id msg_id) const noexcept -> incoming_state& {
+        const auto pos = _incoming.find(msg_id);
+        EAGINE_ASSERT(pos != _incoming.end());
+        EAGINE_ASSERT(pos->second);
+        return *pos->second;
     }
 
     blob_manipulator _blobs{*this};
-    blob_manipulator::filter_function _allow_blob{};
+    blob_io_getter _get_blob_io{};
 
     auto _cleanup_blobs() -> bool;
     auto _process_blobs() -> bool;
-    auto _do_allow_blob(message_id) -> bool;
+    auto _do_get_blob_io(message_id, span_size_t, blob_manipulator&)
+      -> std::unique_ptr<blob_io>;
 
     auto _default_store_handler() noexcept -> fetch_handler {
         return EAGINE_THIS_MEM_FUNC_REF(_store_message);
@@ -470,10 +501,10 @@ private:
 
     explicit endpoint(
       main_ctx_object obj,
-      blob_filter_function allow_blob,
+      blob_io_getter get_blob_io,
       fetch_handler store_message) noexcept
       : main_ctx_object{std::move(obj)}
-      , _allow_blob{std::move(allow_blob)}
+      , _get_blob_io{std::move(get_blob_io)}
       , _store_handler{std::move(store_message)} {}
 
     endpoint(endpoint&& temp) noexcept
@@ -488,7 +519,7 @@ private:
 
     endpoint(
       endpoint&& temp,
-      blob_filter_function allow_blob,
+      blob_io_getter get_blob_io,
       fetch_handler store_message) noexcept
       : main_ctx_object{static_cast<main_ctx_object&&>(temp)}
       , _context{std::move(temp._context)}
@@ -498,7 +529,7 @@ private:
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
       , _blobs{std::move(temp._blobs)}
-      , _allow_blob{std::move(allow_blob)}
+      , _get_blob_io{std::move(get_blob_io)}
       , _store_handler{std::move(store_message)} {}
 };
 //------------------------------------------------------------------------------
@@ -514,9 +545,9 @@ protected:
 
     static auto _make_endpoint(
       main_ctx_object obj,
-      endpoint::blob_filter_function allow_blob,
+      endpoint::blob_io_getter get_blob_io,
       endpoint::fetch_handler store_message) noexcept {
-        return endpoint{std::move(obj), allow_blob, store_message};
+        return endpoint{std::move(obj), get_blob_io, store_message};
     }
 
     static auto _move_endpoint(
@@ -527,9 +558,9 @@ protected:
 
     static auto _move_endpoint(
       endpoint&& bus,
-      endpoint::blob_filter_function allow_blob,
+      endpoint::blob_io_getter get_blob_io,
       endpoint::fetch_handler store_message) noexcept {
-        return endpoint{std::move(bus), allow_blob, store_message};
+        return endpoint{std::move(bus), get_blob_io, store_message};
     }
 
     inline auto _accept_message(
