@@ -311,9 +311,9 @@ public:
     /// @see query_power_supply_kind
     signal<void(
       const result_context&,
-      std::tuple<
+      const std::tuple<
         valid_if_positive<kelvins_t<float>>,
-        valid_if_positive<kelvins_t<float>>>)>
+        valid_if_positive<kelvins_t<float>>>&)>
       temperature_min_max_received;
 
     /// @brief Queries the endpoint's host system power supply kind information.
