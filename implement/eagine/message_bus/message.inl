@@ -228,7 +228,7 @@ auto connection_outgoing_messages::enqueue(
   memory::block temp) -> bool {
 
     block_data_sink sink(temp);
-    string_serializer_backend backend(sink);
+    default_serializer_backend backend(sink);
     auto errors = serialize_message(msg_id, message, backend);
     if(!errors) {
         user.log_trace("enqueuing message ${message} to be sent")
@@ -257,7 +257,7 @@ auto connection_incoming_messages::fetch_messages(
                                   message_timestamp& msg_ts,
                                   stored_message& message) {
                   block_data_source source(blk);
-                  string_deserializer_backend backend(source);
+                  default_deserializer_backend backend(source);
                   const auto errors =
                     deserialize_message(msg_id, message, backend);
                   if(!errors) {

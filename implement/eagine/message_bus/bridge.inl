@@ -108,7 +108,7 @@ public:
               if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
                   ++_dropped_messages;
               } else {
-                  string_serializer_backend backend(_sink);
+                  default_serializer_backend backend(_sink);
                   serialize_message_header(msg_id, message, backend);
 
                   span_size_t i = 0;
@@ -145,7 +145,7 @@ public:
     void recv_input() {
         if(auto pos{_source.scan_for('\n', _max_read)}) {
             block_data_source source(_source.top(extract(pos)));
-            string_deserializer_backend backend(source);
+            default_deserializer_backend backend(source);
             identifier class_id{};
             identifier method_id{};
             _recv_dest.clear_data();
