@@ -6,12 +6,11 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-#ifndef EAGINE_FPUTILS_HPP
-#define EAGINE_FPUTILS_HPP
+#ifndef EAGINE_SERIALIZE_FPUTILS_HPP
+#define EAGINE_SERIALIZE_FPUTILS_HPP
 
-#include "is_within_limits.hpp"
-#include "type_identity.hpp"
-#include "valid_if/decl.hpp"
+#include "../is_within_limits.hpp"
+#include "../type_identity.hpp"
 #include <cmath>
 #include <cstdint>
 #include <limits>
@@ -49,7 +48,7 @@ using decompose_exponent_t = typename get_decompose_types<F>::exponent_type;
 
 template <typename F>
 using decomposed_t =
-  std::tuple<decompose_fraction_t<F>, decompose_exponent_t<F>, bool>;
+  std::tuple<decompose_fraction_t<F>, decompose_exponent_t<F>>;
 //------------------------------------------------------------------------------
 template <typename F>
 constexpr auto max_fraction(type_identity<F> = {}) noexcept
@@ -63,11 +62,11 @@ constexpr inline auto decompose(F f, type_identity<F> = {}) noexcept
   -> decomposed_t<F> {
     switch(std::fpclassify(f)) {
         case FP_ZERO:
-            return {0, std::signbit(f) ? 1 : 0, true};
+            return {0, std::signbit(f) ? 1 : 0};
         case FP_INFINITE:
-            return {0, std::signbit(f) ? 3 : 2, true};
+            return {0, std::signbit(f) ? 3 : 2};
         case FP_NAN:
-            return {0, std::signbit(f) ? 5 : 4, true};
+            return {0, std::signbit(f) ? 5 : 4};
         default:
             break;
     }
@@ -75,15 +74,12 @@ constexpr inline auto decompose(F f, type_identity<F> = {}) noexcept
     const auto one = F(1);
     const auto two = F(2);
     const auto fr2 = std::fabs(std::frexp(f, &exp) * two);
-    if(EAGINE_LIKELY(fr2 >= one && fr2 < two)) {
-        return {
-          (static_cast<decompose_fraction_t<F>>((fr2 - one) * max_fraction<F>())
-           << 1U) |
-            ((f < 0) ? 0x1U : 0x0U),
-          limit_cast<decompose_exponent_t<F>>(exp),
-          true};
-    }
-    return {0, 0, false};
+    EAGINE_ASSERT(fr2 >= one && fr2 < two);
+    return {
+      (static_cast<decompose_fraction_t<F>>((fr2 - one) * max_fraction<F>())
+       << 1U) |
+        ((f < 0) ? 0x1U : 0x0U),
+      limit_cast<decompose_exponent_t<F>>(exp)};
 }
 //------------------------------------------------------------------------------
 template <typename F>
@@ -118,4 +114,4 @@ compose(const decomposed_t<F>& f, type_identity<F> = {}) noexcept -> F {
 //------------------------------------------------------------------------------
 } // namespace eagine::fputils
 
-#endif // EAGINE_FPUTILS_HPP
+#endif // EAGINE_SERIALIZE_FPUTILS_HPP
