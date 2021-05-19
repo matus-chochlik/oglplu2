@@ -75,7 +75,7 @@ public:
     }
 
     auto finish_struct() -> result final {
-        return sink("};");
+        return sink("}");
     }
 
     auto begin_list(span_size_t count) -> result final {
@@ -94,7 +94,7 @@ public:
     }
 
     auto finish_list() -> result final {
-        return sink("];");
+        return sink("]");
     }
 
     auto finish() -> result final {
@@ -237,7 +237,7 @@ public:
     }
 
     auto finish_struct() -> result final {
-        return require("};");
+        return require("}");
     }
 
     auto begin_list(span_size_t& count) -> result final {
@@ -257,7 +257,7 @@ public:
     }
 
     auto finish_list() -> result final {
-        return require("];");
+        return require("]");
     }
 
     auto finish() -> result final {
