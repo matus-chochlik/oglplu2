@@ -6,5 +6,6 @@
 
 eagine_example_common(001_basic)
 eagine_example_common(002_string)
-eagine_example_common(003_packed)
+eagine_example_common(003_portable)
+eagine_example_common(004_packed)
 eagine_example_common(005_fragmented)
