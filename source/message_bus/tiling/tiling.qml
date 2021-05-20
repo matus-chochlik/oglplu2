@@ -77,37 +77,49 @@ ApplicationWindow {
                     action: lightThemeToggleAction
                 }
             }
+            Menu {
+                title: qsTr("Tile &size")
+                Repeater {
+                    model: [2, 4, 8, 16, 32]
+                    MenuItem {
+                        text: qsTr("%1x%1").arg(modelData)
+                        onTriggered: {
+                            backend.theme.setTileSize(modelData)
+                        }
+                    }
+                }
+            }
         }
     }
 
     contentData: ColumnLayout {
         anchors.fill: parent
 
-		TilingView {
-			Layout.fillWidth: true
-			Layout.fillHeight: true
+        TilingView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-        	model: backend.tiling
-		}
-		ProgressBar {
-			Layout.fillWidth: true
-			Layout.preferredHeight: 25
+            model: backend.tiling
+        }
+        ProgressBar {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 25
 
-			property real progress: backend.tiling.progress
-				? backend.tiling.progress
-				: 0.0
+            property real progress: backend.tiling.progress
+                ? backend.tiling.progress
+                : 0.0
 
-			from: 0
-			to: 1
-			value: progress
-			indeterminate: !backend.tiling.progress
+            from: 0
+            to: 1
+            value: progress
+            indeterminate: !backend.tiling.progress
 
-			Behavior on progress {
-				NumberAnimation {
-					duration: 1000
-				}
-			}
-		}
+            Behavior on progress {
+                NumberAnimation {
+                    duration: 1000
+                }
+            }
+        }
     }
 
     FileDialog {

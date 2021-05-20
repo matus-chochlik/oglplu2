@@ -18,8 +18,8 @@ class TilingTheme
 
     Q_PROPERTY(bool light READ getLight WRITE setLight NOTIFY lightChanged)
     Q_PROPERTY(QString tileset READ getTileset CONSTANT)
-    Q_PROPERTY(int tileWidth READ getTileWidth CONSTANT)
-    Q_PROPERTY(int tileHeight READ getTileHeight CONSTANT)
+    Q_PROPERTY(int tileWidth READ getTileWidth NOTIFY tileSizeChanged)
+    Q_PROPERTY(int tileHeight READ getTileHeight NOTIFY tileSizeChanged)
 
 public:
     TilingTheme(eagine::main_ctx_parent);
@@ -31,10 +31,14 @@ public:
     auto getTileWidth() const -> int;
     auto getTileHeight() const -> int;
 
+    Q_INVOKABLE void setTileSize(int);
+
 signals:
     void lightChanged();
+    void tileSizeChanged();
 public slots:
 private:
+    int _tileSize{16};
     bool _light{false};
 };
 //------------------------------------------------------------------------------

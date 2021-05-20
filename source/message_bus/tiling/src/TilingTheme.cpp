@@ -24,10 +24,15 @@ auto TilingTheme::getTileset() const -> QString {
 }
 //------------------------------------------------------------------------------
 auto TilingTheme::getTileWidth() const -> int {
-    return 16;
+    return _tileSize;
 }
 //------------------------------------------------------------------------------
 auto TilingTheme::getTileHeight() const -> int {
-    return 16;
+    return _tileSize;
+}
+//------------------------------------------------------------------------------
+void TilingTheme::setTileSize(int size) {
+    _tileSize = size;
+    emit tileSizeChanged();
 }
 //------------------------------------------------------------------------------
