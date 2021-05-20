@@ -46,6 +46,16 @@ auto registry::_add_entry(identifier log_id) -> registered_entry& {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void registry::remove(service_interface& service) {
+    _entries.erase(
+      std::remove_if(
+        _entries.begin(),
+        _entries.end(),
+        [&service](auto& entry) { return entry._service.get() == &service; }),
+      _entries.end());
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto registry::update() -> bool {
     return _router.update(8);
 }
