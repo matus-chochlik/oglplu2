@@ -120,7 +120,7 @@ auto endpoint::_handle_special(
                     log_debug("confirmed endpoint id ${id} by router")
                       .arg(EAGINE_ID(id), get_id());
                     // send request for router certificate
-                    _do_send(EAGINE_MSGBUS_ID(rtrCertQry), {});
+                    post(EAGINE_MSGBUS_ID(rtrCertQry), {});
                 } else {
                     log_error("mismatching preconfigured and confirmed ids")
                       .arg(EAGINE_ID(confirmed), get_id())
