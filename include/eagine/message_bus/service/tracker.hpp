@@ -128,6 +128,11 @@ public:
         return EAGINE_THIS_MEM_FUNC_REF(_handle_endpoint_stats_received);
     }
 
+    /// @brief Returns handler for the connection statistics message.
+    auto on_connection_stats_received() noexcept {
+        return EAGINE_THIS_MEM_FUNC_REF(_handle_connection_stats_received);
+    }
+
     /// @brief Returns handler for the application name message.
     auto on_application_name_received() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(_handle_application_name_received);
@@ -473,6 +478,10 @@ private:
       identifier_t endpoint_id,
       const endpoint_statistics& stats) {
         _get_node(endpoint_id).assign(stats).notice_alive();
+    }
+
+    void _handle_connection_stats_received(const connection_statistics& stats) {
+        _get_connection(stats.local_id, stats.remote_id);
     }
 
     void _handle_application_name_received(

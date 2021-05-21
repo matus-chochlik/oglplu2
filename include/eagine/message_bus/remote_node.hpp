@@ -913,6 +913,12 @@ public:
     /// @brief Returns the connection kind.
     auto kind() const noexcept -> connection_kind;
 
+    /// @brief Returns the message block usage ratio for the connection.
+    auto block_usage_ratio() const noexcept -> valid_if_nonnegative<float>;
+
+    /// @brief Returns count of bytes per second sent through the connection.
+    auto bytes_per_second() const noexcept -> valid_if_nonnegative<float>;
+
 private:
     std::shared_ptr<node_connection_impl> _pimpl{};
 
@@ -936,6 +942,7 @@ public:
     using node_connection::node_connection;
 
     auto set_kind(connection_kind) -> node_connection_state&;
+    auto assign(const connection_statistics&) -> node_connection_state&;
 };
 //------------------------------------------------------------------------------
 /// @brief Class providing information about connections from the perspective of a node.
