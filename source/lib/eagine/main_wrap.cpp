@@ -22,6 +22,7 @@
 #include <eagine/input_data.hpp>
 #include <eagine/type_name.hpp>
 #include <eagine/logging/entry.hpp>
+#include <eagine/random_identifier.hpp>
 #include <eagine/value_tree/filesystem.hpp>
 #include <eagine/value_tree/json.hpp>
 #include <eagine/value_tree/yaml.hpp>

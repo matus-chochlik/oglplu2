@@ -6,8 +6,8 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/bool_aggregate.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/router_address.hpp>
+#include <eagine/main_ctx.hpp>
+#include <eagine/message_bus.hpp>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
@@ -26,10 +26,7 @@ registry::registry(main_ctx_parent parent)
   , _router{*this} {
     _router.add_acceptor(_acceptor);
 
-    router_address parent_address{*this};
-    connection_setup conn_setup(*this);
-
-    conn_setup.setup_connectors(_router, parent_address);
+    main_context().msg_bus().setup_connectors(_router);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

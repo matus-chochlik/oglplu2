@@ -105,6 +105,10 @@ public:
         return _watchdog;
     }
 
+    auto msg_bus() noexcept -> message_bus& final {
+        return _msg_bus;
+    }
+
     auto compressor() noexcept -> data_compressor& final {
         return _compressor;
     }
@@ -124,6 +128,7 @@ private:
     application_config& _app_config;
     system_info& _sys_info;
     user_info& _usr_info;
+    message_bus& _msg_bus;
     memory::buffer& _scratch_space;
     data_compressor& _compressor;
     string_view _exe_path;

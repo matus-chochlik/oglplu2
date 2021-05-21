@@ -28,6 +28,7 @@ main_ctx::main_ctx(main_ctx_getters& src) noexcept
   , _app_config{src.config()}
   , _sys_info{src.system()}
   , _usr_info{src.user()}
+  , _msg_bus{src.msg_bus()}
   , _scratch_space{src.scratch_space()}
   , _compressor{src.compressor()}
   , _exe_path{src.exe_path()}
@@ -35,6 +36,7 @@ main_ctx::main_ctx(main_ctx_getters& src) noexcept
     EAGINE_ASSERT(!_single_ptr());
     _single_ptr() = this;
     _log.configure(_app_config);
+    _msg_bus.configure(_app_config);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

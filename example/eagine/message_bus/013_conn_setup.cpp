@@ -179,7 +179,6 @@ auto main(main_ctx& ctx) -> int {
       extract_or(ctx.system().cpu_concurrent_threads(), 4);
 
     msgbus::connection_setup conn_setup(ctx);
-    conn_setup.default_init();
 
     msgbus::fibonacci_client client(ctx, conn_setup);
 

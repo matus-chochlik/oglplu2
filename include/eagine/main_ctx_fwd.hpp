@@ -24,6 +24,7 @@ class user_info;
 class data_compressor;
 class program_args;
 class process_watchdog;
+class message_bus;
 class main_ctx;
 class main_ctx_storage;
 class main_ctx_log_backend_getter;
@@ -78,6 +79,9 @@ struct main_ctx_getters : interface<main_ctx_getters> {
 
     /// @brief Returns a reference to process watchdog object.
     virtual auto watchdog() noexcept -> process_watchdog& = 0;
+
+    /// @brief Returns a reference to message bus facade object.
+    virtual auto msg_bus() noexcept -> message_bus& = 0;
 
     /// @brief Returns a reference to shared data compressor object.
     virtual auto compressor() noexcept -> data_compressor& = 0;

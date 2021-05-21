@@ -19,10 +19,17 @@ namespace eagine::msgbus {
 /// @ingroup msgbus
 class router_address : public main_ctx_object {
 public:
+    router_address(main_ctx_parent parent, nothing_t)
+      : main_ctx_object{EAGINE_ID(RouterAddr), parent} {}
+
     /// @brief Construction from parent main context object.
     router_address(main_ctx_parent parent)
-      : main_ctx_object{EAGINE_ID(RouterAddr), parent} {
-        if(app_config().fetch("msg_bus.router.address", _addrs)) {
+      : router_address{parent, nothing} {
+        configure(app_config());
+    }
+
+    void configure(application_config& config) {
+        if(config.fetch("msg_bus.router.address", _addrs)) {
             log_debug("configured router address(es) ${addr}")
               .arg_func([&](logger_backend& backend) {
                   for(auto& addr : _addrs) {

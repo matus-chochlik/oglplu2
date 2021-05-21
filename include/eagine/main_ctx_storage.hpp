@@ -13,6 +13,7 @@
 #include "compiler_info.hpp"
 #include "compression.hpp"
 #include "logging/root_logger.hpp"
+#include "message_bus.hpp"
 #include "process.hpp"
 #include "program_args.hpp"
 #include "system_info.hpp"
@@ -34,6 +35,7 @@ public:
       , _app_config{*this}
       , _sys_info{*this}
       , _usr_info{*this}
+      , _msg_bus{*this}
       , _app_name{options.app_name} {
         auto fs_path = std::filesystem::path(to_string(_args.command()));
         if(_app_name.empty()) {
@@ -87,12 +89,16 @@ public:
         return _usr_info;
     }
 
-    auto scratch_space() noexcept -> memory::buffer& final {
-        return _scratch_space;
+    auto msg_bus() noexcept -> message_bus& final {
+        return _msg_bus;
     }
 
     auto compressor() noexcept -> data_compressor& final {
         return _compressor;
+    }
+
+    auto scratch_space() noexcept -> memory::buffer& final {
+        return _scratch_space;
     }
 
     auto exe_path() const noexcept -> string_view final {
@@ -113,6 +119,7 @@ private:
     application_config _app_config;
     system_info _sys_info;
     user_info _usr_info;
+    message_bus _msg_bus;
     memory::buffer _scratch_space{};
     data_compressor _compressor{};
     std::string _exe_path{};

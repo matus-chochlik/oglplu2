@@ -21,7 +21,7 @@ class application_config;
 namespace msgbus {
 //------------------------------------------------------------------------------
 class connection_setup;
-void connection_setup_default_init(connection_setup&);
+void connection_setup_configure(connection_setup&, application_config&);
 //------------------------------------------------------------------------------
 static inline auto adapt_log_entry_arg(
   identifier name,
@@ -44,10 +44,13 @@ static inline auto adapt_log_entry_arg(
 /// @see application_config
 class connection_setup : public main_ctx_object {
 public:
+    connection_setup(main_ctx_parent parent, nothing_t) noexcept
+      : main_ctx_object{EAGINE_ID(ConnSetup), parent} {}
+
     /// @brief Construction from a parent main context object.
     connection_setup(main_ctx_parent parent) noexcept
-      : main_ctx_object{EAGINE_ID(ConnSetup), parent} {
-        default_init();
+      : connection_setup{parent, nothing} {
+        configure(app_config());
     }
 
     /// @brief Sets up acceptors listening on the specified address.
@@ -163,8 +166,8 @@ public:
     }
 
     /// @brief Uses the configuration to do initialization of this setup.
-    void default_init() {
-        connection_setup_default_init(*this);
+    void configure(application_config& config) {
+        connection_setup_configure(*this, config);
     }
 
 private:
