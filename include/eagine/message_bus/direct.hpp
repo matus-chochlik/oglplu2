@@ -11,9 +11,10 @@
 
 #include "../bool_aggregate.hpp"
 #include "../branch_predict.hpp"
+#include "../double_buffer.hpp"
 #include "../main_ctx_object.hpp"
-#include "../value_tracker.hpp"
 #include "conn_factory.hpp"
+#include <atomic>
 #include <map>
 #include <mutex>
 
@@ -32,34 +33,26 @@ public:
 
     /// @brief Says that the client has connected.
     auto client_connect() {
-        std::unique_lock lock{_c2s_mutex};
         _client_connected = true;
     }
 
     /// @brief Says that the client has disconnected.
     auto client_disconnect() {
-        std::unique_lock lock{_c2s_mutex};
         _client_connected = false;
-    }
-
-    /// @brief Checks if the connection is usable.
-    auto is_usable() {
-        std::unique_lock lock{_c2s_mutex};
-        return _client_connected || !_client_to_server.empty();
     }
 
     /// @brief Sends a message to the server counterpart.
     void send_to_server(message_id msg_id, const message_view& message) {
-        std::unique_lock lock{_c2s_mutex};
-        _client_to_server.push(msg_id, message);
+        std::unique_lock lock{_mutex};
+        _client_to_server.back().push(msg_id, message);
     }
 
     /// @brief Sends a message to the client counterpart.
     auto send_to_client(message_id msg_id, const message_view& message)
       -> bool {
-        std::unique_lock lock{_s2c_mutex};
         if(_client_connected) {
-            _server_to_client.push(msg_id, message);
+            std::unique_lock lock{_mutex};
+            _server_to_client.back().push(msg_id, message);
             return true;
         }
         return false;
@@ -68,44 +61,29 @@ public:
     /// @brief Fetches received messages from the client counterpart.
     auto fetch_from_client(connection::fetch_handler handler) noexcept
       -> std::tuple<bool, bool> {
-        std::unique_lock lock{_c2s_mutex};
-        return {_client_to_server.fetch_all(handler), _client_connected};
+        auto& c2s = [this]() -> message_storage& {
+            std::unique_lock lock{_mutex};
+            _client_to_server.swap();
+            return _client_to_server.front();
+        }();
+        return {c2s.fetch_all(handler), _client_connected};
     }
 
     /// @brief Fetches received messages from the service counterpart.
     auto fetch_from_server(connection::fetch_handler handler) noexcept -> bool {
-        std::unique_lock lock{_s2c_mutex};
-        return _server_to_client.fetch_all(handler);
-    }
-
-    void log_message_counts() noexcept {
-        if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
-            {
-                std::unique_lock lock{_s2c_mutex};
-                if(_s2c_count.has_changed(_server_to_client.count())) {
-                    this->log_chart_sample(
-                      EAGINE_ID(s2cMsgCnt), float(_s2c_count.get()));
-                }
-            }
-
-            {
-                std::unique_lock lock{_c2s_mutex};
-                if(_c2s_count.has_changed(_client_to_server.count())) {
-                    this->log_chart_sample(
-                      EAGINE_ID(c2sMsgCnt), float(_c2s_count.get()));
-                }
-            }
-        }
+        auto& s2c = [this]() -> message_storage& {
+            std::unique_lock lock{_mutex};
+            _server_to_client.swap();
+            return _server_to_client.front();
+        }();
+        return s2c.fetch_all(handler);
     }
 
 private:
-    std::mutex _s2c_mutex;
-    std::mutex _c2s_mutex;
-    message_storage _server_to_client;
-    message_storage _client_to_server;
-    value_change_div_tracker<span_size_t, 16> _s2c_count{0};
-    value_change_div_tracker<span_size_t, 16> _c2s_count{0};
-    bool _client_connected{false};
+    std::mutex _mutex;
+    double_buffer<message_storage> _server_to_client;
+    double_buffer<message_storage> _client_to_server;
+    std::atomic<bool> _client_connected{false};
 };
 //------------------------------------------------------------------------------
 /// @brief Class acting as the "address" of a direct connection.
@@ -207,9 +185,6 @@ public:
     }
 
     auto update() -> bool final {
-        if(EAGINE_LIKELY(_state)) {
-            _state->log_message_counts();
-        }
         return false;
     }
 
@@ -235,11 +210,7 @@ public:
         return true;
     }
 
-    void cleanup() final {
-        if(EAGINE_LIKELY(_state)) {
-            _state->log_message_counts();
-        }
-    }
+    void cleanup() final {}
 
 private:
     std::weak_ptr<direct_connection_address> _weak_address;
