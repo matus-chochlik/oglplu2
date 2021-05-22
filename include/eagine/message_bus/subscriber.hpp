@@ -35,14 +35,14 @@ public:
 
     /// @brief Returns a reference to the associated endpoint.
     /// @pre bool(*this)
-    auto bus() noexcept -> auto& {
+    auto bus_node() noexcept -> auto& {
         EAGINE_ASSERT(_endpoint != nullptr);
         return *_endpoint;
     }
 
     /// @brief Returns a const reference to the associated endpoint.
     /// @pre bool(*this)
-    auto bus() const noexcept -> auto& {
+    auto bus_node() const noexcept -> auto& {
         EAGINE_ASSERT(_endpoint != nullptr);
         return *_endpoint;
     }
@@ -218,7 +218,7 @@ protected:
     auto _process_one(span<const handler_entry> msg_handlers) -> bool {
         for(auto& entry : msg_handlers) {
             EAGINE_ASSERT(entry.queue);
-            const message_context msg_ctx{this->bus(), entry.msg_id};
+            const message_context msg_ctx{this->bus_node(), entry.msg_id};
             if(extract(entry.queue).process_all(msg_ctx, entry.handler)) {
                 return true;
             }
@@ -230,7 +230,7 @@ protected:
         span_size_t result{0};
         for(auto& entry : msg_handlers) {
             EAGINE_ASSERT(entry.queue);
-            const message_context msg_ctx{this->bus(), entry.msg_id};
+            const message_context msg_ctx{this->bus_node(), entry.msg_id};
             result += extract(entry.queue).process_all(msg_ctx, entry.handler);
         }
         return result;
@@ -238,7 +238,7 @@ protected:
 
     void _setup_queues(span<handler_entry> msg_handlers) noexcept {
         for(auto& entry : msg_handlers) {
-            entry.queue = &this->bus().ensure_queue(entry.msg_id);
+            entry.queue = &this->bus_node().ensure_queue(entry.msg_id);
         }
     }
 

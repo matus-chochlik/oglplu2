@@ -30,7 +30,7 @@ public:
         message_view message{};
         message.set_target_id(node_id);
         const auto msg_id{EAGINE_MSGBUS_ID(statsQuery)};
-        this->bus().post(msg_id, message);
+        this->bus_node().post(msg_id, message);
     }
 
     /// @brief Broadcasts network statistics query to all message bus nodes.

@@ -67,7 +67,7 @@ public:
     /// @see endpoint_info_received
     void query_endpoint_info(identifier_t endpoint_id) {
         _info.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiEptInf, request));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiEptInf, request));
     }
 
     /// @brief Triggered on receipt of basic endpoint information.

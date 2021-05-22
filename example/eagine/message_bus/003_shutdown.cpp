@@ -41,7 +41,7 @@ public:
             log_info("target ${id} appeared")
               .arg(EAGINE_ID(id), info.endpoint_id);
             _targets.insert(info.endpoint_id);
-            this->bus().post_certificate(info.endpoint_id);
+            this->bus_node().post_certificate(info.endpoint_id);
         }
     }
 

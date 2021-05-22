@@ -28,7 +28,7 @@ namespace msgbus {
 struct fibonacci_server : static_subscriber<2> {
     using this_class = fibonacci_server;
     using base = static_subscriber<2>;
-    using base::bus;
+    using base::bus_node;
 
     fibonacci_server(endpoint& ep)
       : base(
@@ -38,7 +38,7 @@ struct fibonacci_server : static_subscriber<2> {
           EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate)) {}
 
     auto is_ready(const message_context&, stored_message& msg_in) -> bool {
-        bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, IsReady));
+        bus_node().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, IsReady));
         return true;
     }
 
@@ -65,7 +65,8 @@ struct fibonacci_server : static_subscriber<2> {
         // send
         message_view msg_out{sink.done()};
         msg_out.set_serializer_id(write_backend.type_id());
-        bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, Result), msg_out);
+        bus_node().respond_to(
+          msg_in, EAGINE_MSG_ID(Fibonacci, Result), msg_out);
         return true;
     }
 };
@@ -73,7 +74,7 @@ struct fibonacci_server : static_subscriber<2> {
 struct fibonacci_client : static_subscriber<2> {
     using this_class = fibonacci_client;
     using base = static_subscriber<2>;
-    using base::bus;
+    using base::bus_node;
 
     fibonacci_client(endpoint& ep)
       : base(
@@ -88,7 +89,7 @@ struct fibonacci_client : static_subscriber<2> {
 
     void update() {
         if(!_remaining.empty()) {
-            bus().broadcast(EAGINE_MSG_ID(Fibonacci, FindServer));
+            bus_node().broadcast(EAGINE_MSG_ID(Fibonacci, FindServer));
         }
     }
 
@@ -105,7 +106,7 @@ struct fibonacci_client : static_subscriber<2> {
             //
             message_view msg_out{sink.done()};
             msg_out.set_serializer_id(write_backend.type_id());
-            bus().respond_to(
+            bus_node().respond_to(
               msg_in, EAGINE_MSG_ID(Fibonacci, Calculate), msg_out);
         }
         return true;

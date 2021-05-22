@@ -76,7 +76,7 @@ private:
                 EAGINE_MAYBE_UNUSED(errors);
                 message_view msg_out{_sink.done()};
                 msg_out.set_serializer_id(write_backend.type_id());
-                msg_ctx.bus().respond_to(request, response_id, msg_out);
+                msg_ctx.bus_node().respond_to(request, response_id, msg_out);
                 return true;
             }
         }
@@ -99,7 +99,7 @@ private:
         EAGINE_MAYBE_UNUSED(errors);
         message_view msg_out{_sink.done()};
         msg_out.set_serializer_id(write_backend.type_id());
-        msg_ctx.bus().respond_to(request, response_id, msg_out);
+        msg_ctx.bus_node().respond_to(request, response_id, msg_out);
         return true;
     }
 
@@ -158,7 +158,7 @@ public:
 
     auto invoke_by(const message_context& msg_ctx, stored_message& request)
       -> bool {
-        return this->call(msg_ctx.bus(), request, _response_id, _function);
+        return this->call(msg_ctx.bus_node(), request, _response_id, _function);
     }
 
     constexpr auto map_invoke_by(message_id msg_id) noexcept {

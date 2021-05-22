@@ -31,7 +31,7 @@ class fibonacci_server : public actor<3> {
 public:
     using this_class = fibonacci_server;
     using base = actor<3>;
-    using base::bus;
+    using base::bus_node;
 
     fibonacci_server(main_ctx_object obj)
       : base(
@@ -47,7 +47,7 @@ public:
     }
 
     auto is_ready(const message_context&, stored_message& msg_in) -> bool {
-        bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, IsReady));
+        bus_node().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, IsReady));
         return true;
     }
 
@@ -74,7 +74,8 @@ public:
         // send
         message_view msg_out{sink.done()};
         msg_out.set_serializer_id(write_backend.type_id());
-        bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, Result), msg_out);
+        bus_node().respond_to(
+          msg_in, EAGINE_MSG_ID(Fibonacci, Result), msg_out);
         return true;
     }
 
@@ -90,7 +91,7 @@ class fibonacci_client : public actor<2> {
 public:
     using this_class = fibonacci_client;
     using base = actor<2>;
-    using base::bus;
+    using base::bus_node;
 
     fibonacci_client(main_ctx_object obj)
       : base(
@@ -104,12 +105,12 @@ public:
     }
 
     void shutdown() {
-        bus().broadcast(EAGINE_MSG_ID(Fibonacci, Shutdown));
+        bus_node().broadcast(EAGINE_MSG_ID(Fibonacci, Shutdown));
     }
 
     void update() {
         if(!_remaining.empty()) {
-            bus().broadcast(EAGINE_MSG_ID(Fibonacci, FindServer));
+            bus_node().broadcast(EAGINE_MSG_ID(Fibonacci, FindServer));
         }
     }
 
@@ -125,7 +126,7 @@ public:
             serialize(arg, write_backend);
             message_view msg_out{sink.done()};
             msg_out.set_serializer_id(write_backend.type_id());
-            bus().respond_to(
+            bus_node().respond_to(
               msg_in, EAGINE_MSG_ID(Fibonacci, Calculate), msg_out);
         }
         return true;

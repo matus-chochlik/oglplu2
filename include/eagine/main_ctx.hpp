@@ -105,7 +105,7 @@ public:
         return _watchdog;
     }
 
-    auto msg_bus() noexcept -> message_bus& final {
+    auto bus() noexcept -> message_bus& final {
         return _msg_bus;
     }
 

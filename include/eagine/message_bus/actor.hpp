@@ -42,7 +42,7 @@ public:
     auto operator=(const actor&) = delete;
 
     /// @brief Returns a reference to the associated endpoint.
-    auto bus() noexcept -> endpoint& {
+    auto bus_node() noexcept -> endpoint& {
         return _endpoint;
     }
 

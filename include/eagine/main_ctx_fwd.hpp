@@ -81,7 +81,7 @@ struct main_ctx_getters : interface<main_ctx_getters> {
     virtual auto watchdog() noexcept -> process_watchdog& = 0;
 
     /// @brief Returns a reference to message bus facade object.
-    virtual auto msg_bus() noexcept -> message_bus& = 0;
+    virtual auto bus() noexcept -> message_bus& = 0;
 
     /// @brief Returns a reference to shared data compressor object.
     virtual auto compressor() noexcept -> data_compressor& = 0;

@@ -26,7 +26,7 @@ registry::registry(main_ctx_parent parent)
   , _router{*this} {
     _router.add_acceptor(_acceptor);
 
-    main_context().msg_bus().setup_connectors(_router);
+    setup_bus_connectors(_router);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

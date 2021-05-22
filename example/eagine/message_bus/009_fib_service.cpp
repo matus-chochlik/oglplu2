@@ -30,7 +30,7 @@ namespace msgbus {
 struct fibonacci_server : static_subscriber<2> {
     using this_class = fibonacci_server;
     using base = static_subscriber<2>;
-    using base::bus;
+    using base::bus_node;
 
     fibonacci_server(endpoint& ep)
       : base(
@@ -40,7 +40,7 @@ struct fibonacci_server : static_subscriber<2> {
           EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate)) {}
 
     auto is_ready(const message_context&, stored_message& msg_in) -> bool {
-        bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, IsReady));
+        bus_node().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, IsReady));
         return true;
     }
 
@@ -56,7 +56,7 @@ struct fibonacci_server : static_subscriber<2> {
           block_data_sink,
           block_data_source,
           64>()
-          .call(bus(), msg_in, EAGINE_MSG_ID(Fibonacci, Result), {&fib});
+          .call(bus_node(), msg_in, EAGINE_MSG_ID(Fibonacci, Result), {&fib});
         return true;
     }
 };
@@ -64,7 +64,7 @@ struct fibonacci_server : static_subscriber<2> {
 struct fibonacci_client : static_subscriber<2> {
     using this_class = fibonacci_client;
     using base = static_subscriber<2>;
-    using base::bus;
+    using base::bus_node;
 
     fibonacci_client(endpoint& ep)
       : base(
@@ -79,7 +79,7 @@ struct fibonacci_client : static_subscriber<2> {
 
     void update() {
         if(!_remaining.empty()) {
-            bus().broadcast(EAGINE_MSG_ID(Fibonacci, FindServer));
+            bus_node().broadcast(EAGINE_MSG_ID(Fibonacci, FindServer));
         }
     }
 
@@ -90,7 +90,7 @@ struct fibonacci_client : static_subscriber<2> {
 
             _calc_invoker
               .invoke_on(
-                bus(),
+                bus_node(),
                 msg_in.source_id,
                 EAGINE_MSG_ID(Fibonacci, Calculate),
                 arg)

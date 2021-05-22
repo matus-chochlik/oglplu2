@@ -188,7 +188,7 @@ public:
 
         for_each_sudoku_rank_unit(
           [&](auto& info) {
-              if(info.update(this->bus(), _compressor)) {
+              if(info.update(this->bus_node(), _compressor)) {
                   something_done();
               }
           },
@@ -254,7 +254,7 @@ private:
 
         if(EAGINE_LIKELY(deserialized)) {
             info.add_board(
-              this->bus(),
+              this->bus_node(),
               message.source_id,
               message.sequence_no,
               std::move(board));
@@ -398,11 +398,11 @@ public:
 
     void init() {
         Base::init();
-        this->bus().id_assigned.connect(
+        this->bus_node().id_assigned.connect(
           EAGINE_THIS_MEM_FUNC_REF(on_id_assigned));
-        this->bus().connection_established.connect(
+        this->bus_node().connection_established.connect(
           EAGINE_THIS_MEM_FUNC_REF(on_connection_established));
-        this->bus().connection_lost.connect(
+        this->bus_node().connection_lost.connect(
           EAGINE_THIS_MEM_FUNC_REF(on_connection_lost));
     }
 
@@ -412,12 +412,12 @@ public:
 
     void on_connection_established(bool usable) {
         _can_work = usable;
-        this->bus().log_info("connection established");
+        this->bus_node().log_info("connection established");
     }
 
     void on_connection_lost() {
         _can_work = false;
-        this->bus().log_warning("connection lost");
+        this->bus_node().log_warning("connection lost");
     }
 
     auto update() -> bool {
@@ -428,8 +428,9 @@ public:
           [&](auto& info) {
               something_done(info.handle_timeouted(*this));
               if(EAGINE_LIKELY(_can_work)) {
-                  something_done(info.send_boards(this->bus(), _compressor));
-                  something_done(info.search_helpers(this->bus()));
+                  something_done(
+                    info.send_boards(this->bus_node(), _compressor));
+                  something_done(info.search_helpers(this->bus_node()));
               }
           },
           _infos);
@@ -619,7 +620,7 @@ private:
                 }),
               pending.end());
             if(count > 0) {
-                solver.bus()
+                solver.bus_node()
                   .log_warning("replacing ${count} timeouted boards")
                   .arg(EAGINE_ID(count), count)
                   .arg(EAGINE_ID(enqueued), key_boards.size())
@@ -772,7 +773,7 @@ private:
             used_helpers.clear();
             solution_timeout.reset();
 
-            parent.bus()
+            parent.bus_node()
               .log_info("reset sudoku solution")
               .arg(EAGINE_ID(rank), S);
         }
@@ -1219,7 +1220,7 @@ private:
         void
         initialize(This& solver, int x, int y, basic_sudoku_board<S> board) {
             solver.enqueue({x, y}, std::move(board));
-            solver.bus()
+            solver.bus_node()
               .log_debug("enqueuing initial board (${x}, ${y})")
               .arg(EAGINE_ID(x), x)
               .arg(EAGINE_ID(y), y)
@@ -1330,7 +1331,7 @@ private:
             }
             if(should_enqueue) {
                 solver.enqueue({x, y}, board.calculate_alternatives());
-                solver.bus()
+                solver.bus_node()
                   .log_debug("enqueuing board (${x}, ${y})")
                   .arg(EAGINE_ID(x), x)
                   .arg(EAGINE_ID(y), y)
@@ -1359,7 +1360,7 @@ private:
           basic_sudoku_board<S> board) {
 
             if(this->set_board(coord, std::move(board))) {
-                solver.bus()
+                solver.bus_node()
                   .log_info("solved board (${x}, ${y})")
                   .arg(EAGINE_ID(rank), S)
                   .arg(EAGINE_ID(x), std::get<0>(coord))
@@ -1384,7 +1385,7 @@ private:
             for(const auto& p : helper_contrib) {
                 max_count = std::max(max_count, std::get<1>(p));
             }
-            solver.bus()
+            solver.bus_node()
               .log_stat("solution contributions by helpers")
               .arg(EAGINE_ID(rank), S)
               .arg_func([this, max_count](logger_backend& backend) {

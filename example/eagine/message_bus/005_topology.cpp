@@ -58,8 +58,8 @@ public:
         std::cout << "\n";
 
         std::cout << "	node [shape=box;color=\"#B0E0B0\"]\n";
-        std::cout << "	n" << this->bus().get_id()
-                  << "[label=\"Self\\nEndpoint-" << this->bus().get_id()
+        std::cout << "	n" << this->bus_node().get_id()
+                  << "[label=\"Self\\nEndpoint-" << this->bus_node().get_id()
                   << "\"]\n";
 
         for(auto id : _endpoints) {

@@ -636,7 +636,7 @@ public:
       : _bus{ep}
       , _msg_id{std::move(mi)} {}
 
-    auto bus() const noexcept -> endpoint& {
+    auto bus_node() const noexcept -> endpoint& {
         return _bus;
     }
 
