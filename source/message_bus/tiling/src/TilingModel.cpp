@@ -6,8 +6,7 @@
 
 #include "TilingModel.hpp"
 #include <eagine/memory/span_algo.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/router_address.hpp>
+#include <eagine/message_bus.hpp>
 #include <QVariant>
 #include <algorithm>
 //------------------------------------------------------------------------------
@@ -16,9 +15,7 @@ TilingModel::TilingModel(eagine::main_ctx_parent parent)
   , eagine::main_ctx_object{EAGINE_ID(TilngModel), parent}
   , _bus{EAGINE_ID(TrckrEndpt), *this}
   , _tiling{_bus} {
-    eagine::msgbus::router_address address{*this};
-    eagine::msgbus::connection_setup conn_setup{*this};
-    conn_setup.setup_connectors(_tiling, address);
+    setup_bus_connectors(_tiling);
 
     auto& info = _tiling.provided_endpoint_info();
     info.display_name = "sudoku tiling generator";

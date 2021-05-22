@@ -7,8 +7,7 @@
 
 #include <eagine/main_ctx.hpp>
 #include <eagine/main_fwd.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/router_address.hpp>
+#include <eagine/message_bus.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/common_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
@@ -22,26 +21,24 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using pingable_node_base =
-  service_composition<shutdown_target<pingable<common_info_providers<>>>>;
+using pingable_base = shutdown_target<pingable<common_info_providers<>>>;
 
-class pingable_node
-  : public main_ctx_object
-  , public pingable_node_base {
-    using base = pingable_node_base;
+class pingable_node : public service_node<pingable_base> {
+    using base = service_node<pingable_base>;
 
 public:
     auto on_shutdown_slot() noexcept {
         return EAGINE_THIS_MEM_FUNC_REF(on_shutdown);
     }
 
-    pingable_node(endpoint& bus)
-      : main_ctx_object{EAGINE_ID(PngablNode), bus}
-      , base{bus} {
+    pingable_node(main_ctx_parent parent)
+      : base{EAGINE_ID(PngablNode), parent} {
         shutdown_requested.connect(on_shutdown_slot());
         auto& info = provided_endpoint_info();
         info.display_name = "pingable node";
         info.description = "simple generic pingable node";
+
+        setup_bus_connectors(*this);
     }
 
     auto respond_to_ping(identifier_t, message_sequence_t, verification_bits)
@@ -93,20 +90,15 @@ private:
 auto main(main_ctx& ctx) -> int {
     ctx.preinitialize();
 
-    msgbus::router_address address{ctx};
-    msgbus::connection_setup conn_setup(ctx);
-
-    msgbus::endpoint bus{main_ctx_object{EAGINE_ID(PngablEndp), ctx}};
+    msgbus::pingable_node the_pingable{
+      main_ctx_object{EAGINE_ID(PngablEndp), ctx}};
 
     if(auto id_arg{ctx.args().find("--pingable-id").next()}) {
         identifier_t id{0};
         if(id_arg.parse(id, ctx.log().error_stream())) {
-            bus.preconfigure_id(id);
+            the_pingable.bus_node().preconfigure_id(id);
         }
     }
-
-    msgbus::pingable_node the_pingable{bus};
-    conn_setup.setup_connectors(the_pingable, address);
 
     while(!the_pingable.is_done()) {
         if(!the_pingable.update_and_process_all()) {

@@ -10,11 +10,10 @@
 #include <eagine/main_ctx.hpp>
 #include <eagine/main_fwd.hpp>
 #include <eagine/math/functions.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/message_bus.hpp>
 #include <eagine/message_bus/direct.hpp>
 #include <eagine/message_bus/endpoint.hpp>
 #include <eagine/message_bus/router.hpp>
-#include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service/common_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
@@ -127,13 +126,10 @@ auto main(main_ctx& ctx) -> int {
     auto local_acceptor{std::make_unique<msgbus::direct_acceptor>(ctx)};
     auto node_connection{local_acceptor->make_connection()};
 
-    msgbus::router_address address(ctx);
-    msgbus::connection_setup conn_setup(ctx);
-
     msgbus::router router(ctx);
     router.add_ca_certificate_pem(ca_certificate_pem(ctx));
     router.add_certificate_pem(msgbus_router_certificate_pem(ctx));
-    conn_setup.setup_acceptors(router, address);
+    ctx.bus().setup_acceptors(router);
     router.add_acceptor(std::move(local_acceptor));
 
     std::uintmax_t cycles_work{0};
