@@ -10,6 +10,7 @@
 #define EAGINE_MESSAGE_BUS_SERVICE_SUDOKU_HPP
 
 #include "../../bool_aggregate.hpp"
+#include "../../flat_map.hpp"
 #include "../../flat_set.hpp"
 #include "../../int_constant.hpp"
 #include "../../math/functions.hpp"
@@ -291,7 +292,7 @@ private:
           identifier_t source_id,
           message_sequence_t sequence_no,
           basic_sudoku_board<S> board) {
-            if(EAGINE_LIKELY(boards.size() < 8)) {
+            if(EAGINE_LIKELY(boards.size() <= 8)) {
                 searches.insert(source_id);
                 boards.emplace_back(source_id, sequence_no, std::move(board));
             } else {
@@ -558,6 +559,7 @@ private:
         std::vector<pending_info> pending;
 
         flat_set<identifier_t> ready_helpers;
+        flat_map<identifier_t, timeout> used_helpers;
 
         std::default_random_engine randeng{std::random_device{}()};
 
@@ -614,6 +616,7 @@ private:
                                   }
                               });
                         }
+                        used_helpers.erase(entry.used_helper);
                         return true;
                     }
                     return false;
@@ -712,29 +715,42 @@ private:
                 }
 
                 ready_helpers.erase(helper_id);
+                used_helpers[helper_id].reset(std::chrono::seconds(S));
                 return true;
             }
             return false;
         }
 
+        auto find_helpers(span<identifier_t> dst) const
+          -> span<const identifier_t> {
+            span_size_t done = 0;
+            for(const auto helper_id : ready_helpers) {
+                if(done < dst.size()) {
+                    const auto upos = used_helpers.find(helper_id);
+                    const auto is_usable = upos != used_helpers.end()
+                                             ? upos->second.is_expired()
+                                             : true;
+                    if(is_usable) {
+                        dst[done++] = helper_id;
+                    }
+                } else {
+                    break;
+                }
+            }
+            return head(dst, done);
+        }
+
         auto send_boards(endpoint& bus, data_compressor& compressor) -> bool {
             some_true something_done;
 
-            for(const auto i : integer_range(4)) {
-                EAGINE_MAYBE_UNUSED(i);
-                if(ready_helpers.empty()) {
-                    break;
-                }
-                std::uniform_int_distribution<std::size_t> dist(
-                  0U, ready_helpers.size() - 1U);
-                const auto pos =
-                  std::next(ready_helpers.begin(), dist(randeng));
-
-                if(!send_board_to(bus, compressor, *pos)) {
+            std::array<identifier_t, 8> helper_ids{};
+            for(const auto helper_id : find_helpers(cover(helper_ids))) {
+                if(!send_board_to(bus, compressor, helper_id)) {
                     break;
                 }
                 something_done();
             }
+
             return something_done;
         }
 
@@ -745,6 +761,7 @@ private:
               });
             if(pos != pending.end()) {
                 ready_helpers.insert(pos->used_helper);
+                used_helpers.erase(pos->used_helper);
                 pending.erase(pos);
             }
         }
@@ -769,6 +786,7 @@ private:
         void reset(This& parent) noexcept {
             key_boards.clear();
             pending.clear();
+            used_helpers.clear();
             solution_timeout.reset();
 
             parent.bus_node()
