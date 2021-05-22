@@ -291,7 +291,7 @@ private:
           identifier_t source_id,
           message_sequence_t sequence_no,
           basic_sudoku_board<S> board) {
-            if(EAGINE_LIKELY(boards.size() < 16)) {
+            if(EAGINE_LIKELY(boards.size() < 8)) {
                 searches.insert(source_id);
                 boards.emplace_back(source_id, sequence_no, std::move(board));
             } else {
@@ -305,7 +305,7 @@ private:
             const unsigned_constant<S> rank{};
             some_true something_done;
 
-            if(boards.size() < 12) {
+            if(boards.size() < 6) {
                 for(auto target_id : searches) {
                     message_view response{};
                     response.set_target_id(target_id);
@@ -720,7 +720,7 @@ private:
         auto send_boards(endpoint& bus, data_compressor& compressor) -> bool {
             some_true something_done;
 
-            for(const auto i : integer_range(4)) {
+            for(const auto i : integer_range(6)) {
                 EAGINE_MAYBE_UNUSED(i);
                 if(ready_helpers.empty()) {
                     break;
