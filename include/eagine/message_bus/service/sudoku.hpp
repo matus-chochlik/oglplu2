@@ -291,7 +291,7 @@ private:
           identifier_t source_id,
           message_sequence_t sequence_no,
           basic_sudoku_board<S> board) {
-            if(EAGINE_LIKELY(boards.size() < 8)) {
+            if(EAGINE_LIKELY(boards.size() < 16)) {
                 searches.insert(source_id);
                 boards.emplace_back(source_id, sequence_no, std::move(board));
             } else {
@@ -305,11 +305,13 @@ private:
             const unsigned_constant<S> rank{};
             some_true something_done;
 
-            for(auto target_id : searches) {
-                message_view response{};
-                response.set_target_id(target_id);
-                bus.post(sudoku_alive_msg(rank), response);
-                something_done();
+            if(boards.size() < 12) {
+                for(auto target_id : searches) {
+                    message_view response{};
+                    response.set_target_id(target_id);
+                    bus.post(sudoku_alive_msg(rank), response);
+                    something_done();
+                }
             }
             searches.clear();
 
@@ -556,7 +558,6 @@ private:
         std::vector<pending_info> pending;
 
         flat_set<identifier_t> ready_helpers;
-        flat_set<identifier_t> used_helpers;
 
         std::default_random_engine randeng{std::random_device{}()};
 
@@ -595,7 +596,6 @@ private:
                 pending.end(),
                 [&](auto& entry) {
                     if(entry.too_late) {
-                        used_helpers.erase(entry.used_helper);
                         const unsigned_constant<S> rank{};
                         if(!solver.already_done(entry.key, rank)) {
                             entry.board.for_each_alternative(
@@ -626,7 +626,6 @@ private:
                   .arg(EAGINE_ID(enqueued), key_boards.size())
                   .arg(EAGINE_ID(pending), pending.size())
                   .arg(EAGINE_ID(ready), ready_helpers.size())
-                  .arg(EAGINE_ID(used), used_helpers.size())
                   .arg(EAGINE_ID(rank), S);
             }
             return count > 0;
@@ -712,7 +711,6 @@ private:
                     key_boards.erase(kbpos);
                 }
 
-                used_helpers.insert(helper_id);
                 ready_helpers.erase(helper_id);
                 return true;
             }
@@ -722,7 +720,11 @@ private:
         auto send_boards(endpoint& bus, data_compressor& compressor) -> bool {
             some_true something_done;
 
-            while(!ready_helpers.empty()) {
+            for(const auto i : integer_range(4)) {
+                EAGINE_MAYBE_UNUSED(i);
+                if(ready_helpers.empty()) {
+                    break;
+                }
                 std::uniform_int_distribution<std::size_t> dist(
                   0U, ready_helpers.size() - 1U);
                 const auto pos =
@@ -742,16 +744,13 @@ private:
                   return entry.sequence_no == sequence_no;
               });
             if(pos != pending.end()) {
-                used_helpers.erase(pos->used_helper);
                 ready_helpers.insert(pos->used_helper);
                 pending.erase(pos);
             }
         }
 
         void helper_alive(identifier_t id) {
-            if(used_helpers.find(id) == used_helpers.end()) {
-                ready_helpers.insert(id);
-            }
+            ready_helpers.insert(id);
         }
 
         auto has_enqueued(const Key& key) -> bool {
@@ -770,7 +769,6 @@ private:
         void reset(This& parent) noexcept {
             key_boards.clear();
             pending.clear();
-            used_helpers.clear();
             solution_timeout.reset();
 
             parent.bus_node()
