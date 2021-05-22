@@ -720,7 +720,7 @@ private:
         auto send_boards(endpoint& bus, data_compressor& compressor) -> bool {
             some_true something_done;
 
-            for(const auto i : integer_range(6)) {
+            for(const auto i : integer_range(4)) {
                 EAGINE_MAYBE_UNUSED(i);
                 if(ready_helpers.empty()) {
                     break;
