@@ -37,6 +37,18 @@ ${install_prefix}/bin/eagine-message_bus-tiling \
 	--msg-bus-router-address /tmp/sudoku_t \
 	& pids+=($!)
 sleep 1
+${install_prefix}/bin/eagine-message_bus-sudoku_tiling \
+	"${log_args[@]}" \
+	"${conn_type}" \
+	--msg-bus-router-address /tmp/sudoku_t \
+	--msg-bus-sudoku-solver-block-cells false \
+	--msg-bus-sudoku-solver-print-incomplete false \
+	--msg-bus-sudoku-solver-print-progress true \
+	--msg-bus-sudoku-solver-rank 4 \
+	--msg-bus-sudoku-solver-width  256 \
+	--msg-bus-sudoku-solver-height 256 \
+	& termpids+=($!)
+sleep 1
 for ssh_host in "${@}"
 do
 	"${install_prefix}/bin/eagine-message_bus-bridge" \
