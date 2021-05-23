@@ -8,24 +8,27 @@
 width=128
 height=128
 rank=4
+gui=0
 ssh_hosts=()
 
 while true
 do
 	case "${1}" in
 		--width)
-			width=${2}
+			let width=${2}
 			shift;;
 		--height)
-			height=${2}
+			let height=${2}
 			shift;;
 		--size)
-			width=${2}
-			height=${2}
+			let width=${2}
+			let height=${2}
 			shift;;
 		--rank)
-			rank=${2}
+			let rank=${2}
 			shift;;
+		--gui)
+			let gui=1;;
 		"") break;;
 		*) ssh_hosts+=(${1});;
 	esac
@@ -53,16 +56,27 @@ sleep 1
 	& termpids+=($!)
 sleep 1
 div=$((rank * (rank - 2)))
-"$(dirname ${0})/eagine-message_bus-sudoku_tiling" \
-	"${log_args[@]}" \
-	"${conn_args[@]}" \
-	--msg-bus-sudoku-solver-block-cells false \
-	--msg-bus-sudoku-solver-print-incomplete false \
-	--msg-bus-sudoku-solver-print-progress true \
-	--msg-bus-sudoku-solver-rank ${rank} \
-	--msg-bus-sudoku-solver-width  $(((width / div) * div)) \
-	--msg-bus-sudoku-solver-height $(((height/ div) * div)) \
-	& pids+=($!)
+if [[ ${gui} -ne 0 ]]
+then
+	"$(dirname ${0})/eagine-message_bus-tiling" \
+		"${log_args[@]}" \
+		"${conn_args[@]}" \
+		--msg-bus-sudoku-solver-rank ${rank} \
+		--msg-bus-sudoku-solver-width  $(((width / div) * div)) \
+		--msg-bus-sudoku-solver-height $(((height/ div) * div)) \
+		& pids+=($!)
+else
+	"$(dirname ${0})/eagine-message_bus-sudoku_tiling" \
+		"${log_args[@]}" \
+		"${conn_args[@]}" \
+		--msg-bus-sudoku-solver-block-cells false \
+		--msg-bus-sudoku-solver-print-incomplete false \
+		--msg-bus-sudoku-solver-print-progress true \
+		--msg-bus-sudoku-solver-rank ${rank} \
+		--msg-bus-sudoku-solver-width  $(((width / div) * div)) \
+		--msg-bus-sudoku-solver-height $(((height/ div) * div)) \
+		& pids+=($!)
+fi
 sleep 1
 for ssh_host in "${ssh_hosts[@]}"
 do
