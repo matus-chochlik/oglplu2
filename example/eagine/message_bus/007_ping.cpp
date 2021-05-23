@@ -9,8 +9,7 @@
 #include <eagine/main_ctx.hpp>
 #include <eagine/main_fwd.hpp>
 #include <eagine/math/functions.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/router_address.hpp>
+#include <eagine/message_bus.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/discovery.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
@@ -289,9 +288,6 @@ private:
 auto main(main_ctx& ctx) -> int {
     ctx.preinitialize();
 
-    msgbus::router_address address{ctx};
-    msgbus::connection_setup conn_setup(ctx);
-
     msgbus::endpoint bus{EAGINE_ID(PingEndpt), ctx};
 
     valid_if_positive<std::intmax_t> ping_count{};
@@ -300,7 +296,7 @@ auto main(main_ctx& ctx) -> int {
     }
 
     msgbus::ping_example the_pinger{bus, ping_count};
-    conn_setup.setup_connectors(the_pinger, address);
+    ctx.bus().setup_connectors(the_pinger);
 
     resetting_timeout do_chart_stats{std::chrono::seconds(15), nothing};
 

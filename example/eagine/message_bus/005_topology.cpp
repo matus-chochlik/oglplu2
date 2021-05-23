@@ -7,8 +7,7 @@
 ///
 #include "lib_common_pki.hpp"
 #include <eagine/main.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/router_address.hpp>
+#include <eagine/message_bus.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/topology.hpp>
@@ -131,16 +130,13 @@ auto main(main_ctx& ctx) -> int {
 
     signal_switch interrupted;
 
-    msgbus::router_address address{ctx};
-    msgbus::connection_setup conn_setup(ctx);
-
     msgbus::endpoint bus{EAGINE_ID(TopologyEx), ctx};
     bus.add_ca_certificate_pem(ca_certificate_pem(ctx));
     bus.add_certificate_pem(msgbus_endpoint_certificate_pem(ctx));
 
     msgbus::topology_printer topo_prn{bus};
 
-    conn_setup.setup_connectors(topo_prn, address);
+    ctx.bus().setup_connectors(topo_prn);
     timeout waited_enough{std::chrono::seconds(30)};
     resetting_timeout resend_query{std::chrono::seconds(5), nothing};
 

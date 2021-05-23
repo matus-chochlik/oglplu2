@@ -7,8 +7,7 @@
 ///
 #include <eagine/main_ctx.hpp>
 #include <eagine/main_fwd.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/router_address.hpp>
+#include <eagine/message_bus.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/build_info.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
@@ -89,9 +88,6 @@ auto main(main_ctx& ctx) -> int {
 
     ctx.preinitialize();
 
-    msgbus::router_address address{ctx};
-    msgbus::connection_setup conn_setup(ctx);
-
     msgbus::endpoint bus{main_ctx_object{EAGINE_ID(PongEndpt), ctx}};
 
     if(auto id_arg{ctx.args().find("--pingable-id").next()}) {
@@ -102,7 +98,7 @@ auto main(main_ctx& ctx) -> int {
     }
 
     msgbus::pong_example the_ponger{bus};
-    conn_setup.setup_connectors(the_ponger, address);
+    ctx.bus().setup_connectors(the_ponger);
 
     while(!the_ponger.is_done()) {
         the_ponger.process_all();

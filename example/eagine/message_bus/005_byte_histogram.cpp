@@ -10,9 +10,8 @@
 #include <eagine/main.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/memory/span_algo.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/message_bus.hpp>
 #include <eagine/message_bus/endpoint.hpp>
-#include <eagine/message_bus/router_address.hpp>
 #include <eagine/timeout.hpp>
 #include <array>
 #include <thread>
@@ -58,14 +57,11 @@ auto main(main_ctx& ctx) -> int {
           return blobs.make_io(size);
       };
 
-    msgbus::router_address address{ctx};
-    msgbus::connection_setup conn_setup(ctx);
-
     msgbus::endpoint bus{
       main_ctx_object{EAGINE_ID(Temporary), ctx},
       msgbus::endpoint::blob_io_getter{get_blob_io}};
 
-    conn_setup.setup_connectors(bus, address);
+    ctx.bus().setup_connectors(bus);
 
     timeout idle_too_long{std::chrono::seconds{4}};
     while(!idle_too_long) {

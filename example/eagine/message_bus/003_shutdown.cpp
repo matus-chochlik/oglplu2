@@ -7,8 +7,7 @@
 ///
 #include "lib_common_pki.hpp"
 #include <eagine/main.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/router_address.hpp>
+#include <eagine/message_bus.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/discovery.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
@@ -75,15 +74,12 @@ private:
 
 auto main(main_ctx& ctx) -> int {
 
-    msgbus::router_address address{ctx};
-    msgbus::connection_setup conn_setup(ctx);
-
     msgbus::endpoint bus{EAGINE_ID(ShutdownEx), ctx};
     bus.add_ca_certificate_pem(ca_certificate_pem(ctx));
     bus.add_certificate_pem(msgbus_endpoint_certificate_pem(ctx));
 
     msgbus::shutdown_trigger trgr{bus};
-    conn_setup.setup_connectors(trgr, address);
+    ctx.bus().setup_connectors(trgr);
 
     timeout wait_done{std::chrono::seconds(30)};
 
