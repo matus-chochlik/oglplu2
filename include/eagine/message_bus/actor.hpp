@@ -57,16 +57,16 @@ public:
 
     /// @brief Processes a single enqueued message for which there is a handler.
     /// @see process_all
-    void process_one() {
+    auto process_one() {
         _endpoint.update();
-        _subscriber.process_one();
+        return _subscriber.process_one();
     }
 
     /// @brief Processes all enqueued messages for which there are handlers.
     /// @see process_one
-    void process_all() {
+    auto process_all() {
         _endpoint.update();
-        _subscriber.process_all();
+        return _subscriber.process_all();
     }
 
 protected:

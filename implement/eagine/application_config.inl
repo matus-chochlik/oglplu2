@@ -17,6 +17,7 @@
 #include <cctype>
 #include <filesystem>
 #include <map>
+#include <mutex>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -51,6 +52,7 @@ public:
     auto find_compound_attribute(string_view key, string_view tag) noexcept
       -> valtree::compound_attribute {
         try {
+            std::unique_lock lck{_mutex};
             _tag_list[0] = tag;
             const auto tags{skip_until(
               view(_tag_list), [](auto t) { return !t.is_empty(); })};
@@ -173,6 +175,7 @@ private:
         return pos->second;
     }
 
+    std::mutex _mutex;
     std::map<std::string, valtree::compound> _open_configs;
     std::vector<string_view> _tag_list;
     std::string _config_name;

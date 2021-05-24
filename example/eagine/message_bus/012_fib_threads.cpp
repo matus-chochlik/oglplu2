@@ -179,7 +179,10 @@ auto main(main_ctx& ctx) -> int {
               server.add_connection(std::move(connection));
 
               while(!server.is_done()) {
-                  server.process_one();
+                  if(!server.process_one()) {
+                      std::this_thread::sleep_for(
+                        std::chrono::milliseconds(10));
+                  }
               }
           });
     }
@@ -196,7 +199,9 @@ auto main(main_ctx& ctx) -> int {
     while(!client.is_done()) {
         router.update();
         client.update();
-        client.process_one();
+        if(!client.process_one()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
     }
 
     client.shutdown();

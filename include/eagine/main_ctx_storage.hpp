@@ -49,6 +49,7 @@ public:
     }
 
     auto preinitialize() noexcept -> main_ctx_storage& final {
+        _app_config.preinitialize();
         _sys_info.preinitialize();
         return *this;
     }

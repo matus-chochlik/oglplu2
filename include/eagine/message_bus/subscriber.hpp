@@ -431,13 +431,13 @@ public:
         add_method(instance, msg_map.msg_id(), msg_map.method());
     }
 
-    /// @brief Handles (and removes) one of poending received messages.
+    /// @brief Handles (and removes) one of pending received messages.
     /// @see process_all
     auto process_one() -> bool {
         return this->_process_one(view(_msg_handlers));
     }
 
-    /// @brief Handles (and removes) all poending received messages.
+    /// @brief Handles (and removes) all pending received messages.
     /// @see process_one
     auto process_all() -> span_size_t {
         return this->_process_all(view(_msg_handlers));
