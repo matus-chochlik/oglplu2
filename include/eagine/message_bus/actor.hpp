@@ -88,7 +88,10 @@ protected:
       typename Class,
       typename... MsgMaps,
       typename = std::enable_if_t<sizeof...(MsgMaps) == N>>
-    actor(main_ctx_object obj, Class* instance, MsgMaps... msg_maps)
+    actor(
+      main_ctx_object obj, // NOLINT(performance-unnecessary-value-param)
+      Class* instance,
+      MsgMaps... msg_maps)
       : _endpoint{_make_endpoint(
           std::move(obj),
           EAGINE_THIS_MEM_FUNC_REF(_process_message))}

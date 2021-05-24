@@ -52,14 +52,7 @@ auto main(main_ctx& ctx) -> int {
         return true;
     };
 
-    auto get_blob_io =
-      [](message_id, span_size_t size, msgbus::blob_manipulator& blobs) {
-          return blobs.make_io(size);
-      };
-
-    msgbus::endpoint bus{
-      main_ctx_object{EAGINE_ID(Temporary), ctx},
-      msgbus::endpoint::blob_io_getter{get_blob_io}};
+    msgbus::endpoint bus{main_ctx_object{EAGINE_ID(Temporary), ctx}};
 
     ctx.bus().setup_connectors(bus);
 

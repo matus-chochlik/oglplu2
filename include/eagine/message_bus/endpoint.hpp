@@ -64,10 +64,6 @@ public:
     endpoint(identifier id, main_ctx_parent parent) noexcept
       : main_ctx_object{id, parent} {}
 
-    explicit endpoint(main_ctx_object obj, blob_io_getter get_blob_io) noexcept
-      : main_ctx_object{std::move(obj)}
-      , _get_blob_io{std::move(get_blob_io)} {}
-
     /// @brief Not copy constructible.
     endpoint(const endpoint&) = delete;
     /// @brief Not move assignable.
@@ -422,7 +418,7 @@ private:
     timeout _no_id_timeout{
       cfg_init(
         "msg_bus.endpoint.no_id_timeout",
-        adjusted_duration(std::chrono::seconds{2})),
+        adjusted_duration(std::chrono::seconds{3})),
       nothing};
 
     resetting_timeout _should_notify_alive{
@@ -464,12 +460,9 @@ private:
     }
 
     blob_manipulator _blobs{*this};
-    blob_io_getter _get_blob_io{};
 
     auto _cleanup_blobs() -> bool;
     auto _process_blobs() -> bool;
-    auto _do_get_blob_io(message_id, span_size_t, blob_manipulator&)
-      -> std::unique_ptr<blob_io>;
 
     auto _default_store_handler() noexcept -> fetch_handler {
         return EAGINE_THIS_MEM_FUNC_REF(_store_message);
@@ -502,14 +495,6 @@ private:
       : main_ctx_object{std::move(obj)}
       , _store_handler{std::move(store_message)} {}
 
-    explicit endpoint(
-      main_ctx_object obj,
-      blob_io_getter get_blob_io,
-      fetch_handler store_message) noexcept
-      : main_ctx_object{std::move(obj)}
-      , _get_blob_io{std::move(get_blob_io)}
-      , _store_handler{std::move(store_message)} {}
-
     endpoint(endpoint&& temp) noexcept
       : main_ctx_object{static_cast<main_ctx_object&&>(temp)}
       , _context{std::move(temp._context)}
@@ -520,10 +505,7 @@ private:
       , _incoming{std::move(temp._incoming)}
       , _blobs{std::move(temp._blobs)} {}
 
-    endpoint(
-      endpoint&& temp,
-      blob_io_getter get_blob_io,
-      fetch_handler store_message) noexcept
+    endpoint(endpoint&& temp, fetch_handler store_message) noexcept
       : main_ctx_object{static_cast<main_ctx_object&&>(temp)}
       , _context{std::move(temp._context)}
       , _preconfd_id{std::exchange(temp._preconfd_id, invalid_id())}
@@ -532,7 +514,6 @@ private:
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
       , _blobs{std::move(temp._blobs)}
-      , _get_blob_io{std::move(get_blob_io)}
       , _store_handler{std::move(store_message)} {}
 };
 //------------------------------------------------------------------------------
@@ -546,24 +527,10 @@ protected:
         return endpoint{std::move(obj), store_message};
     }
 
-    static auto _make_endpoint(
-      main_ctx_object obj,
-      endpoint::blob_io_getter get_blob_io,
-      endpoint::fetch_handler store_message) noexcept {
-        return endpoint{std::move(obj), get_blob_io, store_message};
-    }
-
     static auto _move_endpoint(
       endpoint&& bus,
       endpoint::fetch_handler store_message) noexcept {
-        return endpoint{std::move(bus), {}, store_message};
-    }
-
-    static auto _move_endpoint(
-      endpoint&& bus,
-      endpoint::blob_io_getter get_blob_io,
-      endpoint::fetch_handler store_message) noexcept {
-        return endpoint{std::move(bus), get_blob_io, store_message};
+        return endpoint{std::move(bus), store_message};
     }
 
     inline auto _accept_message(

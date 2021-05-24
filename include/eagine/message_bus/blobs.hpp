@@ -160,6 +160,7 @@ public:
       memory::const_block fragment,
       message_priority priority) -> bool;
 
+    auto process_incoming(const message_view& message) -> bool;
     auto process_incoming(io_getter get_io, const message_view& message)
       -> bool;
 
@@ -182,6 +183,9 @@ private:
     memory::buffer_pool _buffers{};
     std::vector<pending_blob> _outgoing{};
     std::vector<pending_blob> _incoming{};
+
+    auto _make_io(message_id, span_size_t total_size, blob_manipulator&)
+      -> std::unique_ptr<blob_io>;
 
     auto _scratch_block(span_size_t size) -> memory::block;
 };
