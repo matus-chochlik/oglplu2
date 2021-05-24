@@ -542,7 +542,8 @@ private:
         message_sequence_t query_sequence{0};
         default_sudoku_board_traits<S> traits;
         timeout search_timeout{std::chrono::seconds(3), nothing};
-        timeout solution_timeout{std::chrono::seconds(S * S * S * S)};
+        timeout solution_timeout{
+          adjusted_duration(std::chrono::seconds{S * S * S * S})};
 
         flat_map<Key, std::vector<basic_sudoku_board<S>>> key_boards;
 
@@ -708,14 +709,16 @@ private:
                 query.used_helper = helper_id;
                 query.sequence_no = sequence_no;
                 query.key = std::move(key);
-                query.too_late.reset(std::chrono::seconds(S * S));
+                query.too_late.reset(
+                  adjusted_duration(std::chrono::seconds{S * S}));
                 boards.erase(pos);
                 if(boards.empty()) {
                     key_boards.erase(kbpos);
                 }
 
                 ready_helpers.erase(helper_id);
-                used_helpers[helper_id].reset(std::chrono::seconds(S));
+                used_helpers[helper_id].reset(
+                  adjusted_duration(std::chrono::seconds{S}));
                 return true;
             }
             return false;

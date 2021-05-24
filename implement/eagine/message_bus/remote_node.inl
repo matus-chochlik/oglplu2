@@ -14,7 +14,7 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class remote_host_impl {
 public:
-    timeout is_alive{std::chrono::seconds{300}};
+    timeout is_alive{adjusted_duration(std::chrono::seconds{300})};
     timeout should_query_sensors{std::chrono::seconds{10}};
     std::string hostname;
     span_size_t cpu_concurrent_threads{-1};
@@ -35,7 +35,7 @@ public:
 //------------------------------------------------------------------------------
 class remote_instance_impl {
 public:
-    timeout is_alive{std::chrono::seconds{180}};
+    timeout is_alive{adjusted_duration(std::chrono::seconds{180})};
     string_view app_name;
     optionally_valid<compiler_info> cmplr_info;
     optionally_valid<build_info> bld_info;

@@ -907,7 +907,9 @@ public:
 private:
     asio::ip::tcp::resolver _resolver;
     std::tuple<std::string, ipv4_port> _addr;
-    timeout _should_reconnect{std::chrono::seconds{1}, nothing};
+    timeout _should_reconnect{
+      adjusted_duration(std::chrono::seconds{1}),
+      nothing};
     bool _connecting{false};
 
     void
@@ -1131,7 +1133,9 @@ public:
 private:
     asio::ip::udp::resolver _resolver;
     std::tuple<std::string, ipv4_port> _addr;
-    timeout _should_reconnect{std::chrono::seconds{1}, nothing};
+    timeout _should_reconnect{
+      adjusted_duration(std::chrono::seconds{1}, memory_access_rate::low),
+      nothing};
     bool _establishing{false};
 
     void _on_resolve(
@@ -1272,7 +1276,9 @@ public:
 
 private:
     std::string _addr_str;
-    timeout _should_reconnect{std::chrono::seconds{1}, nothing};
+    timeout _should_reconnect{
+      adjusted_duration(std::chrono::seconds{1}, memory_access_rate::low),
+      nothing};
     bool _connecting{false};
 
     void _start_connect() {

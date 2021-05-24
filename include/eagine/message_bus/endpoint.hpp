@@ -420,8 +420,11 @@ private:
     auto _uptime_seconds() -> std::int64_t;
 
     timeout _no_id_timeout{
-      cfg_init("msg_bus.endpoint.no_id_timeout", std::chrono::seconds{2}),
+      cfg_init(
+        "msg_bus.endpoint.no_id_timeout",
+        adjusted_duration(std::chrono::seconds{2})),
       nothing};
+
     resetting_timeout _should_notify_alive{
       cfg_init("msg_bus.endpoint.alive_notify_period", std::chrono::seconds{30}),
       nothing};

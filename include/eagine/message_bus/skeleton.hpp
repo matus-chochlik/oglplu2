@@ -270,7 +270,8 @@ public:
     }
 
 private:
-    std::chrono::milliseconds _default_timeout{1000};
+    const std::chrono::milliseconds _default_timeout{
+      adjusted_duration(std::chrono::milliseconds{1000})};
     Source _source{};
     Sink _sink{};
 

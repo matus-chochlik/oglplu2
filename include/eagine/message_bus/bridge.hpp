@@ -90,7 +90,7 @@ private:
 
     const process_instance_id_t _instance_id{process_instance_id()};
     identifier_t _id{invalid_id()};
-    timeout _no_id_timeout{std::chrono::seconds{2}, nothing};
+    timeout _no_id_timeout{adjusted_duration(std::chrono::seconds{2}), nothing};
 
     std::chrono::steady_clock::time_point _startup_time{
       std::chrono::steady_clock::now()};
@@ -111,7 +111,7 @@ private:
     bridge_statistics _stats{};
 
     std::shared_ptr<bridge_state> _state{};
-    timeout _no_connection_timeout{std::chrono::seconds{30}};
+    timeout _no_connection_timeout{adjusted_duration(std::chrono::seconds{30})};
     std::unique_ptr<connection> _connection{};
 };
 //------------------------------------------------------------------------------

@@ -19,7 +19,7 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename T>
 struct future_state {
-    timeout too_late{std::chrono::seconds{1}};
+    timeout too_late{adjusted_duration(std::chrono::seconds{1})};
     std::function<void(T)> success_handler{};
     std::function<void()> timeout_handler{};
 };

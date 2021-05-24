@@ -240,7 +240,8 @@ auto blob_manipulator::push_incoming_fragment(
             pending.blob_id = blob_id;
             pending.io = std::move(io);
             pending.current_position = 0;
-            pending.max_time = timeout{std::chrono::seconds(60)};
+            pending.max_time = timeout{adjusted_duration(
+              std::chrono::seconds{60}, memory_access_rate::high)};
             pending.priority = priority;
             pending.done_parts.front().clear();
             if(pending.merge_fragment(span_size(offset), fragment)) {

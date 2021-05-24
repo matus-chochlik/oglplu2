@@ -296,7 +296,9 @@ public:
     }
 
 private:
-    resetting_timeout _should_query_pingable{std::chrono::seconds(3), nothing};
+    resetting_timeout _should_query_pingable{
+      adjusted_duration(std::chrono::seconds{3}),
+      nothing};
     std::chrono::steady_clock::time_point prev_log{
       std::chrono::steady_clock::now()};
     std::map<identifier_t, ping_state> _targets{};
@@ -327,12 +329,12 @@ auto main(main_ctx& ctx) -> int {
 
     msgbus::pinger_node the_pinger{ctx, ping_count, limit_count};
 
-    resetting_timeout do_chart_stats{std::chrono::seconds(15), nothing};
+    resetting_timeout do_chart_stats{std::chrono::seconds{15}, nothing};
 
     while(!the_pinger.is_done() || interrupted) {
         the_pinger.process_all();
         if(!the_pinger.update()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            std::this_thread::sleep_for(std::chrono::milliseconds{1});
             if(do_chart_stats) {
                 the_pinger.log_chart_sample(
                   EAGINE_ID(shortLoad), ctx.system().short_average_load());

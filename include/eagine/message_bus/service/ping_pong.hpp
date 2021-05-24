@@ -102,7 +102,10 @@ public:
     /// @see ping_timeouted
     /// @see has_pending_pings
     void ping(identifier_t pingable_id) {
-        ping(pingable_id, std::chrono::milliseconds{5000});
+        ping(
+          pingable_id,
+          adjusted_duration(
+            std::chrono::milliseconds{5000}, memory_access_rate::low));
     }
 
     auto update() -> bool {

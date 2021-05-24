@@ -38,7 +38,7 @@ struct router_pending {
 //------------------------------------------------------------------------------
 struct router_endpoint_info {
     process_instance_id_t instance_id{0};
-    timeout is_outdated{std::chrono::seconds(60)};
+    timeout is_outdated{adjusted_duration(std::chrono::seconds{60})};
     std::vector<message_id> subscriptions{};
     std::vector<message_id> unsubscriptions{};
 
@@ -77,7 +77,9 @@ struct routed_node {
 struct parent_router {
     std::unique_ptr<connection> the_connection{};
     identifier_t confirmed_id{0};
-    timeout confirm_id_timeout{std::chrono::seconds(2), nothing};
+    timeout confirm_id_timeout{
+      adjusted_duration(std::chrono::seconds{2}),
+      nothing};
 
     void reset(std::unique_ptr<connection>);
 
@@ -217,8 +219,9 @@ private:
     auto _update_connections() -> bool;
 
     shared_context _context{};
-    const std::chrono::seconds _pending_timeout{30};
-    timeout _no_connection_timeout{std::chrono::seconds{30}};
+    const std::chrono::seconds _pending_timeout{
+      adjusted_duration(std::chrono::seconds{30})};
+    timeout _no_connection_timeout{adjusted_duration(std::chrono::seconds{30})};
     const process_instance_id_t _instance_id{process_instance_id()};
     identifier_t _id_base{0};
     identifier_t _id_end{0};

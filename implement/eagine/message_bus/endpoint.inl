@@ -629,7 +629,7 @@ auto endpoint::post_certificate(identifier_t target_id) -> bool {
           EAGINE_MSGBUS_ID(eptCertPem),
           target_id,
           cert_pem,
-          std::chrono::seconds(30),
+          adjusted_duration(std::chrono::seconds{30}),
           message_priority::normal);
     }
     log_debug("no endpoint certificate to send yet");
@@ -643,7 +643,7 @@ auto endpoint::broadcast_certificate() -> bool {
         return broadcast_blob(
           EAGINE_MSGBUS_ID(eptCertPem),
           cert_pem,
-          std::chrono::seconds(30),
+          adjusted_duration(std::chrono::seconds{30}),
           message_priority::normal);
     }
     log_debug("no endpoint certificate to broadcast yet");

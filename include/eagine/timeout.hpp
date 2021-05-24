@@ -10,6 +10,7 @@
 #define EAGINE_TIMEOUT_HPP
 
 #include "nothing.hpp"
+#include "slow_exec.hpp"
 #include <chrono>
 
 namespace eagine {
@@ -39,6 +40,15 @@ public:
 private:
     _clock::time_point _start{};
 };
+//------------------------------------------------------------------------------
+/// @brief Adjusts time duration in cases program execution is slowed down.
+/// @ingroup time_utils
+template <typename R, typename P>
+constexpr auto adjusted_duration(
+  std::chrono::duration<R, P> d,
+  memory_access_rate mem_access = memory_access_rate::medium) noexcept {
+    return d * R(temporal_slowdown_factor(mem_access));
+}
 //------------------------------------------------------------------------------
 /// @brief Class representing a timeout since construction or reset.
 /// @ingroup time_utils
