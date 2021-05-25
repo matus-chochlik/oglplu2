@@ -19,7 +19,7 @@ namespace msgbus {
 class pong : public actor<2> {
 public:
     using base = actor<2>;
-    using base::bus;
+    using base::bus_node;
 
     pong(
       main_ctx_parent parent,
@@ -40,9 +40,11 @@ public:
     }
 
     auto ping(const message_context&, stored_message& msg_in) -> bool {
-        bus().respond_to(msg_in, EAGINE_MSG_ID(PingPong, Pong));
+        bus_node().respond_to(msg_in, EAGINE_MSG_ID(PingPong, Pong));
         if(++_sent % _lmod == 0) {
-            bus().log_info("sent ${count} pongs").arg(EAGINE_ID(count), _sent);
+            bus_node()
+              .log_info("sent ${count} pongs")
+              .arg(EAGINE_ID(count), _sent);
         }
         _timeout.reset();
         return true;
@@ -50,13 +52,13 @@ public:
 
     auto shutdown(const message_context&, stored_message&) -> bool {
         _done = true;
-        bus().log_info("received shutdown message");
+        bus_node().log_info("received shutdown message");
         return true;
     }
 
     void update() {
         if(!_sent && _ready_timeout) {
-            bus().broadcast(EAGINE_MSG_ID(PingPong, Ready));
+            bus_node().broadcast(EAGINE_MSG_ID(PingPong, Ready));
             _ready_timeout.reset();
         } else {
             std::this_thread::yield();

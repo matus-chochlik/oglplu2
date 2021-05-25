@@ -142,23 +142,24 @@ void connection_setup::add_factory(std::unique_ptr<connection_factory> factory) 
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void connection_setup_default_init(connection_setup& setup) {
-    auto& cfg = setup.app_config();
-    if(cfg.is_set("msg_bus.asio_tcp_ipv4")) {
+void connection_setup_configure(
+  connection_setup& setup,
+  application_config& config) {
+    if(config.is_set("msg_bus.asio_tcp_ipv4")) {
         setup.make_factory<asio_tcp_ipv4_connection_factory>();
     }
-    if(cfg.is_set("msg_bus.asio_udp_ipv4")) {
+    if(config.is_set("msg_bus.asio_udp_ipv4")) {
         setup.make_factory<asio_udp_ipv4_connection_factory>();
     }
 #if EAGINE_POSIX
-    if(cfg.is_set("msg_bus.asio_local_stream")) {
+    if(config.is_set("msg_bus.asio_local_stream")) {
         setup.make_factory<asio_local_stream_connection_factory>();
     }
-    if(cfg.is_set("msg_bus.posix_mqueue")) {
+    if(config.is_set("msg_bus.posix_mqueue")) {
         setup.make_factory<posix_mqueue_connection_factory>();
     }
 #endif
-    if(cfg.is_set("msg_bus.direct")) {
+    if(config.is_set("msg_bus.direct")) {
         setup.make_factory<direct_connection_factory>();
     }
 }

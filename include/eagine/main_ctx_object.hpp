@@ -39,6 +39,10 @@ private:
     logger_backend* const _backend{nullptr};
 };
 
+namespace msgbus {
+struct connection_user;
+} // namespace msgbus
+
 /// @brief Base class for main context objects.
 /// @ingroup main_context
 ///
@@ -53,19 +57,19 @@ public:
     main_ctx_object(identifier obj_id, main_ctx_parent parent) noexcept
       : base{_make_base(obj_id, parent)} {}
 
-    /// @brief Returns the process id.
-    auto process_instance_id() const noexcept -> process_instance_id_t;
-
-    /// @brief Returns a reference to the main context singleton.
-    auto main_context() const noexcept -> main_ctx&;
-
-    /// @brief Returns a reference to the application config object.
-    auto app_config() const noexcept -> application_config&;
-
     /// @brief Returns this as main_ctx_object_parent_info.
     auto as_parent() noexcept -> main_ctx_object_parent_info {
         return {*this};
     }
+
+    /// @brief Returns a reference to the main context singleton.
+    auto main_context() const noexcept -> main_ctx&;
+
+    /// @brief Returns the process id.
+    auto process_instance_id() const noexcept -> process_instance_id_t;
+
+    /// @brief Returns a reference to the application config object.
+    auto app_config() const noexcept -> application_config&;
 
     /// @brief Reads and returns the configuration value identified by @p key.
     template <typename T>
@@ -84,6 +88,12 @@ public:
         return extract_or(
           application_config_initial(app_config(), key, value, tag), initial);
     }
+
+    /// @brief Returns a reference to the message bus object.
+    auto bus() const noexcept -> message_bus&;
+
+    /// @brief Does the default setup of message bus connectors on the specfied object.
+    void setup_bus_connectors(msgbus::connection_user&);
 
 private:
     static auto _make_base(identifier obj_id, main_ctx_parent parent) noexcept

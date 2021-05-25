@@ -7,8 +7,7 @@
 ///
 #include "lib_common_pki.hpp"
 #include <eagine/main.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/router_address.hpp>
+#include <eagine/message_bus.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/discovery.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
@@ -45,7 +44,7 @@ public:
         log_info("endpoint ${subscrbr} subscribed to ${message}")
           .arg(EAGINE_ID(subscrbr), info.endpoint_id)
           .arg(EAGINE_ID(message), sub_msg);
-        this->bus().query_certificate_of(info.endpoint_id);
+        this->bus_node().query_certificate_of(info.endpoint_id);
     }
 
     void on_unsubscribed(const subscriber_info& info, message_id sub_msg) {
@@ -83,16 +82,13 @@ auto main(main_ctx& ctx) -> int {
 
     signal_switch interrupted;
 
-    msgbus::router_address address{ctx};
-    msgbus::connection_setup conn_setup(ctx);
-
     msgbus::endpoint bus{EAGINE_ID(DiscoverEx), ctx};
     bus.add_ca_certificate_pem(ca_certificate_pem(ctx));
     bus.add_certificate_pem(msgbus_endpoint_certificate_pem(ctx));
 
     msgbus::subscription_logger sub_log{bus};
 
-    conn_setup.setup_connectors(sub_log, address);
+    ctx.bus().setup_connectors(sub_log);
     timeout waited_too_long{std::chrono::minutes(1)};
 
     while(!(interrupted || sub_log.is_done() || waited_too_long)) {

@@ -10,6 +10,7 @@
 #define EAGINE_MESSAGE_BUS_SERVICE_HPP
 
 #include "../bool_aggregate.hpp"
+#include "../protected_member.hpp"
 #include "invoker.hpp"
 #include "serialize.hpp"
 #include "service_interface.hpp"
@@ -58,7 +59,7 @@ public:
 
     /// @brief Adds a connection to the associated endpoint.
     auto add_connection(std::unique_ptr<connection> conn) -> bool final {
-        return this->bus().add_connection(std::move(conn));
+        return this->bus_node().add_connection(std::move(conn));
     }
 
     /// @brief Updates the associated endpoint and processes all incoming messages.
@@ -101,6 +102,18 @@ private:
         this->init();
         this->announce_subscriptions();
     }
+};
+//------------------------------------------------------------------------------
+template <typename Base = subscriber>
+class service_node
+  : public main_ctx_object
+  , private protected_member<endpoint>
+  , public service_composition<Base> {
+public:
+    service_node(identifier id, main_ctx_parent parent)
+      : main_ctx_object{id, parent}
+      , protected_member<endpoint>{id, *this}
+      , service_composition<Base>{this->get_the_member()} {}
 };
 //------------------------------------------------------------------------------
 template <typename Signature, std::size_t MaxDataSize = 8192 - 128>

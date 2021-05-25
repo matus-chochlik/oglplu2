@@ -52,7 +52,7 @@ private:
              message.source_id,
              message.sequence_no,
              this->verify_bits(message))) {
-            this->bus().respond_to(message, EAGINE_MSGBUS_ID(pong), {});
+            this->bus_node().respond_to(message, EAGINE_MSGBUS_ID(pong), {});
         }
         return true;
     }
@@ -80,7 +80,7 @@ public:
 
     /// @brief Broadcasts a query searching for pingable message bus nodes.
     void query_pingables() {
-        this->bus().query_subscribers_of(ping_msg_id());
+        this->bus_node().query_subscribers_of(ping_msg_id());
     }
 
     /// @brief Sends a pings request and tracks it for the specified maximum time.
@@ -92,8 +92,8 @@ public:
         auto msg_id{EAGINE_MSGBUS_ID(ping)};
         message.set_target_id(pingable_id);
         message.set_priority(message_priority::low);
-        this->bus().set_next_sequence_id(msg_id, message);
-        this->bus().post(msg_id, message);
+        this->bus_node().set_next_sequence_id(msg_id, message);
+        this->bus_node().post(msg_id, message);
         _pending.emplace_back(message.target_id, message.sequence_no, max_time);
     }
 
@@ -102,7 +102,10 @@ public:
     /// @see ping_timeouted
     /// @see has_pending_pings
     void ping(identifier_t pingable_id) {
-        ping(pingable_id, std::chrono::milliseconds{5000});
+        ping(
+          pingable_id,
+          adjusted_duration(
+            std::chrono::milliseconds{5000}, memory_access_rate::low));
     }
 
     auto update() -> bool {

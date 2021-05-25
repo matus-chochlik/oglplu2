@@ -1,4 +1,4 @@
-/// @example eagine/bindump.cpp
+/// @example eagine/hexdump.cpp
 ///
 /// Copyright Matus Chochlik.
 /// Distributed under the Boost Software License, Version 1.0.
@@ -14,7 +14,6 @@
 namespace eagine {
 
 auto main(main_ctx& ctx) -> int {
-
     for(auto& arg : ctx.args()) {
         if(!arg.starts_with("-")) {
             if(arg.prev().is_tag("-f", "--file")) {

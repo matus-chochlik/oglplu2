@@ -28,6 +28,7 @@ main_ctx::main_ctx(main_ctx_getters& src) noexcept
   , _app_config{src.config()}
   , _sys_info{src.system()}
   , _usr_info{src.user()}
+  , _msg_bus{src.bus()}
   , _scratch_space{src.scratch_space()}
   , _compressor{src.compressor()}
   , _exe_path{src.exe_path()}
@@ -35,6 +36,7 @@ main_ctx::main_ctx(main_ctx_getters& src) noexcept
     EAGINE_ASSERT(!_single_ptr());
     _single_ptr() = this;
     _log.configure(_app_config);
+    _msg_bus.configure(_app_config);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -74,6 +76,16 @@ auto main_ctx_object::process_instance_id() const noexcept
 EAGINE_LIB_FUNC
 auto main_ctx_object::app_config() const noexcept -> application_config& {
     return main_context().config();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto main_ctx_object::bus() const noexcept -> message_bus& {
+    return main_context().bus();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void main_ctx_object::setup_bus_connectors(msgbus::connection_user& target) {
+    bus().setup_connectors(target);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

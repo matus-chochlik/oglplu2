@@ -20,7 +20,7 @@ struct str_utils_server
   , static_subscriber<1> {
     using this_class = str_utils_server;
     using base = static_subscriber<1>;
-    using base::bus;
+    using base::bus_node;
 
     str_utils_server(endpoint& ep)
       : main_ctx_object{EAGINE_ID(Server), ep}
@@ -33,7 +33,7 @@ struct str_utils_server
         auto str = msg.text_content();
         log_trace("received request: ${content}").arg(EAGINE_ID(content), str);
         memory::reverse(str);
-        bus().post(EAGINE_MSG_ID(StrUtilRes, Reverse), as_bytes(str));
+        bus_node().post(EAGINE_MSG_ID(StrUtilRes, Reverse), as_bytes(str));
         return true;
     }
 };
@@ -43,7 +43,7 @@ struct str_utils_client
   , static_subscriber<1> {
     using this_class = str_utils_client;
     using base = static_subscriber<1>;
-    using base::bus;
+    using base::bus_node;
 
     str_utils_client(endpoint& ep)
       : main_ctx_object{EAGINE_ID(Client), ep}
@@ -52,7 +52,7 @@ struct str_utils_client
 
     void call_reverse(string_view str) {
         ++_remaining;
-        bus().post(EAGINE_MSG_ID(StrUtilReq, Reverse), as_bytes(str));
+        bus_node().post(EAGINE_MSG_ID(StrUtilReq, Reverse), as_bytes(str));
     }
 
     auto print(const message_context&, stored_message& msg) -> bool {

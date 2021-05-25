@@ -56,7 +56,7 @@ public:
     /// @see application_name_received
     void query_application_name(identifier_t endpoint_id) {
         _app_name.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiAppInf, rqAppName));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiAppInf, rqAppName));
     }
 
     /// @brief Triggered on receipt of response about endpoint application name.

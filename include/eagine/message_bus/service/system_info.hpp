@@ -193,7 +193,7 @@ public:
     /// @see uptime_received
     void query_uptime(identifier_t endpoint_id) {
         _uptime.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqUptime));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqUptime));
     }
 
     /// @brief Triggered on receipt of endpoint's system uptime.
@@ -205,7 +205,7 @@ public:
     /// @see cpu_concurrent_threads_received
     void query_cpu_concurrent_threads(identifier_t endpoint_id) {
         _cpu_concurrent_threads.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqCpuThrds));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqCpuThrds));
     }
 
     /// @brief Triggered on receipt of CPU's supported concurrent thread count.
@@ -217,7 +217,7 @@ public:
     /// @see short_average_load_received
     void query_short_average_load(identifier_t endpoint_id) {
         _short_average_load.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqShrtLoad));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqShrtLoad));
     }
 
     /// @brief Triggered on receipt of endpoint's host short average load.
@@ -229,7 +229,7 @@ public:
     /// @see long_average_load_received
     void query_long_average_load(identifier_t endpoint_id) {
         _long_average_load.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqLongLoad));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqLongLoad));
     }
 
     /// @brief Triggered on receipt of endpoint's host long average load.
@@ -241,7 +241,7 @@ public:
     /// @see memory_page_size_received
     void query_memory_page_size(identifier_t endpoint_id) {
         _memory_page_size.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqMemPgSz));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqMemPgSz));
     }
 
     /// @brief Triggered on receipt of endpoint's host system memory page size.
@@ -254,7 +254,7 @@ public:
     /// @see query_total_ram_size
     void query_free_ram_size(identifier_t endpoint_id) {
         _free_ram_size.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqFreRamSz));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqFreRamSz));
     }
 
     /// @brief Triggered on receipt of endpoint's host system free RAM size.
@@ -267,7 +267,7 @@ public:
     /// @see query_free_ram_size
     void query_total_ram_size(identifier_t endpoint_id) {
         _total_ram_size.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTtlRamSz));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTtlRamSz));
     }
 
     /// @brief Triggered on receipt of endpoint's host system total RAM size.
@@ -280,7 +280,7 @@ public:
     /// @see query_total_swap_size
     void query_free_swap_size(identifier_t endpoint_id) {
         _free_swap_size.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqFreSwpSz));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqFreSwpSz));
     }
 
     /// @brief Triggered on receipt of endpoint's host system free swap size.
@@ -293,7 +293,7 @@ public:
     /// @see query_free_swap_size
     void query_total_swap_size(identifier_t endpoint_id) {
         _total_swap_size.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTtlSwpSz));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTtlSwpSz));
     }
 
     /// @brief Triggered on receipt of endpoint's host system total swap size.
@@ -304,7 +304,7 @@ public:
     /// @brief Queries the endpoint's host system minimum and maximum temperature.
     void query_temperature_min_max(identifier_t endpoint_id) {
         _temperature_min_max.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTempMnMx));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTempMnMx));
     }
 
     /// @brief Triggered on receipt of endpoint's host system min/max temperatures.
@@ -319,7 +319,7 @@ public:
     /// @brief Queries the endpoint's host system power supply kind information.
     void query_power_supply_kind(identifier_t endpoint_id) {
         _power_supply_kind.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqPwrSuply));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqPwrSuply));
     }
 
     /// @brief Triggered on receipt of endpoint's host system power supply kind.
@@ -336,7 +336,7 @@ public:
         message_view message{};
         auto msg_id{EAGINE_MSG_ID(eagiSysInf, qryStats)};
         message.set_target_id(endpoint_id);
-        this->bus().post(msg_id, message);
+        this->bus_node().post(msg_id, message);
     }
 
     /// @brief Queries all endpoint's sensor information.
@@ -349,7 +349,7 @@ public:
         message_view message{};
         auto msg_id{EAGINE_MSG_ID(eagiSysInf, qrySensors)};
         message.set_target_id(endpoint_id);
-        this->bus().post(msg_id, message);
+        this->bus_node().post(msg_id, message);
     }
 
 private:

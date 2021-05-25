@@ -9,6 +9,7 @@
 #ifndef EAGINE_MESSAGE_BUS_REGISTRY_HPP
 #define EAGINE_MESSAGE_BUS_REGISTRY_HPP
 
+#include "../extract.hpp"
 #include "../main_ctx_object.hpp"
 #include "direct.hpp"
 #include "endpoint.hpp"
@@ -35,25 +36,34 @@ public:
     /// @brief Establishes a new endpoint with the specified logger identifier.
     /// @see emplace
     [[nodiscard]] auto establish(identifier log_id) -> endpoint& {
-        return *(_add_entry(log_id)._endpoint);
+        return extract(_add_entry(log_id)._endpoint);
     }
 
     /// @brief Establishes an endpoint and instantiates a service object tied to it.
     /// @see establish
-    template <typename Service>
-    auto emplace(identifier log_id) -> std::
+    template <typename Service, typename... Args>
+    auto emplace(identifier log_id, Args&&... args) -> std::
       enable_if_t<std::is_base_of_v<service_interface, Service>, Service&> {
         auto& entry = _add_entry(log_id);
-        auto temp{std::make_unique<Service>(*(entry._endpoint))};
-        auto& result = *temp;
+        auto temp{std::make_unique<Service>(
+          extract(entry._endpoint), std::forward<Args>(args)...)};
+        auto& result = extract(temp);
         entry._service = std::move(temp);
         return result;
     }
 
+    /// @brief Removes a previously emplaced service.
+    void remove(service_interface&);
+
     auto update() -> bool;
     auto update_all() -> bool;
-    void cleanup() {
-        _router.cleanup();
+
+    auto is_done() -> bool {
+        return _router.is_done();
+    }
+
+    void finish() {
+        _router.finish();
     }
 
 private:

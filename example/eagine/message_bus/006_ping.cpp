@@ -20,7 +20,7 @@ namespace msgbus {
 class ping : public actor<2> {
 public:
     using base = actor<2>;
-    using base::bus;
+    using base::bus_node;
 
     ping(
       main_ctx_parent parent,
@@ -45,7 +45,7 @@ public:
 
     auto pong(const message_context&, stored_message&) -> bool {
         if(++_rcvd % _lmod == 0) {
-            bus()
+            bus_node()
               .log_info("received ${count} pongs")
               .arg(EAGINE_ID(count), _rcvd);
         }
@@ -57,20 +57,20 @@ public:
 
     auto ready(const message_context&, stored_message&) -> bool {
         _ready = true;
-        bus().log_info("received pong ready message");
+        bus_node().log_info("received pong ready message");
         return true;
     }
 
     void shutdown() {
-        bus().broadcast(EAGINE_MSG_ID(PingPong, Shutdown));
-        bus().log_info("sent shutdown message");
+        bus_node().broadcast(EAGINE_MSG_ID(PingPong, Shutdown));
+        bus_node().log_info("sent shutdown message");
     }
 
     void update() {
         if(_ready && (_sent <= _max * 2) && (_sent < _rcvd + _lmod)) {
-            bus().broadcast(EAGINE_MSG_ID(PingPong, Ping));
+            bus_node().broadcast(EAGINE_MSG_ID(PingPong, Ping));
             if(++_sent % _lmod == 0) {
-                bus()
+                bus_node()
                   .log_info("sent ${count} pings")
                   .arg(EAGINE_ID(count), _sent);
             }

@@ -31,6 +31,12 @@ public:
     application_config(main_ctx_parent parent) noexcept
       : main_ctx_object{EAGINE_ID(AppConfig), parent} {}
 
+    /// @brief Do potentially expensive pre-initialization and caching.
+    auto preinitialize() noexcept -> application_config& {
+        EAGINE_MAYBE_UNUSED(_impl());
+        return *this;
+    }
+
     /// @brief Checks is the boolean option identified by @p key is set to true.
     auto is_set(string_view key, string_view tag = {}) noexcept -> bool {
         if(const auto attr{_find_comp_attr(key, tag)}) {

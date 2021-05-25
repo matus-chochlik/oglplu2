@@ -7,11 +7,8 @@
 
 #include <eagine/main_ctx.hpp>
 #include <eagine/main_fwd.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/direct.hpp>
 #include <eagine/message_bus/endpoint.hpp>
-#include <eagine/message_bus/router.hpp>
-#include <eagine/message_bus/router_address.hpp>
+#include <eagine/message_bus/registry.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/common_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
@@ -69,7 +66,7 @@ auto main(main_ctx& ctx) -> int {
     signal_switch interrupted;
     ctx.preinitialize();
 
-    auto acceptor = std::make_unique<msgbus::direct_acceptor>(ctx);
+    msgbus::registry the_reg{ctx};
 
     auto shutdown_when_idle = false;
     ctx.config().fetch(
@@ -91,9 +88,8 @@ auto main(main_ctx& ctx) -> int {
 
     auto helper_main = [&]() {
         std::unique_lock init_lock{helper_mutex};
-        msgbus::endpoint helper_endpoint{EAGINE_ID(SdkHlpEndp), ctx};
-        helper_endpoint.add_connection(acceptor->make_connection());
-        msgbus::sudoku_helper_node helper_node{helper_endpoint};
+        auto& helper_node =
+          the_reg.emplace<msgbus::sudoku_helper_node>(EAGINE_ID(SdkHlpEndp));
         remaining--;
         helper_cond.notify_all();
         init_lock.unlock();
@@ -144,12 +140,7 @@ auto main(main_ctx& ctx) -> int {
     }
 
     std::unique_lock init_lock{helper_mutex};
-    msgbus::router_address address{ctx};
-    msgbus::connection_setup conn_setup(ctx);
-    msgbus::router router(ctx);
-    router.add_acceptor(std::move(acceptor));
-    conn_setup.setup_connectors(router, address);
-    router.update();
+    the_reg.update();
     remaining--;
     helper_cond.notify_all();
     init_lock.unlock();
@@ -158,8 +149,8 @@ auto main(main_ctx& ctx) -> int {
     wd.declare_initialized();
 
     int idle_streak = 0;
-    while(!(interrupted || router.is_done())) {
-        if(router.update(8)) {
+    while(!(interrupted || the_reg.is_done())) {
+        if(the_reg.update()) {
             idle_streak = 0;
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         } else {
@@ -178,10 +169,10 @@ auto main(main_ctx& ctx) -> int {
 
     for(auto& helper : helpers) {
         helper.join();
-        router.update(8);
+        the_reg.update();
     }
-    router.finish();
 
+    the_reg.finish();
     return 0;
 }
 

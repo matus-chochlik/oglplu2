@@ -7,9 +7,8 @@
 ///
 #include <eagine/file_contents.hpp>
 #include <eagine/main.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/message_bus.hpp>
 #include <eagine/message_bus/endpoint.hpp>
-#include <eagine/message_bus/router_address.hpp>
 #include <eagine/timeout.hpp>
 #include <chrono>
 #include <thread>
@@ -18,11 +17,8 @@ namespace eagine {
 
 auto main(main_ctx& ctx) -> int {
 
-    msgbus::router_address address{ctx};
-    msgbus::connection_setup conn_setup(ctx);
-
     msgbus::endpoint bus{EAGINE_ID(Temporary), ctx};
-    conn_setup.setup_connectors(bus, address);
+    ctx.bus().setup_connectors(bus);
 
     if(ctx.args().none()) {
         file_contents data(ctx.exe_path());

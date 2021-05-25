@@ -60,7 +60,7 @@ public:
     /// @see compiler_info_received
     void query_compiler_info(identifier_t endpoint_id) {
         _compiler.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiCplInf, request));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiCplInf, request));
     }
 
     /// @brief Triggered on receipt of endpoints compiler information.

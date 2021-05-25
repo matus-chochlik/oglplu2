@@ -388,7 +388,7 @@ EAGINE_LIB_FUNC
 auto router::_mark_disconnected(identifier_t endpoint_id) -> void {
     _recently_disconnected.erase_if(
       [](auto& p) { return std::get<1>(p).is_expired(); });
-    _recently_disconnected.emplace(endpoint_id, std::chrono::seconds(10));
+    _recently_disconnected.emplace(endpoint_id, std::chrono::seconds{15});
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -526,7 +526,7 @@ auto router::_handle_blob(
                   message.source_id,
                   message.target_id,
                   message.data,
-                  std::chrono::seconds(30),
+                  adjusted_duration(std::chrono::seconds(30)),
                   message_priority::high);
             }
         }
@@ -656,7 +656,7 @@ auto router::_handle_router_certificate_query(const message_view& message)
       0U,
       message.source_id,
       _context->get_own_certificate_pem(),
-      std::chrono::seconds(30),
+      adjusted_duration(std::chrono::seconds{30}),
       message_priority::high);
     return was_handled;
 }
@@ -670,7 +670,7 @@ auto router::_handle_endpoint_certificate_query(const message_view& message)
           message.target_id,
           message.source_id,
           cert_pem,
-          std::chrono::seconds(30),
+          adjusted_duration(std::chrono::seconds{30}),
           message_priority::high);
         return was_handled;
     }
@@ -1167,7 +1167,7 @@ void router::cleanup() {
 EAGINE_LIB_FUNC
 void router::finish() {
     say_bye();
-    timeout too_long{std::chrono::seconds{1}};
+    timeout too_long{adjusted_duration(std::chrono::seconds{1})};
     while(!too_long) {
         update(8);
     }

@@ -10,6 +10,7 @@
 #define EAGINE_MESSAGE_BUS_SERVICE_SUDOKU_HPP
 
 #include "../../bool_aggregate.hpp"
+#include "../../flat_map.hpp"
 #include "../../flat_set.hpp"
 #include "../../int_constant.hpp"
 #include "../../math/functions.hpp"
@@ -188,7 +189,7 @@ public:
 
         for_each_sudoku_rank_unit(
           [&](auto& info) {
-              if(info.update(this->bus(), _compressor)) {
+              if(info.update(this->bus_node(), _compressor)) {
                   something_done();
               }
           },
@@ -254,7 +255,7 @@ private:
 
         if(EAGINE_LIKELY(deserialized)) {
             info.add_board(
-              this->bus(),
+              this->bus_node(),
               message.source_id,
               message.sequence_no,
               std::move(board));
@@ -291,7 +292,7 @@ private:
           identifier_t source_id,
           message_sequence_t sequence_no,
           basic_sudoku_board<S> board) {
-            if(EAGINE_LIKELY(boards.size() < 8)) {
+            if(EAGINE_LIKELY(boards.size() <= 8)) {
                 searches.insert(source_id);
                 boards.emplace_back(source_id, sequence_no, std::move(board));
             } else {
@@ -305,11 +306,13 @@ private:
             const unsigned_constant<S> rank{};
             some_true something_done;
 
-            for(auto target_id : searches) {
-                message_view response{};
-                response.set_target_id(target_id);
-                bus.post(sudoku_alive_msg(rank), response);
-                something_done();
+            if(boards.size() < 6) {
+                for(auto target_id : searches) {
+                    message_view response{};
+                    response.set_target_id(target_id);
+                    bus.post(sudoku_alive_msg(rank), response);
+                    something_done();
+                }
             }
             searches.clear();
 
@@ -398,11 +401,11 @@ public:
 
     void init() {
         Base::init();
-        this->bus().id_assigned.connect(
+        this->bus_node().id_assigned.connect(
           EAGINE_THIS_MEM_FUNC_REF(on_id_assigned));
-        this->bus().connection_established.connect(
+        this->bus_node().connection_established.connect(
           EAGINE_THIS_MEM_FUNC_REF(on_connection_established));
-        this->bus().connection_lost.connect(
+        this->bus_node().connection_lost.connect(
           EAGINE_THIS_MEM_FUNC_REF(on_connection_lost));
     }
 
@@ -412,12 +415,12 @@ public:
 
     void on_connection_established(bool usable) {
         _can_work = usable;
-        this->bus().log_info("connection established");
+        this->bus_node().log_info("connection established");
     }
 
     void on_connection_lost() {
         _can_work = false;
-        this->bus().log_warning("connection lost");
+        this->bus_node().log_warning("connection lost");
     }
 
     auto update() -> bool {
@@ -428,8 +431,9 @@ public:
           [&](auto& info) {
               something_done(info.handle_timeouted(*this));
               if(EAGINE_LIKELY(_can_work)) {
-                  something_done(info.send_boards(this->bus(), _compressor));
-                  something_done(info.search_helpers(this->bus()));
+                  something_done(
+                    info.send_boards(this->bus_node(), _compressor));
+                  something_done(info.search_helpers(this->bus_node()));
               }
           },
           _infos);
@@ -538,7 +542,8 @@ private:
         message_sequence_t query_sequence{0};
         default_sudoku_board_traits<S> traits;
         timeout search_timeout{std::chrono::seconds(3), nothing};
-        timeout solution_timeout{std::chrono::seconds(S * S * S * S)};
+        timeout solution_timeout{
+          adjusted_duration(std::chrono::seconds{S * S * S * S})};
 
         flat_map<Key, std::vector<basic_sudoku_board<S>>> key_boards;
 
@@ -555,7 +560,7 @@ private:
         std::vector<pending_info> pending;
 
         flat_set<identifier_t> ready_helpers;
-        flat_set<identifier_t> used_helpers;
+        flat_map<identifier_t, timeout> used_helpers;
 
         std::default_random_engine randeng{std::random_device{}()};
 
@@ -594,7 +599,6 @@ private:
                 pending.end(),
                 [&](auto& entry) {
                     if(entry.too_late) {
-                        used_helpers.erase(entry.used_helper);
                         const unsigned_constant<S> rank{};
                         if(!solver.already_done(entry.key, rank)) {
                             entry.board.for_each_alternative(
@@ -613,19 +617,19 @@ private:
                                   }
                               });
                         }
+                        used_helpers.erase(entry.used_helper);
                         return true;
                     }
                     return false;
                 }),
               pending.end());
             if(count > 0) {
-                solver.bus()
+                solver.bus_node()
                   .log_warning("replacing ${count} timeouted boards")
                   .arg(EAGINE_ID(count), count)
                   .arg(EAGINE_ID(enqueued), key_boards.size())
                   .arg(EAGINE_ID(pending), pending.size())
                   .arg(EAGINE_ID(ready), ready_helpers.size())
-                  .arg(EAGINE_ID(used), used_helpers.size())
                   .arg(EAGINE_ID(rank), S);
             }
             return count > 0;
@@ -705,33 +709,51 @@ private:
                 query.used_helper = helper_id;
                 query.sequence_no = sequence_no;
                 query.key = std::move(key);
-                query.too_late.reset(std::chrono::seconds(S * S));
+                query.too_late.reset(
+                  adjusted_duration(std::chrono::seconds{S * S}));
                 boards.erase(pos);
                 if(boards.empty()) {
                     key_boards.erase(kbpos);
                 }
 
-                used_helpers.insert(helper_id);
                 ready_helpers.erase(helper_id);
+                used_helpers[helper_id].reset(
+                  adjusted_duration(std::chrono::seconds{S}));
                 return true;
             }
             return false;
         }
 
+        auto find_helpers(span<identifier_t> dst) const
+          -> span<const identifier_t> {
+            span_size_t done = 0;
+            for(const auto helper_id : ready_helpers) {
+                if(done < dst.size()) {
+                    const auto upos = used_helpers.find(helper_id);
+                    const auto is_usable = upos != used_helpers.end()
+                                             ? upos->second.is_expired()
+                                             : true;
+                    if(is_usable) {
+                        dst[done++] = helper_id;
+                    }
+                } else {
+                    break;
+                }
+            }
+            return head(dst, done);
+        }
+
         auto send_boards(endpoint& bus, data_compressor& compressor) -> bool {
             some_true something_done;
 
-            while(!ready_helpers.empty()) {
-                std::uniform_int_distribution<std::size_t> dist(
-                  0U, ready_helpers.size() - 1U);
-                const auto pos =
-                  std::next(ready_helpers.begin(), dist(randeng));
-
-                if(!send_board_to(bus, compressor, *pos)) {
+            std::array<identifier_t, 8> helper_ids{};
+            for(const auto helper_id : find_helpers(cover(helper_ids))) {
+                if(!send_board_to(bus, compressor, helper_id)) {
                     break;
                 }
                 something_done();
             }
+
             return something_done;
         }
 
@@ -741,16 +763,14 @@ private:
                   return entry.sequence_no == sequence_no;
               });
             if(pos != pending.end()) {
-                used_helpers.erase(pos->used_helper);
                 ready_helpers.insert(pos->used_helper);
+                used_helpers.erase(pos->used_helper);
                 pending.erase(pos);
             }
         }
 
         void helper_alive(identifier_t id) {
-            if(used_helpers.find(id) == used_helpers.end()) {
-                ready_helpers.insert(id);
-            }
+            ready_helpers.insert(id);
         }
 
         auto has_enqueued(const Key& key) -> bool {
@@ -772,7 +792,7 @@ private:
             used_helpers.clear();
             solution_timeout.reset();
 
-            parent.bus()
+            parent.bus_node()
               .log_info("reset sudoku solution")
               .arg(EAGINE_ID(rank), S);
         }
@@ -1219,7 +1239,7 @@ private:
         void
         initialize(This& solver, int x, int y, basic_sudoku_board<S> board) {
             solver.enqueue({x, y}, std::move(board));
-            solver.bus()
+            solver.bus_node()
               .log_debug("enqueuing initial board (${x}, ${y})")
               .arg(EAGINE_ID(x), x)
               .arg(EAGINE_ID(y), y)
@@ -1330,7 +1350,7 @@ private:
             }
             if(should_enqueue) {
                 solver.enqueue({x, y}, board.calculate_alternatives());
-                solver.bus()
+                solver.bus_node()
                   .log_debug("enqueuing board (${x}, ${y})")
                   .arg(EAGINE_ID(x), x)
                   .arg(EAGINE_ID(y), y)
@@ -1359,7 +1379,7 @@ private:
           basic_sudoku_board<S> board) {
 
             if(this->set_board(coord, std::move(board))) {
-                solver.bus()
+                solver.bus_node()
                   .log_info("solved board (${x}, ${y})")
                   .arg(EAGINE_ID(rank), S)
                   .arg(EAGINE_ID(x), std::get<0>(coord))
@@ -1384,7 +1404,7 @@ private:
             for(const auto& p : helper_contrib) {
                 max_count = std::max(max_count, std::get<1>(p));
             }
-            solver.bus()
+            solver.bus_node()
               .log_stat("solution contributions by helpers")
               .arg(EAGINE_ID(rank), S)
               .arg_func([this, max_count](logger_backend& backend) {

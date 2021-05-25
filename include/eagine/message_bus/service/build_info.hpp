@@ -60,7 +60,7 @@ public:
     /// @see build_info_received
     void query_build_info(identifier_t endpoint_id) {
         _build.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiBldInf, request));
+          this->bus_node(), endpoint_id, EAGINE_MSG_ID(eagiBldInf, request));
     }
 
     /// @brief Triggered on receipt of endpoint's build version information.

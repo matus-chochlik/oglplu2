@@ -14,7 +14,7 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class remote_host_impl {
 public:
-    timeout is_alive{std::chrono::seconds{300}};
+    timeout is_alive{adjusted_duration(std::chrono::seconds{300})};
     timeout should_query_sensors{std::chrono::seconds{10}};
     std::string hostname;
     span_size_t cpu_concurrent_threads{-1};
@@ -35,7 +35,7 @@ public:
 //------------------------------------------------------------------------------
 class remote_instance_impl {
 public:
-    timeout is_alive{std::chrono::seconds{180}};
+    timeout is_alive{adjusted_duration(std::chrono::seconds{180})};
     string_view app_name;
     optionally_valid<compiler_info> cmplr_info;
     optionally_valid<build_info> bld_info;
@@ -98,6 +98,8 @@ private:
 //------------------------------------------------------------------------------
 class node_connection_impl {
 public:
+    float block_usage_ratio{-1.F};
+    float bytes_per_second{-1.F};
     connection_kind kind{connection_kind::unknown};
 };
 //------------------------------------------------------------------------------
@@ -1205,6 +1207,24 @@ auto node_connection::kind() const noexcept -> connection_kind {
     return connection_kind::unknown;
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto node_connection::block_usage_ratio() const noexcept
+  -> valid_if_nonnegative<float> {
+    if(auto impl{_impl()}) {
+        return {extract(impl).block_usage_ratio};
+    }
+    return {-1.F};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto node_connection::bytes_per_second() const noexcept
+  -> valid_if_nonnegative<float> {
+    if(auto impl{_impl()}) {
+        return {extract(impl).bytes_per_second};
+    }
+    return {-1.F};
+}
+//------------------------------------------------------------------------------
 // node_connection_state
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -1219,6 +1239,22 @@ auto node_connection_state::set_kind(connection_kind kind)
             _tracker.get_node(_id2).add_change(
               remote_node_change::connection_info);
         }
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto node_connection_state::assign(const connection_statistics& stats)
+  -> node_connection_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        i.block_usage_ratio = stats.block_usage_ratio;
+        i.bytes_per_second = stats.bytes_per_second;
+        _tracker.get_node(stats.local_id)
+          .notice_alive()
+          .add_change(remote_node_change::connection_info);
+        _tracker.get_node(stats.remote_id)
+          .add_change(remote_node_change::connection_info);
     }
     return *this;
 }

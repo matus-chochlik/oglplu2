@@ -16,8 +16,8 @@
 #include "../serialize/data_buffer.hpp"
 #include "../serialize/packed_block_sink.hpp"
 #include "../serialize/packed_block_source.hpp"
+#include "../serialize/portable_backend.hpp"
 #include "../serialize/read.hpp"
-#include "../serialize/string_backend.hpp"
 #include "../serialize/write.hpp"
 #include "message.hpp"
 #include <array>
@@ -33,12 +33,12 @@ namespace msgbus {
 /// @brief Alias for default serialization backend for bus messages.
 /// @ingroup msgbus
 /// @see default_deserializer_backend
-using default_serializer_backend = string_serializer_backend;
+using default_serializer_backend = portable_serializer_backend;
 
 /// @brief Alias for default deserialization backend for bus messages.
 /// @ingroup msgbus
 /// @see default_serializer_backend
-using default_deserializer_backend = string_deserializer_backend;
+using default_deserializer_backend = portable_deserializer_backend;
 
 /// @brief Returns a suitable buffer for the serialization of the specified object.
 /// @ingroup msgbus

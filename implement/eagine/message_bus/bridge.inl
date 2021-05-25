@@ -78,7 +78,7 @@ public:
 
     void push(message_id msg_id, const message_view& message) {
         std::unique_lock lock{_output_mutex};
-        _outgoing.front().push(msg_id, message);
+        _outgoing.back().push(msg_id, message);
     }
 
     void notify_output_ready() {
@@ -98,17 +98,12 @@ public:
     }
 
     void send_output() {
-        {
-            std::unique_lock lock{_output_mutex};
-            _output_ready.wait(lock);
-            _outgoing.swap();
-        }
         auto handler =
           [this](message_id msg_id, message_age msg_age, message_view message) {
               if(EAGINE_UNLIKELY(message.add_age(msg_age).too_old())) {
                   ++_dropped_messages;
               } else {
-                  string_serializer_backend backend(_sink);
+                  default_serializer_backend backend(_sink);
                   serialize_message_header(msg_id, message, backend);
 
                   span_size_t i = 0;
@@ -129,23 +124,30 @@ public:
               }
               return true;
           };
-        _outgoing.back().fetch_all({construct_from, handler});
+        auto& queue = [this]() -> message_storage& {
+            std::unique_lock lock{_output_mutex};
+            _output_ready.wait(lock);
+            _outgoing.swap();
+            return _outgoing.front();
+        }();
+        queue.fetch_all({construct_from, handler});
     }
 
     using fetch_handler = message_storage::fetch_handler;
 
     auto fetch_messages(fetch_handler handler) {
-        {
+        auto& queue = [this]() -> message_storage& {
             std::unique_lock lock{_input_mutex};
             _incoming.swap();
-        }
-        return _incoming.back().fetch_all(handler);
+            return _incoming.front();
+        }();
+        return queue.fetch_all(handler);
     }
 
     void recv_input() {
         if(auto pos{_source.scan_for('\n', _max_read)}) {
             block_data_source source(_source.top(extract(pos)));
-            string_deserializer_backend backend(source);
+            default_deserializer_backend backend(source);
             identifier class_id{};
             identifier method_id{};
             _recv_dest.clear_data();
@@ -167,7 +169,7 @@ public:
                 }
 
                 std::unique_lock lock{_input_mutex};
-                _incoming.front().push({class_id, method_id}, _recv_dest);
+                _incoming.back().push({class_id, method_id}, _recv_dest);
             }
             _source.pop(extract(pos) + 1);
         } else {
@@ -622,7 +624,7 @@ void bridge::cleanup() {
 EAGINE_LIB_FUNC
 void bridge::finish() {
     say_bye();
-    timeout too_long{std::chrono::seconds{1}};
+    timeout too_long{adjusted_duration(std::chrono::seconds{1})};
     while(!too_long) {
         update();
     }

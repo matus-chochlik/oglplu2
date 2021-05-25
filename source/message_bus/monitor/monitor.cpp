@@ -26,7 +26,6 @@ auto main(main_ctx& ctx) -> int {
     app.setOrganizationName("OGLplus");
     app.setOrganizationDomain("oglplus.org");
     app.setApplicationName("Message bus monitor");
-    std::setlocale(LC_NUMERIC, "C");
 
     const auto registerId = "com.github.matus-chochlik.oglplu2";
 

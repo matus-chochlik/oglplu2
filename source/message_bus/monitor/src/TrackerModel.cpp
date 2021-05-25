@@ -7,8 +7,7 @@
 
 #include "MonitorBackend.hpp"
 #include "TrackerModel.hpp"
-#include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/router_address.hpp>
+#include <eagine/message_bus.hpp>
 //------------------------------------------------------------------------------
 TrackerModel::TrackerModel(MonitorBackend& backend)
   : QObject{nullptr}
@@ -16,9 +15,7 @@ TrackerModel::TrackerModel(MonitorBackend& backend)
   , _backend{backend}
   , _bus{EAGINE_ID(TrckrEndpt), *this}
   , _tracker{_bus} {
-    eagine::msgbus::router_address address{*this};
-    eagine::msgbus::connection_setup conn_setup{*this};
-    conn_setup.setup_connectors(_tracker, address);
+    setup_bus_connectors(_tracker);
 
     _tracker.host_changed.connect(EAGINE_THIS_MEM_FUNC_REF(handleHostChanged));
     _tracker.instance_changed.connect(

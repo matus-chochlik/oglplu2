@@ -41,7 +41,7 @@ private:
         message_id msg_id{};
         if(default_deserialize_message_type(msg_id, message.content())) {
             if(can_handle()) {
-                msg_ctx.bus().respond_to(
+                msg_ctx.bus_node().respond_to(
                   message,
                   EAGINE_MSG_ID(Ability, response),
                   {message.content()});
@@ -69,7 +69,7 @@ public:
         EAGINE_ASSERT(serialized);
 
         message_view message{extract(serialized)};
-        this->bus().broadcast(EAGINE_MSG_ID(Ability, query), message);
+        this->bus_node().broadcast(EAGINE_MSG_ID(Ability, query), message);
     }
 
     /// @brief Triggered on receipt of response about message handling by endpoint.

@@ -29,7 +29,7 @@ public:
         message_view message{};
         message.set_target_id(node_id);
         const auto msg_id{EAGINE_MSGBUS_ID(topoQuery)};
-        this->bus().post(msg_id, message);
+        this->bus_node().post(msg_id, message);
     }
 
     /// @brief Broadcasts network topology query to all message bus nodes.

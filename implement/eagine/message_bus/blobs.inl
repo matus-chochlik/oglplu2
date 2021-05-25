@@ -174,10 +174,17 @@ auto pending_blob::merge_fragment(span_size_t bgn, memory::const_block fragment)
     return result;
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 auto blob_manipulator::make_io(span_size_t total_size)
   -> std::unique_ptr<blob_io> {
     return std::make_unique<buffer_blob_io>(_buffers.get(total_size));
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto blob_manipulator::_make_io(
+  message_id,
+  span_size_t total_size,
+  blob_manipulator&) -> std::unique_ptr<blob_io> {
+    return make_io(total_size);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -240,7 +247,8 @@ auto blob_manipulator::push_incoming_fragment(
             pending.blob_id = blob_id;
             pending.io = std::move(io);
             pending.current_position = 0;
-            pending.max_time = timeout{std::chrono::seconds(60)};
+            pending.max_time = timeout{adjusted_duration(
+              std::chrono::seconds{60}, memory_access_rate::high)};
             pending.priority = priority;
             pending.done_parts.front().clear();
             if(pending.merge_fragment(span_size(offset), fragment)) {
@@ -315,6 +323,11 @@ auto blob_manipulator::process_incoming(
           .arg(EAGINE_ID(data), message.data);
     }
     return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto blob_manipulator::process_incoming(const message_view& message) -> bool {
+    return process_incoming(EAGINE_THIS_MEM_FUNC_REF(_make_io), message);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

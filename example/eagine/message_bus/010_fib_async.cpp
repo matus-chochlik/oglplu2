@@ -23,7 +23,7 @@ class fibonacci_server_impl : public Base {
 
 protected:
     using Base::Base;
-    using Base::bus;
+    using Base::bus_node;
 
     void add_methods() {
         Base::add_methods();
@@ -51,7 +51,7 @@ public:
         some_true something_done{};
         something_done(Base::update());
 
-        something_done(_calc_skeleton.handle_one(bus()));
+        something_done(_calc_skeleton.handle_one(bus_node()));
 
         return something_done;
     }
@@ -64,7 +64,7 @@ class fibonacci_client_impl : public Base {
 
 protected:
     using Base::Base;
-    using Base::bus;
+    using Base::bus_node;
 
     void add_methods() {
         Base::add_methods();
@@ -77,7 +77,7 @@ private:
 public:
     auto fib(std::int64_t arg) -> future<std::int64_t> {
         return _calc_invoker.invoke(
-          bus(), EAGINE_MSG_ID(Fibonacci, Calculate), arg);
+          bus_node(), EAGINE_MSG_ID(Fibonacci, Calculate), arg);
     }
 
     auto is_done() const -> bool {

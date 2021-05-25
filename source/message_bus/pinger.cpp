@@ -8,8 +8,7 @@
 #include <eagine/main_ctx.hpp>
 #include <eagine/main_fwd.hpp>
 #include <eagine/math/functions.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/router_address.hpp>
+#include <eagine/message_bus.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/application_info.hpp>
 #include <eagine/message_bus/service/discovery.hpp>
@@ -69,30 +68,27 @@ struct ping_state {
     }
 };
 //------------------------------------------------------------------------------
-using pinger_base =
-  service_composition<pinger<host_info_consumer<host_info_provider<
-    application_info_provider<endpoint_info_provider<subscriber_discovery<>>>>>>>;
+using pinger_base = pinger<host_info_consumer<host_info_provider<
+  application_info_provider<endpoint_info_provider<subscriber_discovery<>>>>>>;
 
-class pinger_node
-  : public main_ctx_object
-  , public pinger_base {
-    using base = pinger_base;
+class pinger_node : public service_node<pinger_base> {
+    using base = service_node<pinger_base>;
 
 public:
     pinger_node(
-      endpoint& bus,
+      main_ctx_parent parent,
       const valid_if_positive<std::intmax_t>& max,
       const valid_if_positive<std::intmax_t>& limit)
-      : main_ctx_object{EAGINE_ID(MsgBusPing), bus}
-      , base{bus}
+      : base{EAGINE_ID(MsgBusPing), parent}
       , _limit{extract_or(limit, 1000)}
       , _max{extract_or(max, 100000)} {
-        object_description("Pinger", "Message bus ping");
+        this->object_description("Pinger", "Message bus ping");
 
-        bus.id_assigned.connect(EAGINE_THIS_MEM_FUNC_REF(on_id_assigned));
-        bus.connection_lost.connect(
+        bus_node().id_assigned.connect(
+          EAGINE_THIS_MEM_FUNC_REF(on_id_assigned));
+        bus_node().connection_lost.connect(
           EAGINE_THIS_MEM_FUNC_REF(on_connection_lost));
-        bus.connection_established.connect(
+        bus_node().connection_established.connect(
           EAGINE_THIS_MEM_FUNC_REF(on_connection_established));
 
         subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(on_subscribed));
@@ -107,6 +103,8 @@ public:
         auto& info = provided_endpoint_info();
         info.display_name = "pinger";
         info.description = "node pinging all other nodes";
+
+        setup_bus_connectors(*this);
     }
 
     void on_id_assigned(identifier_t endpoint_id) {
@@ -159,7 +157,7 @@ public:
       const result_context& res_ctx,
       const valid_if_positive<host_id_t>& host_id) {
         if(host_id) {
-            if(host_id != this->bus().get_id()) {
+            if(host_id != this->bus_node().get_id()) {
                 auto& state = _targets[res_ctx.source_id()];
                 state.host_id = extract(host_id);
             }
@@ -298,7 +296,9 @@ public:
     }
 
 private:
-    resetting_timeout _should_query_pingable{std::chrono::seconds(3), nothing};
+    resetting_timeout _should_query_pingable{
+      adjusted_duration(std::chrono::seconds{3}),
+      nothing};
     std::chrono::steady_clock::time_point prev_log{
       std::chrono::steady_clock::now()};
     std::map<identifier_t, ping_state> _targets{};
@@ -317,11 +317,6 @@ auto main(main_ctx& ctx) -> int {
     signal_switch interrupted;
     ctx.preinitialize();
 
-    msgbus::router_address address{ctx};
-    msgbus::connection_setup conn_setup(ctx);
-
-    msgbus::endpoint bus{EAGINE_ID(PingEndpt), ctx};
-
     valid_if_positive<std::intmax_t> ping_count{};
     if(auto arg{ctx.args().find("--ping-count")}) {
         arg.next().parse(ping_count, ctx.log().error_stream());
@@ -332,15 +327,14 @@ auto main(main_ctx& ctx) -> int {
         arg.next().parse(limit_count, ctx.log().error_stream());
     }
 
-    msgbus::pinger_node the_pinger{bus, ping_count, limit_count};
-    conn_setup.setup_connectors(the_pinger, address);
+    msgbus::pinger_node the_pinger{ctx, ping_count, limit_count};
 
-    resetting_timeout do_chart_stats{std::chrono::seconds(15), nothing};
+    resetting_timeout do_chart_stats{std::chrono::seconds{15}, nothing};
 
     while(!the_pinger.is_done() || interrupted) {
         the_pinger.process_all();
         if(!the_pinger.update()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            std::this_thread::sleep_for(std::chrono::milliseconds{1});
             if(do_chart_stats) {
                 the_pinger.log_chart_sample(
                   EAGINE_ID(shortLoad), ctx.system().short_average_load());

@@ -36,27 +36,6 @@ auto endpoint::_process_blobs() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto endpoint::_do_get_blob_io(
-  message_id msg_id,
-  span_size_t size,
-  blob_manipulator& blobs) -> std::unique_ptr<blob_io> {
-
-    if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        if(
-          msg_id.has_method(EAGINE_ID(eptCertPem)) ||
-          msg_id.has_method(EAGINE_ID(eptSigNnce)) ||
-          msg_id.has_method(EAGINE_ID(eptNnceSig)) ||
-          msg_id.has_method(EAGINE_ID(rtrCertPem))) {
-            return blobs.make_io(size);
-        }
-    }
-    if(_get_blob_io) {
-        return _get_blob_io(msg_id, size, blobs);
-    }
-    return {};
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 auto endpoint::_do_send(message_id msg_id, message_view message) -> bool {
     EAGINE_ASSERT(has_id());
     message.set_source_id(_endpoint_id);
@@ -99,8 +78,7 @@ auto endpoint::_handle_special(
               .arg(EAGINE_ID(message), msg_id);
             return true;
         } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
-            if(_blobs.process_incoming(
-                 EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io), message)) {
+            if(_blobs.process_incoming(message)) {
                 _blobs.fetch_all(_store_handler);
             }
             return true;
@@ -120,7 +98,7 @@ auto endpoint::_handle_special(
                     log_debug("confirmed endpoint id ${id} by router")
                       .arg(EAGINE_ID(id), get_id());
                     // send request for router certificate
-                    _do_send(EAGINE_MSGBUS_ID(rtrCertQry), {});
+                    post(EAGINE_MSGBUS_ID(rtrCertQry), {});
                 } else {
                     log_error("mismatching preconfigured and confirmed ids")
                       .arg(EAGINE_ID(confirmed), get_id())
@@ -629,7 +607,7 @@ auto endpoint::post_certificate(identifier_t target_id) -> bool {
           EAGINE_MSGBUS_ID(eptCertPem),
           target_id,
           cert_pem,
-          std::chrono::seconds(30),
+          adjusted_duration(std::chrono::seconds{30}),
           message_priority::normal);
     }
     log_debug("no endpoint certificate to send yet");
@@ -643,7 +621,7 @@ auto endpoint::broadcast_certificate() -> bool {
         return broadcast_blob(
           EAGINE_MSGBUS_ID(eptCertPem),
           cert_pem,
-          std::chrono::seconds(30),
+          adjusted_duration(std::chrono::seconds{30}),
           message_priority::normal);
     }
     log_debug("no endpoint certificate to broadcast yet");

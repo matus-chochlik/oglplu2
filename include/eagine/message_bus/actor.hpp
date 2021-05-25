@@ -42,7 +42,7 @@ public:
     auto operator=(const actor&) = delete;
 
     /// @brief Returns a reference to the associated endpoint.
-    auto bus() noexcept -> endpoint& {
+    auto bus_node() noexcept -> endpoint& {
         return _endpoint;
     }
 
@@ -57,16 +57,16 @@ public:
 
     /// @brief Processes a single enqueued message for which there is a handler.
     /// @see process_all
-    void process_one() {
+    auto process_one() {
         _endpoint.update();
-        _subscriber.process_one();
+        return _subscriber.process_one();
     }
 
     /// @brief Processes all enqueued messages for which there are handlers.
     /// @see process_one
-    void process_all() {
+    auto process_all() {
         _endpoint.update();
-        _subscriber.process_all();
+        return _subscriber.process_all();
     }
 
 protected:
@@ -88,7 +88,10 @@ protected:
       typename Class,
       typename... MsgMaps,
       typename = std::enable_if_t<sizeof...(MsgMaps) == N>>
-    actor(main_ctx_object obj, Class* instance, MsgMaps... msg_maps)
+    actor(
+      main_ctx_object obj, // NOLINT(performance-unnecessary-value-param)
+      Class* instance,
+      MsgMaps... msg_maps)
       : _endpoint{_make_endpoint(
           std::move(obj),
           EAGINE_THIS_MEM_FUNC_REF(_process_message))}

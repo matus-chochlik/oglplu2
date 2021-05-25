@@ -7,9 +7,8 @@
 
 #include <eagine/main_ctx.hpp>
 #include <eagine/main_fwd.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/message_bus.hpp>
 #include <eagine/message_bus/endpoint.hpp>
-#include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/common_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
@@ -21,16 +20,12 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using sudoku_tiling_base =
-  service_composition<pingable<common_info_providers<sudoku_tiling<>>>>;
+using sudoku_tiling_base = pingable<common_info_providers<sudoku_tiling<>>>;
 
-class sudoku_tiling_node
-  : public main_ctx_object
-  , public sudoku_tiling_base {
+class sudoku_tiling_node : public service_node<sudoku_tiling_base> {
 public:
-    sudoku_tiling_node(endpoint& bus)
-      : main_ctx_object{EAGINE_ID(TilingNode), bus}
-      , sudoku_tiling_base{bus} {
+    sudoku_tiling_node(main_ctx_parent parent)
+      : service_node<sudoku_tiling_base>{EAGINE_ID(TilingNode), parent} {
         tiles_generated_3.connect(
           EAGINE_THIS_MEM_FUNC_REF(_handle_generated<3>));
         tiles_generated_4.connect(
@@ -41,6 +36,8 @@ public:
         auto& info = provided_endpoint_info();
         info.display_name = "sudoku tiling generator";
         info.description = "sudoku solver tiling generator application";
+
+        setup_bus_connectors(*this);
     }
 
 private:
@@ -74,12 +71,7 @@ auto main(main_ctx& ctx) -> int {
     signal_switch interrupted;
     ctx.preinitialize();
 
-    msgbus::router_address address{ctx};
-    msgbus::connection_setup conn_setup(ctx);
-
-    msgbus::endpoint tiling_endpoint(EAGINE_ID(TilingEpt), ctx);
-    msgbus::sudoku_tiling_node tiling_generator(tiling_endpoint);
-    conn_setup.setup_connectors(tiling_generator, address);
+    msgbus::sudoku_tiling_node tiling_generator(ctx);
 
     const auto width =
       extract_or(ctx.config().get<int>("msg_bus.sudoku.solver.width"), 32);

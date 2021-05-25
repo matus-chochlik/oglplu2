@@ -15,6 +15,11 @@ TilingViewModel::TilingViewModel(TilingBackend& backend)
   , eagine::main_ctx_object{EAGINE_ID(TilingVM), backend}
   , _backend{backend} {
     connect(
+      _backend.getTilingTheme(),
+      &TilingTheme::tileSizeChanged,
+      this,
+      &TilingViewModel::onTilingChanged);
+    connect(
       &_backend,
       &TilingBackend::tilingModelChanged,
       this,

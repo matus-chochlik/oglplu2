@@ -12,9 +12,8 @@
 #include <eagine/main_fwd.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/maybe_unused.hpp>
+#include <eagine/message_bus.hpp>
 #include <eagine/message_bus/bridge.hpp>
-#include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service/common_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
@@ -123,13 +122,10 @@ auto main(main_ctx& ctx) -> int {
 
     ctx.system().preinitialize();
 
-    msgbus::router_address address(ctx);
-    msgbus::connection_setup conn_setup(ctx);
-
     msgbus::bridge bridge(ctx);
     bridge.add_ca_certificate_pem(ca_certificate_pem(ctx));
     bridge.add_certificate_pem(msgbus_bridge_certificate_pem(ctx));
-    conn_setup.setup_connectors(bridge, address);
+    ctx.bus().setup_connectors(bridge);
 
     std::uintmax_t cycles_work{0};
     std::uintmax_t cycles_idle{0};
@@ -138,7 +134,7 @@ auto main(main_ctx& ctx) -> int {
 
     msgbus::endpoint node_endpoint{EAGINE_ID(BrdgNodeEp), ctx};
     node_endpoint.add_ca_certificate_pem(ca_certificate_pem(ctx));
-    conn_setup.setup_connectors(node_endpoint, address);
+    ctx.bus().setup_connectors(node_endpoint);
     {
         msgbus::bridge_node node{node_endpoint};
 
