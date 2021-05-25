@@ -1180,13 +1180,17 @@ public:
     }
 
     /// @brief Triggered then all tiles with rank 3 are generated.
-    signal<void(const sudoku_tiles<3>&, const Coord&)> tiles_generated_3;
+    signal<void(identifier_t, const sudoku_tiles<3>&, const Coord&)>
+      tiles_generated_3;
     /// @brief Triggered then all tiles with rank 4 are generated.
-    signal<void(const sudoku_tiles<4>&, const Coord&)> tiles_generated_4;
+    signal<void(identifier_t, const sudoku_tiles<4>&, const Coord&)>
+      tiles_generated_4;
     /// @brief Triggered then all tiles with rank 5 are generated.
-    signal<void(const sudoku_tiles<5>&, const Coord&)> tiles_generated_5;
+    signal<void(identifier_t, const sudoku_tiles<5>&, const Coord&)>
+      tiles_generated_5;
     /// @brief Triggered then all tiles with rank 6 are generated.
-    signal<void(const sudoku_tiles<6>&, const Coord&)> tiles_generated_6;
+    signal<void(identifier_t, const sudoku_tiles<6>&, const Coord&)>
+      tiles_generated_6;
 
     /// @brief Returns a reference to the tiles_generated_3 signal.
     /// @see tiles_generated_3
@@ -1393,7 +1397,7 @@ private:
                 ++helper_pos->second;
 
                 const unsigned_constant<S> rank{};
-                solver.tiles_generated_signal(rank)(*this, coord);
+                solver.tiles_generated_signal(rank)(helper_id, *this, coord);
             }
 
             enqueue_incomplete(solver);

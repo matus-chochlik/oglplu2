@@ -12,7 +12,8 @@ TilingBackend::TilingBackend(eagine::main_ctx_parent parent)
   , eagine::main_ctx_object{EAGINE_ID(Backend), parent}
   , _tilingModel{std::make_shared<TilingModel>(*this)}
   , _tilingTheme{*this}
-  , _tilingViewModel{*this} {
+  , _tilingViewModel{*this}
+  , _helperContributionModel{*this} {
     _timerId = startTimer(10);
     emit tilingModelChanged();
 }
@@ -27,6 +28,10 @@ void TilingBackend::timerEvent(QTimerEvent*) {
     }
 }
 //------------------------------------------------------------------------------
+void TilingBackend::helperContributed(eagine::identifier_t helperId) {
+    _helperContributionModel.helperContributed(helperId);
+}
+//------------------------------------------------------------------------------
 auto TilingBackend::getTilingModel() noexcept -> TilingModel* {
     return _tilingModel.get();
 }
@@ -37,5 +42,10 @@ auto TilingBackend::getTilingTheme() noexcept -> TilingTheme* {
 //------------------------------------------------------------------------------
 auto TilingBackend::getTilingViewModel() noexcept -> TilingViewModel* {
     return &_tilingViewModel;
+}
+//------------------------------------------------------------------------------
+auto TilingBackend::getHelperContributionModel() noexcept
+  -> HelperContributionModel* {
+    return &_helperContributionModel;
 }
 //------------------------------------------------------------------------------

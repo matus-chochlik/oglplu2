@@ -14,6 +14,7 @@
 #include <eagine/message_bus/service/sudoku.hpp>
 #include <QObject>
 
+class TilingBackend;
 //------------------------------------------------------------------------------
 class TilingModel
   : public QObject
@@ -21,7 +22,7 @@ class TilingModel
     Q_OBJECT
 
 public:
-    TilingModel(eagine::main_ctx_parent);
+    TilingModel(TilingBackend&);
 
     void update();
 
@@ -39,7 +40,10 @@ signals:
     void fragmentAdded();
 
 private:
+    TilingBackend& _backend;
+
     void onFragmentAdded(
+      eagine::identifier_t,
       const eagine::msgbus::sudoku_tiles<4>&,
       const std::tuple<int, int>&);
 

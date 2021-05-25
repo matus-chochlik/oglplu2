@@ -9,12 +9,14 @@ set(MONITOR_RESOURCES
 )
 set(MONITOR_SOURCES
 	tiling.cpp
+	src/HelperContributionModel.cpp
 	src/TilingTheme.cpp
 	src/TilingBackend.cpp
 	src/TilingModel.cpp
 	src/TilingViewModel.cpp
 )
 set(MONITOR_HEADERS
+	include/HelperContributionModel.hpp
 	include/TilingTheme.hpp
 	include/TilingBackend.hpp
 	include/TilingModel.hpp

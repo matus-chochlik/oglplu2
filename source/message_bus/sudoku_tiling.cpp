@@ -43,6 +43,7 @@ public:
 private:
     template <unsigned S>
     void _handle_generated(
+      eagine::identifier_t,
       const sudoku_tiles<S>& tiles,
       const std::tuple<int, int>&) {
         if(_print_progress) {

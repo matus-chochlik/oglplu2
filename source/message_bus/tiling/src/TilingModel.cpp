@@ -5,14 +5,16 @@
 ///
 
 #include "TilingModel.hpp"
+#include "TilingBackend.hpp"
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus.hpp>
 #include <QVariant>
 #include <algorithm>
 //------------------------------------------------------------------------------
-TilingModel::TilingModel(eagine::main_ctx_parent parent)
+TilingModel::TilingModel(TilingBackend& backend)
   : QObject{nullptr}
-  , eagine::main_ctx_object{EAGINE_ID(TilngModel), parent}
+  , eagine::main_ctx_object{EAGINE_ID(TilngModel), backend}
+  , _backend{backend}
   , _bus{EAGINE_ID(TrckrEndpt), *this}
   , _tiling{_bus} {
     setup_bus_connectors(_tiling);
@@ -81,9 +83,12 @@ auto TilingModel::getCell(int row, int column) const noexcept -> QVariant {
 }
 //------------------------------------------------------------------------------
 void TilingModel::onFragmentAdded(
+  eagine::identifier_t helperId,
   const eagine::msgbus::sudoku_tiles<4>& tiles,
-  const std::tuple<int, int>& frag_coord) {
-    const auto fragment = tiles.get_fragment(frag_coord);
+  const std::tuple<int, int>& fragCoord) {
+    _backend.helperContributed(helperId);
+
+    const auto fragment = tiles.get_fragment(fragCoord);
     fragment.for_each_cell(
       [this](const auto& coord, const auto& offs, const auto& glyph) {
           if(auto glyphStr{_traits_4.to_string(glyph)}) {
