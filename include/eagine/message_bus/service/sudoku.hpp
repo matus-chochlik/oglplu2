@@ -561,6 +561,7 @@ private:
 
         flat_set<identifier_t> ready_helpers;
         flat_map<identifier_t, timeout> used_helpers;
+        std::vector<identifier_t> found_helpers;
 
         std::default_random_engine randeng{std::random_device{}()};
 
@@ -724,8 +725,7 @@ private:
             return false;
         }
 
-        auto find_helpers(span<identifier_t> dst) const
-          -> span<const identifier_t> {
+        auto find_helpers(span<identifier_t> dst) const -> span<identifier_t> {
             span_size_t done = 0;
             for(const auto helper_id : ready_helpers) {
                 if(done < dst.size()) {
@@ -746,8 +746,12 @@ private:
         auto send_boards(endpoint& bus, data_compressor& compressor) -> bool {
             some_true something_done;
 
-            std::array<identifier_t, 8> helper_ids{};
-            for(const auto helper_id : find_helpers(cover(helper_ids))) {
+            if(found_helpers.size() < ready_helpers.size()) {
+                found_helpers.resize(ready_helpers.size());
+            }
+
+            for(const auto helper_id :
+                head(shuffle(find_helpers(cover(found_helpers)), randeng), 8)) {
                 if(!send_board_to(bus, compressor, helper_id)) {
                     break;
                 }
