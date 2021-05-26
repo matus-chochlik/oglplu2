@@ -51,6 +51,7 @@ void TilingModel::reinitialize(int w, int h) {
       eagine::default_sudoku_board_traits<4>()
         .make_generator()
         .generate_medium());
+    _backend.onTilingReset();
     emit reinitialized();
 }
 //------------------------------------------------------------------------------
@@ -86,7 +87,7 @@ void TilingModel::onFragmentAdded(
   eagine::identifier_t helperId,
   const eagine::msgbus::sudoku_tiles<4>& tiles,
   const std::tuple<int, int>& fragCoord) {
-    _backend.helperContributed(helperId);
+    _backend.onHelperContributed(helperId);
 
     const auto fragment = tiles.get_fragment(fragCoord);
     fragment.for_each_cell(

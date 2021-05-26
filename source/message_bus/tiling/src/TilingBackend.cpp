@@ -13,7 +13,8 @@ TilingBackend::TilingBackend(eagine::main_ctx_parent parent)
   , _tilingModel{std::make_shared<TilingModel>(*this)}
   , _tilingTheme{*this}
   , _tilingViewModel{*this}
-  , _helperContributionModel{*this} {
+  , _helperContributionViewModel{*this}
+  , _solutionIntervalViewModel{*this} {
     _timerId = startTimer(10);
     emit tilingModelChanged();
 }
@@ -28,8 +29,13 @@ void TilingBackend::timerEvent(QTimerEvent*) {
     }
 }
 //------------------------------------------------------------------------------
-void TilingBackend::helperContributed(eagine::identifier_t helperId) {
-    _helperContributionModel.helperContributed(helperId);
+void TilingBackend::onTilingReset() {
+    _solutionIntervalViewModel.tilingReset();
+}
+//------------------------------------------------------------------------------
+void TilingBackend::onHelperContributed(eagine::identifier_t helperId) {
+    _solutionIntervalViewModel.helperContributed(helperId);
+    _helperContributionViewModel.helperContributed(helperId);
 }
 //------------------------------------------------------------------------------
 auto TilingBackend::getTilingModel() noexcept -> TilingModel* {
@@ -44,8 +50,13 @@ auto TilingBackend::getTilingViewModel() noexcept -> TilingViewModel* {
     return &_tilingViewModel;
 }
 //------------------------------------------------------------------------------
-auto TilingBackend::getHelperContributionModel() noexcept
-  -> HelperContributionModel* {
-    return &_helperContributionModel;
+auto TilingBackend::getHelperContributionViewModel() noexcept
+  -> HelperContributionViewModel* {
+    return &_helperContributionViewModel;
+}
+//------------------------------------------------------------------------------
+auto TilingBackend::getSolutionIntervalViewModel() noexcept
+  -> SolutionIntervalViewModel* {
+    return &_solutionIntervalViewModel;
 }
 //------------------------------------------------------------------------------

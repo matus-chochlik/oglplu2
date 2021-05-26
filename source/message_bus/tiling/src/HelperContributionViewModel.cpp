@@ -4,14 +4,16 @@
 /// See http://www.gnu.org/licenses/gpl-3.0.txt
 ///
 
-#include "HelperContributionModel.hpp"
+#include "HelperContributionViewModel.hpp"
 
 //------------------------------------------------------------------------------
-HelperContributionModel::HelperContributionModel(eagine::main_ctx_parent parent)
+HelperContributionViewModel::HelperContributionViewModel(
+  eagine::main_ctx_parent parent)
   : QObject{nullptr}
-  , eagine::main_ctx_object{EAGINE_ID(HlprModel), parent} {}
+  , eagine::main_ctx_object{EAGINE_ID(CntrbModel), parent} {}
 //------------------------------------------------------------------------------
-void HelperContributionModel::helperContributed(eagine::identifier_t helperId) {
+void HelperContributionViewModel::helperContributed(
+  eagine::identifier_t helperId) {
     auto pos = _contributions.find(helperId);
     if(pos == _contributions.end()) {
         pos = _contributions.emplace(helperId, 0).first;
@@ -21,23 +23,25 @@ void HelperContributionModel::helperContributed(eagine::identifier_t helperId) {
     emit dataChanged();
 }
 //------------------------------------------------------------------------------
-auto HelperContributionModel::getHelperIds() const -> QStringList {
+auto HelperContributionViewModel::getHelperIds() const -> QStringList {
     QStringList result;
+    result.reserve(_contributions.size());
     for(const auto& entry : _contributions) {
         result.append(QString::number(std::get<0>(entry)));
     }
     return result;
 }
 //------------------------------------------------------------------------------
-auto HelperContributionModel::getSolvedCounts() const -> QVariantList {
+auto HelperContributionViewModel::getSolvedCounts() const -> QVariantList {
     QVariantList result;
+    result.reserve(_contributions.size());
     for(const auto& entry : _contributions) {
         result.append(qlonglong(std::get<0>(std::get<1>(entry))));
     }
     return result;
 }
 //------------------------------------------------------------------------------
-auto HelperContributionModel::getMaxSolvedCount() const -> qreal {
+auto HelperContributionViewModel::getMaxSolvedCount() const -> qreal {
     qreal result = 1;
     for(const auto& entry : _contributions) {
         result = std::max(result, qreal(std::get<0>(std::get<1>(entry))));

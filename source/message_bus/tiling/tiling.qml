@@ -104,6 +104,9 @@ ApplicationWindow {
             TabButton {
                 text: qsTr("Helper contributions")
             }
+            TabButton {
+                text: qsTr("Solution intervals")
+            }
         }
 
         StackLayout {
@@ -123,7 +126,14 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                model: backend.helperContribution
+                model: backend.helperContributions
+            }
+
+            SolutionIntervalView {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                model: backend.solutionIntervals
             }
             
         }
