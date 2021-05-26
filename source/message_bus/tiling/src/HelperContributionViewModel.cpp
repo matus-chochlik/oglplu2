@@ -20,6 +20,7 @@ void HelperContributionViewModel::helperContributed(
     }
     auto& [solvedCount] = pos->second;
     ++solvedCount;
+    _maxCount = std::max(_maxCount, solvedCount);
     emit dataChanged();
 }
 //------------------------------------------------------------------------------
@@ -42,10 +43,6 @@ auto HelperContributionViewModel::getSolvedCounts() const -> QVariantList {
 }
 //------------------------------------------------------------------------------
 auto HelperContributionViewModel::getMaxSolvedCount() const -> qreal {
-    qreal result = 1;
-    for(const auto& entry : _contributions) {
-        result = std::max(result, qreal(std::get<0>(std::get<1>(entry))));
-    }
-    return result;
+    return _maxCount;
 }
 //------------------------------------------------------------------------------

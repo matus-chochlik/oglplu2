@@ -36,6 +36,7 @@ signals:
 private:
     eagine::flat_map<eagine::identifier_t, std::tuple<eagine::span_size_t>>
       _contributions;
+    eagine::span_size_t _maxCount{1};
 };
 //------------------------------------------------------------------------------
 #endif

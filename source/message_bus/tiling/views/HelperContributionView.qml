@@ -27,7 +27,7 @@ ChartView {
         }
 
         BarSet {
-            label: qsTr("solved count")
+            label: qsTr("count of solutions by helper")
             values: helperContributionView.model
                 ? helperContributionView.model.solvedCounts
                 : []

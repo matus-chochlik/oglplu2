@@ -37,6 +37,7 @@ private:
     std::chrono::steady_clock::time_point _previousSolutionTime{
       std::chrono::steady_clock::now()};
     eagine::variable_with_history<std::chrono::duration<float>, 128> _intervals;
+    std::chrono::duration<float> _maxInterval{1.F};
 };
 //------------------------------------------------------------------------------
 #endif

@@ -15,12 +15,14 @@ SolutionIntervalViewModel::SolutionIntervalViewModel(
 //------------------------------------------------------------------------------
 void SolutionIntervalViewModel::tilingReset() {
     _previousSolutionTime = std::chrono::steady_clock::now();
+    _maxInterval = std::chrono::duration<float>{1.F};
 }
 //------------------------------------------------------------------------------
 void SolutionIntervalViewModel::helperContributed(eagine::identifier_t) {
     const auto now = std::chrono::steady_clock::now();
     _intervals.assign(now - _previousSolutionTime);
     _previousSolutionTime = now;
+    _maxInterval = std::max(_maxInterval, _intervals.value());
     emit dataChanged();
 }
 //------------------------------------------------------------------------------
@@ -34,10 +36,6 @@ auto SolutionIntervalViewModel::getIntervals() const -> QVariantList {
 }
 //------------------------------------------------------------------------------
 auto SolutionIntervalViewModel::getMaxInterval() const -> qreal {
-    qreal result = 1;
-    for(const auto& value : _intervals) {
-        result = std::max(result, qreal(value.count()));
-    }
-    return result;
+    return _maxInterval.count();
 }
 //------------------------------------------------------------------------------

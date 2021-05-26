@@ -27,7 +27,7 @@ ChartView {
         }
 
         BarSet {
-            label: qsTr("interval")
+            label: qsTr("interval between solutions")
             values: solutionIntervalView.model
                 ? solutionIntervalView.model.intervals
                 : []
