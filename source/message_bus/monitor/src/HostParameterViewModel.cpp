@@ -72,8 +72,8 @@ auto HostParameterViewModel::data(const QModelIndex& index, int role) const
         const auto row = index.row();
         auto& params = *_parameters;
         if((row >= 0) && (row < params.count())) {
-            auto get = [row, &params](const auto& v) {
-                return QVariant{*(v.begin() + (params.count() - row - 1))};
+            auto get = [row](const auto& v) {
+                return QVariant{*(v.rbegin() + row)};
             };
             switch(role) {
                 case shortLoadRole:
