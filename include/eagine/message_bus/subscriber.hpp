@@ -28,56 +28,42 @@ namespace eagine::msgbus {
 /// @see endpoint
 class subscriber_base {
 public:
-    /// @brief Tests if this subscribes has an associated endpoint and is usable.
-    explicit operator bool() noexcept {
-        return _endpoint != nullptr;
-    }
-
     /// @brief Returns a reference to the associated endpoint.
-    /// @pre bool(*this)
     auto bus_node() noexcept -> auto& {
-        EAGINE_ASSERT(_endpoint != nullptr);
-        return *_endpoint;
+        return _endpoint;
     }
 
     /// @brief Returns a const reference to the associated endpoint.
-    /// @pre bool(*this)
     auto bus_node() const noexcept -> auto& {
-        EAGINE_ASSERT(_endpoint != nullptr);
-        return *_endpoint;
+        return _endpoint;
+    }
+
+    /// @brief Returns a reference to the associated application config object.
+    auto app_config() noexcept -> application_config& {
+        return _endpoint.app_config();
     }
 
     /// @brief Updates the internal endpoint state (should be called repeatedly).
     auto update() const noexcept -> bool {
-        if(EAGINE_LIKELY(_endpoint)) {
-            return _endpoint->update();
-        }
-        return false;
+        return _endpoint.update();
     }
 
     /// @brief Uses the associated endpoint to verify the specified message.
     auto verify_bits(const stored_message& message) noexcept
       -> verification_bits {
-        if(EAGINE_LIKELY(_endpoint)) {
-            return message.verify_bits(_endpoint->ctx(), *_endpoint);
-        }
-        return {};
+        return message.verify_bits(_endpoint.ctx(), _endpoint);
     }
 
     /// @brief Queries the subscriptions of the remote endpoint with the specified id.
     /// @see query_subscribers_of
     void query_subscriptions_of(identifier_t target_id) {
-        if(EAGINE_LIKELY(_endpoint)) {
-            _endpoint->query_subscriptions_of(target_id);
-        }
+        _endpoint.query_subscriptions_of(target_id);
     }
 
     /// @brief Queries remote nodes subscribing to the specified message.
     /// @see query_subscriptions_of
     void query_subscribers_of(message_id sub_msg) {
-        if(EAGINE_LIKELY(_endpoint)) {
-            _endpoint->query_subscribers_of(sub_msg);
-        }
+        _endpoint.query_subscribers_of(sub_msg);
     }
 
     /// @brief Not copy assignable.
@@ -134,58 +120,47 @@ protected:
     };
 
     ~subscriber_base() noexcept = default;
-    constexpr subscriber_base() noexcept = default;
+
     constexpr subscriber_base(endpoint& bus) noexcept
-      : _endpoint{&bus} {}
+      : _endpoint{bus} {}
+
     subscriber_base(subscriber_base&& temp) noexcept
-      : _endpoint{temp._endpoint} {
-        temp._endpoint = nullptr;
-    }
+      : _endpoint{temp._endpoint} {}
 
     void _subscribe_to(span<const handler_entry> msg_handlers) const {
-        if(EAGINE_LIKELY(_endpoint)) {
-            for(auto& entry : msg_handlers) {
-                _endpoint->subscribe(entry.msg_id);
-            }
+        for(auto& entry : msg_handlers) {
+            _endpoint.subscribe(entry.msg_id);
         }
     }
 
     void
     _unsubscribe_from(span<const handler_entry> msg_handlers) const noexcept {
-        if(_endpoint) {
-            for(auto& entry : msg_handlers) {
-                try {
-                    _endpoint->unsubscribe(entry.msg_id);
-                } catch(...) {
-                }
+        for(auto& entry : msg_handlers) {
+            try {
+                _endpoint.unsubscribe(entry.msg_id);
+            } catch(...) {
             }
         }
     }
 
     void _announce_subscriptions(span<const handler_entry> msg_handlers) const {
-        if(EAGINE_LIKELY(_endpoint)) {
-            for(auto& entry : msg_handlers) {
-                _endpoint->say_subscribes_to(entry.msg_id);
-            }
+        for(auto& entry : msg_handlers) {
+            _endpoint.say_subscribes_to(entry.msg_id);
         }
     }
 
     void _allow_subscriptions(span<const handler_entry> msg_handlers) const {
-        if(EAGINE_LIKELY(_endpoint)) {
-            for(auto& entry : msg_handlers) {
-                _endpoint->allow_message_type(entry.msg_id);
-            }
+        for(auto& entry : msg_handlers) {
+            _endpoint.allow_message_type(entry.msg_id);
         }
     }
 
     void _retract_subscriptions(
       span<const handler_entry> msg_handlers) const noexcept {
-        if(EAGINE_LIKELY(_endpoint)) {
-            for(auto& entry : msg_handlers) {
-                try {
-                    _endpoint->say_unsubscribes_from(entry.msg_id);
-                } catch(...) {
-                }
+        for(auto& entry : msg_handlers) {
+            try {
+                _endpoint.say_unsubscribes_from(entry.msg_id);
+            } catch(...) {
             }
         }
     }
@@ -193,10 +168,8 @@ protected:
     void _respond_to_subscription_query(
       identifier_t source_id,
       span<const handler_entry> msg_handlers) const {
-        if(EAGINE_LIKELY(_endpoint)) {
-            for(auto& entry : msg_handlers) {
-                _endpoint->say_subscribes_to(source_id, entry.msg_id);
-            }
+        for(auto& entry : msg_handlers) {
+            _endpoint.say_subscribes_to(source_id, entry.msg_id);
         }
     }
 
@@ -204,15 +177,13 @@ protected:
       identifier_t source_id,
       message_id sub_msg,
       span<const handler_entry> msg_handlers) const {
-        if(EAGINE_LIKELY(_endpoint)) {
-            for(auto& entry : msg_handlers) {
-                if(entry.msg_id == sub_msg) {
-                    _endpoint->say_subscribes_to(source_id, sub_msg);
-                    return;
-                }
+        for(auto& entry : msg_handlers) {
+            if(entry.msg_id == sub_msg) {
+                _endpoint.say_subscribes_to(source_id, sub_msg);
+                return;
             }
-            _endpoint->say_not_subscribed_to(source_id, sub_msg);
         }
+        _endpoint.say_not_subscribed_to(source_id, sub_msg);
     }
 
     auto _process_one(span<const handler_entry> msg_handlers) -> bool {
@@ -243,16 +214,14 @@ protected:
     }
 
     void _finish() noexcept {
-        if(EAGINE_LIKELY(_endpoint)) {
-            try {
-                _endpoint->finish();
-            } catch(...) {
-            }
+        try {
+            _endpoint.finish();
+        } catch(...) {
         }
     }
 
 private:
-    endpoint* _endpoint{nullptr};
+    endpoint& _endpoint;
 };
 //------------------------------------------------------------------------------
 /// @brief Template for subscribers with predefined count of handled message types.
