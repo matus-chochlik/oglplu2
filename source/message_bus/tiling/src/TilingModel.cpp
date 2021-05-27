@@ -23,6 +23,7 @@ TilingModel::TilingModel(TilingBackend& backend)
     info.display_name = "sudoku tiling generator";
     info.description = "sudoku tiling solver/generator GUI application";
 
+    _tiling.helper_appeared.connect(EAGINE_THIS_MEM_FUNC_REF(onHelperAppeared));
     _tiling.tiles_generated_4.connect(
       EAGINE_THIS_MEM_FUNC_REF(onFragmentAdded));
 
@@ -83,6 +84,10 @@ auto TilingModel::getCell(int row, int column) const noexcept -> QVariant {
         return {static_cast<const char*>(s)};
     }
     return {};
+}
+//------------------------------------------------------------------------------
+void TilingModel::onHelperAppeared(eagine::identifier_t helperId) {
+    _backend.onHelperAppeared(helperId);
 }
 //------------------------------------------------------------------------------
 void TilingModel::onFragmentAdded(

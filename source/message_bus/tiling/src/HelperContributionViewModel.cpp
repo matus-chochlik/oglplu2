@@ -12,6 +12,14 @@ HelperContributionViewModel::HelperContributionViewModel(
   : QObject{nullptr}
   , eagine::main_ctx_object{EAGINE_ID(CntrbModel), parent} {}
 //------------------------------------------------------------------------------
+void HelperContributionViewModel::helperAppeared(eagine::identifier_t helperId) {
+    const auto pos = _contributions.find(helperId);
+    if(pos == _contributions.end()) {
+        _contributions.emplace(helperId, 0);
+        emit dataChanged();
+    }
+}
+//------------------------------------------------------------------------------
 void HelperContributionViewModel::helperContributed(
   eagine::identifier_t helperId) {
     auto pos = _contributions.find(helperId);

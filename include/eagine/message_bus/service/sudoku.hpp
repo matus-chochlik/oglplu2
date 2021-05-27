@@ -486,6 +486,9 @@ public:
         return false;
     }
 
+    /// @brief Triggered when a helper service appears.
+    signal<void(identifier_t)> helper_appeared;
+
     /// @brief Triggered when the board with the specified key is solved.
     signal<void(identifier_t, const Key&, basic_sudoku_board<3>&)> solved_3;
     /// @brief Triggered when the board with the specified key is solved.
@@ -559,6 +562,7 @@ private:
         };
         std::vector<pending_info> pending;
 
+        flat_set<identifier_t> known_helpers;
         flat_set<identifier_t> ready_helpers;
         flat_map<identifier_t, timeout> used_helpers;
         std::vector<identifier_t> found_helpers;
@@ -618,6 +622,7 @@ private:
                                   }
                               });
                         }
+                        known_helpers.erase(entry.used_helper);
                         used_helpers.erase(entry.used_helper);
                         return true;
                     }
@@ -773,7 +778,10 @@ private:
             }
         }
 
-        void helper_alive(identifier_t id) {
+        void helper_alive(This& parent, identifier_t id) {
+            if(std::get<1>(known_helpers.insert(id))) {
+                parent.helper_appeared(id);
+            }
             ready_helpers.insert(id);
         }
 
@@ -810,7 +818,8 @@ private:
     template <unsigned S>
     auto _handle_alive(const message_context&, stored_message& message)
       -> bool {
-        _infos.get(unsigned_constant<S>{}).helper_alive(message.source_id);
+        _infos.get(unsigned_constant<S>{})
+          .helper_alive(*this, message.source_id);
         return true;
     }
 

@@ -42,6 +42,7 @@ signals:
     void tilingModelChanged();
 public slots:
     void onTilingReset();
+    void onHelperAppeared(eagine::identifier_t helperId);
     void onHelperContributed(eagine::identifier_t helperId);
 
 private:

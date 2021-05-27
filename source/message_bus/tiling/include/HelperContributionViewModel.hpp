@@ -25,6 +25,7 @@ class HelperContributionViewModel
 public:
     HelperContributionViewModel(eagine::main_ctx_parent);
 
+    void helperAppeared(eagine::identifier_t helperId);
     void helperContributed(eagine::identifier_t helperId);
 
     auto getHelperIds() const -> QStringList;

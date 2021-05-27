@@ -42,6 +42,7 @@ signals:
 private:
     TilingBackend& _backend;
 
+    void onHelperAppeared(eagine::identifier_t);
     void onFragmentAdded(
       eagine::identifier_t,
       const eagine::msgbus::sudoku_tiles<4>&,

@@ -33,6 +33,10 @@ void TilingBackend::onTilingReset() {
     _solutionIntervalViewModel.tilingReset();
 }
 //------------------------------------------------------------------------------
+void TilingBackend::onHelperAppeared(eagine::identifier_t helperId) {
+    _helperContributionViewModel.helperAppeared(helperId);
+}
+//------------------------------------------------------------------------------
 void TilingBackend::onHelperContributed(eagine::identifier_t helperId) {
     _solutionIntervalViewModel.helperContributed(helperId);
     _helperContributionViewModel.helperContributed(helperId);
