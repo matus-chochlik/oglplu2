@@ -407,6 +407,16 @@ public:
           EAGINE_THIS_MEM_FUNC_REF(on_connection_established));
         this->bus_node().connection_lost.connect(
           EAGINE_THIS_MEM_FUNC_REF(on_connection_lost));
+
+        if(const auto solution_timeout{this->app_config().get(
+             "msg_bus.sudoku.solver.solution_timeout",
+             type_identity<std::chrono::seconds>{})}) {
+            for_each_sudoku_rank_unit(
+              [&](auto& info) {
+                  info.solution_timeout.reset(extract(solution_timeout));
+              },
+              _infos);
+        }
     }
 
     void on_id_assigned(identifier_t) {

@@ -28,6 +28,13 @@ msg_bus:
     sudoku:
         helper:
             count: 16
+        solver:
+            rank: 4
+            width: 256
+            height: 256
+            solution_timeout: 16min
+            gui:
+                tile_size: 8
 application:
     video:
         provider: provider_name
