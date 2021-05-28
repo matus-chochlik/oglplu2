@@ -44,9 +44,6 @@ public:
     /// @brief Alias for message fetch handler callable reference.
     using fetch_handler = connection::fetch_handler;
 
-    /// @brief Alias for blob message type filter callable reference.
-    using blob_io_getter = blob_manipulator::io_getter;
-
     /// @brief Triggered when the id is confirmed or assigned to this endpoint.
     signal<void(identifier_t)> id_assigned;
 
@@ -459,7 +456,7 @@ private:
         return *pos->second;
     }
 
-    blob_manipulator _blobs{*this};
+    blob_manipulator _blobs{*this, EAGINE_MSGBUS_ID(blobFrgmnt)};
 
     auto _cleanup_blobs() -> bool;
     auto _process_blobs() -> bool;

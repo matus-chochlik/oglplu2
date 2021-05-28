@@ -396,8 +396,6 @@ auto blob_manipulator::process_outgoing(
   span_size_t max_message_size) -> bool {
     some_true something_done{};
 
-    const auto msg_id = EAGINE_MSGBUS_ID(blobFrgmnt);
-
     for(auto& pending : _outgoing) {
         if(!pending.is_at_eod()) {
             const auto header = std::make_tuple(
@@ -423,7 +421,7 @@ auto blob_manipulator::process_outgoing(
                     message.set_source_id(pending.source_id);
                     message.set_target_id(pending.target_id);
                     message.set_priority(pending.priority);
-                    something_done(do_send(msg_id, message));
+                    something_done(do_send(_msg_id, message));
                 } else {
                     log_error("failed to write fragment of blob ${message}")
                       .arg(EAGINE_ID(message), pending.msg_id);

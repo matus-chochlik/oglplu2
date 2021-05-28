@@ -28,6 +28,10 @@ namespace eagine::msgbus {
 /// @see endpoint
 class subscriber_base {
 public:
+    operator main_ctx_object_parent_info() noexcept {
+        return {_endpoint};
+    }
+
     /// @brief Returns a reference to the associated endpoint.
     auto bus_node() noexcept -> auto& {
         return _endpoint;

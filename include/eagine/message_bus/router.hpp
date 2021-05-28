@@ -243,7 +243,7 @@ private:
     flat_map<identifier_t, identifier_t> _endpoint_idx;
     flat_map<identifier_t, router_endpoint_info> _endpoint_infos;
     flat_map<identifier_t, timeout> _recently_disconnected;
-    blob_manipulator _blobs{*this};
+    blob_manipulator _blobs{*this, EAGINE_MSGBUS_ID(blobFrgmnt)};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

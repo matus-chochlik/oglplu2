@@ -117,8 +117,9 @@ struct pending_blob {
 //------------------------------------------------------------------------------
 class blob_manipulator : main_ctx_object {
 public:
-    blob_manipulator(main_ctx_parent parent)
-      : main_ctx_object{EAGINE_ID(BlobManipl), parent} {}
+    blob_manipulator(main_ctx_parent parent, message_id msg_id)
+      : main_ctx_object{EAGINE_ID(BlobManipl), parent}
+      , _msg_id{std::move(msg_id)} {}
 
     auto max_blob_size() const noexcept -> valid_if_positive<span_size_t> {
         return {span_size(_max_blob_size)};
@@ -177,6 +178,7 @@ public:
     auto process_outgoing(send_handler, span_size_t max_data_size) -> bool;
 
 private:
+    const message_id _msg_id;
     std::int64_t _max_blob_size{1024 * 1024 * 1024};
     std::uint32_t _blob_id_sequence{0};
     memory::buffer _scratch_buffer{};
