@@ -30,7 +30,7 @@ auto endpoint::_process_blobs() -> bool {
     const auto opt_max_size = max_data_size();
     if(EAGINE_LIKELY(opt_max_size)) {
         return _blobs.process_outgoing(
-          EAGINE_THIS_MEM_FUNC_REF(_handle_post), extract(opt_max_size));
+          EAGINE_THIS_MEM_FUNC_REF(post), extract(opt_max_size));
     }
     return false;
 }

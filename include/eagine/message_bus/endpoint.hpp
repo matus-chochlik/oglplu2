@@ -169,7 +169,7 @@ public:
     /// @see post_signed
     /// @see post_value
     /// @see post_blob
-    auto post(message_id msg_id, message_view message) -> bool {
+    auto post(message_id msg_id, const message_view& message) -> bool {
         if(EAGINE_LIKELY(has_id())) {
             return _do_send(msg_id, message);
         }
@@ -474,10 +474,6 @@ private:
       -> bool {
         // TODO: use message age
         return _do_send(msg_id, message);
-    }
-
-    auto _handle_post(message_id msg_id, const message_view& message) -> bool {
-        return post(msg_id, message);
     }
 
     auto _handle_special(message_id msg_id, const message_view&) noexcept
