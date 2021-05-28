@@ -525,6 +525,7 @@ auto router::_handle_blob(
                   EAGINE_MSGBUS_ID(eptCertPem),
                   message.source_id,
                   message.target_id,
+                  message.sequence_no,
                   message.data,
                   adjusted_duration(std::chrono::seconds(30)),
                   message_priority::high);
@@ -655,6 +656,7 @@ auto router::_handle_router_certificate_query(const message_view& message)
       EAGINE_MSGBUS_ID(rtrCertPem),
       0U,
       message.source_id,
+      message.sequence_no,
       _context->get_own_certificate_pem(),
       adjusted_duration(std::chrono::seconds{30}),
       message_priority::high);
@@ -669,6 +671,7 @@ auto router::_handle_endpoint_certificate_query(const message_view& message)
           EAGINE_MSGBUS_ID(eptCertPem),
           message.target_id,
           message.source_id,
+          message.sequence_no,
           cert_pem,
           adjusted_duration(std::chrono::seconds{30}),
           message_priority::high);

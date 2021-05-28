@@ -214,11 +214,18 @@ public:
     auto post_blob(
       message_id msg_id,
       identifier_t target_id,
+      blob_id_t target_blob_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
       message_priority priority) -> message_sequence_t {
         return _blobs.push_outgoing(
-          msg_id, _endpoint_id, target_id, blob, max_time, priority);
+          msg_id,
+          _endpoint_id,
+          target_id,
+          target_blob_id,
+          blob,
+          max_time,
+          priority);
     }
 
     /// @brief Enqueues a BLOB that is larger than max_data_size for broadcast.
@@ -232,7 +239,7 @@ public:
       std::chrono::seconds max_time,
       message_priority priority) -> bool {
         return post_blob(
-          msg_id, broadcast_endpoint_id(), blob, max_time, priority);
+          msg_id, broadcast_endpoint_id(), 0, blob, max_time, priority);
     }
 
     /// @brief Enqueues a BLOB that is larger than max_data_size for broadcast.
@@ -248,7 +255,7 @@ public:
     }
 
     /// @brief Posts the certificate of this enpoint to the specified remote.
-    auto post_certificate(identifier_t target_id) -> bool;
+    auto post_certificate(identifier_t target_id, blob_id_t) -> bool;
 
     /// @brief Broadcasts the certificate of this enpoint to the whole bus.
     auto broadcast_certificate() -> bool;

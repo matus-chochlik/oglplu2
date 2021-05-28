@@ -191,7 +191,8 @@ EAGINE_LIB_FUNC
 auto blob_manipulator::push_incoming_fragment(
   message_id msg_id,
   identifier_t source_id,
-  std::uint32_t blob_id,
+  blob_id_t source_blob_id,
+  blob_id_t target_blob_id,
   std::int64_t offset,
   std::int64_t total_size,
   io_getter get_io,
@@ -199,8 +200,11 @@ auto blob_manipulator::push_incoming_fragment(
   message_priority priority) -> bool {
 
     auto pos = std::find_if(
-      _incoming.begin(), _incoming.end(), [blob_id](const auto& pending) {
-          return pending.blob_id == blob_id;
+      _incoming.begin(),
+      _incoming.end(),
+      [source_id, source_blob_id](const auto& pending) {
+          return (pending.source_id == source_id) &&
+                 (pending.source_blob_id == source_blob_id);
       });
     if(pos != _incoming.end()) {
         auto& pending = *pos;
@@ -212,7 +216,8 @@ auto blob_manipulator::push_incoming_fragment(
                 }
                 if(pending.merge_fragment(span_size(offset), fragment)) {
                     log_trace("merged blob fragment")
-                      .arg(EAGINE_ID(blobId), blob_id)
+                      .arg(EAGINE_ID(source), source_id)
+                      .arg(EAGINE_ID(srcBlobId), source_blob_id)
                       .arg(EAGINE_ID(offset), offset)
                       .arg(EAGINE_ID(size), fragment.size())
                       .arg_func([&](logger_backend& backend) {
@@ -244,7 +249,8 @@ auto blob_manipulator::push_incoming_fragment(
             auto& pending = _incoming.back();
             pending.msg_id = msg_id;
             pending.source_id = source_id;
-            pending.blob_id = blob_id;
+            pending.source_blob_id = source_blob_id;
+            pending.target_blob_id = target_blob_id;
             pending.io = std::move(io);
             pending.current_position = 0;
             pending.max_time = timeout{adjusted_duration(
@@ -253,7 +259,8 @@ auto blob_manipulator::push_incoming_fragment(
             pending.done_parts.front().clear();
             if(pending.merge_fragment(span_size(offset), fragment)) {
                 log_trace("merged first blob fragment")
-                  .arg(EAGINE_ID(blobId), blob_id)
+                  .arg(EAGINE_ID(source), source_id)
+                  .arg(EAGINE_ID(srcBlobId), source_blob_id)
                   .arg(EAGINE_ID(offset), offset)
                   .arg(EAGINE_ID(size), fragment.size())
                   .arg_func([&](logger_backend& backend) {
@@ -277,11 +284,13 @@ auto blob_manipulator::process_incoming(
 
     identifier class_id{};
     identifier method_id{};
-    std::uint32_t blob_id{0U};
+    blob_id_t source_blob_id{0U};
+    blob_id_t target_blob_id{0U};
     std::int64_t offset{0};
     std::int64_t total_size{0};
 
-    auto header = std::tie(class_id, method_id, blob_id, offset, total_size);
+    auto header = std::tie(
+      class_id, method_id, source_blob_id, target_blob_id, offset, total_size);
     block_data_source source{message.data};
     default_deserializer_backend backend(source);
     auto errors = deserialize(header, backend);
@@ -295,7 +304,8 @@ auto blob_manipulator::process_incoming(
                     return push_incoming_fragment(
                       msg_id,
                       message.source_id,
-                      blob_id,
+                      source_blob_id,
+                      target_blob_id,
                       offset,
                       total_size,
                       get_io,
@@ -357,20 +367,22 @@ auto blob_manipulator::push_outgoing(
   message_id msg_id,
   identifier_t source_id,
   identifier_t target_id,
+  blob_id_t target_blob_id,
   std::unique_ptr<blob_io> io,
   std::chrono::seconds max_time,
-  message_priority priority) -> message_sequence_t {
+  message_priority priority) -> blob_id_t {
     _outgoing.emplace_back();
     auto& pending = _outgoing.back();
     pending.msg_id = msg_id;
     pending.source_id = source_id;
     pending.target_id = target_id;
-    pending.blob_id = ++_blob_id_sequence;
+    pending.source_blob_id = ++_blob_id_sequence;
+    pending.target_blob_id = target_blob_id;
     pending.io = std::move(io);
     pending.current_position = 0;
     pending.max_time = timeout{max_time};
     pending.priority = priority;
-    return limit_cast<identifier_t>(pending.blob_id);
+    return pending.source_blob_id;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -378,13 +390,15 @@ auto blob_manipulator::push_outgoing(
   message_id msg_id,
   identifier_t source_id,
   identifier_t target_id,
+  blob_id_t target_blob_id,
   memory::const_block src,
   std::chrono::seconds max_time,
-  message_priority priority) -> message_sequence_t {
+  message_priority priority) -> blob_id_t {
     return push_outgoing(
       msg_id,
       source_id,
       target_id,
+      target_blob_id,
       std::make_unique<buffer_blob_io>(_buffers.get(src.size()), src),
       max_time,
       priority);
@@ -401,7 +415,8 @@ auto blob_manipulator::process_outgoing(
             const auto header = std::make_tuple(
               pending.msg_id.class_(),
               pending.msg_id.method(),
-              pending.blob_id,
+              pending.source_blob_id,
+              pending.target_blob_id,
               limit_cast<std::int64_t>(pending.current_position),
               limit_cast<std::int64_t>(pending.total_size()));
 
@@ -445,7 +460,8 @@ auto blob_manipulator::fetch_all(blob_manipulator::fetch_handler handle_fetch)
     auto predicate = [this, &done_count, &handle_fetch](auto& pending) {
         if(pending.is_complete()) {
             log_debug("handling complete blob ${id}")
-              .arg(EAGINE_ID(id), pending.blob_id)
+              .arg(EAGINE_ID(source), pending.source_id)
+              .arg(EAGINE_ID(srcBlobId), pending.source_blob_id)
               .arg(EAGINE_ID(message), pending.msg_id)
               .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), pending.total_size());
 
@@ -454,7 +470,7 @@ auto blob_manipulator::fetch_all(blob_manipulator::fetch_handler handle_fetch)
                 message_view message{view(blob)};
                 message.set_source_id(pending.source_id);
                 message.set_target_id(pending.target_id);
-                message.set_sequence_no(pending.blob_id);
+                message.set_sequence_no(pending.target_blob_id);
                 message.set_priority(pending.priority);
                 handle_fetch(pending.msg_id, pending.age(), message);
                 _buffers.eat(std::move(blob));
@@ -462,7 +478,7 @@ auto blob_manipulator::fetch_all(blob_manipulator::fetch_handler handle_fetch)
                 message_info info{};
                 info.set_source_id(pending.source_id);
                 info.set_target_id(pending.target_id);
-                info.set_sequence_no(pending.blob_id);
+                info.set_sequence_no(pending.target_blob_id);
                 info.set_priority(pending.priority);
                 extract(fin_io).handle_finished(
                   pending.msg_id, pending.age(), info);

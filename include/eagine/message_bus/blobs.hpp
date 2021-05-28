@@ -60,6 +60,7 @@ private:
     memory::buffer _buf;
 };
 //------------------------------------------------------------------------------
+using blob_id_t = std::uint32_t;
 struct pending_blob {
     message_id msg_id{};
     identifier_t source_id{0U};
@@ -70,7 +71,8 @@ struct pending_blob {
     double_buffer<std::vector<std::tuple<span_size_t, span_size_t>>>
       done_parts{};
     timeout max_time{};
-    std::uint32_t blob_id{0U};
+    blob_id_t source_blob_id{0U};
+    blob_id_t target_blob_id{0U};
     message_priority priority{message_priority::normal};
 
     auto done_size() const noexcept -> span_size_t;
@@ -139,22 +141,25 @@ public:
       message_id msg_id,
       identifier_t source_id,
       identifier_t target_id,
+      blob_id_t target_blob_id,
       std::unique_ptr<blob_io> io,
       std::chrono::seconds max_time,
-      message_priority priority) -> message_sequence_t;
+      message_priority priority) -> blob_id_t;
 
     auto push_outgoing(
       message_id msg_id,
       identifier_t source_id,
       identifier_t target_id,
+      blob_id_t target_blob_id,
       memory::const_block src,
       std::chrono::seconds max_time,
-      message_priority priority) -> message_sequence_t;
+      message_priority priority) -> blob_id_t;
 
     auto push_incoming_fragment(
       message_id msg_id,
       identifier_t source_id,
-      std::uint32_t blob_id,
+      blob_id_t source_blob_id,
+      blob_id_t target_blob_id,
       std::int64_t offset,
       std::int64_t total,
       io_getter get_io,
@@ -179,8 +184,8 @@ public:
 
 private:
     const message_id _msg_id;
-    std::int64_t _max_blob_size{1024 * 1024 * 1024};
-    std::uint32_t _blob_id_sequence{0};
+    std::int64_t _max_blob_size{128 * 1024 * 1024};
+    blob_id_t _blob_id_sequence{0U};
     memory::buffer _scratch_buffer{};
     memory::buffer_pool _buffers{};
     std::vector<pending_blob> _outgoing{};

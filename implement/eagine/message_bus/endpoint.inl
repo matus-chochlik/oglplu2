@@ -116,7 +116,7 @@ auto endpoint::_handle_special(
           msg_id.has_method(EAGINE_ID(qrySubscrb))) {
             return false;
         } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
-            post_certificate(message.source_id);
+            post_certificate(message.source_id, message.sequence_no);
             return true;
         } else if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
             log_trace("received remote endpoint certificate")
@@ -133,6 +133,7 @@ auto endpoint::_handle_special(
                     post_blob(
                       EAGINE_MSGBUS_ID(eptSigNnce),
                       message.source_id,
+                      message.sequence_no,
                       nonce,
                       std::chrono::seconds(30),
                       message_priority::normal);
@@ -147,6 +148,7 @@ auto endpoint::_handle_special(
                 post_blob(
                   EAGINE_MSGBUS_ID(eptNnceSig),
                   message.source_id,
+                  message.sequence_no,
                   signature,
                   std::chrono::seconds(30),
                   message_priority::normal);
@@ -600,12 +602,14 @@ void endpoint::allow_message_type(message_id msg_id) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto endpoint::post_certificate(identifier_t target_id) -> bool {
+auto endpoint::post_certificate(identifier_t target_id, blob_id_t target_blob_id)
+  -> bool {
     EAGINE_ASSERT(_context);
     if(auto cert_pem{_context->get_own_certificate_pem()}) {
         return post_blob(
           EAGINE_MSGBUS_ID(eptCertPem),
           target_id,
+          target_blob_id,
           cert_pem,
           adjusted_duration(std::chrono::seconds{30}),
           message_priority::normal);
