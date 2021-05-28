@@ -42,6 +42,11 @@ public:
         return is_valid();
     }
 
+    /// @brief Returns the whole URL string.
+    auto str() const noexcept -> string_view {
+        return {_url_str};
+    }
+
     /// @brief Returns the scheme.
     auto scheme() const noexcept -> valid_if_not_empty<string_view> {
         return {_scheme};
