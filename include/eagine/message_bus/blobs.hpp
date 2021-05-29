@@ -155,6 +155,13 @@ public:
       std::chrono::seconds max_time,
       message_priority priority) -> blob_id_t;
 
+    auto expect_incoming(
+      message_id msg_id,
+      identifier_t source_id,
+      blob_id_t target_blob_id,
+      std::unique_ptr<blob_io> io,
+      std::chrono::seconds max_time) -> bool;
+
     auto push_incoming_fragment(
       message_id msg_id,
       identifier_t source_id,

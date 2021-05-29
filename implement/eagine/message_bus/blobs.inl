@@ -188,6 +188,27 @@ auto blob_manipulator::_make_io(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto blob_manipulator::expect_incoming(
+  message_id msg_id,
+  identifier_t source_id,
+  blob_id_t target_blob_id,
+  std::unique_ptr<blob_io> io,
+  std::chrono::seconds max_time) -> bool {
+    _incoming.emplace_back();
+    auto& pending = _incoming.back();
+    pending.msg_id = msg_id;
+    pending.source_id = source_id;
+    pending.source_blob_id = 0U;
+    pending.target_blob_id = target_blob_id;
+    pending.io = std::move(io);
+    pending.current_position = 0;
+    pending.max_time = timeout{max_time};
+    pending.priority = message_priority::normal;
+    pending.done_parts.front().clear();
+    return true;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto blob_manipulator::push_incoming_fragment(
   message_id msg_id,
   identifier_t source_id,
@@ -206,6 +227,19 @@ auto blob_manipulator::push_incoming_fragment(
           return (pending.source_id == source_id) &&
                  (pending.source_blob_id == source_blob_id);
       });
+    if(pos != _incoming.end()) {
+        pos = std::find_if(
+          _incoming.begin(),
+          _incoming.end(),
+          [msg_id, source_id, target_blob_id](const auto& pending) {
+              return (pending.msg_id == msg_id) &&
+                     (pending.source_id == source_id) &&
+                     (pending.target_blob_id == target_blob_id);
+          });
+        auto& pending = *pos;
+        pending.source_blob_id = source_blob_id;
+        pending.priority = priority;
+    }
     if(pos != _incoming.end()) {
         auto& pending = *pos;
         if(EAGINE_LIKELY(pending.total_size() == span_size(total_size))) {
