@@ -48,8 +48,15 @@ public:
     }
 
     /// @brief Returns the scheme.
+    /// @see has_scheme
     auto scheme() const noexcept -> valid_if_not_empty<string_view> {
         return {_scheme};
+    }
+
+    /// @brief Checks if the url scheme matches the given string.
+    /// @see scheme
+    auto has_scheme(string_view str) const noexcept -> bool {
+        return are_equal(str, _scheme);
     }
 
     /// @brief Returns the login name.
@@ -86,8 +93,16 @@ public:
     }
 
     /// @brief Returns the path.
+    /// @see has_path
     auto path() const noexcept -> basic_string_path {
         return {basic_string_path{_path, EAGINE_TAG(split_by), "/"}};
+    }
+
+    /// @brief Checks if the path matches the given string.
+    /// @see path_str
+    /// @see path
+    auto has_path(string_view str) const noexcept -> bool {
+        return are_equal(str, _path);
     }
 
     /// @brief Returns the query string.
@@ -100,6 +115,7 @@ public:
       flat_map<string_view, string_view, basic_view_less<string_view>>;
 
     /// @brief Returns the query.
+    /// @see argument
     auto query() const noexcept -> query_args {
         query_args result;
         for_each_delimited(_query, string_view{"+"}, [&result](auto part) {
@@ -107,6 +123,20 @@ public:
             result[name] = value;
         });
         return result;
+    }
+
+    /// @brief Returns the value of the specified query argument.
+    /// @see query
+    auto argument(string_view arg_name) const noexcept
+      -> valid_if_not_empty<string_view> {
+        string_view result;
+        for_each_delimited(_query, string_view{"+"}, [&](auto part) {
+            auto [name, value] = split_by_first(part, string_view{"="});
+            if(!result && are_equal(name, arg_name)) {
+                result = value;
+            }
+        });
+        return {result};
     }
 
     /// @brief Returns the fragment.
