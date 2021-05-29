@@ -1,0 +1,220 @@
+/// @file
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
+
+#ifndef EAGINE_MESSAGE_BUS_SERVICE_RESOURCE_TRANSFER_HPP
+#define EAGINE_MESSAGE_BUS_SERVICE_RESOURCE_TRANSFER_HPP
+
+#include "../../from_string.hpp"
+#include "../../main_ctx.hpp"
+#include "../../memory/span_algo.hpp"
+#include "../../url.hpp"
+#include "../../valid_if/decl.hpp"
+#include "../blobs.hpp"
+#include "../service.hpp"
+#include "../signal.hpp"
+#include <tuple>
+
+namespace eagine::msgbus {
+//------------------------------------------------------------------------------
+class single_byte_blob_io : public blob_io {
+public:
+    single_byte_blob_io(span_size_t size, byte value) noexcept
+      : _size{size}
+      , _value{value} {}
+
+    auto is_at_eod(span_size_t offs) -> bool final {
+        return offs >= _size;
+    }
+
+    auto total_size() -> span_size_t final {
+        return _size;
+    }
+
+    auto fetch_fragment(span_size_t offs, memory::block dst)
+      -> span_size_t final {
+        return fill(head(dst, _size - offs), _value).size();
+    }
+
+    auto store_fragment(span_size_t, memory::const_block) -> bool final {
+        return false;
+    }
+
+    auto check_stored(span_size_t, memory::const_block) -> bool final {
+        return false;
+    }
+
+private:
+    span_size_t _size;
+    byte _value;
+};
+//------------------------------------------------------------------------------
+/// @brief Service providing access to files over the message bus.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see resource_manipulator
+template <typename Base = subscriber>
+class resource_server : public Base {
+    using This = resource_server;
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(
+            eagiFiles, rqFileCont, This, _handle_resource_content_request));
+    }
+
+    auto update() -> bool {
+        some_true something_done;
+        something_done(Base::update());
+
+        something_done(_blobs.cleanup());
+        const auto opt_max_size = this->bus_node().max_data_size();
+        if(EAGINE_LIKELY(opt_max_size)) {
+            something_done(_blobs.process_outgoing(
+              EAGINE_THIS_MEM_FUNC_REF(_handle_post), extract(opt_max_size)));
+        }
+
+        return something_done;
+    }
+
+    virtual auto get_resource_io(identifier_t, const url&)
+      -> std::unique_ptr<blob_io> {
+        return {};
+    }
+
+    virtual auto get_blob_timeout(identifier_t, span_size_t size)
+      -> std::chrono::seconds {
+        return std::chrono::seconds{size / 1024};
+    }
+
+    virtual auto get_blob_priority(identifier_t, message_priority priority)
+      -> message_priority {
+        return priority;
+    }
+
+private:
+    auto _handle_post(message_id msg_id, const message_view& message) -> bool {
+        return this->bus_node().post(msg_id, message);
+    }
+
+    auto _get_resource(
+      const url& locator,
+      identifier_t endpoint_id,
+      message_priority priority) -> std::
+      tuple<std::unique_ptr<blob_io>, std::chrono::seconds, message_priority> {
+        auto read_io = get_resource_io(endpoint_id, locator);
+        if(!read_io) {
+            if(locator.has_scheme("eagires")) {
+                if(locator.has_path("/zeroes")) {
+                    if(auto count{locator.argument("count")}) {
+                        if(auto bytes{
+                             from_string<span_size_t>(extract(count))}) {
+                            read_io = std::make_unique<single_byte_blob_io>(
+                              extract(bytes), 0x0U);
+                        }
+                    }
+                }
+            }
+        }
+
+        const auto max_time =
+          read_io ? get_blob_timeout(endpoint_id, read_io->total_size())
+                  : std::chrono::seconds{};
+
+        return {
+          std::move(read_io),
+          max_time,
+          get_blob_priority(endpoint_id, priority)};
+    }
+
+    auto _handle_resource_content_request(
+      const message_context&,
+      stored_message& message) -> bool {
+        std::string url_str;
+        auto request = std::tie(url_str);
+        if(default_deserialize(request, message.data())) {
+            const url locator{std::move(url_str)};
+
+            auto [read_io, max_time, priority] =
+              _get_resource(locator, message.source_id, message.priority);
+            if(read_io) {
+                _blobs.push_outgoing(
+                  EAGINE_MSG_ID(eagiFiles, content),
+                  message.target_id,
+                  message.source_id,
+                  message.sequence_no,
+                  std::move(read_io),
+                  max_time,
+                  priority);
+            }
+        }
+        return true;
+    }
+
+    blob_manipulator _blobs{*this, EAGINE_MSG_ID(eagiFiles, fragment)};
+};
+//------------------------------------------------------------------------------
+/// @brief Service manipulating files over the message bus.
+/// @ingroup msgbus
+/// @see service_composition
+/// @see resource_manipulator
+template <typename Base = subscriber>
+class resource_manipulator : public Base {
+
+    using This = resource_manipulator;
+
+public:
+    /// @brief Requests the contents of the file with the specified URL.
+    /// @see resource_content_received
+    auto query_resource_content(
+      identifier_t endpoint_id,
+      const url& locator,
+      std::unique_ptr<blob_io> write_io,
+      message_priority priority,
+      std::chrono::seconds max_time) -> optionally_valid<message_sequence_t> {
+        auto request = std::make_tuple(to_string(locator.str()));
+        auto buffer = default_serialize_buffer_for(request);
+        if(default_serialize(request, cover(buffer))) {
+            const auto msg_id{EAGINE_MSG_ID(eagiFiles, rqFileCont)};
+            message_view message{};
+            message.set_target_id(endpoint_id);
+            message.set_priority(priority);
+            this->bus_node().set_next_sequence_id(msg_id, message);
+            this->bus_node().post(msg_id, message);
+            _blobs.expect_incoming(
+              EAGINE_MSG_ID(eagiFiles, content),
+              endpoint_id,
+              message.sequence_no,
+              std::move(write_io),
+              max_time);
+            return {message.sequence_no, true};
+        }
+        return {};
+    }
+
+protected:
+    using Base::Base;
+
+    void add_methods() {
+        Base::add_methods();
+
+        // TODO
+    }
+
+private:
+    blob_manipulator _blobs{*this, EAGINE_MSG_ID(eagiFiles, fragment)};
+};
+//------------------------------------------------------------------------------
+} // namespace eagine::msgbus
+
+#endif // EAGINE_MESSAGE_BUS_SERVICE_RESOURCE_TRANSFER_HPP

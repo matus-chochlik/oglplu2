@@ -11,7 +11,7 @@
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/common_info.hpp>
-#include <eagine/message_bus/service/file_transfer.hpp>
+#include <eagine/message_bus/service/resource_transfer.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/timeout.hpp>
 #include <chrono>
@@ -21,7 +21,7 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 using file_server_node_base =
-  service_composition<shutdown_target<file_server<common_info_providers<>>>>;
+  service_composition<shutdown_target<resource_server<common_info_providers<>>>>;
 
 class file_server_node
   : public main_ctx_object
