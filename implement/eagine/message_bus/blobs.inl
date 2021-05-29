@@ -192,7 +192,7 @@ auto blob_manipulator::expect_incoming(
   message_id msg_id,
   identifier_t source_id,
   blob_id_t target_blob_id,
-  std::unique_ptr<blob_io> io,
+  std::shared_ptr<blob_io> io,
   std::chrono::seconds max_time) -> bool {
     _incoming.emplace_back();
     auto& pending = _incoming.back();
@@ -402,7 +402,7 @@ auto blob_manipulator::push_outgoing(
   identifier_t source_id,
   identifier_t target_id,
   blob_id_t target_blob_id,
-  std::unique_ptr<blob_io> io,
+  std::shared_ptr<blob_io> io,
   std::chrono::seconds max_time,
   message_priority priority) -> blob_id_t {
     _outgoing.emplace_back();

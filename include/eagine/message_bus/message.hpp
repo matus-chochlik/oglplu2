@@ -37,7 +37,7 @@ static constexpr auto is_special_message(message_id msg_id) noexcept {
     return msg_id.has_class(EAGINE_ID(eagiMsgBus));
 }
 //------------------------------------------------------------------------------
-/// @brief Returns the special broadcase message bus endpoint id.
+/// @brief Returns the special broadcast message bus endpoint id.
 /// @ingroup msgbus
 static constexpr auto broadcast_endpoint_id() noexcept -> identifier_t {
     return 0U;

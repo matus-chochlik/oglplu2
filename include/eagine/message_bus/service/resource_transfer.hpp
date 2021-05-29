@@ -27,10 +27,6 @@ public:
       : _size{size}
       , _value{value} {}
 
-    auto is_at_eod(span_size_t offs) -> bool final {
-        return offs >= _size;
-    }
-
     auto total_size() -> span_size_t final {
         return _size;
     }
@@ -38,14 +34,6 @@ public:
     auto fetch_fragment(span_size_t offs, memory::block dst)
       -> span_size_t final {
         return fill(head(dst, _size - offs), _value).size();
-    }
-
-    auto store_fragment(span_size_t, memory::const_block) -> bool final {
-        return false;
-    }
-
-    auto check_stored(span_size_t, memory::const_block) -> bool final {
-        return false;
     }
 
 private:
@@ -175,11 +163,10 @@ class resource_manipulator : public Base {
 
 public:
     /// @brief Requests the contents of the file with the specified URL.
-    /// @see resource_content_received
     auto query_resource_content(
       identifier_t endpoint_id,
       const url& locator,
-      std::unique_ptr<blob_io> write_io,
+      std::shared_ptr<blob_io> write_io,
       message_priority priority,
       std::chrono::seconds max_time) -> optionally_valid<message_sequence_t> {
         auto request = std::make_tuple(to_string(locator.str()));

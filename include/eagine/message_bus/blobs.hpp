@@ -25,15 +25,34 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 struct blob_io : interface<blob_io> {
 
-    virtual auto is_at_eod(span_size_t offs) -> bool = 0;
-    virtual auto total_size() -> span_size_t = 0;
+    virtual auto is_at_eod(span_size_t offs) -> bool {
+        return offs >= total_size();
+    }
+
+    virtual auto total_size() -> span_size_t {
+        return 0;
+    }
 
     virtual auto fetch_fragment(span_size_t offs, memory::block dst)
-      -> span_size_t = 0;
+      -> span_size_t {
+        EAGINE_MAYBE_UNUSED(offs);
+        EAGINE_MAYBE_UNUSED(dst);
+        return 0;
+    }
+
     virtual auto store_fragment(span_size_t offs, memory::const_block src)
-      -> bool = 0;
+      -> bool {
+        EAGINE_MAYBE_UNUSED(offs);
+        EAGINE_MAYBE_UNUSED(src);
+        return false;
+    }
+
     virtual auto check_stored(span_size_t offs, memory::const_block src)
-      -> bool = 0;
+      -> bool {
+        EAGINE_MAYBE_UNUSED(offs);
+        EAGINE_MAYBE_UNUSED(src);
+        return true;
+    }
 };
 //------------------------------------------------------------------------------
 struct finishing_blob_io : blob_io {
@@ -65,7 +84,7 @@ struct pending_blob {
     message_id msg_id{};
     identifier_t source_id{0U};
     identifier_t target_id{0U};
-    std::unique_ptr<blob_io> io{};
+    std::shared_ptr<blob_io> io{};
     span_size_t current_position{0};
     // TODO: recycle the done parts vectors?
     double_buffer<std::vector<std::tuple<span_size_t, span_size_t>>>
@@ -142,7 +161,7 @@ public:
       identifier_t source_id,
       identifier_t target_id,
       blob_id_t target_blob_id,
-      std::unique_ptr<blob_io> io,
+      std::shared_ptr<blob_io> io,
       std::chrono::seconds max_time,
       message_priority priority) -> blob_id_t;
 
@@ -159,7 +178,7 @@ public:
       message_id msg_id,
       identifier_t source_id,
       blob_id_t target_blob_id,
-      std::unique_ptr<blob_io> io,
+      std::shared_ptr<blob_io> io,
       std::chrono::seconds max_time) -> bool;
 
     auto push_incoming_fragment(

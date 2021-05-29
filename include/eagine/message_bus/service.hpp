@@ -112,7 +112,7 @@ class service_node
 public:
     service_node(identifier id, main_ctx_parent parent)
       : main_ctx_object{id, parent}
-      , protected_member<endpoint>{id, *this}
+      , protected_member<endpoint>{id, parent}
       , service_composition<Base>{this->get_the_member()} {}
 };
 //------------------------------------------------------------------------------

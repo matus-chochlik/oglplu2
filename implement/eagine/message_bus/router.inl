@@ -765,7 +765,7 @@ auto router::_handle_blob_fragment(const message_view& message)
          EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io), message)) {
         _blobs.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_blob));
     }
-    return should_be_forwarded;
+    return (message.target_id == _id_base) ? was_handled : should_be_forwarded;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

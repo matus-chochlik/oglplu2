@@ -5,7 +5,7 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 install_prefix="$(<$(dirname ${0})/../INSTALL_PREFIX)"
-log_args=("--use-asio-nw-log" "--min-log-severity" "debug")
+log_args=("--use-asio-log" "--min-log-severity" "stat")
 conn_type="--msg-bus-asio-local-stream"
 #
 pids=()
@@ -36,7 +36,6 @@ do
 	${install_prefix}/share/oglplus/examples/eagine-005_broadcast_blob "${f}" \
 		"${log_args[@]}" \
 		${conn_type}
-	sleep 5
 done
 
 for pid in ${pids[@]}
