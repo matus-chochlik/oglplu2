@@ -20,10 +20,11 @@
 namespace eagine {
 namespace msgbus {
 
-class example_blob_io : public finishing_blob_io {
+class example_blob_io : public blob_io {
 public:
-    example_blob_io(std::string url_str) noexcept
-      : _locator{std::move(url_str)} {
+    example_blob_io(logger& log, std::string url_str) noexcept
+      : _log{log}
+      , _locator{std::move(url_str)} {
         zero(cover(_byte_counts));
     }
 
@@ -36,23 +37,22 @@ public:
 
     void handle_finished(message_id, message_age, const message_info&) final {
         _finished = true;
+        _log.info("blob byte counts").arg_func([this](logger_backend& backend) {
+            for(const auto i : integer_range(std_size(256))) {
+                if(_byte_counts[i]) {
+                    backend.add_float(
+                      byte_to_identifier(i),
+                      EAGINE_ID(Histogram),
+                      float(0),
+                      float(_byte_counts[i]),
+                      float(_max_count));
+                }
+            }
+        });
     }
 
     auto is_done() const noexcept -> bool {
         return _finished;
-    }
-
-    auto log_byte_hist(logger& log) {
-        log.info("blob byte counts").arg_func([this](logger_backend& backend) {
-            for(const auto i : integer_range(std_size(256))) {
-                backend.add_float(
-                  byte_to_identifier(i),
-                  EAGINE_ID(Histogram),
-                  float(0),
-                  float(_byte_counts[i]),
-                  float(_max_count));
-            }
-        });
     }
 
     auto locator() const noexcept -> const url& {
@@ -60,6 +60,7 @@ public:
     }
 
 private:
+    logger& _log;
     url _locator;
     span_size_t _max_count{0};
     std::array<span_size_t, 256> _byte_counts{};
@@ -76,7 +77,7 @@ auto main(main_ctx& ctx) -> int {
     std::vector<std::shared_ptr<msgbus::example_blob_io>> blobs;
 
     blobs.emplace_back(std::make_unique<msgbus::example_blob_io>(
-      "eagires:///zeroes?size=134217728"));
+      ctx.log(), "eagires:///zeroes?count=1073741824"));
 
     auto is_done = [&] {
         if(idle_too_long) {

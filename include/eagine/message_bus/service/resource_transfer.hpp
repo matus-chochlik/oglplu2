@@ -58,7 +58,7 @@ protected:
         Base::add_method(
           this,
           EAGINE_MSG_MAP(
-            eagiFiles, rqFileCont, This, _handle_resource_content_request));
+            eagiRsrces, rqFileCont, This, _handle_resource_content_request));
     }
 
     auto update() -> bool {
@@ -69,7 +69,7 @@ protected:
         const auto opt_max_size = this->bus_node().max_data_size();
         if(EAGINE_LIKELY(opt_max_size)) {
             something_done(_blobs.process_outgoing(
-              EAGINE_THIS_MEM_FUNC_REF(_handle_post), extract(opt_max_size)));
+              EAGINE_THIS_MEM_FUNC_REF(_call_post), extract(opt_max_size)));
         }
 
         return something_done;
@@ -91,7 +91,7 @@ protected:
     }
 
 private:
-    auto _handle_post(message_id msg_id, const message_view& message) -> bool {
+    auto _call_post(message_id msg_id, const message_view& message) -> bool {
         return this->bus_node().post(msg_id, message);
     }
 
@@ -103,12 +103,14 @@ private:
         auto read_io = get_resource_io(endpoint_id, locator);
         if(!read_io) {
             if(locator.has_scheme("eagires")) {
-                if(locator.has_path("/zeroes")) {
-                    if(auto count{locator.argument("count")}) {
-                        if(auto bytes{
-                             from_string<span_size_t>(extract(count))}) {
+                if(auto count{locator.argument("count")}) {
+                    if(auto bytes{from_string<span_size_t>(extract(count))}) {
+                        if(locator.has_path("/zeroes")) {
                             read_io = std::make_unique<single_byte_blob_io>(
                               extract(bytes), 0x0U);
+                        } else if(locator.has_path("/ones")) {
+                            read_io = std::make_unique<single_byte_blob_io>(
+                              extract(bytes), 0x1U);
                         }
                     }
                 }
@@ -126,18 +128,21 @@ private:
     }
 
     auto _handle_resource_content_request(
-      const message_context&,
+      const message_context& ctx,
       stored_message& message) -> bool {
         std::string url_str;
         auto request = std::tie(url_str);
-        if(default_deserialize(request, message.data())) {
+        if(EAGINE_LIKELY(default_deserialize(request, message.content()))) {
+            ctx.bus_node()
+              .log_info("received content request for ${url}")
+              .arg(EAGINE_ID(url), EAGINE_ID(URL), url_str);
             const url locator{std::move(url_str)};
 
             auto [read_io, max_time, priority] =
               _get_resource(locator, message.source_id, message.priority);
             if(read_io) {
                 _blobs.push_outgoing(
-                  EAGINE_MSG_ID(eagiFiles, content),
+                  EAGINE_MSG_ID(eagiRsrces, content),
                   message.target_id,
                   message.source_id,
                   message.sequence_no,
@@ -145,11 +150,15 @@ private:
                   max_time,
                   priority);
             }
+        } else {
+            ctx.bus_node()
+              .log_error("failed to deserialize resource content request")
+              .arg(EAGINE_ID(content), message.const_content());
         }
         return true;
     }
 
-    blob_manipulator _blobs{*this, EAGINE_MSG_ID(eagiFiles, fragment)};
+    blob_manipulator _blobs{*this, EAGINE_MSG_ID(eagiRsrces, fragment)};
 };
 //------------------------------------------------------------------------------
 /// @brief Service manipulating files over the message bus.
@@ -169,17 +178,17 @@ public:
       std::shared_ptr<blob_io> write_io,
       message_priority priority,
       std::chrono::seconds max_time) -> optionally_valid<message_sequence_t> {
-        auto request = std::make_tuple(to_string(locator.str()));
+        const auto request = std::make_tuple(locator.str());
         auto buffer = default_serialize_buffer_for(request);
-        if(default_serialize(request, cover(buffer))) {
-            const auto msg_id{EAGINE_MSG_ID(eagiFiles, rqFileCont)};
-            message_view message{};
+        if(auto serialized{default_serialize(request, cover(buffer))}) {
+            const auto msg_id{EAGINE_MSG_ID(eagiRsrces, rqFileCont)};
+            message_view message{extract(serialized)};
             message.set_target_id(endpoint_id);
             message.set_priority(priority);
             this->bus_node().set_next_sequence_id(msg_id, message);
             this->bus_node().post(msg_id, message);
             _blobs.expect_incoming(
-              EAGINE_MSG_ID(eagiFiles, content),
+              EAGINE_MSG_ID(eagiRsrces, content),
               endpoint_id,
               message.sequence_no,
               std::move(write_io),
@@ -195,11 +204,31 @@ protected:
     void add_methods() {
         Base::add_methods();
 
-        // TODO
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(
+            eagiRsrces, fragment, This, _handle_resource_fragment));
+    }
+
+    auto update() -> bool {
+        some_true something_done;
+
+        something_done(Base::update());
+        something_done(_blobs.handle_complete() > 0);
+
+        return something_done;
     }
 
 private:
-    blob_manipulator _blobs{*this, EAGINE_MSG_ID(eagiFiles, fragment)};
+    auto _handle_resource_fragment(
+      const message_context& ctx,
+      stored_message& message) -> bool {
+        EAGINE_MAYBE_UNUSED(ctx);
+        _blobs.process_incoming(message);
+        return true;
+    }
+
+    blob_manipulator _blobs{*this, EAGINE_MSG_ID(eagiRsrces, fragment)};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

@@ -53,31 +53,18 @@ struct blob_io : interface<blob_io> {
         EAGINE_MAYBE_UNUSED(src);
         return true;
     }
+
+    virtual void handle_finished(
+      message_id msg_id,
+      message_age msg_age,
+      const message_info& message) {
+        EAGINE_MAYBE_UNUSED(msg_id);
+        EAGINE_MAYBE_UNUSED(msg_age);
+        EAGINE_MAYBE_UNUSED(message);
+    }
 };
 //------------------------------------------------------------------------------
-struct finishing_blob_io : blob_io {
-    virtual void
-    handle_finished(message_id, message_age, const message_info&) = 0;
-};
-//------------------------------------------------------------------------------
-class buffer_blob_io : public blob_io {
-public:
-    buffer_blob_io(memory::buffer buf) noexcept;
-
-    buffer_blob_io(memory::buffer buf, memory::const_block src);
-
-    auto is_at_eod(span_size_t offs) -> bool final;
-    auto total_size() -> span_size_t final;
-
-    auto fetch_fragment(span_size_t offs, memory::block) -> span_size_t final;
-    auto store_fragment(span_size_t offs, memory::const_block) -> bool final;
-    auto check_stored(span_size_t offs, memory::const_block) -> bool final;
-
-    auto release_buffer() noexcept -> memory::buffer;
-
-private:
-    memory::buffer _buf;
-};
+class buffer_blob_io;
 //------------------------------------------------------------------------------
 using blob_id_t = std::uint32_t;
 struct pending_blob {
@@ -86,6 +73,7 @@ struct pending_blob {
     identifier_t target_id{0U};
     std::shared_ptr<blob_io> io{};
     span_size_t current_position{0};
+    span_size_t total_size{0};
     // TODO: recycle the done parts vectors?
     double_buffer<std::vector<std::tuple<span_size_t, span_size_t>>>
       done_parts{};
@@ -95,18 +83,9 @@ struct pending_blob {
     message_priority priority{message_priority::normal};
 
     auto done_size() const noexcept -> span_size_t;
-    auto total_size() const noexcept -> span_size_t {
-        EAGINE_ASSERT(io);
-        return io->total_size();
-    }
+    auto total_size_mismatch(span_size_t size) const noexcept -> bool;
 
-    auto buffer_io() noexcept -> buffer_blob_io* {
-        return dynamic_cast<buffer_blob_io*>(io.get());
-    }
-
-    auto finish_io() noexcept -> finishing_blob_io* {
-        return dynamic_cast<finishing_blob_io*>(io.get());
-    }
+    auto buffer_io() noexcept -> buffer_blob_io*;
 
     auto is_at_eod() {
         EAGINE_ASSERT(io);
@@ -199,6 +178,7 @@ public:
     using fetch_handler =
       callable_ref<bool(message_id, message_age, const message_view&)>;
 
+    auto handle_complete() -> span_size_t;
     auto fetch_all(fetch_handler) -> span_size_t;
 
     using send_handler = callable_ref<bool(message_id, const message_view&)>;

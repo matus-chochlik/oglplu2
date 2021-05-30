@@ -13,6 +13,7 @@
 #include <eagine/message_bus/service/common_info.hpp>
 #include <eagine/message_bus/service/resource_transfer.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
+#include <eagine/signal_switch.hpp>
 #include <eagine/timeout.hpp>
 #include <chrono>
 #include <thread>
@@ -65,6 +66,7 @@ private:
 } // namespace msgbus
 
 auto main(main_ctx& ctx) -> int {
+    signal_switch interrupted;
     ctx.preinitialize();
 
     msgbus::router_address address{ctx};
@@ -75,7 +77,7 @@ auto main(main_ctx& ctx) -> int {
     msgbus::file_server_node the_file_server{bus};
     conn_setup.setup_connectors(the_file_server, address);
 
-    while(!the_file_server.is_done()) {
+    while(!(the_file_server.is_done() || interrupted)) {
         if(!the_file_server.update_and_process_all()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
