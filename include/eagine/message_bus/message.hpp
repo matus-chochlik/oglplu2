@@ -396,11 +396,20 @@ public:
     /// @brief Returns a const view of the data content of the message.
     /// @see signature
     /// @see text_content
+    /// @see const_content
     auto content() const noexcept -> memory::const_block {
         if(EAGINE_UNLIKELY(is_signed())) {
             return get_data_with_size(data());
         }
         return data();
+    }
+
+    /// @brief Returns a const view of the data content of the message.
+    /// @see signature
+    /// @see content
+    /// @see text_content
+    auto const_content() const noexcept -> memory::const_block {
+        return content();
     }
 
     /// @brief Returns the content as a mutable string view.
@@ -413,6 +422,14 @@ public:
     /// @see content
     auto text_content() const noexcept {
         return as_chars(content());
+    }
+
+    /// @brief Returns the content as a const string view.
+    /// @see content
+    /// @see text_content
+    /// @see const_content
+    auto const_text_content() const noexcept {
+        return as_chars(const_content());
     }
 
     /// @brief Clears the content of the storage buffer.
