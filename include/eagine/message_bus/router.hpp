@@ -200,6 +200,7 @@ private:
     auto _handle_stats_query(const message_view&) -> message_handling_result;
 
     auto _handle_blob_fragment(const message_view&) -> message_handling_result;
+    auto _handle_blob_resend(const message_view&) -> message_handling_result;
 
     auto _handle_special_common(
       message_id msg_id,
@@ -250,7 +251,10 @@ private:
     flat_map<identifier_t, identifier_t> _endpoint_idx;
     flat_map<identifier_t, router_endpoint_info> _endpoint_infos;
     flat_map<identifier_t, timeout> _recently_disconnected;
-    blob_manipulator _blobs{*this, EAGINE_MSGBUS_ID(blobFrgmnt)};
+    blob_manipulator _blobs{
+      *this,
+      EAGINE_MSGBUS_ID(blobFrgmnt),
+      EAGINE_MSGBUS_ID(blobResend)};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

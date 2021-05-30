@@ -82,6 +82,9 @@ auto endpoint::_handle_special(
                 _blobs.fetch_all(_store_handler);
             }
             return true;
+        } else if(msg_id.has_method(EAGINE_ID(blobResend))) {
+            _blobs.process_resend(message);
+            return true;
         } else if(msg_id.has_method(EAGINE_ID(assignId))) {
             if(!has_id()) {
                 _endpoint_id = message.target_id;

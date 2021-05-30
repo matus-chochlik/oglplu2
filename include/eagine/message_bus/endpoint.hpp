@@ -463,7 +463,10 @@ private:
         return *pos->second;
     }
 
-    blob_manipulator _blobs{*this, EAGINE_MSGBUS_ID(blobFrgmnt)};
+    blob_manipulator _blobs{
+      *this,
+      EAGINE_MSGBUS_ID(blobFrgmnt),
+      EAGINE_MSGBUS_ID(blobResend)};
 
     auto _cleanup_blobs() -> bool;
     auto _process_blobs() -> bool;

@@ -58,7 +58,11 @@ protected:
         Base::add_method(
           this,
           EAGINE_MSG_MAP(
-            eagiRsrces, rqFileCont, This, _handle_resource_content_request));
+            eagiRsrces, getContent, This, _handle_resource_content_request));
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(
+            eagiRsrces, fragResend, This, _handle_resource_resend_request));
     }
 
     auto update() -> bool {
@@ -158,7 +162,17 @@ private:
         return true;
     }
 
-    blob_manipulator _blobs{*this, EAGINE_MSG_ID(eagiRsrces, fragment)};
+    auto _handle_resource_resend_request(
+      const message_context&,
+      stored_message& message) -> bool {
+        _blobs.process_resend(message);
+        return true;
+    }
+
+    blob_manipulator _blobs{
+      *this,
+      EAGINE_MSG_ID(eagiRsrces, fragment),
+      EAGINE_MSG_ID(eagiRsrces, fragResend)};
 };
 //------------------------------------------------------------------------------
 /// @brief Service manipulating files over the message bus.
@@ -181,7 +195,7 @@ public:
         const auto request = std::make_tuple(locator.str());
         auto buffer = default_serialize_buffer_for(request);
         if(auto serialized{default_serialize(request, cover(buffer))}) {
-            const auto msg_id{EAGINE_MSG_ID(eagiRsrces, rqFileCont)};
+            const auto msg_id{EAGINE_MSG_ID(eagiRsrces, getContent)};
             message_view message{extract(serialized)};
             message.set_target_id(endpoint_id);
             message.set_priority(priority);
@@ -208,6 +222,10 @@ protected:
           this,
           EAGINE_MSG_MAP(
             eagiRsrces, fragment, This, _handle_resource_fragment));
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(
+            eagiRsrces, fragResend, This, _handle_resource_resend_request));
     }
 
     auto update() -> bool {
@@ -228,7 +246,17 @@ private:
         return true;
     }
 
-    blob_manipulator _blobs{*this, EAGINE_MSG_ID(eagiRsrces, fragment)};
+    auto _handle_resource_resend_request(
+      const message_context&,
+      stored_message& message) -> bool {
+        _blobs.process_resend(message);
+        return true;
+    }
+
+    blob_manipulator _blobs{
+      *this,
+      EAGINE_MSG_ID(eagiRsrces, fragment),
+      EAGINE_MSG_ID(eagiRsrces, fragResend)};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

@@ -769,6 +769,16 @@ auto router::_handle_blob_fragment(const message_view& message)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto router::_handle_blob_resend(const message_view& message)
+  -> message_handling_result {
+    if(message.target_id == _id_base) {
+        _blobs.process_resend(message);
+        return was_handled;
+    }
+    return should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto router::_handle_special_common(
   message_id msg_id,
   identifier_t incoming_id,
@@ -790,6 +800,8 @@ auto router::_handle_special_common(
         return _handle_subscriptions_query(message);
     } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
         return _handle_blob_fragment(message);
+    } else if(msg_id.has_method(EAGINE_ID(blobResend))) {
+        return _handle_blob_resend(message);
     } else if(msg_id.has_method(EAGINE_ID(rtrCertQry))) {
         return _handle_router_certificate_query(message);
     } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {

@@ -398,6 +398,13 @@ auto blob_manipulator::process_incoming(const message_view& message) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto blob_manipulator::process_resend(const message_view& message) -> bool {
+    // TODO
+    EAGINE_MAYBE_UNUSED(message);
+    return true;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto blob_manipulator::message_size(
   const pending_blob& pending,
   span_size_t max_message_size) const noexcept -> span_size_t {
@@ -496,7 +503,7 @@ auto blob_manipulator::process_outgoing(
                     message.set_source_id(pending.source_id);
                     message.set_target_id(pending.target_id);
                     message.set_priority(pending.priority);
-                    something_done(do_send(_msg_id, message));
+                    something_done(do_send(_fragment_msg_id, message));
                 } else {
                     log_error("failed to write fragment of blob ${message}")
                       .arg(EAGINE_ID(message), pending.msg_id);

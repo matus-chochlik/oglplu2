@@ -117,9 +117,13 @@ struct pending_blob {
 //------------------------------------------------------------------------------
 class blob_manipulator : main_ctx_object {
 public:
-    blob_manipulator(main_ctx_parent parent, message_id msg_id)
+    blob_manipulator(
+      main_ctx_parent parent,
+      message_id fragment_msg_id,
+      message_id resend_msg_id)
       : main_ctx_object{EAGINE_ID(BlobManipl), parent}
-      , _msg_id{std::move(msg_id)} {}
+      , _fragment_msg_id{std::move(fragment_msg_id)}
+      , _resend_msg_id{std::move(resend_msg_id)} {}
 
     auto max_blob_size() const noexcept -> valid_if_positive<span_size_t> {
         return {span_size(_max_blob_size)};
@@ -174,6 +178,7 @@ public:
     auto process_incoming(const message_view& message) -> bool;
     auto process_incoming(io_getter get_io, const message_view& message)
       -> bool;
+    auto process_resend(const message_view& message) -> bool;
 
     using fetch_handler =
       callable_ref<bool(message_id, message_age, const message_view&)>;
@@ -189,7 +194,8 @@ public:
     auto process_outgoing(send_handler, span_size_t max_data_size) -> bool;
 
 private:
-    const message_id _msg_id;
+    const message_id _fragment_msg_id;
+    const message_id _resend_msg_id;
     std::int64_t _max_blob_size{128 * 1024 * 1024};
     blob_id_t _blob_id_sequence{0U};
     memory::buffer _scratch_buffer{};
