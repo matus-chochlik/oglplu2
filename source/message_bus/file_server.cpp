@@ -78,8 +78,10 @@ auto main(main_ctx& ctx) -> int {
     conn_setup.setup_connectors(the_file_server, address);
 
     while(!(the_file_server.is_done() || interrupted)) {
-        if(!the_file_server.update_and_process_all()) {
+        if(the_file_server.update_and_process_all()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        } else {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     }
 

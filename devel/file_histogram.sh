@@ -23,7 +23,7 @@ ${install_prefix}/bin/eagine-message_bus-file_server \
 sleep 3
 ${install_prefix}/share/oglplus/examples/eagine-006_file_histogram \
 	"${log_args[@]}" \
-	${conn_type} \
+	${conn_type} "${@}" \
 	& pids+=($!)
 
 for pid in ${pids[@]}

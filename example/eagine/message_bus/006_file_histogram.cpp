@@ -22,9 +22,9 @@ namespace msgbus {
 
 class example_blob_io : public blob_io {
 public:
-    example_blob_io(logger& log, std::string url_str) noexcept
+    example_blob_io(logger& log, url loc) noexcept
       : _log{log}
-      , _locator{std::move(url_str)} {
+      , _locator{std::move(loc)} {
         zero(cover(_byte_counts));
     }
 
@@ -76,8 +76,16 @@ auto main(main_ctx& ctx) -> int {
     timeout idle_too_long{std::chrono::seconds{30}};
     std::vector<std::shared_ptr<msgbus::example_blob_io>> blobs;
 
-    blobs.emplace_back(std::make_unique<msgbus::example_blob_io>(
-      ctx.log(), "eagires:///zeroes?count=1073741824"));
+    for(auto& arg : ctx.args()) {
+        if(url locator{arg.get_string()}) {
+            blobs.emplace_back(std::make_unique<msgbus::example_blob_io>(
+              ctx.log(), std::move(locator)));
+        }
+    }
+    if(blobs.empty()) {
+        blobs.emplace_back(std::make_unique<msgbus::example_blob_io>(
+          ctx.log(), url("eagires:///zeroes?count=1073741824")));
+    }
 
     auto is_done = [&] {
         if(idle_too_long) {

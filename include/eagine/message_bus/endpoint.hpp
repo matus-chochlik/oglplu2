@@ -169,12 +169,20 @@ public:
     /// @see post_signed
     /// @see post_value
     /// @see post_blob
+    /// @see post_callable
     auto post(message_id msg_id, const message_view& message) -> bool {
         if(EAGINE_LIKELY(has_id())) {
             return _do_send(msg_id, message);
         }
         _outgoing.push(msg_id, message);
         return true;
+    }
+
+    /// @brief Creates a callable that calls post on this enpoint.
+    /// @see post
+    auto post_callable() noexcept
+      -> callable_ref<bool(message_id, const message_view&)> {
+        return EAGINE_THIS_MEM_FUNC_REF(post);
     }
 
     /// @brief Signs and enqueues a message with the specified id/type for sending.

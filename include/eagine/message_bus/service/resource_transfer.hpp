@@ -73,7 +73,7 @@ protected:
         const auto opt_max_size = this->bus_node().max_data_size();
         if(EAGINE_LIKELY(opt_max_size)) {
             something_done(_blobs.process_outgoing(
-              EAGINE_THIS_MEM_FUNC_REF(_call_post), extract(opt_max_size)));
+              this->bus_node().post_callable(), extract(opt_max_size)));
         }
 
         return something_done;
@@ -95,10 +95,6 @@ protected:
     }
 
 private:
-    auto _call_post(message_id msg_id, const message_view& message) -> bool {
-        return this->bus_node().post(msg_id, message);
-    }
-
     auto _get_resource(
       const url& locator,
       identifier_t endpoint_id,
@@ -242,7 +238,7 @@ private:
       const message_context& ctx,
       stored_message& message) -> bool {
         EAGINE_MAYBE_UNUSED(ctx);
-        _blobs.process_incoming(message);
+        _blobs.process_incoming(this->bus_node().post_callable(), message);
         return true;
     }
 

@@ -72,25 +72,39 @@ struct pending_blob {
     identifier_t source_id{0U};
     identifier_t target_id{0U};
     std::shared_ptr<blob_io> io{};
-    span_size_t current_position{0};
     span_size_t total_size{0};
     // TODO: recycle the done parts vectors?
     double_buffer<std::vector<std::tuple<span_size_t, span_size_t>>>
-      done_parts{};
+      fragment_parts{};
     timeout max_time{};
     blob_id_t source_blob_id{0U};
     blob_id_t target_blob_id{0U};
     message_priority priority{message_priority::normal};
 
-    auto done_size() const noexcept -> span_size_t;
-    auto total_size_mismatch(span_size_t size) const noexcept -> bool;
-
     auto buffer_io() noexcept -> buffer_blob_io*;
 
-    auto is_at_eod() {
-        EAGINE_ASSERT(io);
-        return io->is_at_eod(current_position);
+    auto done_parts() const noexcept -> const auto& {
+        return fragment_parts.front();
     }
+
+    auto done_parts() noexcept -> auto& {
+        return fragment_parts.front();
+    }
+
+    auto todo_parts() const noexcept -> const auto& {
+        return fragment_parts.back();
+    }
+
+    auto todo_parts() noexcept -> auto& {
+        return fragment_parts.back();
+    }
+
+    auto sent_size() const noexcept -> span_size_t;
+    auto received_size() const noexcept -> span_size_t;
+    auto total_size_mismatch(span_size_t size) const noexcept -> bool;
+
+    auto sent_everything() const noexcept -> bool;
+    auto received_everything() const noexcept -> bool;
 
     auto fetch(span_size_t offs, memory::block dst) {
         EAGINE_ASSERT(io);
@@ -111,7 +125,6 @@ struct pending_blob {
         return std::chrono::duration_cast<message_age>(max_time.elapsed_time());
     }
 
-    auto is_complete() const noexcept -> bool;
     auto merge_fragment(span_size_t offset, memory::const_block) -> bool;
 };
 //------------------------------------------------------------------------------
@@ -175,8 +188,10 @@ public:
       memory::const_block fragment,
       message_priority priority) -> bool;
 
-    auto process_incoming(const message_view& message) -> bool;
-    auto process_incoming(io_getter get_io, const message_view& message)
+    using send_handler = callable_ref<bool(message_id, const message_view&)>;
+
+    auto process_incoming(send_handler, const message_view& message) -> bool;
+    auto process_incoming(send_handler, io_getter, const message_view& message)
       -> bool;
     auto process_resend(const message_view& message) -> bool;
 
@@ -185,8 +200,6 @@ public:
 
     auto handle_complete() -> span_size_t;
     auto fetch_all(fetch_handler) -> span_size_t;
-
-    using send_handler = callable_ref<bool(message_id, const message_view&)>;
 
     auto has_outgoing() const noexcept -> bool {
         return !_outgoing.empty();

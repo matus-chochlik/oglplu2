@@ -78,7 +78,8 @@ auto endpoint::_handle_special(
               .arg(EAGINE_ID(message), msg_id);
             return true;
         } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
-            if(_blobs.process_incoming(message)) {
+            if(_blobs.process_incoming(
+                 EAGINE_THIS_MEM_FUNC_REF(post), message)) {
                 _blobs.fetch_all(_store_handler);
             }
             return true;

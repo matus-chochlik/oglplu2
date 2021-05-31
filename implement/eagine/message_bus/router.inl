@@ -761,8 +761,13 @@ auto router::_handle_stats_query(const message_view& message)
 EAGINE_LIB_FUNC
 auto router::_handle_blob_fragment(const message_view& message)
   -> message_handling_result {
+    auto resend_request = [&](message_id msg_id, message_view request) -> bool {
+        return this->_do_route_message(msg_id, _id_base, request);
+    };
     if(_blobs.process_incoming(
-         EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io), message)) {
+         {construct_from, resend_request},
+         EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io),
+         message)) {
         _blobs.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_blob));
     }
     return (message.target_id == _id_base) ? was_handled : should_be_forwarded;
