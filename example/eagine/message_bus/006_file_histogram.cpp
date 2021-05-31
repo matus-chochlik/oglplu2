@@ -107,7 +107,7 @@ auto main(main_ctx& ctx) -> int {
           msgbus::broadcast_endpoint_id(),
           blob_io->locator(),
           blob_io,
-          msgbus::message_priority::normal,
+          msgbus::message_priority::high,
           std::chrono::hours(1));
     }
 

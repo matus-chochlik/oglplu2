@@ -12,11 +12,13 @@
 #include "../../from_string.hpp"
 #include "../../main_ctx.hpp"
 #include "../../memory/span_algo.hpp"
+#include "../../random_bytes.hpp"
 #include "../../url.hpp"
 #include "../../valid_if/decl.hpp"
 #include "../blobs.hpp"
 #include "../service.hpp"
 #include "../signal.hpp"
+#include <random>
 #include <tuple>
 
 namespace eagine::msgbus {
@@ -39,6 +41,28 @@ public:
 private:
     span_size_t _size;
     byte _value;
+};
+//------------------------------------------------------------------------------
+class random_byte_blob_io : public blob_io {
+public:
+    random_byte_blob_io(span_size_t size) noexcept
+      : _size{size}
+      , _re{std::random_device{}()} {}
+
+    auto total_size() -> span_size_t final {
+        return _size;
+    }
+
+    auto fetch_fragment(span_size_t offs, memory::block dst)
+      -> span_size_t final {
+        return fill_with_random_bytes(
+                 head(dst, _size - offs), any_random_engine(_re))
+          .size();
+    }
+
+private:
+    span_size_t _size;
+    std::default_random_engine _re;
 };
 //------------------------------------------------------------------------------
 /// @brief Service providing access to files over the message bus.
@@ -105,7 +129,10 @@ private:
             if(locator.has_scheme("eagires")) {
                 if(auto count{locator.argument("count")}) {
                     if(auto bytes{from_string<span_size_t>(extract(count))}) {
-                        if(locator.has_path("/zeroes")) {
+                        if(locator.has_path("/random")) {
+                            read_io = std::make_unique<random_byte_blob_io>(
+                              extract(bytes));
+                        } else if(locator.has_path("/zeroes")) {
                             read_io = std::make_unique<single_byte_blob_io>(
                               extract(bytes), 0x0U);
                         } else if(locator.has_path("/ones")) {
