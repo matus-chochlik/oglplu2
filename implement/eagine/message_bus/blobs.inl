@@ -181,9 +181,54 @@ auto pending_blob::merge_fragment(span_size_t bgn, memory::const_block fragment)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void pending_blob::merge_resend_request(span_size_t bgn, span_size_t end) {
-    EAGINE_MAYBE_UNUSED(bgn);
-    EAGINE_MAYBE_UNUSED(end);
-    // TODO
+    if(end == 0) {
+        end = total_size;
+    }
+    if(bgn < end) {
+        fragment_parts.swap();
+        auto& dst = todo_parts();
+        const auto& src = done_parts();
+        dst.clear();
+
+        bool new_done = false;
+
+        for(const auto& [src_bgn, src_end] : src) {
+            if(bgn < src_bgn) {
+                if(end < src_bgn) {
+                    if(!new_done) {
+                        dst.emplace_back(bgn, end);
+                        new_done = true;
+                    }
+                    dst.emplace_back(src_bgn, src_end);
+                } else if(end <= src_end) {
+                    if(new_done) {
+                        std::get<1>(dst.back()) = src_end;
+                    } else {
+                        dst.emplace_back(bgn, src_end);
+                        new_done = true;
+                    }
+                } else {
+                    if(!new_done) {
+                        dst.emplace_back(bgn, end);
+                        new_done = true;
+                    }
+                }
+            } else if(bgn <= src_end) {
+                if(end <= src_end) {
+                    dst.emplace_back(src_bgn, src_end);
+                    new_done = true;
+                } else {
+                    dst.emplace_back(src_bgn, end);
+                    new_done = true;
+                }
+            } else {
+                dst.emplace_back(src_bgn, src_end);
+            }
+        }
+        if(!new_done) {
+            dst.emplace_back(bgn, end);
+        }
+    }
 }
 //------------------------------------------------------------------------------
 // blob manipulator

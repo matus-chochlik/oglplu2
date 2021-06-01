@@ -79,7 +79,7 @@ auto main(main_ctx& ctx) -> int {
 
     while(!(the_file_server.is_done() || interrupted)) {
         if(the_file_server.update_and_process_all()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            std::this_thread::sleep_for(std::chrono::microseconds(250));
         } else {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
