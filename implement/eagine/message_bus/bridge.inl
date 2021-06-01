@@ -108,7 +108,7 @@ public:
 
                   span_size_t i = 0;
                   do_dissolve_bits(
-                    make_span_getter(i, message.data),
+                    make_span_getter(i, message.data()),
                     [this](byte b) {
                         const auto encode{make_base64_encode_transform()};
                         if(auto opt_c{encode(b)}) {
@@ -285,7 +285,7 @@ auto bridge::_handle_topo_bridge_conn(
   bool to_connection) -> message_handling_result {
     if(to_connection) {
         bridge_topology_info info{};
-        if(default_deserialize(info, message.data)) {
+        if(default_deserialize(info, message.content())) {
             info.opposite_id = _id;
             auto temp{default_serialize_buffer_for(info)};
             if(auto serialized{default_serialize(info, cover(temp))}) {
@@ -386,7 +386,7 @@ auto bridge::_do_send(message_id msg_id, message_view& message) -> bool {
         if(_connection->send(msg_id, message)) {
             log_trace("forwarding message ${message} to connection")
               .arg(EAGINE_ID(message), msg_id)
-              .arg(EAGINE_ID(data), message.data);
+              .arg(EAGINE_ID(data), message.data());
             return true;
         }
     }
@@ -407,7 +407,7 @@ auto bridge::_do_push(message_id msg_id, message_view& message) -> bool {
         _state->push(msg_id, message);
         log_trace("forwarding message ${message} to stream")
           .arg(EAGINE_ID(message), msg_id)
-          .arg(EAGINE_ID(data), message.data);
+          .arg(EAGINE_ID(data), message.data());
         return true;
     }
     return false;

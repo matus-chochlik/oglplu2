@@ -92,7 +92,7 @@ auto serialize_message(
 
     if(!errors) {
         if(auto sink = backend.sink()) {
-            errors |= extract(sink).write(msg.data);
+            errors |= extract(sink).write(msg.data());
         } else {
             errors |= serialization_error_code::backend_error;
         }

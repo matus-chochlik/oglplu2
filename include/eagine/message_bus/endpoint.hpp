@@ -476,7 +476,6 @@ private:
       EAGINE_MSGBUS_ID(blobFrgmnt),
       EAGINE_MSGBUS_ID(blobResend)};
 
-    auto _cleanup_blobs() -> bool;
     auto _process_blobs() -> bool;
 
     auto _default_store_handler() noexcept -> fetch_handler {

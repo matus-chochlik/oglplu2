@@ -454,13 +454,12 @@ void router::_handle_connection(std::unique_ptr<connection> a_connection) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_cleanup_blobs() -> bool {
-    return _blobs.cleanup();
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 auto router::_process_blobs() -> bool {
     some_true something_done{};
+    auto resend_request = [&](message_id msg_id, message_view request) -> bool {
+        return this->_do_route_message(msg_id, _id_base, request);
+    };
+    something_done(_blobs.update({construct_from, resend_request}));
 
     if(_blobs.has_outgoing()) {
         for(auto& nd : _nodes) {
@@ -511,11 +510,11 @@ auto router::_handle_blob(
         if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
             log_trace("received endpoint certificate")
               .arg(EAGINE_ID(source), message.source_id)
-              .arg(EAGINE_ID(pem), message.data);
+              .arg(EAGINE_ID(pem), message.content());
             auto pos = _nodes.find(message.source_id);
             if(pos != _nodes.end()) {
                 if(_context->add_remote_certificate_pem(
-                     message.source_id, message.data)) {
+                     message.source_id, message.content())) {
                     log_debug("verified and stored endpoint certificate")
                       .arg(EAGINE_ID(source), message.source_id);
                 }
@@ -526,7 +525,7 @@ auto router::_handle_blob(
                   message.source_id,
                   message.target_id,
                   message.sequence_no,
-                  message.data,
+                  message.content(),
                   adjusted_duration(std::chrono::seconds(30)),
                   message_priority::high);
             }
@@ -563,7 +562,7 @@ auto router::_handle_subscribed(
   identifier_t incoming_id,
   const message_view& message) -> message_handling_result {
     message_id sub_msg_id{};
-    if(default_deserialize_message_type(sub_msg_id, message.data)) {
+    if(default_deserialize_message_type(sub_msg_id, message.content())) {
         log_debug("endpoint ${source} subscribes to ${message}")
           .arg(EAGINE_ID(source), message.source_id)
           .arg(EAGINE_ID(message), sub_msg_id);
@@ -580,7 +579,7 @@ auto router::_handle_not_subscribed(
   identifier_t incoming_id,
   const message_view& message) -> message_handling_result {
     message_id sub_msg_id{};
-    if(default_deserialize_message_type(sub_msg_id, message.data)) {
+    if(default_deserialize_message_type(sub_msg_id, message.content())) {
         log_debug("endpoint ${source} unsubscribes from ${message}")
           .arg(EAGINE_ID(source), message.source_id)
           .arg(EAGINE_ID(message), sub_msg_id);
@@ -600,10 +599,11 @@ auto router::_handle_subscribers_query(const message_view& message)
         auto& info = pos->second;
         if(info.instance_id) {
             message_id sub_msg_id{};
-            if(default_deserialize_message_type(sub_msg_id, message.data)) {
+            if(default_deserialize_message_type(
+                 sub_msg_id, message.content())) {
                 // if we have the information cached, then respond
                 if(message_id_list_contains(info.subscriptions, sub_msg_id)) {
-                    message_view response{message.data};
+                    message_view response{message.data()};
                     response.setup_response(message);
                     response.set_source_id(message.target_id);
                     response.set_sequence_no(info.instance_id);
@@ -611,7 +611,7 @@ auto router::_handle_subscribers_query(const message_view& message)
                       EAGINE_MSGBUS_ID(subscribTo), _id_base, response);
                 }
                 if(message_id_list_contains(info.unsubscriptions, sub_msg_id)) {
-                    message_view response{message.data};
+                    message_view response{message.data()};
                     response.setup_response(message);
                     response.set_source_id(message.target_id);
                     response.set_sequence_no(info.instance_id);
@@ -761,13 +761,8 @@ auto router::_handle_stats_query(const message_view& message)
 EAGINE_LIB_FUNC
 auto router::_handle_blob_fragment(const message_view& message)
   -> message_handling_result {
-    auto resend_request = [&](message_id msg_id, message_view request) -> bool {
-        return this->_do_route_message(msg_id, _id_base, request);
-    };
     if(_blobs.process_incoming(
-         {construct_from, resend_request},
-         EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io),
-         message)) {
+         EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io), message)) {
         _blobs.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_blob));
     }
     return (message.target_id == _id_base) ? was_handled : should_be_forwarded;
@@ -832,7 +827,7 @@ auto router::_handle_special_common(
         log_warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(source), message.source_id)
-          .arg(EAGINE_ID(data), message.data);
+          .arg(EAGINE_ID(data), message.data());
     }
     return should_be_forwarded;
 }
@@ -889,7 +884,8 @@ auto router::_handle_special(
             return was_handled;
         } else if(msg_id.has_method(EAGINE_ID(msgBlkList))) {
             message_id blk_msg_id{};
-            if(default_deserialize_message_type(blk_msg_id, message.data)) {
+            if(default_deserialize_message_type(
+                 blk_msg_id, message.content())) {
                 if(!is_special_message(msg_id)) {
                     log_debug("node ${source} blocking message ${message}")
                       .arg(EAGINE_ID(message), blk_msg_id)
@@ -901,7 +897,8 @@ auto router::_handle_special(
             }
         } else if(msg_id.has_method(EAGINE_ID(msgAlwList))) {
             message_id alw_msg_id{};
-            if(default_deserialize_message_type(alw_msg_id, message.data)) {
+            if(default_deserialize_message_type(
+                 alw_msg_id, message.content())) {
                 log_debug("node ${source} allowing message ${message}")
                   .arg(EAGINE_ID(message), alw_msg_id)
                   .arg(EAGINE_ID(source), message.source_id);
@@ -1114,7 +1111,6 @@ EAGINE_LIB_FUNC
 auto router::do_maintenance() -> bool {
     some_true something_done{};
 
-    something_done(_cleanup_blobs());
     something_done(_process_blobs());
     something_done(_remove_timeouted());
     something_done(_remove_disconnected());

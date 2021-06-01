@@ -21,18 +21,15 @@ auto endpoint::_uptime_seconds() -> std::int64_t {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto endpoint::_cleanup_blobs() -> bool {
-    return _blobs.cleanup();
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 auto endpoint::_process_blobs() -> bool {
+    some_true something_done;
+    something_done(_blobs.update(EAGINE_THIS_MEM_FUNC_REF(post)));
     const auto opt_max_size = max_data_size();
     if(EAGINE_LIKELY(opt_max_size)) {
-        return _blobs.process_outgoing(
-          EAGINE_THIS_MEM_FUNC_REF(post), extract(opt_max_size));
+        something_done(_blobs.process_outgoing(
+          EAGINE_THIS_MEM_FUNC_REF(post), extract(opt_max_size)));
     }
-    return false;
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -78,8 +75,7 @@ auto endpoint::_handle_special(
               .arg(EAGINE_ID(message), msg_id);
             return true;
         } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
-            if(_blobs.process_incoming(
-                 EAGINE_THIS_MEM_FUNC_REF(post), message)) {
+            if(_blobs.process_incoming(message)) {
                 _blobs.fetch_all(_store_handler);
             }
             return true;
@@ -125,10 +121,10 @@ auto endpoint::_handle_special(
         } else if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
             log_trace("received remote endpoint certificate")
               .arg(EAGINE_ID(source), message.source_id)
-              .arg(EAGINE_ID(pem), message.data);
+              .arg(EAGINE_ID(pem), message.content());
 
             if(_context->add_remote_certificate_pem(
-                 message.source_id, view(message.data))) {
+                 message.source_id, message.content())) {
                 log_debug("verified and stored remote endpoint certificate")
                   .arg(EAGINE_ID(endpoint), _endpoint_id)
                   .arg(EAGINE_ID(source), message.source_id);
@@ -148,7 +144,7 @@ auto endpoint::_handle_special(
             }
             return true;
         } else if(msg_id.has_method(EAGINE_ID(eptSigNnce))) {
-            if(auto signature{_context->get_own_signature(message.data)}) {
+            if(auto signature{_context->get_own_signature(message.content())}) {
                 post_blob(
                   EAGINE_MSGBUS_ID(eptNnceSig),
                   message.source_id,
@@ -163,7 +159,7 @@ auto endpoint::_handle_special(
             return true;
         } else if(msg_id.has_method(EAGINE_ID(eptNnceSig))) {
             if(_context->verify_remote_signature(
-                 message.data, message.source_id)) {
+                 message.content(), message.source_id)) {
                 log_debug("verified nonce signature")
                   .arg(EAGINE_ID(endpoint), _endpoint_id)
                   .arg(EAGINE_ID(source), message.source_id);
@@ -171,9 +167,9 @@ auto endpoint::_handle_special(
             return true;
         } else if(msg_id.has_method(EAGINE_ID(rtrCertPem))) {
             log_trace("received router certificate")
-              .arg(EAGINE_ID(pem), message.data);
+              .arg(EAGINE_ID(pem), message.content());
 
-            if(_context->add_router_certificate_pem(view(message.data))) {
+            if(_context->add_router_certificate_pem(message.content())) {
                 log_debug("verified and stored router certificate");
             }
             return true;
@@ -220,7 +216,7 @@ auto endpoint::_handle_special(
         log_warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(source), message.source_id)
-          .arg(EAGINE_ID(data), message.data);
+          .arg(EAGINE_ID(data), message.data());
     }
     return false;
 }
@@ -376,7 +372,7 @@ auto endpoint::post_signed(message_id msg_id, message_view msg_view) -> bool {
             stored_message& message) {
               message.assign(msg_view);
               if(message.store_and_sign(
-                   msg_view.data, max_size, ctx(), *this)) {
+                   msg_view.content(), max_size, ctx(), *this)) {
                   dst_msg_id = msg_id;
                   return true;
               }
@@ -391,7 +387,6 @@ EAGINE_LIB_FUNC
 auto endpoint::update() -> bool {
     some_true something_done{};
 
-    something_done(_cleanup_blobs());
     something_done(_process_blobs());
 
     if(EAGINE_UNLIKELY(!_connection)) {

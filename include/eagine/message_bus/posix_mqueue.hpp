@@ -590,7 +590,7 @@ private:
             EAGINE_MAYBE_UNUSED(msg_id);
 
             if(auto conn = std::make_unique<posix_mqueue_connection>(*this)) {
-                if(conn->open(to_string(as_chars(message.data)))) {
+                if(conn->open(to_string(as_chars(message.data())))) {
                     handler(std::move(conn));
                 }
             }

@@ -93,7 +93,7 @@ protected:
         some_true something_done;
         something_done(Base::update());
 
-        something_done(_blobs.cleanup());
+        something_done(_blobs.update(this->bus_node().post_callable()));
         const auto opt_max_size = this->bus_node().max_data_size();
         if(EAGINE_LIKELY(opt_max_size)) {
             something_done(_blobs.process_outgoing(
@@ -265,7 +265,7 @@ private:
       const message_context& ctx,
       stored_message& message) -> bool {
         EAGINE_MAYBE_UNUSED(ctx);
-        _blobs.process_incoming(this->bus_node().post_callable(), message);
+        _blobs.process_incoming(message);
         return true;
     }
 

@@ -165,7 +165,6 @@ private:
     void _assign_id(std::unique_ptr<connection>& conn);
     void _handle_connection(std::unique_ptr<connection> conn);
 
-    auto _cleanup_blobs() -> bool;
     auto _process_blobs() -> bool;
     auto _do_get_blob_io(message_id, span_size_t, blob_manipulator&)
       -> std::unique_ptr<blob_io>;

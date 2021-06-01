@@ -76,6 +76,7 @@ struct pending_blob {
     // TODO: recycle the done parts vectors?
     double_buffer<std::vector<std::tuple<span_size_t, span_size_t>>>
       fragment_parts{};
+    std::chrono::steady_clock::time_point latest_update{};
     timeout max_time{};
     blob_id_t source_blob_id{0U};
     blob_id_t target_blob_id{0U};
@@ -125,7 +126,8 @@ struct pending_blob {
         return std::chrono::duration_cast<message_age>(max_time.elapsed_time());
     }
 
-    auto merge_fragment(span_size_t offset, memory::const_block) -> bool;
+    auto merge_fragment(span_size_t bgn, memory::const_block) -> bool;
+    void merge_resend_request(span_size_t bgn, span_size_t end);
 };
 //------------------------------------------------------------------------------
 class blob_manipulator : main_ctx_object {
@@ -150,7 +152,9 @@ public:
 
     auto make_io(span_size_t total_size) -> std::unique_ptr<blob_io>;
 
-    auto cleanup() -> bool;
+    using send_handler = callable_ref<bool(message_id, const message_view&)>;
+
+    auto update(send_handler do_send) -> bool;
 
     auto push_outgoing(
       message_id msg_id,
@@ -188,11 +192,8 @@ public:
       memory::const_block fragment,
       message_priority priority) -> bool;
 
-    using send_handler = callable_ref<bool(message_id, const message_view&)>;
-
-    auto process_incoming(send_handler, const message_view& message) -> bool;
-    auto process_incoming(send_handler, io_getter, const message_view& message)
-      -> bool;
+    auto process_incoming(const message_view& message) -> bool;
+    auto process_incoming(io_getter, const message_view& message) -> bool;
     auto process_resend(const message_view& message) -> bool;
 
     using fetch_handler =

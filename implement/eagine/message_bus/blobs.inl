@@ -174,32 +174,72 @@ auto pending_blob::merge_fragment(span_size_t bgn, memory::const_block fragment)
         dst.emplace_back(bgn, end);
         result &= store(bgn, fragment);
     }
+    latest_update = std::chrono::steady_clock::now();
 
     return result;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void pending_blob::merge_resend_request(span_size_t bgn, span_size_t end) {
+    EAGINE_MAYBE_UNUSED(bgn);
+    EAGINE_MAYBE_UNUSED(end);
+    // TODO
 }
 //------------------------------------------------------------------------------
 // blob manipulator
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto blob_manipulator::cleanup() -> bool {
+auto blob_manipulator::update(blob_manipulator::send_handler do_send) -> bool {
+    const auto now = std::chrono::steady_clock::now();
     some_true something_done{};
-    auto predicate = [this, &something_done](auto& pending) {
-        if(pending.max_time.is_expired()) {
-            if(auto buf_io{pending.buffer_io()}) {
-                _buffers.eat(extract(buf_io).release_buffer());
-            }
-            something_done();
-            return true;
-        }
-        return false;
-    };
 
     _incoming.erase(
-      std::remove_if(_incoming.begin(), _incoming.end(), predicate),
+      std::remove_if(
+        _incoming.begin(),
+        _incoming.end(),
+        [this, now, do_send, &something_done](auto& pending) {
+            bool should_erase = false;
+            if(pending.max_time.is_expired()) {
+                if(auto buf_io{pending.buffer_io()}) {
+                    _buffers.eat(extract(buf_io).release_buffer());
+                }
+                something_done();
+                should_erase = true;
+            } else if(std::chrono::seconds{2} > now - pending.latest_update) {
+                auto& done = pending.done_parts();
+                if(!done.empty()) {
+                    const auto bgn = std::get<1>(done[0]);
+                    const auto end = done.size() > 1 ? std::get<1>(done[0])
+                                                     : pending.total_size;
+                    const std::tuple<identifier_t, std::uint64_t, std::uint64_t>
+                      params{pending.source_blob_id, bgn, end};
+                    auto buffer{default_serialize_buffer_for(params)};
+                    auto serialized{default_serialize(params, cover(buffer))};
+                    EAGINE_ASSERT(serialized);
+                    message_view resend_request{extract(serialized)};
+                    resend_request.set_target_id(pending.source_id);
+                    pending.latest_update = now;
+                    something_done(do_send(_resend_msg_id, resend_request));
+                }
+            }
+            return should_erase;
+        }),
       _incoming.end());
 
     _outgoing.erase(
-      std::remove_if(_outgoing.begin(), _outgoing.end(), predicate),
+      std::remove_if(
+        _outgoing.begin(),
+        _outgoing.end(),
+        [this, &something_done](auto& pending) {
+            if(pending.max_time.is_expired()) {
+                if(auto buf_io{pending.buffer_io()}) {
+                    _buffers.eat(extract(buf_io).release_buffer());
+                }
+                something_done();
+                return true;
+            }
+            return false;
+        }),
       _outgoing.end());
 
     return something_done;
@@ -243,6 +283,7 @@ auto blob_manipulator::expect_incoming(
     pending.source_blob_id = 0U;
     pending.target_blob_id = target_blob_id;
     pending.io = std::move(io);
+    pending.latest_update = std::chrono::steady_clock::now();
     pending.max_time = timeout{max_time};
     pending.priority = message_priority::normal;
     return true;
@@ -355,7 +396,6 @@ auto blob_manipulator::push_incoming_fragment(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto blob_manipulator::process_incoming(
-  blob_manipulator::send_handler,
   blob_manipulator::io_getter get_io,
   const message_view& message) -> bool {
 
@@ -368,7 +408,7 @@ auto blob_manipulator::process_incoming(
 
     auto header = std::tie(
       class_id, method_id, source_blob_id, target_blob_id, offset, total_size);
-    block_data_source source{message.data};
+    block_data_source source{message.content()};
     default_deserializer_backend backend(source);
     auto errors = deserialize(header, backend);
     const message_id msg_id{class_id, method_id};
@@ -401,23 +441,36 @@ auto blob_manipulator::process_incoming(
     } else {
         log_error("failed to deserialize header of blob")
           .arg(EAGINE_ID(errors), errors)
-          .arg(EAGINE_ID(data), message.data);
+          .arg(EAGINE_ID(data), message.content());
     }
     return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto blob_manipulator::process_incoming(
-  blob_manipulator::send_handler do_send,
-  const message_view& message) -> bool {
-    return process_incoming(
-      do_send, EAGINE_THIS_MEM_FUNC_REF(_make_io), message);
+auto blob_manipulator::process_incoming(const message_view& message) -> bool {
+    return process_incoming(EAGINE_THIS_MEM_FUNC_REF(_make_io), message);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto blob_manipulator::process_resend(const message_view& message) -> bool {
-    // TODO
-    EAGINE_MAYBE_UNUSED(message);
+    std::tuple<identifier_t, std::uint64_t, std::uint64_t> params{};
+    if(default_deserialize(params, message.content())) {
+        const auto source_blob_id = std::get<0>(params);
+        const auto bgn = limit_cast<span_size_t>(std::get<1>(params));
+        const auto end = limit_cast<span_size_t>(std::get<2>(params));
+        log_debug("received resend request from ${target}")
+          .arg(EAGINE_ID(target), message.source_id)
+          .arg(EAGINE_ID(srcBlobId), source_blob_id)
+          .arg(EAGINE_ID(begin), bgn)
+          .arg(EAGINE_ID(end), end);
+        const auto pos = std::find_if(
+          _outgoing.begin(), _outgoing.end(), [source_blob_id](auto& pending) {
+              return pending.source_blob_id == source_blob_id;
+          });
+        if(pos != _outgoing.end()) {
+            pos->merge_resend_request(bgn, end);
+        }
+    }
     return true;
 }
 //------------------------------------------------------------------------------
