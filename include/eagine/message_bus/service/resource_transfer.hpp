@@ -11,13 +11,17 @@
 
 #include "../../from_string.hpp"
 #include "../../main_ctx.hpp"
+#include "../../math/functions.hpp"
 #include "../../memory/span_algo.hpp"
 #include "../../random_bytes.hpp"
+#include "../../span.hpp"
 #include "../../url.hpp"
 #include "../../valid_if/decl.hpp"
 #include "../blobs.hpp"
 #include "../service.hpp"
 #include "../signal.hpp"
+#include <filesystem>
+#include <fstream>
 #include <random>
 #include <tuple>
 
@@ -65,6 +69,58 @@ private:
     std::default_random_engine _re;
 };
 //------------------------------------------------------------------------------
+class file_blob_io : public blob_io {
+public:
+    file_blob_io(
+      std::fstream file,
+      optionally_valid<span_size_t> offs,
+      optionally_valid<span_size_t> size)
+      : _file{std::move(file)} {
+        _file.seekg(0, std::ios::end);
+        _size = limit_cast<span_size_t>(_file.tellg());
+        if(size) {
+            _size = _size ? math::minimum(_size, extract(size)) : extract(size);
+        }
+        if(offs) {
+            _offs = math::minimum(_size, extract(offs));
+        }
+    }
+
+    auto is_at_eod(span_size_t offs) -> bool final {
+        return offs >= total_size();
+    }
+
+    auto total_size() -> span_size_t final {
+        return _size - _offs;
+    }
+
+    auto fetch_fragment(span_size_t offs, memory::block dst)
+      -> span_size_t final {
+        _file.seekg(_offs + offs, std::ios::beg);
+        return limit_cast<span_size_t>(
+          read_from_stream(_file, head(dst, _size - _offs - offs)).gcount());
+    }
+
+    auto store_fragment(span_size_t offs, memory::const_block src)
+      -> bool final {
+        _file.seekg(_offs + offs, std::ios::beg);
+        return write_to_stream(_file, head(src, _size - _offs - offs)).good();
+    }
+
+    auto check_stored(span_size_t, memory::const_block) -> bool final {
+        return true;
+    }
+
+    void handle_finished(message_id, message_age, const message_info&) final {
+        _file.close();
+    }
+
+private:
+    std::fstream _file;
+    span_size_t _offs{0};
+    span_size_t _size{0};
+};
+//------------------------------------------------------------------------------
 /// @brief Service providing access to files over the message bus.
 /// @ingroup msgbus
 /// @see service_composition
@@ -72,6 +128,11 @@ private:
 template <typename Base = subscriber>
 class resource_server : public Base {
     using This = resource_server;
+
+public:
+    void set_file_root(std::filesystem::path root_path) {
+        _root_path = std::move(root_path);
+    }
 
 protected:
     using Base::Base;
@@ -141,6 +202,22 @@ private:
                         }
                     }
                 }
+            } else if(locator.has_scheme("file")) {
+                if(auto loc_path{locator.path_str()}) {
+                    const auto file_path =
+                      _root_path / std::filesystem::path(
+                                     std::string_view{extract(loc_path)});
+                    std::fstream file{
+                      file_path, std::ios::in | std::ios::binary};
+                    if(file.is_open()) {
+                        read_io = std::make_unique<file_blob_io>(
+                          std::move(file),
+                          from_string<span_size_t>(extract_or(
+                            locator.argument("offs"), string_view{})),
+                          from_string<span_size_t>(extract_or(
+                            locator.argument("size"), string_view{})));
+                    }
+                }
             }
         }
 
@@ -196,6 +273,7 @@ private:
       *this,
       EAGINE_MSG_ID(eagiRsrces, fragment),
       EAGINE_MSG_ID(eagiRsrces, fragResend)};
+    std::filesystem::path _root_path{};
 };
 //------------------------------------------------------------------------------
 /// @brief Service manipulating files over the message bus.
