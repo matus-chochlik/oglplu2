@@ -130,8 +130,8 @@ class resource_server : public Base {
     using This = resource_server;
 
 public:
-    void set_file_root(std::filesystem::path root_path) {
-        _root_path = std::move(root_path);
+    void set_file_root(const std::filesystem::path& root_path) {
+        _root_path = std::filesystem::canonical(root_path);
     }
 
 protected:
@@ -180,7 +180,31 @@ protected:
     }
 
 private:
+    auto _get_file_path(const url& locator) const -> std::filesystem::path {
+        try {
+            if(auto loc_path_str{locator.path_str()}) {
+                std::filesystem::path loc_path{
+                  std::string_view{extract(loc_path_str)}};
+                if(_root_path.empty()) {
+                    if(loc_path.is_absolute()) {
+                        return loc_path;
+                    }
+                    return std::filesystem::current_path().root_path() /
+                           loc_path;
+                }
+                if(loc_path.is_absolute()) {
+                    return std::filesystem::canonical(
+                      _root_path / loc_path.relative_path());
+                }
+                return std::filesystem::canonical(_root_path / loc_path);
+            }
+        } catch(const std::runtime_error&) {
+        }
+        return {};
+    }
+
     auto _get_resource(
+      const message_context& ctx,
       const url& locator,
       identifier_t endpoint_id,
       message_priority priority) -> std::
@@ -203,10 +227,14 @@ private:
                     }
                 }
             } else if(locator.has_scheme("file")) {
-                if(auto loc_path{locator.path_str()}) {
-                    const auto file_path =
-                      _root_path / std::filesystem::path(
-                                     std::string_view{extract(loc_path)});
+                const auto file_path = _get_file_path(locator);
+                const bool is_contained =
+                  starts_with(string_view(file_path), string_view(_root_path));
+                ctx.bus_node()
+                  .log_info("sending file ${filePath} to ${target}")
+                  .arg(EAGINE_ID(target), endpoint_id)
+                  .arg(EAGINE_ID(filePath), EAGINE_ID(FsPath), file_path);
+                if(is_contained) {
                     std::fstream file{
                       file_path, std::ios::in | std::ios::binary};
                     if(file.is_open()) {
@@ -243,7 +271,7 @@ private:
             const url locator{std::move(url_str)};
 
             auto [read_io, max_time, priority] =
-              _get_resource(locator, message.source_id, message.priority);
+              _get_resource(ctx, locator, message.source_id, message.priority);
             if(read_io) {
                 _blobs.push_outgoing(
                   EAGINE_MSG_ID(eagiRsrces, content),

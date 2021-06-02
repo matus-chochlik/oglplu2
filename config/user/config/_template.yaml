@@ -25,6 +25,8 @@ msg_bus:
             max_age: 2500ms
     endpoint:
         cert_path: /path/to/endpoint/certificate.pem
+    file_server:
+        root_path: /path/to/served/tree/root
     sudoku:
         helper:
             count: 16

@@ -77,6 +77,11 @@ auto main(main_ctx& ctx) -> int {
     msgbus::file_server_node the_file_server{bus};
     conn_setup.setup_connectors(the_file_server, address);
 
+    if(const auto fs_root_path{
+         ctx.config().get<std::string>("msg_bus.file_server.root_path")}) {
+        the_file_server.set_file_root(extract(fs_root_path));
+    }
+
     while(!(the_file_server.is_done() || interrupted)) {
         if(the_file_server.update_and_process_all()) {
             std::this_thread::sleep_for(std::chrono::microseconds(250));
