@@ -822,7 +822,7 @@ public:
 
 private:
     auto _get(int x, int y) -> const board_type& {
-        auto pos = _boards.find({x, y});
+        auto pos = _boards.find(std::tuple<int, int>{x, y});
         if(pos == _boards.end()) {
             board_type added{_traits};
             if(y > 0) {

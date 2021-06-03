@@ -33,15 +33,15 @@ struct flat_map_value_compare : Cmp {
         return key_comp()(a.first, b.first);
     }
 
-    template <typename K>
+    template <typename L, typename R>
     constexpr auto
-    operator()(const std::pair<K, Val>& a, const Key& b) const noexcept {
+    operator()(const std::pair<L, Val>& a, const R& b) const noexcept {
         return key_comp()(a.first, b);
     }
 
-    template <typename K>
+    template <typename L, typename R>
     constexpr auto
-    operator()(const Key& a, const std::pair<K, Val>& b) const noexcept {
+    operator()(const L& a, const std::pair<R, Val>& b) const noexcept {
         return key_comp()(a, b.first);
     }
 };
@@ -66,23 +66,23 @@ struct flat_map_ops : flat_map_value_compare<Key, Val, Cmp> {
         return static_cast<span_size_t>(distance(b, e));
     }
 
-    template <typename I>
-    auto lower_bound(I b, I e, const Key& key) const noexcept {
+    template <typename I, typename K>
+    auto lower_bound(I b, I e, const K& key) const noexcept {
         return ::std::lower_bound(b, e, key, value_comp());
     }
 
-    template <typename I>
-    auto upper_bound(I b, I e, const Key& key) const noexcept {
+    template <typename I, typename K>
+    auto upper_bound(I b, I e, const K& key) const noexcept {
         return ::std::upper_bound(b, e, key, value_comp());
     }
 
-    template <typename I>
-    auto equal_range(I b, I e, const Key& key) const noexcept {
+    template <typename I, typename K>
+    auto equal_range(I b, I e, const K& key) const noexcept {
         return ::std::equal_range(b, e, key, value_comp());
     }
 
-    template <typename I>
-    auto find(I b, I e, const Key& key) const noexcept {
+    template <typename I, typename K>
+    auto find(I b, I e, const K& key) const noexcept {
         b = lower_bound(b, e, key);
         if((b != e) && value_comp()(key, *b)) {
             b = e;
@@ -90,8 +90,8 @@ struct flat_map_ops : flat_map_value_compare<Key, Val, Cmp> {
         return b;
     }
 
-    template <typename I>
-    auto at(I b, I e, const Key& key) const -> auto& {
+    template <typename I, typename K>
+    auto at(I b, I e, const K& key) const -> auto& {
         b = find(b, e, key);
         if(b == e) {
             throw std::out_of_range("Invalid flat map key");
@@ -99,8 +99,8 @@ struct flat_map_ops : flat_map_value_compare<Key, Val, Cmp> {
         return b->second;
     }
 
-    template <typename I>
-    auto get(I b, I e, const Key& key) const noexcept -> auto& {
+    template <typename I, typename K>
+    auto get(I b, I e, const K& key) const noexcept -> auto& {
         b = find(b, e, key);
         EAGINE_ASSERT(b != e);
         return b->second;
@@ -164,43 +164,53 @@ public:
         return _ops().size(_b(), _e());
     }
 
-    auto find(const Key& key) {
+    template <typename K>
+    auto find(const K& key) {
         return _ops().find(_b(), _e(), key);
     }
 
-    auto find(const Key& key) const {
+    template <typename K>
+    auto find(const K& key) const {
         return _ops().find(_b(), _e(), key);
     }
 
-    auto lower_bound(const Key& key) {
+    template <typename K>
+    auto lower_bound(const K& key) {
         return _ops().lower_bound(_b(), _e(), key);
     }
 
-    auto lower_bound(const Key& key) const {
+    template <typename K>
+    auto lower_bound(const K& key) const {
         return _ops().lower_bound(_b(), _e(), key);
     }
 
-    auto upper_bound(const Key& key) {
+    template <typename K>
+    auto upper_bound(const K& key) {
         return _ops().upper_bound(_b(), _e(), key);
     }
 
-    auto upper_bound(const Key& key) const {
+    template <typename K>
+    auto upper_bound(const K& key) const {
         return _ops().upper_bound(_b(), _e(), key);
     }
 
-    auto equal_range(const Key& key) {
+    template <typename K>
+    auto equal_range(const K& key) {
         return _ops().equal_range(_b(), _e(), key);
     }
 
-    auto equal_range(const Key& key) const {
+    template <typename K>
+    auto equal_range(const K& key) const {
         return _ops().equal_range(_b(), _e(), key);
     }
 
-    auto at(const Key& key) -> Val& {
+    template <typename K>
+    auto at(const K& key) -> Val& {
         return _ops().at(_b(), _e(), key);
     }
 
-    auto at(const Key& key) const -> const Val& {
+    template <typename K>
+    auto at(const K& key) const -> const Val& {
         return _ops().at(_b(), _e(), key);
     }
 };
@@ -223,7 +233,8 @@ private:
     using _vec_t = std::vector<std::pair<Key, Val>, _alloc_t>;
     _vec_t _vec{};
 
-    auto _find_insert_pos(const Key& k) noexcept {
+    template <typename K>
+    auto _find_insert_pos(const K& k) noexcept {
         const auto b = _vec.begin();
         const auto e = _vec.end();
         const auto p = _ops().lower_bound(b, e, k);
@@ -231,8 +242,8 @@ private:
         return std::pair{p, (p == e) || !are_equal(k, p->first)};
     }
 
-    template <typename I>
-    auto _find_insert_pos(I p, const Key& k) {
+    template <typename I, typename K>
+    auto _find_insert_pos(I p, const K& k) {
         auto b = _vec.begin();
         auto e = _vec.end();
         if(p == e) {
@@ -254,8 +265,8 @@ private:
         return std::pair{p, true};
     }
 
-    template <typename I, typename... Args>
-    auto _do_emplace(I ip, const Key& key, Args&&... args) -> I {
+    template <typename I, typename K, typename... Args>
+    auto _do_emplace(I ip, const K& key, Args&&... args) -> I {
         if(ip.second) {
             ip.first =
               _vec.emplace(ip.first, key, Val{std::forward<Args>(args)...});
@@ -402,7 +413,8 @@ public:
         return _vec.erase(f, t);
     }
 
-    auto erase(const Key& key) -> size_type {
+    template <typename K>
+    auto erase(const K& key) -> size_type {
         const auto p = _ops().equal_range(_vec.begin(), _vec.end(), key);
         const auto res = size_type(std::distance(p.first, p.second));
         EAGINE_ASSERT(res <= 1);

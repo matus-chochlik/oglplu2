@@ -118,7 +118,7 @@ auto keyboard_distance::operator()(string_view ls, string_view rs) const
         if(lc == rc) {
             return 0.F;
         }
-        const auto pos = _key_dist.find({lc, rc});
+        const auto pos = _key_dist.find(std::pair<char, char>{lc, rc});
         if(pos != _key_dist.end()) {
             return pos->second;
         }
