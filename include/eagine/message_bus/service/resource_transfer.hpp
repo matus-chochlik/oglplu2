@@ -9,17 +9,22 @@
 #ifndef EAGINE_MESSAGE_BUS_SERVICE_RESOURCE_TRANSFER_HPP
 #define EAGINE_MESSAGE_BUS_SERVICE_RESOURCE_TRANSFER_HPP
 
+#include "../../flat_map.hpp"
+#include "../../flat_set.hpp"
 #include "../../from_string.hpp"
 #include "../../main_ctx.hpp"
 #include "../../math/functions.hpp"
 #include "../../memory/span_algo.hpp"
 #include "../../random_bytes.hpp"
-#include "../../span.hpp"
+#include "../../string_span.hpp"
 #include "../../url.hpp"
 #include "../../valid_if/decl.hpp"
 #include "../blobs.hpp"
 #include "../service.hpp"
+#include "../service_requirements.hpp"
 #include "../signal.hpp"
+#include "discovery.hpp"
+#include "host_info.hpp"
 #include <filesystem>
 #include <fstream>
 #include <random>
@@ -309,11 +314,32 @@ private:
 /// @see service_composition
 /// @see resource_manipulator
 template <typename Base = subscriber>
-class resource_manipulator : public Base {
+class resource_manipulator
+  : public require_services<Base, host_info_consumer, subscriber_discovery> {
 
     using This = resource_manipulator;
+    using base =
+      require_services<Base, host_info_consumer, subscriber_discovery>;
 
 public:
+    auto server_endpoint_id(const url& locator) -> identifier_t {
+        if(locator.has_scheme("eagimbh")) {
+            if(const auto hostname{locator.host()}) {
+                const auto hpos = _hostname_to_endpoint.find(extract(hostname));
+                if(hpos != _hostname_to_endpoint.end()) {
+                    for(const auto endpoint_id : std::get<1>(*hpos)) {
+                        const auto epos = _server_endpoints.find(endpoint_id);
+                        if(epos != _server_endpoints.end()) {
+                            // TODO alive timeout?
+                            return endpoint_id;
+                        }
+                    }
+                }
+            }
+        }
+        return broadcast_endpoint_id();
+    }
+
     /// @brief Requests the contents of the file with the specified URL.
     auto query_resource_content(
       identifier_t endpoint_id,
@@ -323,6 +349,11 @@ public:
       std::chrono::seconds max_time) -> optionally_valid<message_sequence_t> {
         const auto request = std::make_tuple(locator.str());
         auto buffer = default_serialize_buffer_for(request);
+
+        if(endpoint_id == broadcast_endpoint_id()) {
+            endpoint_id = server_endpoint_id(locator);
+        }
+
         if(auto serialized{default_serialize(request, cover(buffer))}) {
             const auto msg_id{EAGINE_MSG_ID(eagiRsrces, getContent)};
             message_view message{extract(serialized)};
@@ -341,17 +372,47 @@ public:
         return {};
     }
 
+    /// @brief Requests the contents of the file with the specified URL.
+    /// @see server_endpoint_id
+    auto query_resource_content(
+      const url& locator,
+      std::shared_ptr<blob_io> write_io,
+      message_priority priority,
+      std::chrono::seconds max_time) -> optionally_valid<message_sequence_t> {
+        return query_resource_content(
+          server_endpoint_id(locator),
+          locator,
+          std::move(write_io),
+          priority,
+          max_time);
+    }
+
 protected:
-    using Base::Base;
+    using base::base;
+
+    void init() {
+        base::init();
+
+        this->reported_alive.connect(EAGINE_THIS_MEM_FUNC_REF(_handle_alive));
+        this->subscribed.connect(EAGINE_THIS_MEM_FUNC_REF(_handle_subscribed));
+        this->unsubscribed.connect(
+          EAGINE_THIS_MEM_FUNC_REF(_handle_unsubscribed));
+        this->not_subscribed.connect(
+          EAGINE_THIS_MEM_FUNC_REF(_handle_unsubscribed));
+        this->host_id_received.connect(
+          EAGINE_THIS_MEM_FUNC_REF(_handle_host_id_received));
+        this->hostname_received.connect(
+          EAGINE_THIS_MEM_FUNC_REF(_handle_hostname_received));
+    }
 
     void add_methods() {
-        Base::add_methods();
+        base::add_methods();
 
-        Base::add_method(
+        base::add_method(
           this,
           EAGINE_MSG_MAP(
             eagiRsrces, fragment, This, _handle_resource_fragment));
-        Base::add_method(
+        base::add_method(
           this,
           EAGINE_MSG_MAP(
             eagiRsrces, fragResend, This, _handle_resource_resend_request));
@@ -360,13 +421,68 @@ protected:
     auto update() -> bool {
         some_true something_done;
 
-        something_done(Base::update());
+        something_done(base::update());
         something_done(_blobs.handle_complete() > 0);
 
         return something_done;
     }
 
 private:
+    void _handle_alive(const subscriber_info& sub_info) {
+        const auto pos = _server_endpoints.find(sub_info.endpoint_id);
+        if(pos != _server_endpoints.end()) {
+            auto& svr_info = std::get<1>(*pos);
+            svr_info.last_report_time = std::chrono::steady_clock::now();
+        }
+    }
+
+    void _handle_subscribed(const subscriber_info& sub_info, message_id msg_id) {
+        if(msg_id == EAGINE_MSG_ID(eagiRsrces, getContent)) {
+            auto& svr_info = _server_endpoints[sub_info.endpoint_id];
+            svr_info.last_report_time = std::chrono::steady_clock::now();
+        }
+    }
+
+    void
+    _handle_unsubscribed(const subscriber_info& sub_info, message_id msg_id) {
+        if(msg_id == EAGINE_MSG_ID(eagiRsrces, getContent)) {
+            _server_endpoints.erase(sub_info.endpoint_id);
+            for(auto& entry : _host_id_to_endpoint) {
+                std::get<1>(entry).erase(sub_info.endpoint_id);
+            }
+            _host_id_to_endpoint.erase(
+              std::remove_if(
+                _host_id_to_endpoint.begin(),
+                _host_id_to_endpoint.end(),
+                [](const auto& entry) { return std::get<1>(entry).empty(); }),
+              _host_id_to_endpoint.end());
+            for(auto& entry : _hostname_to_endpoint) {
+                std::get<1>(entry).erase(sub_info.endpoint_id);
+            }
+            _hostname_to_endpoint.erase(
+              std::remove_if(
+                _hostname_to_endpoint.begin(),
+                _hostname_to_endpoint.end(),
+                [](const auto& entry) { return std::get<1>(entry).empty(); }),
+              _hostname_to_endpoint.end());
+        }
+    }
+
+    void _handle_host_id_received(
+      const result_context& ctx,
+      const valid_if_positive<host_id_t>& host_id) {
+        if(host_id) {
+            _host_id_to_endpoint[extract(host_id)].insert(ctx.source_id());
+        }
+    }
+
+    void _handle_hostname_received(
+      const result_context& ctx,
+      const valid_if_not_empty<std::string>& hostname) {
+        if(hostname) {
+            _hostname_to_endpoint[extract(hostname)].insert(ctx.source_id());
+        }
+    }
     auto _handle_resource_fragment(
       const message_context& ctx,
       stored_message& message) -> bool {
@@ -386,6 +502,16 @@ private:
       *this,
       EAGINE_MSG_ID(eagiRsrces, fragment),
       EAGINE_MSG_ID(eagiRsrces, fragResend)};
+
+    flat_map<std::string, flat_set<identifier_t>, str_view_less>
+      _hostname_to_endpoint;
+    flat_map<identifier_t, flat_set<identifier_t>> _host_id_to_endpoint;
+
+    struct _server_info {
+        std::chrono::steady_clock::time_point last_report_time{};
+    };
+
+    flat_map<identifier_t, _server_info> _server_endpoints;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
