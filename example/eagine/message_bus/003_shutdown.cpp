@@ -11,6 +11,7 @@
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/discovery.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
+#include <eagine/message_bus/service_requirements.hpp>
 #include <eagine/timeout.hpp>
 #include <set>
 #include <thread>
@@ -18,8 +19,8 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using shutdown_trigger_base =
-  service_composition<subscriber_discovery<shutdown_invoker<>>>;
+using shutdown_trigger_base = service_composition<
+  require_services<subscriber, subscriber_discovery, shutdown_invoker>>;
 
 class shutdown_trigger
   : public main_ctx_object

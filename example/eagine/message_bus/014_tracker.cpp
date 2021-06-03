@@ -15,12 +15,14 @@
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/tracker.hpp>
+#include <eagine/message_bus/service_requirements.hpp>
 #include <eagine/timeout.hpp>
 
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using tracker_base = service_composition<node_tracker<shutdown_invoker<>>>;
+using tracker_base = service_composition<
+  require_services<subscriber, node_tracker, shutdown_invoker>>;
 
 class tracker_example
   : public main_ctx_object
