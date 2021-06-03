@@ -15,6 +15,7 @@
 #include <eagine/message_bus/service/endpoint_info.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
+#include <eagine/message_bus/service_requirements.hpp>
 #include <eagine/signal_switch.hpp>
 #include <eagine/timeout.hpp>
 #include <algorithm>
@@ -68,8 +69,14 @@ struct ping_state {
     }
 };
 //------------------------------------------------------------------------------
-using pinger_base = pinger<host_info_consumer<host_info_provider<
-  application_info_provider<endpoint_info_provider<subscriber_discovery<>>>>>>;
+using pinger_base = require_services<
+  subscriber,
+  pinger,
+  host_info_consumer,
+  host_info_provider,
+  application_info_provider,
+  endpoint_info_provider,
+  subscriber_discovery>;
 
 class pinger_node : public service_node<pinger_base> {
     using base = service_node<pinger_base>;

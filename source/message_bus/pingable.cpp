@@ -21,7 +21,8 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using pingable_base = shutdown_target<pingable<common_info_providers<>>>;
+using pingable_base =
+  require_services<subscriber, shutdown_target, pingable, common_info_providers>;
 
 class pingable_node : public service_node<pingable_base> {
     using base = service_node<pingable_base>;

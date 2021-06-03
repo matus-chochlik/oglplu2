@@ -21,8 +21,11 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using file_server_node_base =
-  service_composition<shutdown_target<resource_server<common_info_providers<>>>>;
+using file_server_node_base = service_composition<require_services<
+  subscriber,
+  shutdown_target,
+  resource_server,
+  common_info_providers>>;
 
 class file_server_node
   : public main_ctx_object

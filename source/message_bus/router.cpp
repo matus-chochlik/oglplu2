@@ -25,8 +25,12 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 namespace msgbus {
-using router_node_base = service_composition<
-  shutdown_target<pingable<system_info_provider<common_info_providers<>>>>>;
+using router_node_base = service_composition<require_services<
+  subscriber,
+  shutdown_target,
+  pingable,
+  system_info_provider,
+  common_info_providers>>;
 //------------------------------------------------------------------------------
 class router_node
   : public main_ctx_object
