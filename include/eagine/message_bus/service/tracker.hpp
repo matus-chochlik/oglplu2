@@ -323,8 +323,11 @@ public:
     }
 
 protected:
-    node_tracker(endpoint& bus)
-      : base{bus} {
+    using base::base;
+
+    void init() {
+        base::init();
+
         this->reported_alive.connect(on_alive());
         this->subscribed.connect(on_subscribed());
         this->unsubscribed.connect(on_unsubscribed());
