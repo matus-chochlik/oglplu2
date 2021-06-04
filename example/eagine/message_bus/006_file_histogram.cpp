@@ -51,6 +51,10 @@ public:
         });
     }
 
+    void handle_cancelled() final {
+        _finished = true;
+    }
+
     auto is_done() const noexcept -> bool {
         return _finished;
     }

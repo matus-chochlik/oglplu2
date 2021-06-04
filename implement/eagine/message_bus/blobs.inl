@@ -13,7 +13,7 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
-// buffer blob i/o
+// buffer blob I/O
 //------------------------------------------------------------------------------
 class buffer_blob_io : public blob_io {
 public:
@@ -245,6 +245,7 @@ auto blob_manipulator::update(blob_manipulator::send_handler do_send) -> bool {
         [this, now, do_send, &something_done](auto& pending) {
             bool should_erase = false;
             if(pending.max_time.is_expired()) {
+                extract(pending.io).handle_cancelled();
                 if(auto buf_io{pending.buffer_io()}) {
                     _buffers.eat(extract(buf_io).release_buffer());
                 }
@@ -433,7 +434,12 @@ auto blob_manipulator::push_incoming_fragment(
                   .arg(EAGINE_ID(size), fragment.size());
             }
         } else {
-            log_warning("failed to create blob i/o object");
+            log_warning("failed to create blob I/O object")
+              .arg(EAGINE_ID(source), source_id)
+              .arg(EAGINE_ID(srcBlobId), source_blob_id)
+              .arg(EAGINE_ID(tgtBlobId), target_blob_id)
+              .arg(EAGINE_ID(offset), offset)
+              .arg(EAGINE_ID(size), fragment.size());
         }
     }
     return true;
@@ -517,6 +523,24 @@ auto blob_manipulator::process_resend(const message_view& message) -> bool {
         }
     }
     return true;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto blob_manipulator::cancel_incoming(identifier_t target_blob_id) -> bool {
+    const auto pos = std::find_if(
+      _incoming.begin(), _incoming.end(), [target_blob_id](auto& pending) {
+          return pending.target_blob_id == target_blob_id;
+      });
+    if(pos != _incoming.end()) {
+        auto& pending = *pos;
+        extract(pending.io).handle_cancelled();
+        if(auto buf_io{pending.buffer_io()}) {
+            _buffers.eat(extract(buf_io).release_buffer());
+        }
+        _incoming.erase(pos);
+        return true;
+    }
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

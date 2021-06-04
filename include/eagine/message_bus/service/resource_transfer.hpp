@@ -121,6 +121,10 @@ public:
         _file.close();
     }
 
+    void handle_cancelled() final {
+        _file.close();
+    }
+
 private:
     std::fstream _file;
     span_size_t _offs{0};
@@ -236,14 +240,15 @@ private:
                 const auto file_path = _get_file_path(locator);
                 const bool is_contained =
                   starts_with(string_view(file_path), string_view(_root_path));
-                ctx.bus_node()
-                  .log_info("sending file ${filePath} to ${target}")
-                  .arg(EAGINE_ID(target), endpoint_id)
-                  .arg(EAGINE_ID(filePath), EAGINE_ID(FsPath), file_path);
                 if(is_contained) {
                     std::fstream file{
                       file_path, std::ios::in | std::ios::binary};
                     if(file.is_open()) {
+                        ctx.bus_node()
+                          .log_info("sending file ${filePath} to ${target}")
+                          .arg(EAGINE_ID(target), endpoint_id)
+                          .arg(
+                            EAGINE_ID(filePath), EAGINE_ID(FsPath), file_path);
                         read_io = std::make_unique<file_blob_io>(
                           std::move(file),
                           from_string<span_size_t>(extract_or(
@@ -271,10 +276,10 @@ private:
         std::string url_str;
         auto request = std::tie(url_str);
         if(EAGINE_LIKELY(default_deserialize(request, message.content()))) {
+            const url locator{std::move(url_str)};
             ctx.bus_node()
               .log_info("received content request for ${url}")
-              .arg(EAGINE_ID(url), EAGINE_ID(URL), url_str);
-            const url locator{std::move(url_str)};
+              .arg(EAGINE_ID(url), EAGINE_ID(URL), locator.str());
 
             auto [read_io, max_time, priority] =
               _get_resource(ctx, locator, message.source_id, message.priority);
@@ -287,6 +292,14 @@ private:
                   std::move(read_io),
                   max_time,
                   priority);
+            } else {
+                message_view response{};
+                response.setup_response(message);
+                this->bus_node().post(
+                  EAGINE_MSG_ID(eagiRsrces, notFound), response);
+                ctx.bus_node()
+                  .log_error("failed to get I/O object for content request")
+                  .arg(EAGINE_ID(url), EAGINE_ID(URL), locator.str());
             }
         } else {
             ctx.bus_node()
@@ -432,6 +445,10 @@ protected:
         base::add_method(
           this,
           EAGINE_MSG_MAP(
+            eagiRsrces, notFound, This, _handle_resource_not_found));
+        base::add_method(
+          this,
+          EAGINE_MSG_MAP(
             eagiRsrces, fragResend, This, _handle_resource_resend_request));
     }
 
@@ -524,6 +541,13 @@ private:
       stored_message& message) -> bool {
         EAGINE_MAYBE_UNUSED(ctx);
         _blobs.process_incoming(message);
+        return true;
+    }
+
+    auto
+    _handle_resource_not_found(const message_context&, stored_message& message)
+      -> bool {
+        _blobs.cancel_incoming(message.sequence_no);
         return true;
     }
 

@@ -62,6 +62,8 @@ struct blob_io : interface<blob_io> {
         EAGINE_MAYBE_UNUSED(msg_age);
         EAGINE_MAYBE_UNUSED(message);
     }
+
+    virtual void handle_cancelled() {}
 };
 //------------------------------------------------------------------------------
 class buffer_blob_io;
@@ -195,6 +197,8 @@ public:
     auto process_incoming(const message_view& message) -> bool;
     auto process_incoming(io_getter, const message_view& message) -> bool;
     auto process_resend(const message_view& message) -> bool;
+
+    auto cancel_incoming(identifier_t target_blob_id) -> bool;
 
     using fetch_handler =
       callable_ref<bool(message_id, message_age, const message_view&)>;
