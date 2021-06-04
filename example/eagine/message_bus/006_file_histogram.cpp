@@ -37,18 +37,20 @@ public:
 
     void handle_finished(message_id, message_age, const message_info&) final {
         _finished = true;
-        _log.info("blob byte counts").arg_func([this](logger_backend& backend) {
-            for(const auto i : integer_range(std_size(256))) {
-                if(_byte_counts[i]) {
-                    backend.add_float(
-                      byte_to_identifier(i),
-                      EAGINE_ID(Histogram),
-                      float(0),
-                      float(_byte_counts[i]),
-                      float(_max_count));
-                }
-            }
-        });
+        _log.info("blob byte counts")
+          .arg(EAGINE_ID(url), EAGINE_ID(URL), _locator.str())
+          .arg_func([this](logger_backend& backend) {
+              for(const auto i : integer_range(std_size(256))) {
+                  if(_byte_counts[i]) {
+                      backend.add_float(
+                        byte_to_identifier(i),
+                        EAGINE_ID(Histogram),
+                        float(0),
+                        float(_byte_counts[i]),
+                        float(_max_count));
+                  }
+              }
+          });
     }
 
     void handle_cancelled() final {

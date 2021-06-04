@@ -549,16 +549,17 @@ auto blob_manipulator::message_size(
   span_size_t max_message_size) const noexcept -> span_size_t {
     switch(pending.priority) {
         case message_priority::critical:
+            return max_message_size - 92;
         case message_priority::high:
-            break;
+            return max_message_size / 2 - 64;
         case message_priority::normal:
-            return max_message_size / 2;
+            return max_message_size / 3 - 48;
         case message_priority::low:
-            return max_message_size / 3;
+            return max_message_size / 4 - 32;
         case message_priority::idle:
-            return max_message_size / 4;
+            return max_message_size / 8 - 12;
     }
-    return max_message_size - 64;
+    return 0;
 }
 //------------------------------------------------------------------------------
 inline auto blob_manipulator::_scratch_block(span_size_t size)

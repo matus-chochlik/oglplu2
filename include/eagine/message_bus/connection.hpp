@@ -22,7 +22,7 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 /// @brief The minimum guaranteed block size that can be sent through bus connections.
 /// @ingroup msgbus
-constexpr const span_size_t min_connection_data_size = 2048;
+constexpr const span_size_t min_connection_data_size = 4096;
 //------------------------------------------------------------------------------
 /// @brief Message bus connection address kind enumeration.
 /// @ingroup msgbus

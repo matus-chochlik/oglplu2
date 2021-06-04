@@ -298,7 +298,7 @@ private:
                 this->bus_node().post(
                   EAGINE_MSG_ID(eagiRsrces, notFound), response);
                 ctx.bus_node()
-                  .log_error("failed to get I/O object for content request")
+                  .log_info("failed to get I/O object for content request")
                   .arg(EAGINE_ID(url), EAGINE_ID(URL), locator.str());
             }
         } else {
