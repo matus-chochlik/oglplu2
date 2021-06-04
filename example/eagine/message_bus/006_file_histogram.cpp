@@ -102,14 +102,17 @@ auto main(main_ctx& ctx) -> int {
     msgbus::manipulator_node node{EAGINE_ID(FileManip), ctx};
     ctx.bus().setup_connectors(node);
 
-    for(const auto& blob_io : blobs) {
-        node.query_resource_content(
-          msgbus::broadcast_endpoint_id(),
-          blob_io->locator(),
-          blob_io,
-          msgbus::message_priority::high,
-          std::chrono::hours(1));
-    }
+    auto on_server_appeared = [&](identifier_t endpoint_id) {
+        for(const auto& blob_io : blobs) {
+            node.query_resource_content(
+              endpoint_id,
+              blob_io->locator(),
+              blob_io,
+              msgbus::message_priority::high,
+              std::chrono::hours{1});
+        }
+    };
+    node.resource_server_appeared.connect({construct_from, on_server_appeared});
 
     while(!is_done()) {
         if(node.update_and_process_all()) {

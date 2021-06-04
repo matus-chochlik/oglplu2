@@ -17,6 +17,7 @@
 #include "../../memory/span_algo.hpp"
 #include "../../random_bytes.hpp"
 #include "../../string_span.hpp"
+#include "../../timeout.hpp"
 #include "../../url.hpp"
 #include "../../valid_if/decl.hpp"
 #include "../blobs.hpp"
@@ -322,15 +323,31 @@ class resource_manipulator
       require_services<Base, host_info_consumer, subscriber_discovery>;
 
 public:
+    /// @brief Triggered when a resource server appears on the bus.
+    signal<void(identifier_t)> resource_server_appeared;
+
+    /// @brief Triggered when a resource server dissapears from the bus.
+    signal<void(identifier_t)> resource_server_lost;
+
+    /// @brief Returns the best-guess of server endpoint id for a URL.
+    /// @see query_resource_content
     auto server_endpoint_id(const url& locator) -> identifier_t {
-        if(locator.has_scheme("eagimbh")) {
+        if(locator.has_scheme("eagimbe")) {
+            if(const auto opt_id{from_string<identifier_t>(
+                 extract_or(locator.host(), string_view{}))}) {
+                const auto endpoint_id = extract(opt_id);
+                const auto spos = _server_endpoints.find(endpoint_id);
+                if(spos != _server_endpoints.end()) {
+                    return endpoint_id;
+                }
+            }
+        } else if(locator.has_scheme("eagimbh")) {
             if(const auto hostname{locator.host()}) {
                 const auto hpos = _hostname_to_endpoint.find(extract(hostname));
                 if(hpos != _hostname_to_endpoint.end()) {
                     for(const auto endpoint_id : std::get<1>(*hpos)) {
-                        const auto epos = _server_endpoints.find(endpoint_id);
-                        if(epos != _server_endpoints.end()) {
-                            // TODO alive timeout?
+                        const auto spos = _server_endpoints.find(endpoint_id);
+                        if(spos != _server_endpoints.end()) {
                             return endpoint_id;
                         }
                     }
@@ -424,6 +441,12 @@ protected:
         something_done(base::update());
         something_done(_blobs.handle_complete() > 0);
 
+        if(_search_servers) {
+            this->bus_node().query_subscribers_of(
+              EAGINE_MSG_ID(eagiRsrces, getContent));
+            something_done();
+        }
+
         return something_done;
     }
 
@@ -438,33 +461,46 @@ private:
 
     void _handle_subscribed(const subscriber_info& sub_info, message_id msg_id) {
         if(msg_id == EAGINE_MSG_ID(eagiRsrces, getContent)) {
-            auto& svr_info = _server_endpoints[sub_info.endpoint_id];
+            auto spos = _server_endpoints.find(sub_info.endpoint_id);
+            if(spos == _server_endpoints.end()) {
+                spos = _server_endpoints.emplace(sub_info.endpoint_id).first;
+                resource_server_appeared(sub_info.endpoint_id);
+            }
+            auto& svr_info = std::get<1>(*spos);
             svr_info.last_report_time = std::chrono::steady_clock::now();
         }
+    }
+
+    void _remove_server(identifier_t endpoint_id) {
+        const auto spos = _server_endpoints.find(endpoint_id);
+        if(spos != _server_endpoints.end()) {
+            resource_server_lost(endpoint_id);
+            _server_endpoints.erase(spos);
+        }
+        for(auto& entry : _host_id_to_endpoint) {
+            std::get<1>(entry).erase(endpoint_id);
+        }
+        _host_id_to_endpoint.erase(
+          std::remove_if(
+            _host_id_to_endpoint.begin(),
+            _host_id_to_endpoint.end(),
+            [](const auto& entry) { return std::get<1>(entry).empty(); }),
+          _host_id_to_endpoint.end());
+        for(auto& entry : _hostname_to_endpoint) {
+            std::get<1>(entry).erase(endpoint_id);
+        }
+        _hostname_to_endpoint.erase(
+          std::remove_if(
+            _hostname_to_endpoint.begin(),
+            _hostname_to_endpoint.end(),
+            [](const auto& entry) { return std::get<1>(entry).empty(); }),
+          _hostname_to_endpoint.end());
     }
 
     void
     _handle_unsubscribed(const subscriber_info& sub_info, message_id msg_id) {
         if(msg_id == EAGINE_MSG_ID(eagiRsrces, getContent)) {
-            _server_endpoints.erase(sub_info.endpoint_id);
-            for(auto& entry : _host_id_to_endpoint) {
-                std::get<1>(entry).erase(sub_info.endpoint_id);
-            }
-            _host_id_to_endpoint.erase(
-              std::remove_if(
-                _host_id_to_endpoint.begin(),
-                _host_id_to_endpoint.end(),
-                [](const auto& entry) { return std::get<1>(entry).empty(); }),
-              _host_id_to_endpoint.end());
-            for(auto& entry : _hostname_to_endpoint) {
-                std::get<1>(entry).erase(sub_info.endpoint_id);
-            }
-            _hostname_to_endpoint.erase(
-              std::remove_if(
-                _hostname_to_endpoint.begin(),
-                _hostname_to_endpoint.end(),
-                [](const auto& entry) { return std::get<1>(entry).empty(); }),
-              _hostname_to_endpoint.end());
+            _remove_server(sub_info.endpoint_id);
         }
     }
 
@@ -502,6 +538,8 @@ private:
       *this,
       EAGINE_MSG_ID(eagiRsrces, fragment),
       EAGINE_MSG_ID(eagiRsrces, fragResend)};
+
+    resetting_timeout _search_servers{std::chrono::seconds{5}, nothing};
 
     flat_map<std::string, flat_set<identifier_t>, str_view_less>
       _hostname_to_endpoint;
