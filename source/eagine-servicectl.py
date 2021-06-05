@@ -7,6 +7,7 @@
 
 import os
 import re
+import sys
 import glob
 import subprocess
 
@@ -74,7 +75,42 @@ def change_setup_whiptail(setup):
         pass
     return setup
 
+def change_setup_zenity(setup):
+    zenity_args = [
+        "zenity",
+        "--list",
+        "--checklist",
+        "--title=Services",
+        "--text=Manage active services",
+        "--print-column=2",
+        "--hide-column=2",
+        "--column=Use",
+        "--column=Description",
+        "--column=Id"
+    ]
+    for group_name, group in setup.items():
+        for service_name, service in group.items():
+            zenity_args += [
+                "TRUE" if service["is_active"] else "FALSE",
+                "%s-%s" % (group_name, service_name),
+                service["description"]
+            ]
+    try:
+        selected, unused = subprocess.Popen(
+            zenity_args,
+            stdout=subprocess.PIPE,
+            universal_newlines=True).communicate()
+        active = selected.strip().split("|")
+        for group_name, group in setup.items():
+            for service_name, service in group.items():
+                service["activate"] = "%s-%s" % (group_name, service_name) in active
+    except subprocess.CalledProcessError:
+        pass
+    return setup
+
 def change_setup(setup):
+    if "--zenity" in sys.argv[1:]:
+        return change_setup_zenity(setup)
     return change_setup_whiptail(setup)
 
 def apply_setup(setup):
