@@ -20,6 +20,7 @@ install(
 		"eagine-message_bus-router.service"
 		"eagine-message_bus-ssh-bridge@.service"
 		"eagine-message_bus-pingable@.service"
+		"eagine-message_bus-file_server.service"
 		"eagine-message_bus-sudoku_helper.service"
 	DESTINATION share/oglplus/user/.config/systemd/user
 )

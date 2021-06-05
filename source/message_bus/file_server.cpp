@@ -15,6 +15,7 @@
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/signal_switch.hpp>
 #include <eagine/timeout.hpp>
+#include <eagine/watchdog.hpp>
 #include <chrono>
 #include <thread>
 
@@ -84,6 +85,8 @@ auto main(main_ctx& ctx) -> int {
          ctx.config().get<std::string>("msg_bus.file_server.root_path")}) {
         the_file_server.set_file_root(extract(fs_root_path));
     }
+    auto& wd = ctx.watchdog();
+    wd.declare_initialized();
 
     while(!(the_file_server.is_done() || interrupted)) {
         if(the_file_server.update_and_process_all()) {
@@ -91,7 +94,9 @@ auto main(main_ctx& ctx) -> int {
         } else {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
+        wd.notify_alive();
     }
+    wd.announce_shutdown();
 
     return 0;
 }

@@ -1,5 +1,5 @@
 [Unit]
-Description=OGLplus / EAGine message bus Sudoku helper node
+Description=OGLplus / EAGine message bus file server node
 ConditionPathExists=%h/.oglplus/systemd/environment
 
 [Service]
@@ -17,7 +17,7 @@ UMask=077
 EnvironmentFile=%h/.oglplus/systemd/environment
 Type=simple
 WorkingDirectory=%h
-ExecStart=%h/.oglplus/execute eagine-message_bus-sudoku_helper $OGLPLUS_SERVICE_ARGS
+ExecStart=%h/.oglplus/execute eagine-message_bus-file_server $OGLPLUS_SERVICE_ARGS
 Restart=always
 RestartSec=5
 WatchdogSec=15
