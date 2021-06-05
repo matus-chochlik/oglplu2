@@ -42,16 +42,17 @@ def scan_services():
     services = {k: v for k, v in services.items() if len(v) > 0}
     return services
 
-def change_setup(setup):
+def change_setup_whiptail(setup):
     size = os.get_terminal_size()
+    options = sum(len(g) for g in setup.values())
     whiptail_args = [
         "whiptail",
         "--notags",
         "--checklist",
         "Manage active services",
-        str(int(1 + max(24, size.lines) / 2)),
+        str(int(1 + max(max(24, size.lines) / 2, options + 2))),
         str(int(1 + max(80, size.columns) / 2)),
-        str(sum(len(g) for g in setup.values()))
+        str(options)
     ]
     for group_name, group in setup.items():
         for service_name, service in group.items():
@@ -72,6 +73,9 @@ def change_setup(setup):
     except subprocess.CalledProcessError:
         pass
     return setup
+
+def change_setup(setup):
+    return change_setup_whiptail(setup)
 
 def apply_setup(setup):
     actions = {
