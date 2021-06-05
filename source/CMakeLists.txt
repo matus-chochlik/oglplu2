@@ -65,3 +65,11 @@ install(
 	DESTINATION lib/cmake/OGLplus
 )
 
+# scripts
+install(
+	PROGRAMS eagine-servicectl.py
+	RENAME eagine-servicectl
+	DESTINATION bin
+	COMPONENT tools
+)
+
