@@ -46,6 +46,7 @@ install(
 
 install(
 	FILES
+		"config/service-message_bus.txt"
 		"config/service.yaml"
 		"config/eagine-application_config.yaml"
 		"config/_template.yaml"
