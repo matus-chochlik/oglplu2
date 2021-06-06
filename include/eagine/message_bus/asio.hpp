@@ -451,7 +451,7 @@ struct asio_connection_state
         do_start_receive(group);
     }
 
-    auto update() -> bool {
+    auto update() -> work_done {
         some_true something_done{};
         if(const auto count{common->context.poll()}) {
             log_trace("called ready handlers (count: ${count})")
@@ -546,7 +546,7 @@ public:
     using base::base;
     using base::conn_state;
 
-    auto update() -> bool override {
+    auto update() -> work_done override {
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
@@ -580,7 +580,7 @@ public:
           *this, msg_id, message, cover(conn_state().push_buffer));
     }
 
-    auto fetch_messages(connection::fetch_handler handler) -> bool final {
+    auto fetch_messages(connection::fetch_handler handler) -> work_done final {
         return _incoming.fetch_messages(*this, handler);
     }
 
@@ -667,7 +667,7 @@ public:
           *this, msg_id, message, cover(conn_state().push_buffer));
     }
 
-    auto fetch_messages(connection::fetch_handler handler) -> bool final {
+    auto fetch_messages(connection::fetch_handler handler) -> work_done final {
         EAGINE_ASSERT(_incoming);
         return _incoming->fetch_messages(*this, handler);
     }
@@ -679,7 +679,7 @@ public:
         return true;
     }
 
-    auto update() -> bool final {
+    auto update() -> work_done final {
         some_true something_done{};
         something_done(conn_state().update());
         return something_done;
@@ -755,16 +755,17 @@ public:
         return false;
     }
 
-    auto fetch_messages(connection::fetch_handler) -> bool final {
+    auto fetch_messages(connection::fetch_handler) -> work_done final {
         EAGINE_UNREACHABLE();
-        return false;
+        return {};
     }
 
     auto query_statistics(connection_statistics&) -> bool final {
         return false;
     }
 
-    auto process_accepted(const acceptor::accept_handler& handler) -> bool {
+    auto process_accepted(const acceptor::accept_handler& handler)
+      -> work_done {
         some_true something_done;
         for(auto& p : _pending) {
             handler(std::make_unique<asio_datagram_client_connection<Kind>>(
@@ -783,7 +784,7 @@ public:
         return something_done;
     }
 
-    auto update() -> bool final {
+    auto update() -> work_done final {
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
@@ -887,7 +888,7 @@ public:
       , _resolver{asio_state->context}
       , _addr{parse_ipv4_addr(addr_str)} {}
 
-    auto update() -> bool final {
+    auto update() -> work_done final {
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
@@ -994,7 +995,7 @@ public:
       , _block_size{block_size}
       , _pack_factr{pack_factr} {}
 
-    auto update() -> bool final {
+    auto update() -> work_done final {
         EAGINE_ASSERT(this->_asio_state);
         some_true something_done{};
         if(!_acceptor.is_open()) {
@@ -1014,7 +1015,7 @@ public:
         return something_done;
     }
 
-    auto process_accepted(const accept_handler& handler) -> bool final {
+    auto process_accepted(const accept_handler& handler) -> work_done final {
         some_true something_done{};
         for(auto& socket : _accepted) {
             auto conn = std::make_unique<asio_connection<
@@ -1113,7 +1114,7 @@ public:
       , _resolver{asio_state->context}
       , _addr{parse_ipv4_addr(addr_str)} {}
 
-    auto update() -> bool final {
+    auto update() -> work_done final {
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
@@ -1194,11 +1195,11 @@ public:
           block_size,
           pack_factr} {}
 
-    auto update() -> bool final {
+    auto update() -> work_done final {
         return _conn.update();
     }
 
-    auto process_accepted(const accept_handler& handler) -> bool final {
+    auto process_accepted(const accept_handler& handler) -> work_done final {
         return _conn.process_accepted(handler);
     }
 
@@ -1257,7 +1258,7 @@ public:
         conn_state().conn_endpoint = {_addr_str.c_str()};
     }
 
-    auto update() -> bool final {
+    auto update() -> work_done final {
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
@@ -1339,7 +1340,7 @@ public:
     auto operator=(asio_acceptor&&) = delete;
     auto operator=(const asio_acceptor&) = delete;
 
-    auto update() -> bool final {
+    auto update() -> work_done final {
         EAGINE_ASSERT(this->_asio_state);
         some_true something_done{};
         if(EAGINE_UNLIKELY(!_acceptor.is_open())) {
@@ -1360,7 +1361,7 @@ public:
         return something_done;
     }
 
-    auto process_accepted(const accept_handler& handler) -> bool final {
+    auto process_accepted(const accept_handler& handler) -> work_done final {
         some_true something_done{};
         for(auto& socket : _accepted) {
             auto conn = std::make_unique<asio_connection<

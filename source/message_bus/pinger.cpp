@@ -224,7 +224,7 @@ public:
         return !(((_rcvd + _tout + _mod) < _max) || this->has_pending_pings());
     }
 
-    auto do_ping() -> bool {
+    auto do_ping() -> work_done {
         some_true something_done{};
         if(EAGINE_UNLIKELY(_should_query_pingable)) {
             log_info("searching for pingable nodes");
@@ -265,9 +265,8 @@ public:
         return something_done;
     }
 
-    auto update() -> bool {
-        some_true something_done{};
-        something_done(base::update());
+    auto update() -> work_done {
+        some_true something_done{base::update()};
         if(EAGINE_LIKELY(_can_ping)) {
             something_done(do_ping());
         }

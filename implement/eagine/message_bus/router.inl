@@ -6,7 +6,6 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/application_config.hpp>
-#include <eagine/bool_aggregate.hpp>
 #include <eagine/branch_predict.hpp>
 #include <eagine/main_ctx.hpp>
 #include <eagine/message_bus/context.hpp>
@@ -91,7 +90,7 @@ inline void parent_router::reset(std::unique_ptr<connection> a_connection) {
 }
 //------------------------------------------------------------------------------
 inline auto parent_router::update(main_ctx_object& user, identifier_t id_base)
-  -> bool {
+  -> work_done {
     some_true something_done{};
 
     if(the_connection) {
@@ -125,7 +124,8 @@ inline auto parent_router::update(main_ctx_object& user, identifier_t id_base)
 template <typename Handler>
 inline auto
 parent_router::fetch_messages(main_ctx_object& user, const Handler& handler)
-  -> bool {
+  -> work_done {
+    some_true something_done;
 
     if(the_connection) {
         auto wrapped = [&](
@@ -152,9 +152,10 @@ parent_router::fetch_messages(main_ctx_object& user, const Handler& handler)
             }
             return true;
         };
-        return the_connection->fetch_messages({construct_from, wrapped});
+        something_done(
+          the_connection->fetch_messages({construct_from, wrapped}));
     }
-    return false;
+    return something_done;
 }
 //------------------------------------------------------------------------------
 auto parent_router::send(
@@ -247,7 +248,7 @@ void router::_setup_from_config() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_handle_accept() -> bool {
+auto router::_handle_accept() -> work_done {
     some_true something_done{};
 
     if(EAGINE_LIKELY(!_acceptors.empty())) {
@@ -263,7 +264,7 @@ auto router::_handle_accept() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_handle_pending() -> bool {
+auto router::_handle_pending() -> work_done {
     some_true something_done{};
 
     if(!_pending.empty()) {
@@ -339,7 +340,7 @@ auto router::_handle_pending() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_remove_timeouted() -> bool {
+auto router::_remove_timeouted() -> work_done {
     some_true something_done{};
 
     _pending.erase(
@@ -392,7 +393,7 @@ auto router::_mark_disconnected(identifier_t endpoint_id) -> void {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_remove_disconnected() -> bool {
+auto router::_remove_disconnected() -> work_done {
     some_true something_done{};
 
     for(auto& [endpoint_id, node] : _nodes) {
@@ -454,7 +455,7 @@ void router::_handle_connection(std::unique_ptr<connection> a_connection) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_process_blobs() -> bool {
+auto router::_process_blobs() -> work_done {
     some_true something_done{};
     auto resend_request = [&](message_id msg_id, message_view request) -> bool {
         return this->_do_route_message(msg_id, _id_base, request);
@@ -1039,7 +1040,7 @@ auto router::_do_route_message(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_route_messages() -> bool {
+auto router::_route_messages() -> work_done {
     some_true something_done{};
 
     for(auto& nd : _nodes) {
@@ -1086,7 +1087,7 @@ auto router::_route_messages() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_update_connections() -> bool {
+auto router::_update_connections() -> work_done {
     some_true something_done{};
 
     for(auto& [id, node] : _nodes) {
@@ -1108,7 +1109,7 @@ auto router::_update_connections() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::do_maintenance() -> bool {
+auto router::do_maintenance() -> work_done {
     some_true something_done{};
 
     something_done(_process_blobs());
@@ -1119,7 +1120,7 @@ auto router::do_maintenance() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::do_work() -> bool {
+auto router::do_work() -> work_done {
     some_true something_done{};
 
     something_done(_handle_pending());
@@ -1131,7 +1132,7 @@ auto router::do_work() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::update(const valid_if_positive<int>& count) -> bool {
+auto router::update(const valid_if_positive<int>& count) -> work_done {
     some_true something_done{};
 
     something_done(do_maintenance());

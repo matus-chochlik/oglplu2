@@ -198,7 +198,7 @@ public:
         return !(((_rcvd + _tout + _mod) < _max) || this->has_pending_pings());
     }
 
-    auto update() -> bool {
+    auto update() -> work_done {
         some_true something_done{};
         something_done(base::update());
         if(_do_ping) {

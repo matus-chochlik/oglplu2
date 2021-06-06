@@ -63,7 +63,7 @@ public:
     }
 
     /// @brief Updates the associated endpoint and processes all incoming messages.
-    auto update_and_process_all() -> bool final {
+    auto update_and_process_all() -> work_done final {
         some_true something_done{};
         something_done(this->update());
         something_done(this->process_all());

@@ -116,7 +116,7 @@ public:
 
     /// @brief Handles the pending server counterparts for created client connections.
     /// @see connect
-    auto process_all(process_handler handler) -> bool {
+    auto process_all(process_handler handler) -> work_done {
         some_true something_done{};
         for(auto& state : _pending) {
             handler(state);
@@ -184,10 +184,6 @@ public:
         return bool(_state);
     }
 
-    auto update() -> bool final {
-        return false;
-    }
-
     auto send(message_id msg_id, const message_view& message) -> bool final {
         _checkup();
         if(EAGINE_LIKELY(_state)) {
@@ -197,12 +193,12 @@ public:
         return false;
     }
 
-    auto fetch_messages(connection::fetch_handler handler) -> bool final {
-        _checkup();
+    auto fetch_messages(connection::fetch_handler handler) -> work_done final {
+        some_true something_done{_checkup()};
         if(EAGINE_LIKELY(_state)) {
-            return _state->fetch_from_server(handler);
+            something_done(_state->fetch_from_server(handler));
         }
-        return false;
+        return something_done;
     }
 
     auto query_statistics(connection_statistics& stats) -> bool final {
@@ -216,12 +212,15 @@ private:
     std::weak_ptr<direct_connection_address> _weak_address;
     std::shared_ptr<direct_connection_state> _state;
 
-    inline void _checkup() {
+    auto _checkup() -> work_done {
+        some_true something_done;
         if(EAGINE_UNLIKELY(!_state)) {
             if(auto address{_weak_address.lock()}) {
                 _state = address->connect();
+                something_done();
             }
         }
+        return something_done;
     }
 };
 //------------------------------------------------------------------------------
@@ -252,7 +251,7 @@ public:
         return false;
     }
 
-    auto fetch_messages(connection::fetch_handler handler) -> bool final {
+    auto fetch_messages(connection::fetch_handler handler) -> work_done final {
         bool result = false;
         if(EAGINE_LIKELY(_state)) {
             std::tie(result, _is_usable) = _state->fetch_from_client(handler);
@@ -290,7 +289,7 @@ public:
       : main_ctx_object{EAGINE_ID(DrctAccptr), parent}
       , _address{std::make_shared<direct_connection_address>(*this)} {}
 
-    auto process_accepted(const accept_handler& handler) -> bool final {
+    auto process_accepted(const accept_handler& handler) -> work_done final {
         some_true something_done{};
         if(_address) {
             auto wrapped_handler = [&handler](shared_state& state) {

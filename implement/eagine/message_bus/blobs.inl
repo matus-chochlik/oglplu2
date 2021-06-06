@@ -5,7 +5,6 @@
 /// See accompanying file LICENSE_1_0.txt or copy at
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
-#include <eagine/bool_aggregate.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus/serialize.hpp>
 #include <eagine/serialize/block_sink.hpp>
@@ -234,7 +233,8 @@ void pending_blob::merge_resend_request(span_size_t bgn, span_size_t end) {
 // blob manipulator
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto blob_manipulator::update(blob_manipulator::send_handler do_send) -> bool {
+auto blob_manipulator::update(blob_manipulator::send_handler do_send)
+  -> work_done {
     const auto now = std::chrono::steady_clock::now();
     some_true something_done{};
 
@@ -614,7 +614,7 @@ auto blob_manipulator::push_outgoing(
 EAGINE_LIB_FUNC
 auto blob_manipulator::process_outgoing(
   send_handler do_send,
-  span_size_t max_message_size) -> bool {
+  span_size_t max_message_size) -> work_done {
     some_true something_done{};
 
     for(auto& pending : _outgoing) {

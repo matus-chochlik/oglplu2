@@ -5,18 +5,18 @@
 /// See accompanying file LICENSE_1_0.txt or copy at
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
-#include <eagine/bool_aggregate.hpp>
 #include <eagine/main_ctx.hpp>
 #include <eagine/message_bus.hpp>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto registered_entry::update_service() -> bool {
+auto registered_entry::update_service() -> work_done {
+    some_true something_done;
     if(EAGINE_LIKELY(_service)) {
-        return _service->update_and_process_all();
+        something_done(_service->update_and_process_all());
     }
-    return false;
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -53,12 +53,12 @@ void registry::remove(service_interface& service) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto registry::update() -> bool {
+auto registry::update() -> work_done {
     return _router.update(8);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto registry::update_all() -> bool {
+auto registry::update_all() -> work_done {
     some_true something_done{};
 
     something_done(_router.do_work());

@@ -9,6 +9,7 @@
 #ifndef EAGINE_MESSAGE_BUS_SERVICE_INTERFACE_HPP
 #define EAGINE_MESSAGE_BUS_SERVICE_INTERFACE_HPP
 
+#include "../bool_aggregate.hpp"
 #include "../interface.hpp"
 #include "../types.hpp"
 
@@ -19,7 +20,7 @@ namespace eagine::msgbus {
 struct service_interface : interface<service_interface> {
 
     /// @brief Does an iteration update and processes all received messages.
-    virtual auto update_and_process_all() -> bool = 0;
+    virtual auto update_and_process_all() -> work_done = 0;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

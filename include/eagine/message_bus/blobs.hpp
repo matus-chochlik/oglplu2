@@ -9,6 +9,7 @@
 #ifndef EAGINE_MESSAGE_BUS_BLOBS_HPP
 #define EAGINE_MESSAGE_BUS_BLOBS_HPP
 
+#include "../bool_aggregate.hpp"
 #include "../callable_ref.hpp"
 #include "../double_buffer.hpp"
 #include "../interface.hpp"
@@ -156,7 +157,7 @@ public:
 
     using send_handler = callable_ref<bool(message_id, const message_view&)>;
 
-    auto update(send_handler do_send) -> bool;
+    auto update(send_handler do_send) -> work_done;
 
     auto push_outgoing(
       message_id msg_id,
@@ -209,7 +210,7 @@ public:
     auto has_outgoing() const noexcept -> bool {
         return !_outgoing.empty();
     }
-    auto process_outgoing(send_handler, span_size_t max_data_size) -> bool;
+    auto process_outgoing(send_handler, span_size_t max_data_size) -> work_done;
 
 private:
     const message_id _fragment_msg_id;

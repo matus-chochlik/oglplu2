@@ -68,7 +68,7 @@ public:
         return _done;
     }
 
-    auto update() -> bool {
+    auto update() -> work_done {
         some_true something_done{};
         something_done(base::update());
         if(_sent < 1) {

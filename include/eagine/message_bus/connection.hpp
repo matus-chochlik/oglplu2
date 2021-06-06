@@ -9,6 +9,7 @@
 #ifndef EAGINE_MESSAGE_BUS_CONNECTION_HPP
 #define EAGINE_MESSAGE_BUS_CONNECTION_HPP
 
+#include "../bool_aggregate.hpp"
 #include "../callable_ref.hpp"
 #include "../interface.hpp"
 #include "../message_id.hpp"
@@ -120,8 +121,8 @@ struct connection : connection_info {
     /// @brief Updates the internal state of the connection (called repeatedly).
     /// @see send
     /// @see fetch_messages
-    virtual auto update() -> bool {
-        return false;
+    virtual auto update() -> work_done {
+        return {};
     }
 
     /// @brief Cleans up the connection before destroying it.
@@ -145,7 +146,7 @@ struct connection : connection_info {
     /// @brief Fetch all enqueued messages that have been received since last fetch.
     /// @see send
     /// @see update
-    virtual auto fetch_messages(fetch_handler handler) -> bool = 0;
+    virtual auto fetch_messages(fetch_handler handler) -> work_done = 0;
 
     /// @brief Fill in the available statistics information for this connection.
     virtual auto query_statistics(connection_statistics&) -> bool = 0;

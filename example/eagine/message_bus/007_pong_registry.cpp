@@ -68,9 +68,8 @@ public:
         return _done;
     }
 
-    auto update() -> bool {
-        some_true something_done{};
-        something_done(base::update());
+    auto update() -> work_done {
+        some_true something_done{base::update()};
         if(_sent < 1) {
             if(_announce_timeout) {
                 this->announce_subscriptions();

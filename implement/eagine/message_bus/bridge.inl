@@ -6,7 +6,6 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/base64.hpp>
-#include <eagine/bool_aggregate.hpp>
 #include <eagine/branch_predict.hpp>
 #include <eagine/double_buffer.hpp>
 #include <eagine/math/functions.hpp>
@@ -414,7 +413,7 @@ auto bridge::_do_push(message_id msg_id, message_view& message) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_forward_messages() -> bool {
+auto bridge::_forward_messages() -> work_done {
     some_true something_done{};
 
     auto forward_conn_to_output =
@@ -511,7 +510,7 @@ auto bridge::_recoverable_state() const noexcept -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_check_state() -> bool {
+auto bridge::_check_state() -> work_done {
     some_true something_done{};
 
     if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
@@ -529,7 +528,7 @@ auto bridge::_check_state() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_update_connections() -> bool {
+auto bridge::_update_connections() -> work_done {
     some_true something_done{};
 
     if(EAGINE_LIKELY(_connection)) {
@@ -548,7 +547,7 @@ auto bridge::_update_connections() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::update() -> bool {
+auto bridge::update() -> work_done {
     some_true something_done{};
 
     const bool had_id = has_id();

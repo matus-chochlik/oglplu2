@@ -149,7 +149,7 @@ public:
     void flush_outbox();
 
     /// @brief Updates the internal state, sends and receives pending messages.
-    auto update() -> bool;
+    auto update() -> work_done;
 
     /// @brief Says to the message bus that this endpoint is disconnecting.
     void finish() {
@@ -476,7 +476,7 @@ private:
       EAGINE_MSGBUS_ID(blobFrgmnt),
       EAGINE_MSGBUS_ID(blobResend)};
 
-    auto _process_blobs() -> bool;
+    auto _process_blobs() -> work_done;
 
     auto _default_store_handler() noexcept -> fetch_handler {
         return EAGINE_THIS_MEM_FUNC_REF(_store_message);

@@ -21,7 +21,7 @@ auto endpoint::_uptime_seconds() -> std::int64_t {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto endpoint::_process_blobs() -> bool {
+auto endpoint::_process_blobs() -> work_done {
     some_true something_done;
     something_done(_blobs.update(EAGINE_THIS_MEM_FUNC_REF(post)));
     const auto opt_max_size = max_data_size();
@@ -384,7 +384,7 @@ auto endpoint::post_signed(message_id msg_id, message_view msg_view) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto endpoint::update() -> bool {
+auto endpoint::update() -> work_done {
     some_true something_done{};
 
     something_done(_process_blobs());

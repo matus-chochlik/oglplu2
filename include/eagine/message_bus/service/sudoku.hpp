@@ -183,7 +183,7 @@ class sudoku_helper : public Base {
     using This = sudoku_helper;
 
 public:
-    auto update() -> bool {
+    auto update() -> work_done {
         some_true something_done{};
         something_done(Base::update());
 
@@ -302,7 +302,8 @@ private:
             }
         }
 
-        auto update(endpoint& bus, const data_compressor& compressor) -> bool {
+        auto update(endpoint& bus, const data_compressor& compressor)
+          -> work_done {
             const unsigned_constant<S> rank{};
             some_true something_done;
 
@@ -433,7 +434,7 @@ public:
         this->bus_node().log_warning("connection lost");
     }
 
-    auto update() -> bool {
+    auto update() -> work_done {
         some_true something_done{};
         something_done(Base::update());
 
@@ -596,7 +597,7 @@ private:
             boards.emplace(pos, std::move(board));
         }
 
-        auto search_helpers(endpoint& bus) -> bool {
+        auto search_helpers(endpoint& bus) -> work_done {
             some_true something_done;
             if(search_timeout) {
                 bus.broadcast(sudoku_search_msg(unsigned_constant<S>{}));
@@ -606,7 +607,7 @@ private:
             return something_done;
         }
 
-        auto handle_timeouted(This& solver) -> bool {
+        auto handle_timeouted(This& solver) -> work_done {
             span_size_t count = 0;
             pending.erase(
               std::remove_if(
@@ -758,7 +759,8 @@ private:
             return head(dst, done);
         }
 
-        auto send_boards(endpoint& bus, data_compressor& compressor) -> bool {
+        auto send_boards(endpoint& bus, data_compressor& compressor)
+          -> work_done {
             some_true something_done;
 
             if(found_helpers.size() < ready_helpers.size()) {

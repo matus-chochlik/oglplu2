@@ -9,6 +9,7 @@
 #ifndef EAGINE_MESSAGE_BUS_ROUTER_HPP
 #define EAGINE_MESSAGE_BUS_ROUTER_HPP
 
+#include "../bool_aggregate.hpp"
 #include "../flat_map.hpp"
 #include "../main_ctx_object.hpp"
 #include "../timeout.hpp"
@@ -83,10 +84,10 @@ struct parent_router {
 
     void reset(std::unique_ptr<connection>);
 
-    auto update(main_ctx_object&, identifier_t id_base) -> bool;
+    auto update(main_ctx_object&, identifier_t id_base) -> work_done;
 
     template <typename Handler>
-    auto fetch_messages(main_ctx_object&, const Handler&) -> bool;
+    auto fetch_messages(main_ctx_object&, const Handler&) -> work_done;
 
     auto send(main_ctx_object&, message_id, const message_view&) const -> bool;
 };
@@ -113,11 +114,11 @@ public:
     auto add_acceptor(std::shared_ptr<acceptor>) -> bool final;
     auto add_connection(std::unique_ptr<connection>) -> bool final;
 
-    auto do_maintenance() -> bool;
-    auto do_work() -> bool;
+    auto do_maintenance() -> work_done;
+    auto do_work() -> work_done;
 
-    auto update(const valid_if_positive<int>& count) -> bool;
-    auto update() -> bool {
+    auto update(const valid_if_positive<int>& count) -> work_done;
+    auto update() -> work_done {
         return update(2);
     }
 
@@ -156,16 +157,16 @@ private:
 
     void _setup_from_config();
 
-    auto _handle_accept() -> bool;
-    auto _handle_pending() -> bool;
-    auto _remove_timeouted() -> bool;
+    auto _handle_accept() -> work_done;
+    auto _handle_pending() -> work_done;
+    auto _remove_timeouted() -> work_done;
     auto _is_disconnected(identifier_t endpoint_id) -> bool;
     auto _mark_disconnected(identifier_t endpoint_id) -> void;
-    auto _remove_disconnected() -> bool;
+    auto _remove_disconnected() -> work_done;
     void _assign_id(std::unique_ptr<connection>& conn);
     void _handle_connection(std::unique_ptr<connection> conn);
 
-    auto _process_blobs() -> bool;
+    auto _process_blobs() -> work_done;
     auto _do_get_blob_io(message_id, span_size_t, blob_manipulator&)
       -> std::unique_ptr<blob_io>;
 
@@ -222,8 +223,8 @@ private:
       identifier_t incoming_id,
       message_view& message) -> bool;
 
-    auto _route_messages() -> bool;
-    auto _update_connections() -> bool;
+    auto _route_messages() -> work_done;
+    auto _update_connections() -> work_done;
 
     shared_context _context{};
     const std::chrono::seconds _pending_timeout{

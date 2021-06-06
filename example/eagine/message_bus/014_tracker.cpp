@@ -47,9 +47,8 @@ public:
         return true;
     }
 
-    auto update() -> bool {
-        some_true something_done{};
-        something_done(base::update());
+    auto update() -> work_done {
+        some_true something_done{base::update()};
 
         if(_checkup_needed) {
             this->for_each_node([&](auto, auto& node) {

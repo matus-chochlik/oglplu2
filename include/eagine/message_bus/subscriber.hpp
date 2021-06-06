@@ -48,7 +48,7 @@ public:
     }
 
     /// @brief Updates the internal endpoint state (should be called repeatedly).
-    auto update() const noexcept -> bool {
+    auto update() const noexcept -> work_done {
         return _endpoint.update();
     }
 

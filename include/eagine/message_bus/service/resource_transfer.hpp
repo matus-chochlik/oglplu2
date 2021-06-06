@@ -160,9 +160,8 @@ protected:
             eagiRsrces, fragResend, This, _handle_resource_resend_request));
     }
 
-    auto update() -> bool {
-        some_true something_done;
-        something_done(Base::update());
+    auto update() -> work_done {
+        some_true something_done{Base::update()};
 
         something_done(_blobs.update(this->bus_node().post_callable()));
         const auto opt_max_size = this->bus_node().max_data_size();
@@ -452,10 +451,9 @@ protected:
             eagiRsrces, fragResend, This, _handle_resource_resend_request));
     }
 
-    auto update() -> bool {
-        some_true something_done;
+    auto update() -> work_done {
+        some_true something_done{base::update()};
 
-        something_done(base::update());
         something_done(_blobs.handle_complete() > 0);
 
         if(_search_servers) {

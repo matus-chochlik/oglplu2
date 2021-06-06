@@ -216,7 +216,7 @@ public:
         return EAGINE_THIS_MEM_FUNC_REF(_handle_ping_timeout);
     }
 
-    auto update() -> bool {
+    auto update() -> work_done {
         some_true something_done{};
         something_done(base::update());
 
