@@ -57,6 +57,14 @@ public:
         _finished = true;
     }
 
+    void activate() noexcept {
+        _active = true;
+    }
+
+    auto is_active() const noexcept -> bool {
+        return _active;
+    }
+
     auto is_done() const noexcept -> bool {
         return _finished;
     }
@@ -70,6 +78,7 @@ private:
     url _locator;
     span_size_t _max_count{0};
     std::array<span_size_t, 256> _byte_counts{};
+    bool _active{false};
     bool _finished{false};
 };
 
@@ -110,15 +119,40 @@ auto main(main_ctx& ctx) -> int {
 
     auto on_server_appeared = [&](identifier_t endpoint_id) {
         for(const auto& blob_io : blobs) {
-            node.query_resource_content(
-              endpoint_id,
-              blob_io->locator(),
-              blob_io,
-              msgbus::message_priority::high,
-              std::chrono::hours{1});
+            if(!blob_io->is_done()) {
+                node.search_resource(endpoint_id, blob_io->locator());
+            }
         }
     };
     node.resource_server_appeared.connect({construct_from, on_server_appeared});
+
+    auto on_resource_found = [&](identifier_t endpoint_id, const url& locator) {
+        for(const auto& blob_io : blobs) {
+            if(!blob_io->is_active() && !blob_io->is_done()) {
+                if(blob_io->locator() == locator) {
+                    blob_io->activate();
+                    node.query_resource_content(
+                      endpoint_id,
+                      blob_io->locator(),
+                      blob_io,
+                      msgbus::message_priority::high,
+                      std::chrono::hours{1});
+                }
+            }
+        }
+    };
+    node.server_has_resource.connect({construct_from, on_resource_found});
+
+    auto on_resource_missing = [&](identifier_t, const url& locator) {
+        for(const auto& blob_io : blobs) {
+            if(!blob_io->is_active() && !blob_io->is_done()) {
+                if(blob_io->locator() == locator) {
+                    blob_io->handle_cancelled();
+                }
+            }
+        }
+    };
+    node.server_has_not_resource.connect({construct_from, on_resource_missing});
 
     while(!is_done()) {
         if(node.update_and_process_all()) {

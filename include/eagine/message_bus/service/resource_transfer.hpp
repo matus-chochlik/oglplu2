@@ -131,7 +131,7 @@ private:
     span_size_t _size{0};
 };
 //------------------------------------------------------------------------------
-/// @brief Service providing access to files over the message bus.
+/// @brief Service providing access to files and/or blobs over the message bus.
 /// @ingroup msgbus
 /// @see service_composition
 /// @see resource_manipulator
@@ -150,6 +150,10 @@ protected:
     void add_methods() {
         Base::add_methods();
 
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(
+            eagiRsrces, qryResurce, This, _handle_has_resource_query));
         Base::add_method(
           this,
           EAGINE_MSG_MAP(
@@ -212,6 +216,25 @@ private:
         return {};
     }
 
+    auto _has_resource(const message_context&, const url& locator) -> bool {
+        if(locator.has_scheme("eagires")) {
+            return locator.has_path("/zeroes") || locator.has_path("/ones") ||
+                   locator.has_path("/random");
+        } else if(locator.has_scheme("file")) {
+            const auto file_path = _get_file_path(locator);
+            const bool is_contained =
+              starts_with(string_view(file_path), string_view(_root_path));
+            if(is_contained) {
+                try {
+                    const auto stat = std::filesystem::status(file_path);
+                    return exists(stat) && !is_directory(stat);
+                } catch(...) {
+                }
+            }
+        }
+        return false;
+    }
+
     auto _get_resource(
       const message_context& ctx,
       const url& locator,
@@ -269,12 +292,32 @@ private:
           get_blob_priority(endpoint_id, priority)};
     }
 
+    auto _handle_has_resource_query(
+      const message_context& ctx,
+      stored_message& message) -> bool {
+        std::string url_str;
+        if(EAGINE_LIKELY(default_deserialize(url_str, message.content()))) {
+            const url locator{std::move(url_str)};
+            if(_has_resource(ctx, locator)) {
+                message_view response{message.content()};
+                response.setup_response(message);
+                this->bus_node().post(
+                  EAGINE_MSG_ID(eagiRsrces, hasResurce), response);
+            } else {
+                message_view response{message.content()};
+                response.setup_response(message);
+                this->bus_node().post(
+                  EAGINE_MSG_ID(eagiRsrces, hasNotRsrc), response);
+            }
+        }
+        return true;
+    }
+
     auto _handle_resource_content_request(
       const message_context& ctx,
       stored_message& message) -> bool {
         std::string url_str;
-        auto request = std::tie(url_str);
-        if(EAGINE_LIKELY(default_deserialize(request, message.content()))) {
+        if(EAGINE_LIKELY(default_deserialize(url_str, message.content()))) {
             const url locator{std::move(url_str)};
             ctx.bus_node()
               .log_info("received content request for ${url}")
@@ -335,6 +378,14 @@ class resource_manipulator
       require_services<Base, host_info_consumer, subscriber_discovery>;
 
 public:
+    /// @brief Triggered when a server responds that is has a resource.
+    /// @see search_resource
+    signal<void(identifier_t, const url&)> server_has_resource;
+
+    /// @brief Triggered when a server responds that is has not a resource.
+    /// @see search_resource
+    signal<void(identifier_t, const url&)> server_has_not_resource;
+
     /// @brief Triggered when a resource server appears on the bus.
     signal<void(identifier_t)> resource_server_appeared;
 
@@ -369,6 +420,32 @@ public:
         return broadcast_endpoint_id();
     }
 
+    /// @brief Sends a query to a server checking if it can provide resource.
+    /// @see server_has_resource
+    /// @see server_has_not_resource
+    auto search_resource(identifier_t endpoint_id, const url& locator)
+      -> optionally_valid<message_sequence_t> {
+        auto buffer = default_serialize_buffer_for(locator.str());
+
+        if(auto serialized{default_serialize(locator.str(), cover(buffer))}) {
+            const auto msg_id{EAGINE_MSG_ID(eagiRsrces, qryResurce)};
+            message_view message{extract(serialized)};
+            message.set_target_id(endpoint_id);
+            this->bus_node().set_next_sequence_id(msg_id, message);
+            this->bus_node().post(msg_id, message);
+            return {message.sequence_no, true};
+        }
+        return {};
+    }
+
+    /// @brief Sends a query to the bus checking if any server can provide resource.
+    /// @see server_has_resource
+    /// @see server_has_not_resource
+    auto search_resource(const url& locator)
+      -> optionally_valid<message_sequence_t> {
+        return search_resource(broadcast_endpoint_id(), locator);
+    }
+
     /// @brief Requests the contents of the file with the specified URL.
     auto query_resource_content(
       identifier_t endpoint_id,
@@ -376,14 +453,13 @@ public:
       std::shared_ptr<blob_io> write_io,
       message_priority priority,
       std::chrono::seconds max_time) -> optionally_valid<message_sequence_t> {
-        const auto request = std::make_tuple(locator.str());
-        auto buffer = default_serialize_buffer_for(request);
+        auto buffer = default_serialize_buffer_for(locator.str());
 
         if(endpoint_id == broadcast_endpoint_id()) {
             endpoint_id = server_endpoint_id(locator);
         }
 
-        if(auto serialized{default_serialize(request, cover(buffer))}) {
+        if(auto serialized{default_serialize(locator.str(), cover(buffer))}) {
             const auto msg_id{EAGINE_MSG_ID(eagiRsrces, getContent)};
             message_view message{extract(serialized)};
             message.set_target_id(endpoint_id);
@@ -437,6 +513,13 @@ protected:
     void add_methods() {
         base::add_methods();
 
+        base::add_method(
+          this,
+          EAGINE_MSG_MAP(eagiRsrces, hasResurce, This, _handle_has_resource));
+        base::add_method(
+          this,
+          EAGINE_MSG_MAP(
+            eagiRsrces, hasNotRsrc, This, _handle_has_not_resource));
         base::add_method(
           this,
           EAGINE_MSG_MAP(
@@ -534,6 +617,26 @@ private:
             _hostname_to_endpoint[extract(hostname)].insert(ctx.source_id());
         }
     }
+
+    auto _handle_has_resource(const message_context&, stored_message& message)
+      -> bool {
+        std::string url_str;
+        if(EAGINE_LIKELY(default_deserialize(url_str, message.content()))) {
+            server_has_resource(message.source_id, url{std::move(url_str)});
+        }
+        return true;
+    }
+
+    auto
+    _handle_has_not_resource(const message_context&, stored_message& message)
+      -> bool {
+        std::string url_str;
+        if(EAGINE_LIKELY(default_deserialize(url_str, message.content()))) {
+            server_has_not_resource(message.source_id, url{std::move(url_str)});
+        }
+        return true;
+    }
+
     auto _handle_resource_fragment(
       const message_context& ctx,
       stored_message& message) -> bool {
