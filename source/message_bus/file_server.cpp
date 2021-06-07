@@ -89,10 +89,14 @@ auto main(main_ctx& ctx) -> int {
     wd.declare_initialized();
 
     while(!(the_file_server.is_done() || interrupted)) {
+        const auto avg_msg_age =
+          the_file_server.bus_node().flow_average_message_age();
         if(the_file_server.update_and_process_all()) {
-            std::this_thread::sleep_for(std::chrono::microseconds(250));
+            std::this_thread::sleep_for(
+              std::chrono::microseconds(125) + avg_msg_age / 4);
         } else {
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(
+              std::chrono::milliseconds(10) + avg_msg_age);
         }
         wd.notify_alive();
     }

@@ -197,6 +197,8 @@ private:
       -> message_handling_result;
 
     auto _handle_topology_query(const message_view&) -> message_handling_result;
+
+    auto _update_stats() -> work_done;
     auto _handle_stats_query(const message_view&) -> message_handling_result;
 
     auto _handle_blob_fragment(const message_view&) -> message_handling_result;
@@ -236,6 +238,8 @@ private:
     identifier_t _id_sequence{0};
     std::chrono::steady_clock::time_point _startup_time{
       std::chrono::steady_clock::now()};
+    std::chrono::steady_clock::time_point _prev_route_time{
+      std::chrono::steady_clock::now()};
     std::chrono::steady_clock::time_point _forwarded_since_log{
       std::chrono::steady_clock::now()};
     std::chrono::steady_clock::time_point _forwarded_since_stat{
@@ -243,6 +247,7 @@ private:
     std::int64_t _prev_forwarded_messages{0};
     float _message_age_sum{0.F};
     router_statistics _stats{};
+    message_flow_info _flow_info{};
 
     parent_router _parent_router;
     std::vector<std::shared_ptr<acceptor>> _acceptors;

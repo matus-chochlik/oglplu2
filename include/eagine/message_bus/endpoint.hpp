@@ -411,6 +411,12 @@ public:
         return _ensure_incoming(msg_id).queue;
     }
 
+    /// @brief Returns the average message age in the connected router.
+    auto flow_average_message_age() const noexcept
+      -> std::chrono::microseconds {
+        return std::chrono::microseconds{_flow_info.avg_msg_age_ms * 1000};
+    }
+
 private:
     friend class friend_of_endpoint;
 
@@ -424,6 +430,7 @@ private:
       std::chrono::steady_clock::now()};
 
     endpoint_statistics _stats{};
+    message_flow_info _flow_info{};
 
     auto _uptime_seconds() -> std::int64_t;
 

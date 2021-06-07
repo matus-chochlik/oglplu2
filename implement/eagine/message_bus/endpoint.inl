@@ -115,6 +115,11 @@ auto endpoint::_handle_special(
           msg_id.has_method(EAGINE_ID(qrySubscrp)) ||
           msg_id.has_method(EAGINE_ID(qrySubscrb))) {
             return false;
+        } else if(msg_id.has_method(EAGINE_ID(msgFlowInf))) {
+            default_deserialize(_flow_info, message.content());
+            log_stat("changes in message flow information")
+              .arg(EAGINE_ID(avgMsgAge), flow_average_message_age());
+            return true;
         } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
             post_certificate(message.source_id, message.sequence_no);
             return true;

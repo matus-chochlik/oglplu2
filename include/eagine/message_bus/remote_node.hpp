@@ -801,7 +801,7 @@ public:
 
     /// @brief Returns the average message age.
     auto average_message_age() const noexcept
-      -> valid_if_not_zero<std::chrono::milliseconds>;
+      -> valid_if_not_zero<std::chrono::microseconds>;
 
     /// @brief Returns node uptime in seconds.
     auto uptime() const noexcept -> valid_if_not_zero<std::chrono::seconds>;

@@ -711,19 +711,57 @@ auto router::_handle_topology_query(const message_view& message)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_handle_stats_query(const message_view& message)
-  -> message_handling_result {
+auto router::_update_stats() -> work_done {
+    some_true something_done;
+
     const auto now = std::chrono::steady_clock::now();
     const std::chrono::duration<float> seconds{now - _forwarded_since_stat};
-    if(EAGINE_LIKELY(seconds.count() >= 15.F)) {
+    if(EAGINE_UNLIKELY(seconds.count() >= 5.F)) {
         _forwarded_since_stat = now;
 
         _stats.messages_per_second = static_cast<std::int32_t>(
           float(_stats.forwarded_messages - _prev_forwarded_messages) /
           seconds.count());
         _prev_forwarded_messages = _stats.forwarded_messages;
+
+        const auto avg_msg_age_us = static_cast<std::int32_t>(
+          (1000000.F * _message_age_sum) /
+          float(_stats.forwarded_messages + _stats.dropped_messages + 1));
+        const auto avg_msg_age_ms = avg_msg_age_us / 1000;
+
+        _stats.message_age_us = avg_msg_age_us;
+
+        const bool flow_info_changed =
+          _flow_info.avg_msg_age_ms != avg_msg_age_ms;
+        _flow_info.avg_msg_age_ms = avg_msg_age_ms;
+
+        if(EAGINE_UNLIKELY(flow_info_changed)) {
+            auto send_info = [&](identifier_t remote_id, const auto& conn) {
+                auto buf{default_serialize_buffer_for(_flow_info)};
+                if(auto serialized{default_serialize(_flow_info, cover(buf))}) {
+                    message_view response{extract(serialized)};
+                    response.set_source_id(_id_base);
+                    response.set_target_id(remote_id);
+                    response.set_priority(message_priority::high);
+                    conn->send(EAGINE_MSGBUS_ID(msgFlowInf), response);
+                    something_done();
+                }
+            };
+
+            for(auto& [nd_id, nd] : this->_nodes) {
+                send_info(nd_id, nd.the_connection);
+            }
+        }
     }
     _stats.uptime_seconds = _uptime_seconds();
+
+    return something_done;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_handle_stats_query(const message_view& message)
+  -> message_handling_result {
+    _update_stats();
 
     auto rs_buf{default_serialize_buffer_for(_stats)};
     if(auto serialized{default_serialize(_stats, cover(rs_buf))}) {
@@ -956,20 +994,15 @@ auto router::_do_route_message(
 
                 if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                     const auto msgs_per_sec{1000000.F / interval.count()};
-                    const auto avg_msg_age =
-                      _message_age_sum / float(
-                                           _stats.forwarded_messages +
-                                           _stats.dropped_messages + 1);
-
-                    _stats.message_age_milliseconds =
-                      static_cast<std::int32_t>(avg_msg_age * 1000.F);
 
                     log_chart_sample(EAGINE_ID(msgsPerSec), msgs_per_sec);
                     log_stat("forwarded ${count} messages")
                       .arg(EAGINE_ID(count), _stats.forwarded_messages)
                       .arg(EAGINE_ID(dropped), _stats.dropped_messages)
                       .arg(EAGINE_ID(interval), interval)
-                      .arg(EAGINE_ID(avgMsgAge), avg_msg_age)
+                      .arg(
+                        EAGINE_ID(avgMsgAge),
+                        std::chrono::microseconds(_stats.message_age_us))
                       .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
                 }
 
@@ -1042,13 +1075,17 @@ auto router::_do_route_message(
 EAGINE_LIB_FUNC
 auto router::_route_messages() -> work_done {
     some_true something_done{};
+    const auto now = std::chrono::steady_clock::now();
+    const auto message_age_inc =
+      std::chrono::duration<float>{now - _prev_route_time}.count();
+    _prev_route_time = now;
 
     for(auto& nd : _nodes) {
         auto handler =
-          [this, &nd](
-            message_id msg_id, message_age msg_age, message_view message) {
+          [&](message_id msg_id, message_age msg_age, message_view message) {
               auto& [incoming_id, node_in] = nd;
-              _message_age_sum += message.add_age(msg_age).age().count();
+              _message_age_sum +=
+                message.add_age(msg_age).age().count() + message_age_inc;
               if(
                 this->_handle_special(msg_id, incoming_id, node_in, message) ==
                 was_handled) {
@@ -1069,7 +1106,8 @@ auto router::_route_messages() -> work_done {
 
     auto handler =
       [&](message_id msg_id, message_age msg_age, message_view message) {
-          _message_age_sum += message.add_age(msg_age).age().count();
+          _message_age_sum +=
+            message.add_age(msg_age).age().count() + message_age_inc;
           if(
             this->_handle_special(
               msg_id, _parent_router.confirmed_id, message) == was_handled) {
@@ -1112,6 +1150,7 @@ EAGINE_LIB_FUNC
 auto router::do_maintenance() -> work_done {
     some_true something_done{};
 
+    something_done(_update_stats());
     something_done(_process_blobs());
     something_done(_remove_timeouted());
     something_done(_remove_disconnected());
@@ -1171,14 +1210,12 @@ void router::cleanup() {
             conn->cleanup();
         }
     }
-    const auto avg_msg_age =
-      _message_age_sum /
-      float(_stats.forwarded_messages + _stats.dropped_messages + 1);
 
     log_stat("forwarded ${count} messages in total")
       .arg(EAGINE_ID(count), _stats.forwarded_messages)
       .arg(EAGINE_ID(dropped), _stats.dropped_messages)
-      .arg(EAGINE_ID(avgMsgAge), avg_msg_age);
+      .arg(
+        EAGINE_ID(avgMsgAge), std::chrono::microseconds(_stats.message_age_us));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
