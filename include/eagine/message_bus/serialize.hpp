@@ -188,7 +188,7 @@ auto deserialize_message(
 /// @see default_deserialize
 /// @see serialize
 template <typename T>
-inline auto default_serialize(T& value, memory::block blk)
+inline auto default_serialize(const T& value, memory::block blk)
   -> serialization_result<memory::const_block> {
     block_data_sink sink(blk);
     default_serializer_backend backend(sink);
