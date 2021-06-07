@@ -31,6 +31,16 @@ public:
     url(std::string url_str) noexcept
       : url{std::move(url_str), std::match_results<std::string::iterator>{}} {}
 
+    /// @brief Equality comparison.
+    friend auto operator==(const url& l, const url& r) noexcept {
+        return l._url_str == r._url_str;
+    }
+
+    /// @brief Less-thancomparison.
+    friend auto operator<(const url& l, const url& r) noexcept {
+        return l._url_str < r._url_str;
+    }
+
     /// @brief Indicates if the URL was parsed successfully.
     auto is_valid() const noexcept {
         return _parsed;
