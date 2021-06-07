@@ -373,6 +373,8 @@ auto bridge::_handle_special(
             return _handle_topology_query(message, to_connection);
         } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
             return _handle_stats_query(message, to_connection);
+        } else if(msg_id.has_method(EAGINE_ID(msgFlowInf))) {
+            return was_handled;
         }
     }
     return should_be_forwarded;

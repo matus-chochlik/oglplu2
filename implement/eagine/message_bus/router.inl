@@ -716,7 +716,7 @@ auto router::_update_stats() -> work_done {
 
     const auto now = std::chrono::steady_clock::now();
     const std::chrono::duration<float> seconds{now - _forwarded_since_stat};
-    if(EAGINE_UNLIKELY(seconds.count() >= 5.F)) {
+    if(EAGINE_UNLIKELY(seconds.count() >= 15.F)) {
         _forwarded_since_stat = now;
 
         _stats.messages_per_second = static_cast<std::int32_t>(
@@ -852,6 +852,7 @@ auto router::_handle_special_common(
     } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
         return _handle_stats_query(message);
     } else if(
+      msg_id.has_method(EAGINE_ID(msgFlowInf)) ||
       msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
       msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
       msg_id.has_method(EAGINE_ID(topoEndpt)) ||
