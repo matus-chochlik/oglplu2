@@ -16,6 +16,7 @@ set(
 		eagine-message_bus-bridge
 		eagine-message_bus-pingable
 		eagine-message_bus-pinger
+		eagine-message_bus-file_server
 		eagine-message_bus-sudoku_helper
 		eagine-message_bus-sudoku_tiling
 		oglplus
@@ -62,5 +63,13 @@ install(
 	FILE Targets.cmake
 	NAMESPACE OGLplus::
 	DESTINATION lib/cmake/OGLplus
+)
+
+# scripts
+install(
+	PROGRAMS eagine-servicectl.py
+	RENAME eagine-servicectl
+	DESTINATION bin
+	COMPONENT tools
 )
 

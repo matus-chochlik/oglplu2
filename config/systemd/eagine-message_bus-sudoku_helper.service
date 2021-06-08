@@ -1,5 +1,5 @@
 [Unit]
-Description=OGLplus / EAGine message bus sudoku helper node
+Description=OGLplus / EAGine message bus Sudoku helper node
 ConditionPathExists=%h/.oglplus/systemd/environment
 
 [Service]

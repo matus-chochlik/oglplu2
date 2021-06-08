@@ -8,7 +8,7 @@
 #include "TilingViewModel.hpp"
 #include <eagine/main_ctx.hpp>
 #include <eagine/main_fwd.hpp>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <clocale>
@@ -21,8 +21,8 @@ const char** argv_copy = nullptr;
 auto main(main_ctx& ctx) -> int {
     ctx.log().info("message bus tiling starting");
 
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app{argc_copy, const_cast<char**>(argv_copy)};
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication app{argc_copy, const_cast<char**>(argv_copy)};
     app.setOrganizationName("OGLplus");
     app.setOrganizationDomain("oglplus.org");
     app.setApplicationName("Tiling");

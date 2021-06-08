@@ -3,11 +3,11 @@
 /// Distributed under the GNU GENERAL PUBLIC LICENSE version 3.
 /// See http://www.gnu.org/licenses/gpl-3.0.txt
 ///
-import QtQuick 2.2
+import QtQuick 2.3
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.3
 import QtQuick.Controls.Material 2.4
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.5
 import "qrc:///views"
 
 ApplicationWindow {
@@ -95,12 +95,49 @@ ApplicationWindow {
     contentData: ColumnLayout {
         anchors.fill: parent
 
-        TilingView {
+        TabBar {
+            id: mainTabBar
+            Layout.fillWidth: true
+            TabButton {
+                text: qsTr("Tiling")
+            }
+            TabButton {
+                text: qsTr("Helper contributions")
+            }
+            TabButton {
+                text: qsTr("Solution intervals")
+            }
+        }
+
+        StackLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            model: backend.tiling
+            currentIndex: mainTabBar.currentIndex
+
+            TilingView {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                model: backend.tiling
+            }
+
+            HelperContributionView {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                model: backend.helperContributions
+            }
+
+            SolutionIntervalView {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                model: backend.solutionIntervals
+            }
+            
         }
+
         ProgressBar {
             Layout.fillWidth: true
             Layout.preferredHeight: 25

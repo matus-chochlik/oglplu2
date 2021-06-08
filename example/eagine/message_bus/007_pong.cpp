@@ -14,6 +14,7 @@
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/system_info.hpp>
+#include <eagine/message_bus/service_requirements.hpp>
 #include <eagine/timeout.hpp>
 #include <algorithm>
 #include <chrono>
@@ -23,8 +24,13 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using pong_base = service_composition<pingable<build_info_provider<
-  system_info_provider<host_info_provider<shutdown_target<>>>>>>;
+using pong_base = service_composition<require_services<
+  subscriber,
+  pingable,
+  build_info_provider,
+  system_info_provider,
+  host_info_provider,
+  shutdown_target>>;
 
 class pong_example
   : public main_ctx_object
@@ -62,7 +68,7 @@ public:
         return _done;
     }
 
-    auto update() -> bool {
+    auto update() -> work_done {
         some_true something_done{};
         something_done(base::update());
         if(_sent < 1) {

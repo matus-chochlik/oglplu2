@@ -56,7 +56,7 @@ auto main(main_ctx& ctx) -> int {
 
     ctx.bus().setup_connectors(bus);
 
-    timeout idle_too_long{std::chrono::seconds{4}};
+    timeout idle_too_long{std::chrono::seconds{30}};
     while(!idle_too_long) {
         if(
           bus.update() ||

@@ -11,6 +11,7 @@
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/topology.hpp>
+#include <eagine/message_bus/service_requirements.hpp>
 #include <eagine/signal_switch.hpp>
 #include <iostream>
 #include <set>
@@ -19,8 +20,8 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using topology_printer_base =
-  service_composition<network_topology<shutdown_target<>>>;
+using topology_printer_base = service_composition<
+  require_services<subscriber, network_topology, shutdown_target>>;
 
 class topology_printer
   : public main_ctx_object

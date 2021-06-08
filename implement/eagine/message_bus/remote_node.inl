@@ -60,7 +60,7 @@ public:
     span_size_t pings_timeouted{0};
     std::chrono::microseconds last_ping_time{};
     std::chrono::microseconds last_ping_timeout{};
-    std::chrono::milliseconds message_age{};
+    std::chrono::microseconds message_age{};
     std::chrono::seconds uptime{};
 
     std::int64_t sent_messages{-1};
@@ -656,7 +656,7 @@ auto remote_node::messages_per_second() const noexcept
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto remote_node::average_message_age() const noexcept
-  -> valid_if_not_zero<std::chrono::milliseconds> {
+  -> valid_if_not_zero<std::chrono::microseconds> {
     if(auto impl{_impl()}) {
         const auto& i = extract(impl);
         return {i.message_age};
@@ -891,8 +891,7 @@ auto remote_node_state::assign(const router_statistics& stats)
         i.sent_messages = stats.forwarded_messages;
         i.dropped_messages = stats.dropped_messages;
         i.messages_per_second = stats.messages_per_second;
-        i.message_age =
-          std::chrono::milliseconds{stats.message_age_milliseconds};
+        i.message_age = std::chrono::microseconds{stats.message_age_us};
         i.uptime = std::chrono::seconds{stats.uptime_seconds};
         i.changes |= remote_node_change::statistics;
     }

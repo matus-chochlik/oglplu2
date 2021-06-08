@@ -37,7 +37,7 @@ static constexpr auto is_special_message(message_id msg_id) noexcept {
     return msg_id.has_class(EAGINE_ID(eagiMsgBus));
 }
 //------------------------------------------------------------------------------
-/// @brief Returns the special broadcase message bus endpoint id.
+/// @brief Returns the special broadcast message bus endpoint id.
 /// @ingroup msgbus
 static constexpr auto broadcast_endpoint_id() noexcept -> identifier_t {
     return 0U;
@@ -285,30 +285,70 @@ struct message_info {
 //------------------------------------------------------------------------------
 /// @brief Combines message information and a non-owning view to message content.
 /// @ingroup msgbus
-struct message_view : message_info {
-
-    /// @brief View of the message data content.
-    memory::const_block data;
-
+class message_view : public message_info {
+public:
     /// @brief Default constructor.
     constexpr message_view() noexcept = default;
 
     /// @brief Construction from a const memory block.
     constexpr message_view(memory::const_block init) noexcept
-      : data{init} {}
+      : _data{init} {}
 
     /// @brief Construction from a mutable memory block.
     constexpr message_view(memory::block init) noexcept
-      : data{init} {}
+      : _data{init} {}
 
     /// @brief Construction from a string view.
     constexpr message_view(string_view init) noexcept
-      : data{as_bytes(init)} {}
+      : _data{as_bytes(init)} {}
 
     /// @brief Construction from a message info and a const memory block.
     constexpr message_view(message_info info, memory::const_block init) noexcept
       : message_info{info}
-      , data{init} {}
+      , _data{init} {}
+
+    /// @brief Indicates if the header or the content is signed.
+    /// @see signature
+    auto is_signed() const noexcept -> bool {
+        return crypto_flags.has(message_crypto_flag::signed_content) ||
+               crypto_flags.has(message_crypto_flag::signed_header);
+    }
+
+    /// @brief Returns a const view of the storage buffer.
+    auto data() const noexcept -> memory::const_block {
+        return _data;
+    }
+
+    /// @brief Returns the message signature.
+    /// @see is_signed
+    /// @see content
+    auto signature() const noexcept -> memory::const_block {
+        if(is_signed()) {
+            return skip(data(), skip_data_with_size(data()));
+        }
+        return {};
+    }
+
+    /// @brief Returns a const view of the data content of the message.
+    /// @see signature
+    /// @see text_content
+    /// @see const_content
+    auto content() const noexcept -> memory::const_block {
+        if(EAGINE_UNLIKELY(is_signed())) {
+            return get_data_with_size(data());
+        }
+        return data();
+    }
+
+    /// @brief Returns the content as a const string view.
+    /// @see content
+    auto text_content() const noexcept {
+        return as_chars(content());
+    }
+
+private:
+    /// @brief View of the message data content.
+    memory::const_block _data;
 };
 //------------------------------------------------------------------------------
 /// @brief Combines message information and an owned message content buffer.
@@ -323,7 +363,7 @@ public:
     stored_message(message_view message, memory::buffer buf) noexcept
       : message_info{message}
       , _buffer{std::move(buf)} {
-        memory::copy_into(view(message.data), _buffer);
+        memory::copy_into(view(message.data()), _buffer);
     }
 
     /// @brief Conversion to message view.
@@ -396,11 +436,20 @@ public:
     /// @brief Returns a const view of the data content of the message.
     /// @see signature
     /// @see text_content
+    /// @see const_content
     auto content() const noexcept -> memory::const_block {
         if(EAGINE_UNLIKELY(is_signed())) {
             return get_data_with_size(data());
         }
         return data();
+    }
+
+    /// @brief Returns a const view of the data content of the message.
+    /// @see signature
+    /// @see content
+    /// @see text_content
+    auto const_content() const noexcept -> memory::const_block {
+        return content();
     }
 
     /// @brief Returns the content as a mutable string view.
@@ -413,6 +462,14 @@ public:
     /// @see content
     auto text_content() const noexcept {
         return as_chars(content());
+    }
+
+    /// @brief Returns the content as a const string view.
+    /// @see content
+    /// @see text_content
+    /// @see const_content
+    auto const_text_content() const noexcept {
+        return as_chars(const_content());
     }
 
     /// @brief Clears the content of the storage buffer.
@@ -464,7 +521,7 @@ public:
     void push(message_id msg_id, const message_view& message) {
         _messages.emplace_back(
           msg_id,
-          stored_message{message, _buffers.get(message.data.size())},
+          stored_message{message, _buffers.get(message.data().size())},
           _clock_t::now());
     }
 
@@ -675,7 +732,7 @@ public:
           [](auto& msg, auto pri) { return msg.priority < pri; });
 
         return *_messages.emplace(
-          pos, message, _buffers.get(message.data.size()));
+          pos, message, _buffers.get(message.data().size()));
     }
 
     auto process_one(const message_context& msg_ctx, handler_type handler)

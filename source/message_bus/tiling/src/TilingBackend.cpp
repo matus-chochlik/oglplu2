@@ -12,7 +12,9 @@ TilingBackend::TilingBackend(eagine::main_ctx_parent parent)
   , eagine::main_ctx_object{EAGINE_ID(Backend), parent}
   , _tilingModel{std::make_shared<TilingModel>(*this)}
   , _tilingTheme{*this}
-  , _tilingViewModel{*this} {
+  , _tilingViewModel{*this}
+  , _helperContributionViewModel{*this}
+  , _solutionIntervalViewModel{*this} {
     _timerId = startTimer(10);
     emit tilingModelChanged();
 }
@@ -27,6 +29,19 @@ void TilingBackend::timerEvent(QTimerEvent*) {
     }
 }
 //------------------------------------------------------------------------------
+void TilingBackend::onTilingReset() {
+    _solutionIntervalViewModel.tilingReset();
+}
+//------------------------------------------------------------------------------
+void TilingBackend::onHelperAppeared(eagine::identifier_t helperId) {
+    _helperContributionViewModel.helperAppeared(helperId);
+}
+//------------------------------------------------------------------------------
+void TilingBackend::onHelperContributed(eagine::identifier_t helperId) {
+    _solutionIntervalViewModel.helperContributed(helperId);
+    _helperContributionViewModel.helperContributed(helperId);
+}
+//------------------------------------------------------------------------------
 auto TilingBackend::getTilingModel() noexcept -> TilingModel* {
     return _tilingModel.get();
 }
@@ -37,5 +52,15 @@ auto TilingBackend::getTilingTheme() noexcept -> TilingTheme* {
 //------------------------------------------------------------------------------
 auto TilingBackend::getTilingViewModel() noexcept -> TilingViewModel* {
     return &_tilingViewModel;
+}
+//------------------------------------------------------------------------------
+auto TilingBackend::getHelperContributionViewModel() noexcept
+  -> HelperContributionViewModel* {
+    return &_helperContributionViewModel;
+}
+//------------------------------------------------------------------------------
+auto TilingBackend::getSolutionIntervalViewModel() noexcept
+  -> SolutionIntervalViewModel* {
+    return &_solutionIntervalViewModel;
 }
 //------------------------------------------------------------------------------

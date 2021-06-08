@@ -20,7 +20,8 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using sudoku_tiling_base = pingable<common_info_providers<sudoku_tiling<>>>;
+using sudoku_tiling_base =
+  require_services<subscriber, pingable, common_info_providers, sudoku_tiling>;
 
 class sudoku_tiling_node : public service_node<sudoku_tiling_base> {
 public:
@@ -43,6 +44,7 @@ public:
 private:
     template <unsigned S>
     void _handle_generated(
+      eagine::identifier_t,
       const sudoku_tiles<S>& tiles,
       const std::tuple<int, int>&) {
         if(_print_progress) {

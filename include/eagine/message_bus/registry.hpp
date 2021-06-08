@@ -9,6 +9,7 @@
 #ifndef EAGINE_MESSAGE_BUS_REGISTRY_HPP
 #define EAGINE_MESSAGE_BUS_REGISTRY_HPP
 
+#include "../bool_aggregate.hpp"
 #include "../extract.hpp"
 #include "../main_ctx_object.hpp"
 #include "direct.hpp"
@@ -23,7 +24,7 @@ struct registered_entry {
     std::unique_ptr<endpoint> _endpoint{};
     std::unique_ptr<service_interface> _service{};
 
-    auto update_service() -> bool;
+    auto update_service() -> work_done;
 };
 //------------------------------------------------------------------------------
 /// @brief Class combining a local bus router and a set of endpoints.
@@ -55,8 +56,8 @@ public:
     /// @brief Removes a previously emplaced service.
     void remove(service_interface&);
 
-    auto update() -> bool;
-    auto update_all() -> bool;
+    auto update() -> work_done;
+    auto update_all() -> work_done;
 
     auto is_done() -> bool {
         return _router.is_done();

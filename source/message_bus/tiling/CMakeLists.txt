@@ -9,12 +9,16 @@ set(MONITOR_RESOURCES
 )
 set(MONITOR_SOURCES
 	tiling.cpp
+	src/HelperContributionViewModel.cpp
+	src/SolutionIntervalViewModel.cpp
 	src/TilingTheme.cpp
 	src/TilingBackend.cpp
 	src/TilingModel.cpp
 	src/TilingViewModel.cpp
 )
 set(MONITOR_HEADERS
+	include/HelperContributionViewModel.hpp
+	include/SolutionIntervalViewModel.hpp
 	include/TilingTheme.hpp
 	include/TilingBackend.hpp
 	include/TilingModel.hpp
@@ -39,6 +43,7 @@ target_link_libraries(
 	PUBLIC
 		eagine
 		Qt5::Core
+		Qt5::Widgets
 		Qt5::Qml
 		Qt5::Quick
 )

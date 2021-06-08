@@ -44,9 +44,6 @@ public:
     /// @brief Alias for message fetch handler callable reference.
     using fetch_handler = connection::fetch_handler;
 
-    /// @brief Alias for blob message type filter callable reference.
-    using blob_io_getter = blob_manipulator::io_getter;
-
     /// @brief Triggered when the id is confirmed or assigned to this endpoint.
     signal<void(identifier_t)> id_assigned;
 
@@ -152,7 +149,7 @@ public:
     void flush_outbox();
 
     /// @brief Updates the internal state, sends and receives pending messages.
-    auto update() -> bool;
+    auto update() -> work_done;
 
     /// @brief Says to the message bus that this endpoint is disconnecting.
     void finish() {
@@ -172,12 +169,20 @@ public:
     /// @see post_signed
     /// @see post_value
     /// @see post_blob
-    auto post(message_id msg_id, message_view message) -> bool {
+    /// @see post_callable
+    auto post(message_id msg_id, const message_view& message) -> bool {
         if(EAGINE_LIKELY(has_id())) {
             return _do_send(msg_id, message);
         }
         _outgoing.push(msg_id, message);
         return true;
+    }
+
+    /// @brief Creates a callable that calls post on this enpoint.
+    /// @see post
+    auto post_callable() noexcept
+      -> callable_ref<bool(message_id, const message_view&)> {
+        return EAGINE_THIS_MEM_FUNC_REF(post);
     }
 
     /// @brief Signs and enqueues a message with the specified id/type for sending.
@@ -217,11 +222,18 @@ public:
     auto post_blob(
       message_id msg_id,
       identifier_t target_id,
+      blob_id_t target_blob_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
       message_priority priority) -> message_sequence_t {
         return _blobs.push_outgoing(
-          msg_id, _endpoint_id, target_id, blob, max_time, priority);
+          msg_id,
+          _endpoint_id,
+          target_id,
+          target_blob_id,
+          blob,
+          max_time,
+          priority);
     }
 
     /// @brief Enqueues a BLOB that is larger than max_data_size for broadcast.
@@ -235,7 +247,7 @@ public:
       std::chrono::seconds max_time,
       message_priority priority) -> bool {
         return post_blob(
-          msg_id, broadcast_endpoint_id(), blob, max_time, priority);
+          msg_id, broadcast_endpoint_id(), 0, blob, max_time, priority);
     }
 
     /// @brief Enqueues a BLOB that is larger than max_data_size for broadcast.
@@ -251,7 +263,7 @@ public:
     }
 
     /// @brief Posts the certificate of this enpoint to the specified remote.
-    auto post_certificate(identifier_t target_id) -> bool;
+    auto post_certificate(identifier_t target_id, blob_id_t) -> bool;
 
     /// @brief Broadcasts the certificate of this enpoint to the whole bus.
     auto broadcast_certificate() -> bool;
@@ -399,6 +411,12 @@ public:
         return _ensure_incoming(msg_id).queue;
     }
 
+    /// @brief Returns the average message age in the connected router.
+    auto flow_average_message_age() const noexcept
+      -> std::chrono::microseconds {
+        return std::chrono::microseconds{_flow_info.avg_msg_age_ms * 1000};
+    }
+
 private:
     friend class friend_of_endpoint;
 
@@ -412,6 +430,7 @@ private:
       std::chrono::steady_clock::now()};
 
     endpoint_statistics _stats{};
+    message_flow_info _flow_info{};
 
     auto _uptime_seconds() -> std::int64_t;
 
@@ -459,10 +478,12 @@ private:
         return *pos->second;
     }
 
-    blob_manipulator _blobs{*this};
+    blob_manipulator _blobs{
+      *this,
+      EAGINE_MSGBUS_ID(blobFrgmnt),
+      EAGINE_MSGBUS_ID(blobResend)};
 
-    auto _cleanup_blobs() -> bool;
-    auto _process_blobs() -> bool;
+    auto _process_blobs() -> work_done;
 
     auto _default_store_handler() noexcept -> fetch_handler {
         return EAGINE_THIS_MEM_FUNC_REF(_store_message);
@@ -477,10 +498,6 @@ private:
       -> bool {
         // TODO: use message age
         return _do_send(msg_id, message);
-    }
-
-    auto _handle_post(message_id msg_id, const message_view& message) -> bool {
-        return post(msg_id, message);
     }
 
     auto _handle_special(message_id msg_id, const message_view&) noexcept

@@ -7,6 +7,8 @@
 #ifndef EAGINE_MESSAGE_BUS_TILING_BACKEND
 #define EAGINE_MESSAGE_BUS_TILING_BACKEND
 
+#include "HelperContributionViewModel.hpp"
+#include "SolutionIntervalViewModel.hpp"
 #include "TilingTheme.hpp"
 #include "TilingViewModel.hpp"
 #include <eagine/main_ctx_object.hpp>
@@ -22,6 +24,10 @@ class TilingBackend
 
     Q_PROPERTY(TilingTheme* theme READ getTilingTheme CONSTANT)
     Q_PROPERTY(TilingViewModel* tiling READ getTilingViewModel CONSTANT)
+    Q_PROPERTY(HelperContributionViewModel* helperContributions READ
+                 getHelperContributionViewModel CONSTANT)
+    Q_PROPERTY(SolutionIntervalViewModel* solutionIntervals READ
+                 getSolutionIntervalViewModel CONSTANT)
 public:
     TilingBackend(eagine::main_ctx_parent);
     ~TilingBackend() final;
@@ -29,9 +35,16 @@ public:
     auto getTilingModel() noexcept -> TilingModel*;
     auto getTilingTheme() noexcept -> TilingTheme*;
     auto getTilingViewModel() noexcept -> TilingViewModel*;
+    auto getHelperContributionViewModel() noexcept
+      -> HelperContributionViewModel*;
+    auto getSolutionIntervalViewModel() noexcept -> SolutionIntervalViewModel*;
 signals:
     void tilingModelChanged();
 public slots:
+    void onTilingReset();
+    void onHelperAppeared(eagine::identifier_t helperId);
+    void onHelperContributed(eagine::identifier_t helperId);
+
 private:
     void timerEvent(QTimerEvent*) final;
 
@@ -39,6 +52,8 @@ private:
     std::shared_ptr<TilingModel> _tilingModel;
     TilingTheme _tilingTheme;
     TilingViewModel _tilingViewModel;
+    HelperContributionViewModel _helperContributionViewModel;
+    SolutionIntervalViewModel _solutionIntervalViewModel;
 };
 //------------------------------------------------------------------------------
 #endif

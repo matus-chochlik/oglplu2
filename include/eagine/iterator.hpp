@@ -335,6 +335,39 @@ struct noexcept_casting_iterator
       noexcept_casting_iterator<Iterator, T, S>>::basic_noexcept_casting_iterator;
 };
 //------------------------------------------------------------------------------
+/// @brief Adapter reversing the iteration of elements in a Range.
+/// @ingroup type_utils
+template <typename Range>
+class reverse {
+public:
+    /// @brief Construction from a reference to a range.
+    constexpr reverse(Range& range) noexcept
+      : _range{range} {}
+
+    /// @brief Returns a reverse iterator to the last element in the adapted range.
+    constexpr auto begin() noexcept {
+        return _range.rbegin();
+    }
+
+    /// @brief Returns a reverse iterator past the first element in the adapted range.
+    constexpr auto end() noexcept {
+        return _range.rend();
+    }
+
+    /// @brief Returns a reverse iterator to the last element in the adapted range.
+    constexpr auto begin() const noexcept {
+        return _range.rbegin();
+    }
+
+    /// @brief Returns a reverse iterator past the first element in the adapted range.
+    constexpr auto end() const noexcept {
+        return _range.rend();
+    }
+
+private:
+    Range& _range;
+};
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_ITERATOR_HPP

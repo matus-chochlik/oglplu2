@@ -23,12 +23,13 @@ struct acceptor : connection_info {
     using accept_handler = callable_ref<void(std::unique_ptr<connection>)>;
 
     /// @brief Updates the internal state of the acceptor (called repeatedly).
-    virtual auto update() -> bool {
-        return false;
+    virtual auto update() -> work_done {
+        return {};
     }
 
     /// @brief Lets the handler process the pending accepted connections.
-    virtual auto process_accepted(const accept_handler& handler) -> bool = 0;
+    virtual auto process_accepted(const accept_handler& handler)
+      -> work_done = 0;
 };
 //------------------------------------------------------------------------------
 /// @brief Interface for classes that can use message bus connection acceptors.

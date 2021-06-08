@@ -5,10 +5,14 @@
 ///
 
 #include "TilingTheme.hpp"
+#include <eagine/application_config.hpp>
 //------------------------------------------------------------------------------
 TilingTheme::TilingTheme(eagine::main_ctx_parent parent)
   : QObject{nullptr}
-  , eagine::main_ctx_object{EAGINE_ID(Theme), parent} {}
+  , eagine::main_ctx_object{EAGINE_ID(Theme), parent} {
+    setTileSize(extract_or(
+      app_config().get<int>("msg_bus.sudoku.solver.gui.tile_size"), 16));
+}
 //------------------------------------------------------------------------------
 void TilingTheme::setLight(bool value) {
     _light = value;

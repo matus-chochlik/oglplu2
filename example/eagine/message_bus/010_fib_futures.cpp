@@ -46,7 +46,7 @@ private:
     }
 
 public:
-    auto update() -> bool {
+    auto update() -> work_done {
         some_true something_done{};
         something_done(Base::update());
 

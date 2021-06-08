@@ -9,6 +9,7 @@
 #ifndef EAGINE_MESSAGE_BUS_BRIDGE_HPP
 #define EAGINE_MESSAGE_BUS_BRIDGE_HPP
 
+#include "../bool_aggregate.hpp"
 #include "../main_ctx_object.hpp"
 #include "../timeout.hpp"
 #include "connection.hpp"
@@ -46,7 +47,7 @@ public:
         return is_valid_id(_id);
     }
 
-    auto update() -> bool;
+    auto update() -> work_done;
     auto is_done() const noexcept -> bool;
     void say_bye();
     void cleanup();
@@ -61,8 +62,8 @@ private:
     void _setup_from_config();
 
     auto _recoverable_state() const noexcept -> bool;
-    auto _check_state() -> bool;
-    auto _update_connections() -> bool;
+    auto _check_state() -> work_done;
+    auto _update_connections() -> work_done;
 
     auto _do_send(message_id, message_view&) -> bool;
     auto _send(message_id, message_view&) -> bool;
@@ -84,7 +85,7 @@ private:
       -> message_handling_result;
 
     auto _do_push(message_id, message_view&) -> bool;
-    auto _forward_messages() -> bool;
+    auto _forward_messages() -> work_done;
 
     shared_context _context{};
 

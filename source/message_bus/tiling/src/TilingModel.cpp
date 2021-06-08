@@ -5,14 +5,16 @@
 ///
 
 #include "TilingModel.hpp"
+#include "TilingBackend.hpp"
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus.hpp>
 #include <QVariant>
 #include <algorithm>
 //------------------------------------------------------------------------------
-TilingModel::TilingModel(eagine::main_ctx_parent parent)
+TilingModel::TilingModel(TilingBackend& backend)
   : QObject{nullptr}
-  , eagine::main_ctx_object{EAGINE_ID(TilngModel), parent}
+  , eagine::main_ctx_object{EAGINE_ID(TilngModel), backend}
+  , _backend{backend}
   , _bus{EAGINE_ID(TrckrEndpt), *this}
   , _tiling{_bus} {
     setup_bus_connectors(_tiling);
@@ -21,10 +23,13 @@ TilingModel::TilingModel(eagine::main_ctx_parent parent)
     info.display_name = "sudoku tiling generator";
     info.description = "sudoku tiling solver/generator GUI application";
 
+    _tiling.helper_appeared.connect(EAGINE_THIS_MEM_FUNC_REF(onHelperAppeared));
     _tiling.tiles_generated_4.connect(
       EAGINE_THIS_MEM_FUNC_REF(onFragmentAdded));
 
-    reinitialize(64, 64);
+    reinitialize(
+      extract_or(app_config().get<int>("msg_bus.sudoku.solver.width"), 64),
+      extract_or(app_config().get<int>("msg_bus.sudoku.solver.height"), 64));
 }
 //------------------------------------------------------------------------------
 void TilingModel::update() {
@@ -49,6 +54,7 @@ void TilingModel::reinitialize(int w, int h) {
       eagine::default_sudoku_board_traits<4>()
         .make_generator()
         .generate_medium());
+    _backend.onTilingReset();
     emit reinitialized();
 }
 //------------------------------------------------------------------------------
@@ -80,10 +86,17 @@ auto TilingModel::getCell(int row, int column) const noexcept -> QVariant {
     return {};
 }
 //------------------------------------------------------------------------------
+void TilingModel::onHelperAppeared(eagine::identifier_t helperId) {
+    _backend.onHelperAppeared(helperId);
+}
+//------------------------------------------------------------------------------
 void TilingModel::onFragmentAdded(
+  eagine::identifier_t helperId,
   const eagine::msgbus::sudoku_tiles<4>& tiles,
-  const std::tuple<int, int>& frag_coord) {
-    const auto fragment = tiles.get_fragment(frag_coord);
+  const std::tuple<int, int>& fragCoord) {
+    _backend.onHelperContributed(helperId);
+
+    const auto fragment = tiles.get_fragment(fragCoord);
     fragment.for_each_cell(
       [this](const auto& coord, const auto& offs, const auto& glyph) {
           if(auto glyphStr{_traits_4.to_string(glyph)}) {

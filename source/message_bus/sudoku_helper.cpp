@@ -23,8 +23,12 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using sudoku_helper_base = service_composition<
-  shutdown_target<pingable<common_info_providers<sudoku_helper<>>>>>;
+using sudoku_helper_base = service_composition<require_services<
+  subscriber,
+  shutdown_target,
+  pingable,
+  common_info_providers,
+  sudoku_helper>>;
 
 class sudoku_helper_node
   : public main_ctx_object

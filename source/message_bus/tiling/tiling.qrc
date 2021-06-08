@@ -3,6 +3,8 @@
 	<file>qtquickcontrols2.conf</file>
 	<file>tiling.qml</file>
 
+	<file>views/HelperContributionView.qml</file>
+	<file>views/SolutionIntervalView.qml</file>
 	<file>views/TilingView.qml</file>
 	<file>views/EmptyTile.qml</file>
 	<file>views/KnownTile.qml</file>

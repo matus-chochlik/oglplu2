@@ -63,7 +63,7 @@ struct router_statistics {
     std::int64_t dropped_messages{0};
 
     /// @brief Average message age in milliseconds
-    std::int32_t message_age_milliseconds{0};
+    std::int32_t message_age_us{0};
 
     /// @brief Number of forwarded messages per second.
     std::int32_t messages_per_second{0};
@@ -85,7 +85,7 @@ data_member_mapping(type_identity<router_statistics>, Selector) noexcept {
       std::int64_t>(
       {"forwarded_messages", &S::forwarded_messages},
       {"dropped_messages", &S::dropped_messages},
-      {"message_age_milliseconds", &S::message_age_milliseconds},
+      {"message_age_us", &S::message_age_us},
       {"messages_per_second", &S::messages_per_second},
       {"uptime_seconds", &S::uptime_seconds});
 }
@@ -258,15 +258,30 @@ struct connection_statistics {
     float bytes_per_second{-1.F};
 };
 
-template <typename Selector>
+template <typename selector>
 constexpr auto
-data_member_mapping(type_identity<connection_statistics>, Selector) noexcept {
-    using S = connection_statistics;
-    return make_data_member_mapping<S, identifier_t, identifier_t, float, float>(
-      {"local_id", &S::local_id},
-      {"remote_id", &S::remote_id},
-      {"block_usage_ratio", &S::block_usage_ratio},
-      {"bytes_per_second", &S::bytes_per_second});
+data_member_mapping(type_identity<connection_statistics>, selector) noexcept {
+    using s = connection_statistics;
+    return make_data_member_mapping<s, identifier_t, identifier_t, float, float>(
+      {"local_id", &s::local_id},
+      {"remote_id", &s::remote_id},
+      {"block_usage_ratio", &s::block_usage_ratio},
+      {"bytes_per_second", &s::bytes_per_second});
+}
+//------------------------------------------------------------------------------
+/// @brief Structure holding message bus data flow information.
+/// @ingroup msgbus
+struct message_flow_info {
+    /// @brief The average age of message in seconds.
+    std::int16_t avg_msg_age_ms{0};
+};
+
+template <typename selector>
+constexpr auto
+data_member_mapping(type_identity<message_flow_info>, selector) noexcept {
+    using s = message_flow_info;
+    return make_data_member_mapping<s, std::int16_t>(
+      {"avg_msg_age_ms", &s::avg_msg_age_ms});
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

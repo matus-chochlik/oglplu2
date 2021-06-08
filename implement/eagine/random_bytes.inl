@@ -6,6 +6,7 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/config/basic.hpp>
+#include <eagine/memory/span_algo.hpp>
 #include <algorithm>
 #include <climits>
 #include <random>
@@ -13,7 +14,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename Engine>
-void do_fill_with_random_bytes(span<byte> buffer, Engine& engine) {
+auto do_fill_with_random_bytes(span<byte> dst, Engine& engine) -> span<byte> {
 
     using ui_t = typename Engine::result_type;
 
@@ -24,28 +25,29 @@ void do_fill_with_random_bytes(span<byte> buffer, Engine& engine) {
         return static_cast<byte>(ibe() & mask);
     };
 
-    std::generate(buffer.begin(), buffer.end(), gen);
+    generate(dst, gen);
+    return dst;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void fill_with_random_bytes(
-  span<byte> buffer,
-  any_random_engine<std::uint32_t> engine) {
-    return do_fill_with_random_bytes(buffer, engine);
+auto fill_with_random_bytes(
+  span<byte> dst,
+  any_random_engine<std::uint32_t> engine) -> span<byte> {
+    return do_fill_with_random_bytes(dst, engine);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void fill_with_random_bytes(
-  span<byte> buffer,
-  any_random_engine<std::uint64_t> engine) {
-    return do_fill_with_random_bytes(buffer, engine);
+auto fill_with_random_bytes(
+  span<byte> dst,
+  any_random_engine<std::uint64_t> engine) -> span<byte> {
+    return do_fill_with_random_bytes(dst, engine);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void fill_with_random_bytes(span<byte> buffer) {
+auto fill_with_random_bytes(span<byte> dst) -> span<byte> {
     std::random_device rd;
     std::mt19937 re(rd());
-    return do_fill_with_random_bytes(buffer, re);
+    return do_fill_with_random_bytes(dst, re);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

@@ -51,7 +51,8 @@ public:
         layout.for_each_char_coord([&](char lc, auto lp) {
             layout.for_each_char_coord([&](char rc, auto rp) {
                 if(lc != rc) {
-                    _key_dist[{lc, rc}] = multiplier * math::distance(lp, rp);
+                    _key_dist[std::pair<char, char>{lc, rc}] =
+                      multiplier * math::distance(lp, rp);
                 }
             });
         });

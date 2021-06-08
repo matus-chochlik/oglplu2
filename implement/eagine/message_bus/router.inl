@@ -6,7 +6,6 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/application_config.hpp>
-#include <eagine/bool_aggregate.hpp>
 #include <eagine/branch_predict.hpp>
 #include <eagine/main_ctx.hpp>
 #include <eagine/message_bus/context.hpp>
@@ -91,7 +90,7 @@ inline void parent_router::reset(std::unique_ptr<connection> a_connection) {
 }
 //------------------------------------------------------------------------------
 inline auto parent_router::update(main_ctx_object& user, identifier_t id_base)
-  -> bool {
+  -> work_done {
     some_true something_done{};
 
     if(the_connection) {
@@ -125,7 +124,8 @@ inline auto parent_router::update(main_ctx_object& user, identifier_t id_base)
 template <typename Handler>
 inline auto
 parent_router::fetch_messages(main_ctx_object& user, const Handler& handler)
-  -> bool {
+  -> work_done {
+    some_true something_done;
 
     if(the_connection) {
         auto wrapped = [&](
@@ -152,9 +152,10 @@ parent_router::fetch_messages(main_ctx_object& user, const Handler& handler)
             }
             return true;
         };
-        return the_connection->fetch_messages({construct_from, wrapped});
+        something_done(
+          the_connection->fetch_messages({construct_from, wrapped}));
     }
-    return false;
+    return something_done;
 }
 //------------------------------------------------------------------------------
 auto parent_router::send(
@@ -247,7 +248,7 @@ void router::_setup_from_config() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_handle_accept() -> bool {
+auto router::_handle_accept() -> work_done {
     some_true something_done{};
 
     if(EAGINE_LIKELY(!_acceptors.empty())) {
@@ -263,7 +264,7 @@ auto router::_handle_accept() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_handle_pending() -> bool {
+auto router::_handle_pending() -> work_done {
     some_true something_done{};
 
     if(!_pending.empty()) {
@@ -339,7 +340,7 @@ auto router::_handle_pending() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_remove_timeouted() -> bool {
+auto router::_remove_timeouted() -> work_done {
     some_true something_done{};
 
     _pending.erase(
@@ -392,7 +393,7 @@ auto router::_mark_disconnected(identifier_t endpoint_id) -> void {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_remove_disconnected() -> bool {
+auto router::_remove_disconnected() -> work_done {
     some_true something_done{};
 
     for(auto& [endpoint_id, node] : _nodes) {
@@ -454,13 +455,12 @@ void router::_handle_connection(std::unique_ptr<connection> a_connection) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_cleanup_blobs() -> bool {
-    return _blobs.cleanup();
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto router::_process_blobs() -> bool {
+auto router::_process_blobs() -> work_done {
     some_true something_done{};
+    auto resend_request = [&](message_id msg_id, message_view request) -> bool {
+        return this->_do_route_message(msg_id, _id_base, request);
+    };
+    something_done(_blobs.update({construct_from, resend_request}));
 
     if(_blobs.has_outgoing()) {
         for(auto& nd : _nodes) {
@@ -511,11 +511,11 @@ auto router::_handle_blob(
         if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
             log_trace("received endpoint certificate")
               .arg(EAGINE_ID(source), message.source_id)
-              .arg(EAGINE_ID(pem), message.data);
+              .arg(EAGINE_ID(pem), message.content());
             auto pos = _nodes.find(message.source_id);
             if(pos != _nodes.end()) {
                 if(_context->add_remote_certificate_pem(
-                     message.source_id, message.data)) {
+                     message.source_id, message.content())) {
                     log_debug("verified and stored endpoint certificate")
                       .arg(EAGINE_ID(source), message.source_id);
                 }
@@ -525,7 +525,8 @@ auto router::_handle_blob(
                   EAGINE_MSGBUS_ID(eptCertPem),
                   message.source_id,
                   message.target_id,
-                  message.data,
+                  message.sequence_no,
+                  message.content(),
                   adjusted_duration(std::chrono::seconds(30)),
                   message_priority::high);
             }
@@ -562,7 +563,7 @@ auto router::_handle_subscribed(
   identifier_t incoming_id,
   const message_view& message) -> message_handling_result {
     message_id sub_msg_id{};
-    if(default_deserialize_message_type(sub_msg_id, message.data)) {
+    if(default_deserialize_message_type(sub_msg_id, message.content())) {
         log_debug("endpoint ${source} subscribes to ${message}")
           .arg(EAGINE_ID(source), message.source_id)
           .arg(EAGINE_ID(message), sub_msg_id);
@@ -579,7 +580,7 @@ auto router::_handle_not_subscribed(
   identifier_t incoming_id,
   const message_view& message) -> message_handling_result {
     message_id sub_msg_id{};
-    if(default_deserialize_message_type(sub_msg_id, message.data)) {
+    if(default_deserialize_message_type(sub_msg_id, message.content())) {
         log_debug("endpoint ${source} unsubscribes from ${message}")
           .arg(EAGINE_ID(source), message.source_id)
           .arg(EAGINE_ID(message), sub_msg_id);
@@ -599,10 +600,11 @@ auto router::_handle_subscribers_query(const message_view& message)
         auto& info = pos->second;
         if(info.instance_id) {
             message_id sub_msg_id{};
-            if(default_deserialize_message_type(sub_msg_id, message.data)) {
+            if(default_deserialize_message_type(
+                 sub_msg_id, message.content())) {
                 // if we have the information cached, then respond
                 if(message_id_list_contains(info.subscriptions, sub_msg_id)) {
-                    message_view response{message.data};
+                    message_view response{message.data()};
                     response.setup_response(message);
                     response.set_source_id(message.target_id);
                     response.set_sequence_no(info.instance_id);
@@ -610,7 +612,7 @@ auto router::_handle_subscribers_query(const message_view& message)
                       EAGINE_MSGBUS_ID(subscribTo), _id_base, response);
                 }
                 if(message_id_list_contains(info.unsubscriptions, sub_msg_id)) {
-                    message_view response{message.data};
+                    message_view response{message.data()};
                     response.setup_response(message);
                     response.set_source_id(message.target_id);
                     response.set_sequence_no(info.instance_id);
@@ -655,6 +657,7 @@ auto router::_handle_router_certificate_query(const message_view& message)
       EAGINE_MSGBUS_ID(rtrCertPem),
       0U,
       message.source_id,
+      message.sequence_no,
       _context->get_own_certificate_pem(),
       adjusted_duration(std::chrono::seconds{30}),
       message_priority::high);
@@ -669,6 +672,7 @@ auto router::_handle_endpoint_certificate_query(const message_view& message)
           EAGINE_MSGBUS_ID(eptCertPem),
           message.target_id,
           message.source_id,
+          message.sequence_no,
           cert_pem,
           adjusted_duration(std::chrono::seconds{30}),
           message_priority::high);
@@ -707,19 +711,57 @@ auto router::_handle_topology_query(const message_view& message)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_handle_stats_query(const message_view& message)
-  -> message_handling_result {
+auto router::_update_stats() -> work_done {
+    some_true something_done;
+
     const auto now = std::chrono::steady_clock::now();
     const std::chrono::duration<float> seconds{now - _forwarded_since_stat};
-    if(EAGINE_LIKELY(seconds.count() >= 15.F)) {
+    if(EAGINE_UNLIKELY(seconds.count() >= 15.F)) {
         _forwarded_since_stat = now;
 
         _stats.messages_per_second = static_cast<std::int32_t>(
           float(_stats.forwarded_messages - _prev_forwarded_messages) /
           seconds.count());
         _prev_forwarded_messages = _stats.forwarded_messages;
+
+        const auto avg_msg_age_us = static_cast<std::int32_t>(
+          (1000000.F * _message_age_sum) /
+          float(_stats.forwarded_messages + _stats.dropped_messages + 1));
+        const auto avg_msg_age_ms = avg_msg_age_us / 1000;
+
+        _stats.message_age_us = avg_msg_age_us;
+
+        const bool flow_info_changed =
+          _flow_info.avg_msg_age_ms != avg_msg_age_ms;
+        _flow_info.avg_msg_age_ms = avg_msg_age_ms;
+
+        if(EAGINE_UNLIKELY(flow_info_changed)) {
+            auto send_info = [&](identifier_t remote_id, const auto& conn) {
+                auto buf{default_serialize_buffer_for(_flow_info)};
+                if(auto serialized{default_serialize(_flow_info, cover(buf))}) {
+                    message_view response{extract(serialized)};
+                    response.set_source_id(_id_base);
+                    response.set_target_id(remote_id);
+                    response.set_priority(message_priority::high);
+                    conn->send(EAGINE_MSGBUS_ID(msgFlowInf), response);
+                    something_done();
+                }
+            };
+
+            for(auto& [nd_id, nd] : this->_nodes) {
+                send_info(nd_id, nd.the_connection);
+            }
+        }
     }
     _stats.uptime_seconds = _uptime_seconds();
+
+    return something_done;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_handle_stats_query(const message_view& message)
+  -> message_handling_result {
+    _update_stats();
 
     auto rs_buf{default_serialize_buffer_for(_stats)};
     if(auto serialized{default_serialize(_stats, cover(rs_buf))}) {
@@ -762,6 +804,16 @@ auto router::_handle_blob_fragment(const message_view& message)
          EAGINE_THIS_MEM_FUNC_REF(_do_get_blob_io), message)) {
         _blobs.fetch_all(EAGINE_THIS_MEM_FUNC_REF(_handle_blob));
     }
+    return (message.target_id == _id_base) ? was_handled : should_be_forwarded;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_handle_blob_resend(const message_view& message)
+  -> message_handling_result {
+    if(message.target_id == _id_base) {
+        _blobs.process_resend(message);
+        return was_handled;
+    }
     return should_be_forwarded;
 }
 //------------------------------------------------------------------------------
@@ -787,6 +839,8 @@ auto router::_handle_special_common(
         return _handle_subscriptions_query(message);
     } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
         return _handle_blob_fragment(message);
+    } else if(msg_id.has_method(EAGINE_ID(blobResend))) {
+        return _handle_blob_resend(message);
     } else if(msg_id.has_method(EAGINE_ID(rtrCertQry))) {
         return _handle_router_certificate_query(message);
     } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
@@ -798,6 +852,7 @@ auto router::_handle_special_common(
     } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
         return _handle_stats_query(message);
     } else if(
+      msg_id.has_method(EAGINE_ID(msgFlowInf)) ||
       msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
       msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
       msg_id.has_method(EAGINE_ID(topoEndpt)) ||
@@ -812,7 +867,7 @@ auto router::_handle_special_common(
         log_warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(source), message.source_id)
-          .arg(EAGINE_ID(data), message.data);
+          .arg(EAGINE_ID(data), message.data());
     }
     return should_be_forwarded;
 }
@@ -869,7 +924,8 @@ auto router::_handle_special(
             return was_handled;
         } else if(msg_id.has_method(EAGINE_ID(msgBlkList))) {
             message_id blk_msg_id{};
-            if(default_deserialize_message_type(blk_msg_id, message.data)) {
+            if(default_deserialize_message_type(
+                 blk_msg_id, message.content())) {
                 if(!is_special_message(msg_id)) {
                     log_debug("node ${source} blocking message ${message}")
                       .arg(EAGINE_ID(message), blk_msg_id)
@@ -881,7 +937,8 @@ auto router::_handle_special(
             }
         } else if(msg_id.has_method(EAGINE_ID(msgAlwList))) {
             message_id alw_msg_id{};
-            if(default_deserialize_message_type(alw_msg_id, message.data)) {
+            if(default_deserialize_message_type(
+                 alw_msg_id, message.content())) {
                 log_debug("node ${source} allowing message ${message}")
                   .arg(EAGINE_ID(message), alw_msg_id)
                   .arg(EAGINE_ID(source), message.source_id);
@@ -938,20 +995,15 @@ auto router::_do_route_message(
 
                 if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                     const auto msgs_per_sec{1000000.F / interval.count()};
-                    const auto avg_msg_age =
-                      _message_age_sum / float(
-                                           _stats.forwarded_messages +
-                                           _stats.dropped_messages + 1);
-
-                    _stats.message_age_milliseconds =
-                      static_cast<std::int32_t>(avg_msg_age * 1000.F);
 
                     log_chart_sample(EAGINE_ID(msgsPerSec), msgs_per_sec);
                     log_stat("forwarded ${count} messages")
                       .arg(EAGINE_ID(count), _stats.forwarded_messages)
                       .arg(EAGINE_ID(dropped), _stats.dropped_messages)
                       .arg(EAGINE_ID(interval), interval)
-                      .arg(EAGINE_ID(avgMsgAge), avg_msg_age)
+                      .arg(
+                        EAGINE_ID(avgMsgAge),
+                        std::chrono::microseconds(_stats.message_age_us))
                       .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
                 }
 
@@ -1022,15 +1074,19 @@ auto router::_do_route_message(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_route_messages() -> bool {
+auto router::_route_messages() -> work_done {
     some_true something_done{};
+    const auto now = std::chrono::steady_clock::now();
+    const auto message_age_inc =
+      std::chrono::duration<float>{now - _prev_route_time}.count();
+    _prev_route_time = now;
 
     for(auto& nd : _nodes) {
         auto handler =
-          [this, &nd](
-            message_id msg_id, message_age msg_age, message_view message) {
+          [&](message_id msg_id, message_age msg_age, message_view message) {
               auto& [incoming_id, node_in] = nd;
-              _message_age_sum += message.add_age(msg_age).age().count();
+              _message_age_sum +=
+                message.add_age(msg_age).age().count() + message_age_inc;
               if(
                 this->_handle_special(msg_id, incoming_id, node_in, message) ==
                 was_handled) {
@@ -1051,7 +1107,8 @@ auto router::_route_messages() -> bool {
 
     auto handler =
       [&](message_id msg_id, message_age msg_age, message_view message) {
-          _message_age_sum += message.add_age(msg_age).age().count();
+          _message_age_sum +=
+            message.add_age(msg_age).age().count() + message_age_inc;
           if(
             this->_handle_special(
               msg_id, _parent_router.confirmed_id, message) == was_handled) {
@@ -1069,7 +1126,7 @@ auto router::_route_messages() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::_update_connections() -> bool {
+auto router::_update_connections() -> work_done {
     some_true something_done{};
 
     for(auto& [id, node] : _nodes) {
@@ -1091,10 +1148,10 @@ auto router::_update_connections() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::do_maintenance() -> bool {
+auto router::do_maintenance() -> work_done {
     some_true something_done{};
 
-    something_done(_cleanup_blobs());
+    something_done(_update_stats());
     something_done(_process_blobs());
     something_done(_remove_timeouted());
     something_done(_remove_disconnected());
@@ -1103,7 +1160,7 @@ auto router::do_maintenance() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::do_work() -> bool {
+auto router::do_work() -> work_done {
     some_true something_done{};
 
     something_done(_handle_pending());
@@ -1115,7 +1172,7 @@ auto router::do_work() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::update(const valid_if_positive<int>& count) -> bool {
+auto router::update(const valid_if_positive<int>& count) -> work_done {
     some_true something_done{};
 
     something_done(do_maintenance());
@@ -1154,14 +1211,12 @@ void router::cleanup() {
             conn->cleanup();
         }
     }
-    const auto avg_msg_age =
-      _message_age_sum /
-      float(_stats.forwarded_messages + _stats.dropped_messages + 1);
 
     log_stat("forwarded ${count} messages in total")
       .arg(EAGINE_ID(count), _stats.forwarded_messages)
       .arg(EAGINE_ID(dropped), _stats.dropped_messages)
-      .arg(EAGINE_ID(avgMsgAge), avg_msg_age);
+      .arg(
+        EAGINE_ID(avgMsgAge), std::chrono::microseconds(_stats.message_age_us));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

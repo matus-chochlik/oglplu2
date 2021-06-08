@@ -63,7 +63,7 @@ public:
     }
 
     /// @brief Updates the associated endpoint and processes all incoming messages.
-    auto update_and_process_all() -> bool final {
+    auto update_and_process_all() -> work_done final {
         some_true something_done{};
         something_done(this->update());
         something_done(this->process_all());
@@ -112,7 +112,7 @@ class service_node
 public:
     service_node(identifier id, main_ctx_parent parent)
       : main_ctx_object{id, parent}
-      , protected_member<endpoint>{id, *this}
+      , protected_member<endpoint>{id, parent}
       , service_composition<Base>{this->get_the_member()} {}
 };
 //------------------------------------------------------------------------------

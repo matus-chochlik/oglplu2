@@ -117,6 +117,17 @@ struct get_serialize_buffer_size<Sid, identifier, Selector>
   : serialize_size_constant<12> {};
 
 template <identifier_t Sid, typename Selector>
+struct get_serialize_buffer_size<Sid, string_view, Selector>
+  : serialize_size_constant<0, false> {
+
+    static constexpr auto
+    get(std::pair<string_view, string_view> mapped) noexcept {
+        return std_size(
+          12 + mapped.first.size() + 2 + span_size(mapped.second.size()));
+    }
+};
+
+template <identifier_t Sid, typename Selector>
 struct get_serialize_buffer_size<Sid, std::string, Selector>
   : serialize_size_constant<0, false> {
 

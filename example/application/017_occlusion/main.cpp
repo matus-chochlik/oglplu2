@@ -194,9 +194,9 @@ example_occlusion::example_occlusion(
       .set_far(sr * 5.0F)
       .set_orbit_min(sr * 1.2F)
       .set_orbit_max(sr * 2.4F)
-      .set_fov(right_angle_());
+      .set_fov(degrees_(75.F));
 
-    gl.clear_color(0.45F, 0.45F, 0.45F, 0.0F);
+    gl.clear_color(0.45F, 0.45F, 0.45F, 1.0F);
     gl.enable(GL.depth_test);
     gl.enable(GL.cull_face);
     gl.cull_face(GL.back);

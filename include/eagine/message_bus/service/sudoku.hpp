@@ -183,7 +183,7 @@ class sudoku_helper : public Base {
     using This = sudoku_helper;
 
 public:
-    auto update() -> bool {
+    auto update() -> work_done {
         some_true something_done{};
         something_done(Base::update());
 
@@ -302,7 +302,8 @@ private:
             }
         }
 
-        auto update(endpoint& bus, const data_compressor& compressor) -> bool {
+        auto update(endpoint& bus, const data_compressor& compressor)
+          -> work_done {
             const unsigned_constant<S> rank{};
             some_true something_done;
 
@@ -407,6 +408,16 @@ public:
           EAGINE_THIS_MEM_FUNC_REF(on_connection_established));
         this->bus_node().connection_lost.connect(
           EAGINE_THIS_MEM_FUNC_REF(on_connection_lost));
+
+        if(const auto solution_timeout{this->app_config().get(
+             "msg_bus.sudoku.solver.solution_timeout",
+             type_identity<std::chrono::seconds>{})}) {
+            for_each_sudoku_rank_unit(
+              [&](auto& info) {
+                  info.solution_timeout.reset(extract(solution_timeout));
+              },
+              _infos);
+        }
     }
 
     void on_id_assigned(identifier_t) {
@@ -423,7 +434,7 @@ public:
         this->bus_node().log_warning("connection lost");
     }
 
-    auto update() -> bool {
+    auto update() -> work_done {
         some_true something_done{};
         something_done(Base::update());
 
@@ -485,6 +496,9 @@ public:
     virtual auto already_done(const Key&, unsigned_constant<6>) -> bool {
         return false;
     }
+
+    /// @brief Triggered when a helper service appears.
+    signal<void(identifier_t)> helper_appeared;
 
     /// @brief Triggered when the board with the specified key is solved.
     signal<void(identifier_t, const Key&, basic_sudoku_board<3>&)> solved_3;
@@ -559,8 +573,10 @@ private:
         };
         std::vector<pending_info> pending;
 
+        flat_set<identifier_t> known_helpers;
         flat_set<identifier_t> ready_helpers;
         flat_map<identifier_t, timeout> used_helpers;
+        std::vector<identifier_t> found_helpers;
 
         std::default_random_engine randeng{std::random_device{}()};
 
@@ -581,7 +597,7 @@ private:
             boards.emplace(pos, std::move(board));
         }
 
-        auto search_helpers(endpoint& bus) -> bool {
+        auto search_helpers(endpoint& bus) -> work_done {
             some_true something_done;
             if(search_timeout) {
                 bus.broadcast(sudoku_search_msg(unsigned_constant<S>{}));
@@ -591,7 +607,7 @@ private:
             return something_done;
         }
 
-        auto handle_timeouted(This& solver) -> bool {
+        auto handle_timeouted(This& solver) -> work_done {
             span_size_t count = 0;
             pending.erase(
               std::remove_if(
@@ -617,6 +633,7 @@ private:
                                   }
                               });
                         }
+                        known_helpers.erase(entry.used_helper);
                         used_helpers.erase(entry.used_helper);
                         return true;
                     }
@@ -724,8 +741,7 @@ private:
             return false;
         }
 
-        auto find_helpers(span<identifier_t> dst) const
-          -> span<const identifier_t> {
+        auto find_helpers(span<identifier_t> dst) const -> span<identifier_t> {
             span_size_t done = 0;
             for(const auto helper_id : ready_helpers) {
                 if(done < dst.size()) {
@@ -743,11 +759,16 @@ private:
             return head(dst, done);
         }
 
-        auto send_boards(endpoint& bus, data_compressor& compressor) -> bool {
+        auto send_boards(endpoint& bus, data_compressor& compressor)
+          -> work_done {
             some_true something_done;
 
-            std::array<identifier_t, 8> helper_ids{};
-            for(const auto helper_id : find_helpers(cover(helper_ids))) {
+            if(found_helpers.size() < ready_helpers.size()) {
+                found_helpers.resize(ready_helpers.size());
+            }
+
+            for(const auto helper_id :
+                head(shuffle(find_helpers(cover(found_helpers)), randeng), 8)) {
                 if(!send_board_to(bus, compressor, helper_id)) {
                     break;
                 }
@@ -769,7 +790,10 @@ private:
             }
         }
 
-        void helper_alive(identifier_t id) {
+        void helper_alive(This& parent, identifier_t id) {
+            if(std::get<1>(known_helpers.insert(id))) {
+                parent.helper_appeared(id);
+            }
             ready_helpers.insert(id);
         }
 
@@ -806,7 +830,8 @@ private:
     template <unsigned S>
     auto _handle_alive(const message_context&, stored_message& message)
       -> bool {
-        _infos.get(unsigned_constant<S>{}).helper_alive(message.source_id);
+        _infos.get(unsigned_constant<S>{})
+          .helper_alive(*this, message.source_id);
         return true;
     }
 
@@ -1180,13 +1205,17 @@ public:
     }
 
     /// @brief Triggered then all tiles with rank 3 are generated.
-    signal<void(const sudoku_tiles<3>&, const Coord&)> tiles_generated_3;
+    signal<void(identifier_t, const sudoku_tiles<3>&, const Coord&)>
+      tiles_generated_3;
     /// @brief Triggered then all tiles with rank 4 are generated.
-    signal<void(const sudoku_tiles<4>&, const Coord&)> tiles_generated_4;
+    signal<void(identifier_t, const sudoku_tiles<4>&, const Coord&)>
+      tiles_generated_4;
     /// @brief Triggered then all tiles with rank 5 are generated.
-    signal<void(const sudoku_tiles<5>&, const Coord&)> tiles_generated_5;
+    signal<void(identifier_t, const sudoku_tiles<5>&, const Coord&)>
+      tiles_generated_5;
     /// @brief Triggered then all tiles with rank 6 are generated.
-    signal<void(const sudoku_tiles<6>&, const Coord&)> tiles_generated_6;
+    signal<void(identifier_t, const sudoku_tiles<6>&, const Coord&)>
+      tiles_generated_6;
 
     /// @brief Returns a reference to the tiles_generated_3 signal.
     /// @see tiles_generated_3
@@ -1393,7 +1422,7 @@ private:
                 ++helper_pos->second;
 
                 const unsigned_constant<S> rank{};
-                solver.tiles_generated_signal(rank)(*this, coord);
+                solver.tiles_generated_signal(rank)(helper_id, *this, coord);
             }
 
             enqueue_incomplete(solver);

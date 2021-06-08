@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <iterator>
 #include <utility>
 
 namespace eagine {
@@ -64,6 +65,11 @@ public:
     /// @brief Initializes all revisions with the same initial value.
     constexpr value_with_history_storage(const T& initial) noexcept {
         std::fill(_values.begin(), _values.end(), initial);
+    }
+
+    /// @brief Returns the number of elements.
+    constexpr auto size() const noexcept {
+        return _values.size();
     }
 
     /// @brief Returns an iterator to the first (newest) value.
@@ -162,14 +168,29 @@ public:
         return _values;
     }
 
-    /// @brief Returns an iterator to the first (newest) value.
+    /// @brief Returns the number of elements.
+    constexpr auto size() const noexcept {
+        return values().size();
+    }
+
+    /// @brief Returns an iterator to the newest value.
     auto begin() const noexcept {
         return values().begin();
     }
 
-    /// @brief Returns an iterator past the last (oldest) value.
+    /// @brief Returns an iterator past the oldest value.
     auto end() const noexcept {
         return values().end();
+    }
+
+    /// @brief Returns a reverse iterator to the oldestvalue.
+    auto rbegin() const noexcept {
+        return std::reverse_iterator{values().end()};
+    }
+
+    /// @brief Returns a reverse iterator past newest value.
+    auto rend() const noexcept {
+        return std::reverse_iterator{values().begin()};
     }
 
     /// @brief Returns the current revision of the value.

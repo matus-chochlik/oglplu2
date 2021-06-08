@@ -15,6 +15,7 @@
 #include <eagine/message_bus/service/host_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
+#include <eagine/message_bus/service_requirements.hpp>
 #include <eagine/timeout.hpp>
 #include <algorithm>
 #include <chrono>
@@ -62,8 +63,12 @@ struct ping_stats {
     }
 };
 //------------------------------------------------------------------------------
-using ping_base = service_composition<
-  pinger<host_info_consumer<subscriber_discovery<shutdown_invoker<>>>>>;
+using ping_base = service_composition<require_services<
+  subscriber,
+  pinger,
+  host_info_consumer,
+  subscriber_discovery,
+  shutdown_invoker>>;
 
 class ping_example
   : public main_ctx_object
@@ -193,7 +198,7 @@ public:
         return !(((_rcvd + _tout + _mod) < _max) || this->has_pending_pings());
     }
 
-    auto update() -> bool {
+    auto update() -> work_done {
         some_true something_done{};
         something_done(base::update());
         if(_do_ping) {

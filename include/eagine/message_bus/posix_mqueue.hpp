@@ -334,7 +334,7 @@ public:
         return {_buffer.size()};
     }
 
-    auto update() -> bool override {
+    auto update() -> work_done override {
         std::unique_lock lock{_mutex};
         some_true something_done{};
         something_done(_receive());
@@ -354,7 +354,7 @@ public:
         return false;
     }
 
-    auto fetch_messages(fetch_handler handler) -> bool final {
+    auto fetch_messages(fetch_handler handler) -> work_done final {
         std::unique_lock lock{_mutex};
         return _incoming.fetch_all(handler);
     }
@@ -364,7 +364,7 @@ public:
     }
 
 protected:
-    auto _checkup(posix_mqueue& connect_queue) -> bool {
+    auto _checkup(posix_mqueue& connect_queue) -> work_done {
         some_true something_done{};
         if(connect_queue.is_usable()) {
             if(!_data_queue.is_usable()) {
@@ -394,7 +394,7 @@ protected:
         return something_done;
     }
 
-    auto _receive() -> bool {
+    auto _receive() -> work_done {
         some_true something_done{};
         if(_data_queue.is_usable()) {
             while(!_data_queue
@@ -470,7 +470,7 @@ public:
         _data_queue.unlink();
     }
 
-    auto update() -> bool final {
+    auto update() -> work_done final {
         std::unique_lock lock{_mutex};
         some_true something_done{};
         something_done(_checkup());
@@ -480,15 +480,15 @@ public:
     }
 
 private:
-    auto _checkup() -> bool {
+    auto _checkup() -> work_done {
         some_true something_done{};
         if(!_connect_queue.is_usable()) {
             _connect_queue.close();
             _connect_queue.open();
             something_done();
         }
-        return posix_mqueue_connection::_checkup(_connect_queue) &&
-               something_done;
+        something_done(posix_mqueue_connection::_checkup(_connect_queue));
+        return something_done;
     }
 
     posix_mqueue _connect_queue{};
@@ -526,19 +526,19 @@ public:
         _accept_queue.unlink();
     }
 
-    auto update() -> bool final {
+    auto update() -> work_done final {
         some_true something_done{};
         something_done(_checkup());
         something_done(_receive());
         return something_done;
     }
 
-    auto process_accepted(const accept_handler& handler) -> bool final {
+    auto process_accepted(const accept_handler& handler) -> work_done final {
         return _process(handler);
     }
 
 private:
-    auto _checkup() -> bool {
+    auto _checkup() -> work_done {
         some_true something_done{};
         if(!_accept_queue.is_usable()) {
             _accept_queue.close();
@@ -551,7 +551,7 @@ private:
         return something_done;
     }
 
-    auto _receive() -> bool {
+    auto _receive() -> work_done {
         some_true something_done{};
         if(_accept_queue.is_usable()) {
             while(!_accept_queue
@@ -581,7 +581,7 @@ private:
           });
     }
 
-    auto _process(const accept_handler& handler) -> bool {
+    auto _process(const accept_handler& handler) -> work_done {
         auto fetch_handler = [this, &handler](
                                message_id msg_id,
                                message_age,
@@ -590,7 +590,7 @@ private:
             EAGINE_MAYBE_UNUSED(msg_id);
 
             if(auto conn = std::make_unique<posix_mqueue_connection>(*this)) {
-                if(conn->open(to_string(as_chars(message.data)))) {
+                if(conn->open(to_string(as_chars(message.data())))) {
                     handler(std::move(conn));
                 }
             }

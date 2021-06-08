@@ -11,6 +11,7 @@
 
 #include "../remote_node.hpp"
 #include "../serialize.hpp"
+#include "../service_requirements.hpp"
 #include "../subscriber.hpp"
 #include "common_info.hpp"
 #include "discovery.hpp"
@@ -27,8 +28,14 @@ namespace eagine::msgbus {
 /// @see node_tracker
 /// @see service_composition
 template <typename Base>
-using node_tracker_base = pinger<system_info_consumer<common_info_consumers<
-  statistics_consumer<network_topology<subscriber_discovery<Base>>>>>>;
+using node_tracker_base = require_services<
+  Base,
+  pinger,
+  system_info_consumer,
+  common_info_consumers,
+  statistics_consumer,
+  network_topology,
+  subscriber_discovery>;
 //------------------------------------------------------------------------------
 /// @brief Service that consumes bus topology information and provides it via an API.
 /// @ingroup msgbus
@@ -209,7 +216,7 @@ public:
         return EAGINE_THIS_MEM_FUNC_REF(_handle_ping_timeout);
     }
 
-    auto update() -> bool {
+    auto update() -> work_done {
         some_true something_done{};
         something_done(base::update());
 
@@ -316,8 +323,11 @@ public:
     }
 
 protected:
-    node_tracker(endpoint& bus)
-      : base{bus} {
+    using base::base;
+
+    void init() {
+        base::init();
+
         this->reported_alive.connect(on_alive());
         this->subscribed.connect(on_subscribed());
         this->unsubscribed.connect(on_unsubscribed());

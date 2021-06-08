@@ -23,8 +23,8 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 namespace msgbus {
-using bridge_node_base =
-  service_composition<shutdown_target<pingable<common_info_providers<>>>>;
+using bridge_node_base = service_composition<
+  require_services<subscriber, shutdown_target, pingable, common_info_providers>>;
 //------------------------------------------------------------------------------
 class bridge_node
   : public main_ctx_object
@@ -55,11 +55,8 @@ public:
         info.is_bridge_node = true;
     }
 
-    auto update() -> bool {
-        some_true something_done{};
-        something_done(base::update_and_process_all());
-
-        return something_done;
+    auto update() -> work_done {
+        return base::update_and_process_all();
     }
 
     auto is_shut_down() const noexcept {

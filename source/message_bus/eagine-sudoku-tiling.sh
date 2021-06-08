@@ -9,6 +9,7 @@ width=128
 height=128
 rank=4
 gui=0
+tile_size=16
 ssh_hosts=()
 
 while true
@@ -26,6 +27,9 @@ do
 			shift;;
 		--rank)
 			let rank=${2}
+			shift;;
+		--tile-size)
+			let tile_size=${2}
 			shift;;
 		--gui)
 			let gui=1;;
@@ -64,6 +68,7 @@ then
 		--msg-bus-sudoku-solver-rank ${rank} \
 		--msg-bus-sudoku-solver-width  $(((width / div) * div)) \
 		--msg-bus-sudoku-solver-height $(((height/ div) * div)) \
+		--msg-bus-sudoku-solver-gui-tile-size $((tile_size)) \
 		& pids+=($!)
 else
 	"$(dirname ${0})/eagine-message_bus-sudoku_tiling" \

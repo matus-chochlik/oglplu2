@@ -6,7 +6,6 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/base64.hpp>
-#include <eagine/bool_aggregate.hpp>
 #include <eagine/branch_predict.hpp>
 #include <eagine/double_buffer.hpp>
 #include <eagine/math/functions.hpp>
@@ -108,7 +107,7 @@ public:
 
                   span_size_t i = 0;
                   do_dissolve_bits(
-                    make_span_getter(i, message.data),
+                    make_span_getter(i, message.data()),
                     [this](byte b) {
                         const auto encode{make_base64_encode_transform()};
                         if(auto opt_c{encode(b)}) {
@@ -285,7 +284,7 @@ auto bridge::_handle_topo_bridge_conn(
   bool to_connection) -> message_handling_result {
     if(to_connection) {
         bridge_topology_info info{};
-        if(default_deserialize(info, message.data)) {
+        if(default_deserialize(info, message.content())) {
             info.opposite_id = _id;
             auto temp{default_serialize_buffer_for(info)};
             if(auto serialized{default_serialize(info, cover(temp))}) {
@@ -374,6 +373,8 @@ auto bridge::_handle_special(
             return _handle_topology_query(message, to_connection);
         } else if(msg_id.has_method(EAGINE_ID(statsQuery))) {
             return _handle_stats_query(message, to_connection);
+        } else if(msg_id.has_method(EAGINE_ID(msgFlowInf))) {
+            return was_handled;
         }
     }
     return should_be_forwarded;
@@ -386,7 +387,7 @@ auto bridge::_do_send(message_id msg_id, message_view& message) -> bool {
         if(_connection->send(msg_id, message)) {
             log_trace("forwarding message ${message} to connection")
               .arg(EAGINE_ID(message), msg_id)
-              .arg(EAGINE_ID(data), message.data);
+              .arg(EAGINE_ID(data), message.data());
             return true;
         }
     }
@@ -407,14 +408,14 @@ auto bridge::_do_push(message_id msg_id, message_view& message) -> bool {
         _state->push(msg_id, message);
         log_trace("forwarding message ${message} to stream")
           .arg(EAGINE_ID(message), msg_id)
-          .arg(EAGINE_ID(data), message.data);
+          .arg(EAGINE_ID(data), message.data());
         return true;
     }
     return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_forward_messages() -> bool {
+auto bridge::_forward_messages() -> work_done {
     some_true something_done{};
 
     auto forward_conn_to_output =
@@ -511,7 +512,7 @@ auto bridge::_recoverable_state() const noexcept -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_check_state() -> bool {
+auto bridge::_check_state() -> work_done {
     some_true something_done{};
 
     if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
@@ -529,7 +530,7 @@ auto bridge::_check_state() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::_update_connections() -> bool {
+auto bridge::_update_connections() -> work_done {
     some_true something_done{};
 
     if(EAGINE_LIKELY(_connection)) {
@@ -548,7 +549,7 @@ auto bridge::_update_connections() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto bridge::update() -> bool {
+auto bridge::update() -> work_done {
     some_true something_done{};
 
     const bool had_id = has_id();

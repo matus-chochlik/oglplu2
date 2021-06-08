@@ -11,14 +11,15 @@
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/discovery.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
+#include <eagine/message_bus/service_requirements.hpp>
 #include <eagine/signal_switch.hpp>
 #include <thread>
 
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using subscription_logger_base =
-  service_composition<subscriber_discovery<shutdown_target<>>>;
+using subscription_logger_base = service_composition<
+  require_services<subscriber, subscriber_discovery, shutdown_target>>;
 
 class subscription_logger
   : public main_ctx_object
