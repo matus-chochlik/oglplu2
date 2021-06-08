@@ -354,8 +354,8 @@ class Framedump(object):
             '-size', '144x144', 'xc:none',
             '-background', 'white',
             '-gravity', 'center',
-            '-stroke', 'white',
-            '-fill', 'white',
+            '-stroke', '#ffffff80',
+            '-fill', '#ffffff90',
             '-draw', 'circle 72,72, 72,144',
             '-blur', '2x2',
             '-shadow', '%dx6' % options.frame_width,
@@ -471,6 +471,7 @@ class Framedump(object):
                 ),
                 '-depth', '8',
                 "%s:%s" % (self.convertFormat(info), info["path"]),
+                '-alpha', 'off',
                 '-flip',
                 '-scale', '%dx%d' % (
                     self.options.frame_width,
