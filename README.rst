@@ -28,6 +28,14 @@ OGLplus2 README
 .. _Qt: https://qt.digia.com/
 .. _Xlib: https://www.x.org/wiki/guide/
 .. _GSL: https://github.com/Microsoft/GSL
+.. _Core: https://github.com/matus-chochlik/eagine-core
+.. _SSL API wrapper: https://github.com/matus-chochlik/eagine-ssl
+.. _Message bus: https://github.com/matus-chochlik/eagine-msgbus
+.. _Shape generators: https://github.com/matus-chochlik/eagine-shapes
+.. _EGLplus module: https://github.com/matus-chochlik/eagine-eglplus
+.. _OGLplus module: https://github.com/matus-chochlik/eagine-oglplus
+.. _OALplus module: https://github.com/matus-chochlik/eagine-oalplus
+.. _Application: https://github.com/matus-chochlik/eagine-app
 
 Overview
 ========
@@ -35,7 +43,19 @@ Overview
 OGLplus2 is a new wrapper for modern `OpenGL`_, using latest C++
 features and a different design and naming conventions than `OGLplus`_.
 Several examples showing the usage of OGLplus can be found in the ``example/``
-directory and its subdirectories.
+directory and its sub-directories.
+
+The content of this repository has been split into the following sub-modules,
+and the development will continue in that form:
+
+ * `Core`_
+ * `SSL API wrapper`_
+ * `Message bus`_
+ * `Shape generators`_
+ * `EGLplus module`_
+ * `OGLplus module`_
+ * `OALplus module`_
+ * `Application`_
 
 Cloning the repo
 ================
