@@ -17,6 +17,13 @@ file(STRINGS VERSION OGLPLUS_VERSION)
 
 include(config/Defaults.cmake)
 
+message(
+	DEPRECATION
+	"Thanks for checking out oglplu2, the development of this project "
+	"continues in modularized form in the eagine-all repository at "
+	"https://github.com/matus-chochlik/eagine-all"
+)
+
 if(NOT ${CONFIG_INFO_ONLY})
 	include(config/BuildType.cmake)
 	include(config/StaticAnalysis.cmake)
