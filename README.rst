@@ -37,10 +37,29 @@ OGLplus2 README
 .. _OALplus module: https://github.com/matus-chochlik/eagine-oalplus
 .. _Application: https://github.com/matus-chochlik/eagine-app
 
+Important note
+--------------
+
+Please note that this project is deprecated.
+A new version of EGL, OpenGL, OpenAL wrapper using modern C++ is implemented
+by the `eagine-all` project and its sub-modules:
+
+ * https://github.com/matus-chochlik/eagine-all
+
+   * https://github.com/matus-chochlik/eagine-core
+   * https://github.com/matus-chochlik/eagine-sslplus
+   * https://github.com/matus-chochlik/eagine-msgbus
+   * https://github.com/matus-chochlik/eagine-shapes
+   * https://github.com/matus-chochlik/eagine-eglplus
+   * https://github.com/matus-chochlik/eagine-oglplus
+   * https://github.com/matus-chochlik/eagine-oalplus
+   * https://github.com/matus-chochlik/eagine-ecs
+   * https://github.com/matus-chochlik/eagine-app
+
 Overview
 ========
 
-OGLplus2 is a new wrapper for modern `OpenGL`_, using latest C++
+OGLplus2 is a wrapper for modern `OpenGL`_, using C++ 17
 features and a different design and naming conventions than `OGLplus`_.
 Several examples showing the usage of OGLplus can be found in the ``example/``
 directory and its sub-directories.
